@@ -1,0 +1,118 @@
+html,
+body {
+	padding:			0;
+	margin:				0;
+	height:				100%;
+	font-family:		sans-serif;
+}
+
+body {
+	overflow-y:			hidden;
+	overflow-x:			hidden;
+	white-space: 		nowrap;
+}
+
+
+
+
+a {
+	outline:			none !important;
+	border:				none !important;
+	text-decoration:	none !important;
+}
+
+
+
+
+
+
+cd-container {
+	position:			relative;
+	height:				100%;
+	background:			#aad;
+	overflow:			hidden;
+}
+
+cd-container > div{
+	height:				100%;
+	display:			inline-block;
+	overflow-y:			scroll;
+	overflow-x:			hidden;
+}
+
+cd-container > div > .content {
+	width:				20rem;
+	height:				10rem;
+	background-color:	rgba(0,0,0,0.2);
+	box-shadow:			0 0 0 1px #000 inset;
+}
+
+cd-container > div:nth-child(1){
+	background-color:	#a00;
+}
+
+cd-container > div:nth-child(1) > .content{
+	width:				12rem;
+}
+
+cd-container > div:nth-child(2){
+	background-color:	#aa0;
+}
+
+cd-container > div:nth-child(3){
+	background-color:	#0a0;
+}
+
+cd-container > div:nth-child(4){
+	background-color:	#0aa;
+}
+
+
+
+
+
+
+/* ic-result-list */
+
+ic-search-result-list {
+	display:			block;
+	width:				20rem;
+	background:			#fff;
+	box-shadow: 		0 -1px 0 0 #000 inset;
+}
+
+
+ic-search-result-list > * {
+	display:			block;
+	width:				20rem;
+	height:				4rem;
+	padding:			0;
+	margin:				0;
+	background-color:	transparent;
+	border:				0;
+	border-radius:		0;
+	box-shadow: 		0 1px 0 0 #000 inset;
+	overflow: 			hidden;
+	
+}
+
+ic-search-result-list ic-preview-item {
+	display:			block;
+	height:				4rem;
+}
+
+ic-search-result-list ic-preview-item.active {
+	background-color:	rgba(0,0,0,0.1);
+}
+
+
+
+
+/* ic-full-item */
+
+ic-full-item {
+	display:			block;
+	position:			relative;
+	width:				20rem;
+	background:			#fff;
+}

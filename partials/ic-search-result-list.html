@@ -1,0 +1,22 @@
+<button
+	ng-click = "icSearchResults.get()"
+>	
+	get more
+</button>
+
+
+<div ng-show = "icSearchResults.listLoading()">
+		loading
+</div>
+
+<a
+	ng-repeat	= "item in icSearchResults.data['de']"
+	href		= "#item/{{item.id}}"
+>
+	<ic-preview-item
+		ic-title 	= "item.title"
+		ic-details	= "item.details"
+		ng-class	= "{active: item.id == icFilterConfig.currentItemId}"
+	>
+	</ic-preview-item>
+</a>

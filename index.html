@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" ng-app="InfoCompass" ng-controller = "InfoCompassCtrl">
+	<head>
+
+		<meta charset="utf-8">		
+
+		<link type="text/css" rel="stylesheet" href="styles/styles.css"></link>
+
+		<script src="js/lib/angular.min.js"></script>
+		<script src="js/lib/cdLayout.js"></script>
+		<script src="js/lib/ic-api.js"></script>
+		<script src="js/lib/ic-module.js"></script>
+
+		<!-- app -->
+		<script src="js/app.js"></script>
+
+	</head>
+	<body>
+		<cd-container
+			cd-narrow-column-width	= "12"
+			cd-column-width 		= "20"
+		>
+			<div ng-hide = "cdLayout.hideNarrowColumn"><div class ="content"></div></div><!--
+		 --><div><div class ="content"></div></div><!--
+
+
+		 --><div>
+		 		<ic-search-result-list>
+		 		</ic-search-result-list>
+		 	</div><!--
+
+
+
+		 --><div ng-if = "icFilterConfig.currentItemId">
+	 			<button ng-click = "resetCurrentItemId()">
+	 				close
+	 			</button>
+		 		<ic-full-item ic-id = "icFilterConfig.currentItemId">
+		 		</ic-full-item>
+		 	</div><!--
+
+
+		 --><div><div class ="content"></div></div>
+		</cd-container>
+	</body>
+</html>
