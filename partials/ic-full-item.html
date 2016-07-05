@@ -2,14 +2,15 @@
 	loading ...
 </div>
 
-<h2>{{ icSearchResults.data['de'][icId].title }}</h2>
+<h2>{{ item.title }}</h2>
 
 <p>
-	{{ icSearchResults.data['de'][icId].details }}
+	{{ item.details }}
 </p>
 
 <p>
-	<strong>{{ icSearchResults.data['de'][icId].extra }}</strong>
+	<strong>{{ item.extra }}</strong>
 </p>
 
+<pre>{{item | json}}</pre>
 

@@ -1,0 +1,89 @@
+<ic-header>
+	 <div class = "icon">&equiv;</div> 
+	 <input 
+	 	type 				= "text" 
+	 	ng-model 			= "icFilterConfig.searchTerm"
+	 	ng-model-options	= "{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
+	 	>
+	 </input>
+</ic-header>
+
+<header class = "logo">
+	<h1>InfoCompass</h1>
+	<h2>Informationsplattform für Geflüchtete und Helfer (mehr)</h2>
+</header>
+
+<div hz-scroll no-text-nodes class = "tiles">
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({c: 'event'})}}"
+		ng-class 	= "{active : icSite.params.c == 'event'}"
+	>
+		Events
+	</a>
+	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+</div>
+
+<div hz-scroll no-text-nodes class = "tiles">
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({c: 'opportunity'})}}"
+		ng-class 	= "{active : icSite.params.c == 'opportunity'}"
+	>
+		Angebote
+	</a>
+
+	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+</div>
+
+<div hz-scroll no-text-nodes class = "tiles">
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({c: 'information'})}}"
+		ng-class 	= "{active : icSite.params.c == 'information'}"
+
+	>
+		Informationen
+	</a>
+
+	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+</div>
+
+<div hz-scroll no-text-nodes class = "tiles">
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({c: 'location'})}}"
+		ng-class 	= "{active : icSite.params.c == 'location'}"
+
+	>
+		Ort
+	</a>
+	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+</div>

@@ -8,6 +8,8 @@
 
 		<script src="js/lib/angular.min.js"></script>
 		<script src="js/lib/cdLayout.js"></script>
+		<script src="js/lib/hzScroll.js"></script>
+		<script src="js/lib/lcEvents.js"></script>
 		<script src="js/lib/ic-api.js"></script>
 		<script src="js/lib/ic-module.js"></script>
 
@@ -17,27 +19,44 @@
 	</head>
 	<body>
 		<cd-container
-			cd-narrow-column-width	= "12"
-			cd-column-width 		= "20"
+			cd-narrow-column-width	= "10"
+			cd-column-width 		= "22"
+			cd-scrollbar-inset		= "true"
 		>
+
 			<div ng-hide = "cdLayout.hideNarrowColumn"><div class ="content"></div></div><!--
-		 --><div><div class ="content"></div></div><!--
 
 
-		 --><div>
-		 		<ic-search-result-list>
+
+
+		 --><section>
+
+				<header></header>
+			 	<div
+			 		class		= "page" 
+			 		ng-include 	= "icSite.pageUrl">
+			 	</div>
+
+		 	</section><!--
+		 --><section>
+		 		<ic-search-result-list
+		 			ic-href 	= "icSite.getNewPath({'item': itemId})"
+		 			ic-active	= "icSite.params.item == itemId"
+		 		>
 		 		</ic-search-result-list>
-		 	</div><!--
+		 	</section><!--
 
 
 
-		 --><div ng-if = "icFilterConfig.currentItemId">
-	 			<button ng-click = "resetCurrentItemId()">
-	 				close
-	 			</button>
-		 		<ic-full-item ic-id = "icFilterConfig.currentItemId">
+		 --><section ng-if = "icSite.fullItem">
+
+		 		<header>
+		 			<button ng-click = "icSite.updatePath({item: undefined})"> close </button>
+		 		</header>
+		 		<ic-full-item ic-id = "icSite.params.item">
 		 		</ic-full-item>
-		 	</div><!--
+
+		 	</section><!--
 
 
 		 --><div><div class ="content"></div></div>

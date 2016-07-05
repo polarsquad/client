@@ -2,6 +2,8 @@
 
 angular.module("InfoCompass",[
 	'cdLayout',
+	'hzScroll',
+	'lcEvents',
 	'InfoCompassModule',
 ])
 

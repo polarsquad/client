@@ -1,5 +1,5 @@
 <button
-	ng-click = "icSearchResults.get()"
+	ng-click = "icSearchResults.download()"
 >	
 	get more
 </button>
@@ -9,14 +9,36 @@
 		loading
 </div>
 
-<a
-	ng-repeat	= "item in icSearchResults.data['de']"
-	href		= "#item/{{item.id}}"
+
+
+
+
+<div
+	ng-repeat	= "category in ['event', 'location', 'information', 'opportunity']"
+	ng-if		= "!icFilterConfig.filterBy.category || icFilterConfig.filterBy.category == category"
 >
-	<ic-preview-item
-		ic-title 	= "item.title"
-		ic-details	= "item.details"
-		ng-class	= "{active: item.id == icFilterConfig.currentItemId}"
+	
+	<div
+		class		= "result-group"
+		lc-click	= "full = !full; $event.stopPropagation()"
+	>	
+		{{results = icSearchResults.getFilteredList({category:category}); ""}}
+		{{category | uppercase}}({{results.length}})
+	</div>
+	<a
+		ng-if		= "full || icFilterConfig.filterBy.category"
+		ng-repeat	= "item in results"
+		ng-href		= "#{{icHref({itemId:item.id})}}"
 	>
-	</ic-preview-item>
-</a>
+
+		<ic-preview-item
+			ic-title 	= "item.title"
+			ic-details	= "item.details"
+			ic-category	= "item.category"
+			ng-class	= "{active: icActive({itemId: item.id})}"
+		>
+		</ic-preview-item>
+	</a>
+
+</div>
+

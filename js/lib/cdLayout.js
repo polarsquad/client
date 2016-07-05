@@ -21,13 +21,14 @@ var cdL = angular.module('cdLayout', [])
 
 
 		this.hideNarrowColumn	= 	false
-		this.scrollbarWidth		=	undefined // see bloew this.getScrollbarWidth()
-		this.defaultRem			=	undefined // see bewlo this.getRem(true)
+		this.scrollbarWidth		=	undefined // see below this.getScrollbarWidth()
+		this.defaultRem			=	undefined // see below this.getRem(true)
 
 		this.defaultConfig		= 	{
 										container:			$_html,
 										columnWidth:		20,
-										narrowColumnWidth:	10
+										narrowColumnWidth:	10,
+										scrollbarInset:		false
 									}
 
 		this.config				= 	{}
@@ -107,8 +108,12 @@ var cdL = angular.module('cdLayout', [])
 
 			var self = this
 
-			requestAnimationFrame(function(){
-				var	icc				=	self.getInitialColumnCount(self.scrollbarWidth, self.defaultRem)
+			this.scrollbarWidth		=	this.getScrollbarWidth()
+			this.defaultRem			=	this.getRem(true)
+
+			$window.requestAnimationFrame(function(){
+				var	sbw				= 	self.config.scrollbarInset ? 0 : self.scrollbarWidth,
+					icc				=	self.getInitialColumnCount(sbw, self.defaultRem)
 
 
 				self.setRem('initial')
@@ -116,28 +121,27 @@ var cdL = angular.module('cdLayout', [])
 
 				
 				if(icc <2 && icc > 1)	self.setRem(
-											(self.config.container[0].clientWidth - 2 * self.scrollbarWidth) /
+											(self.config.container[0].clientWidth - 2 * sbw) /
 											(self.config.columnWidth + self.config.narrowColumnWidth)
 										)
 
 				if(icc < 1)				self.setRem(
-											(self.config.container[0].clientWidth-self.scrollbarWidth) /
+											(self.config.container[0].clientWidth-sbw) /
 											(self.config.columnWidth)
 										),self.hideNarrowColumn = true
 
 				self.columnCount	= 	Math.floor(icc)
 
 				self.updateClasses()
+				
 
 				$_window.one('resize', function(){ 
 					self.setup() 
 				})
-					$rootScope.$apply()
+
+				$rootScope.$apply()
+
 			})
-
-
-			this.scrollbarWidth		=	this.getScrollbarWidth()
-			this.defaultRem			=	this.getRem(true)
 
 			return this
 		}
@@ -180,7 +184,6 @@ var cdL = angular.module('cdLayout', [])
 				})
 
 				element.css('display', 'block')
-
 			},
 
 			controller: function($scope, $element, $attrs){
@@ -188,6 +191,7 @@ var cdL = angular.module('cdLayout', [])
 					container:			$element,
 					columnWidth:		Number($attrs.cdColumnWidth),
 					narrowColumnWidth:	Number($attrs.cdNarrowColumnWidth),	
+					scrollbarInset:		!!$attrs.cdScrollbarInset,
 				})
 
 				$scope.cdLayout = cdLayout
