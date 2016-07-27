@@ -3,7 +3,7 @@
 	loading ...
 </div>
 
-<div class ="image" style = "background-image:url()"></div>
+<div class ="image" style = "background-image:url({{item.image_url}})"></div>
 
 <h2>{{ item.title }}</h2>
 <p>{{ item.brief }}</p>
@@ -14,7 +14,7 @@
 	{{"ITEM.CAT_"+category}},
 </a>
 <p>
-	{{ item.details }}
+	{{item.details }}
 </p>
 
 <hr/>

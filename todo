@@ -35,7 +35,6 @@ Fagen:
 
 Hätte gerne:
 
-* Webspace (damit ihr auch was sehen könnt)
 * Verabreden, was bis Freitag sein soll
 * Auf wichtiges konzentrieren
 * Farben
@@ -49,7 +48,6 @@ Todo:
 * Assets
 * Scrolling Smartphone
 * Daten aus der Datenbank darstellen
-* Liste schön machen
 * Liste filtern und sortieren
 * komischer rand unten im smartphone
 
@@ -64,6 +62,8 @@ Done
 * gefilterete liste performatnter machen
 * android scroll bump super ruckelig - > raus
 * focus, onscreen keyboard
+* Webspace (damit ihr auch was sehen könnt)
+* Liste schön machen
 
 
 Brauche:
@@ -94,3 +94,7 @@ Brauche:
 * Bilder im Backend aufbereiten
 * Anzeige, dass es keine weiteren Elemente mehr gibt, bzw Angabe wieviele es noch gibt. (echt?)
 * Anzeige, wieviele Treffer es insgesamt gibt
+
+* Wenn filter dann eintrag beim item
+* Statistics hängen an jedem item
+* NIL bei spracheintrag MAP-item?

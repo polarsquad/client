@@ -1,3 +1,11 @@
+<div>
+	<span
+		ng-repeat = "(key, value) in icSearchResults.stats"
+	>
+		{{key}}:{{value}}
+	</span>
+</div>
+
 <a
 	ng-repeat	= "item in icSearchResults.filteredList"
 	ng-href		= "#{{::icHref({itemId:item.id})}}"

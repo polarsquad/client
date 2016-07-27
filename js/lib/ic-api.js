@@ -42,10 +42,17 @@ angular.module('icApi', [])
 
 			api.getList = function(limit, offset, filter){
 
-				return	api.get('/items',{
-							limit:		limit,
-							offset:		offset
-						})
+				var params = 	angular.merge({
+									limit:		limit,
+									offset:		offset
+								},
+								filter)
+
+				return	api.get('/items', params)
+			}
+
+			api.getItem = function(id){
+				return	api.get('/items/'+id)
 			}
 
 

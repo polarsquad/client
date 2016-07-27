@@ -316,14 +316,17 @@ angular.module('InfoCompassModule',[
 
 
 .directive('icSectionItem',[
-	function(){
+	
+	'icSite',
+
+	function(icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-item.html",
 			scope:			{},
 
-			link: function(){
-				
+			link: function(scope, element, attrs){
+				scope.icSite = icSite
 			}
 		}
 	}
@@ -351,8 +354,8 @@ angular.module('InfoCompassModule',[
 
 
 			while(icHeaders.localHeaders.length){
-				var lc 	= icHeaders.localHeaders.shift()
-				icHeaders.mainHeader.add(lc.id, lc.el)
+				var el 	= icHeaders.localHeaders.shift()
+				icHeaders.mainHeader.add(el)
 			}
 		}
 
@@ -364,7 +367,7 @@ angular.module('InfoCompassModule',[
 			if(icHeaders.mainHeader){
 				icHeaders.mainHeader.append(el)
 			} else {
-				icHeaders.localHeaders.push({id: id, el:el})
+				icHeaders.localHeaders.push(el)
 			}
 		}
 
@@ -377,8 +380,9 @@ angular.module('InfoCompassModule',[
 	'$rootScope',
 	'icFilterConfig',
 	'icHeaders',
+	'icSite',
 
-	function($rootScope, icFilterConfig, icHeaders){
+	function($rootScope, icFilterConfig, icHeaders, icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-header.html",
@@ -386,6 +390,7 @@ angular.module('InfoCompassModule',[
 
 			link: function(scope, element, attr){
 				
+				scope.icSite			= icSite
 				scope.searchTerm		= icFilterConfig.searchTermn
 				scope.showSearch 		= false
 
@@ -572,20 +577,36 @@ angular.module('InfoCompassModule',[
 
 		searchResults.download = function(){
 
-			var currentCall = icApi.getList(searchResults.limit, searchResults.offset, icFilterConfig)
+			var cast = 	{
+							information: 	'information',
+							opportunity:	'services',
+							event:			'events',
+							location:		'places'
+						}
+
+			var currentCall = icApi.getList(
+									searchResults.limit, 
+									searchResults.offset, 
+									{
+										type: cast[icFilterConfig.filterBy.type]
+									}									
+								)
 
 			searchResults.listCalls.push(currentCall)
 
 			return 	currentCall
 					.then(
 						function(result){
-							result.forEach(function(item){
-								item.type 	= item.type		|| ['event', 'location', 'information', 'opportunity'][Math.floor(Math.random()*4)]	//todo: mocked!!
-								item.brief 	= item.brief 	||  (Math.random() + '').replace(/0|\./g,'B').substr(0, Math.random()*16 +4) + ' Beschreibungstext lore ipsum dolor ', 
+							result.items.forEach(function(item){
+								item.type 	= icFilterConfig.filterBy.type //todo		
+								item.brief 	= item.description_short['de'] //todo
 								searchResults.storeItem(item)
 							})
 
 							searchResults.offset += searchResults.limit
+							searchResults.stats = result.items[0] && result.items[0].statistics //todo
+
+							searchResults.filterList()
 						}
 					)
 		}
@@ -604,7 +625,7 @@ angular.module('InfoCompassModule',[
 
 		searchResults.downloadItem = function(id){
 
-			var currentCall = icApi.mockApiItem(id)
+			var currentCall = icApi.getItem(id)
 
 			searchResults.itemCalls[id] = searchResults.itemCalls[id] || []
 			searchResults.itemCalls[id].push(currentCall)
@@ -877,6 +898,7 @@ angular.module('InfoCompassModule',[
 				scope.icSearchResults = icSearchResults
 
 				scope.$watch('icId', function(id){
+					if(!id) return null
 					scope.item = icSearchResults.getItem(id)
 					icSearchResults.downloadItem(id)
 				})
