@@ -47,7 +47,6 @@ Todo:
 * Auf S konzentrieren
 * Assets
 * Scrolling Smartphone
-* Daten aus der Datenbank darstellen
 * Liste filtern und sortieren
 * komischer rand unten im smartphone
 
@@ -64,6 +63,9 @@ Done
 * focus, onscreen keyboard
 * Webspace (damit ihr auch was sehen könnt)
 * Liste schön machen
+* Daten aus der Datenbank darstellen (gutes stück)
+* Liste filtern und sortieren (mock)
+
 
 
 Brauche:
@@ -97,4 +99,4 @@ Brauche:
 
 * Wenn filter dann eintrag beim item
 * Statistics hängen an jedem item
-* NIL bei spracheintrag MAP-item?
+* NIL bei spracheintrag MAP-item? NoMethodError in ItemsController#index 

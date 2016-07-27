@@ -599,7 +599,7 @@ angular.module('InfoCompassModule',[
 						function(result){
 							result.items.forEach(function(item){
 								item.type 	= icFilterConfig.filterBy.type //todo		
-								item.brief 	= item.description_short['de'] //todo
+								item.brief 	= item.description_short['en'] //todo
 								searchResults.storeItem(item)
 							})
 
