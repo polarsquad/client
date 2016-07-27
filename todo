@@ -1,0 +1,96 @@
+Todo:
+
+
+* Breite nutzen
+* Assets einbauen
+
+-----
+
+* performance, zu viele Digests :(
+* hzScroll android (wird nicht mehr benutzt)
+
+* scrollBump rerender prüfen
+* scrollBump android-browser
+* Scrollbump neu
+* Assets
+
+Done:
+* Layout neu, REM werden bei Bedarf hochgezogen
+* icSite und smlLayout zusammenführen
+* clState, clState nur auf einem element
+* tiles, large tiles nur mit float
+* Spinner einbauen
+* hover scrollbars?
+
+
+Fagen:
+
+* Breite Runden?
+* Schrifgröße
+* Was wenn itemlink?
+* XS-Mode Verhältnis von Kacheln und Schriftgrößen
+* Systematik Layouts
+* FullItem mal dünn mal breit
+
+
+Hätte gerne:
+
+* Webspace (damit ihr auch was sehen könnt)
+* Verabreden, was bis Freitag sein soll
+* Auf wichtiges konzentrieren
+* Farben
+
+
+-------------------
+
+Todo:
+* Objekte anders strukturieren
+* Auf S konzentrieren
+* Assets
+* Scrolling Smartphone
+* Daten aus der Datenbank darstellen
+* Liste schön machen
+* Liste filtern und sortieren
+* komischer rand unten im smartphone
+
+
+Done
+* Umstrukturiert
+* Layout
+* Tiles
+* Get next 20 items
+* section to isolated scope
+* scroll bump und nachladen
+* gefilterete liste performatnter machen
+* android scroll bump super ruckelig - > raus
+* focus, onscreen keyboard
+
+
+Brauche:
+* type in preview items
+* items brauchen Kurzbeschreibung
+
+{
+	items: ...
+	count: {
+		inform:
+		location:
+		total:	
+	}
+
+}
+
+* wieviel Treffer gibt es insgesamt
+-> wieviele davon jeweils pro type
+
+
+* Items brauchen Kategorie(n) (wenn danach gesucht wird)
+* Setup call mit topics
+
+
+
+
+* filter im Apicall
+* Bilder im Backend aufbereiten
+* Anzeige, dass es keine weiteren Elemente mehr gibt, bzw Angabe wieviele es noch gibt. (echt?)
+* Anzeige, wieviele Treffer es insgesamt gibt

@@ -1,44 +1,17 @@
-<button
-	ng-click = "icSearchResults.download()"
->	
-	get more
-</button>
-
-
-<div ng-show = "icSearchResults.listLoading()">
-		loading
-</div>
-
-
-
-
-
-<div
-	ng-repeat	= "category in ['event', 'location', 'information', 'opportunity']"
-	ng-if		= "!icFilterConfig.filterBy.category || icFilterConfig.filterBy.category == category"
+<a
+	ng-repeat	= "item in icSearchResults.filteredList"
+	ng-href		= "#{{::icHref({itemId:item.id})}}"
+	clicked-state
 >
-	
-	<div
-		class		= "result-group"
-		lc-click	= "full = !full; $event.stopPropagation()"
-	>	
-		{{results = icSearchResults.getFilteredList({category:category}); ""}}
-		{{category | uppercase}}({{results.length}})
-	</div>
-	<a
-		ng-if		= "full || icFilterConfig.filterBy.category"
-		ng-repeat	= "item in results"
-		ng-href		= "#{{icHref({itemId:item.id})}}"
+
+	<ic-preview-item
+		ic-title 	= "::item.title"
+		ic-brief	= "::item.brief"
+		ic-type		= "::item.type"
+		ng-class	= "{active: icActive({itemId: item.id})}"
 	>
+	</ic-preview-item>
+</a>
 
-		<ic-preview-item
-			ic-title 	= "item.title"
-			ic-details	= "item.details"
-			ic-category	= "item.category"
-			ng-class	= "{active: icActive({itemId: item.id})}"
-		>
-		</ic-preview-item>
-	</a>
-
-</div>
+<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 

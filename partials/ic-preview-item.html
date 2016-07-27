@@ -1,15 +1,14 @@
-<div class = "icon category-{{icCategory}}">
-	{{icCategory | limitTo :1}}
-</div>
+<div class = "icon bg-{{::icType | icColor}} icon-type-{{::icType}}">
 
+</div>
 
 <div class = "content">
 
 		<div class ="title">
-			{{icTitle}}
+			{{::icTitle}}
 		</div>
 
-		<div class = "details">
-			{{icDetails}}
+		<div class = "brief">
+			{{::icBrief}}
 		</div>
 </div>

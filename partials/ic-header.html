@@ -1,0 +1,32 @@
+<div>
+	<button
+		type	= "button"	
+		class 	= "icon-nav-menu"
+	></button>
+
+	<div class = "spacer"></div>
+
+	<button 
+		type	= "button"
+		class 	= "icon-nav-language"
+	></button>
+
+	<form
+		ng-submit = "update()"
+	>
+		<input 
+			id					= "search-term"
+			tabindex			= "1"
+			type 				= "text" 
+			ng-show				= "showSearch"
+			ng-model 			= "searchTerm"
+		>
+		</input>
+	</form>
+
+	<button 
+		type		= "button"
+		ng-class 	= "{'icon-nav-search': !showSearch, 'icon-nav-close': showSearch}"
+		ng-click 	= "showSearch = !showSearch; icFilterConfig.searchTerm = undefined"
+	></button>
+</div>

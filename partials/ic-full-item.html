@@ -1,16 +1,29 @@
+
 <div ng-show = "icSearchResults.itemLoading(icId)">
 	loading ...
 </div>
 
-<h2>{{ item.title }}</h2>
+<div class ="image" style = "background-image:url()"></div>
 
+<h2>{{ item.title }}</h2>
+<p>{{ item.brief }}</p>
+
+
+
+<a ng-repeat  = "category in item.categories">
+	{{"ITEM.CAT_"+category}},
+</a>
 <p>
 	{{ item.details }}
 </p>
 
-<p>
-	<strong>{{ item.extra }}</strong>
-</p>
+<hr/>
 
-<pre>{{item | json}}</pre>
-
+<ic-info-tag
+	ng-repeat	= "key in ['address', 'phone', 'email', 'website']"
+	ng-if		= "item[key]"
+	ic-title 	= "'ITEM_INFO_'+key"
+	ic-content	= "item[key]"
+	ic-icon		= "'images/icon_'+key+'.svg'"
+>
+</ic-info-tag>

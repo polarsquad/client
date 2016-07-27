@@ -1,0 +1,140 @@
+
+
+/* common  MAYBE outsource to extra css*/
+a {
+	outline:			none !important;
+	border:				none !important;
+	text-decoration:	none !important;
+	color:				inherit;
+}
+
+a:active {
+	background-color:	rgba(0,0,0,0.2) !important;
+}
+
+input, 
+button, 
+button:active {
+	display:			inline-block;
+	border:				none;	
+}
+
+button {
+	cursor:				pointer;
+}
+
+button:active {
+	background-color:	rgba(0,0,0,0.2) !important;
+}
+
+button::-moz-focus-inner {
+	border:				0;
+}
+
+
+
+
+/* icons */
+
+
+.icon-nav-menu {
+	background-image:		url(/images/icon_nav_menu.svg);
+}
+
+.icon-nav-language {
+	background-image:		url(/images/icon_nav_lang.svg);
+}
+
+.icon-nav-close {
+	background-image:		url(/images/icon_nav_close.svg);
+}
+
+.icon-nav-search {
+	background-image:		url(/images/icon_nav_search.svg);
+}
+
+
+
+.icon-type-information {
+	background-image:		url(/images/icon_type_information.svg);
+}
+
+.icon-type-opportunity {
+	background-image:		url(/images/icon_type_opportunity.svg);
+}
+
+.icon-type-location {
+	background-image:		url(/images/icon_type_location.svg);
+}
+
+.icon-type-event {
+	background-image:		url(/images/icon_type_event.svg);
+}
+
+
+
+.icon-interface-arrow-up {
+	background-image:		url(/images/icon_interface_arrow_up.svg);	
+}
+
+.icon-interface-arrow-down {
+	background-image:		url(/images/icon_interface_arrow_down.svg);	
+}
+
+.icon-interface-arrow-left {
+	background-image:		url(/images/icon_interface_arrow_left.svg);	
+}
+
+.icon-interface-arrow-right {
+	background-image:		url(/images/icon_interface_arrow_right.svg);	
+}
+
+.icon-interface-checkbox-selected {
+	background-image:		url(/images/icon_interface_checkbox_selected.svg);	
+}
+
+.icon-interface-checkbox {
+	background-image:		url(/images/icon_interface_checkbox.svg);	
+}
+
+.icon-interface-close {
+	background-image:		url(/images/icon_interface_close.svg);	
+}
+
+
+
+
+
+
+/* Colors */
+
+
+.bg-blue {
+	background-color:		#62a7d5;
+}
+
+.bg-orange {
+	background-color:		#f27020;
+}
+
+.bg-yellow {
+	background-color:		#fec300;
+}
+
+.bg-purple {
+	background-color:		#7c51a2;
+}
+
+
+
+/* todo */
+
+
+.text-primary {
+	color:					#f80;
+}
+
+
+
+
+

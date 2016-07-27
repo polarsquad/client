@@ -1,0 +1,111 @@
+<div class = "controls">	
+	<button
+		class 		= "sort"
+		ng-class	= "{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}"
+		ng-click 	= "toggleSort()" 
+	>
+		sortieren
+	</button>
+
+	<button
+		class 		= "sort"
+		ng-class	= "{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}"<
+		ng-click 	= "toggleFilter()" 
+	>
+		filtern
+	</button>
+</div>
+
+<div 
+	class 	= "panel sort"
+	ng-show = "open == 'sort'" 
+>
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({so: 'a'}, true)}}"
+		ng-class 	= "{active : icSite.params.so == 'a'}"
+	> 
+		A-Z
+	</a>
+
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({so: 'n'}, true)}}" 
+		ng-class 	= "{active : icSite.params.so == 'n'}"
+		class 		= "disabled"
+	> 
+		Neuste
+	</a>
+
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({so: 'b'}, true)}}" 
+		ng-class 	= "{active : icSite.params.so == 'b'}"		
+		class 		= "disabled"
+	> 
+		Am häufigsten gemerkt
+	</a>
+
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({so: 'l'}, true)}}" 
+		ng-class 	= "{active : icSite.params.so == 'l'}"
+		class 		= "disabled"
+	> 
+		Nähe zum Standort
+	</a>
+</div>
+
+<div 
+	class 	= "panel filter"
+	ng-show	= "open == 'filter'" 
+>
+
+	<a 
+		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
+		ng-click 	= "expand.topics = !expand.topics"
+	>
+		Themen
+	</a>
+	<div ng-show = "expand.topics">
+		<a 
+			ng-repeat 	= "topic in ['Gesundheit', 'Sport', 'Sprache']"
+			ng-href 	= "#{{icSite.getNewPath({tp: $index}, true)}}" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icSite.params.tp == $index, 'icon-interface-checkbox': icSite.params.tp != $index}"
+		>
+			{{topic | uppercase}}
+		</a>
+	</div>
+
+	<a 
+		ng-class	= "{'icon-interface-arrow-right': !expand.target_group, 'icon-interface-arrow-down': expand.target_group}" 
+		ng-click 	= "expand.target_group = !expand.target_group"
+	>
+		Zielgruppen
+	</a>
+	<div ng-show = "expand.target_group">
+
+	</div>
+
+	<a 
+		ng-class	= "{'icon-interface-arrow-right': !expand.languages, 'icon-interface-arrow-down': expand.languages}" 
+		ng-click = "expand.languages = !expand.languages"
+	>
+		Gesprochene Sprachen
+	</a>
+	<div ng-show = "expand.languages">
+		<a 
+			ng-repeat 	= "language in ['Deutsch', 'Arabisch', 'Mandarin']"
+			ng-href 	= "#{{icSite.getNewPath({ln: $index}, true)}}" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icSite.params.ln == $index, 'icon-interface-checkbox': icSite.params.ln != $index}"
+		>
+			{{language | uppercase}}
+		</a>
+	</div>
+
+	<a 
+		ng-class	= "{'icon-interface-arrow-right': !expand.requirements, 'icon-interface-arrow-down': expand.requirements}" 
+		ng-click = "expand.requirements = !expand.requirements"
+	>
+		Anforderungen
+	</a>
+	<div ng-show = "expand.requirements">
+	</div>	
+
+</div>

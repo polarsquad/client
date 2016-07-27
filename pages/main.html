@@ -1,89 +1,72 @@
-<ic-header>
-	 <div class = "icon">&equiv;</div> 
-	 <input 
-	 	type 				= "text" 
-	 	ng-model 			= "icFilterConfig.searchTerm"
-	 	ng-model-options	= "{ updateOn: 'default blur', debounce: { 'default': 1000, 'blur': 0 } }"
-	 	>
-	 </input>
-</ic-header>
-
-<header class = "logo">
-	<h1>InfoCompass</h1>
-	<h2>Informationsplattform für Geflüchtete und Helfer (mehr)</h2>
-</header>
-
-<div hz-scroll no-text-nodes class = "tiles">
-	<a 
-		ng-href 	= "#{{icSite.getNewPath({c: 'event'})}}"
-		ng-class 	= "{active : icSite.params.c == 'event'}"
-	>
-		Events
-	</a>
-	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
+<div class = "logo">
+	<h1><strong>Info</strong>Compass</h1>
+	<h2>Informationen und Angebote für Geflüchtete und Unterstützer*innen (mehr)</h2>
 </div>
 
-<div hz-scroll no-text-nodes class = "tiles">
+<section 
+	no-text-nodes 
+	class = "tiles"
+>
+
+	
+
+
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({c: 'opportunity'})}}"
-		ng-class 	= "{active : icSite.params.c == 'opportunity'}"
-	>
-		Angebote
-	</a>
-
-	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-</div>
-
-<div hz-scroll no-text-nodes class = "tiles">
+		ng-href 	= "#{{icSite.getNewPath({t: 'opportunity'}, true)}}"
+		ng-class 	= "{active : icSite.params.t == 'opportunity'}"
+		ic-tile
+		ic-title	= "'Angebote'"
+		ic-brief	= "'Regelmäßig stattfindend'"
+		ic-icon		= "'images/icon_type_opportunity.svg'"
+		ic-type		= "'opportunity'"
+		clicked-state
+	></a>
+	
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({c: 'information'})}}"
-		ng-class 	= "{active : icSite.params.c == 'information'}"
+		ng-href 	= "#{{icSite.getNewPath({t: 'location'}, true)}}"
+		ng-class 	= "{active : icSite.params.t == 'location'}"
+		ic-tile
+		ic-title	= "'Karte'"
+		ic-brief	= "'Orte und Institutionen'"
+		ic-icon		= "'images/icon_type_location.svg'"
+		ic-type		= "'location'"
+		clicked-state
+	></a>
 
-	>
-		Informationen
-	</a>
-
-	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-</div>
-
-<div hz-scroll no-text-nodes class = "tiles">
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({c: 'location'})}}"
-		ng-class 	= "{active : icSite.params.c == 'location'}"
+		ng-href 	= "#{{icSite.getNewPath({t: 'information'}, true)}}"
+		ng-class 	= "{active : icSite.params.t == 'information'}"
+		ic-tile
+		ic-title	= "'Informationen'"
+		ic-brief	= "'Generelle Hinweise'"
+		ic-icon		= "'images/icon_type_information.svg'"
+		ic-type		= "'information'"
+		clicked-state
+	></a>
 
-	>
-		Ort
-	</a>
-	<a href = "#{{icSite.getNewPath({item: 1})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 2})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 3})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-	<a href = "#{{icSite.getNewPath({item: 4})}}">link</a>
-</div>
+	<a 
+		ng-href 	= "#{{icSite.getNewPath({t: 'event'}, true)}}"
+		ng-class 	= "{active : icSite.params.t == 'event'}"
+		ic-tile
+		ic-title	= "'Kalender'"
+		ic-brief	= "'Veranstaltungen'"
+		ic-icon		= "'images/icon_type_event.svg'"
+		ic-type		= "'event'"
+		clicked-state
+	></a>
+
+
+	<a 
+		href 		= "#{{::icSite.getNewPath({item: index})}}" 
+		ic-tile
+		ic-title	= "::Mock.random(['Kurs', 'Angebot', 'Projekt', 'Termine'], index+5)"
+		ic-brief	= "::Mock.random(['von Beispielinitiative', 'für Beispieltext', 'mit Blindtext', 'im Beispielamt'], index+3)"
+		ic-image	= "::Mock.image(index+2)"
+		ic-type		= "::Mock.random(['event', 'opportunity', 'location', 'information'], index+1)"
+		clicked-state 
+
+		ng-repeat 	= "index in ::Mock.arr(16)"
+	></a>
+
+</section>
+

@@ -1,0 +1,315 @@
+html,
+body {
+	padding:			0;
+	margin:				0;
+	height:				100%;
+	font-family:		sans-serif;
+	overflow:			hidden;
+}
+
+/* Mock*/
+html.initial-rem {
+	background-image:		url(../mock/example_map.png);
+	background-size:		cover;
+	background-repeat:		no-repeat;
+}
+
+
+body {
+	display:				block;
+}
+
+
+
+body > header {
+	position:				relative;
+	left:					0;
+	right:					0;
+	top:					0;
+	z-index:				100;
+	background:				#fff;
+}
+
+body > #content {
+	position:				absolute;
+	display:				block;
+	top:					3rem;
+	bottom:					0;
+	left:					0;
+	right:					0;
+	white-space: 			nowrap;
+}
+
+
+
+
+
+
+#content > section {
+	position:				relative;
+	height:					100%;
+	display:				inline-block;
+	overflow-x:				hidden;
+	background-color:		#fff;
+	white-space:			normal;
+	z-index:				1;
+	box-shadow:				0 0 1rem rgba(0,0,0,0.2);
+}
+
+
+
+#content > section > * {
+	margin:					0 auto;
+	overflow:				hidden;
+	padding:				1rem;
+	padding-top:			4rem;
+}
+
+
+
+/*scrollbars issues */
+
+
+
+#content > section {
+	overflow-y:				scroll;
+}
+
+.scrollbar-takes-space #content > section {
+	overflow-y:				hidden;
+}
+
+.scrollbar-takes-space #content > section:hover {
+	overflow-y:				scroll;
+}
+
+.XS #content > section {
+	overflow-y:				scroll;
+}
+
+
+
+
+
+
+/*Layout page */
+
+#content section.page {
+	display:				block;
+	width:					auto;
+	overflow-y:				scroll; 
+
+}
+
+.XS #content section.page > * {
+	width:					21rem;
+}
+
+.S	#content section.page > * {
+	width:					44rem;
+}
+
+.M	#content section.page > * {
+	width:					58rem;
+}
+
+.L	#content section.page > * {
+	width:					70rem;
+}
+
+.XL #content section.page > * {
+	width:					106rem;
+}
+
+
+
+
+
+/*Layout list */
+
+.XS	#content section.list  {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.list {
+	width:					24rem;
+}
+
+.M 	#content section.list,
+.L 	#content section.list,
+.XL	#content section.list {
+	display:				inline-block;
+	width:					26rem;
+}
+
+
+
+.XS #content section.list > *{
+	width:					21rem;
+}
+
+.S 	#content section.list > * {
+	width:					22rem;
+}
+
+.M 	#content section.list > *,
+.L 	#content section.list > *,
+.XL	#content section.list > * {
+	width:					24rem;
+}
+
+
+
+
+/*Layout filter */
+
+.XS	#content section.filter {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.filter {
+	width:					24rem;
+}
+
+.M 	#content section.filter,
+.L 	#content section.filter,
+.XL	#content section.filter {
+	width:					16rem;
+}
+
+
+
+.XS #content section.filter > * {
+	width:					21rem;
+}
+
+.S 	#content section.filter > *{
+	width:					22rem;
+}
+
+.M 	#content section.filter > *,
+.L 	#content section.filter > *,
+.XL	#content section.filter > * {
+	width:					14rem;
+}
+
+
+
+
+
+
+/*Layout item*/
+
+.XS	#content section.item {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.item {
+	width:					48rem;
+	overflow-y:				scroll;
+}
+
+.M 	#content section.item,
+.L 	#content section.item,
+.XL	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+
+
+.XS #content section.item > * {
+	width:					21rem;
+}
+
+.S 	#content section.item > *,
+.M 	#content section.item > *,
+.L 	#content section.item > *,
+.XL	#content section.item > * {
+	width:					38rem;
+}
+
+
+
+
+/* Layout item and list */
+
+.M.show-list.show-item #content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+.M.show-list.show-item #content section.list > * {
+	width:					22rem;
+}
+
+
+.M.show-list.show-item #content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+.M.show-list.show-item #content section.item > * {
+	width:					38rem;
+}
+
+
+
+
+ .L.show-list.show-item #content section.list,
+.XL.show-list.show-item	#content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+ .L.show-list.show-item	#content section.list > *,
+.XL.show-list.show-item	#content section.list > * {
+	width:					22rem;
+}
+
+
+
+ .L.show-list.show-item	#content section.filter,
+.XL.show-list.show-item	#content section.filter {
+	display:				inline-block;
+	width:					16rem;
+}
+
+ .L.show-list.show-item	#content section.filter > *,
+.XL.show-list.show-item	#content section.filter > * {
+	width:					14rem;
+}
+
+
+
+
+ .L.show-list.show-item	#content section.item,
+.XL.show-list.show-item	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+ .L.show-list.show-item #content section.item > *,
+.XL.show-list.show-item #content section.item > * {
+	width:					38rem;
+}
+
+
+
+
+ic-section-filter,
+ic-section-list,
+ic-section-item {
+	display:				block;
+}
+
+
+
+
+

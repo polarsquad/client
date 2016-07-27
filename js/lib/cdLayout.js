@@ -130,7 +130,7 @@ var cdL = angular.module('cdLayout', [])
 											(self.config.columnWidth)
 										),self.hideNarrowColumn = true
 
-				self.columnCount	= 	Math.floor(icc)
+				self.columnCount	= 	Math.floor(icc) || 1
 
 				self.updateClasses()
 				
@@ -148,8 +148,9 @@ var cdL = angular.module('cdLayout', [])
 
 
 		this.updateClasses = function(){
-			html.classList.toggle('cd-hide-narrow-column',	this.hideNarrowColumn)
-			html.classList.toggle('cd-single-column',		this.columnCount < 2)
+			html.classList.toggle('cd-hide-narrow-column',		this.hideNarrowColumn)
+			html.classList.toggle('cd-single-column',			this.columnCount < 2)
+			html.classList.toggle('cd-scrollbar-takes-space', 	this.scrollbarWidth > 0)
 		}
 
 
@@ -194,7 +195,9 @@ var cdL = angular.module('cdLayout', [])
 					scrollbarInset:		!!$attrs.cdScrollbarInset,
 				})
 
+
 				$scope.cdLayout = cdLayout
+				$scope.window = window
 			}
 		}
 	}

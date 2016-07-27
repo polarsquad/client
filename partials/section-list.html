@@ -1,0 +1,22 @@
+<ic-local-header>
+	<div
+		ng-if = "true || cFilterConfig.filterBy.category"
+		class = "category-filter"
+	>
+			{{icFilterConfig.filterBy.category || 'test'}}({{42}})
+	</div>
+
+</ic-local-header>
+
+<ic-filter-interface
+	ng-if = "smlLayout.mode.name == 'XS'"
+>
+</ic-filter-interface>
+
+
+<ic-search-result-list
+	ic-href 	= "icSite.getNewPath({'item': itemId})"
+	ic-active	= "icSite.params.item == itemId"
+>
+</ic-search-result-list>
+

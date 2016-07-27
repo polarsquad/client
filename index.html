@@ -1,65 +1,91 @@
 <!doctype html>
-<html lang="en" ng-app="InfoCompass" ng-controller = "InfoCompassCtrl">
+<html 
+	lang			=	"en" 
+	ng-app			=	"InfoCompass" 
+	ng-controller 	= 	"InfoCompassCtrl"
+	ng-class		=	"{'show-page': icSite.show('page'), 'show-list': icSite.show('list'), 'show-item': icSite.show('item')}"
+>
+
+
+
+
+
 	<head>
 
 		<meta charset="utf-8">		
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-		<link type="text/css" rel="stylesheet" href="styles/styles.css"></link>
+		<link type="text/css" rel="stylesheet" href="styles/layout.css"></link>
+		<link type="text/css" rel="stylesheet" href="styles/typography_and_colors.css"></link>
+		<link type="text/css" rel="stylesheet" href="styles/partials.css"></link>
 
-		<script src="js/lib/angular.min.js"></script>
-		<script src="js/lib/cdLayout.js"></script>
-		<script src="js/lib/hzScroll.js"></script>
-		<script src="js/lib/lcEvents.js"></script>
-		<script src="js/lib/ic-api.js"></script>
-		<script src="js/lib/ic-module.js"></script>
+		<script src="mock/mock.js"></script>
+
+		<script src="js/lib/angular.min.js">		</script>
+		<script src="js/lib/angular-animate.min.js"></script>
+
+		<script src="js/lib/smlLayout.js">			</script>
+		<script src="js/lib/hzScroll.js">			</script>
+		<script src="js/lib/lcEvents.js">			</script>
+		<script src="js/lib/ic-api.js">				</script>
+		<script src="js/lib/ic-module.js">			</script>
 
 		<!-- app -->
 		<script src="js/app.js"></script>
 
 	</head>
+
+
+
+
+
 	<body>
-		<cd-container
-			cd-narrow-column-width	= "10"
-			cd-column-width 		= "22"
-			cd-scrollbar-inset		= "true"
+
+		<header>
+			<ic-header></ic-header>
+		</header>
+
+		<section 
+			id = "content"
+			no-text-nodes 
 		>
 
-			<div ng-hide = "cdLayout.hideNarrowColumn"><div class ="content"></div></div><!--
+			<section 
+				class 	=	"page"
+				ng-if	=	"icSite.show('page')"
+			>
+			 	<div ng-include = "icSite.pageUrl"></div>
+		 	</section>
 
 
+		 	<section 
+		 		class	=	"filter"	
+				ng-if	=	"icSite.show('filter')"
+		 	>
+		 		<ic-section-filter></ic-section-filter>
+		 	</section>
 
 
-		 --><section>
-
-				<header></header>
-			 	<div
-			 		class		= "page" 
-			 		ng-include 	= "icSite.pageUrl">
-			 	</div>
-
-		 	</section><!--
-		 --><section>
-		 		<ic-search-result-list
-		 			ic-href 	= "icSite.getNewPath({'item': itemId})"
-		 			ic-active	= "icSite.params.item == itemId"
-		 		>
-		 		</ic-search-result-list>
-		 	</section><!--
+		 	<section 
+		 		class	=	"list"	
+				ng-if	=	"icSite.show('list')"
+				ic-scroll-bump  	 		
+		 	>
+		 		<ic-section-list></ic-section-list>
+		 	</section>
 
 
+		 	<section
+		 		class 	= 	"item" 
+				ng-if	=	"icSite.show('item')"
+		 	>
+		 		<ic-section-item></ic-section-item>
+		 	</section>
 
-		 --><section ng-if = "icSite.fullItem">
-
-		 		<header>
-		 			<button ng-click = "icSite.updatePath({item: undefined})"> close </button>
-		 		</header>
-		 		<ic-full-item ic-id = "icSite.params.item">
-		 		</ic-full-item>
-
-		 	</section><!--
-
-
-		 --><div><div class ="content"></div></div>
-		</cd-container>
+		 </section>
 	</body>
+
+
+
+
 </html>
