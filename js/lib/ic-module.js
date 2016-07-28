@@ -1,5 +1,56 @@
 "use strict";
 
+
+
+//used by icFilterConfig and icSite:
+
+function mergeParam(ce, ne, mode){
+
+
+	if(ne === null || ne === undefined || ne === '') return null
+
+	if(typeof ce == 'object'){
+
+		ce = 	ce.map(function(item){ return String(item) })
+		ne = 	typeof ne == 'object' 
+				? 	ne.map(function(item){ return String(item) }) 
+				: 	[String(ne)]
+
+		switch(mode){
+			case 'toggle':
+				return	Array.prototype.concat(
+							ce.filter(function(item){ return ne.indexOf(item) < 0 }),
+							ne.filter(function(item){ return ce.indexOf(item) < 0 })
+						)
+			break
+
+			case 'add':
+				return	Array.prototype.concat(
+							ce,
+							ne.filter(function(item){ return ce.indexOf(item) < 0 })
+						)
+			break
+
+			default:
+				return ne
+		}
+	}
+
+	if(typeof cs != 'object') {
+
+		ne = String(ne)
+		ce = String(ce)
+
+		return 	mode == 'toggle' && ne == ce
+				?	null
+				:	ne
+	}
+
+}
+
+
+
+
 angular.module('InfoCompassModule',[
 	"icApi",
 	"smlLayout"
@@ -51,11 +102,14 @@ angular.module('InfoCompassModule',[
 	'icSite',
 	'icFilterConfig',
 	'smlLayout',
+	'icConfigData',
 
-	function($scope, icSite, icFilterConfig, smlLayout){
+
+	function($scope, icSite, icFilterConfig, smlLayout, icConfigData){
 		$scope.icSite 			= icSite
-		$scope.icFilterConfig	= icFilterConfig //Muss das wirklich?
-		$scope.smlLayout		= smlLayout //Mus das wirklich?
+		$scope.icFilterConfig	= icFilterConfig 	//Muss das wirklich?
+		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
+		$scope.icConfigData		= icConfigData 
 
 		//$scope.$watch(function(){console.log('digest!')})
 	}
@@ -64,6 +118,45 @@ angular.module('InfoCompassModule',[
 
 
 
+.service('icConfigData',[
+
+	'icApi',
+
+	function(icApi){
+		var icConfigData = {}
+
+
+		icConfigData.getTypeById = function(id){
+			return icConfigData.types.filter(function(type){ return type.id == id })[0]
+		}
+
+		icConfigData.getTypeByUri = function(uri){
+			return icConfigData.types.filter(function(type){ return type.uri == uri })[0]
+		}
+
+		icConfigData.getTopicById = function(id){
+			return icConfigData.topics.filter(function(topic){ return topic.id == id })[0]
+		}
+
+		icConfigData.getTopicUri = function(uri){
+			return icConfigData.topics.filter(function(topic){ return topic.uri == uri })[0]
+		}
+
+
+		icApi.getConfigData()
+		.then(function(result){
+			icConfigData.types 		= result.types
+			icConfigData.topics 	= result.topics
+
+			icConfigData.types.forEach(function(type){
+				type.icon_url = '/images/'+type.ontology_uri+'.svg'
+			})
+		})
+
+		return icConfigData
+	}
+])
+
 /* icSite */
 
 
@@ -71,16 +164,16 @@ angular.module('InfoCompassModule',[
 
 	'$rootScope',
 	'$location',
+	'icApi',
 	'smlLayout',
 	'icFilterConfig',
 
-	function($rootScope, $location, smlLayout, icFilterConfig){
+	function($rootScope, $location, icApi, smlLayout, icFilterConfig){
 		var icSite 		= 	{
 								fullItem:			false,
 								page:				'main',
 								showFilter:			false,
 								params:				{
-														'^':	'main',			// first param reserved for pages
 														item:	undefined,		// item for full view
 														t:		undefined,		// type filter
 														s:		undefined,		// search term
@@ -94,28 +187,68 @@ angular.module('InfoCompassModule',[
 							}
 
 
+
+		function path2Params(str){
+			var result = {}
+
+			for(var key in icSite.params){
+				var regex 		= 	new RegExp('\/'+key+'\/([^/]+)'),
+					matches		= 	str.match(regex),
+					value_str 	= 	(matches && matches[1])
+
+				if(typeof icSite.params[key] == 'object'){
+					//Array:
+					result[key] = 	value_str 
+									?	value_str.split('-')
+									:	[]
+				} else {
+					//String:
+					result[key] = 	value_str
+									?	value_str
+									:	''
+				}
+			}
+
+			return result
+		}
+
+
+
+		function params2Path(obj, mode){
+			if(!obj) return '/'
+
+			var path = ''
+
+
+			for(var key in icSite.params){
+
+				var item = 	key in obj
+							?	mergeParam(icSite.params[key], obj[key], mode)
+							:	icSite.params[key]
+
+
+				if(item === null || !item.length)	continue
+				
+				var value_str = 	typeof item == 'object'
+									?	item.join('-')
+									:	item
+
+				path += 	'/' + key + '/'+value_str
+
+			}
+
+			return path
+		}
+
+
+		icSite.getParamsFromPath = function(){
+			icSite.params = path2Params($location.path())
+			return icSite
+		}
+
 		
-		icSite.getNewPath = function(obj, toggle){
-			var path 		= 	$location.path()
-
-			function isValidValue(x){
-				return x !== undefined && x !== null && (typeof x != 'string' || x.replace(/\s*/g,'').length > 0)
-			}
-
-			for(var key in obj){
-				var current_param_regex	= 	new RegExp('\/'+key+'\/([^/]+)(?=$|\/)'),
-					current_value		=	path.match(current_param_regex) && path.match(current_param_regex)[1],
-					new_param_str		=	isValidValue(obj[key]) && !(toggle && obj[key] == current_value)
-											?	'/'+key+'/'+obj[key]
-											:	''
-
-
-				path	=	path.match(current_param_regex)
-							?	path.replace(current_param_regex, new_param_str)
-							:	path.replace(/\/$/,'') + new_param_str
-			}
-
-			return path						
+		icSite.getNewPath = function(obj, mode){
+			return params2Path(obj, mode)
 		}
 
 		icSite.updatePath = function(obj){
@@ -130,25 +263,13 @@ angular.module('InfoCompassModule',[
 		icSite.addFilterParamsToPath = function(){
 			icSite.updatePath({ 
 				s:	encodeURIComponent(icFilterConfig.searchTerm||''),
-				t:	icFilterConfig.filterBy.type 
-			})
+				t:	icFilterConfig.filterBy.type,
+				tp:	icFilterConfig.filterBy.topic 
+			}, 'replace')
 		}
 
-		icSite.getParamsFromPath = function(){
 
-			for(var key in icSite.params){
-				var regex 	= new RegExp('\/'+key+'\/([^/]+)'),
-					matches	= $location.path().match(regex)
-
-				icSite.params[key] = matches && matches[1]
-			}
-
-			var first_matches = $location.path().match(/^\/([^\/]+)/)
-			icSite.params['^'] = first_matches && first_matches[1]
-
-			return this
-		}
-
+		//rename to 'sections'
 		icSite.updateCompontents = function(){
 			icSite.activeComponents = {}
 
@@ -165,19 +286,22 @@ angular.module('InfoCompassModule',[
 
 			icSite.fullItem 	= 	!!icSite.params.item
 
-			icSite.pageUrl 		= 	icSite.params['^'] in icSite.params
-									?	'pages/main.html'
-									:	'pages/'+(icSite.params['^'] || 'main')+'.html'
+			icSite.pageUrl 		= 	'pages/main.html'
 
 			//update icFilterconfig
-			icFilterConfig.filterBy.type	=	icSite.params.t || undefined
+			icFilterConfig.filterBy.type	=	icSite.params.t 	|| undefined
+			icFilterConfig.filterBy.topic	=	icSite.params.tp 	|| []
 
 			icSite.updateCompontents()
 
 			return this
 		}
 
+		//Todo: check if needed
 		icSite.toggleFilter = function(state){
+			console.warn('icSite.toggleFilter: solve differently')
+			return null
+
 			icSite.showFilter =	typeof state == "boolean"
 								?	state
 								:	!icSite.showFilter
@@ -260,7 +384,14 @@ angular.module('InfoCompassModule',[
 			return false
 		}
 
+
+
+		//setup
+		
+		
 		icSite.updateFromPath()
+
+		//Todo this triggers to many digests:
 
 		$rootScope.$on('$locationChangeStart', icSite.updateFromPath)
 		$rootScope.$watch(function(){ return icFilterConfig }, 			icSite.addFilterParamsToPath, true)
@@ -304,7 +435,9 @@ angular.module('InfoCompassModule',[
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-list.html",
-			scope:			{},
+			scope:			{
+								icShowFilter:	'<'
+							},
 
 			link: function(scope, element, attrs){
 				scope.icSite 	= icSite
@@ -470,32 +603,58 @@ angular.module('InfoCompassModule',[
 		var icFilterConfig = 	{
 						filterBy:	{
 										type:		undefined,
-										category:	undefined
+										topic:		[]
 									},
 						searchTerm: ''
 					}
 
-		
-		icFilterConfig.clear = function(){
-			for(var key in icFilterConfig.filterBy){
-				icFilterConfig.filterBy[key] = undefined
-			}
-			icFilterConfig.searchTerm = ''
+
+		icFilterConfig.matchFilter = function(key, needle){
+			 	
+
+			 var item = icFilterConfig.filterBy[key]
+
+			 if(!needle)	return !item || item.length == 0
+			 if(!item) 		return false
+
+			 needle = String(needle)
+
+
+			 return 	typeof item == 'object'
+						?	icFilterConfig.filterBy[key].indexOf(needle) != -1
+ 						:	icFilterConfig.filterBy[key] == needle
+		}
+
+		icFilterConfig.toggleFilter = function(key, value){
+			icFilterConfig.filterBy[key] = mergeParam(icFilterConfig.filterBy[key], value, 'toggle')
 
 			return icFilterConfig
 		}
+
+		icFilterConfig.clearFilter = function(key, value){
+			var item = icFilterConfig.filterBy[key]
+
+			icFilterConfig.filterBy[key] = 	typeof icFilterConfig.filterBy[key] == 'object'
+											?	[]
+											:	undefined
+
+			return icFilterConfig
+		}
+		
+
 
 		icFilterConfig.cleared = function(){
 			var cleared = true
 
 			for(var key in icFilterConfig.filterBy){
-				cleared = cleared && !icFilterConfig.filterBy[key]
+				cleared = cleared && (!icFilterConfig.filterBy[key] || !icFilterConfig.filterBy[key].length)
 			}			
 
 			cleared = cleared && !icFilterConfig.searchTerm
 
 			return cleared
 		}
+
 
 		icFilterConfig.active = function(){
 			return !icFilterConfig.cleared()
@@ -588,7 +747,8 @@ angular.module('InfoCompassModule',[
 									searchResults.limit, 
 									searchResults.offset, 
 									{
-										type: cast[icFilterConfig.filterBy.type]
+										type: 	cast[icFilterConfig.filterBy.type],
+										topic:	icFilterConfig.filterBy.topic
 									}									
 								)
 
@@ -599,7 +759,7 @@ angular.module('InfoCompassModule',[
 						function(result){
 							result.items.forEach(function(item){
 								item.type 	= icFilterConfig.filterBy.type //todo		
-								item.brief 	= item.description_short['en'] //todo
+								item.brief 	= item.description_short && item.description_short['en'] //todo
 								searchResults.storeItem(item)
 							})
 
@@ -935,12 +1095,25 @@ angular.module('InfoCompassModule',[
 	return 	function(str){
 				switch(str){
 					case 'information': return "blue"; 		break;
-					case 'event':		return "purple";	break;
-					case 'location':	return "orange";	break;
-					case 'opportunity':	return "yellow";	break;
+					case 'events':		return "purple";	break;
+					case 'places':		return "orange";	break;
+					case 'services':	return "yellow";	break;
 					default:			return "white";		break
 				}
 			}
+})
+
+
+.filter('icIcon', function(){
+	return 	function(str){
+			switch(str){
+				case 'information': return "images/icon_type_information.svg"; 	break;
+				case 'events':		return "images/icon_type_events.svg";		break;
+				case 'places':		return "images/icon_type_places.svg";		break;
+				case 'services':	return "images/icon_type_services.svg";		break;
+				default:			return "images/logo.svg";					break
+			}
+		}
 })
 
 
@@ -1045,9 +1218,9 @@ angular.module('InfoCompassModule',[
 .directive('icFilterInterface', [
 
 	'icFilterConfig',
-	'icSite',
+	'icConfigData',
 
-	function(icFilterConfig, icSite){
+	function(icFilterConfig, icConfigData){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-filter-interface.html',
@@ -1056,16 +1229,17 @@ angular.module('InfoCompassModule',[
 			link: function(scope, element,attrs){
 				scope.open 				= false
 				scope.icFilterConfig 	= icFilterConfig
-				scope.icSite 			= icSite
+				scope.icConfigData 		= icConfigData
 				scope.expand			= {}
 
-				scope.toggleSort = function(){
+
+				scope.toggleSortPanel = function(){
 					scope.open = 	scope.open != 'sort'
 									?	'sort'
 									:	false
 				}
 
-				scope.toggleFilter = function(){
+				scope.toggleFilterPanel = function(){
 					scope.open = 	scope.open != 'filter'
 									?	'filter'
 									:	false

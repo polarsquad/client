@@ -5,7 +5,10 @@
 		ng-click	= "icSite.updatePath({item: undefined, t: undefined, s:undefined})"
 	></button>
 
-	<div class = "spacer"></div>
+	<div 
+		class = "spacer" 
+		ng-if = "!showSearch"
+	></div>
 
 	<button 
 		type	= "button"

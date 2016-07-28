@@ -59,8 +59,8 @@
 
 
 		 	<section 
-		 		class	=	"filter"	
-				ng-if	=	"icSite.show('filter')"
+		 		class			=	"filter"	
+				ng-if			=	"icSite.show('filter')"
 		 	>
 		 		<ic-section-filter></ic-section-filter>
 		 	</section>
@@ -71,7 +71,9 @@
 				ng-if	=	"icSite.show('list')"
 				ic-scroll-bump  	 		
 		 	>
-		 		<ic-section-list></ic-section-list>
+		 		<ic-section-list
+		 			ic-show-filter 	=	"smlLayout.mode.name == 'XS'" 
+		 		></ic-section-list>
 		 	</section>
 
 

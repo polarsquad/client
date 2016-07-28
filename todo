@@ -1,43 +1,10 @@
-Todo:
+Regeln:
+
+1) icSite  should never be injected to anything below section level. Any information that is neede below that should be passed througfg attributes.
+
+2) smlLayout should never be injected to anything below index or filter level. Any information that is neede below that should be passed througfg attributes.
 
 
-* Breite nutzen
-* Assets einbauen
-
------
-
-* performance, zu viele Digests :(
-* hzScroll android (wird nicht mehr benutzt)
-
-* scrollBump rerender prüfen
-* scrollBump android-browser
-* Scrollbump neu
-* Assets
-
-Done:
-* Layout neu, REM werden bei Bedarf hochgezogen
-* icSite und smlLayout zusammenführen
-* clState, clState nur auf einem element
-* tiles, large tiles nur mit float
-* Spinner einbauen
-* hover scrollbars?
-
-
-Fagen:
-
-* Breite Runden?
-* Schrifgröße
-* Was wenn itemlink?
-* XS-Mode Verhältnis von Kacheln und Schriftgrößen
-* Systematik Layouts
-* FullItem mal dünn mal breit
-
-
-Hätte gerne:
-
-* Verabreden, was bis Freitag sein soll
-* Auf wichtiges konzentrieren
-* Farben
 
 
 -------------------
@@ -47,7 +14,7 @@ Todo:
 * Auf S konzentrieren
 * Assets
 * Scrolling Smartphone
-* Liste filtern und sortieren
+* Liste filtern und sortieren (halb-mock)
 * komischer rand unten im smartphone
 
 
@@ -55,17 +22,17 @@ Done
 * Umstrukturiert
 * Layout
 * Tiles
-* Get next 20 items
+* Get next 15 items
 * section to isolated scope
-* scroll bump und nachladen
+* scroll bump und nachladen (geht so naja, performance sehr schlecht)
 * gefilterete liste performatnter machen
 * android scroll bump super ruckelig - > raus
 * focus, onscreen keyboard
 * Webspace (damit ihr auch was sehen könnt)
-* Liste schön machen
+* Liste schön machen (multiline)
 * Daten aus der Datenbank darstellen (gutes stück)
-* Liste filtern und sortieren (mock)
-
+* Liste filtern und sortieren (halb-mock)
+* header
 
 
 Brauche:
@@ -100,3 +67,28 @@ Brauche:
 * Wenn filter dann eintrag beim item
 * Statistics hängen an jedem item
 * NIL bei spracheintrag MAP-item? NoMethodError in ItemsController#index 
+* Übergehen zu klaren tasks
+
+* searchterm mit zurückgeben
+
+
+* default Sprache für test
+
+
+-----------------------------
+
+
+Todo:
+
+* Vergleichsangebot?
+* s.o.
+* Params mit array parsen
+
+
+Done
+* spacer an/aus im header
+
+
+Info
+
+API setup call unter /init

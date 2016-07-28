@@ -15,11 +15,11 @@ ic-header > * {
 	min-width:				21rem;
 	min-height:				3rem;
 	align-items:			center;
+	justify-content:		space-between;
 }
 
 ic-header form {
 	display:				flex;
-	align-items:			center;
 }
 
 ic-header a, 
@@ -40,6 +40,7 @@ ic-header input {
 	background:				#eee;
 	line-height:			2rem;
 	text-align:				center;
+	width:					15rem;
 }
 
 ic-header input:focus {
@@ -224,11 +225,10 @@ ic-header .category-filter {
 }
 
 [ic-tile] .background.image {
-	display:				none;
 	background-size:		cover;
 	background-position:	50% 50%;
 	opacity:				0.5;
-	/*filter: 				grayscale(100%);*/
+	filter: 				grayscale(100%);
 }
 
 [ic-tile] .background.icon {
@@ -561,7 +561,14 @@ ic-filter-interface .panel a {
 	display:				block;
 	line-height:			3rem;
 	padding-left:			1rem;
+	cursor:					pointer;
+	
+	-webkit-user-select:	none;
+	-moz-user-select: 		none;
+	-ms-user-select: 		none;
+	user-select: 			none;
 }
+
 
 ic-filter-interface .panel a.active {
 	font-weight:			bold;

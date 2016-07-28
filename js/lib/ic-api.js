@@ -38,6 +38,10 @@ angular.module('icApi', [])
 			api.get = function(path, data){ return api.call('GET', path, data)}
 
 
+			api.getConfigData = function(){
+				return api.get('/init')
+			}
+
 
 
 			api.getList = function(limit, offset, filter){

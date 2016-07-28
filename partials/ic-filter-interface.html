@@ -2,7 +2,7 @@
 	<button
 		class 		= "sort"
 		ng-class	= "{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}"
-		ng-click 	= "toggleSort()" 
+		ng-click 	= "toggleSortPanel()" 
 	>
 		sortieren
 	</button>
@@ -10,7 +10,7 @@
 	<button
 		class 		= "sort"
 		ng-class	= "{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}"<
-		ng-click 	= "toggleFilter()" 
+		ng-click 	= "toggleFilterPanel()" 
 	>
 		filtern
 	</button>
@@ -20,7 +20,7 @@
 	class 	= "panel sort"
 	ng-show = "open == 'sort'" 
 >
-	<a 
+	<!-- <a 
 		ng-href 	= "#{{icSite.getNewPath({so: 'a'}, true)}}"
 		ng-class 	= "{active : icSite.params.so == 'a'}"
 	> 
@@ -49,13 +49,18 @@
 		class 		= "disabled"
 	> 
 		Nähe zum Standort
-	</a>
+	</a> -->
+
+	SORT
 </div>
+
 
 <div 
 	class 	= "panel filter"
 	ng-show	= "open == 'filter'" 
 >
+
+
 
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
@@ -63,49 +68,22 @@
 	>
 		Themen
 	</a>
+
 	<div ng-show = "expand.topics">
 		<a 
-			ng-repeat 	= "topic in ['Gesundheit', 'Sport', 'Sprache']"
-			ng-href 	= "#{{icSite.getNewPath({tp: $index}, true)}}" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icSite.params.tp == $index, 'icon-interface-checkbox': icSite.params.tp != $index}"
+			ng-click 	= "icFilterConfig.clearFilter('topic')" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', false), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', false)}"
 		>
-			{{topic | uppercase}}
+			ALL
 		</a>
-	</div>
-
-	<a 
-		ng-class	= "{'icon-interface-arrow-right': !expand.target_group, 'icon-interface-arrow-down': expand.target_group}" 
-		ng-click 	= "expand.target_group = !expand.target_group"
-	>
-		Zielgruppen
-	</a>
-	<div ng-show = "expand.target_group">
-
-	</div>
-
-	<a 
-		ng-class	= "{'icon-interface-arrow-right': !expand.languages, 'icon-interface-arrow-down': expand.languages}" 
-		ng-click = "expand.languages = !expand.languages"
-	>
-		Gesprochene Sprachen
-	</a>
-	<div ng-show = "expand.languages">
 		<a 
-			ng-repeat 	= "language in ['Deutsch', 'Arabisch', 'Mandarin']"
-			ng-href 	= "#{{icSite.getNewPath({ln: $index}, true)}}" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icSite.params.ln == $index, 'icon-interface-checkbox': icSite.params.ln != $index}"
+			ng-repeat 	= "topic in icConfigData.topics"
+			ng-click 	= "icFilterConfig.toggleFilter('topic', topic.id)" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic.id), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic.id)}"
 		>
-			{{language | uppercase}}
+			{{topic.ontology_uri | uppercase}}
 		</a>
 	</div>
 
-	<a 
-		ng-class	= "{'icon-interface-arrow-right': !expand.requirements, 'icon-interface-arrow-down': expand.requirements}" 
-		ng-click = "expand.requirements = !expand.requirements"
-	>
-		Anforderungen
-	</a>
-	<div ng-show = "expand.requirements">
-	</div>	
 
 </div>

@@ -59,16 +59,16 @@ button::-moz-focus-inner {
 	background-image:		url(/images/icon_type_information.svg);
 }
 
-.icon-type-opportunity {
-	background-image:		url(/images/icon_type_opportunity.svg);
+.icon-type-services {
+	background-image:		url(/images/icon_type_services.svg);
 }
 
-.icon-type-location {
-	background-image:		url(/images/icon_type_location.svg);
+.icon-type-places {
+	background-image:		url(/images/icon_type_places.svg);
 }
 
-.icon-type-event {
-	background-image:		url(/images/icon_type_event.svg);
+.icon-type-events {
+	background-image:		url(/images/icon_type_events.svg);
 }
 
 
