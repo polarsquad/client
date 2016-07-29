@@ -20,15 +20,13 @@
 	class 	= "panel sort"
 	ng-show = "open == 'sort'" 
 >
-	<!-- <a 
-		ng-href 	= "#{{icSite.getNewPath({so: 'a'}, true)}}"
+	<a 
 		ng-class 	= "{active : icSite.params.so == 'a'}"
 	> 
 		A-Z
 	</a>
 
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({so: 'n'}, true)}}" 
 		ng-class 	= "{active : icSite.params.so == 'n'}"
 		class 		= "disabled"
 	> 
@@ -36,7 +34,6 @@
 	</a>
 
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({so: 'b'}, true)}}" 
 		ng-class 	= "{active : icSite.params.so == 'b'}"		
 		class 		= "disabled"
 	> 
@@ -44,14 +41,12 @@
 	</a>
 
 	<a 
-		ng-href 	= "#{{icSite.getNewPath({so: 'l'}, true)}}" 
 		ng-class 	= "{active : icSite.params.so == 'l'}"
 		class 		= "disabled"
 	> 
 		Nähe zum Standort
-	</a> -->
+	</a>
 
-	SORT
 </div>
 
 
@@ -59,7 +54,6 @@
 	class 	= "panel filter"
 	ng-show	= "open == 'filter'" 
 >
-
 
 
 	<a 
@@ -77,9 +71,9 @@
 			ALL
 		</a>
 		<a 
-			ng-repeat 	= "topic in icConfigData.topics"
-			ng-click 	= "icFilterConfig.toggleFilter('topic', topic.id)" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic.id), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic.id)}"
+			ng-repeat 	= "topic in icConfigData.topics | orderBy : 'ontology_uri'"
+			ng-click 	= "icFilterConfig.toggleFilter('topic', topic.ontology_uri)" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic.ontology_uri), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic.ontology_uri)}"
 		>
 			{{topic.ontology_uri | uppercase}}
 		</a>

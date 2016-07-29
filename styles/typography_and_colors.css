@@ -3,7 +3,6 @@
 /* common  MAYBE outsource to extra css*/
 a {
 	outline:			none !important;
-	border:				none !important;
 	text-decoration:	none !important;
 	color:				inherit;
 }
@@ -124,6 +123,36 @@ button::-moz-focus-inner {
 .bg-purple {
 	background-color:		#7c51a2;
 }
+
+
+
+
+
+.border-blue {
+	border-color:			#62a7d5;
+}
+
+.border-orange {
+	border-color:			#f27020;
+}
+
+.border-yellow {
+	border-color:			#fec300;
+}	
+
+.border-purple {
+	border-color:			#7c51a2;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

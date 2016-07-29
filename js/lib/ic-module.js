@@ -143,15 +143,15 @@ angular.module('InfoCompassModule',[
 		}
 
 
-		icApi.getConfigData()
-		.then(function(result){
-			icConfigData.types 		= result.types
-			icConfigData.topics 	= result.topics
+		icConfigData.ready	=	icApi.getConfigData()
+								.then(function(result){
+									icConfigData.types 		= result.types
+									icConfigData.topics 	= result.topics
 
-			icConfigData.types.forEach(function(type){
-				type.icon_url = '/images/'+type.ontology_uri+'.svg'
-			})
-		})
+									icConfigData.types.forEach(function(type){
+										type.icon_url = '/images/'+type.ontology_uri+'.svg'
+									})
+								})
 
 		return icConfigData
 	}
@@ -174,12 +174,12 @@ angular.module('InfoCompassModule',[
 								page:				'main',
 								showFilter:			false,
 								params:				{
-														item:	undefined,		// item for full view
-														t:		undefined,		// type filter
-														s:		undefined,		// search term
-														so:		undefined,		// sorting
-														tp:		[],				// topics
-														ln:		[],				// language
+														item:	'',			// item for full view
+														t:		'',			// type filter
+														s:		'',			// search term
+														so:		'',			// sorting
+														tp:		[],			// topics
+														ln:		[],			// language
 													},
 								activeComponents:	{
 														page:	true
@@ -488,7 +488,7 @@ angular.module('InfoCompassModule',[
 
 			while(icHeaders.localHeaders.length){
 				var el 	= icHeaders.localHeaders.shift()
-				icHeaders.mainHeader.add(el)
+				icHeaders.mainHeader.append(el)
 			}
 		}
 
@@ -524,8 +524,9 @@ angular.module('InfoCompassModule',[
 			link: function(scope, element, attr){
 				
 				scope.icSite			= icSite
-				scope.searchTerm		= icFilterConfig.searchTermn
-				scope.showSearch 		= false
+				scope.icFilterConfig	= icFilterConfig
+				scope.searchTerm		= icFilterConfig.searchTerm
+				icFilterConfig
 
 				scope.update = function(){
 					var input = element[0].querySelector('#search-term')
@@ -609,13 +610,15 @@ angular.module('InfoCompassModule',[
 					}
 
 
-		icFilterConfig.matchFilter = function(key, needle){
+		icFilterConfig.matchFilter = function(key, needle, empty_matches_all){
 			 	
 
 			 var item = icFilterConfig.filterBy[key]
 
-			 if(!needle)	return !item || item.length == 0
-			 if(!item) 		return false
+			 if(empty_matches_all && (!item || item.length == 0) ) return true
+
+			 if(!needle)			return !item || item.length == 0
+			 if(!item) 				return false
 
 			 needle = String(needle)
 
@@ -631,13 +634,19 @@ angular.module('InfoCompassModule',[
 			return icFilterConfig
 		}
 
-		icFilterConfig.clearFilter = function(key, value){
-			var item = icFilterConfig.filterBy[key]
+		icFilterConfig.clearFilter = function(key){
+			if(key === undefined){
+				for(key in icFilterConfig.filterBy){
+					icFilterConfig.clearFilter(key)
+				}
+			}else{
 
-			icFilterConfig.filterBy[key] = 	typeof icFilterConfig.filterBy[key] == 'object'
-											?	[]
-											:	undefined
+				var item = icFilterConfig.filterBy[key]
 
+				icFilterConfig.filterBy[key] = 	typeof icFilterConfig.filterBy[key] == 'object'
+												?	[]
+												:	undefined
+			}
 			return icFilterConfig
 		}
 		
@@ -693,8 +702,9 @@ angular.module('InfoCompassModule',[
 	'$timeout',
 	'icApi',
 	'icFilterConfig',
+	'icConfigData',
 
-	function($q, $rootScope, $timeout, icApi, icFilterConfig){
+	function($q, $rootScope, $timeout, icApi, icFilterConfig, icConfigData){
 
 		var searchResults 			= {}
 
@@ -704,11 +714,19 @@ angular.module('InfoCompassModule',[
 		searchResults.listCalls 	= []
 		searchResults.itemCalls 	= []
 		searchResults.filteredList	= []
+		searchResults.noMoreItems	= false
+		searchResults.meta			= undefined
 
 
 		searchResults.storeItem = function(new_item){
 
 			var stored_item 	= searchResults.data.filter(function(item){ return item.id == new_item.id })[0]
+
+			new_item.topic 	= 		icConfigData.getTopicById(new_item.primary_topic_id)
+								&&	icConfigData.getTopicById(new_item.primary_topic_id).ontology_uri
+			new_item.type 	= 		icConfigData.getTypeById(new_item.type_id)
+								&&	icConfigData.getTypeById(new_item.type_id).ontology_uri
+			new_item.brief	= 		(new_item.definition && new_item.definition['en']) || (new_item.topic + ' [missing item definition]')
 
 
 			if(stored_item){
@@ -725,50 +743,44 @@ angular.module('InfoCompassModule',[
 
 
 		searchResults.listLoading = function(){
-
-			searchResults.listCalls	 = 	searchResults.listCalls.filter(function(call){
-											return call.$$state.status == 0
-										})
-
 			return searchResults.listCalls.length > 0
 		}
 
 
 		searchResults.download = function(){
 
-			var cast = 	{
-							information: 	'information',
-							opportunity:	'services',
-							event:			'events',
-							location:		'places'
-						}
-
-			var currentCall = icApi.getList(
-									searchResults.limit, 
-									searchResults.offset, 
-									{
-										type: 	cast[icFilterConfig.filterBy.type],
-										topic:	icFilterConfig.filterBy.topic
-									}									
-								)
+			var currentCall = 	icConfigData.ready
+								.then(function(){
+									return	icApi.getList(
+												searchResults.limit, 
+												searchResults.offset, 
+												{
+													type: 	icFilterConfig.filterBy.type,
+													topic:	icFilterConfig.filterBy.topic,
+													query:	icFilterConfig.searchTerm
+												},
+												!!icFilterConfig.searchTerm									
+											)
+								})
 
 			searchResults.listCalls.push(currentCall)
 
 			return 	currentCall
-					.then(
-						function(result){
-							result.items.forEach(function(item){
-								item.type 	= icFilterConfig.filterBy.type //todo		
-								item.brief 	= item.description_short && item.description_short['en'] //todo
-								searchResults.storeItem(item)
-							})
+					.then(function(result){
+						result.items.forEach(function(item){
+							item.type 	= icFilterConfig.filterBy.type //todo		
+							item.brief 	= item.description_short && item.description_short['en'] //todo
+							searchResults.storeItem(item)
+						})
 
-							searchResults.offset += searchResults.limit
-							searchResults.stats = result.items[0] && result.items[0].statistics //todo
+						searchResults.offset 		+= 	searchResults.limit
+						searchResults.meta 			= 	result.items[0] && result.items[0].meta //todo
+						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0
 
-							searchResults.filterList()
-						}
-					)
+						searchResults.filterList()
+
+						searchResults.listCalls = searchResults.listCalls.filter(function(call){ return call != currentCall })
+					})
 		}
 
 
@@ -792,8 +804,8 @@ angular.module('InfoCompassModule',[
 
 			return 	currentCall
 					.then(
-						function(item){
-							searchResults.storeItem(item)
+						function(result){
+							searchResults.storeItem(result.item)
 						}
 					)
 		}
@@ -833,8 +845,11 @@ angular.module('InfoCompassModule',[
 		}
 
 		searchResults.filterList = function(additional_filters){
-			var filters 	= angular.merge({}, icFilterConfig.filterBy, additional_filters),
-				search_term	= icFilterConfig.searchTerm
+
+			if(additional_filters) console.warn('additional filters no longer supported')
+
+			// var filters 	= angular.merge({}, icFilterConfig.filterBy, additional_filters),
+			// 	search_term	= icFilterConfig.searchTerm
 
 			
 			while(searchResults.filteredList.length > 0) searchResults.filteredList.pop()
@@ -844,14 +859,15 @@ angular.module('InfoCompassModule',[
 				.filter(function(item){
 					var passed = true
 
-					for(var key in filters){
-						passed = passed && (!filters[key] || item[key] == filters[key])
+					for(var key in icFilterConfig.filterBy){
+						passed = passed && icFilterConfig.matchFilter(key, item[key], true)
 					}
+
 					return passed		
 				})					
 				.filter(function(item){
 					//TODO prevent cycles
-					return deepSearch(item, search_term.replace(/(^\s*|\s*$)/,''))
+					return deepSearch(item, icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,''))
 				})
 			)
 
@@ -945,7 +961,8 @@ angular.module('InfoCompassModule',[
 				var shuttle		= element.find('div').eq(0),
 					bumper 		= angular.element('<div class = "bumper"></div>'),
 					bumping		= false,
-					scroll_stop = null
+					scroll_stop = null,
+					ignore_next_scroll = false
 
 				element.append(bumper)
 			
@@ -954,25 +971,54 @@ angular.module('InfoCompassModule',[
 					element.css('position', 'relative')
 
 				shuttle.css({
-					'min-height':			'100%'
+					'min-height':			'100%',
+					'transform': 			'translateY(0px)',
+					'transition-property':	'transform',
 				})
 
 				bumper.css({
 					'padding':				'0',
 					'height': 				'50%',
 					'width':				'auto',
-					'transition-property':	'height',
-					'transition-duration':	'0ms',
-					'will-change':			'height'
 				})
 
 				function reset(){
 					bumping = false
 
-					// bumper.css({
-					// 	'height': 				'50%',
-					// 	'transition-duration':	'0ms'
-					// })
+					var client_height	= element[0].clientHeight,
+						scroll_top		= element[0].scrollTop,
+						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
+						overflow		= bottom - scroll_top - client_height
+
+
+					if(overflow < 0){
+
+						function swap(e){
+							if(e.originalTarget != shuttle[0]) return null
+
+							shuttle.css({
+								'transform': 			'translateY(0px)',
+								'transition-duration':	'0ms'
+							})
+
+							element[0].scrollTop += overflow
+							ignore_next_scroll = true
+
+							shuttle.off('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', swap)
+
+						}
+
+						shuttle.on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', swap)
+
+
+						window.requestAnimationFrame(function(){
+							shuttle.css({
+								'transition-duration':	'1000ms',
+								'transform':			'translateY('+(-overflow)+'px)'
+							})
+						})
+					}
+					
 				}
 
 				function bump(){
@@ -980,33 +1026,28 @@ angular.module('InfoCompassModule',[
 					var client_height	= element[0].clientHeight,
 						scroll_top		= element[0].scrollTop,
 						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
-						overflow		= (bottom - scroll_top)/client_height
+						overflow		= bottom - scroll_top - client_height
 
-					if(overflow > 2) return null
+					if(overflow > client_height) return null
 
 					if(!bumping) scope.$broadcast('icScrollBump')
 					bumping = true
-
-					if(overflow > 0.9) return null
-
-					// bumper.css({
-					// 	'height': 				'0%',
-					// 	'transition-duration':	'1200ms'
-					// })
+				
 				}
 
 
 				element.on('scroll', function(event){
+					if(ignore_next_scroll){
+						ignore_next_scroll = false
+						return null
+					}
 
 					$window.requestAnimationFrame(bump)
 
 
 					if(scroll_stop) $timeout.cancel(scroll_stop)
-					scroll_stop = $timeout(function(){ reset()}, 600, false)
+					scroll_stop = $timeout(reset, 200, false)
 
-					// window.requestAnimationFrame(function(){
-					// 	bumper.css('padding-top', Math.max(0, element[0].clientHeight-shuttle[0].offsetHeight)+'px')
-					// })
 				})
 			},
 		}
@@ -1028,7 +1069,8 @@ angular.module('InfoCompassModule',[
 			scope:			{
 								icTitle:	"<",
 								icBrief: 	"<",
-								icType:		"<"
+								icType:		"<",
+								icTopic:	"<"
 							},
 
 			link: function(scope, element, attrs){
@@ -1105,13 +1147,23 @@ angular.module('InfoCompassModule',[
 
 
 .filter('icIcon', function(){
-	return 	function(str){
+	return 	function(str, color){
+			var c = color ?  'color' : 'white'
+
 			switch(str){
-				case 'information': return "images/icon_type_information.svg"; 	break;
-				case 'events':		return "images/icon_type_events.svg";		break;
-				case 'places':		return "images/icon_type_places.svg";		break;
-				case 'services':	return "images/icon_type_services.svg";		break;
-				default:			return "images/logo.svg";					break
+				case 'information': return "/images/icon_type_information_"+c+".svg"; 		break;
+				case 'events':		return "/images/icon_type_events_"+c+".svg";				break;
+				case 'places':		return "/images/icon_type_places_"+c+".svg";				break;
+				case 'services':	return "/images/icon_type_services_"+c+".svg";			break;
+
+				case 'city':		return "/images/icon_topic_city_"+c+".svg";			break;
+				case 'education':	return "/images/icon_topic_education_"+c+".svg";	break;
+				case 'encounters':	return "/images/icon_topic_encounters_"+c+".svg";	break;
+				case 'health':		return "/images/icon_topic_health_"+c+".svg";		break;
+				case 'leisure':		return "/images/icon_topic_leisure_"+c+".svg";		break;
+				case 'work':		return "/images/icon_topic_work_"+c+".svg";			break;
+
+				default:			return "/images/icon_nav_close.svg";				break;
 			}
 		}
 })
@@ -1206,7 +1258,7 @@ angular.module('InfoCompassModule',[
 
 					active
 					?	element.addClass('active')
-					:	to = $timeout(function(){ element.removeClass('active') }, 500, false)
+					:	to = $timeout(function(){ element.removeClass('active') }, 1000, false)
 				})
 			}
 		}
@@ -1244,6 +1296,26 @@ angular.module('InfoCompassModule',[
 									?	'filter'
 									:	false
 				}
+			}
+		}
+	}
+])
+
+
+.directive('icQuickFilter', [
+
+	'icFilterConfig',
+	'icConfigData',
+
+	function(icFilterConfig, icConfigData){
+		return {
+			restrict: 		'AE',
+			templateUrl:	'partials/ic-quick-filter.html',
+			scope:			{},
+
+			link: function(scope, element,attrs){
+				scope.icFilterConfig 	= icFilterConfig
+				scope.icConfigData 		= icConfigData
 			}
 		}
 	}

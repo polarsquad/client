@@ -43,8 +43,7 @@ angular.module('icApi', [])
 			}
 
 
-
-			api.getList = function(limit, offset, filter){
+			api.getList = function(limit, offset, filter, search){
 
 				var params = 	angular.merge({
 									limit:		limit,
@@ -53,6 +52,13 @@ angular.module('icApi', [])
 								filter)
 
 				return	api.get('/items', params)
+						.then(function(result){
+							return 	api.get('/search', params)				
+									.then(function(result_search){
+										Array.prototype.push.apply(result.items, result_search.items)
+										return result
+									})
+						})
 			}
 
 			api.getItem = function(id){

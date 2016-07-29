@@ -2,7 +2,7 @@
 	<button
 		type		= "button"	
 		class 		= "icon-nav-menu"
-		ng-click	= "icSite.updatePath({item: undefined, t: undefined, s:undefined})"
+		ng-click	= "icFilterConfig.clearFilter()"
 	></button>
 
 	<div 
@@ -31,6 +31,6 @@
 	<button 
 		type		= "button"
 		ng-class 	= "{'icon-nav-search': !showSearch, 'icon-nav-close': showSearch}"
-		ng-click 	= "showSearch = !showSearch; icFilterConfig.searchTerm = undefined"
+		ng-click 	= "showSearch = !showSearch; icFilterConfig.searchTerm = ''"
 	></button>
 </div>

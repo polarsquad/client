@@ -1,11 +1,3 @@
-<div>
-	<span
-		ng-repeat = "(key, value) in icSearchResults.stats"
-	>
-		{{key}}:{{value}}
-	</span>
-</div>
-
 <a
 	ng-repeat	= "item in icSearchResults.filteredList"
 	ng-href		= "#{{::icHref({itemId:item.id})}}"
@@ -15,11 +7,13 @@
 	<ic-preview-item
 		ic-title 	= "::item.title"
 		ic-brief	= "::item.brief"
+		ic-topic	= "::item.topic"
 		ic-type		= "::item.type"
 		ng-class	= "{active: icActive({itemId: item.id})}"
 	>
 	</ic-preview-item>
 </a>
 
+<div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">no more items</div>
 <ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 

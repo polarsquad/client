@@ -1,18 +1,11 @@
-<ic-local-header>
-	<div
-		ng-if = "true || cFilterConfig.filterBy.category"
-		class = "category-filter"
-	>
-			{{icFilterConfig.filterBy.category || 'test'}}({{42}})
-	</div>
-
-</ic-local-header>
-
 
 <ic-filter-interface
 	ng-if = "icShowFilter"
 >
 </ic-filter-interface>
+
+<ic-quick-filter>
+</ic-quick-filter>
 
 
 <ic-search-result-list

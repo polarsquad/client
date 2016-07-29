@@ -1,11 +1,9 @@
-
-<div ng-show = "icSearchResults.itemLoading(icId)">
-	loading ...
-</div>
+<h2>{{ item.title }}</h2>
 
 <div class ="image" style = "background-image:url({{item.image_url}})"></div>
 
-<h2>{{ item.title }}</h2>
+<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+
 <p>{{ item.brief }}</p>
 
 
@@ -14,7 +12,7 @@
 	{{"ITEM.CAT_"+category}},
 </a>
 <p>
-	{{item.details }}
+	{{item.description_full['en']}}
 </p>
 
 <hr/>
@@ -24,6 +22,15 @@
 	ng-if		= "item[key]"
 	ic-title 	= "'ITEM_INFO_'+key"
 	ic-content	= "item[key]"
+	ic-icon		= "'images/icon_'+key+'.svg'"
+>
+</ic-info-tag>
+
+<ic-info-tag
+	ng-repeat	= "key in ['name', 'phone', 'email']"
+	ng-if		= "item.contacts && item.contacts[key]"
+	ic-title 	= "'ITEM_INFO_'+key"
+	ic-content	= "item.contacts[key]"
 	ic-icon		= "'images/icon_'+key+'.svg'"
 >
 </ic-info-tag>

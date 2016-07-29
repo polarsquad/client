@@ -67,7 +67,12 @@ ic-header .category-filter {
 
 
 
+/* Workaround, TODO */
 
+ic-section-list {
+	box-shadow:				0 0 0 1rem #fff;
+	background-color:		#fff;
+}
 
 
 
@@ -175,7 +180,7 @@ ic-header .category-filter {
 .tiles {
 	display:				block;
 	white-space: 			normal;
-	line-height:			14rem;
+	line-height:			10rem;
 	margin:					-0.5rem -1rem;
 	text-align:				center;
 }
@@ -211,8 +216,8 @@ ic-header .category-filter {
 	position:				relative;
 	display:				inline-block;
 	margin:					0.5rem;
-	width:					13rem;
-	height:					13rem;
+	width:					21rem;
+	height:					10rem;
 	vertical-align:			top;
 	text-align:				left;
 	line-height:			initial;
@@ -225,15 +230,16 @@ ic-header .category-filter {
 }
 
 [ic-tile] .background.image {
+	display:				none;
 	background-size:		cover;
 	background-position:	50% 50%;
 	opacity:				0.5;
-	filter: 				grayscale(100%);
+	/*filter: 				grayscale(100%);*/
 }
 
 [ic-tile] .background.icon {
 	background-size:		6rem auto;
-	background-position:	50% 2rem;
+	background-position:	50% 1rem;
 }
 
 [ic-tile] .content {
@@ -304,6 +310,23 @@ ic-search-result-list .result-group {
 	cursor:					pointer;
 }
 
+
+ic-search-result-list .no-more-items {
+	display:				block;
+	text-align:				center;
+	line-height:			5rem;
+}
+
+ic-search-result-list .no-more-items:before,
+ic-search-result-list .no-more-items:after {
+	content:				'';
+	display:				inline-block;
+	height:					1px;
+	width:					4rem;
+	vertical-align:			middle;
+	background-color:		#000;
+	margin:					1rem;
+}
 
 ic-search-result-list ic-preview-item {
 	position:				relative;
@@ -557,11 +580,17 @@ ic-filter-interface .panel {
 	background:				#eee;
 }
 
+ic-filter-interface .panel > div {
+	display:				flex;
+	flex-wrap:				wrap;
+}
+
 ic-filter-interface .panel a {
 	display:				block;
 	line-height:			3rem;
 	padding-left:			1rem;
 	cursor:					pointer;
+	flex:					1 0 5rem;
 	
 	-webkit-user-select:	none;
 	-moz-user-select: 		none;
@@ -585,3 +614,35 @@ ic-filter-interface .panel.filter a{
 	background-size:		2rem;
 	background-repeat:		no-repeat;
 } 
+
+
+
+
+
+
+
+
+
+ic-quick-filter {
+	display:			flex;
+}
+
+ic-quick-filter a {
+	height:				3rem;
+	flex:				1 0 1rem;
+	border-bottom:		0.3rem solid transparent;
+	background-position:50% 50%;
+	background-size:	contain;
+	background-repeat:	no-repeat;
+	cursor:				pointer;
+}
+
+
+ic-quick-filter a:not(.active) {
+	border-color:		transparent !important;	
+}
+
+ic-quick-filter a:active{
+	border-color:		#ccc !important;	
+	background-color:	transparent !important;
+}

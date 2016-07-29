@@ -38,6 +38,7 @@ body > #content {
 	left:					0;
 	right:					0;
 	white-space: 			nowrap;
+	overflow:				hidden;
 }
 
 
@@ -62,7 +63,6 @@ body > #content {
 	margin:					0 auto;
 	overflow:				hidden;
 	padding:				1rem;
-	padding-top:			4rem;
 }
 
 

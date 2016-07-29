@@ -82,13 +82,25 @@ Todo:
 
 * Vergleichsangebot?
 * s.o.
-* Params mit array parsen
+* full Item
 
 
 Done
 * spacer an/aus im header
+* search (so halb)
+* filter sortieren
+* scroll_bump/page loading 
+* no more items
+* Params mit array parsen
+* types
+* topics
 
 
 Info
 
 API setup call unter /init
+
+Fragen:
+
+* Information doppelt
+* item in item
