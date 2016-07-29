@@ -1,0 +1,9 @@
+<a 
+		ng-repeat 	= "type in ::icConfigData.types"
+		ng-click 	= "icFilterConfig.toggleFilter('type', type.ontology_uri)" 
+		ng-class 	= "{'active' : icFilterConfig.matchFilter('type', type.ontology_uri)}"
+		class		= "border-{{::type.ontology_uri | icColor}}"
+		style		= "background-image: url({{::type.ontology_uri | icIcon : true}});"
+>
+		
+</a>
