@@ -1,7 +1,6 @@
 "use strict";
 
 angular.module("InfoCompass",[
-	'ngAnimate',
 	'lcEvents',
 	'InfoCompassModule',
 ])
@@ -20,7 +19,7 @@ angular.module("InfoCompass",[
 	'$rootScope',
 
 	function($rootScope){
-		$rootScope.Mock = new Mock()
+		$rootScope.Mock = new Mock() //todo
 	}
 ])
 

@@ -82,7 +82,7 @@ Todo:
 
 * Vergleichsangebot?
 * s.o.
-* full Item
+* listenansicht verzögern für ladeicon
 
 
 Done
@@ -94,13 +94,19 @@ Done
 * Params mit array parsen
 * types
 * topics
+* full Item
 
 
 Info
 
 API setup call unter /init
 
+
+
+
+
 Fragen:
 
 * Information doppelt
 * item in item
+* serach und filterzusammen
