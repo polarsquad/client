@@ -82,7 +82,8 @@ Todo:
 
 * Vergleichsangebot?
 * s.o.
-* listenansicht verzögern für ladeicon
+* swipe verbessern und für desktop anpassen
+* swipe nachladen
 
 
 Done
@@ -95,7 +96,10 @@ Done
 * types
 * topics
 * full Item
-
+* peformance für die listen ansicht ordentlich verbessert!
+-> Vergleichsangebot, Bruder der Koordinatorin
+* listenansicht verzögern für ladeicon
+* swipe für fullItems (prototyp)
 
 Info
 
@@ -109,4 +113,5 @@ Fragen:
 
 * Information doppelt
 * item in item
-* serach und filterzusammen
+* search und filterzusammen
+* single item: "item" im result

@@ -1,3 +1,6 @@
+"use strict";
+
+
 angular.module('icDirectives', [
 	'icServices'
 ])
@@ -46,15 +49,17 @@ angular.module('icDirectives', [
 .directive('icSectionItem',[
 	
 	'icSite',
+	'icSearchResults',
 
-	function(icSite){
+	function(icSite, icSearchResults){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-item.html",
 			scope:			{},
 
 			link: function(scope, element, attrs){
-				scope.icSite = icSite
+				scope.icSite 			= icSite
+				scope.icSearchResults 	= icSearchResults
 			}
 		}
 	}
@@ -279,7 +284,7 @@ angular.module('icDirectives', [
 						shuttle.off('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', swap)
 
 					}
-					
+
 					if(overflow < 0){
 
 
@@ -375,7 +380,6 @@ angular.module('icDirectives', [
 				scope.icSearchResults = icSearchResults
 
 				scope.$watch('icId', function(id){
-					if(!id) return null
 					scope.item = icSearchResults.getItem(id)
 					icSearchResults.downloadItem(id)
 				})
@@ -591,6 +595,181 @@ angular.module('icDirectives', [
 			link: function(scope, element,attrs){
 				scope.icFilterConfig 	= icFilterConfig
 				scope.icConfigData 		= icConfigData
+			}
+		}
+	}
+])
+
+
+
+.directive('icTriplet', [
+
+	'$timeout',
+	'$compile',
+	'icSite',
+	'icSearchResults',
+
+	function($timeout, $compile, icSite, icSearchResults){
+		return {
+			restrict:	"AE",
+			scope:		{
+							icId:	"<"
+						},
+			template:	'<div class ="shuttle">'+
+						'</div>',	
+
+			link: function(scope, element, attrs, ctrl){
+
+				var previous_item, current_item, next_item,
+					width,
+					shuttle = element.find('div').eq(0)
+
+
+
+				previous_item		= $compile('<ic-full-item ic-id = "previousId">	</ic-full-item>')(scope)
+				current_item 		= $compile('<ic-full-item ic-id = "currentId">	</ic-full-item>')(scope)
+				next_item 			= $compile('<ic-full-item ic-id = "nextId">		</ic-full-item>')(scope)
+
+				scope.$watch('icId', function(id){
+					scope.previousId	= icSearchResults.getPreviousId(id)
+					scope.currentId 	= id
+					scope.nextId		= icSearchResults.getNextId(id)
+				})
+
+				scope.$watch(
+					function(){ return icSearchResults.filteredList.length},
+					function(){
+						scope.previousId	= icSearchResults.getPreviousId(scope.currentId)
+						scope.nextId		= icSearchResults.getNextId(scope.currentId)
+					}
+				)
+
+
+				element.css({
+					display:			'block'
+				})
+
+				width = element[0].clientWidth
+
+				element.css({
+					width:				width+'px',
+					overflowX:			'scroll'
+				})
+
+				shuttle.css({
+					display:			'inline-block',
+					whiteSpace:			'nowrap',
+					transition:			'transform 0 ease-in',
+				})
+
+				element.append(shuttle)
+
+				shuttle
+				.append(previous_item)
+				.append(current_item)
+				.append(next_item)
+
+				shuttle.children()
+				.css({
+					display:			'inline-block',
+					width:				width+'px',
+					verticalAlign:		'top',
+					whiteSpace:			'normal'
+				})	
+				
+
+				var scroll_stop 		= undefined,
+					ignore_next_scroll 	= true
+
+				element[0].scrollLeft 	= width
+
+				function swap(e){
+					//if(e.originalTarget != shuttle[0]) return null
+
+					console.log('swap')
+
+					var matches 	=	shuttle.css('transform').match(/\((.*)px\)/),
+						translateX 	= 	matches ? Number(matches[1]) : 0,
+						scroll_to	=	element[0].scrollLeft - translateX
+
+					ignore_next_scroll = true
+					element[0].scrollLeft = scroll_to
+
+					shuttle.css({
+						'transform':			'translateX(0px)',
+						'transition-duration':	'0ms'
+					})	
+
+					if(scope.snapTo == 'next'){
+						scope.previousId		= scope.currentId
+						scope.currentId			= scope.nextId
+						scope.nextId			= icSearchResults.getNextId(scope.nextId)
+						ignore_next_scroll		= true
+						element[0].scrollLeft 	= width
+						scope.$digest()
+						$timeout(function(){ icSite.updatePath({item: scope.currentId}) } , 100)
+					}
+
+					if(scope.snapTo == 'previous'){
+						scope.nextId			= scope.currentId
+						scope.currentId			= scope.previousId
+						scope.previousId		= icSearchResults.getNextId(scope.previousId)
+						ignore_next_scroll		= true
+						element[0].scrollLeft 	= width
+						scope.$digest()
+						$timeout(function(){ icSite.updatePath({item: scope.currentId}) } , 100)
+					}
+				}
+
+				function snap() {	
+					console.log('snap')
+					var scroll_left 	= element[0].scrollLeft,
+						scroll_width	= shuttle[0].scrollWidth
+						
+					scope.snapTo = 'current'
+
+
+
+					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousId 	? 'previous' 	: 'current'
+					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextId		? 'next'		: 'current'
+
+					var scroll_to 	= 	{
+											previous:	0,
+											current:	width,
+											next:		2*width
+										}[scope.snapTo],		
+
+						distance 	= 	scroll_left - scroll_to,
+						duration	=	Math.abs(distance/width) * 400
+
+
+					shuttle.css({
+						'transform':			'translateX('+distance+'px)',
+						'transition-duration':	duration+'ms'
+					})
+
+
+
+					//shuttle.on('transitionend webkitTransitionEnd oTransitionEnd', swap)
+					$timeout(swap, duration, false)
+				}
+
+				element.on('touchstart', function(){
+					var scroll_left = element[0].scrollLeft
+					
+					console.log('mousedown', scroll_left, width)
+
+					if(scroll_left == 0 || scroll_left == 2*width) snap()
+				})
+
+				element.on('scroll', function(e){
+					e.stopPropagation()
+					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+					if(scroll_stop) $timeout.cancel(scroll_stop)
+
+					scroll_stop = 	$timeout(snap, 200)
+				})
+
 			}
 		}
 	}

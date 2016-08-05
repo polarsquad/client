@@ -667,3 +667,23 @@ ic-quick-filter a:active{
 	border-color:		#ccc !important;	
 	background-color:	transparent !important;
 }
+
+
+
+
+
+
+
+
+
+ic-triplet {
+	margin:				0 -1rem;
+}
+
+ic-triplet .shuttle > * {
+	box-sizing:			border-box;
+	padding:			0 1rem;
+}
+
+
+

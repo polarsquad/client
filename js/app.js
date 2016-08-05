@@ -1,7 +1,6 @@
 "use strict";
 
 angular.module("InfoCompass",[
-	'lcEvents',
 	'InfoCompassModule',
 ])
 

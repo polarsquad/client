@@ -64,10 +64,10 @@ angular.module('InfoCompassModule',[
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
 		$scope.icConfigData		= icConfigData 
 
-		$scope.$watch(function(){
-			// console.log('digest!')
-			// console.log($scope)
-		})
+		// $scope.$watch(function(){
+		// 	console.log('digest!')
+		// 	console.dir($scope.$$watchers)
+		// })
 	}
 
 ])

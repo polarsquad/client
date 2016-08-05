@@ -1,5 +1,10 @@
 
-	<button ng-click = "icSite.updatePath({item: undefined})"> close </button>
+<button ng-click = "icSite.updatePath({item: undefined}, 'replace')"> close </button>
 
-<ic-full-item ic-id = "icSite.params.item">
-</ic-full-item>
+{{icSite.params.item}}
+
+
+<ic-triplet
+	ic-id = "icSite.params.item"
+>	
+</ic-triplet>

@@ -31,7 +31,10 @@ angular.module('icServices', [
 	'icApi',
 
 	function(icApi){
-		var icConfigData = {}
+		var icConfigData = 	{
+								types:	[],
+								topics:	[]
+							}
 
 
 		icConfigData.getTypeById = function(id){
@@ -319,8 +322,6 @@ angular.module('icServices', [
 
 			icSite.updateCompontents()
 
-			prevent_location_change = true
-
 			return this
 		}
 
@@ -418,8 +419,8 @@ angular.module('icServices', [
 		
 		icSite.updateFromPath()
 
-		$rootScope.$on('$locationChangeStart', 					icSite.updateFromPath)
-		$rootScope.$watch(function(){ return icFilterConfig }, 	prevent_location_change && icSite.addFilterParamsToPath, true)
+		$rootScope.$on('$locationChangeSuccess', 				icSite.updateFromPath)
+		$rootScope.$watch(function(){ return icFilterConfig }, 	icSite.addFilterParamsToPath, true)
 
 		return icSite
 	}
@@ -524,6 +525,7 @@ angular.module('icServices', [
 			return 	currentCall
 					.then(function(result){
 						result.items.forEach(function(item){
+							item.id 	= String(item.id)
 							item.type 	= icFilterConfig.filterBy.type //todo		
 							item.brief 	= item.description_short && item.description_short['en'] //todo
 							searchResults.storeItem(item)
@@ -552,6 +554,7 @@ angular.module('icServices', [
 
 
 		searchResults.downloadItem = function(id){
+			if(!id) return $q.reject('missing id')
 
 			var currentCall = icApi.getItem(id)
 
@@ -561,12 +564,20 @@ angular.module('icServices', [
 			return 	currentCall
 					.then(
 						function(result){
-							searchResults.storeItem(result.item)
+							var item = result.item
+
+							item.id 	= String(item.id)
+							item.type 	= icFilterConfig.filterBy.type //todo		
+							item.brief 	= item.description_short && item.description_short['en'] //todo
+
+							searchResults.storeItem(item)
 						}
 					)
 		}
 
 		searchResults.getItem = function(id){
+			if(!id) return null
+
 			var stored_item = searchResults.data.filter(function(item){ return item.id == id })[0] 
 
 			if(!stored_item){
@@ -600,6 +611,10 @@ angular.module('icServices', [
 			return false
 		}
 
+		searchResults.clearFilteredList = function(){
+			while(searchResults.filteredList.length > 0) searchResults.filteredList.pop()
+		}
+
 		searchResults.filterList = function(additional_filters){
 
 			if(additional_filters) console.warn('additional filters no longer supported')
@@ -607,8 +622,7 @@ angular.module('icServices', [
 			// var filters 	= angular.merge({}, icFilterConfig.filterBy, additional_filters),
 			// 	search_term	= icFilterConfig.searchTerm
 
-			
-			while(searchResults.filteredList.length > 0) searchResults.filteredList.pop()
+			searchResults.clearFilteredList()			
 
 			Array.prototype.push.apply(searchResults.filteredList, 
 				searchResults.data
@@ -632,17 +646,48 @@ angular.module('icServices', [
 
 		}
 
+		searchResults.getPreviousId = function(id){
+			var pos = false,
+				i	= 0
+
+
+			while(pos === false && i < searchResults.filteredList.length){
+				pos = (searchResults.filteredList[i].id == id) && i
+				i++
+			}
+
+
+			return 	pos !== false && searchResults.filteredList[pos-1] && searchResults.filteredList[pos-1].id
+		}
+
+		searchResults.getNextId = function(id){
+			var pos = false,
+				i	= 0
+
+			while(pos === false && i < searchResults.filteredList.length){
+				pos = (searchResults.filteredList[i].id == id) && i
+				i++
+			}
+
+			return 	pos !== false && searchResults.filteredList[pos+1] && searchResults.filteredList[pos+1].id
+		}
+
+
+
 		$rootScope.$watch(
 			function(){ return icFilterConfig }, 
 			function(){ 
+
 				searchResults.offset = 0
 
-				searchResults
-				.filterList()
-				.download()
-				.then(function(){
-					searchResults.filterList()
-				})	
+				searchResults.clearFilteredList()
+
+				//with this the interface feels snappier:
+				$timeout(function(){
+					searchResults
+					.filterList()
+					.download()
+				}, 0)
 			},
 			true
 		)
@@ -665,7 +710,11 @@ angular.module('icServices', [
 function mergeParam(ce, ne, mode){
 
 
-	if(ne === null || ne === undefined || ne === '') return null
+	if(ne === null || ne === undefined || ne === ''){
+		return 	mode == 'replace'
+				?	typeof ce == 'object' ? [] : ''
+				:	ce
+	} 
 
 	if(typeof ce == 'object'){
 
@@ -700,14 +749,9 @@ function mergeParam(ce, ne, mode){
 		ce = String(ce)
 
 		return 	mode == 'toggle' && ne == ce
-				?	null
+				?	''
 				:	ne
 	}
 
 }
 
-
-function copyArray(target, source){
-	while(target.length > 0) target.pop()
-	Array.prototype.push.apply(target, source)
-}
