@@ -22,7 +22,7 @@ angular.module('InfoCompassModule',[
 		smlLayoutProvider.setModes([			
 			{
 				name:		'XS',	
-				width: 		23,
+				width: 		20,
 				stretch:	true
 			},	
 			{

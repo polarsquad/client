@@ -73,6 +73,8 @@ body > #content {
 
 #content > section {
 	overflow-y:				scroll;
+
+	-webkit-overflow-scrolling: touch;
 }
 
 .scrollbar-takes-space #content > section {
@@ -81,10 +83,14 @@ body > #content {
 
 .scrollbar-takes-space #content > section:hover {
 	overflow-y:				scroll;
+
+	-webkit-overflow-scrolling: touch;
 }
 
 .XS #content > section {
 	overflow-y:				scroll;
+	
+	-webkit-overflow-scrolling: touch;
 }
 
 

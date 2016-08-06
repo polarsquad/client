@@ -84,6 +84,7 @@ Todo:
 * s.o.
 * swipe verbessern und für desktop anpassen
 * swipe nachladen
+* swipr resize!
 
 
 Done
@@ -96,7 +97,7 @@ Done
 * types
 * topics
 * full Item
-* peformance für die listen ansicht ordentlich verbessert!
+* performance für die listen ansicht ordentlich verbessert!
 -> Vergleichsangebot, Bruder der Koordinatorin
 * listenansicht verzögern für ladeicon
 * swipe für fullItems (prototyp)
@@ -115,3 +116,9 @@ Fragen:
 * item in item
 * search und filterzusammen
 * single item: "item" im result
+
+
+Todo
+* Roboto
+* xs 20 Rrem
+* transitioend webkit stresst

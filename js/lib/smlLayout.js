@@ -159,7 +159,11 @@ var cdL = angular.module('smlLayout', [])
 							if($window.innerWidth == last_width) return null
 							$window.requestAnimationFrame(smlLayout.adjust)
 							last_width = $window.innerWidth
+							smlLayout.defaultWidth = last_width
 						})
+					
+						smlLayout.defaultWidth = $window.innerWidth //todo
+
 
 						$rootScope.smlLayout = smlLayout
 

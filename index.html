@@ -13,7 +13,7 @@
 	<head>
 
 		<meta charset="utf-8">		
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
 		<link type="text/css" rel="stylesheet" href="styles/layout.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/typography_and_colors.css"></link>
@@ -58,10 +58,14 @@
 			no-text-nodes 
 		>
 
+
 			<section 
 				class 	=	"page"
 				ng-if	=	"icSite.show('page')"
 			>
+			<pre>
+
+			</pre>
 			 	<div ng-include = "icSite.pageUrl"></div>
 		 	</section>
 
