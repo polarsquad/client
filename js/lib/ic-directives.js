@@ -48,17 +48,17 @@ angular.module('icDirectives', [
 
 .directive('icSectionItem',[
 	
-	'icSite',
 	'icSearchResults',
 
-	function(icSite, icSearchResults){
+	function(icSearchResults){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-item.html",
-			scope:			{},
+			scope:			{
+								icId:	"<"
+							},
 
 			link: function(scope, element, attrs){
-				scope.icSite 			= icSite
 				scope.icSearchResults 	= icSearchResults
 			}
 		}
@@ -124,8 +124,9 @@ angular.module('icDirectives', [
 	'icFilterConfig',
 	'icHeaders',
 	'icSite',
+	'icOverlays',
 
-	function($rootScope, icFilterConfig, icHeaders, icSite){
+	function($rootScope, icFilterConfig, icHeaders, icSite, icOverlays){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-header.html",
@@ -221,7 +222,7 @@ angular.module('icDirectives', [
 
 
 
-
+//TDOD Bump stört wenn nachgeladen wird: anders lösen, bump weglassen
 .directive('icScrollBump', [
 
 	'$timeout',
@@ -267,11 +268,11 @@ angular.module('icDirectives', [
 					var client_height	= element[0].clientHeight,
 						scroll_top		= element[0].scrollTop,
 						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
-						overflow		= bottom - scroll_top - client_height
+						overflow		= bottom - scroll_top - client_height,
+						duration 		= 800
 
 
-					function swap(e){
-						if(e.originalTarget != shuttle[0]) return null
+					function swap(){
 
 						shuttle.css({
 							'transform': 			'translateY(0px)',
@@ -281,19 +282,17 @@ angular.module('icDirectives', [
 						element[0].scrollTop += overflow
 						ignore_next_scroll = true
 
-						shuttle.off('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', swap)
 
 					}
 
 					if(overflow < 0){
 
 
-						shuttle.on('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', swap)
-
 
 						window.requestAnimationFrame(function(){
+							$timeout(swap, duration, false)
 							shuttle.css({
-								'transition-duration':	'1000ms',
+								'transition-duration':	duration+'ms',
 								'transform':			'translateY('+(-overflow)+'px)'
 							})
 						})
@@ -412,6 +411,33 @@ angular.module('icDirectives', [
 
 
 
+
+
+
+.directive('icLanguageMenu', [
+
+	'icLanguageConfig',
+
+	function(icLanguageConfig){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-language-menu',
+			scope:			{},
+
+			link: function(scope, element){				
+				scope.icLanguageConfig = icLanguageConfig
+			}
+		}
+	}
+
+])
+
+
+
+
+
+
+
 .filter('icColor', function(){
 	return 	function(str){
 				switch(str){
@@ -446,6 +472,33 @@ angular.module('icDirectives', [
 			}
 		}
 })
+
+
+
+.filter('icAddParameters',[
+
+	'icSite',
+
+	function(icSite){
+		return function(params){
+			if(typeof params == 'string') params = icsite.path2params(param)
+			return icSite.getNewPath(params, 'add')
+		}
+	}
+])
+
+
+.filter('icToggleParameters',[
+
+	'icSite',
+
+	function(icSite){
+		return function(params){
+			if(typeof params == 'string') params = icsite.path2params(param)
+			return icSite.getNewPath(params, 'toggle')
+		}
+	}
+])
 
 
 
@@ -660,6 +713,7 @@ angular.module('icDirectives', [
 					display:			'inline-block',
 					whiteSpace:			'nowrap',
 					transition:			'transform 0 ease-in',
+					'will-change':		'scroll-position transform', 
 				})
 
 				element.append(shuttle)
@@ -679,50 +733,49 @@ angular.module('icDirectives', [
 				
 
 				var scroll_stop 		= undefined,
-					ignore_next_scroll 	= true
+					ignore_next_scroll 	= true,
+					slide_off			= false
 
 				element[0].scrollLeft 	= width
 
-				function swap(e){
-					//if(e.originalTarget != shuttle[0]) return null
-
-					console.log('swap')
-
-					var matches 	=	shuttle.css('transform').match(/\((.*)px\)/),
-						translateX 	= 	matches ? Number(matches[1]) : 0,
-						scroll_to	=	element[0].scrollLeft - translateX
+				function swap(){
 
 					ignore_next_scroll = true
-					element[0].scrollLeft = scroll_to
 
 					shuttle.css({
 						'transform':			'translateX(0px)',
 						'transition-duration':	'0ms'
 					})	
 
+
 					if(scope.snapTo == 'next'){
 						scope.previousId		= scope.currentId
 						scope.currentId			= scope.nextId
 						scope.nextId			= icSearchResults.getNextId(scope.nextId)
-						ignore_next_scroll		= true
-						element[0].scrollLeft 	= width
-						scope.$digest()
-						$timeout(function(){ icSite.updatePath({item: scope.currentId}) } , 100)
 					}
 
 					if(scope.snapTo == 'previous'){
 						scope.nextId			= scope.currentId
 						scope.currentId			= scope.previousId
-						scope.previousId		= icSearchResults.getNextId(scope.previousId)
-						ignore_next_scroll		= true
-						element[0].scrollLeft 	= width
-						scope.$digest()
-						$timeout(function(){ icSite.updatePath({item: scope.currentId}) } , 100)
+						scope.previousId		= icSearchResults.getPreviousId(scope.previousId)
 					}
+					
+					ignore_next_scroll		= true
+					element[0].scrollLeft 	= width
+
+					if(scope.snapTo != 'current'){
+						scope.$digest()
+						$timeout(function(){ 
+							icSite.updatePath({item: scope.currentId}) 
+							slide_off = false
+						} , 30, false)
+					}
+
 				}
 
 				function snap() {	
-					console.log('snap')
+
+
 					var scroll_left 	= element[0].scrollLeft,
 						scroll_width	= shuttle[0].scrollWidth
 						
@@ -749,28 +802,70 @@ angular.module('icDirectives', [
 					})
 
 
-
-					//shuttle.on('transitionend webkitTransitionEnd oTransitionEnd', swap)
 					$timeout(swap, duration, false)
 				}
 
-				element.on('touchstart', function(){
-					var scroll_left = element[0].scrollLeft
-					
-					console.log('mousedown', scroll_left, width)
 
-					if(scroll_left == 0 || scroll_left == 2*width) snap()
-				})
 
 				element.on('scroll', function(e){
 					e.stopPropagation()
+					
 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+
 					if(scroll_stop) $timeout.cancel(scroll_stop)
 
-					scroll_stop = 	$timeout(snap, 200)
+					if(slide_off) return null
+
+					scroll_stop = 	$timeout(snap, 100, false)
 				})
 
 			}
 		}
 	}
 ])
+
+
+
+.directive('icOverlays', [
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:	"AE",
+			templateUrl:"/partials/ic-overlays.html",
+			scope:		true,
+
+			link: function(scope, element, attrs, ctrl, transclude){
+				icOverlays.registerScope(scope)
+				scope.icOverlays = icOverlays
+			}
+				
+		}
+	}
+])
+
+
+.directive('icToggleOverlay',[
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:	"A",
+
+			link: function(scope, element, attrs){
+				element.on('click', function(e){
+					e.preventDefault()
+					e.stopImmediatePropagation()
+					icOverlays.toggle(attrs.icToggleOverlay)
+					icOverlays.$digest()
+				})
+
+			}
+		}
+	}
+])
+
+
+

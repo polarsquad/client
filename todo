@@ -119,6 +119,20 @@ Fragen:
 
 
 Todo
+* sprache
+* swipe verbessern (früher umschalten)a und paralax
+* Wenn keine items mehr da sind nicht nachladen
+* Modal zum Sprachaushandeln
+* API header richtig setzten
+* ic-directives entrümpelt 
+
+Done:
 * Roboto
-* xs 20 Rrem
-* transitioend webkit stresst
+* performance verbessert
+* overlays anlegen
+* Sprachmenu bauen
+
+
+
+Brauche:
+* weiße Icons für Overlay

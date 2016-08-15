@@ -13,16 +13,19 @@
 	<head>
 
 		<meta charset="utf-8">		
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<meta name="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
 
 		<link type="text/css" rel="stylesheet" href="styles/layout.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/typography_and_colors.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/partials.css"></link>
+		<link type="text/css" rel="stylesheet" href="styles/roboto.css"></link>
 
 		<script src="mock/mock.js"></script>
 
-		<script src="js/lib/angular.min.js">		</script>
-		<script src="js/lib/angular-animate.min.js"></script>
+		<script src="js/lib/angular.js">		</script>
+		<!-- <script src="js/lib/angular.min.js">		</script> -->
+
+		<script src="js/lib/angular-translate.min.js"	></script>
 
 		<script src="js/lib/smlLayout.js">			</script>
 
@@ -53,6 +56,8 @@
 			<ic-header></ic-header>
 		</header>
 
+		<ic-overlays ng-show = "icOverlays.active()"></ic-overlays>
+
 		<section 
 			id = "content"
 			no-text-nodes 
@@ -62,10 +67,7 @@
 			<section 
 				class 	=	"page"
 				ng-if	=	"icSite.show('page')"
-			>
-			<pre>
-
-			</pre>
+			>		
 			 	<div ng-include = "icSite.pageUrl"></div>
 		 	</section>
 
@@ -93,7 +95,12 @@
 		 		class 	= 	"item" 
 				ng-if	=	"icSite.show('item')"
 		 	>
-		 		<ic-section-item></ic-section-item>
+
+					<ic-section-item 
+						ic-id = "icSite.params.item"
+					>
+					</ic-section-item>
+
 		 	</section>
 
 		 </section>

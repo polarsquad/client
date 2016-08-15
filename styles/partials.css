@@ -687,3 +687,79 @@ ic-triplet .shuttle > * {
 
 
 
+
+
+
+/* overlays  */
+
+ic-overlays {
+	position:			fixed;
+	display:			block;
+	top:				0;
+	left:				0;
+	right:				0;
+	bottom:				0;
+	padding-left:		3rem;
+	overflow-x:			hidden;
+	overflow-y:			auto;
+	background:			rgba(0,0,0,0.5);
+	z-index:			99999;
+}
+
+
+ic-overlays > [ic-toggle-overlay] {
+	position:			absolute;
+	top:				0;
+	left:				0;
+	height:				3rem;
+	width:				3rem;
+	color:				white;
+	background:			transparent;
+}
+
+
+
+
+
+
+
+
+ic-language-menu {
+	display:			block;
+	min-height:			100%;
+	background-color:	#fff;
+	padding:			1rem;
+}
+
+ic-language-menu >  * {
+	display:			block;
+	line-height:		3rem;
+	box-shadow:			0 1px 0 rgba(0,0,0,0.3);
+}
+
+ic-language-menu >  header {
+	padding:			0 1rem;
+}
+
+
+ic-language-menu > a > * {
+	display:			inline-block;
+	vertical-align:		top;
+}
+
+ic-language-menu > a > .icon {
+	height:				3rem;
+	width:				3rem;
+	background-position:50% 50%;
+	background-repeat:	no-repeat;
+	background-size:	2rem;
+}
+
+ic-language-menu > a > .native {
+	width:				6rem;
+}
+
+ic-language-menu > a > .translation {
+	width:				6rem;
+}
+

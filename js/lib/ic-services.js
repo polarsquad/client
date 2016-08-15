@@ -31,9 +31,11 @@ angular.module('icServices', [
 	'icApi',
 
 	function(icApi){
+
 		var icConfigData = 	{
 								types:	[],
-								topics:	[]
+								topics:	[],
+								availableLanguages: []
 							}
 
 
@@ -56,8 +58,9 @@ angular.module('icServices', [
 
 		icConfigData.ready	=	icApi.getConfigData()
 								.then(function(result){
-									icConfigData.types 		= result.types
-									icConfigData.topics 	= result.topics
+									icConfigData.types 				= result.types
+									icConfigData.topics 			= result.topics
+									icConfigData.availableLanguages = result.languages 
 
 									icConfigData.types.forEach(function(type){
 										type.icon_url = '/images/'+type.ontology_uri+'.svg'
@@ -169,6 +172,41 @@ angular.module('icServices', [
 
 
 
+.service('icLanguageConfig', [
+
+	'icConfigData',
+
+	function(icConfigData){
+
+		var icLanguageConfig = 	{
+									availableLanguages:	[],
+									currentLanguage:	undefined		
+								}
+
+
+		icConfigData.ready
+		.then(function(){
+			icLanguageConfig.availableLanguages = icConfigData.availableLanguages
+		})
+
+
+		return	icLanguageConfig
+	}
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,11 +230,14 @@ angular.module('icServices', [
 
 	'$rootScope',
 	'$location',
+	'$translate',
+	'$timeout',
 	'icApi',
 	'smlLayout',
 	'icFilterConfig',
+	'icLanguageConfig',
 
-	function($rootScope, $location, icApi, smlLayout, icFilterConfig){
+	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguageConfig){
 		var icSite 		= 	{
 								fullItem:			false,
 								page:				'main',
@@ -207,14 +248,15 @@ angular.module('icServices', [
 														s:		'',			// search term
 														so:		'',			// sorting
 														tp:		[],			// topics
-														ln:		[],			// language
+														ln:		'',			// language
 													},
 								activeComponents:	{
 														page:	true
 													}
-							}
+							},
+			scheduledUpdate
 
-		function path2Params(str){
+		icSite.path2Params = function(str){
 			var result = {}
 
 			for(var key in icSite.params){
@@ -240,7 +282,7 @@ angular.module('icServices', [
 
 
 
-		function params2Path(obj, mode){
+		icSite.params2Path = function(obj, mode){
 			if(!obj) return '/'
 
 			var path = ''
@@ -253,7 +295,7 @@ angular.module('icServices', [
 							:	icSite.params[key]
 
 
-				if(item === null || !item.length)	continue
+				if(!item || !item.length)	continue
 				
 				var value_str = 	typeof item == 'object'
 									?	item.join('-')
@@ -268,30 +310,42 @@ angular.module('icServices', [
 
 
 		icSite.getParamsFromPath = function(){
-			icSite.params = path2Params($location.path())
+			icSite.params = icSite.path2Params($location.path())
 			return icSite
 		}
 
 		
 		icSite.getNewPath = function(obj, mode){
-			return params2Path(obj, mode)
+			return icSite.params2Path(obj, mode)
 		}
 
-		icSite.updatePath = function(obj, mode){
+
+		icSite.schedulePathUpdate = function(obj, mode){
 			//TODO: Maybe prevent rerender
 
-			$location.path(icSite.getNewPath(obj, mode))
-			
+			if(scheduledUpdate) $timeout.cancel(scheduledUpdate)
+
+			$timeout(200)
+			.then(function(){
+				$location.path(icSite.params2Path({}, mode))
+				console.log('scheduled')
+			})
+
 			return this
 		}
 
 	
 		icSite.addFilterParamsToPath = function(){
-			icSite.updatePath({ 
-				s:	encodeURIComponent(icFilterConfig.searchTerm||''),
-				t:	icFilterConfig.filterBy.type,
-				tp:	icFilterConfig.filterBy.topic 
-			}, 'replace')
+			icSite.params.s 	= encodeURIComponent(icFilterConfig.searchTerm||'')
+			icSite.params.t		= icFilterConfig.filterBy.type
+			icSite.params.tp	= icFilterConfig.filterBy.topic
+
+			icSite.schedulePathUpdate()
+		}
+
+		icSite.addLanguageParamsToPath = function(){
+			icSite.params.ln	= icLanguageConfig.currentLanguage
+			icSite.schedulePathUpdate()
 		}
 
 
@@ -307,6 +361,10 @@ angular.module('icServices', [
 		}
 
 		icSite.updateFromPath = function(){
+
+			console.log('update from path')
+
+			$timeout.cancel(scheduledUpdate)
 			
 			icSite.getParamsFromPath()
 
@@ -319,6 +377,9 @@ angular.module('icServices', [
 			//update icFilterconfig
 			icFilterConfig.filterBy.type	=	icSite.params.t 	|| undefined
 			icFilterConfig.filterBy.topic	=	icSite.params.tp 	|| []
+
+			//updateLanguage
+			$translate.use(icSite.params.ln || 'en')
 
 			icSite.updateCompontents()
 
@@ -419,8 +480,9 @@ angular.module('icServices', [
 		
 		icSite.updateFromPath()
 
-		$rootScope.$on('$locationChangeSuccess', 				icSite.updateFromPath)
-		$rootScope.$watch(function(){ return icFilterConfig }, 	icSite.addFilterParamsToPath, true)
+		$rootScope.$on('$locationChangeSuccess', 					icSite.updateFromPath)
+		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
+		$rootScope.$watch(function(){ return icLanguageConfig }, 	icSite.addLanguageParamsToPath, true)
 
 		return icSite
 	}
@@ -431,6 +493,50 @@ angular.module('icServices', [
 
 
 
+
+.service('icOverlays', [
+
+	function(){
+		var icOverlays 	= 	{
+								show:	{}
+							},
+			scope 		=	undefined
+
+
+		icOverlays.toggle = function(overlay_name){
+			if(overlay_name){
+				icOverlays.show[overlay_name] = !icOverlays.show[overlay_name]	
+			} else {
+				for(var key in icOverlays.show){
+					delete icOverlays.show[key]
+				}
+			}
+		}
+
+		icOverlays.active = function(){
+			var active = false
+
+			for(var key in icOverlays.show){
+				if(icOverlays.show[key]) active = true
+			}
+
+			return active
+		}
+
+		icOverlays.registerScope = function(s){
+			if(scope) console.warn('icOverlays.registerScope: scope already registered.')
+			scope = s
+		}
+
+		icOverlays.$digest = function(){
+			scope.$digest()
+		}
+
+
+		return icOverlays
+	}
+
+ ])
 
 
 
@@ -696,6 +802,11 @@ angular.module('icServices', [
 		return searchResults
 	}
 ])
+
+
+
+
+
 
 
 

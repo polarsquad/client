@@ -5,7 +5,8 @@ angular.module('InfoCompassModule',[
 	"icApi",
 	"smlLayout",
 	"icServices",
-	"icDirectives"
+	"icDirectives",
+	"pascalprecht.translate"
 ])
 
 
@@ -22,7 +23,7 @@ angular.module('InfoCompassModule',[
 		smlLayoutProvider.setModes([			
 			{
 				name:		'XS',	
-				width: 		20,
+				width: 		23,
 				stretch:	true
 			},	
 			{
@@ -64,10 +65,6 @@ angular.module('InfoCompassModule',[
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
 		$scope.icConfigData		= icConfigData 
 
-		// $scope.$watch(function(){
-		// 	console.log('digest!')
-		// 	console.dir($scope.$$watchers)
-		// })
 	}
 
 ])

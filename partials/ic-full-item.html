@@ -1,37 +1,38 @@
-<h2>{{ item.title }}</h2>
 
-<div class ="image" style = "background-image:url({{item.image_url}})"></div>
+	<h2>{{ item.title }}</h2>
 
-<a href = ></a>
+	<div class ="image" style = "background-image:url({{item.image_url}})"></div>
 
-<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+	<a href = ></a>
 
-<p>{{ item.brief }}</p>
+	<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+
+	<p>{{ item.brief }}</p>
 
 
-<a ng-repeat  = "category in item.categories">
-	{{"ITEM.CAT_"+category}},
-</a>
-<p>
-	{{item.description_full['en']}}
-</p>
+	<a ng-repeat  = "category in item.categories">
+		{{"ITEM.CAT_"+category}},
+	</a>
+	<p>
+		{{item.description_full['en']}}
+	</p>
 
-<hr/>
+	<hr/>
 
-<ic-info-tag
-	ng-repeat	= "key in ['address', 'phone', 'email', 'website']"
-	ng-if		= "item[key]"
-	ic-title 	= "'ITEM_INFO_'+key"
-	ic-content	= "item[key]"
-	ic-icon		= "'images/icon_'+key+'.svg'"
->
-</ic-info-tag>
+	<ic-info-tag
+		ng-repeat	= "key in ['address', 'phone', 'email', 'website']"
+		ng-if		= "item[key]"
+		ic-title 	= "'ITEM_INFO_'+key"
+		ic-content	= "item[key]"
+		ic-icon		= "'images/icon_'+key+'.svg'"
+	>
+	</ic-info-tag>
 
-<ic-info-tag
-	ng-repeat	= "key in ['name', 'phone', 'email']"
-	ng-if		= "item.contacts && item.contacts[key]"
-	ic-title 	= "'ITEM_INFO_'+key"
-	ic-content	= "item.contacts[key]"
-	ic-icon		= "'images/icon_'+key+'.svg'"
->
-</ic-info-tag>
+	<ic-info-tag
+		ng-repeat	= "key in ['name', 'phone', 'email']"
+		ng-if		= "item.contacts && item.contacts[key]"
+		ic-title 	= "'ITEM_INFO_'+key"
+		ic-content	= "item.contacts[key]"
+		ic-icon		= "'images/icon_'+key+'.svg'"
+	>
+	</ic-info-tag>

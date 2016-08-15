@@ -1,5 +1,18 @@
 angular.module('icApi', [])
 
+.config([
+
+	'$httpProvider',
+
+	function($httpProvider){
+
+	$httpProvider.useApplyAsync(true)
+
+	}
+])
+
+
+
 .provider('icApi', function(){
 
 	var base = '/'

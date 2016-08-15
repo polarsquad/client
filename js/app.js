@@ -16,9 +16,17 @@ angular.module("InfoCompass",[
 
 .run([
 	'$rootScope',
+	'$animate',
 
-	function($rootScope){
+	function($rootScope, $animate){
+
+		$animate.enabled(false)
+
 		$rootScope.Mock = new Mock() //todo
+		$rootScope.$watch(function(){
+			console.log('root digest!')
+			console.dir($rootScope.$$watchers)
+		})
 	}
 ])
 
