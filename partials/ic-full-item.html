@@ -1,7 +1,7 @@
 
 	<h2>{{ item.title }}</h2>
 
-	<img ng-src = "{{item.image_url}}"/>
+	<img ng-if = "item.image_url" ng-src = "{{item.image_url}}"/>
 
 	<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 
