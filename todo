@@ -7,123 +7,9 @@ Regeln:
 
 
 
--------------------
-
-Todo:
-* Objekte anders strukturieren
-* Auf S konzentrieren
-* Assets
-* Scrolling Smartphone
-* Liste filtern und sortieren (halb-mock)
-* komischer rand unten im smartphone
-
-
-Done
-* Umstrukturiert
-* Layout
-* Tiles
-* Get next 15 items
-* section to isolated scope
-* scroll bump und nachladen (geht so naja, performance sehr schlecht)
-* gefilterete liste performatnter machen
-* android scroll bump super ruckelig - > raus
-* focus, onscreen keyboard
-* Webspace (damit ihr auch was sehen könnt)
-* Liste schön machen (multiline)
-* Daten aus der Datenbank darstellen (gutes stück)
-* Liste filtern und sortieren (halb-mock)
-* header
-
-
-Brauche:
-* type in preview items
-* items brauchen Kurzbeschreibung
-
-{
-	items: ...
-	count: {
-		inform:
-		location:
-		total:	
-	}
-
-}
-
-* wieviel Treffer gibt es insgesamt
--> wieviele davon jeweils pro type
-
-
-* Items brauchen Kategorie(n) (wenn danach gesucht wird)
-* Setup call mit topics
-
-
-
-
-* filter im Apicall
-* Bilder im Backend aufbereiten
-* Anzeige, dass es keine weiteren Elemente mehr gibt, bzw Angabe wieviele es noch gibt. (echt?)
-* Anzeige, wieviele Treffer es insgesamt gibt
-
-* Wenn filter dann eintrag beim item
-* Statistics hängen an jedem item
-* NIL bei spracheintrag MAP-item? NoMethodError in ItemsController#index 
-* Übergehen zu klaren tasks
-
-* searchterm mit zurückgeben
-
-
-* default Sprache für test
-
-
------------------------------
-
-
-Todo:
-
-* Vergleichsangebot?
-* s.o.
-* swipe verbessern und für desktop anpassen
-* swipe nachladen
-* swipr resize!
-
-
-Done
-* spacer an/aus im header
-* search (so halb)
-* filter sortieren
-* scroll_bump/page loading 
-* no more items
-* Params mit array parsen
-* types
-* topics
-* full Item
-* performance für die listen ansicht ordentlich verbessert!
--> Vergleichsangebot, Bruder der Koordinatorin
-* listenansicht verzögern für ladeicon
-* swipe für fullItems (prototyp)
-
-Info
-
-API setup call unter /init
-
-
-
-
-
-Fragen:
-
-* Information doppelt
-* item in item
-* search und filterzusammen
-* single item: "item" im result
-
-
 Todo
-* sprache
 * swipe verbessern (früher umschalten)a und paralax
 * Wenn keine items mehr da sind nicht nachladen
-* Modal zum Sprachaushandeln
-* API header richtig setzten
 * ic-directives entrümpelt 
 
 Done:
@@ -131,8 +17,18 @@ Done:
 * performance verbessert
 * overlays anlegen
 * Sprachmenu bauen
+* sprache angelegt
+* Modal zum Sprachaushandeln -> nicht sinnvoll
+* Sprache wird geraten
+* API header richtig setzten -> nicht sinnvol
 
 
 
 Brauche:
 * weiße Icons für Overlay
+* Definitionion ist leer, was soll dort hin?
+* Api call für interface, am besten einzelener call
+* Doppelcall
+* Klarmachen, was genau bei den Items angezeigt werden soll
+ -> und was, wenn Einträge fehlen!
+* Einzelene Screen rund machen

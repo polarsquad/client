@@ -174,13 +174,17 @@ angular.module('icServices', [
 
 .service('icLanguageConfig', [
 
+	'$window',
+	'$rootScope',
+	'$translate',
 	'icConfigData',
+	'icApi',
 
-	function(icConfigData){
+	function($window, $rootScope, $translate, icConfigData, icApi){
 
 		var icLanguageConfig = 	{
 									availableLanguages:	[],
-									currentLanguage:	undefined		
+									currentLanguage:	undefined									
 								}
 
 
@@ -188,6 +192,22 @@ angular.module('icServices', [
 		.then(function(){
 			icLanguageConfig.availableLanguages = icConfigData.availableLanguages
 		})
+
+		$rootScope.$watch(
+			function(){
+				return icLanguageConfig.currentLanguage
+			},
+
+			function(){		
+				icLanguageConfig.currentLanguage = 	   icLanguageConfig.currentLanguage 
+													|| $window.localStorage.getItem('language') 
+													|| (icConfigData.preferredLanguages && icConfigData.preferredLanguages[0])
+													|| 'en'
+
+				$translate.use(icLanguageConfig.currentLanguage)
+				$window.localStorage.setItem('language',icLanguageConfig.currentLanguage)
+			}
+		)
 
 
 		return	icLanguageConfig
@@ -320,16 +340,15 @@ angular.module('icServices', [
 		}
 
 
-		icSite.schedulePathUpdate = function(obj, mode){
+		icSite.schedulePathUpdate = function(obj){
 			//TODO: Maybe prevent rerender
 
 			if(scheduledUpdate) $timeout.cancel(scheduledUpdate)
 
-			$timeout(200)
-			.then(function(){
-				$location.path(icSite.params2Path({}, mode))
-				console.log('scheduled')
-			})
+
+			scheduledUpdate = 	$timeout(function(){
+									$location.path(icSite.params2Path({}, 'replace'))
+								}, 500)
 
 			return this
 		}
@@ -348,6 +367,11 @@ angular.module('icServices', [
 			icSite.schedulePathUpdate()
 		}
 
+		icSite.addItemToPath = function(id){
+			icSite.params.item 	= id
+			icSite.schedulePathUpdate()
+		}
+
 
 		//rename to 'sections'
 		icSite.updateCompontents = function(){
@@ -361,8 +385,6 @@ angular.module('icServices', [
 		}
 
 		icSite.updateFromPath = function(){
-
-			console.log('update from path')
 
 			$timeout.cancel(scheduledUpdate)
 			
@@ -378,8 +400,9 @@ angular.module('icServices', [
 			icFilterConfig.filterBy.type	=	icSite.params.t 	|| undefined
 			icFilterConfig.filterBy.topic	=	icSite.params.tp 	|| []
 
+
 			//updateLanguage
-			$translate.use(icSite.params.ln || 'en')
+			icLanguageConfig.currentLanguage = icSite.ln || icLanguageConfig.currentLanguage
 
 			icSite.updateCompontents()
 
@@ -477,8 +500,8 @@ angular.module('icServices', [
 
 		//setup
 		
-		
 		icSite.updateFromPath()
+
 
 		$rootScope.$on('$locationChangeSuccess', 					icSite.updateFromPath)
 		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
@@ -583,13 +606,15 @@ angular.module('icServices', [
 
 		searchResults.storeItem = function(new_item){
 
+
 			var stored_item 	= searchResults.data.filter(function(item){ return item.id == new_item.id })[0]
 
 			new_item.topic 	= 		icConfigData.getTopicById(new_item.primary_topic_id)
 								&&	icConfigData.getTopicById(new_item.primary_topic_id).ontology_uri
 			new_item.type 	= 		icConfigData.getTypeById(new_item.type_id)
 								&&	icConfigData.getTypeById(new_item.type_id).ontology_uri
-			new_item.brief	= 		(new_item.definition && new_item.definition['en']) || (new_item.topic + ' [missing item definition]')
+
+			new_item.brief	= 		new_item.definition
 
 
 			if(stored_item){

@@ -1,20 +1,18 @@
 
 	<h2>{{ item.title }}</h2>
 
-	<div class ="image" style = "background-image:url({{item.image_url}})"></div>
-
-	<a href = ></a>
+	<img ng-src = "{{item.image_url}}"/>
 
 	<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 
-	<p>{{ item.brief }}</p>
+	<p>{{ item.brief[language] }}</p>
 
 
 	<a ng-repeat  = "category in item.categories">
 		{{"ITEM.CAT_"+category}},
 	</a>
 	<p>
-		{{item.description_full['en']}}
+		{{item.description_full[language]}}
 	</p>
 
 	<hr/>

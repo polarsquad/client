@@ -7,6 +7,7 @@ a {
 	outline:			none !important;
 	text-decoration:	none !important;
 	color:				inherit;
+	cursor:				pointer;
 }
 
 a:active {

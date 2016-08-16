@@ -194,8 +194,9 @@ angular.module('icDirectives', [
 
 	'icSearchResults',
 	'icFilterConfig',
+	'icLanguageConfig',
 
-	function(icSearchResults, icFilterConfig){
+	function(icSearchResults, icFilterConfig, icLanguageConfig){
 		return {
 			restrict:		'AE',
 			templateUrl: 	'partials/ic-search-result-list.html',
@@ -212,6 +213,15 @@ angular.module('icDirectives', [
 				scope.$on('icScrollBump', function(){
 					icSearchResults.download()
 				})
+
+				scope.$watch(
+					function(){
+						return icLanguageConfig.currentLanguage
+					},
+					function(){
+						scope.language = icLanguageConfig.currentLanguage
+					}
+				)
 			}
 		}
 	}
@@ -364,8 +374,9 @@ angular.module('icDirectives', [
 .directive('icFullItem',[
 
 	'icSearchResults',
+	'icLanguageConfig',
 
-	function(icSearchResults){
+	function(icSearchResults, icLanguageConfig){
 
 		return {
 			restrict:		'AE',
@@ -378,10 +389,20 @@ angular.module('icDirectives', [
 
 				scope.icSearchResults = icSearchResults
 
+
 				scope.$watch('icId', function(id){
 					scope.item = icSearchResults.getItem(id)
 					icSearchResults.downloadItem(id)
 				})
+
+				scope.$watch(
+					function(){
+						return icLanguageConfig.currentLanguage
+					},
+					function(){
+						scope.language = icLanguageConfig.currentLanguage
+					}
+				)
 
 			}
 		}
@@ -766,7 +787,7 @@ angular.module('icDirectives', [
 					if(scope.snapTo != 'current'){
 						scope.$digest()
 						$timeout(function(){ 
-							icSite.updatePath({item: scope.currentId}) 
+							icSite.addItemToPath(scope.currentId) 
 							slide_off = false
 						} , 30, false)
 					}
@@ -839,6 +860,15 @@ angular.module('icDirectives', [
 			link: function(scope, element, attrs, ctrl, transclude){
 				icOverlays.registerScope(scope)
 				scope.icOverlays = icOverlays
+
+
+				element.on('click', function(e){
+					if(element[0] == e.target){
+						icOverlays.toggle(null)
+						scope.$digest()
+					}
+				})
+
 			}
 				
 		}

@@ -412,15 +412,11 @@ ic-full-item {
 	background:				#fff;
 }
 
-ic-full-item .image {
+ic-full-item img {
 	display:				block;
-	height:					14rem;
-	background-color:		#ccc;
+	width:					100%;
+	height:					auto;
 	margin:					1rem 0;
-
-	background-size:		cover;
-	background-repeat:		no-repeat;
-	background-position: 	50% 50%;
 }
 
 
@@ -725,8 +721,12 @@ ic-overlays > [ic-toggle-overlay] {
 
 
 ic-language-menu {
+	position:			absolute;
+	top:				0;
+	right:				0;
 	display:			block;
 	min-height:			100%;
+	width:				18rem;
 	background-color:	#fff;
 	padding:			1rem;
 }

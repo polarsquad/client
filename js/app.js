@@ -24,8 +24,8 @@ angular.module("InfoCompass",[
 
 		$rootScope.Mock = new Mock() //todo
 		$rootScope.$watch(function(){
-			console.log('root digest!')
-			console.dir($rootScope.$$watchers)
+			// console.log('root digest!')
+			// console.dir($rootScope.$$watchers)
 		})
 	}
 ])

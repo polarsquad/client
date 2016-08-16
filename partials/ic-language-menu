@@ -1,6 +1,5 @@
 <header>
-	Sprache wählen:
-	{{currentLanguage}}
+	{{"INTERFACE.CHOOSE_LANGUAGE" | translate}}:
 </header>
 
 <a 

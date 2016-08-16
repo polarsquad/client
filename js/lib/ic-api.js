@@ -32,6 +32,8 @@ angular.module('icApi', [])
 
 			var api = {}
 
+			// api.acceptLanguage = 'en'
+
 			api.call = function(method, path, data){
 
 				return 	$http({
@@ -40,7 +42,8 @@ angular.module('icApi', [])
 							params:		method == 'GET' ? data : undefined,
 							data:		method == 'GET' ? undefined : data,
 							headers:	{
-											'Accept':	'application/json'
+											'Accept':			'application/json',
+											// 'Accept-Language':	api.acceptLanguage
 										}
 						})
 						.then(function(result){
