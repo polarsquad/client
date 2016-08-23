@@ -4,9 +4,9 @@
 angular.module('InfoCompassModule',[
 	"icApi",
 	"smlLayout",
+	"ngSanitize",
 	"icServices",
 	"icDirectives",
-	"pascalprecht.translate"
 ])
 
 
@@ -58,11 +58,14 @@ angular.module('InfoCompassModule',[
 	'icFilterConfig',
 	'smlLayout',
 	'icConfigData',
+	'icSearchResults',
+	'icLanguageConfig',
 
 
-	function($scope, icSite, icFilterConfig, smlLayout, icConfigData){
+	function($scope, icSite, icFilterConfig, smlLayout, icConfigData, icSearchResults, icLanguageConfig){
 		$scope.icSite 			= icSite
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
+		$scope.icSearchResults	= icSearchResults
 		$scope.icConfigData		= icConfigData 
 
 	}

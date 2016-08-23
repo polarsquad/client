@@ -136,16 +136,7 @@ angular.module('icDirectives', [
 				
 				scope.icSite			= icSite
 				scope.icFilterConfig	= icFilterConfig
-				scope.searchTerm		= icFilterConfig.searchTerm
-
-				scope.update = function(){
-					var input = element[0].querySelector('#search-term')
-					
-					input.focus()
-					input.blur()
-
-					icFilterConfig.searchTerm = scope.searchTerm
-				}
+				
 
 				icHeaders.registerMain(element)
 
@@ -456,9 +447,6 @@ angular.module('icDirectives', [
 
 
 
-
-
-
 .filter('icColor', function(){
 	return 	function(str){
 				switch(str){
@@ -477,10 +465,10 @@ angular.module('icDirectives', [
 			var c = color ?  'color' : 'white'
 
 			switch(str){
-				case 'information': return "/images/icon_type_information_"+c+".svg"; 		break;
-				case 'events':		return "/images/icon_type_events_"+c+".svg";				break;
-				case 'places':		return "/images/icon_type_places_"+c+".svg";				break;
-				case 'services':	return "/images/icon_type_services_"+c+".svg";			break;
+				case 'information': return "/images/icon_type_information_"+c+".svg"; 	break;
+				case 'events':		return "/images/icon_type_events_"+c+".svg";		break;
+				case 'places':		return "/images/icon_type_places_"+c+".svg";		break;
+				case 'services':	return "/images/icon_type_services_"+c+".svg";		break;
 
 				case 'city':		return "/images/icon_topic_city_"+c+".svg";			break;
 				case 'education':	return "/images/icon_topic_education_"+c+".svg";	break;
@@ -655,6 +643,9 @@ angular.module('icDirectives', [
 ])
 
 
+
+
+
 .directive('icQuickFilter', [
 
 	'icFilterConfig',
@@ -673,6 +664,18 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+
+
+
+.filter('prepend',[
+	function(){
+		return function(str, pre){
+			return pre+str
+		}
+	}
+])
+
 
 
 
@@ -845,6 +848,340 @@ angular.module('icDirectives', [
 	}
 ])
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+.directive('icSearch',[
+
+	'icConfigData',
+	'icFilterConfig',
+
+	function(icConfigData, icFilterConfig){
+		return {
+			restrict: 		'E',
+			templateUrl:	'/partials/ic-search.html',
+			scope:			{},
+
+			link: function(scope, element, attrs){
+
+				scope.searchTerm	= icFilterConfig.searchTerm
+				scope.icTitles 		= icConfigData.titles
+
+				scope.update = function(){
+					var input = element[0].querySelector('#search-term')
+					
+					input.focus()
+					input.blur()
+
+					icFilterConfig.searchTerm = scope.search.term
+				}
+
+				scope.setSearchTerm = function(str){
+					var input = element[0].querySelector('#search-term')
+
+					scope.searchTerm = str
+					window.requestAnimationFrame(function(){
+						input.focus()
+					})
+				}
+			}
+		}
+	}
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.directive('icTripletNew', [
+
+	'$timeout',
+	'$compile',
+	'icSite',
+	'icSearchResults',
+
+	function($timeout, $compile, icSite, icSearchResults){
+		return {
+			restrict:	"AE",
+			scope:		{
+							icModelAs:	"@",
+							icPrevious:	"&",
+							icCurrent:	"<",
+							icNext:		"&",
+							icOnTurn:	"&"
+						},
+			transclude:	true,
+			template:	'<div class ="shuttle">'+
+						'</div>',	
+
+			link: function(scope, element, attrs, ctrl, transclude){
+
+				var width,
+					shuttle = element.find('div').eq(0)
+
+
+				var previous_scope	= scope.$parent.$new(),
+					current_scope 	= scope.$parent.$new(),
+					next_scope		= scope.$parent.$new(),
+					previousModel	= undefined,
+					currentModel	= undefined,
+					nextModel		= undefined
+
+
+
+				function updateScopes(newCurrentModel, digest){
+					current_scope[scope.icModelAs]	= currentModel		= newCurrentModel
+					previous_scope[scope.icModelAs]	= previousModel		= scope.icPrevious({'icModel': newCurrentModel})
+					next_scope[scope.icModelAs]		= nextModel			= scope.icNext({'icModel': newCurrentModel})
+
+					if(digest){
+						current_scope.$digest()
+						previous_scope.$digest()
+						next_scope.$digest()
+
+						var items = shuttle.children()
+
+						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
+						items[1].focus()
+
+					}
+
+				}
+
+				scope.$watch('icCurrent', function(id){ updateScopes(id) })
+
+				scope.$watch(
+					function(){ return icSearchResults.filteredList.length},
+					function(){ updateScopes(scope.icCurrent) }
+				)
+
+				updateScopes(scope.icCurrent)
+
+
+				element.css({
+					display:			'block',
+					height:				'100%'
+				})
+
+				// width 	= element[0].clientWidth
+
+				element.css({
+					overflowX:			'scroll',
+					overflowY:			'hidden'
+				})
+
+				shuttle.css({
+					display:			'inline-block',
+					height:				'100%',					
+					whiteSpace:			'nowrap',
+					transition:			'transform 0 ease-in',
+					'will-change':		'scroll-position transform', 
+					overflow:			'hidden',
+				})
+
+				element.append(shuttle)
+
+
+				transclude(previous_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+				transclude(current_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+				transclude(next_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+
+				shuttle.children()
+				.css({
+					display:			'inline-block',
+					verticalAlign:		'top',
+					whiteSpace:			'normal',
+					transitionProperty: 'transform'
+				})	
+
+				//remove text nodes:
+				
+				var nodes 		= shuttle[0].childNodes,
+					text_nodes 	= []
+
+				for (var i = 0; i < nodes.length; i++) {
+						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
+				} 
+
+				text_nodes.forEach(function(node){
+					shuttle[0].removeChild(node)
+				})
+
+
+				//handle Resize:
+				function handleResize(){
+					window.requestAnimationFrame(function(){
+						width = shuttle.children()[0].offsetWidth
+						element[0].scrollLeft 	= width	
+						element.css({width: width+'px'})				
+					})
+				}
+				
+				handleResize()
+
+				angular.element(window).on('resize', handleResize)
+				
+				scope.$on('$destroy', function(){
+					angular.element(window).off('resize', handleResize)
+				})
+
+
+
+
+
+				var scroll_stop 		= undefined,
+					ignore_next_scroll 	= true,
+					slide_off			= false
+
+
+
+
+				function swap(){
+
+
+					ignore_next_scroll = true
+
+					shuttle.css({
+						'transform':			'translateX(0px)',
+						'transition-duration':	'0ms'
+					})	
+
+
+					if(scope.snapTo == 'next'){
+						updateScopes(nextModel, true)
+					}
+
+					if(scope.snapTo == 'previous'){
+						updateScopes(previousModel, true)
+					}
+					
+
+					ignore_next_scroll		= true
+					element[0].scrollLeft 	= width
+
+					if(scope.snapTo != 'current'){
+						$timeout(function(){ 
+							scope.icOnTurn({icModel: currentModel})
+							slide_off = false
+						} , 30, false)
+					}
+
+				}
+
+				function snap() {	
+
+
+					var scroll_left 	= element[0].scrollLeft,
+						scroll_width	= shuttle[0].scrollWidth
+						
+					scope.snapTo = 'current'
+
+
+
+					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = previousModel 	? 'previous' 	: 'current'
+					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = nextModel		? 'next'		: 'current'
+
+					var scroll_to 	= 	{
+											previous:	0,
+											current:	width,
+											next:		2*width
+										}[scope.snapTo],		
+
+						distance 	= 	scroll_left - scroll_to,
+						duration	=	Math.abs(distance/width) * 400
+
+
+					shuttle.css({
+						'transform':			'translateX('+distance+'px)',
+						'transition-duration':	duration+'ms'
+					})
+
+					shuttle.children().css({
+						transform:				'translateX(0px)',
+						'transition-duration':	duration+'ms'
+					})
+
+
+					$timeout(swap, duration, false)
+				}
+
+
+
+				element.on('scroll', function(e){
+					e.stopPropagation()
+
+
+
+
+					
+					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+
+					window.requestAnimationFrame(function(){
+						var left = element[0].scrollLeft
+
+
+						shuttle.children().eq(0)
+						.css({
+							transform:				'translateX('+(left < width ? left/2 : 0)+'px)',
+							'transition-duration':	'0ms'
+						})
+
+						shuttle.children().eq(1)
+						.css({
+							transform:				'translateX('+(left > width ? (left-width)/2 : 0)+'px)',
+							'transition-duration':	'0ms'
+						})
+
+					})
+
+					if(scroll_stop) $timeout.cancel(scroll_stop)
+
+					if(slide_off) return null
+
+					scroll_stop = 	$timeout(snap, 100, false)
+				})
+
+			}
+		}
+	}
+])
 
 
 .directive('icOverlays', [

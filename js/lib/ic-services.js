@@ -2,7 +2,8 @@
 
 angular.module('icServices', [
 	'icApi',
-	'smlLayout'
+	'smlLayout',
+	'pascalprecht.translate'
 ])
 
 
@@ -60,11 +61,9 @@ angular.module('icServices', [
 								.then(function(result){
 									icConfigData.types 				= result.types
 									icConfigData.topics 			= result.topics
-									icConfigData.availableLanguages = result.languages 
-
-									icConfigData.types.forEach(function(type){
-										type.icon_url = '/images/'+type.ontology_uri+'.svg'
-									})
+									icConfigData.targetGroups		= result.target_groups
+									icConfigData.availableLanguages = result.langs 
+									icConfigData.titles 			= result.titles
 								})
 
 		return icConfigData
@@ -98,8 +97,9 @@ angular.module('icServices', [
 
 		var icFilterConfig = 	{
 						filterBy:	{
-										type:		undefined,
-										topic:		[]
+										type:			undefined,
+										topic:			[],
+										targetGroup:	[]
 									},
 						searchTerm: ''
 					}
@@ -182,10 +182,11 @@ angular.module('icServices', [
 
 	function($window, $rootScope, $translate, icConfigData, icApi){
 
-		var icLanguageConfig = 	{
-									availableLanguages:	[],
-									currentLanguage:	undefined									
-								}
+		var icLanguageConfig 			= 	{
+												availableLanguages:	[],
+												currentLanguage:	undefined									
+											},
+			interfaceTranslationsReady 	= icApi.getInterfaceTranslations()
 
 
 		icConfigData.ready
@@ -193,19 +194,48 @@ angular.module('icServices', [
 			icLanguageConfig.availableLanguages = icConfigData.availableLanguages
 		})
 
-		$rootScope.$watch(
-			function(){
-				return icLanguageConfig.currentLanguage
-			},
+		function objectKeysToUpperCase(obj){
+			var up = {}
 
-			function(){		
-				icLanguageConfig.currentLanguage = 	   icLanguageConfig.currentLanguage 
-													|| $window.localStorage.getItem('language') 
-													|| (icConfigData.preferredLanguages && icConfigData.preferredLanguages[0])
-													|| 'en'
+				for(var key in obj){
+
+					up[key.toUpperCase()] = typeof obj[key] == 'object'
+											?	objectKeysToUpperCase(obj[key])
+											:	obj[key]
+				}
+
+			return up
+		}
+
+		icLanguageConfig.getTranslationTable = function(lang){
+			return	interfaceTranslationsReady
+					.then(function(translations){
+						return objectKeysToUpperCase(translations)[lang.toUpperCase()]
+					})
+		}
+
+
+
+		function guessLanguage(){
+			icLanguageConfig.currentLanguage =	icLanguageConfig.currentLanguage 
+												|| $window.localStorage.getItem('language') 
+												|| (icConfigData.preferredLanguages && icConfigData.preferredLanguages[0])
+												|| 'en'
+
+			
+
+		}
+
+		guessLanguage()
+
+		$rootScope.$watch(
+			function(){ return icLanguageConfig.currentLanguage }, 
+			function(){
+				guessLanguage()
 
 				$translate.use(icLanguageConfig.currentLanguage)
 				$window.localStorage.setItem('language',icLanguageConfig.currentLanguage)
+				$translate.use(icLanguageConfig.currentLanguage)
 			}
 		)
 
@@ -214,7 +244,27 @@ angular.module('icServices', [
 	}
 ])
 
+.factory('icInterfaceTranslationLoader', [
 
+	'icLanguageConfig',
+
+	function(icLanguageConfig){
+		return 	function(options){
+					if(!options || !options.key) throw new Error('Couldn\'t use icInterfaceTranslationLoader since language key is given!');
+					return icLanguageConfig.getTranslationTable(options.key)
+				}
+	}
+])
+
+.config([
+	'$translateProvider',
+
+	function($translateProvider){
+		$translateProvider.useLoader('icInterfaceTranslationLoader')
+		$translateProvider.useSanitizeValueStrategy('sanitizeParameters')
+		$translateProvider.preferredLanguage('en')
+	}
+])
 
 
 
@@ -256,8 +306,9 @@ angular.module('icServices', [
 	'smlLayout',
 	'icFilterConfig',
 	'icLanguageConfig',
+	'icOverlays',
 
-	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguageConfig){
+	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguageConfig, icOverlays){
 		var icSite 		= 	{
 								fullItem:			false,
 								page:				'main',
@@ -268,6 +319,7 @@ angular.module('icServices', [
 														s:		'',			// search term
 														so:		'',			// sorting
 														tp:		[],			// topics
+														tg:		[],			// target groups
 														ln:		'',			// language
 													},
 								activeComponents:	{
@@ -358,6 +410,7 @@ angular.module('icServices', [
 			icSite.params.s 	= encodeURIComponent(icFilterConfig.searchTerm||'')
 			icSite.params.t		= icFilterConfig.filterBy.type
 			icSite.params.tp	= icFilterConfig.filterBy.topic
+			icSite.params.tg	= icFilterConfig.filterBy.targetGroup
 
 			icSite.schedulePathUpdate()
 		}
@@ -397,12 +450,23 @@ angular.module('icServices', [
 
 
 			//update icFilterconfig
-			icFilterConfig.filterBy.type	=	icSite.params.t 	|| undefined
-			icFilterConfig.filterBy.topic	=	icSite.params.tp 	|| []
+			icFilterConfig.filterBy.type		=	icSite.params.t 	|| undefined
+			icFilterConfig.filterBy.topic		=	icSite.params.tp 	|| []
+			icFilterConfig.filterBy.targetGroup	=	icSite.params.tg 	|| []
 
 
+
+			console.log(icLanguageConfig.currentLanguage, icSite.params.ln)
 			//updateLanguage
-			icLanguageConfig.currentLanguage = icSite.ln || icLanguageConfig.currentLanguage
+			if(!icLanguageConfig.currentLanguage){
+				icLanguageConfig.currentLanguage = icSite.params.ln
+			}	
+
+			if(icSite.params.ln && icLanguageConfig.currentLanguage != icSite.params.ln){
+				icLanguageConfig.currentLanguage = icSite.params.ln
+				icOverlays.toggle('languageMenu', true)
+			}
+			
 
 			icSite.updateCompontents()
 
@@ -519,23 +583,46 @@ angular.module('icServices', [
 
 .service('icOverlays', [
 
-	function(){
+	'$q',
+
+	function($q){
 		var icOverlays 	= 	{
 								show:	{}
 							},
-			scope 		=	undefined
+			scope 		=	undefined,
+			deferred	=	{}
 
 
-		icOverlays.toggle = function(overlay_name){
-			if(overlay_name){
-				icOverlays.show[overlay_name] = !icOverlays.show[overlay_name]	
+
+		icOverlays.toggle = function(overlay_name, open){
+
+
+			deferred[overlay_name] = deferred[overlay_name] || $q.defer()
+
+
+			if(overlay_name) {
+				icOverlays.show[overlay_name] = open !== undefined 
+												?	open 
+												:	!icOverlays.show[overlay_name]
+
+				if(icOverlays.show[overlay_name]){
+					deferred[overlay_name].reject()
+					deferred[overlay_name]	=	$q.defer()
+				} else {
+					deferred[overlay_name].resolve() 
+				}
+
 			} else {
 				for(var key in icOverlays.show){
 					delete icOverlays.show[key]
+					deferred[overlay_name].resolve()
 				}
 			}
+
+			return  deferred[overlay_name].promise
 		}
 
+	
 		icOverlays.active = function(){
 			var active = false
 
@@ -560,6 +647,8 @@ angular.module('icServices', [
 	}
 
  ])
+
+
 
 
 
@@ -609,12 +698,10 @@ angular.module('icServices', [
 
 			var stored_item 	= searchResults.data.filter(function(item){ return item.id == new_item.id })[0]
 
-			new_item.topic 	= 		icConfigData.getTopicById(new_item.primary_topic_id)
-								&&	icConfigData.getTopicById(new_item.primary_topic_id).ontology_uri
-			new_item.type 	= 		icConfigData.getTypeById(new_item.type_id)
-								&&	icConfigData.getTypeById(new_item.type_id).ontology_uri
+			new_item.topic 		= 		icConfigData.getTopicById(new_item.primary_topic_id)
+									&&	icConfigData.getTopicById(new_item.primary_topic_id).ontology_uri
 
-			new_item.brief	= 		new_item.definition
+			new_item.brief		= 		new_item.definition
 
 
 			if(stored_item){
@@ -643,11 +730,11 @@ angular.module('icServices', [
 												searchResults.limit, 
 												searchResults.offset, 
 												{
-													type: 	icFilterConfig.filterBy.type,
-													topic:	icFilterConfig.filterBy.topic,
-													query:	icFilterConfig.searchTerm
-												},
-												!!icFilterConfig.searchTerm									
+													type: 			icFilterConfig.filterBy.type,
+													topic:			icFilterConfig.filterBy.topic,
+													targetGroup: 	icFilterConfig.filterBy.targetGroup,
+													query:			icFilterConfig.searchTerm
+												}
 											)
 								})
 

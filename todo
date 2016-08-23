@@ -8,7 +8,6 @@ Regeln:
 
 
 Todo
-* swipe verbessern (früher umschalten)a und paralax
 * Wenn keine items mehr da sind nicht nachladen
 * ic-directives entrümpelt 
 
@@ -36,10 +35,43 @@ Brauche:
  * ?lang=de
 
 
+
+
 Todo:
+* Suche groß mit tags
+* fullitem slide Ende liste beim nachladen
+* full item header -> Suche schließt item
+* Todos im google drive
+* preload templates and images
+* bootstrap app
+* XXS
+* usergroups und topics filtern
+* autocomplete
+* swipe android
+* in Module spalten
+} searchterm wird nicht gel;scht
+
+Done:
+* Bug img
+* Sprache aushandeln
+* Neue apis benutzen
+* Interface transaltions angelegt
+* Topics und userGroups im Filterinterface anglegt
+* Header hübsch machen
+* swipe verbessern (früher umschalten)a und paralax
+  -> resize!
 * Filter für Zielgruppen bauen
+* Sprachauswahl bei Sprachkonflikt im Link
+- warte auf init/items mit ids bzw. uri ...
+- warte auf Interface-TransationsIds ...
 
 
-Next: 
-* Nutzerverwaltung ?
-* Edit ?
+
+Fragen/brauche:
+* Übersetzungen schlecht; vgl. native
+* Übersetzungen der Sprachnamen, nicht komplett
+* Totals je type
+* Interfaceübersetzungen
+* preferredlanguages in init call
+* wie heißen die Parameter für die suche bei targetgroup
+* Ergebnisszahlen

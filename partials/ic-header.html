@@ -1,14 +1,9 @@
 <div>
 	<button
 		type		= "button"	
-		class 		= "icon-nav-menu"
+		class 		= "icon-nav-menu fleft"
 		ng-click	= "icFilterConfig.clearFilter()"
 	></button>
-
-	<div 
-		class = "spacer" 
-		ng-if = "!showSearch"
-	></div>
 
 	<button 
 		type				= "button"
@@ -16,18 +11,9 @@
 		ic-toggle-overlay 	= "languageMenu" 
 	></button>
 
-	<form
-		ng-submit = "update()"
-	>
-		<input 
-			id					= "search-term"
-			tabindex			= "1"
-			type 				= "text" 
-			ng-show				= "showSearch"
-			ng-model 			= "searchTerm"
-		>
-		</input>
-	</form>
+	<ic-search
+		ng-show = "showSearch"
+	></ic-search>
 
 	<button 
 		type		= "button"

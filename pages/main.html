@@ -3,23 +3,24 @@
 	<h2>Informationen und Angebote für Geflüchtete und Unterstützer*innen (mehr)</h2>
 </div>
 
-<section 
+<d iv
 	no-text-nodes 
 	class = "tiles"
 >
 
 	
 
-
+	
+	
 	<a 
 		ng-repeat	= "type in icConfigData.types"
-		ng-href 	= "#{{icSite.getNewPath({t: type.ontology_uri}, true)}}"
-		ng-class 	= "{active : icSite.params.t == type.ontology_uri}"
+		ng-href 	= "#{{icSite.getNewPath({t: type}, true)}}"
+		ng-class 	= "{active : icSite.params.t == type}"
 		ic-tile
-		ic-title	= "type.ontology_uri"
+		ic-title	= "'TYPES.'+type.toUpperCase() | translate"
 		ic-brief	= "'Kurzer Text'"
-		ic-icon		= "type.ontology_uri | icIcon"
-		ic-type		= "type.ontology_uri"
+		ic-icon		= "type | icIcon"
+		ic-type		= "type"
 	></a>
 
 
@@ -34,5 +35,5 @@
 		ng-repeat 	= "index in ::Mock.arr(16)"
 	></a>
 
-</section>
+</div>
 

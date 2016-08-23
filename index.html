@@ -25,6 +25,7 @@
 		<script src="js/lib/angular.js">		</script>
 		<!-- <script src="js/lib/angular.min.js">		</script> -->
 
+		<script src="js/lib/angular-sanitize.min.js"	></script>
 		<script src="js/lib/angular-translate.min.js"	></script>
 
 		<script src="js/lib/smlLayout.js">			</script>
@@ -91,17 +92,20 @@
 		 	</section>
 
 
-		 	<section
-		 		class 	= 	"item" 
-				ng-if	=	"icSite.show('item')"
-		 	>
-
-					<ic-section-item 
-						ic-id = "icSite.params.item"
-					>
-					</ic-section-item>
-
-		 	</section>
+			<ic-triplet-new 
+				ic-model-as = "icId"
+				ic-previous = "icSearchResults.getPreviousId(icModel)"
+				ic-current 	= "icSite.params.item"
+				ic-next		= "icSearchResults.getNextId(icModel)"
+				ic-on-turn	= "icSite.addItemToPath(icModel)"
+				ng-if		= "icSite.show('item')"
+			>
+				<section
+			 		class 	= 	"item" 
+			 	>
+					<ic-section-item ic-id = "icId"></ic-section-item>
+			 	</section>
+			 </ic-triple-new>
 
 		 </section>
 	</body>

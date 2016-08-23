@@ -4,7 +4,7 @@
 		ng-class	= "{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}"
 		ng-click 	= "toggleSortPanel()" 
 	>
-		sortieren
+		{{"INTERFACE.SORT" | translate}}
 	</button>
 
 	<button
@@ -12,7 +12,7 @@
 		ng-class	= "{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}"<
 		ng-click 	= "toggleFilterPanel()" 
 	>
-		filtern
+		{{"INTERFACE.FILTER" | translate}}
 	</button>
 </div>
 
@@ -50,6 +50,10 @@
 </div>
 
 
+
+
+
+
 <div 
 	class 	= "panel filter"
 	ng-show	= "open == 'filter'" 
@@ -60,7 +64,7 @@
 		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
 		ng-click 	= "expand.topics = !expand.topics"
 	>
-		Themen
+		{{"INTERFACE.TOPICS" | translate}}
 	</a>
 
 	<div ng-show = "expand.topics">
@@ -68,14 +72,38 @@
 			ng-click 	= "icFilterConfig.clearFilter('topic')" 
 			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', false), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', false)}"
 		>
-			ALL
+			{{"INTERFACE.TOPICS_ALL" | translate}}
 		</a>
 		<a 
-			ng-repeat 	= "topic in icConfigData.topics | orderBy : 'ontology_uri'"
-			ng-click 	= "icFilterConfig.toggleFilter('topic', topic.ontology_uri)" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic.ontology_uri), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic.ontology_uri)}"
+			ng-repeat 	= "topic in icConfigData.topics | orderBy : 'toString()| uppercase | prepend: \'TOPICS.\' |translate'"
+			ng-click 	= "icFilterConfig.toggleFilter('topic', topic)" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic)}"
 		>
-			{{topic.ontology_uri | uppercase}}
+			{{topic | uppercase | prepend: "TOPICS." |translate}}
+		</a>
+	</div>
+
+
+	<a 
+		ng-class	= "{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}" 
+		ng-click 	= "expand.targetGroups = !expand.targetGroups"
+	>
+		{{"INTERFACE.TARGET_GROUPS" | translate}}
+	</a>
+
+	<div ng-show = "expand.targetGroups">
+		<a 
+			ng-click 	= "icFilterConfig.clearFilter('targetGroup')" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', false), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', false)}"
+		>
+			{{"INTERFACE.TARGET_GROUP.ALL" | translate}}
+		</a>
+		<a 
+			ng-repeat 	= "targetGroup in icConfigData.targetGroups | orderBy : 'toString()| uppercase | prepend: \'TARGET_GROUPS.\' |translate'"
+			ng-click 	= "icFilterConfig.toggleFilter('targetGroup', targetGroup)" 
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', targetGroup), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', targetGroup)}"
+		>
+			{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}
 		</a>
 	</div>
 

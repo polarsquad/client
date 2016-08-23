@@ -47,7 +47,7 @@ body > #content {
 
 
 
-#content > section {
+#content  section {
 	position:				relative;
 	height:					100%;
 	display:				inline-block;
@@ -61,10 +61,11 @@ body > #content {
 
 
 
-#content > section > * {
+#content  section > * {
 	margin:					0 auto;
 	padding:				1rem;
 	min-height:				100%;
+	box-sizing:				border-box;
 }
 
 
@@ -73,7 +74,7 @@ body > #content {
 
 
 
-#content > section {
+#content  section {
 	overflow-y:				scroll;
 
 	-webkit-overflow-scrolling: touch;
@@ -89,7 +90,7 @@ body > #content {
 	-webkit-overflow-scrolling: touch;
 }
 
-.XS #content > section {
+.XS #content  section {
 	overflow-y:				scroll;
 	
 	-webkit-overflow-scrolling: touch;
@@ -110,23 +111,23 @@ body > #content {
 }
 
 .XS #content section.page > * {
-	width:					21rem;
+	width:					23rem;
 }
 
 .S	#content section.page > * {
-	width:					44rem;
+	width:					46rem;
 }
 
 .M	#content section.page > * {
-	width:					58rem;
+	width:					60rem;
 }
 
 .L	#content section.page > * {
-	width:					70rem;
+	width:					72rem;
 }
 
 .XL #content section.page > * {
-	width:					106rem;
+	width:					108rem;
 }
 
 
@@ -155,17 +156,17 @@ body > #content {
 
 
 .XS #content section.list > *{
-	width:					21rem;
+	width:					23rem;
 }
 
 .S 	#content section.list > * {
-	width:					22rem;
+	width:					24rem;
 }
 
 .M 	#content section.list > *,
 .L 	#content section.list > *,
 .XL	#content section.list > * {
-	width:					24rem;
+	width:					26rem;
 }
 
 
@@ -192,17 +193,17 @@ body > #content {
 
 
 .XS #content section.filter > * {
-	width:					21rem;
+	width:					23rem;
 }
 
 .S 	#content section.filter > *{
-	width:					22rem;
+	width:					24rem;
 }
 
 .M 	#content section.filter > *,
 .L 	#content section.filter > *,
 .XL	#content section.filter > * {
-	width:					14rem;
+	width:					16rem;
 }
 
 
@@ -233,14 +234,14 @@ body > #content {
 
 
 .XS #content section.item > * {
-	width:					21rem;
+	width:					23rem;
 }
 
 .S 	#content section.item > *,
 .M 	#content section.item > *,
 .L 	#content section.item > *,
 .XL	#content section.item > * {
-	width:					38rem;
+	width:					40rem;
 }
 
 
@@ -254,7 +255,7 @@ body > #content {
 }
 
 .M.show-list.show-item #content section.list > * {
-	width:					22rem;
+	width:					24rem;
 }
 
 
@@ -264,7 +265,7 @@ body > #content {
 }
 
 .M.show-list.show-item #content section.item > * {
-	width:					38rem;
+	width:					40rem;
 }
 
 
@@ -278,7 +279,7 @@ body > #content {
 
  .L.show-list.show-item	#content section.list > *,
 .XL.show-list.show-item	#content section.list > * {
-	width:					22rem;
+	width:					24rem;
 }
 
 
@@ -291,7 +292,7 @@ body > #content {
 
  .L.show-list.show-item	#content section.filter > *,
 .XL.show-list.show-item	#content section.filter > * {
-	width:					14rem;
+	width:					16rem;
 }
 
 
@@ -305,7 +306,7 @@ body > #content {
 
  .L.show-list.show-item #content section.item > *,
 .XL.show-list.show-item #content section.item > * {
-	width:					38rem;
+	width:					40rem;
 }
 
 

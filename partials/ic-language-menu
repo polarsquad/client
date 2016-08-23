@@ -2,14 +2,15 @@
 	{{"INTERFACE.CHOOSE_LANGUAGE" | translate}}:
 </header>
 
+
 <a 
 	ng-repeat 	= "language in ::icLanguageConfig.availableLanguages"
-	ng-click	= "icLanguageConfig.currentLanguage = language.code"
+	ng-click	= "icLanguageConfig.currentLanguage = language"
 >
 	<span 
 		class 		= "icon" 
-		ng-class 	= "{'icon-interface-checkbox-selected': icLanguageConfig.currentLanguage == language.code, 'icon-interface-checkbox' : icLanguageConfig.currentLanguage != language.code}"
+		ng-class 	= "{'icon-interface-checkbox-selected': icLanguageConfig.currentLanguage == language, 'icon-interface-checkbox' : icLanguageConfig.currentLanguage != language}"
 	></span>
-	<span class = "native">{{::language.native}}</span>
-	<span class = "translation">{{::language.native}}<span>
+	<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
+	<span class = "translation">{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}<span>
 </a>

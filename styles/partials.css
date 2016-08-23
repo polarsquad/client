@@ -25,63 +25,88 @@
 /* header */
 
 ic-header {
-	display:				flex;
-	flex-wrap:				wrap;
+	display:				block;
+	text-align:				left;
 	box-shadow:				0 1px 0 0 #666;
 	margin:					0 1rem;
 }
 
 ic-header > * {
-	display:				flex;
-	min-width:				21rem;
+	display:				block;
 	min-height:				3rem;
-	align-items:			center;
-	justify-content:		space-between;
+	white-space: 			nowrap;
+	text-align:				right;
 }
 
 ic-header form {
-	display:				flex;
+	display:				inline-block;
 }
 
 ic-header a, 
 ic-header button{
 	display:				inline-block;
-	height:					2rem;
-	min-width:				2rem;
+	height:					2.5rem;
+	min-width:				2.5rem;
+	margin:					0.25em -0.25rem;
 	border-radius:			0;
 	background-size:		2rem;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
 	background-color:		transparent;
 	cursor:					pointer;
+	vertical-align:			middle;
+	border-radius:			100%;
+	padding:				0;
 }
 
-ic-header input {
+
+
+
+ic-search {
+	display:				inline-block;
+	position:				relative;
+}
+
+
+ic-search input {
 	border-radius:			0;
 	background:				#eee;
 	line-height:			2rem;
 	text-align:				center;
 	width:					15rem;
+	font-size:				0.8rem;
 }
 
-ic-header input:focus {
+ic-search input:focus {
 	box-shadow:				0 0 0 1px #000 inset;
 } 
 
-
-ic-header .spacer {
-	flex:					1 0 0;
+ic-search .auto-suggest {
+	position:				absolute;
+	display:				none;
+	top:					100%;
+	right:					0;
+	left:					0;
+	right:					0;
+	background:				#eee;
 }
 
-
-ic-header .category-filter {
+ic-search input:focus + .auto-suggest {
 	display:				block;
-	min-width:				100%;
-	text-align:				center;
-	text-transform:			uppercase;
-	line-height:			3rem;
 }
 
+ic-search .auto-suggest a {
+	display:				block;
+	border-radius:			0;
+	text-align:				left;
+	line-height:			2rem;
+	margin:					0;
+	padding:				0 0.5rem;
+	white-space: 			nowrap;
+	text-overflow:			ellipsis;
+	overflow:				hidden;
+	font-size:				0.8rem;
+}
 
 
 
@@ -580,7 +605,7 @@ ic-filter-interface button{
 	background-size:		2rem;
 
 
-	background-color:		#eee;
+	background-color:		#fff;
 	color:					#444;
 	box-shadow:				0 0 1px 0 #666 inset;
 }
@@ -594,20 +619,17 @@ ic-filter-interface .panel {
 	box-shadow:				0 0 1px 0 #666 inset;
 	padding:				1rem 0;
 	margin-top:				0.5rem;
-	background:				#eee;
 }
 
 ic-filter-interface .panel > div {
-	display:				flex;
-	flex-wrap:				wrap;
+	display:				block;
 }
 
 ic-filter-interface .panel a {
 	display:				block;
-	line-height:			3rem;
+	line-height:			2rem;
 	padding-left:			1rem;
 	cursor:					pointer;
-	flex:					1 0 5rem;
 	
 	-webkit-user-select:	none;
 	-moz-user-select: 		none;

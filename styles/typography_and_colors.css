@@ -35,6 +35,18 @@ button::-moz-focus-inner {
 
 
 
+/* aligns */
+
+.fleft {
+	float:					left;
+}
+
+.fright {
+	float:					right;
+}
+
+
+
 
 /* icons */
 
