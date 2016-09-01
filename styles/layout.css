@@ -1,15 +1,18 @@
+html {
+	background-color:	#fff;
+}
+
 html,
 body {
 	padding:			0;
 	margin:				0;
 	height:				100%;
 	overflow:			hidden;
-	background-color:	#fff;
 }
 
 /* Mock*/
 html.initial-rem {
-	background-image:		url(../mock/example_map.png);
+	background-image:		url(../mock/example_map.jpeg);
 	background-size:		cover;
 	background-repeat:		no-repeat;
 }
@@ -42,7 +45,6 @@ body > #content {
 	right:					0;
 	white-space: 			nowrap;
 	overflow:				hidden;
-	background-color:		#fff;
 }
 
 
@@ -155,13 +157,13 @@ body > #content {
 
 
 .S 	#content section.list > * {
-	width:					24rem;
+	width:					22rem;
 }
 
 .M 	#content section.list > *,
 .L 	#content section.list > *,
 .XL	#content section.list > * {
-	width:					26rem;
+	width:					24rem;
 }
 
 
@@ -188,13 +190,13 @@ body > #content {
 
 
 .S 	#content section.filter > *{
-	width:					24rem;
+	width:					22rem;
 }
 
 .M 	#content section.filter > *,
 .L 	#content section.filter > *,
 .XL	#content section.filter > * {
-	width:					16rem;
+	width:					14rem;
 }
 
 
@@ -242,7 +244,7 @@ body > #content {
 }
 
 .M.show-list.show-item #content section.list > * {
-	width:					24rem;
+	width:					22rem;
 }
 
 
@@ -252,7 +254,7 @@ body > #content {
 }
 
 .M.show-list.show-item #content section.item > * {
-	width:					40rem;
+	width:					38rem;
 }
 
 
@@ -266,7 +268,7 @@ body > #content {
 
  .L.show-list.show-item	#content section.list > *,
 .XL.show-list.show-item	#content section.list > * {
-	width:					24rem;
+	width:					22rem;
 }
 
 
@@ -279,7 +281,7 @@ body > #content {
 
  .L.show-list.show-item	#content section.filter > *,
 .XL.show-list.show-item	#content section.filter > * {
-	width:					16rem;
+	width:					14rem;
 }
 
 
@@ -293,7 +295,7 @@ body > #content {
 
  .L.show-list.show-item #content section.item > *,
 .XL.show-list.show-item #content section.item > * {
-	width:					40rem;
+	width:					28rem;
 }
 
 

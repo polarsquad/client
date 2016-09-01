@@ -37,34 +37,13 @@ Brauche:
 
 
 
-Todo:
-* full item header -> Suche schließt item
-* Todos im google drive
-* preload templates and images
-* bootstrap app
-* XXS
-* usergroups und topics filtern
-* autocomplete
-* swipe android
-* in Module spalten
-* searchterm wird nicht gel;scht
-* Single view verschwindet
-* Single view Text fehlt
-* Menu
-* Close für items
-* iPad bug
-* Header Icons anpassen
-* Suche in zweite Zeile mit extra schließen
-* Übersetzungen einfügen
-* Javascript FehlerMeldungen abfangen
-* Overlay animieren
-
 Done:
 * Bug img
+* Menu
 * Sprache aushandeln
 * Neue apis benutzen
 * Interface transaltions angelegt
-* Topics und userGroups im Filterinterface anglegt
+* Topics und userGroups im Filterinterface angelegt
 * Header hübsch machen
 * swipe verbessern (früher umschalten)a und paralax
   -> resize!
@@ -73,6 +52,14 @@ Done:
 * Overlay Sprachen, no-wrap
 * fullitem slide Ende liste beim nachladen (klappt: wenn letztes Item aufgerufen wird, wird die Liste neugeladen.)
 * TextLogo gebaut
+* bootstrap app
+* Overlay animieren
+* autocomplete
+* preload templates and images
+* Suche in zweite Zeile mit extra schließen -> anders
+* usergroups und topics filtern 
+* Ergebniszahlen
+* searchterm wird nicht gel;scht-> funktioniert jetzt
 
 - warte auf init/items mit ids bzw. uri ...
 - warte auf Interface-TransationsIds ...
@@ -87,8 +74,33 @@ Fragen/brauche:
 * Interfaceübersetzungen
 * preferredlanguages in init call
 * wie heißen die Parameter für die suche bei targetgroup
-* Ergebnisszahlen
 * Suche groß mit tags (fehlt Layout)
 * Layout leeres Item am Ende des Slides - <ist da
 * Markierung Filter aktiv
 * /items meta ignoriert noch filter
+* 2093 macht 503
+* Description_full ist leer
+
+
+
+TODO:
+* full item header -> Suche schließt item
+* Todos im google drive
+* XXS
+* swipe android
+* in Module spalten
+* Single view verschwindet
+* Single view Text fehlt
+* Close für items
+* iPad bug
+* Header Icons anpassen
+* Übersetzungen einfügen
+* Javascript FehlerMeldungen abfangen
+
+* hr 1 px
+* ALL haken fehlt bei Filtern
+* item nur einmal laden
+* overlay background scrolll =/
+* previewItem definition wirdnicht übersetzt
+* restructure und schön machen
+* angular array als getparameter mit oder oder []

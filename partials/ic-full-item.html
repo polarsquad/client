@@ -4,16 +4,18 @@
 <ic-spinner active = "loading"></ic-spinner>
 
 <div ng-if ="item.title">
-	<h2>{{ item.title }}</h2>
+	<h2 class = "title">{{ item.title }}</h2>
+	<h3 class = "definition"> {{ item.definition[language] }}</h3>
+	<div class = "topics">
+		<a 
+			ng-repeat 	= "topic in item.topics"
+			class		= "highlight"
+		>
+			{{topic | uppercase | prepend : "TOPICS." | translate}} {{$last ? '' : ','}}
+		</a>
+	</div>
 
-	<img ng-if = "item.image_url" ng-src = "{{item.image_url}}"/>
-
-
-	<p>{{ item.brief[language] }}</p>
-
-	<a ng-repeat  = "category in item.categories">
-		{{"ITEM.CAT_"+category}},
-	</a>
+	<img ng-if = "item.imageUrl" ng-src = "{{item.imageUrl}}"/>
 	<p>
 		{{item.description[language]}}
 	</p>

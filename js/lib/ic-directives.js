@@ -440,7 +440,7 @@ angular.module('icDirectives', [
 	function(icLanguageConfig){
 		return {
 			restrict:		'AE',
-			templateUrl:	'partials/ic-language-menu',
+			templateUrl:	'partials/ic-language-menu.html',
 			scope:			{},
 
 			link: function(scope, element){				
@@ -462,7 +462,7 @@ angular.module('icDirectives', [
 	function(icConfigData, icSite,icFilterConfig,icOverlays){
 		return {
 			restrict:		'AE',
-			templateUrl:	'partials/ic-main-menu',
+			templateUrl:	'partials/ic-main-menu.html',
 			scope:			{},
 
 			link: function(scope, element){				
@@ -555,7 +555,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'AE',
 			transclude:		true,
-			templateUrl:	'/partials/ic-tile.html',
+			templateUrl:	'partials/ic-tile.html',
 
 			scope:			{
 								icType:		"<",
@@ -985,7 +985,7 @@ angular.module('icDirectives', [
 
 
 
-.directive('icTripletNew', [
+.directive('icHorizontalSwipeList', [
 
 	'$timeout',
 	'$compile',
@@ -1004,28 +1004,37 @@ angular.module('icDirectives', [
 						},
 			priority:	0,
 			transclude:	true,
-			template:	'<div class ="shuttle">'+
-						'</div>',	
+			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
+						'<div class ="wrapper">'+
+						'	<div class ="shuttle"></div>'+
+						'</div>'+
+						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
 
 			link: function(scope, element, attrs, ctrl, transclude){
 
 				var width,
-					shuttle = element.find('div').eq(0)
+					wrapper = element.find('div').eq(0),
+					shuttle = wrapper.find('div').eq(0)
+
 
 
 				var previous_scope	= scope.$parent.$new(),
 					current_scope 	= scope.$parent.$new(),
-					next_scope		= scope.$parent.$new(),
-					previousModel	= undefined,
-					currentModel	= undefined,
-					nextModel		= undefined
+					next_scope		= scope.$parent.$new()
+					
+				scope.previousModel	= undefined
+				scope.currentModel	= undefined
+				scope.nextModel		= undefined
 
 
 
 				function updateScopes(newCurrentModel, digest){
-					current_scope[scope.icModelAs]	= currentModel		= newCurrentModel
-					previous_scope[scope.icModelAs]	= previousModel		= scope.icPrevious({'icModel': newCurrentModel})
-					next_scope[scope.icModelAs]		= nextModel			= scope.icNext({'icModel': newCurrentModel})
+					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
+					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
+					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
+
+
+
 
 					if(digest){
 						current_scope.$digest()
@@ -1044,11 +1053,9 @@ angular.module('icDirectives', [
 				scope.$watch('icCurrent', function(id){ updateScopes(id) })
 
 				scope.$watch(
-					function(){ return icSearchResults.filteredList.length},
+					function(){ return icSearchResults.filteredList.length} ,
 					function(){ updateScopes(scope.icCurrent) }
 				)
-
-				updateScopes(scope.icCurrent)
 
 
 				element.css({
@@ -1056,9 +1063,15 @@ angular.module('icDirectives', [
 					height:				'100%'
 				})
 
+				wrapper.css({
+					display:			'inline-block',
+					height:				'100%'
+
+				})
+
 				// width 	= element[0].clientWidth
 
-				element.css({
+				wrapper.css({
 					overflowX:			'scroll',
 					overflowY:			'hidden'
 				})
@@ -1072,8 +1085,7 @@ angular.module('icDirectives', [
 					overflow:			'hidden',
 				})
 
-				element.append(shuttle)
-
+				
 
 				transclude(previous_scope, function(clone, scope){
 					shuttle.append(clone)
@@ -1114,7 +1126,7 @@ angular.module('icDirectives', [
 				function handleResize(){
 					window.requestAnimationFrame(function(){
 						width = shuttle.children()[0].offsetWidth
-						element.css({width: width+'px'})				
+						wrapper.css({width: width+'px'})				
 						element[0].scrollLeft 	= width	
 					})
 				}
@@ -1150,20 +1162,20 @@ angular.module('icDirectives', [
 
 
 					if(scope.snapTo == 'next'){
-						updateScopes(nextModel, true)
+						updateScopes(scope.nextModel, true)
 					}
 
 					if(scope.snapTo == 'previous'){
-						updateScopes(previousModel, true)
+						updateScopes(scope.previousModel, true)
 					}
 					
 
 					ignore_next_scroll		= true
-					element[0].scrollLeft 	= width
+					wrapper[0].scrollLeft 	= width
 
 					if(scope.snapTo != 'current'){
 						$timeout(function(){ 
-							scope.icOnTurn({icModel: currentModel})
+							scope.icOnTurn({icModel: scope.currentModel})
 							slide_off = false
 						} , 30, false)
 					}
@@ -1173,15 +1185,15 @@ angular.module('icDirectives', [
 				function snap() {	
 
 
-					var scroll_left 	= element[0].scrollLeft,
+					var scroll_left 	= wrapper[0].scrollLeft,
 						scroll_width	= shuttle[0].scrollWidth
 						
 					scope.snapTo = 'current'
 
 
 
-					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = previousModel 	? 'previous' 	: 'current'
-					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = nextModel		? 'next'		: 'current'
+					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
+					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
 
 					var scroll_to 	= 	{
 											previous:	0,
@@ -1208,8 +1220,17 @@ angular.module('icDirectives', [
 				}
 
 
+				scope.previous = function(){
+					scope.snapTo = 'previous'
+					$timeout(swap, 0, false)
+				}
 
-				element.on('scroll', function(e){
+				scope.next = function(){
+					scope.snapTo = 'next'
+					$timeout(swap, 0, false)
+				}
+
+				wrapper.on('scroll', function(e){
 					e.stopPropagation()
 
 
@@ -1219,7 +1240,7 @@ angular.module('icDirectives', [
 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
 
 					window.requestAnimationFrame(function(){
-						var left = element[0].scrollLeft
+						var left = wrapper[0].scrollLeft
 
 
 						shuttle.children().eq(0)

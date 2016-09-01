@@ -19,7 +19,15 @@
 
 
 
-
+#loading-screen{
+	position:				fixed;
+	top:					0;
+	bottom:					0;
+	left:					0;
+	right:					0;
+	z-index:				99;	
+	background-color:		#fff;
+}
 
 #loading-screen h1 {
 	text-align:				center;
@@ -463,6 +471,24 @@ ic-full-item {
 	background:				#fff;
 }
 
+ic-full-item h2 {
+	font-weight:			500;
+	font-size:				1.2rem;
+	margin:					0.5rem 0;
+}
+
+
+ic-full-item h3 {
+	font-size:				1.1rem;
+	font-weight:			400;
+	margin:					0.5rem 0;
+}
+
+ic-full-item .topics {
+	font-size:				0.9rem;
+}
+
+
 ic-full-item img {
 	display:				block;
 	width:					100%;
@@ -507,7 +533,7 @@ ic-info-tag .icon {
 }
 
 ic-info-tag .title {
-	font-weight:			bold;
+	font-weight:			700;
 	margin-left:			4rem;
 	line-height:			1.5rem;
 } 
@@ -732,20 +758,36 @@ ic-quick-filter a:active{
 
 
 
-
-
-
-ic-triplet {
-	margin:				0 -1rem;
-}
-
-ic-triplet .shuttle > * {
-	box-sizing:			border-box;
-	padding:			0 1rem;
+ic-horizontal-swipe-list {
+	position:			relative;
 }
 
 
 
+ic-horizontal-swipe-list > button {
+	position:			absolute;
+	display:			block;
+	top:				50%;
+	height:				2rem;
+	width:				2rem;
+	background-repeat:	no-repeat;
+	background-position:50% 50%;
+	background-size:	1rem;
+	margin-top:			-2rem;
+	z-index:			99;
+	background-color:	transparent;
+	border-radius:		100%;
+}
+
+ic-horizontal-swipe-list > button.left{
+	left:				0;
+	background-image: 	url(/images/icon_interface_previous.svg);
+}
+
+ic-horizontal-swipe-list > button.right{
+	right:				0;
+	background-image: 	url(/images/icon_interface_next.svg);
+}
 
 
 

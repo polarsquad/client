@@ -34,6 +34,10 @@ button::-moz-focus-inner {
 }
 
 
+h1,h2,h3,h4,h5,h6 {
+	font-weight:			normal;
+}
+
 
 
 ic-text-logo{
@@ -100,21 +104,40 @@ ic-text-logo :last-child{
 
 
 
-.icon-type-information {
-	background-image:		url(/images/icon_type_information.svg);
+.icon-type-information.white{
+	background-image:		url(/images/icon_type_information_white.svg);
 }
 
-.icon-type-services {
-	background-image:		url(/images/icon_type_services.svg);
+.icon-type-services.white{
+	background-image:		url(/images/icon_type_services_white.svg);
 }
 
-.icon-type-places {
-	background-image:		url(/images/icon_type_places.svg);
+.icon-type-places.white {
+	background-image:		url(/images/icon_type_places_white.svg);
 }
 
-.icon-type-events {
-	background-image:		url(/images/icon_type_events.svg);
+.icon-type-events.white {
+	background-image:		url(/images/icon_type_events_white.svg);
 }
+
+
+
+.icon-type-information.color{
+	background-image:		url(/images/icon_type_information_color.svg);
+}
+
+.icon-type-services.color{
+	background-image:		url(/images/icon_type_services_color.svg);
+}
+
+.icon-type-places.color {
+	background-image:		url(/images/icon_type_places_color.svg);
+}
+
+.icon-type-events.color {
+	background-image:		url(/images/icon_type_events_color.svg);
+}
+
 
 
 

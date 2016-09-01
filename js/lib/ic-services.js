@@ -137,8 +137,8 @@ angular.module('icServices', [
 	 						:	icFilterConfig.filterBy[key]
 
 
-			if(empty_matches_all && (needles === undefined || needles.length == 0) )	return true
-			if(haystack === undefined || haystack.length == 0) 							return needles === undefined || needles.length == 0
+			if(needles === undefined || needles.length == 0)		return empty_matches_all
+			if(haystack === undefined || haystack.length == 0) 		return needles === undefined || needles.length == 0
 		 	
 		 	return	needles.some(function(needle){
 						return 	typeof haystack == 'object'
@@ -718,15 +718,18 @@ angular.module('icServices', [
 				new_item			= {}
 
 
-			new_item.id				= new_item_data.id
+			new_item.id				= String(new_item_data.id)
 			new_item.title			= new_item_data.title
-			new_item.brief			= new_item_data.definitions
+			new_item.definition		= new_item_data.definitions
 			new_item.type			= new_item_data.type
-			new_item.topic 			= new_item_data.topics
+			new_item.topics 		= new_item_data.topics
+			new_item.topic			= new_item_data.primary_topic
+			new_item.imageUrl		= new_item_data.image_url
+			new_item.description	= new_item_data.description_full
 
 
 
-			new_item.description	=	new_item.descriptions 
+			new_item.description	= new_item.descriptions 
 
 
 			if(stored_item){
@@ -765,7 +768,7 @@ angular.module('icServices', [
 			var parameters = {}
 
 			if(icFilterConfig.filterBy.type) 					parameters.type 		= icFilterConfig.filterBy.type
-			if(icFilterConfig.filterBy.topic.length != 0)		parameters.typoic 		= icFilterConfig.filterBy.topic
+			if(icFilterConfig.filterBy.topic.length != 0)		parameters.topics 		= icFilterConfig.filterBy.topic
 			if(icFilterConfig.filterBy.targetGroup.length != 0)	parameters.targetGroup 	= icFilterConfig.filterBy.targetGroup
 			if(icFilterConfig.searchTerm)						parameters.query		= icFilterConfig.searchTerm
 
@@ -891,7 +894,8 @@ angular.module('icServices', [
 
 			searchResults.clearFilteredList()		
 
-			Array.prototype.push.apply(searchResults.filteredList, 
+			Array.prototype.push.apply(
+				searchResults.filteredList, 
 				searchResults.data
 				.filter(function(item){
 
@@ -910,7 +914,6 @@ angular.module('icServices', [
 				})
 			)
 
-
 			return searchResults
 
 		}
@@ -919,6 +922,7 @@ angular.module('icServices', [
 			var pos = false,
 				i	= 0
 
+			console.log(id, typeof id)
 
 			while(pos === false && i < searchResults.filteredList.length){
 				pos = (searchResults.filteredList[i].id == id) && i
@@ -933,10 +937,13 @@ angular.module('icServices', [
 			var pos = false,
 				i	= 0
 
+
 			while(pos === false && i < searchResults.filteredList.length){
 				pos = (searchResults.filteredList[i].id == id) && i
 				i++
 			}
+
+
 
 			if(pos == searchResults.filteredList.length-1){
 				searchResults.download()
