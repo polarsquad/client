@@ -1,2 +1,9 @@
-<button ic-toggle-overlay>x</button>
-<ic-language-menu ng-if = "icOverlays.show.languageMenu"></ic-language-menu>	
+
+<ic-language-menu 		ng-if = "icOverlays.show.languageMenu" 	class = "white right">	</ic-language-menu>	
+<ic-main-menu			ng-if = "icOverlays.show.mainMenu"		class = "white left">	</ic-main-menu>
+
+<ic-search				
+	ng-if 			= "icOverlays.show.search"		
+	class 			= "white right"
+	ic-on-update 	= "icOverlays.toggle('search')" 
+></ic-search>

@@ -18,9 +18,33 @@ angular.module('icServices', [
 	* icFilterConfig,
 	* icSite,
 	* icSearchResults
-
+	...
 */
 
+
+
+
+
+.service('icBootstrap',[
+
+	'$rootScope',
+	'$q',
+	'$timeout',
+	'icConfigData',
+	'icLanguageConfig',
+
+
+	function($rootScope, $q, $timeout, icConfigData, icLanguageConfig){
+		$q.all([
+			$timeout(2000),
+			icConfigData.ready,
+			icLanguageConfig,
+		])
+		.then(function(){
+			$rootScope.icAppReady = true
+		})
+	}
+])
 
 
 
@@ -105,23 +129,24 @@ angular.module('icServices', [
 					}
 
 
-		icFilterConfig.matchFilter = function(key, needle, empty_matches_all){
+		icFilterConfig.matchFilter = function(key, haystack, empty_matches_all){
 			 	
 
-			 var item = icFilterConfig.filterBy[key]
-
-			 if(empty_matches_all && (!item || item.length == 0) ) return true
-
-			 if(!needle)			return !item || item.length == 0
-			 if(!item) 				return false
-
-			 needle = String(needle)
+			var needles = 	typeof icFilterConfig.filterBy[key] == 'string'
+	 						?	[icFilterConfig.filterBy[key]]
+	 						:	icFilterConfig.filterBy[key]
 
 
-			 return 	typeof item == 'object'
-						?	icFilterConfig.filterBy[key].indexOf(needle) != -1
- 						:	icFilterConfig.filterBy[key] == needle
+			if(empty_matches_all && (needles === undefined || needles.length == 0) )	return true
+			if(haystack === undefined || haystack.length == 0) 							return needles === undefined || needles.length == 0
+		 	
+		 	return	needles.some(function(needle){
+						return 	typeof haystack == 'object'
+								?	haystack.indexOf(needle) != -1
+								:	haystack == needle
+			 		})
 		}
+
 
 		icFilterConfig.toggleFilter = function(key, value){
 			icFilterConfig.filterBy[key] = mergeParam(icFilterConfig.filterBy[key], value, 'toggle')
@@ -185,8 +210,7 @@ angular.module('icServices', [
 		var icLanguageConfig 			= 	{
 												availableLanguages:	[],
 												currentLanguage:	undefined									
-											},
-			interfaceTranslationsReady 	= icApi.getInterfaceTranslations()
+											}
 
 
 		icConfigData.ready
@@ -207,8 +231,10 @@ angular.module('icServices', [
 			return up
 		}
 
+		icLanguageConfig.ready = icApi.getInterfaceTranslations()
+
 		icLanguageConfig.getTranslationTable = function(lang){
-			return	interfaceTranslationsReady
+			return	icLanguageConfig.ready
 					.then(function(translations){
 						return objectKeysToUpperCase(translations)[lang.toUpperCase()]
 					})
@@ -425,6 +451,10 @@ angular.module('icServices', [
 			icSite.schedulePathUpdate()
 		}
 
+		icSite.clearItem = function(){
+			icSite.addItemToPath(undefined)
+		}
+
 
 		//rename to 'sections'
 		icSite.updateCompontents = function(){
@@ -456,7 +486,6 @@ angular.module('icServices', [
 
 
 
-			console.log(icLanguageConfig.currentLanguage, icSite.params.ln)
 			//updateLanguage
 			if(!icLanguageConfig.currentLanguage){
 				icLanguageConfig.currentLanguage = icSite.params.ln
@@ -473,18 +502,7 @@ angular.module('icServices', [
 			return this
 		}
 
-		//Todo: check if needed
-		icSite.toggleFilter = function(state){
-			console.warn('icSite.toggleFilter: solve differently')
-			return null
-
-			icSite.showFilter =	typeof state == "boolean"
-								?	state
-								:	!icSite.showFilter
-
-			icSite.updateCompontents()
-			return icSite
-		}
+	
 
 		icSite.show = function(str){
 			switch(smlLayout.mode.name){
@@ -693,15 +711,22 @@ angular.module('icServices', [
 		searchResults.meta			= undefined
 
 
-		searchResults.storeItem = function(new_item){
+		searchResults.storeItem = function(new_item_data){
 
 
-			var stored_item 	= searchResults.data.filter(function(item){ return item.id == new_item.id })[0]
+			var stored_item 		= searchResults.data.filter(function(item){ return item.id == new_item_data.id })[0]
+				new_item			= {}
 
-			new_item.topic 		= 		icConfigData.getTopicById(new_item.primary_topic_id)
-									&&	icConfigData.getTopicById(new_item.primary_topic_id).ontology_uri
 
-			new_item.brief		= 		new_item.definition
+			new_item.id				= new_item_data.id
+			new_item.title			= new_item_data.title
+			new_item.brief			= new_item_data.definitions
+			new_item.type			= new_item_data.type
+			new_item.topic 			= new_item_data.topics
+
+
+
+			new_item.description	=	new_item.descriptions 
 
 
 			if(stored_item){
@@ -718,23 +743,38 @@ angular.module('icServices', [
 
 
 		searchResults.listLoading = function(){
+			searchResults.listCalls = 	(searchResults.listCalls || [])
+										.filter(function(call){
+											return call.$$state.status == 0
+										})
+
 			return searchResults.listCalls.length > 0
 		}
 
 
 		searchResults.download = function(){
+			if(
+					!icFilterConfig.filterBy.type
+				&&	icFilterConfig.filterBy.topic.length == 0
+				&&	icFilterConfig.filterBy.targetGroup.length == 0
+				&&	!icFilterConfig.searchTerm
+			){
+				console.warn('icSearchResults: download without paramters.')
+			}
+
+			var parameters = {}
+
+			if(icFilterConfig.filterBy.type) 					parameters.type 		= icFilterConfig.filterBy.type
+			if(icFilterConfig.filterBy.topic.length != 0)		parameters.typoic 		= icFilterConfig.filterBy.topic
+			if(icFilterConfig.filterBy.targetGroup.length != 0)	parameters.targetGroup 	= icFilterConfig.filterBy.targetGroup
+			if(icFilterConfig.searchTerm)						parameters.query		= icFilterConfig.searchTerm
 
 			var currentCall = 	icConfigData.ready
 								.then(function(){
 									return	icApi.getList(
 												searchResults.limit, 
 												searchResults.offset, 
-												{
-													type: 			icFilterConfig.filterBy.type,
-													topic:			icFilterConfig.filterBy.topic,
-													targetGroup: 	icFilterConfig.filterBy.targetGroup,
-													query:			icFilterConfig.searchTerm
-												}
+												parameters
 											)
 								})
 
@@ -755,20 +795,34 @@ angular.module('icServices', [
 
 						searchResults.filterList()
 
-						searchResults.listCalls = searchResults.listCalls.filter(function(call){ return call != currentCall })
 					})
 		}
 
 
+
 		searchResults.itemLoading = function(id){
+
+
 			searchResults.itemCalls[id] = 	(searchResults.itemCalls[id] || [])
 											.filter(function(call){
 												return call.$$state.status == 0
 											})
 
-			return searchResults.itemCalls[id].length > 0
+			if(searchResults.itemCalls[id] == 0) delete searchResults.itemCalls[id]
+
+			return !!searchResults.itemCalls[id]
 		}
 
+
+		searchResults.loading = function(){
+			if(searchResults.listLoading()) return true
+
+			for(var id in searchResults.itemCalls){
+				if(searchResults.itemLoading(id)) return true
+			}
+
+			return false
+		}
 
 
 		searchResults.downloadItem = function(id){
@@ -833,22 +887,19 @@ angular.module('icServices', [
 			while(searchResults.filteredList.length > 0) searchResults.filteredList.pop()
 		}
 
-		searchResults.filterList = function(additional_filters){
+		searchResults.filterList = function(){
 
-			if(additional_filters) console.warn('additional filters no longer supported')
-
-			// var filters 	= angular.merge({}, icFilterConfig.filterBy, additional_filters),
-			// 	search_term	= icFilterConfig.searchTerm
-
-			searchResults.clearFilteredList()			
+			searchResults.clearFilteredList()		
 
 			Array.prototype.push.apply(searchResults.filteredList, 
 				searchResults.data
 				.filter(function(item){
-					var passed = true
+
+					var passed 		= true
 
 					for(var key in icFilterConfig.filterBy){
-						passed = passed && icFilterConfig.matchFilter(key, item[key], true)
+						passed = 		passed 
+									&& 	icFilterConfig.matchFilter(key, item[key], true)
 					}
 
 					return passed		
@@ -887,6 +938,10 @@ angular.module('icServices', [
 				i++
 			}
 
+			if(pos == searchResults.filteredList.length-1){
+				searchResults.download()
+			}
+
 			return 	pos !== false && searchResults.filteredList[pos+1] && searchResults.filteredList[pos+1].id
 		}
 
@@ -900,12 +955,15 @@ angular.module('icServices', [
 
 				searchResults.clearFilteredList()
 
-				//with this the interface feels snappier:
-				$timeout(function(){
-					searchResults
-					.filterList()
-					.download()
-				}, 0)
+
+				if(!icFilterConfig.cleared()){
+					//with this the interface feels snappier:
+					$timeout(function(){
+						searchResults
+						.filterList()
+						.download()
+					}, 0)
+				}
 			},
 			true
 		)

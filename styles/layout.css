@@ -4,6 +4,7 @@ body {
 	margin:				0;
 	height:				100%;
 	overflow:			hidden;
+	background-color:	#fff;
 }
 
 /* Mock*/
@@ -31,6 +32,7 @@ body > header {
 
 
 
+
 body > #content {
 	position:				absolute;
 	display:				block;
@@ -40,6 +42,7 @@ body > #content {
 	right:					0;
 	white-space: 			nowrap;
 	overflow:				hidden;
+	background-color:		#fff;
 }
 
 
@@ -57,15 +60,15 @@ body > #content {
 	z-index:				1;
 	box-shadow:				0 0 1rem rgba(0,0,0,0.2);
 	will-change:			scroll-position;
+	padding:				1rem;
+	box-sizing:				border-box;
 }
 
 
 
 #content  section > * {
 	margin:					0 auto;
-	padding:				1rem;
 	min-height:				100%;
-	box-sizing:				border-box;
 }
 
 
@@ -110,10 +113,6 @@ body > #content {
 
 }
 
-.XS #content section.page > * {
-	width:					23rem;
-}
-
 .S	#content section.page > * {
 	width:					46rem;
 }
@@ -155,10 +154,6 @@ body > #content {
 
 
 
-.XS #content section.list > *{
-	width:					23rem;
-}
-
 .S 	#content section.list > * {
 	width:					24rem;
 }
@@ -191,10 +186,6 @@ body > #content {
 }
 
 
-
-.XS #content section.filter > * {
-	width:					23rem;
-}
 
 .S 	#content section.filter > *{
 	width:					24rem;
@@ -232,10 +223,6 @@ body > #content {
 }
 
 
-
-.XS #content section.item > * {
-	width:					23rem;
-}
 
 .S 	#content section.item > *,
 .M 	#content section.item > *,

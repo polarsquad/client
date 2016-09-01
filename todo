@@ -38,8 +38,6 @@ Brauche:
 
 
 Todo:
-* Suche groß mit tags
-* fullitem slide Ende liste beim nachladen
 * full item header -> Suche schließt item
 * Todos im google drive
 * preload templates and images
@@ -49,7 +47,17 @@ Todo:
 * autocomplete
 * swipe android
 * in Module spalten
-} searchterm wird nicht gel;scht
+* searchterm wird nicht gel;scht
+* Single view verschwindet
+* Single view Text fehlt
+* Menu
+* Close für items
+* iPad bug
+* Header Icons anpassen
+* Suche in zweite Zeile mit extra schließen
+* Übersetzungen einfügen
+* Javascript FehlerMeldungen abfangen
+* Overlay animieren
 
 Done:
 * Bug img
@@ -62,8 +70,13 @@ Done:
   -> resize!
 * Filter für Zielgruppen bauen
 * Sprachauswahl bei Sprachkonflikt im Link
+* Overlay Sprachen, no-wrap
+* fullitem slide Ende liste beim nachladen (klappt: wenn letztes Item aufgerufen wird, wird die Liste neugeladen.)
+* TextLogo gebaut
+
 - warte auf init/items mit ids bzw. uri ...
 - warte auf Interface-TransationsIds ...
+
 
 
 
@@ -75,3 +88,7 @@ Fragen/brauche:
 * preferredlanguages in init call
 * wie heißen die Parameter für die suche bei targetgroup
 * Ergebnisszahlen
+* Suche groß mit tags (fehlt Layout)
+* Layout leeres Item am Ende des Slides - <ist da
+* Markierung Filter aktiv
+* /items meta ignoriert noch filter

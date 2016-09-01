@@ -44,23 +44,44 @@
 
 
 	<body>
-
 		<div 
-			class = "javascript"
-			ng-if = "false"
+			id = "ic-javascript-missing"
 		>
+			<script id = "javascrip">
+				var el = document.getElementById('ic-javascript-missing')
+				el.parentNode.removeChild(el)
+			</script>
 			Bitte JavaScript aktivieren.
 		</div>
 
 
-		<header>
+
+
+		<div 
+			id 		= "loading-screen"
+			ng-if 	= "!icAppReady"
+		>
+			<h1><ic-text-logo></ic-text-logo></h1>
+			<ic-spinner active = "true">
+			</ic-spinner>
+		</div>
+
+		<header
+			ng-if = "::icAppReady"
+		>
 			<ic-header></ic-header>
 		</header>
 
-		<ic-overlays ng-show = "icOverlays.active()"></ic-overlays>
+
+		<ic-overlays 
+			ng-if 	= "::icAppReady"
+			class	= "ng-hide"
+			ng-show = "icOverlays.active()"
+		></ic-overlays>
 
 		<section 
-			id = "content"
+			id 		= "content"
+			ng-if 	= "::icAppReady"
 			no-text-nodes 
 		>
 
@@ -107,7 +128,7 @@
 			 	</section>
 			 </ic-triple-new>
 
-		 </section>
+		</section>
 	</body>
 
 

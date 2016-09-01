@@ -10,6 +10,24 @@
 	>
 	</input>
 
+	<div class = "tags">
+		<a 	
+			ng-repeat = "topic in icFilterConfig.filterBy.topic"
+			ng-click  = "icFilterConfig.toggleFilter('topic', topic)" 
+		>
+			{{topic | uppercase | prepend: "TOPICS." |translate}}
+			<span class ="icon icon-nav-close"></span>
+		</a>
+
+		<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroup"
+			ng-click  = "icFilterConfig.toggleFilter('targetGroup', targetGroup)" 
+		>
+			{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}
+			<span class ="icon icon-nav-close"></span>
+		</a>
+
+	</div>
+
 	<div 
 		class 	= "auto-suggest"
 		ng-show	= "searchTerm.length > 2"

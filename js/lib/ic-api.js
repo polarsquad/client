@@ -6,7 +6,7 @@ angular.module('icApi', [])
 
 	function($httpProvider){
 
-	$httpProvider.useApplyAsync(true)
+		$httpProvider.useApplyAsync(true)
 
 	}
 ])

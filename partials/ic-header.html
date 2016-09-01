@@ -1,8 +1,8 @@
 <div>
 	<button
-		type		= "button"	
-		class 		= "icon-nav-menu fleft"
-		ng-click	= "icFilterConfig.clearFilter()"
+		type				= "button"	
+		class 				= "icon-nav-menu fleft"
+		ic-toggle-overlay 	= "mainMenu" 
 	></button>
 
 	<button 
@@ -11,13 +11,9 @@
 		ic-toggle-overlay 	= "languageMenu" 
 	></button>
 
-	<ic-search
-		ng-show = "showSearch"
-	></ic-search>
-
 	<button 
-		type		= "button"
-		ng-class 	= "{'icon-nav-search': !showSearch, 'icon-nav-close': showSearch}"
-		ng-click 	= "showSearch = !showSearch; icFilterConfig.searchTerm = ''"
+		type				= "button"
+		class 				= "icon-nav-search"
+		ic-toggle-overlay 	= "search"
 	></button>
 </div>

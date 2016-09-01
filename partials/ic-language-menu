@@ -7,10 +7,15 @@
 	ng-repeat 	= "language in ::icLanguageConfig.availableLanguages"
 	ng-click	= "icLanguageConfig.currentLanguage = language"
 >
-	<span 
-		class 		= "icon" 
-		ng-class 	= "{'icon-interface-checkbox-selected': icLanguageConfig.currentLanguage == language, 'icon-interface-checkbox' : icLanguageConfig.currentLanguage != language}"
-	></span>
-	<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
-	<span class = "translation">{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}<span>
+	<div 
+		ng-class 	= "{'highlight': icLanguageConfig.currentLanguage == language}"		
+	>
+		<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
+		<span 
+			ng-if = "icLanguageConfig.currentLanguage != language"
+			class = "translation small light"
+		>
+				{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}
+		</span>
+	</div>
 </a>

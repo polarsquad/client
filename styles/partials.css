@@ -1,7 +1,7 @@
 /* javascript missing */
 
 
-.javascript {
+#ic-javascript-missing {
 	position:				fixed;
 	top:					0;
 	right:					0;
@@ -20,6 +20,12 @@
 
 
 
+
+#loading-screen h1 {
+	text-align:				center;
+	margin-top:				4rem;
+	margin-bottom:			4rem;
+}
 
 
 /* header */
@@ -73,7 +79,7 @@ ic-search input {
 	background:				#eee;
 	line-height:			2rem;
 	text-align:				center;
-	width:					15rem;
+	width:					18rem;
 	font-size:				0.8rem;
 }
 
@@ -82,17 +88,7 @@ ic-search input:focus {
 } 
 
 ic-search .auto-suggest {
-	position:				absolute;
-	display:				none;
-	top:					100%;
-	right:					0;
-	left:					0;
-	right:					0;
-	background:				#eee;
-}
-
-ic-search input:focus + .auto-suggest {
-	display:				block;
+	margin-top:				1rem;
 }
 
 ic-search .auto-suggest a {
@@ -191,7 +187,6 @@ ic-section-list {
 .logo {
 	width:					16rem;
 	padding:				2.8rem 2.8rem;
-	margin-left:			0.5rem;
 	font-size:				1.2rem;
 	background-image:		url(/images/logo.svg);
 	background-position:	0 0;
@@ -215,7 +210,39 @@ ic-section-list {
 
 
 
+/*  tags */
 
+.tags {
+	margin:					1rem 0;
+	display:				flex;
+	white-space: 			normal !important;
+	flex-wrap:				wrap;
+}
+
+
+.tags > a {
+	position:				relative;
+	display:				inline-block !important;
+	font-size:				0.9rem;
+	margin:					0.2em;
+	padding:				0 0.2em;
+	border-radius:			0.2em;
+	background:				#ccc;
+	line-height:			1.6em;
+	padding-right:			1.6em;
+	flex:					1 0 0;
+}
+
+.tags > a > .icon {
+	position:				absolute;
+	top:					0.3em;
+	bottom:					0.3em;
+	right:					0.2em;
+	width:					1em !important;
+	height:					auto !important;
+	float:					right;
+	background-size:		1em !important;
+}
 
 
 
@@ -227,7 +254,7 @@ ic-section-list {
 	display:				block;
 	white-space: 			normal;
 	line-height:			10rem;
-	margin:					-0.5rem -1rem;
+	margin:					-0.5rem -0.5rem;
 	text-align:				center;
 }
 
@@ -433,7 +460,6 @@ ic-search-result-list ic-preview-item .icon {
 
 ic-full-item {
 	display:				block;
-	position:				relative;
 	background:				#fff;
 }
 
@@ -446,6 +472,21 @@ ic-full-item img {
 
 
 
+
+/* ic-unavailable */
+ic-unavailable {
+	display:				block;
+	position:				absolute;
+	top:					0;
+	left:					0;
+	right:					0;
+	left:					0;
+	bottom:					0;
+	background-image:		url('/images/icon_interface_unavailable.svg');
+	background-repeat:		no-repeat;
+	background-position:	50% 50%;
+	background-size:		50% auto;
+}
 
 
 
@@ -484,10 +525,6 @@ ic-info-tag .content {
 	background-color:				#888;
 	box-shadow:						0 2px 0 -1px #000 inset;
 }
-
-
-
-
 
 /* icSpinner */
 
@@ -608,6 +645,7 @@ ic-filter-interface button{
 	background-color:		#fff;
 	color:					#444;
 	box-shadow:				0 0 1px 0 #666 inset;
+	overflow:				hidden;
 }
 
 ic-filter-interface button + button {
@@ -668,12 +706,15 @@ ic-quick-filter {
 
 ic-quick-filter a {
 	height:				3rem;
+	line-height:		3rem;
 	flex:				1 0 1rem;
 	border-bottom:		0.3rem solid transparent;
-	background-position:50% 50%;
-	background-size:	contain;
+	background-position:0% 50%;
+	background-size:	3rem;
+	padding-left:		2rem;
 	background-repeat:	no-repeat;
 	cursor:				pointer;
+	text-align:			center;
 }
 
 
@@ -724,64 +765,106 @@ ic-overlays {
 	z-index:			99999;
 }
 
+ic-overlays > .left {
+	animation:			from-left 200ms linear;
+}
 
-ic-overlays > [ic-toggle-overlay] {
-	position:			absolute;
-	top:				0;
-	left:				0;
-	height:				3rem;
-	width:				3rem;
-	color:				white;
-	background:			transparent;
+ic-overlays > .right {
+	animation:			from-right 200ms linear;
 }
 
 
 
 
+@keyframes from-left{
+	0% {
+		transform:			translateX(-100%);
+	}
+
+	100% {
+		transform:			translateX(0%);
+	}
+}
+
+@keyframes from-right{
+	0% {
+		transform:			translateX(100%);
+	}
+
+	100% {
+		transform:			translateX(0%);
+	}
+}
 
 
 
+ic-overlays .left{
+	left:				0;
+}
 
-ic-language-menu {
+
+ic-overlays .right{
+	right:				0;
+}
+
+
+
+ic-overlays .white {
 	position:			absolute;
 	top:				0;
-	right:				0;
 	display:			block;
 	min-height:			100%;
-	width:				18rem;
+	width:				20rem;
 	background-color:	#fff;
 	padding:			1rem;
+	box-sizing:			border-box;
 }
 
-ic-language-menu >  * {
+ic-overlays .white > a {
 	display:			block;
 	line-height:		3rem;
 	box-shadow:			0 1px 0 rgba(0,0,0,0.3);
 }
 
-ic-language-menu >  header {
+
+ic-overlays .white >  header {
 	padding:			0 1rem;
 }
 
+ic-overlays .white  a {
+	white-space:		nowrap;
+	display:			block;
+}
 
-ic-language-menu > a > * {
+ic-overlays .white  a > * {
 	display:			inline-block;
 	vertical-align:		top;
 }
 
-ic-language-menu > a > .icon {
+ic-overlays .white  a > .icon {
+	display:			inline-block;
 	height:				3rem;
 	width:				3rem;
 	background-position:50% 50%;
 	background-repeat:	no-repeat;
 	background-size:	2rem;
+	vertical-align:		middle;
 }
 
-ic-language-menu > a > .native {
-	width:				6rem;
+ic-overlays .white  a > .icon + * {
+	display:			inline-block;
+	vertical-align:		middle;
+	line-height:		1.5;
 }
 
-ic-language-menu > a > .translation {
-	width:				6rem;
+
+
+ic-language-menu  a  .native {
+	display:			inline-block;
+	width:				8rem;
 }
 
+ic-language-menu  a  .translation {
+	display:			inline-block;
+	width:				8rem;
+}

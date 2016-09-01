@@ -18,7 +18,7 @@
 
 <div 
 	class 	= "panel sort"
-	ng-show = "open == 'sort'" 
+	ng-if 	= "open == 'sort'" 
 >
 	<a 
 		ng-class 	= "{active : icSite.params.so == 'a'}"
@@ -56,7 +56,7 @@
 
 <div 
 	class 	= "panel filter"
-	ng-show	= "open == 'filter'" 
+	ng-if	= "open == 'filter'" 
 >
 
 
@@ -67,10 +67,10 @@
 		{{"INTERFACE.TOPICS" | translate}}
 	</a>
 
-	<div ng-show = "expand.topics">
+	<div ng-if = "expand.topics">
 		<a 
 			ng-click 	= "icFilterConfig.clearFilter('topic')" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', false), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', false)}"
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', undefined)}"
 		>
 			{{"INTERFACE.TOPICS_ALL" | translate}}
 		</a>
@@ -91,10 +91,10 @@
 		{{"INTERFACE.TARGET_GROUPS" | translate}}
 	</a>
 
-	<div ng-show = "expand.targetGroups">
+	<div ng-if = "expand.targetGroups">
 		<a 
 			ng-click 	= "icFilterConfig.clearFilter('targetGroup')" 
-			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', false), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', false)}"
+			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}"
 		>
 			{{"INTERFACE.TARGET_GROUP.ALL" | translate}}
 		</a>

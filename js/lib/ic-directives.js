@@ -388,6 +388,16 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){
+						return scope.icId && icSearchResults.itemLoading(scope.icId)
+					},
+
+					function(loading){
+						scope.loading = loading
+					}
+				)
+
+				scope.$watch(
+					function(){
 						return icLanguageConfig.currentLanguage
 					},
 					function(){
@@ -402,7 +412,7 @@ angular.module('icDirectives', [
 
 
 
-.directive('icInfoTag',[
+.directive('icInfoTag', [
 
 	function(){
 
@@ -423,9 +433,6 @@ angular.module('icDirectives', [
 
 
 
-
-
-
 .directive('icLanguageMenu', [
 
 	'icLanguageConfig',
@@ -438,6 +445,33 @@ angular.module('icDirectives', [
 
 			link: function(scope, element){				
 				scope.icLanguageConfig = icLanguageConfig
+			}
+		}
+	}
+
+])
+
+
+.directive('icMainMenu', [
+
+	'icConfigData',
+	'icSite',
+	'icFilterConfig',
+	'icOverlays',
+
+	function(icConfigData, icSite,icFilterConfig,icOverlays){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-main-menu',
+			scope:			{},
+
+			link: function(scope, element){				
+				scope.icConfigData 		= icConfigData
+				scope.icSite 			= icSite
+				scope.icFilterConfig 	= icFilterConfig
+				scope.icOverlays		= icOverlays
+
+				scope.expand = {}
 			}
 		}
 	}
@@ -650,8 +684,9 @@ angular.module('icDirectives', [
 
 	'icFilterConfig',
 	'icConfigData',
+	'icSearchResults',
 
-	function(icFilterConfig, icConfigData){
+	function(icFilterConfig, icConfigData, icSearchResults){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-quick-filter.html',
@@ -660,6 +695,16 @@ angular.module('icDirectives', [
 			link: function(scope, element,attrs){
 				scope.icFilterConfig 	= icFilterConfig
 				scope.icConfigData 		= icConfigData
+
+				scope.$watch(
+					function(){
+						return icSearchResults.meta
+					},
+
+					function(meta){
+						scope.meta = meta
+					}
+				)
 			}
 		}
 	}
@@ -853,6 +898,17 @@ angular.module('icDirectives', [
 
 
 
+.directive('icTextLogo', [
+
+	function(){
+		return {
+			restrict: 'E',
+			template: "<span>Info</span><span>Compass</span>"
+		}
+	}
+])
+
+
 
 
 
@@ -870,12 +926,19 @@ angular.module('icDirectives', [
 		return {
 			restrict: 		'E',
 			templateUrl:	'/partials/ic-search.html',
-			scope:			{},
+			scope:			{
+								icOnUpdate : '&'
+							},
 
 			link: function(scope, element, attrs){
 
-				scope.searchTerm	= icFilterConfig.searchTerm
-				scope.icTitles 		= icConfigData.titles
+				scope.searchTerm		= icFilterConfig.searchTerm
+				scope.icTitles 			= icConfigData.titles
+
+				scope.icFilterConfig	= icFilterConfig
+
+
+				console.log(icFilterConfig.filterBy)
 
 				scope.update = function(){
 					var input = element[0].querySelector('#search-term')
@@ -883,7 +946,8 @@ angular.module('icDirectives', [
 					input.focus()
 					input.blur()
 
-					icFilterConfig.searchTerm = scope.search.term
+					icFilterConfig.searchTerm = scope.searchTerm
+					if(scope.icOnUpdate) scope.icOnUpdate()
 				}
 
 				scope.setSearchTerm = function(str){
@@ -938,6 +1002,7 @@ angular.module('icDirectives', [
 							icNext:		"&",
 							icOnTurn:	"&"
 						},
+			priority:	0,
 			transclude:	true,
 			template:	'<div class ="shuttle">'+
 						'</div>',	
@@ -987,7 +1052,7 @@ angular.module('icDirectives', [
 
 
 				element.css({
-					display:			'block',
+					display:			'inline-block',
 					height:				'100%'
 				})
 
@@ -1049,8 +1114,8 @@ angular.module('icDirectives', [
 				function handleResize(){
 					window.requestAnimationFrame(function(){
 						width = shuttle.children()[0].offsetWidth
-						element[0].scrollLeft 	= width	
 						element.css({width: width+'px'})				
+						element[0].scrollLeft 	= width	
 					})
 				}
 				

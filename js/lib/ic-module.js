@@ -54,20 +54,18 @@ angular.module('InfoCompassModule',[
 .controller('InfoCompassCtrl',[
 	
 	'$scope',
+	'icBootstrap',
 	'icSite',
 	'icFilterConfig',
 	'smlLayout',
 	'icConfigData',
-	'icSearchResults',
 	'icLanguageConfig',
 
 
-	function($scope, icSite, icFilterConfig, smlLayout, icConfigData, icSearchResults, icLanguageConfig){
+	function($scope, icBootstrap, icSite, icFilterConfig, smlLayout, icConfigData, icLanguageConfig){
 		$scope.icSite 			= icSite
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
-		$scope.icSearchResults	= icSearchResults
 		$scope.icConfigData		= icConfigData 
-
 	}
 
 ])

@@ -11,7 +11,7 @@ a {
 }
 
 a:active {
-	background-color:	rgba(0,0,0,0.2) !important;
+	background-color:	rgba(0,0,0,0.1) !important;
 }
 
 input, 
@@ -35,6 +35,23 @@ button::-moz-focus-inner {
 
 
 
+
+ic-text-logo{
+	font-family:			Roboto, sans-serif !important;
+	word-spacing: 			0 !important;
+}
+
+ic-text-logo :first-child{
+	font-weight:			bold !important;
+}
+
+ic-text-logo :last-child{
+	font-weight:			normal !important;
+}
+
+
+
+
 /* aligns */
 
 .fleft {
@@ -45,6 +62,20 @@ button::-moz-focus-inner {
 	float:					right;
 }
 
+
+
+/* weight */
+
+.light{
+	font-weight:			300;
+}
+
+
+/* size */
+
+.small {
+	font-size:				0.9em;
+}
 
 
 
@@ -121,6 +152,33 @@ button::-moz-focus-inner {
 
 
 /* Colors */
+
+
+.highlight {
+	color:					#f27020;
+}
+
+
+
+.text-blue {
+	color:					#62a7d5;
+}
+
+.text-orange {
+	color:					#f27020;
+}
+
+.text-yellow {
+	color:					#fec300;
+}
+
+.text-purple {
+	color:					#7c51a2;
+}
+
+
+
+
 
 
 .bg-blue {

@@ -1,0 +1,67 @@
+<h2>
+	<ic-text-logo></ic-text-logo>
+</h2>
+
+
+<a 
+	ng-click	= "icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle()"
+>
+	Home
+</a>
+
+<a 
+	ng-repeat 	= "type in ::icConfigData.types"
+	ng-click 	= "icSite.clearItem(); icFilterConfig.clearFilter().toggleFilter('type', type); icOverlays.toggle()" 
+>
+	<span 
+		class 		= "icon"
+		style		= "background-image: url({{::type | icIcon : true}});"
+	>		
+	</span>
+	<div>
+		{{type | uppercase | prepend : "TYPES." | translate}}
+	</div>
+</a>
+
+
+<a
+	ng-click = "expand.topics = !expand.topics"
+>
+	{{"INTERFACE.TOPICS" | translate}}
+</a>
+
+<div ng-show = "expand.topics">
+	<a 
+		ng-repeat 	= "topic in ::icConfigData.topics"
+		ng-click 	= "icSite.clearItem(); icFilterConfig.clearFilter().toggleFilter('topic', topic); icOverlays.toggle()"
+	>
+		{{topic | uppercase | prepend : "TOPICS." | translate}}
+	</a>
+</div>
+
+
+<a 
+>
+	MERKLISTE
+</a>
+
+
+
+<a 
+>
+	BEITRAG ERSTELLEN
+</a>
+
+
+
+<a 
+>
+	ABOUT
+</a>
+
+
+
+<a 
+>
+	LOGIN
+</a>
