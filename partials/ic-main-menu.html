@@ -4,7 +4,8 @@
 
 
 <a 
-	ng-click	= "icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle()"
+	ng-href		= "/"
+	ng-click 	= "icOverlays.toggle()" 
 >
 	Home
 </a>
@@ -15,7 +16,7 @@
 >
 	<span 
 		class 		= "icon"
-		style		= "background-image: url({{::type | icIcon : true}});"
+		style		= "background-image: url({{::type | icIcon : 'color'}});"
 	>		
 	</span>
 	<div>
@@ -25,7 +26,9 @@
 
 
 <a
-	ng-click = "expand.topics = !expand.topics"
+	ng-click 	= "expand.topics = !expand.topics"
+	ng-class	= "{'icon-interface-arrow-down': expand.topics, 'icon-interface-arrow-right': !expand.topics}"
+	class	 	= "expand "
 >
 	{{"INTERFACE.TOPICS" | translate}}
 </a>
@@ -35,6 +38,11 @@
 		ng-repeat 	= "topic in ::icConfigData.topics"
 		ng-click 	= "icSite.clearItem(); icFilterConfig.clearFilter().toggleFilter('topic', topic); icOverlays.toggle()"
 	>
+		<span 
+			class 		= "icon"
+			style		= "background-image: url({{::topic | icIcon : 'black'}});"
+		>		
+		</span>
 		{{topic | uppercase | prepend : "TOPICS." | translate}}
 	</a>
 </div>

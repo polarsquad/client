@@ -6,84 +6,8 @@ Regeln:
 
 
 
-
-Todo
-* Wenn keine items mehr da sind nicht nachladen
-* ic-directives entrümpelt 
-
-Done:
-* Roboto
-* performance verbessert
-* overlays anlegen
-* Sprachmenu bauen
-* sprache angelegt
-* Modal zum Sprachaushandeln -> nicht sinnvoll
-* Sprache wird geraten
-* API header richtig setzten -> nicht sinnvol
-
-
-
-Brauche:
-* weiße Icons für Overlay
-* Definitionion ist leer, was soll dort hin?
-* Api call für interface, am besten einzelener call
-* Doppelcall
-* Klarmachen, was genau bei den Items angezeigt werden soll
- -> und was, wenn Einträge fehlen!
-* Einzelene Screen rund machen
-* Radio button für sprachmenu
- * ?lang=de
-
-
-
-
-Done:
-* Bug img
-* Menu
-* Sprache aushandeln
-* Neue apis benutzen
-* Interface transaltions angelegt
-* Topics und userGroups im Filterinterface angelegt
-* Header hübsch machen
-* swipe verbessern (früher umschalten)a und paralax
-  -> resize!
-* Filter für Zielgruppen bauen
-* Sprachauswahl bei Sprachkonflikt im Link
-* Overlay Sprachen, no-wrap
-* fullitem slide Ende liste beim nachladen (klappt: wenn letztes Item aufgerufen wird, wird die Liste neugeladen.)
-* TextLogo gebaut
-* bootstrap app
-* Overlay animieren
-* autocomplete
-* preload templates and images
-* Suche in zweite Zeile mit extra schließen -> anders
-* usergroups und topics filtern 
-* Ergebniszahlen
-* searchterm wird nicht gel;scht-> funktioniert jetzt
-
-- warte auf init/items mit ids bzw. uri ...
-- warte auf Interface-TransationsIds ...
-
-
-
-
-Fragen/brauche:
-* Übersetzungen schlecht; vgl. native
-* Übersetzungen der Sprachnamen, nicht komplett
-* Totals je type
-* Interfaceübersetzungen
-* preferredlanguages in init call
-* wie heißen die Parameter für die suche bei targetgroup
-* Suche groß mit tags (fehlt Layout)
-* Layout leeres Item am Ende des Slides - <ist da
-* Markierung Filter aktiv
-* /items meta ignoriert noch filter
-* 2093 macht 503
-* Description_full ist leer
-
-
-
 TODO:
+* ic-directives entrümpelt 
 * full item header -> Suche schließt item
 * Todos im google drive
 * XXS
@@ -95,12 +19,57 @@ TODO:
 * iPad bug
 * Header Icons anpassen
 * Übersetzungen einfügen
-* Javascript FehlerMeldungen abfangen
 
-* hr 1 px
-* ALL haken fehlt bei Filtern
-* item nur einmal laden
-* overlay background scrolll =/
-* previewItem definition wirdnicht übersetzt
 * restructure und schön machen
 * angular array als getparameter mit oder oder []
+* schatten beim triplet
+* mehrfach scroll beim triplet verhindern
+* scroll bump mit requestanimation frame und scrolto / nachladen bei limit oder limit/2
+* alle translationsstrings prüfen
+* Treffer auf searchterm nach oben
+* Animation von rechts komisch
+* Overlay mit ng-show
+* type filter umstellen macht bildshirm kurz weiss
+* android browser active state haesslich
+* active state preview item, an oder aus?
+* android loading icon dreht nicht auf dem loading screen
+* search flackert on focus loss
+* performance problem beim overlay lösen
+* images vorladen, die nicht im css sondern in style attrs stecken
+* item direkt laden wird manchmal nicht angezeigt
+
+
+Done:
+
+* loading screen gebaut (Seite rendert dahinter)
+* ALL haken fehlt bei Filtern (funktioniert wieder)
+* Wenn keine items mehr da sind nicht nachladen (offset wird jetzt um die tatsächliche Anzahl an Items im letzten call erhöht, gibt es keine, bliebt der call gleich und server regiert mit 'not modified')
+* hr 1 px (box-shadow durhc border ersetzt)
+* icon für primary topic -> warte auf mehr icons
+* Item wird nach searchterm suche nicht angzeigt (läuft -> regex und deepsearch gefixt)
+* Triplet buttons erst ab S
+* Home soll searchterm löschen / explizit link ohne paramter setzen?
+* item nur einmal laden
+* Filter anzeigen in Suche
+* previewItem definition wird nicht übersetzt
+* Overlay background fade in
+* overlay background scrolll =/ (nicht mehr auf firefox und android browser)
+* Main menu icons ergänzt
+* filter nach work gibt culture zurück (BE)
+* filter nach city leer (-> fixed)
+* Javascript FehlerMeldungen abfangen (-> unpraktisch)
+* Item ohne vorgeänger triple scrollt falsch. -> Initial scroll immer falsch! (-> fixed)
+
+
+
+Brauche:
+* Funktionieren die Filter im backend?
+* icon für primary topic -> warte auf mehr icons
+* SearchTerms zurück nach API-Call
+* items in der Datenbank mergen topics und targetGroups
+* contacts -> details... alles was ein icon bekommen soll zusammenfassen
+* topic items noch nicht komplett
+* edit icon SVG
+* share icon top
+* icon menu 3 dots
+* mehere topcis im filter -> 500 internal server error

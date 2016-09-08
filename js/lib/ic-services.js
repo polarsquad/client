@@ -36,7 +36,6 @@ angular.module('icServices', [
 
 	function($rootScope, $q, $timeout, icConfigData, icLanguageConfig){
 		$q.all([
-			$timeout(2000),
 			icConfigData.ready,
 			icLanguageConfig,
 		])
@@ -137,8 +136,9 @@ angular.module('icServices', [
 	 						:	icFilterConfig.filterBy[key]
 
 
-			if(needles === undefined || needles.length == 0)		return empty_matches_all
-			if(haystack === undefined || haystack.length == 0) 		return needles === undefined || needles.length == 0
+
+			if(haystack === undefined || haystack == null || haystack.length == 0) 		return needles === undefined || needles.length == 0
+			if(needles === undefined || needles.length == 0)							return empty_matches_all
 		 	
 		 	return	needles.some(function(needle){
 						return 	typeof haystack == 'object'
@@ -438,17 +438,23 @@ angular.module('icServices', [
 			icSite.params.tp	= icFilterConfig.filterBy.topic
 			icSite.params.tg	= icFilterConfig.filterBy.targetGroup
 
-			icSite.schedulePathUpdate()
+			icSite
+			.updateCompontents()
+			.schedulePathUpdate()
 		}
 
 		icSite.addLanguageParamsToPath = function(){
 			icSite.params.ln	= icLanguageConfig.currentLanguage
+
 			icSite.schedulePathUpdate()
 		}
 
 		icSite.addItemToPath = function(id){
 			icSite.params.item 	= id
-			icSite.schedulePathUpdate()
+			
+			icSite
+			.updateCompontents()
+			.schedulePathUpdate()
 		}
 
 		icSite.clearItem = function(){
@@ -465,6 +471,8 @@ angular.module('icServices', [
 			if(icSite.showFilter)			icSite.activeComponents.filter 	= true
 			if(icSite.pageUrl)				icSite.activeComponents.page 	= true
 			//map
+			
+			return icSite
 		}
 
 		icSite.updateFromPath = function(){
@@ -483,6 +491,8 @@ angular.module('icServices', [
 			icFilterConfig.filterBy.type		=	icSite.params.t 	|| undefined
 			icFilterConfig.filterBy.topic		=	icSite.params.tp 	|| []
 			icFilterConfig.filterBy.targetGroup	=	icSite.params.tg 	|| []
+
+			icFilterConfig.searchTerm			=	decodeURIComponent(icSite.params.s) || ''
 
 
 
@@ -722,14 +732,10 @@ angular.module('icServices', [
 			new_item.title			= new_item_data.title
 			new_item.definition		= new_item_data.definitions
 			new_item.type			= new_item_data.type
-			new_item.topics 		= new_item_data.topics
-			new_item.topic			= new_item_data.primary_topic
+			new_item.topic 			= new_item_data.topics
+			new_item.primary_topic	= new_item_data.primary_topic || (new_item_data.topics && new_item_data.topics[0])
 			new_item.imageUrl		= new_item_data.image_url
-			new_item.description	= new_item_data.description_full
-
-
-
-			new_item.description	= new_item.descriptions 
+			new_item.description	= new_item_data.descriptions_full
 
 
 			if(stored_item){
@@ -785,14 +791,12 @@ angular.module('icServices', [
 
 			return 	currentCall
 					.then(function(result){
+						result.items = result.items || []
 						result.items.forEach(function(item){
-							item.id 	= String(item.id)
-							item.type 	= icFilterConfig.filterBy.type //todo		
-							item.brief 	= item.description_short && item.description_short['en'] //todo
 							searchResults.storeItem(item)
 						})
 
-						searchResults.offset 		+= 	searchResults.limit
+						searchResults.offset 		+= 	result.items.length
 						searchResults.meta 			= 	result.meta
 						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0
 
@@ -867,14 +871,15 @@ angular.module('icServices', [
 
 		function deepSearch(obj,needle){
 
+
 			needle 	= 	typeof needle == 'string' 
-						?	new RegExp(needle, 'gi')
+						?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
 						:	needle
 
 			for(var key in obj){
 
 				if(	
-					typeof obj == 'obj'
+					typeof obj[key] == 'object'
 					?	deepSearch(obj[key], needle)
 					:	String(obj[key]).match(needle) != null
 				){
@@ -892,7 +897,9 @@ angular.module('icServices', [
 
 		searchResults.filterList = function(){
 
-			searchResults.clearFilteredList()		
+			var searchTerm = icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,'')	
+
+			searchResults.clearFilteredList()
 
 			Array.prototype.push.apply(
 				searchResults.filteredList, 
@@ -910,7 +917,10 @@ angular.module('icServices', [
 				})					
 				.filter(function(item){
 					//TODO prevent cycles
-					return deepSearch(item, icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,''))
+
+					return 	searchTerm
+							?	deepSearch(item, searchTerm)
+							:	true
 				})
 			)
 
@@ -921,8 +931,6 @@ angular.module('icServices', [
 		searchResults.getPreviousId = function(id){
 			var pos = false,
 				i	= 0
-
-			console.log(id, typeof id)
 
 			while(pos === false && i < searchResults.filteredList.length){
 				pos = (searchResults.filteredList[i].id == id) && i

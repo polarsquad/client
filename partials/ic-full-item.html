@@ -4,14 +4,14 @@
 <ic-spinner active = "loading"></ic-spinner>
 
 <div ng-if ="item.title">
-	<h2 class = "title">{{ item.title }}</h2>
-	<h3 class = "definition"> {{ item.definition[language] }}</h3>
+	<h2 class 	= "title">{{ item.title }}</h2>
+	<h3 class 	= "definition"> {{ item.definition[language] }}</h3>
 	<div class = "topics">
 		<a 
-			ng-repeat 	= "topic in item.topics"
+			ng-repeat 	= "topic in item.topic"
 			class		= "highlight"
 		>
-			{{topic | uppercase | prepend : "TOPICS." | translate}} {{$last ? '' : ','}}
+			{{topic | uppercase | prepend : "TOPICS." | translate | append : $last ? '' : ','}}
 		</a>
 	</div>
 
@@ -38,4 +38,10 @@
 		ic-icon		= "'images/icon_'+key+'.svg'"
 	>
 	</ic-info-tag>
+
+	<footer>
+		<a class = "icon-interface-print highlight">	Drucken		</a>
+		<a class = "icon-interface-share highlight">	Teilen		</a>
+		<a class = "icon-interface-edit  highlight">	Bearbeiten	</a>
+	</footer>
 </div>

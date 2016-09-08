@@ -37,14 +37,15 @@ angular.module('icApi', [])
 			api.call = function(method, path, data){
 
 				return 	$http({
-							method: 	method,
-							url:		base.replace(/\/$/g, '')+'/'+(path.replace(/^\//g,'')),
-							params:		method == 'GET' ? data : undefined,
-							data:		method == 'GET' ? undefined : data,
-							headers:	{
-											'Accept':			'application/json',
-											// 'Accept-Language':	api.acceptLanguage
-										}
+							method: 			method,
+							url:				base.replace(/\/$/g, '')+'/'+(path.replace(/^\//g,'')),
+							params:				method == 'GET' ? data : undefined,
+							data:				method == 'GET' ? undefined : data,
+							headers:			{
+													'Accept':			'application/json',
+													// 'Accept-Language':	api.acceptLanguage
+												},
+							paramSerializer: 	'$httpParamSerializerJQLike'
 						})
 						.then(function(result){
 							return result.data

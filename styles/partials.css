@@ -19,17 +19,17 @@
 
 
 
-#loading-screen{
+ic-loading-screen{
 	position:				fixed;
 	top:					0;
 	bottom:					0;
 	left:					0;
 	right:					0;
-	z-index:				99;	
+	z-index:				999;	
 	background-color:		#fff;
 }
 
-#loading-screen h1 {
+ic-loading-screen h1 {
 	text-align:				center;
 	margin-top:				4rem;
 	margin-bottom:			4rem;
@@ -43,12 +43,8 @@ ic-header {
 	text-align:				left;
 	box-shadow:				0 1px 0 0 #666;
 	margin:					0 1rem;
-}
-
-ic-header > * {
-	display:				block;
-	min-height:				3rem;
-	white-space: 			nowrap;
+	line-height:			3rem;
+	height:					3rem;
 	text-align:				right;
 }
 
@@ -221,7 +217,7 @@ ic-section-list {
 /*  tags */
 
 .tags {
-	margin:					1rem 0;
+	margin:					1rem -0.2rem;
 	display:				flex;
 	white-space: 			normal !important;
 	flex-wrap:				wrap;
@@ -236,9 +232,11 @@ ic-section-list {
 	padding:				0 0.2em;
 	border-radius:			0.2em;
 	background:				#ccc;
-	line-height:			1.6em;
+	line-height:			1.6em !important;
+	height:					1.6em;
 	padding-right:			1.6em;
 	flex:					1 0 0;
+	border:					none;
 }
 
 .tags > a > .icon {
@@ -421,7 +419,7 @@ ic-search-result-list ic-preview-item {
 	background-color:	rgba(0,0,0,0.2) !important;
 }*/
 	
-ic-search-result-list ic-preview-item.active,
+ic-search-result-list ic-preview-item:active,
 ic-search-result-list ic-preview-item.clicked {
 	background-color:		rgba(0,0,0,0.1);
 }
@@ -473,19 +471,21 @@ ic-full-item {
 
 ic-full-item h2 {
 	font-weight:			500;
-	font-size:				1.2rem;
+	font-size:				1.5rem;
 	margin:					0.5rem 0;
+	line-height:			1em;
 }
 
 
 ic-full-item h3 {
-	font-size:				1.1rem;
-	font-weight:			400;
+	font-size:				1.5rem;
+	font-weight:			300;
 	margin:					0.5rem 0;
+	line-height:			1em;
 }
 
 ic-full-item .topics {
-	font-size:				0.9rem;
+	font-size:				0.875rem;
 }
 
 
@@ -493,6 +493,25 @@ ic-full-item img {
 	display:				block;
 	width:					100%;
 	height:					auto;
+	margin:					2rem 0;
+}
+
+ic-full-item footer {
+	display:				flex;
+}
+
+ic-full-item footer > * {
+	display:				inline-block;
+	flex:					1 0 1rem;
+	flex-wrap:				nowrap;
+}
+
+ic-full-item footer a {
+	background-repeat:		no-repeat;
+	background-position:	50% 0;
+	background-size:		1.5rem;
+	text-align:				center;
+	padding-top:			2rem;
 	margin:					1rem 0;
 }
 
@@ -727,30 +746,30 @@ ic-filter-interface .panel.filter a{
 
 
 ic-quick-filter {
-	display:			flex;
+	display:				flex;
 }
 
 ic-quick-filter a {
-	height:				3rem;
-	line-height:		3rem;
-	flex:				1 0 1rem;
-	border-bottom:		0.3rem solid transparent;
-	background-position:0% 50%;
-	background-size:	3rem;
-	padding-left:		2rem;
-	background-repeat:	no-repeat;
-	cursor:				pointer;
-	text-align:			center;
+	height:					3rem;
+	line-height:			3rem;
+	flex:					1 0 1rem;
+	border-bottom:			0.3rem solid transparent;
+	background-position:	0% 50%;
+	background-size:		3rem;
+	padding-left:			2rem;
+	background-repeat:		no-repeat;
+	cursor:					pointer;
+	text-align:				center;
 }
 
 
 ic-quick-filter a:not(.active) {
-	border-color:		transparent !important;	
+	border-color:			transparent !important;	
 }
 
 ic-quick-filter a:active{
-	border-color:		#ccc !important;	
-	background-color:	transparent !important;
+	border-color:			#ccc !important;	
+	background-color:		transparent !important;
 }
 
 
@@ -758,35 +777,48 @@ ic-quick-filter a:active{
 
 
 
-ic-horizontal-swipe-list {
-	position:			relative;
+ic-horizontal-swipe-list,
+[ic-horizontal-swipe-list] {
+	position:				relative;
 }
 
 
 
-ic-horizontal-swipe-list > button {
-	position:			absolute;
-	display:			block;
-	top:				50%;
-	height:				2rem;
-	width:				2rem;
-	background-repeat:	no-repeat;
-	background-position:50% 50%;
-	background-size:	1rem;
-	margin-top:			-2rem;
-	z-index:			99;
-	background-color:	transparent;
-	border-radius:		100%;
+ic-horizontal-swipe-list > button,
+[ic-horizontal-swipe-list] > button {
+	position:				absolute;
+	display:				block;
+	top:					50%;
+	height:					2rem;
+	width:					2rem;
+	background-repeat:		no-repeat;
+	background-position:	50% 50%;
+	background-size:		1rem;
+	margin-top:				-2rem;
+	z-index:				99;
+	background-color:		transparent;
+	border-radius:			100%;
 }
 
-ic-horizontal-swipe-list > button.left{
-	left:				0;
-	background-image: 	url(/images/icon_interface_previous.svg);
+
+.XS ic-horizontal-swipe-list > button,
+.S  ic-horizontal-swipe-list > button,
+.XS [ic-horizontal-swipe-list] > button,
+.S  [ic-horizontal-swipe-list] > button{
+	display:				none;
 }
 
-ic-horizontal-swipe-list > button.right{
+
+ic-horizontal-swipe-list > button.left,
+[ic-horizontal-swipe-list] > button.left{
+	left:					0;
+	background-image: 		url(/images/icon_interface_previous.svg);
+}
+
+ic-horizontal-swipe-list > button.right,
+[ic-horizontal-swipe-list] > button.right{
 	right:				0;
-	background-image: 	url(/images/icon_interface_next.svg);
+	background-image: 		url(/images/icon_interface_next.svg);
 }
 
 
@@ -794,33 +826,69 @@ ic-horizontal-swipe-list > button.right{
 /* overlays  */
 
 ic-overlays {
-	position:			fixed;
-	display:			block;
-	top:				0;
-	left:				0;
-	right:				0;
-	bottom:				0;
-	padding-left:		3rem;
-	overflow-x:			hidden;
-	overflow-y:			auto;
-	background:			rgba(0,0,0,0.5);
-	z-index:			99999;
+	position:				fixed;
+	display:				block;
+	top:					0;
+	left:					0;
+	right:					0;
+	bottom:					0;
+	padding-left:			3rem;
+	overflow-x:				hidden;
+	overflow-y:				auto;
+	z-index:				99999;
+	background:				rgba(0,0,0,0.5);	
+	will-change:			content;	
+}
+
+ic-overlays.ic-hide {
+	background:				rgba(0,0,0,0);		
+	transform:				translateX(-100%);
+}
+
+ic-overlays > * {
+	position:				absolute;
+	transform:				translateX(0);
+	top:					0;
+	display:				block;
+	min-height:				100%;
+	width:					20rem;
+	padding:				1rem;
+	box-sizing:				border-box;
 }
 
 ic-overlays > .left {
-	animation:			from-left 200ms linear;
+	left:					0;
+	transition:				transform 400ms;
 }
 
 ic-overlays > .right {
-	animation:			from-right 200ms linear;
+	right:					0;
+	transition:				transform 400ms;
 }
+
+ic-overlays > .ic-hide.left {
+	display:				none;
+	transform:				translateX(-100%);
+}
+
+ic-overlays > .ic-hide.right {
+	display:				none;
+	transform:				translateX(100%);
+}
+
+ic-overlays.ic-hide .ic-hide {
+	display:				block !important;
+}
+
+
+
 
 
 
 
 @keyframes from-left{
 	0% {
-		transform:			translateX(-100%);
+		transform:			translateX(-150%);
 	}
 
 	100% {
@@ -830,7 +898,7 @@ ic-overlays > .right {
 
 @keyframes from-right{
 	0% {
-		transform:			translateX(100%);
+		transform:			translateX(150%);
 	}
 
 	100% {
@@ -840,73 +908,61 @@ ic-overlays > .right {
 
 
 
-ic-overlays .left{
-	left:				0;
-}
-
-
-ic-overlays .right{
-	right:				0;
-}
-
-
 
 ic-overlays .white {
-	position:			absolute;
-	top:				0;
-	display:			block;
-	min-height:			100%;
-	width:				20rem;
-	background-color:	#fff;
-	padding:			1rem;
-	box-sizing:			border-box;
+	background-color:		#fff;
 }
 
-ic-overlays .white > a {
-	display:			block;
-	line-height:		3rem;
-	box-shadow:			0 1px 0 rgba(0,0,0,0.3);
+ic-overlays .white  a {
+	display:				block;
+	line-height:			3rem;
+	border-bottom:			1px solid rgba(0,0,0,0.3);
 }
 
 
 ic-overlays .white >  header {
-	padding:			0 1rem;
+	padding:				0 1rem;
 }
 
 ic-overlays .white  a {
-	white-space:		nowrap;
-	display:			block;
+	white-space:			nowrap;
+	display:				block;
 }
 
 ic-overlays .white  a > * {
-	display:			inline-block;
-	vertical-align:		top;
+	display:				inline-block;
+	vertical-align:			top;
 }
 
 ic-overlays .white  a > .icon {
-	display:			inline-block;
-	height:				3rem;
-	width:				3rem;
-	background-position:50% 50%;
-	background-repeat:	no-repeat;
-	background-size:	2rem;
-	vertical-align:		middle;
+	display:				inline-block;
+	height:					3rem;
+	width:					3rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		2rem;
+	vertical-align:			middle;
 }
 
 ic-overlays .white  a > .icon + * {
-	display:			inline-block;
-	vertical-align:		middle;
-	line-height:		1.5;
+	display:				inline-block;
+	vertical-align:			middle;
+	line-height:			1.5;
 }
 
+
+ic-overlays .expand {
+	background-position:	100% 50%;
+	background-repeat:		no-repeat;
+}
 
 
 ic-language-menu  a  .native {
-	display:			inline-block;
-	width:				8rem;
+	display:				inline-block;
+	width:					8rem;
 }
 
 ic-language-menu  a  .translation {
-	display:			inline-block;
-	width:				8rem;
+	display:				inline-block;
+	width:					8rem;
 }

@@ -11,6 +11,17 @@
 	</input>
 
 	<div class = "tags">
+
+		<!--TYPES -->
+		<a 	
+			ng-if		= "icFilterConfig.filterBy.type"
+			ng-click  	= "icFilterConfig.toggleFilter('type', icFilterConfig.filterBy.type)" 
+		>
+			{{icFilterConfig.filterBy.type | uppercase | prepend: "TYPES." |translate}}
+			<span class ="icon icon-nav-close"></span>
+		</a>
+
+		<!--TOPICS -->
 		<a 	
 			ng-repeat = "topic in icFilterConfig.filterBy.topic"
 			ng-click  = "icFilterConfig.toggleFilter('topic', topic)" 
@@ -19,6 +30,8 @@
 			<span class ="icon icon-nav-close"></span>
 		</a>
 
+
+		<!--TARGET_GROUPS -->
 		<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroup"
 			ng-click  = "icFilterConfig.toggleFilter('targetGroup', targetGroup)" 
 		>
@@ -30,7 +43,7 @@
 
 	<div 
 		class 	= "auto-suggest"
-		ng-show	= "searchTerm.length > 2"
+		ng-if	= "searchTerm.length > 2"
 	>
 		<a
 			ng-repeat 		= "title in icTitles | filter : searchTerm | limitTo: 5 track by $index"		

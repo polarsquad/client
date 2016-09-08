@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.3 (29802) - http://www.bohemiancoding.com/sketch -->
+    <title>icons/topic/topic_city_32_black</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icons/topic/topic_city_32_black" fill="#231F1F">
+            <polygon id="Fill-2" points="7 13.001 23.999 13.001 23.999 12 7 12"></polygon>
+            <polygon id="Fill-3" points="7 14 7 24 8 24 8 15 10 15 10 24 11 24 11 15 13 15 13 24 14 24 14 15 17 15 17 24 18 24 18 15 20 15 20 24 21 24 21 15 23 15 23 24 24 24 24 14"></polygon>
+            <path d="M15.5,7.5 C16.051,7.5 16.5,7.949 16.5,8.5 C16.5,9.051 16.051,9.5 15.5,9.5 C14.949,9.5 14.5,9.051 14.5,8.5 C14.5,7.949 14.949,7.5 15.5,7.5 M15.5,10.5 C16.603,10.5 17.5,9.603 17.5,8.5 C17.5,7.397 16.603,6.5 15.5,6.5 C14.397,6.5 13.5,7.397 13.5,8.5 C13.5,9.603 14.397,10.5 15.5,10.5" id="Fill-4"></path>
+        </g>
+    </g>
+</svg>

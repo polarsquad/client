@@ -1,9 +1,9 @@
 
-<ic-language-menu 		ng-if = "icOverlays.show.languageMenu" 	class = "white right">	</ic-language-menu>	
-<ic-main-menu			ng-if = "icOverlays.show.mainMenu"		class = "white left">	</ic-main-menu>
+<ic-language-menu 		ng-class = "{'ic-hide': !icOverlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
+<ic-main-menu			ng-class = "{'ic-hide': !icOverlays.show.mainMenu}"			class = "white left">	</ic-main-menu>
 
 <ic-search				
-	ng-if 			= "icOverlays.show.search"		
-	class 			= "white right"
-	ic-on-update 	= "icOverlays.toggle('search')" 
+	ng-class 			= "{'ic-hide':!icOverlays.show.search}"
+	class 				= "white right"
+	ic-on-update 		= "icOverlays.toggle('search')" 
 ></ic-search>

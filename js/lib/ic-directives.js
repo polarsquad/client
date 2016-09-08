@@ -9,6 +9,49 @@ angular.module('icDirectives', [
 
 
 
+.directive('icLoadingScreen',[
+
+	'$q',
+	'$timeout',
+
+	function($q, $timeout){
+		return {
+			restrict:	'AE',
+			transclude:	true,
+
+			link: function(scope, element, attrs, ctrl, transclude){
+
+				var childScope 	= undefined,
+					unwatch		= undefined 
+
+				function clear(){
+					childScope.$destroy()
+					element.remove()
+					unwatch()
+				}
+
+				transclude(function(clone, scope){
+					childScope = scope
+					element.append(clone)
+				})
+
+				unwatch = scope.$watch(attrs.icAppReady , function(appReady){ 
+
+					if(!appReady) 			return null
+					if(appReady === true) 	appReady = $q.resolve()
+
+					appReady
+					.then(function(){return $timeout(parseInt(attrs.icDelay)) })
+					.then(clear)
+
+				})
+			}
+		}
+	}
+])
+
+
+
 /* sections: */
 
 .directive('icSectionFilter',[
@@ -76,45 +119,45 @@ angular.module('icDirectives', [
 
 /*header*/
 
-.service('icHeaders', [
+// .service('icHeaders', [
 
-	function(){
+// 	function(){
 
-		var icHeaders =	{
-							mainHeader: 	undefined,
-							localHeaders: 	[]
-						}
+// 		var icHeaders =	{
+// 							mainHeader: 	undefined,
+// 							localHeaders: 	[]
+// 						}
 
-		icHeaders.registerMain = function(el){
-			if(icHeaders.mainHeader){
-				console.error('icHeaders: only one main header allowed.')
-				return null
-			}
+// 		icHeaders.registerMain = function(el){
+// 			if(icHeaders.mainHeader){
+// 				console.error('icHeaders: only one main header allowed.')
+// 				return null
+// 			}
 
-			icHeaders.mainHeader	=	el
+// 			icHeaders.mainHeader	=	el
 
 
-			while(icHeaders.localHeaders.length){
-				var el 	= icHeaders.localHeaders.shift()
-				icHeaders.mainHeader.append(el)
-			}
-		}
+// 			while(icHeaders.localHeaders.length){
+// 				var el 	= icHeaders.localHeaders.shift()
+// 				icHeaders.mainHeader.append(el)
+// 			}
+// 		}
 
-		icHeaders.deregisterMain = function(){
-			icHeaders.mainHeader = undefined
-		}
+// 		icHeaders.deregisterMain = function(){
+// 			icHeaders.mainHeader = undefined
+// 		}
 
-		icHeaders.registerLocal = function(el){
-			if(icHeaders.mainHeader){
-				icHeaders.mainHeader.append(el)
-			} else {
-				icHeaders.localHeaders.push(el)
-			}
-		}
+// 		icHeaders.registerLocal = function(el){
+// 			if(icHeaders.mainHeader){
+// 				icHeaders.mainHeader.append(el)
+// 			} else {
+// 				icHeaders.localHeaders.push(el)
+// 			}
+// 		}
 
-		return icHeaders
-	}
-])
+// 		return icHeaders
+// 	}
+// ])
 
 
 
@@ -122,11 +165,10 @@ angular.module('icDirectives', [
 
 	'$rootScope',
 	'icFilterConfig',
-	'icHeaders',
 	'icSite',
 	'icOverlays',
 
-	function($rootScope, icFilterConfig, icHeaders, icSite, icOverlays){
+	function($rootScope, icFilterConfig, icSite, icOverlays){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-header.html",
@@ -136,38 +178,32 @@ angular.module('icDirectives', [
 				
 				scope.icSite			= icSite
 				scope.icFilterConfig	= icFilterConfig
-				
-
-				icHeaders.registerMain(element)
-
-				scope.$on('$destroy', function(){
-					icHeaders.deregisterMain(scope.$id)
-				})
+			
 			}
 		}
 	}
 ])
 
-.directive('icLocalHeader',[
+// .directive('icLocalHeader',[
 
-	'icHeaders',
+// 	'icHeaders',
 
-	function(icHeaders){
-		return {
-			restrict: 		"AE",
-			scope:			{},
+// 	function(icHeaders){
+// 		return {
+// 			restrict: 		"AE",
+// 			scope:			{},
 
-			link: function(scope, element, attr, ctrl, transclude){
-				icHeaders.registerLocal(element)
+// 			link: function(scope, element, attr, ctrl, transclude){
+// 				icHeaders.registerLocal(element)
 
-				scope.$on('$destroy', function(){
-					element.remove()
-				})
-			}
-		}
-	}
+// 				scope.$on('$destroy', function(){
+// 					element.remove()
+// 				})
+// 			}
+// 		}
+// 	}
 
-])
+// ])
 
 
 
@@ -383,7 +419,8 @@ angular.module('icDirectives', [
 
 				scope.$watch('icId', function(id){
 					scope.item = icSearchResults.getItem(id)
-					icSearchResults.downloadItem(id)
+					//Todo: mark item as full or something
+					if(!scope.item.description) icSearchResults.downloadItem(id)
 				})
 
 				scope.$watch(
@@ -496,7 +533,8 @@ angular.module('icDirectives', [
 
 .filter('icIcon', function(){
 	return 	function(str, color){
-			var c = color ?  'color' : 'white'
+			var c = color || 'black'
+
 
 			switch(str){
 				case 'information': return "/images/icon_type_information_"+c+".svg"; 	break;
@@ -506,7 +544,7 @@ angular.module('icDirectives', [
 
 				case 'city':		return "/images/icon_topic_city_"+c+".svg";			break;
 				case 'education':	return "/images/icon_topic_education_"+c+".svg";	break;
-				case 'encounters':	return "/images/icon_topic_encounters_"+c+".svg";	break;
+				case 'social':		return "/images/icon_topic_social_"+c+".svg";		break;
 				case 'health':		return "/images/icon_topic_health_"+c+".svg";		break;
 				case 'leisure':		return "/images/icon_topic_leisure_"+c+".svg";		break;
 				case 'work':		return "/images/icon_topic_work_"+c+".svg";			break;
@@ -721,177 +759,190 @@ angular.module('icDirectives', [
 	}
 ])
 
-
-
-
-.directive('icTriplet', [
-
-	'$timeout',
-	'$compile',
-	'icSite',
-	'icSearchResults',
-
-	function($timeout, $compile, icSite, icSearchResults){
-		return {
-			restrict:	"AE",
-			scope:		{
-							icId:	"<"
-						},
-			template:	'<div class ="shuttle">'+
-						'</div>',	
-
-			link: function(scope, element, attrs, ctrl){
-
-				var previous_item, current_item, next_item,
-					width,
-					shuttle = element.find('div').eq(0)
-
-
-
-				previous_item		= $compile('<ic-full-item ic-id = "previousId">	</ic-full-item>')(scope)
-				current_item 		= $compile('<ic-full-item ic-id = "currentId">	</ic-full-item>')(scope)
-				next_item 			= $compile('<ic-full-item ic-id = "nextId">		</ic-full-item>')(scope)
-
-				scope.$watch('icId', function(id){
-					scope.previousId	= icSearchResults.getPreviousId(id)
-					scope.currentId 	= id
-					scope.nextId		= icSearchResults.getNextId(id)
-				})
-
-				scope.$watch(
-					function(){ return icSearchResults.filteredList.length},
-					function(){
-						scope.previousId	= icSearchResults.getPreviousId(scope.currentId)
-						scope.nextId		= icSearchResults.getNextId(scope.currentId)
-					}
-				)
-
-
-				element.css({
-					display:			'block'
-				})
-
-				width = element[0].clientWidth
-
-				element.css({
-					width:				width+'px',
-					overflowX:			'scroll'
-				})
-
-				shuttle.css({
-					display:			'inline-block',
-					whiteSpace:			'nowrap',
-					transition:			'transform 0 ease-in',
-					'will-change':		'scroll-position transform', 
-				})
-
-				element.append(shuttle)
-
-				shuttle
-				.append(previous_item)
-				.append(current_item)
-				.append(next_item)
-
-				shuttle.children()
-				.css({
-					display:			'inline-block',
-					width:				width+'px',
-					verticalAlign:		'top',
-					whiteSpace:			'normal'
-				})	
-				
-
-				var scroll_stop 		= undefined,
-					ignore_next_scroll 	= true,
-					slide_off			= false
-
-				element[0].scrollLeft 	= width
-
-				function swap(){
-
-					ignore_next_scroll = true
-
-					shuttle.css({
-						'transform':			'translateX(0px)',
-						'transition-duration':	'0ms'
-					})	
-
-
-					if(scope.snapTo == 'next'){
-						scope.previousId		= scope.currentId
-						scope.currentId			= scope.nextId
-						scope.nextId			= icSearchResults.getNextId(scope.nextId)
-					}
-
-					if(scope.snapTo == 'previous'){
-						scope.nextId			= scope.currentId
-						scope.currentId			= scope.previousId
-						scope.previousId		= icSearchResults.getPreviousId(scope.previousId)
-					}
-					
-					ignore_next_scroll		= true
-					element[0].scrollLeft 	= width
-
-					if(scope.snapTo != 'current'){
-						scope.$digest()
-						$timeout(function(){ 
-							icSite.addItemToPath(scope.currentId) 
-							slide_off = false
-						} , 30, false)
-					}
-
-				}
-
-				function snap() {	
-
-
-					var scroll_left 	= element[0].scrollLeft,
-						scroll_width	= shuttle[0].scrollWidth
-						
-					scope.snapTo = 'current'
-
-
-
-					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousId 	? 'previous' 	: 'current'
-					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextId		? 'next'		: 'current'
-
-					var scroll_to 	= 	{
-											previous:	0,
-											current:	width,
-											next:		2*width
-										}[scope.snapTo],		
-
-						distance 	= 	scroll_left - scroll_to,
-						duration	=	Math.abs(distance/width) * 400
-
-
-					shuttle.css({
-						'transform':			'translateX('+distance+'px)',
-						'transition-duration':	duration+'ms'
-					})
-
-
-					$timeout(swap, duration, false)
-				}
-
-
-
-				element.on('scroll', function(e){
-					e.stopPropagation()
-					
-					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
-
-					if(scroll_stop) $timeout.cancel(scroll_stop)
-
-					if(slide_off) return null
-
-					scroll_stop = 	$timeout(snap, 100, false)
-				})
-
-			}
+.filter('append',[
+	function(){
+		return function(str, suf){
+			return str+suf
 		}
 	}
 ])
+
+
+
+
+
+// .directive('icTriplet', [
+
+// 	'$timeout',
+// 	'$compile',
+// 	'icSite',
+// 	'icSearchResults',
+
+// 	function($timeout, $compile, icSite, icSearchResults){
+// 		return {
+// 			restrict:	"AE",
+// 			scope:		{
+// 							icId:	"<"
+// 						},
+// 			template:	'<div class ="shuttle">'+
+// 						'</div>',	
+
+// 			link: function(scope, element, attrs, ctrl){
+
+// 				var previous_item, current_item, next_item,
+// 					width,
+// 					shuttle = element.find('div').eq(0)
+
+
+
+// 				previous_item		= $compile('<ic-full-item ic-id = "previousId">	</ic-full-item>')(scope)
+// 				current_item 		= $compile('<ic-full-item ic-id = "currentId">	</ic-full-item>')(scope)
+// 				next_item 			= $compile('<ic-full-item ic-id = "nextId">		</ic-full-item>')(scope)
+
+// 				scope.$watch('icId', function(id){
+// 					scope.previousId	= icSearchResults.getPreviousId(id)
+// 					scope.currentId 	= id
+// 					scope.nextId		= icSearchResults.getNextId(id)
+// 				})
+
+// 				scope.$watch(
+// 					function(){ return icSearchResults.filteredList.length},
+// 					function(){
+// 						scope.previousId	= icSearchResults.getPreviousId(scope.currentId)
+// 						scope.nextId		= icSearchResults.getNextId(scope.currentId)
+// 					}
+// 				)
+
+
+// 				element.css({
+// 					display:			'block'
+// 				})
+
+// 				width = element[0].clientWidth
+
+// 				element.css({
+// 					width:				width+'px',
+// 					overflowX:			'scroll'
+// 				})
+
+// 				shuttle.css({
+// 					display:			'inline-block',
+// 					whiteSpace:			'nowrap',
+// 					transition:			'transform 0 ease-in',
+// 					'will-change':		'scroll-position transform', 
+// 				})
+
+// 				element.append(shuttle)
+
+// 				shuttle
+// 				.append(previous_item)
+// 				.append(current_item)
+// 				.append(next_item)
+
+// 				shuttle.children()
+// 				.css({
+// 					display:			'inline-block',
+// 					width:				width+'px',
+// 					verticalAlign:		'top',
+// 					whiteSpace:			'normal'
+// 				})	
+				
+
+// 				var scroll_stop 		= undefined,
+// 					ignore_next_scroll 	= true,
+// 					slide_off			= false
+
+// 				element[0].scrollLeft 	= width
+
+
+
+// 				function swap(){
+
+// 					ignore_next_scroll = true
+
+// 					shuttle.css({
+// 						'transform':			'translateX(0px)',
+// 						'transition-duration':	'0ms'
+// 					})	
+
+
+// 					if(scope.snapTo == 'next'){
+// 						scope.previousId		= scope.currentId
+// 						scope.currentId			= scope.nextId
+// 						scope.nextId			= icSearchResults.getNextId(scope.nextId)
+// 					}
+
+// 					if(scope.snapTo == 'previous'){
+// 						scope.nextId			= scope.currentId
+// 						scope.currentId			= scope.previousId
+// 						scope.previousId		= icSearchResults.getPreviousId(scope.previousId)
+// 					}
+					
+// 					ignore_next_scroll		= true
+// 					element[0].scrollLeft 	= width
+
+// 					if(scope.snapTo != 'current'){
+// 						scope.$digest()
+// 						$timeout(function(){ 
+// 							icSite.addItemToPath(scope.currentId) 
+// 							slide_off = false
+// 						} , 30, false)
+// 					}
+
+// 				}
+
+// 				function snap() {	
+
+
+// 					var scroll_left 	= element[0].scrollLeft,
+// 						scroll_width	= shuttle[0].scrollWidth
+						
+// 					scope.snapTo = 'current'
+
+
+
+// 					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousId 	? 'previous' 	: 'current'
+// 					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextId		? 'next'		: 'current'
+
+// 					var scroll_to 	= 	{
+// 											previous:	0,
+// 											current:	width,
+// 											next:		2*width
+// 										}[scope.snapTo],		
+
+// 						distance 	= 	scroll_left - scroll_to,
+// 						duration	=	Math.abs(distance/width) * 400
+
+
+// 					shuttle.css({
+// 						'transform':			'translateX('+distance+'px)',
+// 						'transition-duration':	duration+'ms'
+// 					})
+
+
+// 					$timeout(swap, duration, false)
+// 				}
+
+
+
+// 				element.on('scroll', function(e){
+// 					e.stopPropagation()
+					
+// 					console.log('scroll')
+
+// 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+
+// 					if(scroll_stop) $timeout.cancel(scroll_stop)
+
+// 					if(slide_off) return null
+
+// 					scroll_stop = 	$timeout(snap, 100, false)
+// 				})
+
+// 			}
+// 		}
+// 	}
+// ])
 
 
 
@@ -938,8 +989,6 @@ angular.module('icDirectives', [
 				scope.icFilterConfig	= icFilterConfig
 
 
-				console.log(icFilterConfig.filterBy)
-
 				scope.update = function(){
 					var input = element[0].querySelector('#search-term')
 					
@@ -985,7 +1034,7 @@ angular.module('icDirectives', [
 
 
 
-.directive('icHorizontalSwipeList', [
+.directive('icHorizontalSwipeListX', [
 
 	'$timeout',
 	'$compile',
@@ -1127,7 +1176,7 @@ angular.module('icDirectives', [
 					window.requestAnimationFrame(function(){
 						width = shuttle.children()[0].offsetWidth
 						wrapper.css({width: width+'px'})				
-						element[0].scrollLeft 	= width	
+						wrapper[0].scrollLeft = width	
 					})
 				}
 				
@@ -1184,6 +1233,8 @@ angular.module('icDirectives', [
 
 				function snap() {	
 
+					// console.log(snap)
+
 
 					var scroll_left 	= wrapper[0].scrollLeft,
 						scroll_width	= shuttle[0].scrollWidth
@@ -1233,9 +1284,7 @@ angular.module('icDirectives', [
 				wrapper.on('scroll', function(e){
 					e.stopPropagation()
 
-
-
-
+					console.log('scroll')
 					
 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
 
@@ -1270,6 +1319,345 @@ angular.module('icDirectives', [
 ])
 
 
+
+
+
+
+
+
+.directive('icHorizontalSwipeList', [
+
+	'$timeout',
+	'$compile',
+	'icSite',
+	'icSearchResults',
+
+	function($timeout, $compile, icSite, icSearchResults){
+		return {
+			restrict:	"AE",
+			scope:		{
+							icModelAs:	"@",
+							icPrevious:	"&",
+							icCurrent:	"<",
+							icNext:		"&",
+							icOnTurn:	"&"
+						},
+			priority:	0,
+			transclude:	true,
+			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
+						'<div class ="wrapper">'+
+						'	<div class ="shuttle"></div>'+
+						'</div>'+
+						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
+
+			link: function(scope, element, attrs, ctrl, transclude){
+
+				var width,
+					wrapper = element.find('div').eq(0),
+					shuttle = wrapper.find('div').eq(0)
+
+
+
+				var previous_scope	= scope.$parent.$new(),
+					current_scope 	= scope.$parent.$new(),
+					next_scope		= scope.$parent.$new()
+					
+				scope.previousModel	= undefined
+				scope.currentModel	= undefined
+				scope.nextModel		= undefined
+
+
+
+				function updateScopes(newCurrentModel, digest){
+					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
+					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
+					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
+
+
+
+
+					if(digest){
+						current_scope.$digest()
+						previous_scope.$digest()
+						next_scope.$digest()
+
+						var items = shuttle.children()
+
+						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
+						items[1].focus()
+
+					}
+
+				}
+
+				scope.$watch('icCurrent', function(id){ updateScopes(id) })
+
+				scope.$watch(
+					function(){ return icSearchResults.filteredList.length} ,
+					function(){ updateScopes(scope.icCurrent) }
+				)
+
+
+				element.css({
+					display:			'inline-block',
+					height:				'100%'
+				})
+
+				wrapper.css({
+					display:			'inline-block',
+					height:				'100%',
+					//willChange:			'scroll-position',
+					overflowX:			'scroll',
+					overflowY:			'hidden'
+				})
+
+				shuttle.css({
+					display:			'inline-block',
+					height:				'100%',					
+					whiteSpace:			'nowrap',
+					transition:			'transform 0 ease-in',
+					overflow:			'hidden',
+				})
+
+				
+
+				transclude(previous_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+				transclude(current_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+				transclude(next_scope, function(clone, scope){
+					shuttle.append(clone)
+				})
+
+
+				shuttle.children()
+				.css({
+					display:			'inline-block',
+					verticalAlign:		'top',
+					whiteSpace:			'normal'
+				})	
+
+				//remove text nodes:
+				
+				var nodes 		= shuttle[0].childNodes,
+					text_nodes 	= []
+
+				for (var i = 0; i < nodes.length; i++) {
+						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
+				} 
+
+				text_nodes.forEach(function(node){
+					shuttle[0].removeChild(node)
+				})
+
+
+				//handle Resize:
+				function handleResize(){
+					window.requestAnimationFrame(function(){
+						width = shuttle.children()[0].offsetWidth
+						wrapper.css({width: width+'px'})				
+						wrapper[0].scrollLeft = width	
+					})
+				}
+				
+				handleResize()
+
+				angular.element(window).on('resize', handleResize)
+				
+				scope.$on('$destroy', function(){
+					angular.element(window).off('resize', handleResize)
+				})
+
+
+
+
+
+				var scroll_stop 		= undefined,
+					ignore_next_scroll 	= true,
+					slide_off			= false
+
+
+
+				function swap(){
+
+
+					shuttle.css({
+						'transform':			'translateX(0px)',
+						'transition-duration':	'0ms'
+					})	
+
+
+					if(scope.snapTo == 'next'){
+						updateScopes(scope.nextModel, true)
+					}
+
+					if(scope.snapTo == 'previous'){
+						updateScopes(scope.previousModel, true)
+					}
+					
+
+					ignore_next_scroll		= true
+					wrapper[0].scrollLeft 	= width
+
+					if(scope.snapTo != 'current'){
+						$timeout(function(){ 
+							scope.icOnTurn({icModel: scope.currentModel})
+							slide_off = false
+						} , 30, false)
+					}
+
+				}
+
+				function snap() {	
+
+					// console.log(snap)
+
+
+					var scroll_left 	= wrapper[0].scrollLeft
+						
+					scope.snapTo = 'current'
+
+
+
+					if(scroll_left < previous_boundry) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
+					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
+
+					var scroll_to 	= 	{
+											previous:	0,
+											current:	width,
+											next:		2*width
+										}[scope.snapTo],		
+
+						distance 	= 	scroll_left - scroll_to,
+						duration	=	Math.abs(distance/width) * 400
+
+
+					shuttle.css({
+						'transform':			'translateX('+distance+'px)',
+						'transition-duration':	duration+'ms'
+					})
+
+					shuttle.children().css({
+						transform:				'translateX(0px)',
+						'transition-duration':	duration+'ms'
+					})
+
+
+					$timeout(swap, duration, false)
+				}
+
+
+				scope.previous = function(){
+					scope.snapTo = 'previous'
+					$timeout(swap, 0, false)
+				}
+
+				scope.next = function(){
+					scope.snapTo = 'next'
+					$timeout(swap, 0, false)
+				}
+
+
+
+				var last_scroll_left 	= undefined,
+					scroll_left			= undefined,
+					scroll_width		= undefined,
+					count				= 0,
+					watch				= false
+
+
+
+				function watchScroll(){
+					if(!watch) count = 0
+
+					scroll_left 	= wrapper[0].scrollLeft
+					scroll_width	= shuttle[0].scrollWidth
+
+					if(scroll_left != last_scroll_left){
+						shuttle.children().eq(0)
+						.css({
+							transform:				'translateX('+(scroll_left < width ? Math.floor(scroll_left/2) : 0)+'px)',
+						})
+
+						shuttle.children().eq(1)
+						.css({
+							transform:				'translateX('+(scroll_left > width ? Math.floor((scroll_left-width)/2) : 0) +'px)',
+						})
+					}
+
+					count = 	scroll_left == last_scroll_left 
+								?	count + 1 
+								:	0
+					
+					if(count > 5){
+						console.log(scroll_left, width)
+						if(scroll_left < 0.4*width) 	wrapper[0].scrollLeft -= width/50
+						if(scroll_left > 1.6*width) 	wrapper[0].scrollLeft += width/50
+
+						if(scroll_left >= 0.4*width && scroll_left <= 1.6*width && scroll_left != width){
+							wrapper[0].scrollLeft	= 	scroll_left > width
+													?	Math.min(width, wrapper[0].scrollLeft-width/50)
+													:	Math.max(width, wrapper[0].scrollLeft+width/50)
+						}
+					}
+
+					if(count < 10 ){						
+						watch = true
+						window.requestAnimationFrame(watchScroll)
+					} else {
+						watch = false
+					}
+
+					last_scroll_left = scroll_left
+				}
+
+				wrapper.on('scroll', function(e){
+					e.stopPropagation()
+
+					if(slide_off) 	return null
+					if(watch) 		return null
+					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+					
+					watchScroll()
+
+					// console.log('scroll')
+					
+
+					
+
+					// if(scroll_stop) $timeout.cancel(scroll_stop)
+
+					// if(slide_off) return null
+
+					// scroll_stop = 	$timeout(snap, 100, false)
+				})
+
+			}
+		}
+	}
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .directive('icOverlays', [
 
 	'icOverlays',
@@ -1277,7 +1665,7 @@ angular.module('icDirectives', [
 	function(icOverlays){
 		return {
 			restrict:	"AE",
-			templateUrl:"/partials/ic-overlays.html",
+			templateUrl:"partials/ic-overlays.html",
 			scope:		true,
 
 			link: function(scope, element, attrs, ctrl, transclude){

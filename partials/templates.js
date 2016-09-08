@@ -57,12 +57,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
-    "\n" +
     "<div \n" +
     "	class 	= \"panel filter\"\n" +
     "	ng-if	= \"open == 'filter'\" \n" +
     ">\n" +
-    "\n" +
     "\n" +
     "	<a \n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}\" \n" +
@@ -123,14 +121,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<ic-spinner active = \"loading\"></ic-spinner>\n" +
     "\n" +
     "<div ng-if =\"item.title\">\n" +
-    "	<h2 class = \"title\">{{ item.title }}</h2>\n" +
-    "	<h3 class = \"definition\"> {{ item.definition[language] }}</h3>\n" +
+    "	<h2 class 	= \"title\">{{ item.title }}</h2>\n" +
+    "	<h3 class 	= \"definition\"> {{ item.definition[language] }}</h3>\n" +
     "	<div class = \"topics\">\n" +
     "		<a \n" +
-    "			ng-repeat 	= \"topic in item.topics\"\n" +
+    "			ng-repeat 	= \"topic in item.topic\"\n" +
     "			class		= \"highlight\"\n" +
     "		>\n" +
-    "			{{topic | uppercase | prepend : \"TOPICS.\" | translate}} {{$last ? '' : ','}}\n" +
+    "			{{topic | uppercase | prepend : \"TOPICS.\" | translate | append : $last ? '' : ','}}\n" +
     "		</a>\n" +
     "	</div>\n" +
     "\n" +
@@ -157,16 +155,44 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-icon		= \"'images/icon_'+key+'.svg'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
-    "</div>\n"
+    "\n" +
+    "	<footer>\n" +
+    "		<a class = \"icon-interface-print highlight\">	Drucken		</a>\n" +
+    "		<a class = \"icon-interface-share highlight\">	Teilen		</a>\n" +
+    "		<a class = \"icon-interface-edit  highlight\">	Bearbeiten	</a>\n" +
+    "	</footer>\n" +
+    "</div>"
   );
 
 
   $templateCache.put('partials/ic-header.html',
-    "<div>\n" +
+    "	\n" +
+    "	<button\n" +
+    "		type				= \"button\"\n" +
+    "		class				= \"icon-interface-close fleft\"\n" +
+    "		ng-show				= \"icSite.show('item')\"\n" +
+    "		ng-click			= \"icSite.clearItem()\"\n" +
+    "	></button>\n" +
+    "\n" +
+    "\n" +
     "	<button\n" +
     "		type				= \"button\"	\n" +
     "		class 				= \"icon-nav-menu fleft\"\n" +
     "		ic-toggle-overlay 	= \"mainMenu\" \n" +
+    "		ng-show				= \"!icSite.show('item')\"\n" +
+    "	></button>\n" +
+    "\n" +
+    "\n" +
+    "	<button \n" +
+    "		type				= \"button\"\n" +
+    "		class 				= \"icon-interface-share\"\n" +
+    "		ng-show				= \"icSite.show('item')\"\n" +
+    "	></button>\n" +
+    "	\n" +
+    "	<button \n" +
+    "		type				= \"button\"\n" +
+    "		class 				= \"icon-interface-print\"\n" +
+    "		ng-show				= \"icSite.show('item')\"\n" +
     "	></button>\n" +
     "\n" +
     "	<button \n" +
@@ -179,8 +205,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		type				= \"button\"\n" +
     "		class 				= \"icon-nav-search\"\n" +
     "		ic-toggle-overlay 	= \"search\"\n" +
-    "	></button>\n" +
-    "</div>\n"
+    "		ng-show				= \"!icSite.show('item')\"\n" +
+    "	></button>\n"
   );
 
 
@@ -193,9 +219,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-language-menu.html',
-    "<header>\n" +
-    "	{{\"INTERFACE.CHOOSE_LANGUAGE\" | translate}}:\n" +
-    "</header>\n" +
+    "<h2>\n" +
+    "	{{\"INTERFACE.CHOOSE_LANGUAGE\" | translate}}\n" +
+    "</h2>\n" +
     "\n" +
     "\n" +
     "<a \n" +
@@ -224,7 +250,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "<a \n" +
-    "	ng-click	= \"icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle()\"\n" +
+    "	ng-href		= \"/\"\n" +
+    "	ng-click 	= \"icOverlays.toggle()\" \n" +
     ">\n" +
     "	Home\n" +
     "</a>\n" +
@@ -235,7 +262,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "	<span \n" +
     "		class 		= \"icon\"\n" +
-    "		style		= \"background-image: url({{::type | icIcon : true}});\"\n" +
+    "		style		= \"background-image: url({{::type | icIcon : 'color'}});\"\n" +
     "	>		\n" +
     "	</span>\n" +
     "	<div>\n" +
@@ -245,7 +272,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "<a\n" +
-    "	ng-click = \"expand.topics = !expand.topics\"\n" +
+    "	ng-click 	= \"expand.topics = !expand.topics\"\n" +
+    "	ng-class	= \"{'icon-interface-arrow-down': expand.topics, 'icon-interface-arrow-right': !expand.topics}\"\n" +
+    "	class	 	= \"expand \"\n" +
     ">\n" +
     "	{{\"INTERFACE.TOPICS\" | translate}}\n" +
     "</a>\n" +
@@ -255,6 +284,11 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-repeat 	= \"topic in ::icConfigData.topics\"\n" +
     "		ng-click 	= \"icSite.clearItem(); icFilterConfig.clearFilter().toggleFilter('topic', topic); icOverlays.toggle()\"\n" +
     "	>\n" +
+    "		<span \n" +
+    "			class 		= \"icon\"\n" +
+    "			style		= \"background-image: url({{::topic | icIcon : 'black'}});\"\n" +
+    "		>		\n" +
+    "		</span>\n" +
     "		{{topic | uppercase | prepend : \"TOPICS.\" | translate}}\n" +
     "	</a>\n" +
     "</div>\n" +
@@ -290,20 +324,20 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-overlays.html',
     "\n" +
-    "<ic-language-menu 		ng-if = \"icOverlays.show.languageMenu\" 	class = \"white right\">	</ic-language-menu>	\n" +
-    "<ic-main-menu			ng-if = \"icOverlays.show.mainMenu\"		class = \"white left\">	</ic-main-menu>\n" +
+    "<ic-language-menu 		ng-class = \"{'ic-hide': !icOverlays.show.languageMenu}\" 	class = \"white right\">	</ic-language-menu>	\n" +
+    "<ic-main-menu			ng-class = \"{'ic-hide': !icOverlays.show.mainMenu}\"			class = \"white left\">	</ic-main-menu>\n" +
     "\n" +
     "<ic-search				\n" +
-    "	ng-if 			= \"icOverlays.show.search\"		\n" +
-    "	class 			= \"white right\"\n" +
-    "	ic-on-update 	= \"icOverlays.toggle('search')\" \n" +
+    "	ng-class 			= \"{'ic-hide':!icOverlays.show.search}\"\n" +
+    "	class 				= \"white right\"\n" +
+    "	ic-on-update 		= \"icOverlays.toggle('search')\" \n" +
     "></ic-search>\n"
   );
 
 
   $templateCache.put('partials/ic-preview-item.html',
     "<div class = \"icon bg-{{::icType | icColor}}\"\n" +
-    "	 style = \"background-image: url({{::icTopic|icIcon}})\"\n" +
+    "	 style = \"background-image: url({{::icTopic|icIcon : 'white'}})\"\n" +
     ">\n" +
     "\n" +
     "</div>\n" +
@@ -315,7 +349,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		</div>\n" +
     "\n" +
     "		<div class = \"brief\">\n" +
-    "			{{::icBrief}}\n" +
+    "			{{icBrief}}\n" +
     "		</div>\n" +
     "</div>"
   );
@@ -327,7 +361,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-click 	= \"icFilterConfig.toggleFilter('type', type)\" \n" +
     "		ng-class 	= \"{'active' : icFilterConfig.matchFilter('type', type)}\"\n" +
     "		class		= \"border-{{::type | icColor}} text-{{::type | icColor}}\"\n" +
-    "		style		= \"background-image: url({{::type | icIcon : true}});\"\n" +
+    "		style		= \"background-image: url({{::type | icIcon : 'color'}});\"\n" +
     ">\n" +
     "	{{meta[type]}}\n" +
     "</a>"
@@ -339,11 +373,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ng-repeat	= \"item in icSearchResults.filteredList\"\n" +
     "	ng-href		= \"#{{::icHref({itemId:item.id})}}\"\n" +
     ">\n" +
-    "\n" +
     "	<ic-preview-item\n" +
     "		ic-title 	= \"::item.title\"\n" +
     "		ic-brief	= \"item.definition[language]\"\n" +
-    "		ic-topic	= \"::item.topic\"\n" +
+    "		ic-topic	= \"::item.primary_topic\"\n" +
     "		ic-type		= \"::item.type\"\n" +
     "		ng-class	= \"{active: icActive({itemId: item.id})}\"\n" +
     "	>\n" +
@@ -370,6 +403,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</input>\n" +
     "\n" +
     "	<div class = \"tags\">\n" +
+    "\n" +
+    "		<!--TYPES -->\n" +
+    "		<a 	\n" +
+    "			ng-if		= \"icFilterConfig.filterBy.type\"\n" +
+    "			ng-click  	= \"icFilterConfig.toggleFilter('type', icFilterConfig.filterBy.type)\" \n" +
+    "		>\n" +
+    "			{{icFilterConfig.filterBy.type | uppercase | prepend: \"TYPES.\" |translate}}\n" +
+    "			<span class =\"icon icon-nav-close\"></span>\n" +
+    "		</a>\n" +
+    "\n" +
+    "		<!--TOPICS -->\n" +
     "		<a 	\n" +
     "			ng-repeat = \"topic in icFilterConfig.filterBy.topic\"\n" +
     "			ng-click  = \"icFilterConfig.toggleFilter('topic', topic)\" \n" +
@@ -378,6 +422,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			<span class =\"icon icon-nav-close\"></span>\n" +
     "		</a>\n" +
     "\n" +
+    "\n" +
+    "		<!--TARGET_GROUPS -->\n" +
     "		<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroup\"\n" +
     "			ng-click  = \"icFilterConfig.toggleFilter('targetGroup', targetGroup)\" \n" +
     "		>\n" +
@@ -389,7 +435,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<div \n" +
     "		class 	= \"auto-suggest\"\n" +
-    "		ng-show	= \"searchTerm.length > 2\"\n" +
+    "		ng-if	= \"searchTerm.length > 2\"\n" +
     "	>\n" +
     "		<a\n" +
     "			ng-repeat 		= \"title in icTitles | filter : searchTerm | limitTo: 5 track by $index\"		\n" +

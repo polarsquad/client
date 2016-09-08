@@ -60,14 +60,18 @@
 
 
 
-		<div 
-			id 		= "loading-screen"
-			ng-if 	= "!icAppReady"
+
+		<ic-loading-screen 			
+			ic-app-ready	= "icAppReady"
+			ic-delay		= "500"
 		>
 			<h1><ic-text-logo></ic-text-logo></h1>
 			<ic-spinner active = "true">
 			</ic-spinner>
-		</div>
+		</ic-loading-screen>
+
+
+
 
 		<header
 			ng-if = "::icAppReady"
@@ -77,9 +81,8 @@
 
 
 		<ic-overlays 
-			ng-if 	= "::icAppReady"
-			class	= "ng-hide"
-			ng-show = "icOverlays.active()"
+			ng-if 		= "::icAppReady"
+			ng-class	= "{'ic-hide' :!icOverlays.active()}"
 		></ic-overlays>
 
 		<section 
@@ -115,7 +118,7 @@
 		 	</section><!--
 
 
-		 --><ic-horizontal-swipe-list 
+		 --><ic-horizontal-swipe-list-x
 				ic-model-as = "icId"
 				ic-previous = "icSearchResults.getPreviousId(icModel)"
 				ic-current 	= "icSite.params.item"

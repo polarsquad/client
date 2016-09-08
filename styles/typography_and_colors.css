@@ -139,6 +139,38 @@ ic-text-logo :last-child{
 }
 
 
+.icon-topic-city.white {
+	background-image:		url(/images/icon_topic_city_white.svg);
+}
+
+.icon-topic-education.white {
+	background-image:		url(/images/icon_topic_education_white.svg);
+}
+
+.icon-topic-health.white {
+	background-image:		url(/images/icon_topic_health_white.svg);
+}
+
+.icon-topic-leisure.white {
+	background-image:		url(/images/icon_topic_leisure_white.svg);
+}
+
+.icon-topic-social.white {
+	background-image:		url(/images/icon_topic_social_white.svg);
+}
+
+.icon-topic-work.white {
+	background-image:		url(/images/icon_topic_work_white.svg);
+}
+
+
+
+
+
+
+
+
+
 
 
 .icon-interface-arrow-up {
@@ -170,6 +202,19 @@ ic-text-logo :last-child{
 }
 
 
+
+
+.icon-interface-print {
+	background-image:		url(/images/icon_interface_print.png);	/*TODO!!*/
+}
+
+.icon-interface-share {
+	background-image:		url(/images/icon_interface_share.png);	/*TODO!!*/
+}
+
+.icon-interface-edit {
+	background-image:		url(/images/icon_interface_edit.png);	/*TODO!!*/
+}
 
 
 

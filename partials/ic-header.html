@@ -1,8 +1,30 @@
-<div>
+	
+	<button
+		type				= "button"
+		class				= "icon-interface-close fleft"
+		ng-show				= "icSite.show('item')"
+		ng-click			= "icSite.clearItem()"
+	></button>
+
+
 	<button
 		type				= "button"	
 		class 				= "icon-nav-menu fleft"
 		ic-toggle-overlay 	= "mainMenu" 
+		ng-show				= "!icSite.show('item')"
+	></button>
+
+
+	<button 
+		type				= "button"
+		class 				= "icon-interface-share"
+		ng-show				= "icSite.show('item')"
+	></button>
+	
+	<button 
+		type				= "button"
+		class 				= "icon-interface-print"
+		ng-show				= "icSite.show('item')"
 	></button>
 
 	<button 
@@ -15,5 +37,5 @@
 		type				= "button"
 		class 				= "icon-nav-search"
 		ic-toggle-overlay 	= "search"
+		ng-show				= "!icSite.show('item')"
 	></button>
-</div>

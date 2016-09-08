@@ -80,8 +80,8 @@ body > #content {
 
 
 #content  section {
-	overflow-y:				scroll;
-
+	overflow-y:				hidden;
+	will-change:			scroll-position;
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -224,6 +224,10 @@ body > #content {
 	width:					40rem;
 }
 
+
+.XS #content section.item > *{
+	width:					21rem;
+}
 
 
 .S 	#content section.item > *,
