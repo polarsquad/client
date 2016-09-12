@@ -415,12 +415,9 @@ ic-search-result-list ic-preview-item {
 	padding:				0.5rem 1rem;
 }
 
-/*ic-search-result-list ic-preview-item:active {
-	background-color:	rgba(0,0,0,0.2) !important;
-}*/
-	
+
 ic-search-result-list ic-preview-item:active,
-ic-search-result-list ic-preview-item.clicked {
+ic-search-result-list ic-preview-item.active {
 	background-color:		rgba(0,0,0,0.1);
 }
 

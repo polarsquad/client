@@ -309,6 +309,7 @@ ic-section-filter,
 ic-section-list,
 ic-section-item {
 	display:				block;
+	position:				relative;
 }
 
 

@@ -37,7 +37,27 @@ TODO:
 * performance problem beim overlay lösen
 * images vorladen, die nicht im css sondern in style attrs stecken
 * item direkt laden wird manchmal nicht angezeigt
-
+* QR Codes
+* Einezlen eelemente verzögert laden
+* Iphone background overla<y scrollt
+* Autocomplete -> sofort suche starten - >link auf item
+* Mehr abstand buttons
+* suche löschen button oder leere string aktivuert schon löschen
+* Suche tags overlow text
+* darstellungsfehler M und L oder so
+* (Header buttons lokal anfordern)
+* Bug -> sprache setzten -> sprache wechseln -> item öffnen -> komisch (links href!)
+* Suche Umlaute
+* Link sim menu löschen suche
+* Such begriff über Result liste einblenden -> in filterinterface
+* Filter in L offen machen
+* Autocomplete nut wenn keine Filter gestezt sind (oder erstmal weg?)
+* Suche ins Mainmenu
+* A-Z durchstreichen
+* Contacts und Zeug fixen, service angucken storeItem
+* Zentral definieren, was in einem Icon angezeigt wird und was nicht -> transform funktion bauen data -> item
+* type icon manchmal weiß (::)
+* Markup rausfiltern
 
 Done:
 
@@ -67,9 +87,21 @@ Brauche:
 * icon für primary topic -> warte auf mehr icons
 * SearchTerms zurück nach API-Call
 * items in der Datenbank mergen topics und targetGroups
-* contacts -> details... alles was ein icon bekommen soll zusammenfassen
 * topic items noch nicht komplett
 * edit icon SVG
 * share icon top
-* icon menu 3 dots
 * mehere topcis im filter -> 500 internal server error
+
+* Icons
+* Sortieren?
+* Worauf konzentrieren
+* contacts -> details... alles was ein icon bekommen soll zusammenfassen
+* Query term
+
+
+Next:
+* swipe raus! erstmal
+* Full item komplett machen
+* Layoutbrüche fixen
+* (Druckansicht)
+* (QR-Codes)

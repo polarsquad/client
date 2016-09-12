@@ -118,7 +118,7 @@
 		 	</section><!--
 
 
-		 --><ic-horizontal-swipe-list-x
+			 <ic-horizontal-swipe-list-x
 				ic-model-as = "icId"
 				ic-previous = "icSearchResults.getPreviousId(icModel)"
 				ic-current 	= "icSite.params.item"
@@ -126,10 +126,11 @@
 				ic-on-turn	= "icSite.addItemToPath(icModel)"
 				ng-if		= "icSite.show('item')"
 			>
-				<section class 	= "item" >					
-					<ic-section-item ic-id = "icId"></ic-section-item>
-			 	</section>
+		--><section class 	= "item" >					
+				<ic-section-item ic-id = "icSite.params.item"></ic-section-item>
+		 	</section><!--
 			 </ic-horizontal-swipe-list>
+			 -->
 
 		</section>
 	</body>

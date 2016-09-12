@@ -94,7 +94,7 @@
 			ng-click 	= "icFilterConfig.clearFilter('targetGroup')" 
 			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}"
 		>
-			{{"INTERFACE.TARGET_GROUP.ALL" | translate}}
+			{{"INTERFACE.TARGET_GROUPS.ALL" | translate}}
 		</a>
 		<a 
 			ng-repeat 	= "targetGroup in icConfigData.targetGroups | orderBy : 'toString()| uppercase | prepend: \'TARGET_GROUPS.\' |translate'"

@@ -98,7 +98,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-click 	= \"icFilterConfig.clearFilter('targetGroup')\" \n" +
     "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}\"\n" +
     "		>\n" +
-    "			{{\"INTERFACE.TARGET_GROUP.ALL\" | translate}}\n" +
+    "			{{\"INTERFACE.TARGET_GROUPS.ALL\" | translate}}\n" +
     "		</a>\n" +
     "		<a \n" +
     "			ng-repeat 	= \"targetGroup in icConfigData.targetGroups | orderBy : 'toString()| uppercase | prepend: \\'TARGET_GROUPS.\\' |translate'\"\n" +
