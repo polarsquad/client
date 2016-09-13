@@ -421,6 +421,10 @@ angular.module('icDirectives', [
 					scope.item = icSearchResults.getItem(id)
 					//Todo: mark item as full or something
 					if(!scope.item.description) icSearchResults.downloadItem(id)
+
+
+					//TODO:
+					scope.linkToItem = location.origin+'/#/item/'+id
 				})
 
 				scope.$watch(

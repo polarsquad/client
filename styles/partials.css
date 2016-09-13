@@ -497,24 +497,36 @@ ic-full-item img {
 	margin:					2rem 0;
 }
 
-ic-full-item footer {
+ic-full-item footer .tools{
 	display:				flex;
 	margin-top:				5rem;
 }
 
-ic-full-item footer > * {
+ic-full-item footer .tools > * {
 	display:				inline-block;
 	flex:					1 0 1rem;
 	flex-wrap:				nowrap;
 }
 
-ic-full-item footer a {
+ic-full-item footer .tools a {
 	background-repeat:		no-repeat;
 	background-position:	50% 0;
 	background-size:		1.5rem;
 	text-align:				center;
 	padding-top:			2rem;
 	margin:					1rem 0;
+}
+
+ic-full-item qrcode {
+	display:				block;
+	margin:					5rem 0;
+	width:					auto;
+}
+
+ic-full-item qrcode > *{
+	display:				block;
+	width:					80%;
+	margin:					auto;
 }
 
 

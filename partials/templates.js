@@ -165,10 +165,22 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
+    "\n" +
+    "\n" +
     "	<footer>\n" +
-    "		<a class = \"icon-interface-print highlight\">	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
-    "		<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
-    "		<a class = \"icon-interface-edit  highlight\">	{{'INTERFACE.EDIT'	| translate}}		</a>\n" +
+    "		<div class = \"tools\">\n" +
+    "			<a class = \"icon-interface-print highlight\">	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
+    "			<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
+    "			<a class = \"icon-interface-edit  highlight\">	{{'INTERFACE.EDIT'	| translate}}		</a>\n" +
+    "		</div>\n" +
+    "		<qrcode \n" +
+    "			version					=	\"3\" \n" +
+    "			error-correction-level	=	\"M\" \n" +
+    "			size					=	\"200\" \n" +
+    "			data					=	\"{{linkToItem}}\"\n" +
+    "			ng-if					=	\"item\"\n" +
+    "		>\n" +
+    "		</qrcode>\n" +
     "	</footer>\n" +
     "</div>"
   );

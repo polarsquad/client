@@ -48,9 +48,21 @@
 	>
 	</ic-info-tag>
 
+
+
 	<footer>
-		<a class = "icon-interface-print highlight">	{{'INTERFACE.PRINT' | translate}}		</a>
-		<a class = "icon-interface-share highlight">	{{'INTERFACE.SHARE'	| translate}}		</a>
-		<a class = "icon-interface-edit  highlight">	{{'INTERFACE.EDIT'	| translate}}		</a>
+		<div class = "tools">
+			<a class = "icon-interface-print highlight">	{{'INTERFACE.PRINT' | translate}}		</a>
+			<a class = "icon-interface-share highlight">	{{'INTERFACE.SHARE'	| translate}}		</a>
+			<a class = "icon-interface-edit  highlight">	{{'INTERFACE.EDIT'	| translate}}		</a>
+		</div>
+		<qrcode 
+			version					=	"3" 
+			error-correction-level	=	"M" 
+			size					=	"200" 
+			data					=	"{{linkToItem}}"
+			ng-if					=	"item"
+		>
+		</qrcode>
 	</footer>
 </div>

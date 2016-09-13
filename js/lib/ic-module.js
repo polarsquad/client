@@ -7,6 +7,7 @@ angular.module('InfoCompassModule',[
 	"ngSanitize",
 	"icServices",
 	"icDirectives",
+	"monospaced.qrcode",
 ])
 
 
