@@ -1,4 +1,10 @@
 <div class = "icon" style = "background-image: url({{icIcon}})"></div>
 <div class = "title">					{{icTitle}}		</div>
-<div class = "content text-primary">	{{icContent}}	</div>
+<div class = "content highlight">		
+	{{icContent}}	
+	<div ng-repeat = "line in icExtraLines">
+		{{line}}
+	</div>
+</div>
+
 

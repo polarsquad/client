@@ -12,7 +12,7 @@
 
 	
 	
-	<a 
+	<a
 		ng-repeat	= "type in icConfigData.types"
 		ng-href 	= "#{{icSite.getNewPath({t: type}, true)}}"
 		ng-class 	= "{active : icSite.params.t == type}"
@@ -24,7 +24,7 @@
 	></a>
 
 
-	<a 
+	<!-- <a 
 		href 		= "#{{::icSite.getNewPath({item: index})}}" 
 		ic-tile
 		ic-title	= "::Mock.random(['Kurs', 'Angebot', 'Projekt', 'Termine'], index+5)"
@@ -33,7 +33,7 @@
 		ic-type		= "::Mock.random(['events', 'services', 'places', 'information'], index+1)"
 
 		ng-repeat 	= "index in ::Mock.arr(16)"
-	></a>
+	></a> -->
 
 </div>
 

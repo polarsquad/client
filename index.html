@@ -124,9 +124,11 @@
 				ic-current 	= "icSite.params.item"
 				ic-next		= "icSearchResults.getNextId(icModel)"
 				ic-on-turn	= "icSite.addItemToPath(icModel)"
-				ng-if		= "icSite.show('item')"
 			>
-		--><section class 	= "item" >					
+		--><section 
+				class 	= "item" 
+				ng-if	= "icSite.show('item')"
+			>					
 				<ic-section-item ic-id = "icSite.params.item"></ic-section-item>
 		 	</section><!--
 			 </ic-horizontal-swipe-list>

@@ -205,16 +205,31 @@ ic-text-logo :last-child{
 
 
 .icon-interface-print {
-	background-image:		url(/images/icon_interface_print.png);	/*TODO!!*/
+	background-image:		url(/images/icon_interface_print_black.svg);	
 }
 
 .icon-interface-share {
-	background-image:		url(/images/icon_interface_share.png);	/*TODO!!*/
+	background-image:		url(/images/icon_interface_share_black.svg);	
 }
 
 .icon-interface-edit {
-	background-image:		url(/images/icon_interface_edit.png);	/*TODO!!*/
+	background-image:		url(/images/icon_interface_edit_black.svg);	
 }
+
+
+
+.icon-interface-print.highlight {
+	background-image:		url(/images/icon_interface_print_orange.svg);	
+}
+
+.icon-interface-share.highlight {
+	background-image:		url(/images/icon_interface_share_orange.svg);	
+}
+
+.icon-interface-edit.highlight {
+	background-image:		url(/images/icon_interface_edit_orange.svg);	
+}
+
 
 
 

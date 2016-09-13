@@ -115,10 +115,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-full-item.html',
-    "\n" +
     "<ic-unavailable ng-if =\"!loading && !item.title\"></ic-unavailable>\n" +
     "\n" +
     "<ic-spinner active = \"loading\"></ic-spinner>\n" +
+    "\n" +
     "\n" +
     "<div ng-if =\"item.title\">\n" +
     "	<h2 class 	= \"title\">{{ item.title }}</h2>\n" +
@@ -133,33 +133,42 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</div>\n" +
     "\n" +
     "	<img ng-if = \"item.imageUrl\" ng-src = \"{{item.imageUrl}}\"/>\n" +
+    "\n" +
     "	<p>\n" +
     "		{{item.description[language]}}\n" +
     "	</p>\n" +
     "\n" +
+    "	<ic-info-tag\n" +
+    "		ng-if			= \"item.address\"\n" +
+    "		ic-title 		= \"'INTERFACE.ITEM_INFO_ADDRESS' | translate\"\n" +
+    "		ic-content		= \"item.address\"\n" +
+    "		ic-extra-lines	= \"[item.zip + ' ' +item.location]\"\n" +
+    "		ic-icon			= \"'address'| icIcon\"\n" +
+    "	>\n" +
+    "	</ic-info-tag>\n" +
+    "\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat	= \"key in ['address', 'phone', 'email', 'website']\"\n" +
+    "		ng-repeat	= \"key in ['phone', 'email', 'website']\"\n" +
     "		ng-if		= \"item[key]\"\n" +
-    "		ic-title 	= \"'ITEM_INFO_'+key\"\n" +
+    "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
     "		ic-content	= \"item[key]\"\n" +
-    "		ic-icon		= \"'images/icon_'+key+'.svg'\"\n" +
+    "		ic-icon		= \"key | icIcon\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat	= \"key in ['name', 'phone', 'email']\"\n" +
-    "		ng-if		= \"item.contacts && item.contacts[key]\"\n" +
-    "		ic-title 	= \"'ITEM_INFO_'+key\"\n" +
-    "		ic-content	= \"item.contacts[key]\"\n" +
-    "		ic-icon		= \"'images/icon_'+key+'.svg'\"\n" +
+    "		ng-repeat	= \"(key, content) in item.contacts\"\n" +
+    "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
+    "		ic-content	= \"content\"\n" +
+    "		ic-icon		= \"key | icIcon\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
     "	<footer>\n" +
-    "		<a class = \"icon-interface-print highlight\">	Drucken		</a>\n" +
-    "		<a class = \"icon-interface-share highlight\">	Teilen		</a>\n" +
-    "		<a class = \"icon-interface-edit  highlight\">	Bearbeiten	</a>\n" +
+    "		<a class = \"icon-interface-print highlight\">	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
+    "		<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
+    "		<a class = \"icon-interface-edit  highlight\">	{{'INTERFACE.EDIT'	| translate}}		</a>\n" +
     "	</footer>\n" +
     "</div>"
   );
@@ -213,7 +222,13 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-info-tag.html',
     "<div class = \"icon\" style = \"background-image: url({{icIcon}})\"></div>\n" +
     "<div class = \"title\">					{{icTitle}}		</div>\n" +
-    "<div class = \"content text-primary\">	{{icContent}}	</div>\n" +
+    "<div class = \"content highlight\">		\n" +
+    "	{{icContent}}	\n" +
+    "	<div ng-repeat = \"line in icExtraLines\">\n" +
+    "		{{line}}\n" +
+    "	</div>\n" +
+    "</div>\n" +
+    "\n" +
     "\n"
   );
 
@@ -513,7 +528,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	\n" +
     "	\n" +
-    "	<a \n" +
+    "	<a\n" +
     "		ng-repeat	= \"type in icConfigData.types\"\n" +
     "		ng-href 	= \"#{{icSite.getNewPath({t: type}, true)}}\"\n" +
     "		ng-class 	= \"{active : icSite.params.t == type}\"\n" +
@@ -525,7 +540,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	></a>\n" +
     "\n" +
     "\n" +
-    "	<a \n" +
+    "	<!-- <a \n" +
     "		href 		= \"#{{::icSite.getNewPath({item: index})}}\" \n" +
     "		ic-tile\n" +
     "		ic-title	= \"::Mock.random(['Kurs', 'Angebot', 'Projekt', 'Termine'], index+5)\"\n" +
@@ -534,7 +549,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-type		= \"::Mock.random(['events', 'services', 'places', 'information'], index+1)\"\n" +
     "\n" +
     "		ng-repeat 	= \"index in ::Mock.arr(16)\"\n" +
-    "	></a>\n" +
+    "	></a> -->\n" +
     "\n" +
     "</div>\n" +
     "\n"

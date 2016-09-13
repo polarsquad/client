@@ -459,6 +459,7 @@ angular.module('icDirectives', [
 			scope:			{
 								icTitle:		"<",
 								icContent:		"<",
+								icExtraLines:	"<",
 								icIcon:			"<"
 							},
 
@@ -548,6 +549,12 @@ angular.module('icDirectives', [
 				case 'health':		return "/images/icon_topic_health_"+c+".svg";		break;
 				case 'leisure':		return "/images/icon_topic_leisure_"+c+".svg";		break;
 				case 'work':		return "/images/icon_topic_work_"+c+".svg";			break;
+
+				case 'email':		return "/images/icon_item_email_"+c+".svg";			break;
+				case 'address':		return "/images/icon_item_place_"+c+".svg";			break;
+				case 'phone':		return "/images/icon_item_phone_"+c+".svg";			break;
+				case 'time':		return "/images/icon_item_time_"+c+".svg";			break;				
+				case 'website':		return "/images/icon_item_link_"+c+".svg";			break;				
 
 				default:			return "/images/icon_nav_close.svg";				break;
 			}

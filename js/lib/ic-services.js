@@ -724,8 +724,11 @@ angular.module('icServices', [
 		searchResults.storeItem = function(new_item_data){
 
 
-			var stored_item 		= searchResults.data.filter(function(item){ return item.id == new_item_data.id })[0]
+			new_item_data			= new_item_data || {}
+
+			var stored_item 		= searchResults.data.filter(function(item){ return item.id == String(new_item_data.id) })[0],
 				new_item			= {}
+
 
 
 			new_item.id				= String(new_item_data.id)
@@ -733,9 +736,26 @@ angular.module('icServices', [
 			new_item.definition		= new_item_data.definitions
 			new_item.type			= new_item_data.type
 			new_item.topic 			= new_item_data.topics
+			new_item.targetGroup	= new_item_data.target_groups
 			new_item.primary_topic	= new_item_data.primary_topic || (new_item_data.topics && new_item_data.topics[0])
 			new_item.imageUrl		= new_item_data.image_url
 			new_item.description	= new_item_data.descriptions_full
+			new_item.zip			= new_item_data.zip_code
+			new_item.location		= new_item_data.place
+			new_item.contacts		= {}
+
+
+			//TODO;
+			;(new_item_data.contacts || []).forEach(function(contact){
+				for(var key in contact){
+					new_item.contacts[key] = contact[key]
+				}
+			})
+
+
+			Array('address', 'phone', 'email', 'website').forEach(function(key){
+				new_item[key] 			= new_item_data[key]
+			})
 
 
 			if(stored_item){
@@ -744,9 +764,21 @@ angular.module('icServices', [
 				searchResults.data.push(new_item)
 			}
 
-			return this
+			return stored_item || new_item
 		}
 
+		searchResults.getItem = function(id){
+			if(!id) return null
+
+			var stored_item = searchResults.data.filter(function(item){ return item.id == String(id) })[0] 
+
+			if(!stored_item){
+				var preliminary_item = {id:id}
+				stored_item = searchResults.storeItem(preliminary_item)
+			}
+
+			return 	stored_item					
+		}
 
 
 
@@ -773,10 +805,10 @@ angular.module('icServices', [
 
 			var parameters = {}
 
-			if(icFilterConfig.filterBy.type) 					parameters.type 		= icFilterConfig.filterBy.type
-			if(icFilterConfig.filterBy.topic.length != 0)		parameters.topics 		= icFilterConfig.filterBy.topic
-			if(icFilterConfig.filterBy.targetGroup.length != 0)	parameters.targetGroup 	= icFilterConfig.filterBy.targetGroup
-			if(icFilterConfig.searchTerm)						parameters.query		= icFilterConfig.searchTerm
+			if(icFilterConfig.filterBy.type) 					parameters.type 			= icFilterConfig.filterBy.type
+			if(icFilterConfig.filterBy.topic.length != 0)		parameters.topics 			= icFilterConfig.filterBy.topic
+			if(icFilterConfig.filterBy.targetGroup.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroup
+			if(icFilterConfig.searchTerm)						parameters.query			= icFilterConfig.searchTerm
 
 			var currentCall = 	icConfigData.ready
 								.then(function(){
@@ -854,20 +886,6 @@ angular.module('icServices', [
 					)
 		}
 
-		searchResults.getItem = function(id){
-			if(!id) return null
-
-			var stored_item = searchResults.data.filter(function(item){ return item.id == id })[0] 
-
-			if(!stored_item){
-				var preliminary_item = {id:id}
-				searchResults.storeItem(preliminary_item)
-			}
-
-			return 	stored_item
-					?	stored_item
-					:	preliminary_item
-		}
 
 		function deepSearch(obj,needle){
 

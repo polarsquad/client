@@ -52,7 +52,6 @@ ic-header form {
 	display:				inline-block;
 }
 
-ic-header a, 
 ic-header button{
 	display:				inline-block;
 	height:					2.5rem;
@@ -67,6 +66,11 @@ ic-header button{
 	vertical-align:			middle;
 	border-radius:			100%;
 	padding:				0;
+}
+
+
+ic-header button + button {
+	margin-left:			0.5rem;
 }
 
 
@@ -495,6 +499,7 @@ ic-full-item img {
 
 ic-full-item footer {
 	display:				flex;
+	margin-top:				5rem;
 }
 
 ic-full-item footer > * {
@@ -538,14 +543,18 @@ ic-unavailable {
 ic-info-tag {
 	display:				block;
 	position:				relative;
-	margin:					1rem 0;
+	margin:					2rem 0;
 }
 
 ic-info-tag .icon {
 	position:				absolute;
-	background:				#ccc;
-	height:					3rem;
+	background-color:		transparent;
+	height:					2rem;
 	width:					3rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		contain;
+	opacity:				0.5;
 }
 
 ic-info-tag .title {
@@ -703,6 +712,7 @@ ic-filter-interface .panel {
 
 ic-filter-interface .panel > div {
 	display:				block;
+	margin-bottom:			1.5rem;
 }
 
 ic-filter-interface .panel a {
@@ -717,6 +727,9 @@ ic-filter-interface .panel a {
 	user-select: 			none;
 }
 
+ic-filter-interface .panel {
+	margin-top:				1rem;
+}
 
 ic-filter-interface .panel a.active {
 	font-weight:			bold;

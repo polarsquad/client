@@ -58,6 +58,8 @@ TODO:
 * Zentral definieren, was in einem Icon angezeigt wird und was nicht -> transform funktion bauen data -> item
 * type icon manchmal weiß (::)
 * Markup rausfiltern
+* grunt images preload alle bilder in /images
+* Contacts shclehct gelöst
 
 Done:
 
@@ -79,6 +81,8 @@ Done:
 * filter nach city leer (-> fixed)
 * Javascript FehlerMeldungen abfangen (-> unpraktisch)
 * Item ohne vorgeänger triple scrollt falsch. -> Initial scroll immer falsch! (-> fixed)
+* String() nicht nötig
+* image on load animation?
 
 
 
@@ -100,8 +104,12 @@ Brauche:
 
 
 Next:
-* swipe raus! erstmal
 * Full item komplett machen
-* Layoutbrüche fixen
 * (Druckansicht)
 * (QR-Codes)
+* Filter ausklappen
+
+Done:
+* swipe raus! erstmal
+* Layoutbrüche fixen
+* Neue sIcons eingebaut
