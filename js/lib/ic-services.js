@@ -264,7 +264,6 @@ angular.module('icServices', [
 												|| 'en'
 
 			
-
 		}
 
 		guessLanguage()

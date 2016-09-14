@@ -425,7 +425,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-search-result-list.html',
     "<a\n" +
     "	ng-repeat	= \"item in icSearchResults.filteredList\"\n" +
-    "	ng-href		= \"#{{::icHref({itemId:item.id})}}\"\n" +
+    "	ng-href		= \"#{{icHref({itemId:item.id})}}\"\n" +
     ">\n" +
     "	<ic-preview-item\n" +
     "		ic-title 	= \"::item.title\"\n" +

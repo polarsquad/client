@@ -1,6 +1,6 @@
 <a
 	ng-repeat	= "item in icSearchResults.filteredList"
-	ng-href		= "#{{::icHref({itemId:item.id})}}"
+	ng-href		= "#{{icHref({itemId:item.id})}}"
 >
 	<ic-preview-item
 		ic-title 	= "::item.title"
