@@ -525,15 +525,14 @@ ic-full-item img {
 }
 
 ic-full-item footer .tools{
-	display:				flex;
-	justify-content:		space-around;
+	display:				block;
 	margin-top:				5rem;
+	text-align:				center;
 }
 
 ic-full-item footer .tools > * {
 	display:				inline-block;
-	flex:					0 0 0rem;
-	flex-wrap:				nowrap;
+	width:					32%;
 }
 
 ic-full-item footer .tools a {
