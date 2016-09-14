@@ -2,7 +2,10 @@
 <div class = "title">					{{icTitle}}		</div>
 <div class = "content highlight">		
 	{{icContent}}	
-	<div ng-repeat = "line in icExtraLines">
+	<div 
+		ng-repeat 	= "line in icExtraLines"
+		ng-if		= "line"
+	>
 		{{line}}
 	</div>
 </div>

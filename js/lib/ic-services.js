@@ -35,9 +35,24 @@ angular.module('icServices', [
 
 
 	function($rootScope, $q, $timeout, icConfigData, icLanguageConfig){
+
+
+		var	documentReady = $q.defer()
+
+		if(document.readyState == 'complete') {
+			$timeout(function(){ documentReady.resolve() }, 50)
+		} else {
+			document.onload = function(){
+				$timeout(function(){ documentReady.resolve() }, 50)
+			}
+		}
+
+
+
 		$q.all([
 			icConfigData.ready,
 			icLanguageConfig,
+			documentReady
 		])
 		.then(function(){
 			$rootScope.icAppReady = true
@@ -744,6 +759,16 @@ angular.module('icServices', [
 			new_item.location		= new_item_data.place
 			new_item.contacts		= {}
 
+			if(new_item_data.query){
+				if(stored_item){
+					stored_item.query = stored_item.query || []
+					stored_item.query.push(new_item_data.query)
+				}else{
+					new_item.query = []
+					new_item.query.push(new_item_data.query)
+				}
+			}
+
 
 			//TODO;
 			;(new_item_data.contacts || []).forEach(function(contact){
@@ -756,6 +781,17 @@ angular.module('icServices', [
 			Array('address', 'phone', 'email', 'website').forEach(function(key){
 				new_item[key] 			= new_item_data[key]
 			})
+
+
+			for(key in new_item){
+				if(
+						new_item[key] === null
+					||	new_item[key] === undefined
+					||	new_item[key].length  == 0
+				){
+					delete new_item[key]
+				}
+			}
 
 
 			if(stored_item){

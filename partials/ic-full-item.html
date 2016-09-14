@@ -6,13 +6,17 @@
 <div ng-if ="item.title">
 	<h2 class 	= "title">{{ item.title }}</h2>
 	<h3 class 	= "definition"> {{ item.definition[language] }}</h3>
-	<div class = "topics">
+	<div class = "topics-and-target-groups highlight">
 		<a 
 			ng-repeat 	= "topic in item.topic"
 			class		= "highlight"
-		>
-			{{topic | uppercase | prepend : "TOPICS." | translate | append : $last ? '' : ','}}
-		</a>
+			ng-href		= "/#/tp/{{topic}}"
+		>{{topic | uppercase | prepend : "TOPICS." | translate }}</a>
+		<a 
+			ng-repeat 	= "target_group in item.targetGroup"
+			class		= "highlight"
+			ng-href		= "/#/tg/{{target_group}}"
+		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
 	</div>
 
 	<img ng-if = "item.imageUrl" ng-src = "{{item.imageUrl}}"/>

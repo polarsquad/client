@@ -15,14 +15,22 @@
 	<a
 		ng-repeat	= "type in icConfigData.types"
 		ng-href 	= "#{{icSite.getNewPath({t: type}, true)}}"
-		ng-class 	= "{active : icSite.params.t == type}"
 		ic-tile
-		ic-title	= "'TYPES.'+type.toUpperCase() | translate"
-		ic-brief	= "'Kurzer Text'"
-		ic-icon		= "type | icIcon"
+		ic-title	= "'TYPES.'+type | uppercase | translate"
+		ic-brief	= "'INTERFACE.TYPE' | translate"
+		ic-icon		= "type | icIcon: 'white'"
 		ic-type		= "type"
 	></a>
 
+
+	<a
+		ng-repeat	= "target_group in icConfigData.targetGroups"
+		ng-href 	= "#{{icSite.getNewPath({tg: target_group}, true)}}"
+		ic-tile
+		ic-title	= "target_group | prepend : 'TARGET_GROUPS.' | uppercase | translate"
+		ic-brief	= "'INTERFACE.TARGET_GROUP' |translate"
+		ic-type		= "::Mock.random(['events', 'services', 'places', 'information'], $index+1)"
+	></a>
 
 	<!-- <a 
 		href 		= "#{{::icSite.getNewPath({item: index})}}" 

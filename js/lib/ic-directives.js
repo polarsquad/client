@@ -13,6 +13,7 @@ angular.module('icDirectives', [
 
 	'$q',
 	'$timeout',
+	'$rootScope',
 
 	function($q, $timeout){
 		return {
@@ -540,7 +541,6 @@ angular.module('icDirectives', [
 	return 	function(str, color){
 			var c = color || 'black'
 
-
 			switch(str){
 				case 'information': return "/images/icon_type_information_"+c+".svg"; 	break;
 				case 'events':		return "/images/icon_type_events_"+c+".svg";		break;
@@ -700,7 +700,9 @@ angular.module('icDirectives', [
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-filter-interface.html',
-			scope:			{},
+			scope:			{
+								expandFilter:	'<'
+							},
 
 			link: function(scope, element,attrs){
 				scope.open 				= false
@@ -708,6 +710,12 @@ angular.module('icDirectives', [
 				scope.icConfigData 		= icConfigData
 				scope.expand			= {}
 
+
+				if(scope.expandFilter){
+					scope.open 					= 'filter'
+					scope.expand.topics 		= true
+					scope.expand.targetGroups 	= true
+				}
 
 				scope.toggleSortPanel = function(){
 					scope.open = 	scope.open != 'sort'
@@ -987,16 +995,15 @@ angular.module('icDirectives', [
 	function(icConfigData, icFilterConfig){
 		return {
 			restrict: 		'E',
-			templateUrl:	'/partials/ic-search.html',
+			templateUrl:	'partials/ic-search.html',
 			scope:			{
 								icOnUpdate : '&'
 							},
 
 			link: function(scope, element, attrs){
 
-				scope.searchTerm		= icFilterConfig.searchTerm
-				scope.icTitles 			= icConfigData.titles
-
+				
+				//scope.icTitles 			= icConfigData.titles
 				scope.icFilterConfig	= icFilterConfig
 
 
@@ -1018,6 +1025,11 @@ angular.module('icDirectives', [
 						input.focus()
 					})
 				}
+
+				scope.$watch(
+					function(){ return icFilterConfig.searchTerm },
+					function(){ scope.searchTerm = icFilterConfig.searchTerm }
+				)
 			}
 		}
 	}
@@ -1295,7 +1307,7 @@ angular.module('icDirectives', [
 				wrapper.on('scroll', function(e){
 					e.stopPropagation()
 
-					console.log('scroll')
+					//console.log('scroll')
 					
 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
 
@@ -1605,7 +1617,7 @@ angular.module('icDirectives', [
 								:	0
 					
 					if(count > 5){
-						console.log(scroll_left, width)
+						//console.log(scroll_left, width)
 						if(scroll_left < 0.4*width) 	wrapper[0].scrollLeft -= width/50
 						if(scroll_left > 1.6*width) 	wrapper[0].scrollLeft += width/50
 

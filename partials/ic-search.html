@@ -2,13 +2,21 @@
 	ng-submit = "update()"
 >
 
-	<input 
-		id					= "search-term"
-		tabindex			= "1"
-		type 				= "text" 
-		ng-model 			= "searchTerm"
-	>
-	</input>
+	<div class = "search-term"> 
+		<input
+			id					= "search-term" 			
+			tabindex			= "1"
+			type 				= "text" 
+			ng-model 			= "searchTerm"
+			placeholder			= "{{'INTERFACE.SEARCH' | translate }}"
+		>
+		</input>
+		<button 
+			class 	= "icon-nav-search"
+			type	= "submit"	 
+		>
+		</button>
+	</div>
 
 	<div class = "tags">
 
@@ -41,7 +49,7 @@
 
 	</div>
 
-	<div 
+	<!-- <div 
 		class 	= "auto-suggest"
 		ng-if	= "searchTerm.length > 2"
 	>
@@ -52,6 +60,6 @@
 		>
 			{{title}}
 		</a>
-	</div>
+	</div> -->
 
 </form>

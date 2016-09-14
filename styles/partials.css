@@ -81,14 +81,32 @@ ic-search {
 	position:				relative;
 }
 
+ic-search .search-term {
+	position:				relative;
+	width:					18rem;
+}
 
-ic-search input {
+ic-search .search-term input {
+	width:					100%;
+	padding-right:			2rem;
+	box-sizing:				border-box;
 	border-radius:			0;
 	background:				#eee;
+	font-size:				1.2rem;
 	line-height:			2rem;
 	text-align:				center;
-	width:					18rem;
-	font-size:				0.8rem;
+}
+
+ic-search .search-term button {
+	position:				absolute;
+	top:					0;
+	right:					0;
+	bottom:					0;
+	width:					2rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		contain;
+	background-color:		transparent;
 }
 
 ic-search input:focus {
@@ -233,10 +251,11 @@ ic-section-list {
 	display:				inline-block !important;
 	font-size:				0.9rem;
 	margin:					0.2em;
-	padding:				0 0.2em;
+	padding:				0 0.4em;
 	border-radius:			0.2em;
-	background:				#ccc;
-	line-height:			1.6em !important;
+	border-width:			0 !important;
+	background:				#ddd;
+	line-height:			1.8em !important;
 	height:					1.6em;
 	padding-right:			1.6em;
 	flex:					1 0 0;
@@ -485,10 +504,18 @@ ic-full-item h3 {
 	line-height:			1em;
 }
 
-ic-full-item .topics {
+ic-full-item .topics-and-target-groups {
 	font-size:				0.875rem;
 }
 
+
+ic-full-item .topics-and-target-groups a:after{
+	content:				',';
+}
+
+ic-full-item .topics-and-target-groups a:last-child:after{
+	content:				'';
+}
 
 ic-full-item img {
 	display:				block;
@@ -499,12 +526,13 @@ ic-full-item img {
 
 ic-full-item footer .tools{
 	display:				flex;
+	justify-content:		space-around;
 	margin-top:				5rem;
 }
 
 ic-full-item footer .tools > * {
 	display:				inline-block;
-	flex:					1 0 1rem;
+	flex:					0 0 0rem;
 	flex-wrap:				nowrap;
 }
 
@@ -525,7 +553,7 @@ ic-full-item qrcode {
 
 ic-full-item qrcode > *{
 	display:				block;
-	width:					80%;
+	width:					50%;
 	margin:					auto;
 }
 
@@ -682,6 +710,28 @@ ic-filter-interface {
 	display:				block;
 	margin-bottom:			1rem;
 }
+
+
+ic-filter-interface .search-term {
+	position:				relative;
+	color:					#444;
+	font-size:				1.2rem;
+	line-height:			2rem;
+	height:					2rem;
+	margin-bottom:			1rem;
+	text-align:				center;
+}
+
+ic-filter-interface .search-term button {
+	display:				inline-block;
+	height:					2rem;
+	width:					2rem;
+	background-position:	50% 50%;
+	box-shadow:				none;
+	margin-left:			1rem;
+	vertical-align:			middle;
+}
+
 
 ic-filter-interface .controls {
 	display:				flex;

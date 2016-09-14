@@ -104,12 +104,37 @@ Brauche:
 
 
 Next:
-* Full item komplett machen
 * (Druckansicht)
-* (QR-Codes)
-* Filter ausklappen
+* QR-Code online testen
+
+
 
 Done:
+* targetgroups ins fullitem
+* Full item komplett machen
+* Filter ausklappen
+* android active states weg machen
 * swipe raus! erstmal
 * Layoutbrüche fixen
 * Neue sIcons eingebaut
+* (QR-Codes)
+* Extra Demo Kacheln (targetgroups)
+* loadingscreen wartet auf images
+* Suche ins main menu
+* Query? lokaler filter spinnt (nicht mehr)
+* full item läd nicht richtig nach (jetzt schon)
+* neue icons (-> sind nicht neu)
+* Übersetzung prüfen : NAME FACEBOOK TYPE TARGET_GROUP
+
+
+
+Save Path :
+* Location: Stadtteilzentrum Familiengarten
+
+
+
+Brauche:
+* Klarmachen, was passieren soll, wenn mehere Filter angeklickt sind
+* Passende Icons oO
+* Suche gibt zulange listen zurück wenn gefiltert wird
+* Sprachbug -> kann ich nicht mehr reproduzieren
