@@ -43,21 +43,6 @@ h1,h2,h3,h4,h5,h6 {
 
 
 
-ic-text-logo{
-	font-family:			Roboto, sans-serif !important;
-	word-spacing: 			0 !important;
-}
-
-ic-text-logo :first-child{
-	font-weight:			bold !important;
-}
-
-ic-text-logo :last-child{
-	font-weight:			normal !important;
-}
-
-
-
 
 /* aligns */
 

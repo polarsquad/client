@@ -1,39 +1,4 @@
-/* javascript missing */
 
-
-#ic-javascript-missing {
-	position:				fixed;
-	top:					0;
-	right:					0;
-	left:					0;
-	bottom:					0;
-	background-image:		url(/images/logo.svg);
-	background-size:		3rem auto;
-	background-position:	50% 2rem;
-	background-repeat:		no-repeat;
-	padding-top:			7rem;
-	background-color:		#fff;
-	text-align:				center;
-	z-index:				99999999;
-}
-
-
-
-ic-loading-screen{
-	position:				fixed;
-	top:					0;
-	bottom:					0;
-	left:					0;
-	right:					0;
-	z-index:				999;	
-	background-color:		#fff;
-}
-
-ic-loading-screen h1 {
-	text-align:				center;
-	margin-top:				4rem;
-	margin-bottom:			4rem;
-}
 
 
 /* header */
@@ -546,13 +511,13 @@ ic-full-item footer .tools a {
 
 ic-full-item qrcode {
 	display:				block;
-	margin:					5rem 0;
-	width:					auto;
+	margin:					5rem auto;
+	width:					50%;
 }
 
 ic-full-item qrcode > *{
 	display:				block;
-	width:					50%;
+	width:					100%;
 	margin:					auto;
 }
 
@@ -590,10 +555,15 @@ ic-info-tag .icon {
 	background-color:		transparent;
 	height:					2rem;
 	width:					3rem;
-	background-position:	50% 50%;
-	background-repeat:		no-repeat;
-	background-size:		contain;
 	opacity:				0.5;
+}
+
+ic-info-tag .icon img{
+	max-height:				100%;
+	max-width:				100%;
+	display:				block;
+	margin:					0;
+	width:					100%;
 }
 
 ic-info-tag .title {
@@ -616,94 +586,7 @@ ic-info-tag .content {
 	box-shadow:						0 2px 0 -1px #000 inset;
 }
 
-/* icSpinner */
 
-
-ic-spinner {
-	position:				relative;
-	display:				block;
-	width:					1em;
-	height:					1em;
-	font-size:				3rem;
-	margin:					1rem auto;
-	overflow:				hidden;
-	opacity:				0;
-	transition:				opacity 600ms ease-in;
-}
-
-ic-spinner.active{
-	opacity:				1;
-}
-
-
-ic-spinner .foreground{
-	position:				absolute;
-	top:					0;
-	left:					0;
-	width:					1em;
-	height:					1em;
-
-	background-image:		url('../images/logo.svg');
-	background-size:		1em;
-	background-position:	50% 50%;
-	background-repeat:		no-repeat;
-	z-index:				5;
-}
-
-
-
-ic-spinner .background{	
-	position:				absolute;
-	top:					0;
-	left:					0;
-	width:					1em;
-	height:					1em;
-	animation:				spin 2000ms infinite linear;
-}
-
-
-
-ic-spinner .background:before,
-ic-spinner .background:after {
-	content:				'';
-	display:				block;
-
-	position:				absolute;
-	top:					0;
-	left:					0;
-	width:					1em;
-	height:					1em;
-
-	background-image:		url('../images/logo.svg');
-	background-size:		0.725em;
-	background-position:	50% 50%;
-	background-repeat:		no-repeat;
-
-	z-index:				0;
-
-	filter: 				grayscale(100%);
-	-webkit-filter: 		grayscale(100%);
-	-moz-filter: 			grayscale(100%);
-	-o-filter: 				grayscale(100%);
-	-ms-filter: 			grayscale(100%);
-
-}
-
-ic-spinner .background:after {
-	transform:				rotate(135deg);
-}
-
-@keyframes spin {
-
-	0% { 
-		transform:			rotate(0deg);
-	}
-
-	100% { 
-		transform:			rotate(360deg);
-	}
-
-}
 
 ic-filter-interface {
 	display:				block;
@@ -903,12 +786,12 @@ ic-overlays {
 	left:					0;
 	right:					0;
 	bottom:					0;
-	padding-left:			3rem;
 	overflow-x:				hidden;
 	overflow-y:				auto;
 	z-index:				99999;
 	background:				rgba(0,0,0,0.5);	
-	will-change:			content;	
+	transition-property:	background-color;
+	transition-duration:	400ms;
 }
 
 ic-overlays.ic-hide {
@@ -925,56 +808,30 @@ ic-overlays > * {
 	width:					20rem;
 	padding:				1rem;
 	box-sizing:				border-box;
+	transition-property:	transform;
+	transition-duration:	400ms;
 }
 
 ic-overlays > .left {
 	left:					0;
-	transition:				transform 400ms;
 }
 
 ic-overlays > .right {
 	right:					0;
-	transition:				transform 400ms;
 }
 
 ic-overlays > .ic-hide.left {
-	display:				none;
+	opacity:				0;
 	transform:				translateX(-100%);
 }
 
 ic-overlays > .ic-hide.right {
-	display:				none;
+	opacity:				0;
 	transform:				translateX(100%);
 }
 
 ic-overlays.ic-hide .ic-hide {
 	display:				block !important;
-}
-
-
-
-
-
-
-
-@keyframes from-left{
-	0% {
-		transform:			translateX(-150%);
-	}
-
-	100% {
-		transform:			translateX(0%);
-	}
-}
-
-@keyframes from-right{
-	0% {
-		transform:			translateX(150%);
-	}
-
-	100% {
-		transform:			translateX(0%);
-	}
 }
 
 

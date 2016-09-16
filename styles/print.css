@@ -1,0 +1,104 @@
+
+body, 
+html {
+	overflow:			auto;
+	font-size:			initial !important;
+}
+
+
+body header {
+	display:			none;
+}
+
+body ic-overlays {
+	display:			none;
+}
+
+
+
+
+body #content > * {
+	display:			none !important;
+	width:				auto;
+}
+
+body #content > .item {
+	display:			block !important;
+}
+
+
+
+
+body #content ic-full-item ic-spinner {
+	display:			none;
+}
+
+
+
+
+
+
+body #content {
+	position:			relative;
+	top:				0;
+	left:				0;
+}
+
+
+body #content > section {
+	width:				auto !important;
+	overflow:			visible !important;
+}
+
+body #content > section > * {
+	width:				auto !important;
+}
+
+
+body #content ic-full-item .hero {
+	width:				40%;
+	padding-right:		10%;
+	float:				left;
+}
+
+body #content ic-full-item p {
+	width:				50%;
+	box-sizing:			border-box;
+	padding-left:		1rem;
+	float:				right;
+}
+
+body #content ic-full-item ic-info-tag {
+	display:			inline-block;
+	width:				50%;
+}
+
+body #content ic-full-item ic-info-tag:nth-of-type(1){
+	clear:				both;
+}
+
+body #content ic-full-item ic-info-tag:nth-of-type(even){
+	float:				left;
+}
+
+body #content ic-full-item ic-info-tag:nth-of-type(odd){
+	float:				right;
+}
+
+body #content ic-full-item  qrcode {
+	display:			inline-block;
+	width:				40%;
+	padding-left:		1rem;
+	float:				right;
+	margin:				0;
+} 
+
+
+body #content ic-full-item  footer {
+	float:				none;
+	clear:				both;
+} 
+
+body #content ic-full-item  footer * {
+	display:			none;
+}

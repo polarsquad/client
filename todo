@@ -60,6 +60,8 @@ TODO:
 * Markup rausfiltern
 * grunt images preload alle bilder in /images
 * Contacts shclehct gelöst
+* image on load animation?
+* String() nicht nötig
 
 Done:
 
@@ -81,8 +83,7 @@ Done:
 * filter nach city leer (-> fixed)
 * Javascript FehlerMeldungen abfangen (-> unpraktisch)
 * Item ohne vorgeänger triple scrollt falsch. -> Initial scroll immer falsch! (-> fixed)
-* String() nicht nötig
-* image on load animation?
+*
 
 
 
@@ -126,7 +127,9 @@ Done:
 * neue icons (-> sind nicht neu)
 * Übersetzung prüfen : NAME FACEBOOK TYPE TARGET_GROUP
 * Sprachbug (war::links)
-
+* Print.CSS
+* QR-Code
+* loading order loading screen
 
 
 
@@ -135,3 +138,4 @@ Brauche:
 * Klarmachen, was passieren soll, wenn mehere Filter angeklickt sind
 * Passende Icons oO
 * Suche gibt zulange listen zurück wenn gefiltert wird
+* Übersetzung Interface

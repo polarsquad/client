@@ -149,7 +149,11 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
     "	</div>\n" +
     "\n" +
-    "	<img ng-if = \"item.imageUrl\" ng-src = \"{{item.imageUrl}}\"/>\n" +
+    "	<img\n" +
+    "		class	= \"hero\" \n" +
+    "		ng-if 	= \"item.imageUrl\" \n" +
+    "		ng-src 	= \"{{item.imageUrl}}\"\n" +
+    "	/>\n" +
     "\n" +
     "	<p>\n" +
     "		{{item.description[language]}}\n" +
@@ -182,6 +186,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
+    "	<qrcode \n" +
+    "		version					=	\"3\" \n" +
+    "		error-correction-level	=	\"M\" \n" +
+    "		size					=	\"200\" \n" +
+    "		data					=	\"{{linkToItem}}\"\n" +
+    "		ng-if					=	\"item\"\n" +
+    "	>\n" +
+    "	</qrcode>\n" +
     "\n" +
     "\n" +
     "	<footer>\n" +
@@ -190,14 +202,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
     "			<a class = \"icon-interface-edit  highlight\">	{{'INTERFACE.EDIT'	| translate}}		</a>\n" +
     "		</div>\n" +
-    "		<qrcode \n" +
-    "			version					=	\"3\" \n" +
-    "			error-correction-level	=	\"M\" \n" +
-    "			size					=	\"200\" \n" +
-    "			data					=	\"{{linkToItem}}\"\n" +
-    "			ng-if					=	\"item\"\n" +
-    "		>\n" +
-    "		</qrcode>\n" +
     "	</footer>\n" +
     "</div>"
   );
@@ -231,6 +235,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		type				= \"button\"\n" +
     "		class 				= \"icon-interface-print\"\n" +
     "		ng-show				= \"icSite.show('item')\"\n" +
+    "		ng-click			= \"print()\"\n" +
     "	></button>\n" +
     "\n" +
     "	<button \n" +
@@ -249,7 +254,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-info-tag.html',
-    "<div class = \"icon\" style = \"background-image: url({{icIcon}})\"></div>\n" +
+    "<div class = \"icon\"><img ng-src = \"{{icIcon}}\"/></div>\n" +
     "<div class = \"title\">					{{icTitle}}		</div>\n" +
     "<div class = \"content highlight\">		\n" +
     "	{{icContent}}	\n" +
@@ -287,6 +292,86 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		</span>\n" +
     "	</div>\n" +
     "</a>"
+  );
+
+
+  $templateCache.put('partials/ic-layout.html',
+    "\n" +
+    "<ic-loading-screen 			\n" +
+    "	ic-app-ready	= \"icAppReady\"\n" +
+    "	ic-delay		= \"500\"\n" +
+    ">\n" +
+    "	<h1><ic-text-logo></ic-text-logo></h1>\n" +
+    "	<ic-spinner active = \"true\">\n" +
+    "	</ic-spinner>\n" +
+    "</ic-loading-screen>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<header\n" +
+    "	ng-if = \"::icAppReady\"\n" +
+    ">\n" +
+    "	<ic-header></ic-header>\n" +
+    "</header>\n" +
+    "\n" +
+    "\n" +
+    "<section \n" +
+    "	id      = \"content\"\n" +
+    "	ng-if   = \"::icAppReady\"\n" +
+    "><!--\n" +
+    "\n" +
+    "\n" +
+    " --><section \n" +
+    "		class   =   \"page\"\n" +
+    "		ng-if   =   \"icSite.show('page')\"\n" +
+    "	>       \n" +
+    "		<div ng-include = \"icSite.pageUrl\"></div>\n" +
+    "	</section><!--\n" +
+    "\n" +
+    "\n" +
+    " --><section \n" +
+    "		class           =   \"filter\"    \n" +
+    "		ng-if           =   \"icSite.show('filter')\"\n" +
+    "	>\n" +
+    "		<ic-section-filter></ic-section-filter>\n" +
+    "	</section><!--\n" +
+    "\n" +
+    "\n" +
+    " --><section \n" +
+    "		class   =   \"list\"  \n" +
+    "		ng-if   =   \"icSite.show('list')\"\n" +
+    "		ic-scroll-bump              \n" +
+    "	>\n" +
+    "		<ic-section-list\n" +
+    "			ic-show-filter  =   \"smlLayout.mode.name == 'XS'\" \n" +
+    "		></ic-section-list>\n" +
+    "	</section><!--\n" +
+    "\n" +
+    "\n" +
+    "	 <ic-horizontal-swipe-list-x\n" +
+    "		ic-model-as = \"icId\"\n" +
+    "		ic-previous = \"icSearchResults.getPreviousId(icModel)\"\n" +
+    "		ic-current  = \"icSite.params.item\"\n" +
+    "		ic-next     = \"icSearchResults.getNextId(icModel)\"\n" +
+    "		ic-on-turn  = \"icSite.addItemToPath(icModel)\"\n" +
+    "	>\n" +
+    "--><section \n" +
+    "		class   = \"item\" \n" +
+    "		ng-if   = \"icSite.show('item')\"\n" +
+    "	>                   \n" +
+    "		<ic-section-item ic-id = \"icSite.params.item\"></ic-section-item>\n" +
+    "	</section><!--\n" +
+    "	 </ic-horizontal-swipe-list>\n" +
+    "	 -->\n" +
+    "\n" +
+    "</section>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<ic-overlays \n" +
+    "	ng-if       = \"::icAppReady\"\n" +
+    "	ng-class    = \"{'ic-hide' :!icOverlays.active()}\"\n" +
+    "></ic-overlays>"
   );
 
 

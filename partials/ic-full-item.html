@@ -19,7 +19,11 @@
 		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
 	</div>
 
-	<img ng-if = "item.imageUrl" ng-src = "{{item.imageUrl}}"/>
+	<img
+		class	= "hero" 
+		ng-if 	= "item.imageUrl" 
+		ng-src 	= "{{item.imageUrl}}"
+	/>
 
 	<p>
 		{{item.description[language]}}
@@ -52,6 +56,14 @@
 	>
 	</ic-info-tag>
 
+	<qrcode 
+		version					=	"3" 
+		error-correction-level	=	"M" 
+		size					=	"200" 
+		data					=	"{{linkToItem}}"
+		ng-if					=	"item"
+	>
+	</qrcode>
 
 
 	<footer>
@@ -60,13 +72,5 @@
 			<a class = "icon-interface-share highlight">	{{'INTERFACE.SHARE'	| translate}}		</a>
 			<a class = "icon-interface-edit  highlight">	{{'INTERFACE.EDIT'	| translate}}		</a>
 		</div>
-		<qrcode 
-			version					=	"3" 
-			error-correction-level	=	"M" 
-			size					=	"200" 
-			data					=	"{{linkToItem}}"
-			ng-if					=	"item"
-		>
-		</qrcode>
 	</footer>
 </div>

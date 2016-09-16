@@ -638,8 +638,9 @@ angular.module('icServices', [
 
 		icOverlays.toggle = function(overlay_name, open){
 
+			//TODO: what's deferred for?
 
-			deferred[overlay_name] = deferred[overlay_name] || $q.defer()
+			//deferred[overlay_name] = deferred[overlay_name] || $q.defer()
 
 
 			if(overlay_name) {
@@ -647,21 +648,22 @@ angular.module('icServices', [
 												?	open 
 												:	!icOverlays.show[overlay_name]
 
-				if(icOverlays.show[overlay_name]){
-					deferred[overlay_name].reject()
-					deferred[overlay_name]	=	$q.defer()
-				} else {
-					deferred[overlay_name].resolve() 
-				}
+				// if(icOverlays.show[overlay_name]){
+				// 	deferred[overlay_name].reject()
+				// 	deferred[overlay_name]	=	$q.defer()
+				// } else {
+				// 	deferred[overlay_name].resolve() 
+				// }
 
 			} else {
 				for(var key in icOverlays.show){
 					delete icOverlays.show[key]
-					deferred[overlay_name].resolve()
+					// deferred[overlay_name].resolve()
 				}
 			}
 
-			return  deferred[overlay_name].promise
+			// return  deferred[overlay_name].promise
+			return this
 		}
 
 	

@@ -1,6 +1,6 @@
 <!doctype html>
 <html 
-	lang			=	"en" 
+	lang			=	"{{icLanguageConfig.currentLanguage}}" 
 	ng-app			=	"InfoCompass" 
 	ng-controller 	= 	"InfoCompassCtrl"
 	ng-class		=	"{'show-page': icSite.show('page'), 'show-list': icSite.show('list'), 'show-item': icSite.show('item')}"
@@ -15,34 +15,43 @@
 		<meta charset="utf-8">		
 		<meta name="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
 
+
+		
+
+		<link type="text/css" rel="stylesheet" href="styles/first.css"></link>
+
+		<link type="text/css" rel="stylesheet" href="styles/partials.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/layout.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/typography_and_colors.css"></link>
-		<link type="text/css" rel="stylesheet" href="styles/partials.css"></link>
 		<link type="text/css" rel="stylesheet" href="styles/roboto.css"></link>
-		<link type="text/css" rel="stylesheet" href="styles/preload-images.css"></link>
 
-		<script src="mock/mock.js"></script>
 
-		<script src="js/lib/angular.min.js">		</script>
-		<!-- <script src="js/lib/angular.min.js">		</script> -->
+		<link type="text/css" rel="stylesheet" href="styles/preload_images.css"></link>
 
-		<script src="js/lib/angular-sanitize.min.js"	></script>
-		<script src="js/lib/angular-translate.min.js"	></script>
+		<link type="text/css" rel="stylesheet" media ="print" href="styles/print.css"></link>
 
-		<script src="js/lib/qrcode.js"					></script>
-		<script src="js/lib/qrcode_UTF8.js"				></script>
-		<script src="js/lib/angular-qrcode.js"			></script>
+		<script defer	src="mock/mock.js">						</script>
 
-		<script src="js/lib/smlLayout.js">			</script>
+		<script defer	src="js/lib/angular.min.js">			</script>
+
+		<script defer	src="js/lib/angular-sanitize.min.js"	></script>
+		<script defer	src="js/lib/angular-translate.min.js"	></script>
+
+		<script defer	src="js/lib/qrcode.js"					></script>
+		<script defer	src="js/lib/qrcode_UTF8.js"				></script>
+		<script defer	src="js/lib/angular-qrcode.js"			></script>
+		<script defer	src="js/lib/smlLayout.js">				</script>
+
 
 		<!-- app -->
-		<script src="js/lib/ic-api.js">				</script>
-		<script src="js/lib/ic-services.js">		</script>
-		<script src="js/lib/ic-directives.js">		</script>
-		<script src="js/lib/ic-module.js">			</script>
-		<script src="js/app.js"></script>
+		
+		<script defer	src="js/lib/ic-api.js">					</script>
+		<script defer	src="js/lib/ic-services.js">			</script>
+		<script defer	src="js/lib/ic-directives.js">			</script>
+		<script defer	src="js/lib/ic-module.js">				</script>
+		<script defer	src="js/app.js">						</script>
 
-		<script src="partials/templates.js"></script>
+		<script defer	src="partials/templates.js">			</script>
 
 	</head>
 
@@ -50,7 +59,7 @@
 
 
 
-	<body>
+	<body ng-include = "'partials/ic-layout.html'">
 		<div 
 			id = "ic-javascript-missing"
 		>
@@ -61,84 +70,11 @@
 			Bitte JavaScript aktivieren.
 		</div>
 
-
-
-
-
-		<ic-loading-screen 			
-			ic-app-ready	= "icAppReady"
-			ic-delay		= "500"
-		>
-			<h1><ic-text-logo></ic-text-logo></h1>
-			<ic-spinner active = "true">
-			</ic-spinner>
+		<ic-loading-screen>
+			<h1><ic-text-logo><span>Info</span><span>Compass</span></ic-text-logo></h1>
+			<ic-spinner class ="active"><div class = "foreground"></div><div class = "background"></ic-spinner>
 		</ic-loading-screen>
 
-
-
-
-		<header
-			ng-if = "::icAppReady"
-		>
-			<ic-header></ic-header>
-		</header>
-
-
-		<ic-overlays 
-			ng-if 		= "::icAppReady"
-			ng-class	= "{'ic-hide' :!icOverlays.active()}"
-		></ic-overlays>
-
-		<section 
-			id 		= "content"
-			ng-if 	= "::icAppReady"
-		><!--
-
-
-		 --><section 
-				class 	=	"page"
-				ng-if	=	"icSite.show('page')"
-			>		
-			 	<div ng-include = "icSite.pageUrl"></div>
-		 	</section><!--
-
-
-		 --><section 
-		 		class			=	"filter"	
-				ng-if			=	"icSite.show('filter')"
-		 	>
-		 		<ic-section-filter></ic-section-filter>
-		 	</section><!--
-
-
-		 --><section 
-		 		class	=	"list"	
-				ng-if	=	"icSite.show('list')"
-				ic-scroll-bump  	 		
-		 	>
-		 		<ic-section-list
-		 			ic-show-filter 	=	"smlLayout.mode.name == 'XS'" 
-		 		></ic-section-list>
-		 	</section><!--
-
-
-			 <ic-horizontal-swipe-list-x
-				ic-model-as = "icId"
-				ic-previous = "icSearchResults.getPreviousId(icModel)"
-				ic-current 	= "icSite.params.item"
-				ic-next		= "icSearchResults.getNextId(icModel)"
-				ic-on-turn	= "icSite.addItemToPath(icModel)"
-			>
-		--><section 
-				class 	= "item" 
-				ng-if	= "icSite.show('item')"
-			>					
-				<ic-section-item ic-id = "icSite.params.item"></ic-section-item>
-		 	</section><!--
-			 </ic-horizontal-swipe-list>
-			 -->
-
-		</section>
 	</body>
 
 

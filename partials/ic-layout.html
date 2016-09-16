@@ -1,0 +1,76 @@
+
+<ic-loading-screen 			
+	ic-app-ready	= "icAppReady"
+	ic-delay		= "500"
+>
+	<h1><ic-text-logo></ic-text-logo></h1>
+	<ic-spinner active = "true">
+	</ic-spinner>
+</ic-loading-screen>
+
+
+
+<header
+	ng-if = "::icAppReady"
+>
+	<ic-header></ic-header>
+</header>
+
+
+<section 
+	id      = "content"
+	ng-if   = "::icAppReady"
+><!--
+
+
+ --><section 
+		class   =   "page"
+		ng-if   =   "icSite.show('page')"
+	>       
+		<div ng-include = "icSite.pageUrl"></div>
+	</section><!--
+
+
+ --><section 
+		class           =   "filter"    
+		ng-if           =   "icSite.show('filter')"
+	>
+		<ic-section-filter></ic-section-filter>
+	</section><!--
+
+
+ --><section 
+		class   =   "list"  
+		ng-if   =   "icSite.show('list')"
+		ic-scroll-bump              
+	>
+		<ic-section-list
+			ic-show-filter  =   "smlLayout.mode.name == 'XS'" 
+		></ic-section-list>
+	</section><!--
+
+
+	 <ic-horizontal-swipe-list-x
+		ic-model-as = "icId"
+		ic-previous = "icSearchResults.getPreviousId(icModel)"
+		ic-current  = "icSite.params.item"
+		ic-next     = "icSearchResults.getNextId(icModel)"
+		ic-on-turn  = "icSite.addItemToPath(icModel)"
+	>
+--><section 
+		class   = "item" 
+		ng-if   = "icSite.show('item')"
+	>                   
+		<ic-section-item ic-id = "icSite.params.item"></ic-section-item>
+	</section><!--
+	 </ic-horizontal-swipe-list>
+	 -->
+
+</section>
+
+
+
+<ic-overlays 
+	ng-if       = "::icAppReady"
+	ng-class    = "{'ic-hide' :!icOverlays.active()}"
+></ic-overlays>

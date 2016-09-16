@@ -167,9 +167,8 @@ angular.module('icDirectives', [
 	'$rootScope',
 	'icFilterConfig',
 	'icSite',
-	'icOverlays',
 
-	function($rootScope, icFilterConfig, icSite, icOverlays){
+	function($rootScope, icFilterConfig, icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-header.html",
@@ -180,6 +179,7 @@ angular.module('icDirectives', [
 				scope.icSite			= icSite
 				scope.icFilterConfig	= icFilterConfig
 			
+				scope.print				= function(){ window.print() }
 			}
 		}
 	}
@@ -1686,7 +1686,9 @@ angular.module('icDirectives', [
 	'icOverlays',
 
 	function(icOverlays){
+
 		return {
+
 			restrict:	"AE",
 			templateUrl:"partials/ic-overlays.html",
 			scope:		true,
