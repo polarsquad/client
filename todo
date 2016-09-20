@@ -62,6 +62,9 @@ TODO:
 * Contacts shclehct gelöst
 * image on load animation?
 * String() nicht nötig
+* unnötige ng-clicks finden und ersetzen
+* base/default/empty/Item zentral festlegen
+* div > * aus CSS entfernen
 
 Done:
 
@@ -116,8 +119,9 @@ Done:
 * Filter ausklappen
 * android active states weg machen
 * swipe raus! erstmal
+* Suche läuft 'wiLkommen'
 * Layoutbrüche fixen
-* Neue sIcons eingebaut
+* Neues Icons eingebaut
 * (QR-Codes)
 * Extra Demo Kacheln (targetgroups)
 * loadingscreen wartet auf images
@@ -139,3 +143,11 @@ Brauche:
 * Passende Icons oO
 * Suche gibt zulange listen zurück wenn gefiltert wird
 * Übersetzung Interface
+* Bisheriges Testen, nächste Woche nur noch edit und Kram
+* Antrengend Testgerät
+
+
+Todo:
+* Suche löscht Filtereinstellungen
+* line-break in Datenfelder anzeigen
+* active Spinner!

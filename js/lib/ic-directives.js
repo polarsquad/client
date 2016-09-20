@@ -22,8 +22,12 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs, ctrl, transclude){
 
+
 				var childScope 	= undefined,
-					unwatch		= undefined 
+					unwatch		= undefined,
+					timer		= $timeout(parseInt(attrs.icMinDuration), false) 
+
+
 
 				function clear(){
 					childScope.$destroy()
@@ -41,8 +45,30 @@ angular.module('icDirectives', [
 					if(!appReady) 			return null
 					if(appReady === true) 	appReady = $q.resolve()
 
+					
+
 					appReady
-					.then(function(){return $timeout(parseInt(attrs.icDelay)) })
+					.then(function(){
+						return timer
+					})
+					.then(function(){
+						var deferred 			= $q.defer(),
+							has_transition 		= undefined,
+							no_transition_timer = $timeout(2000, false) 
+
+						element.addClass('ic-hide')						    
+						
+						no_transition_timer
+						.then(function(){
+							deferred.resolve()
+						})
+
+						element.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function(){
+							deferred.resolve()
+						})
+
+						return deferred.promise
+					})
 					.then(clear)
 
 				})
@@ -403,8 +429,9 @@ angular.module('icDirectives', [
 
 	'icSearchResults',
 	'icLanguageConfig',
+	'icItemEdits',
 
-	function(icSearchResults, icLanguageConfig){
+	function(icSearchResults, icLanguageConfig, icItemEdits){
 
 		return {
 			restrict:		'AE',
@@ -415,13 +442,30 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 
-				scope.icSearchResults = icSearchResults
+				scope.icSearchResults 	= icSearchResults
+
+				scope.editMode			= false
+
+				scope.edit = function() {
+					scope.editMode = true
+				}
+
+				scope.save = function() {
+					scope.editMode = false
+					icItemEdits.upload(icId)
+				}
+
+
+
 
 
 				scope.$watch('icId', function(id){
-					scope.item = icSearchResults.getItem(id)
+					scope.item 		= icSearchResults.getItem(id)
+					scope.itemEdit 	= icItemEdits.open(id)
+
 					//Todo: mark item as full or something
 					if(!scope.item.description) icSearchResults.downloadItem(id)
+
 
 
 					//TODO:
@@ -538,27 +582,30 @@ angular.module('icDirectives', [
 
 
 .filter('icIcon', function(){
-	return 	function(str, color){
-			var c = color || 'black'
+	return 	function(str, pre, color){
+			var p = pre		||	'type',
+				c = color 	|| 'black'
+
+			if(pre == 'topic' && str == 'information') return "/images/icon_nav_close.svg"
 
 			switch(str){
-				case 'information': return "/images/icon_type_information_"+c+".svg"; 	break;
-				case 'events':		return "/images/icon_type_events_"+c+".svg";		break;
-				case 'places':		return "/images/icon_type_places_"+c+".svg";		break;
-				case 'services':	return "/images/icon_type_services_"+c+".svg";		break;
+				case 'information': return "/images/icon_"+p+"_information_"+c+".svg"; 	break;
+				case 'events':		return "/images/icon_"+p+"_events_"+c+".svg";		break;
+				case 'places':		return "/images/icon_"+p+"_places_"+c+".svg";		break;
+				case 'services':	return "/images/icon_"+p+"_services_"+c+".svg";		break;
 
-				case 'city':		return "/images/icon_topic_city_"+c+".svg";			break;
-				case 'education':	return "/images/icon_topic_education_"+c+".svg";	break;
-				case 'social':		return "/images/icon_topic_social_"+c+".svg";		break;
-				case 'health':		return "/images/icon_topic_health_"+c+".svg";		break;
-				case 'leisure':		return "/images/icon_topic_leisure_"+c+".svg";		break;
-				case 'work':		return "/images/icon_topic_work_"+c+".svg";			break;
+				case 'city':		return "/images/icon_"+p+"_city_"+c+".svg";			break;
+				case 'education':	return "/images/icon_"+p+"_education_"+c+".svg";	break;
+				case 'social':		return "/images/icon_"+p+"_social_"+c+".svg";		break;
+				case 'health':		return "/images/icon_"+p+"_health_"+c+".svg";		break;
+				case 'leisure':		return "/images/icon_"+p+"_leisure_"+c+".svg";		break;
+				case 'work':		return "/images/icon_"+p+"_work_"+c+".svg";			break;
 
-				case 'email':		return "/images/icon_item_email_"+c+".svg";			break;
-				case 'address':		return "/images/icon_item_place_"+c+".svg";			break;
-				case 'phone':		return "/images/icon_item_phone_"+c+".svg";			break;
-				case 'time':		return "/images/icon_item_time_"+c+".svg";			break;				
-				case 'website':		return "/images/icon_item_link_"+c+".svg";			break;				
+				case 'email':		return "/images/icon_"+p+"_email_"+c+".svg";		break;
+				case 'address':		return "/images/icon_"+p+"_place_"+c+".svg";		break;
+				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
+				case 'time':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
+				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;				
 
 				default:			return "/images/icon_nav_close.svg";				break;
 			}
@@ -670,7 +717,7 @@ angular.module('icDirectives', [
 			restrict:	'AE',
 			template:	'<div class = "foreground"></div><div class = "background">',
 			scope:		{
-							active:	"="
+							active:	"<"
 						},
 
 			link: function(scope, element, attrs){
@@ -1733,5 +1780,20 @@ angular.module('icDirectives', [
 	}
 ])
 
+
+.directive('icClick',[
+	function(){
+		return {
+			restrict:	'A',
+
+			link:function(scope, element, attrs){
+				element.on('click', function(){
+					scope.$eval(attrs.icClick)
+					scope.$digest()
+				})
+			}
+		}
+	}
+])
 
 

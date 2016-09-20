@@ -1,3 +1,4 @@
+<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 <a
 	ng-repeat	= "item in icSearchResults.filteredList"
 	ng-href		= "#{{icHref({itemId:item.id})}}"
@@ -13,5 +14,4 @@
 </a>
 
 <div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">no more items</div>
-<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 

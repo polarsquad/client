@@ -124,7 +124,7 @@ var cdL = angular.module('smlLayout', [])
 								
 
 							smlLayout.mode 	= 	smlLayout.modes.reduce(function(best_so_far,mode){
-														return 		mode.width < rem_count
+														return 		mode.width <= rem_count
 																&&	mode.width > best_so_far.width
 																?	mode
 																:	best_so_far

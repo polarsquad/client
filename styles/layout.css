@@ -8,6 +8,7 @@ body {
 	margin:				0;
 	height:				100%;
 	overflow:			hidden;
+	-webkit-overflow-scrolling: touch;
 }
 
 /* Mock*/
@@ -56,6 +57,7 @@ body > #content {
 	position:				relative;
 	height:					100%;
 	display:				inline-block;
+	vertical-align:			top;
 	overflow-x:				hidden;
 	background-color:		#fff;
 	white-space:			normal;
@@ -80,7 +82,7 @@ body > #content {
 
 
 #content  section {
-	overflow-y:				hidden;
+	overflow-y:				scroll;
 	will-change:			scroll-position;
 	-webkit-overflow-scrolling: touch;
 }

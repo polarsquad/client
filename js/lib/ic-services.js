@@ -1,4 +1,4 @@
-
+"use strict";
 
 angular.module('icServices', [
 	'icApi',
@@ -784,7 +784,7 @@ angular.module('icServices', [
 			})
 
 
-			for(key in new_item){
+			for(var key in new_item){
 				if(
 						new_item[key] === null
 					||	new_item[key] === undefined
@@ -1044,6 +1044,27 @@ angular.module('icServices', [
 ])
 
 
+
+.service('icItemEdits', [
+
+
+	function(){
+		var data 		= {},
+			icItemEdits = {}
+
+		icItemEdits.open = function(id){
+			data[id] = data[id] || {}
+			return data[id]
+		}
+
+		icItemEdits.clear = function(id){
+			data[id] = {}
+		}
+
+
+		return icItemEdits
+	}
+])
 
 
 

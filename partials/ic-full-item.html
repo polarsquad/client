@@ -4,8 +4,46 @@
 
 
 <div ng-if ="item.title">
-	<h2 class 	= "title">{{ item.title }}</h2>
-	<h3 class 	= "definition"> {{ item.definition[language] }}</h3>
+
+
+
+	<!-- start item title -->
+
+		<h2 
+			class 	= "title"
+			ng-if	= "!editMode"
+		>{{ item.title }}</h2>
+
+
+		<div ng-if = "editMode">
+			<label>
+				{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)
+				<input ng-model = "itemEdit.title" ></input>
+			</label>
+		</div>
+
+	<!-- end item title -->
+
+
+	<!-- start definition -->
+
+		<h3 
+			class 	= "definition"
+			ng-if	= "!editMode"
+		> {{ item.definition[language] }}</h3>
+
+		
+		<div ng-if = "editMode">
+			<label>
+				{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)
+				<input ng-model = "itemEdit.definition"></input>
+			</label>
+		</div>	
+
+	<!-- end definition -->
+
+
+
 	<div class = "topics-and-target-groups highlight">
 		<a 
 			ng-repeat 	= "topic in item.topic"
@@ -34,7 +72,7 @@
 		ic-title 		= "'INTERFACE.ITEM_INFO_ADDRESS' | translate"
 		ic-content		= "item.address"
 		ic-extra-lines	= "[item.zip + ' ' +item.location]"
-		ic-icon			= "'address'| icIcon"
+		ic-icon			= "'address'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -44,7 +82,7 @@
 		ng-if		= "item[key]"
 		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate"
 		ic-content	= "item[key]"
-		ic-icon		= "key | icIcon"
+		ic-icon		= "key | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -52,7 +90,7 @@
 		ng-repeat	= "(key, content) in item.contacts"
 		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate"
 		ic-content	= "content"
-		ic-icon		= "key | icIcon"
+		ic-icon		= "key | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -70,7 +108,10 @@
 		<div class = "tools">
 			<a class = "icon-interface-print highlight">	{{'INTERFACE.PRINT' | translate}}		</a>
 			<a class = "icon-interface-share highlight">	{{'INTERFACE.SHARE'	| translate}}		</a>
-			<a class = "icon-interface-edit  highlight">	{{'INTERFACE.EDIT'	| translate}}		</a>
+			<a 
+				class 		= "icon-interface-edit  highlight"
+				ic-click	= "edit()"
+			> {{'INTERFACE.EDIT' | translate}} </a>
 		</div>
 	</footer>
 </div>

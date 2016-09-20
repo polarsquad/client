@@ -22,7 +22,7 @@
 >
 	<span 
 		class 		= "icon"
-		style		= "background-image: url({{::type | icIcon : 'color'}});"
+		style		= "background-image: url({{::type | icIcon : 'type' : 'color'}});"
 	>		
 	</span>
 	<div>
@@ -47,7 +47,7 @@
 	>
 		<span 
 			class 		= "icon"
-			style		= "background-image: url({{::topic | icIcon : 'black'}});"
+			style		= "background-image: url({{::topic | icIcon : 'topic' : 'black'}});"
 		>		
 		</span>
 		{{topic | uppercase | prepend : "TOPICS." | translate}}

@@ -134,8 +134,46 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "<div ng-if =\"item.title\">\n" +
-    "	<h2 class 	= \"title\">{{ item.title }}</h2>\n" +
-    "	<h3 class 	= \"definition\"> {{ item.definition[language] }}</h3>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "	<!-- start item title -->\n" +
+    "\n" +
+    "		<h2 \n" +
+    "			class 	= \"title\"\n" +
+    "			ng-if	= \"!editMode\"\n" +
+    "		>{{ item.title }}</h2>\n" +
+    "\n" +
+    "\n" +
+    "		<div ng-if = \"editMode\">\n" +
+    "			<label>\n" +
+    "				{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)\n" +
+    "				<input ng-model = \"itemEdit.title\" ></input>\n" +
+    "			</label>\n" +
+    "		</div>\n" +
+    "\n" +
+    "	<!-- end item title -->\n" +
+    "\n" +
+    "\n" +
+    "	<!-- start definition -->\n" +
+    "\n" +
+    "		<h3 \n" +
+    "			class 	= \"definition\"\n" +
+    "			ng-if	= \"!editMode\"\n" +
+    "		> {{ item.definition[language] }}</h3>\n" +
+    "\n" +
+    "		\n" +
+    "		<div ng-if = \"editMode\">\n" +
+    "			<label>\n" +
+    "				{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)\n" +
+    "				<input ng-model = \"itemEdit.definition\"></input>\n" +
+    "			</label>\n" +
+    "		</div>	\n" +
+    "\n" +
+    "	<!-- end definition -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "	<div class = \"topics-and-target-groups highlight\">\n" +
     "		<a \n" +
     "			ng-repeat 	= \"topic in item.topic\"\n" +
@@ -164,7 +202,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-title 		= \"'INTERFACE.ITEM_INFO_ADDRESS' | translate\"\n" +
     "		ic-content		= \"item.address\"\n" +
     "		ic-extra-lines	= \"[item.zip + ' ' +item.location]\"\n" +
-    "		ic-icon			= \"'address'| icIcon\"\n" +
+    "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -174,7 +212,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if		= \"item[key]\"\n" +
     "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
     "		ic-content	= \"item[key]\"\n" +
-    "		ic-icon		= \"key | icIcon\"\n" +
+    "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -182,7 +220,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-repeat	= \"(key, content) in item.contacts\"\n" +
     "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
     "		ic-content	= \"content\"\n" +
-    "		ic-icon		= \"key | icIcon\"\n" +
+    "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -200,7 +238,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<div class = \"tools\">\n" +
     "			<a class = \"icon-interface-print highlight\">	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
     "			<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
-    "			<a class = \"icon-interface-edit  highlight\">	{{'INTERFACE.EDIT'	| translate}}		</a>\n" +
+    "			<a \n" +
+    "				class 		= \"icon-interface-edit  highlight\"\n" +
+    "				ic-click	= \"edit()\"\n" +
+    "			> {{'INTERFACE.EDIT' | translate}} </a>\n" +
     "		</div>\n" +
     "	</footer>\n" +
     "</div>"
@@ -296,35 +337,13 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-layout.html',
-    "\n" +
-    "<ic-loading-screen 			\n" +
-    "	ic-app-ready	= \"icAppReady\"\n" +
-    "	ic-delay		= \"500\"\n" +
-    ">\n" +
-    "	<h1><ic-text-logo></ic-text-logo></h1>\n" +
-    "	<ic-spinner active = \"true\">\n" +
-    "	</ic-spinner>\n" +
-    "</ic-loading-screen>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<header\n" +
-    "	ng-if = \"::icAppReady\"\n" +
-    ">\n" +
-    "	<ic-header></ic-header>\n" +
-    "</header>\n" +
-    "\n" +
-    "\n" +
-    "<section \n" +
-    "	id      = \"content\"\n" +
-    "	ng-if   = \"::icAppReady\"\n" +
-    "><!--\n" +
+    "<!--\n" +
     "\n" +
     "\n" +
     " --><section \n" +
     "		class   =   \"page\"\n" +
     "		ng-if   =   \"icSite.show('page')\"\n" +
-    "	>       \n" +
+    "	>\n" +
     "		<div ng-include = \"icSite.pageUrl\"></div>\n" +
     "	</section><!--\n" +
     "\n" +
@@ -363,15 +382,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</section><!--\n" +
     "	 </ic-horizontal-swipe-list>\n" +
     "	 -->\n" +
-    "\n" +
-    "</section>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<ic-overlays \n" +
-    "	ng-if       = \"::icAppReady\"\n" +
-    "	ng-class    = \"{'ic-hide' :!icOverlays.active()}\"\n" +
-    "></ic-overlays>"
+    "\n"
   );
 
 
@@ -400,7 +411,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "	<span \n" +
     "		class 		= \"icon\"\n" +
-    "		style		= \"background-image: url({{::type | icIcon : 'color'}});\"\n" +
+    "		style		= \"background-image: url({{::type | icIcon : 'type' : 'color'}});\"\n" +
     "	>		\n" +
     "	</span>\n" +
     "	<div>\n" +
@@ -425,7 +436,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "		<span \n" +
     "			class 		= \"icon\"\n" +
-    "			style		= \"background-image: url({{::topic | icIcon : 'black'}});\"\n" +
+    "			style		= \"background-image: url({{::topic | icIcon : 'topic' : 'black'}});\"\n" +
     "		>		\n" +
     "		</span>\n" +
     "		{{topic | uppercase | prepend : \"TOPICS.\" | translate}}\n" +
@@ -476,7 +487,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-preview-item.html',
     "<div class = \"icon bg-{{::icType | icColor}}\"\n" +
-    "	 style = \"background-image: url({{::icTopic|icIcon : 'white'}})\"\n" +
+    "	 style = \"background-image: url({{::icTopic|icIcon : 'topic' :'white'}})\"\n" +
     ">\n" +
     "\n" +
     "</div>\n" +
@@ -500,7 +511,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-click 	= \"icFilterConfig.toggleFilter('type', type)\" \n" +
     "		ng-class 	= \"{'active' : icFilterConfig.matchFilter('type', type)}\"\n" +
     "		class		= \"border-{{::type | icColor}} text-{{::type | icColor}}\"\n" +
-    "		style		= \"background-image: url({{::type | icIcon : 'color'}});\"\n" +
+    "		style		= \"background-image: url({{::type | icIcon : 'type' :'color'}});\"\n" +
     ">\n" +
     "	{{meta[type]}}\n" +
     "</a>"
@@ -508,6 +519,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-search-result-list.html',
+    "<ic-spinner active = \"icSearchResults.listLoading()\"></ic-spinner>\n" +
     "<a\n" +
     "	ng-repeat	= \"item in icSearchResults.filteredList\"\n" +
     "	ng-href		= \"#{{icHref({itemId:item.id})}}\"\n" +
@@ -523,7 +535,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "</a>\n" +
     "\n" +
     "<div ng-if = \"icSearchResults.noMoreItems\" class =\"no-more-items\">no more items</div>\n" +
-    "<ic-spinner active = \"icSearchResults.listLoading()\"></ic-spinner>\n" +
     "\n"
   );
 
@@ -600,7 +611,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-tile.html',
     "<div \n" +
     "	class = \"background {{::icIcon ? 'icon' : ''}} {{::icImage ? 'image' : ''}}\" \n" +
-    "	style = \"background-image: url({{::icImage||icIcon}})\"\n" +
+    "	style = \"background-image: url({{::icImage||icIcon }})\"\n" +
     ">\n" +
     "</div>\n" +
     "\n" +
@@ -651,7 +662,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<h2>Informationen und Angebote für Geflüchtete und Unterstützer*innen (mehr)</h2>\n" +
     "</div>\n" +
     "\n" +
-    "<d iv\n" +
+    "<div\n" +
     "	no-text-nodes \n" +
     "	class = \"tiles\"\n" +
     ">\n" +
@@ -666,7 +677,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-tile\n" +
     "		ic-title	= \"'TYPES.'+type | uppercase | translate\"\n" +
     "		ic-brief	= \"'INTERFACE.TYPE' | translate\"\n" +
-    "		ic-icon		= \"type | icIcon: 'white'\"\n" +
+    "		ic-icon		= \"type | icIcon : 'type' : 'white'\"\n" +
     "		ic-type		= \"type\"\n" +
     "	></a>\n" +
     "\n" +
