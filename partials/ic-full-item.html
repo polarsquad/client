@@ -14,18 +14,20 @@
 			ng-if	= "!editMode"
 		>{{ item.title }}</h2>
 
+		<ic-item-edit
+			ng-if 					= "editMode"
+			ic-type 				= "string"
+			ic-label				= "{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)"
+			ic-key					= "title"
+			ic-item					= "item"
+			ic-translatable			= "false"
 
-		<div ng-if = "editMode">
-			<label>
-				{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)
-				<input ng-model = "itemEdit.title" ></input>
-			</label>
-		</div>
+		></ic-item-edit>
 
 	<!-- end item title -->
 
 
-	<!-- start definition -->
+	<!-- start item definition -->
 
 		<h3 
 			class 	= "definition"
@@ -33,25 +35,27 @@
 		> {{ item.definition[language] }}</h3>
 
 		
-		<div ng-if = "editMode">
-			<label>
-				{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)
-				<input ng-model = "itemEdit.definition"></input>
-			</label>
-		</div>	
+		<ic-item-edit
+			ng-if 					= "editMode"
+			ic-type 				= "string"
+			ic-key					= "definition"
+			ic-label				= "{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)"
+			ic-item					= "item"
+			ic-translatable			= "true"
+		></ic-item-edit>
 
-	<!-- end definition -->
+	<!-- end item definition -->
 
 
 
 	<div class = "topics-and-target-groups highlight">
 		<a 
-			ng-repeat 	= "topic in item.topic"
+			ng-repeat 	= "topic in item.topics"
 			class		= "highlight"
 			ng-href		= "/#/tp/{{topic}}"
 		>{{topic | uppercase | prepend : "TOPICS." | translate }}</a>
 		<a 
-			ng-repeat 	= "target_group in item.targetGroup"
+			ng-repeat 	= "target_group in item.targetGroups"
 			class		= "highlight"
 			ng-href		= "/#/tg/{{target_group}}"
 		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
@@ -63,9 +67,30 @@
 		ng-src 	= "{{item.imageUrl}}"
 	/>
 
-	<p>
+
+
+
+	<!-- start item description -->
+
+
+	<p nng-if = "!editMode">
 		{{item.description[language]}}
 	</p>
+
+	<ic-item-edit
+		ng-if 					= "editMode"
+		ic-type 				= "text"
+		ic-key					= "description"
+		ic-label				= "{{'INTERFACE_ITEM_DESCRIPTION' | translate}} (restrictions...)"
+		ic-item					= "item"
+		ic-translatable			= "true"
+	></ic-item-edit>
+
+	<!-- end item description -->
+
+
+
+
 
 	<ic-info-tag
 		ng-if			= "item.address"

@@ -1,8 +1,10 @@
 <ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+
 <a
 	ng-repeat	= "item in icSearchResults.filteredList"
 	ng-href		= "#{{icHref({itemId:item.id})}}"
 >
+
 	<ic-preview-item
 		ic-title 	= "::item.title"
 		ic-brief	= "item.definition[language]"

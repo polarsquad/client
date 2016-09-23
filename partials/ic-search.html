@@ -31,7 +31,7 @@
 
 		<!--TOPICS -->
 		<a 	
-			ng-repeat = "topic in icFilterConfig.filterBy.topic"
+			ng-repeat = "topic in icFilterConfig.filterBy.topics"
 			ng-click  = "icFilterConfig.toggleFilter('topic', topic)" 
 		>
 			{{topic | uppercase | prepend: "TOPICS." |translate}}
@@ -40,7 +40,7 @@
 
 
 		<!--TARGET_GROUPS -->
-		<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroup"
+		<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroups"
 			ng-click  = "icFilterConfig.toggleFilter('targetGroup', targetGroup)" 
 		>
 			{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}

@@ -463,8 +463,7 @@ angular.module('icDirectives', [
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
 
-					//Todo: mark item as full or something
-					if(!scope.item.description) icSearchResults.downloadItem(id)
+					icSearchResults.downloadItem(id)
 
 
 
@@ -1060,6 +1059,7 @@ angular.module('icDirectives', [
 					input.focus()
 					input.blur()
 
+					icFilterConfig.clearFilter()
 					icFilterConfig.searchTerm = scope.searchTerm
 					if(scope.icOnUpdate) scope.icOnUpdate()
 				}
@@ -1786,7 +1786,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:	'A',
 
-			link:function(scope, element, attrs){
+			link: function(scope, element, attrs){
 				element.on('click', function(){
 					scope.$eval(attrs.icClick)
 					scope.$digest()
@@ -1797,3 +1797,87 @@ angular.module('icDirectives', [
 ])
 
 
+
+.directive('icItemEdit', [
+
+	'icItemEdits',
+	'icLanguageConfig',
+
+	function(icItemEdits, icLanguageConfig){
+		return {
+			restrict:		'AE',
+			scope:			{
+								icLabel:				"@",
+								icKey:					"@",
+								icTitle: 				"<",
+								icItem:					"=",
+								icType:					"@"
+							},
+
+			templateUrl: 	"partials/ic-item-edit-string.html",
+
+			link: function(scope, element, attrs){
+
+				var itemEdit = icItemEdits.open(scope.icItem.id)
+
+				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
+				scope.icLanguageConfig	= 	icLanguageConfig
+
+				console.log(scope.icTranslatable)
+
+				function refreshValues(){
+					scope.newValue			= 	scope.icTranslatable
+												?	itemEdit[scope.icKey][icLanguageConfig.currentLanguage] 
+												:	itemEdit[scope.icKey]
+
+
+					scope.currentValue		= 	scope.icTranslatable
+												?	scope.icItem[scope.icKey][icLanguageConfig.currentLanguage] 
+												:	scope.icItem[scope.icKey]
+
+
+					scope.newValue			=	scope.newValue === undefined
+												?	scope.currentValue
+												:	scope.newValue
+				}
+
+				scope.$watch(function(){ return icLanguageConfig.currentLanguage }, refreshValues)
+
+				scope.$watch('newValue', function(){
+					if(scope.icTranslatable){
+						itemEdit[scope.icKey][icLanguageConfig.currentLanguage] = scope.newValue
+					} else {
+						itemEdit[scope.icKey] = scope.newValue
+					}
+				})
+			}
+		}
+	}
+])
+
+
+.directive('icTouchMe', [
+	function(){
+		return {
+			restrict:		'A',
+			link: function(scope, element){
+
+				function add(){
+					angular.element(document.body).one('touchend mouseup', remove)									
+					element.addClass('ic-touched')	
+				}
+				function remove(){
+					element.removeClass('ic-touched')					
+				}
+
+				element.on('touchstart mousedown', add)
+
+				scope.$on('$destroy', function(){
+					element.off('touchstart mousedown', add)
+					angular.element(document.body).off('touchend mouseup', remove)
+				})
+
+			}
+		}
+	}
+])

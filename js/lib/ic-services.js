@@ -136,8 +136,8 @@ angular.module('icServices', [
 		var icFilterConfig = 	{
 						filterBy:	{
 										type:			undefined,
-										topic:			[],
-										targetGroup:	[]
+										topics:			[],
+										targetGroups:	[]
 									},
 						searchTerm: ''
 					}
@@ -449,8 +449,8 @@ angular.module('icServices', [
 		icSite.addFilterParamsToPath = function(){
 			icSite.params.s 	= encodeURIComponent(icFilterConfig.searchTerm||'')
 			icSite.params.t		= icFilterConfig.filterBy.type
-			icSite.params.tp	= icFilterConfig.filterBy.topic
-			icSite.params.tg	= icFilterConfig.filterBy.targetGroup
+			icSite.params.tp	= icFilterConfig.filterBy.topics
+			icSite.params.tg	= icFilterConfig.filterBy.targetGroups
 
 			icSite
 			.updateCompontents()
@@ -502,9 +502,9 @@ angular.module('icServices', [
 
 
 			//update icFilterconfig
-			icFilterConfig.filterBy.type		=	icSite.params.t 	|| undefined
-			icFilterConfig.filterBy.topic		=	icSite.params.tp 	|| []
-			icFilterConfig.filterBy.targetGroup	=	icSite.params.tg 	|| []
+			icFilterConfig.filterBy.type			=	icSite.params.t 	|| undefined
+			icFilterConfig.filterBy.topics			=	icSite.params.tp 	|| []
+			icFilterConfig.filterBy.targetGroups	=	icSite.params.tg 	|| []
 
 			icFilterConfig.searchTerm			=	decodeURIComponent(icSite.params.s) || ''
 
@@ -704,7 +704,88 @@ angular.module('icServices', [
 
 
 
+.service('icItem', [
+	function(){
+		return function IcItem(){
+			var icItem					=	this,
+				rawStringProperties 	= 	{
+												id:				'id',
+												title:			'title',
+												type:			'type',
+												imageUrl:		'image_url',
+												zip:			'zip_code',
+												location:		'place',
+												website:		'website',
+												facebook:		'facebook',
+												primaryTopic:	'primary_topic',
+												address:		'address', 
+												phone:			'phone', 
+												email:			'email',
+												price:			'price',
+												maxParticipants:'max_participants',
+												hours:			'hours'
+											},
 
+				rawHashes				=	{
+												definition:		'definitions',
+												description:	'descriptions_full'
+											},
+
+				rawArrays				=	{
+												topics:			'topics',
+												targetGroups:	'tragetGroups'
+											}
+
+			for(var key in rawStringProperties)	{ icItem[key] = "" }								
+			for(var key in rawHashes)			{ icItem[key] = {} }								
+			for(var key in rawArrays)			{ icItem[key] = [] }								
+
+
+			//special properties:
+
+			icItem.longitude 	= ''
+			icItem.latitude		= ''
+			icItem.queries 		= []
+
+
+			//topics, targetGroups, primaryTopic
+
+
+
+
+			icItem.importData = function(data){
+				if(!data) return icItem
+
+				//preliminary workaround:			
+				(data.contacts||{}).forEach(function(key, value){
+					new_item_data[key] = value
+				})
+
+				// Fallbacks:
+				data.primary_topic = data.primary_topic || (data.topics && data.topics[0])
+
+
+
+				//Strings:			
+				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] }
+				for( key in rawHashes)				{ angular.merge(icItem[key], data[rawHashes[key]]) }
+				for( key in rawArrays)				{ angular.merge(icItem[key], data[rawArrays[key]]) }
+
+
+				//special properties:
+				
+				if(data.coordinates && data.coordinates == 2){
+					icItem.latitude = data.coordinates[0]
+					icItem.logitude = data.coordinates[1]
+				}
+
+				if(data.query) angular.merge(icItem.queries, [data.query])
+
+				return icItem
+			}
+		}
+	}	
+])
 
 
 
@@ -722,87 +803,38 @@ angular.module('icServices', [
 	'icApi',
 	'icFilterConfig',
 	'icConfigData',
+	'icItem',
 
-	function($q, $rootScope, $timeout, icApi, icFilterConfig, icConfigData){
+	function($q, $rootScope, $timeout, icApi, icFilterConfig, icConfigData, icItem){
 
-		var searchResults 			= {}
+		var searchResults 				= {}
 
-		searchResults.data 			= []
-		searchResults.offset		= 0
-		searchResults.limit			= 15
-		searchResults.listCalls 	= []
-		searchResults.itemCalls 	= []
-		searchResults.filteredList	= []
-		searchResults.noMoreItems	= false
-		searchResults.meta			= undefined
+		searchResults.data 				= []
+		searchResults.offset			= 0
+		searchResults.limit				= 15
+		searchResults.listCalls 		= []
+		searchResults.itemCalls 		= []
+		searchResults.filteredList		= []
+		searchResults.noMoreItems		= false
+		searchResults.meta				= undefined
+		searchResults.fullItemDownloads = {}
 
 
 		searchResults.storeItem = function(new_item_data){
 
-
-			new_item_data			= new_item_data || {}
-
-			var stored_item 		= searchResults.data.filter(function(item){ return item.id == String(new_item_data.id) })[0],
-				new_item			= {}
-
-
-
-			new_item.id				= String(new_item_data.id)
-			new_item.title			= new_item_data.title
-			new_item.definition		= new_item_data.definitions
-			new_item.type			= new_item_data.type
-			new_item.topic 			= new_item_data.topics
-			new_item.targetGroup	= new_item_data.target_groups
-			new_item.primary_topic	= new_item_data.primary_topic || (new_item_data.topics && new_item_data.topics[0])
-			new_item.imageUrl		= new_item_data.image_url
-			new_item.description	= new_item_data.descriptions_full
-			new_item.zip			= new_item_data.zip_code
-			new_item.location		= new_item_data.place
-			new_item.contacts		= {}
-
-			if(new_item_data.query){
-				if(stored_item){
-					stored_item.query = stored_item.query || []
-					stored_item.query.push(new_item_data.query)
-				}else{
-					new_item.query = []
-					new_item.query.push(new_item_data.query)
-				}
+			if(!new_item_data.id){
+				console.warn('searchResults.storeItem: missing id.')
+				return null
 			}
 
+			var	item = searchResults.data.filter(function(item){ return item.id == String(new_item_data.id) })[0]
 
-			//TODO;
-			;(new_item_data.contacts || []).forEach(function(contact){
-				for(var key in contact){
-					new_item.contacts[key] = contact[key]
-				}
-			})
+			if(!item) searchResults.data.push(item = new icItem())
 
 
-			Array('address', 'phone', 'email', 'website').forEach(function(key){
-				new_item[key] 			= new_item_data[key]
-			})
-
-
-			for(var key in new_item){
-				if(
-						new_item[key] === null
-					||	new_item[key] === undefined
-					||	new_item[key].length  == 0
-				){
-					delete new_item[key]
-				}
-			}
-
-
-			if(stored_item){
-				angular.merge(stored_item, new_item)
-			} else {
-				searchResults.data.push(new_item)
-			}
-
-			return stored_item || new_item
+			return item.importData(new_item_data)
 		}
+
 
 		searchResults.getItem = function(id){
 			if(!id) return null
@@ -831,21 +863,14 @@ angular.module('icServices', [
 
 
 		searchResults.download = function(){
-			if(
-					!icFilterConfig.filterBy.type
-				&&	icFilterConfig.filterBy.topic.length == 0
-				&&	icFilterConfig.filterBy.targetGroup.length == 0
-				&&	!icFilterConfig.searchTerm
-			){
-				console.warn('icSearchResults: download without paramters.')
-			}
+			if( icFilterConfig.cleared() ) console.warn('icSearchResults: download without paramters.')
 
 			var parameters = {}
 
-			if(icFilterConfig.filterBy.type) 					parameters.type 			= icFilterConfig.filterBy.type
-			if(icFilterConfig.filterBy.topic.length != 0)		parameters.topics 			= icFilterConfig.filterBy.topic
-			if(icFilterConfig.filterBy.targetGroup.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroup
-			if(icFilterConfig.searchTerm)						parameters.query			= icFilterConfig.searchTerm
+			if(icFilterConfig.filterBy.type) 						parameters.type 			= icFilterConfig.filterBy.type
+			if(icFilterConfig.filterBy.topics.length != 0)			parameters.topics 			= icFilterConfig.filterBy.topics
+			if(icFilterConfig.filterBy.targetGroups.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroups
+			if(icFilterConfig.searchTerm)							parameters.query			= icFilterConfig.searchTerm
 
 			var currentCall = 	icConfigData.ready
 								.then(function(){
@@ -901,8 +926,9 @@ angular.module('icServices', [
 		}
 
 
-		searchResults.downloadItem = function(id){
+		searchResults.downloadItem = function(id, force){
 			if(!id) return $q.reject('missing id')
+			if(searchResults.fullItemDownloads[id] && !force) return $q.resolve(searchResults.getItem(id))
 
 			var currentCall = icApi.getItem(id)
 
@@ -912,13 +938,10 @@ angular.module('icServices', [
 			return 	currentCall
 					.then(
 						function(result){
-							var item = result.item
+							var item_data = result.item
 
-							item.id 	= String(item.id)
-							item.type 	= icFilterConfig.filterBy.type //todo		
-							item.brief 	= item.description_short && item.description_short['en'] //todo
-
-							searchResults.storeItem(item)
+							searchResults.storeItem(item_data)
+							searchResults.fullItemDownloads[item_data.id] = true
 						}
 					)
 		}
@@ -1047,13 +1070,14 @@ angular.module('icServices', [
 
 .service('icItemEdits', [
 
+	'icItem',
 
-	function(){
+	function(icItem){
 		var data 		= {},
 			icItemEdits = {}
 
 		icItemEdits.open = function(id){
-			data[id] = data[id] || {}
+			data[id] = data[id] || new icItem()
 			return data[id]
 		}
 

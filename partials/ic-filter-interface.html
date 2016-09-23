@@ -74,6 +74,7 @@
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
 		ng-click 	= "expand.topics = !expand.topics"
+		ic-touch-me
 	>
 		{{"INTERFACE.TOPICS" | translate}}
 	</a>
@@ -82,6 +83,7 @@
 		<a 
 			ng-click 	= "icFilterConfig.clearFilter('topic')" 
 			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', undefined)}"
+			ic-touch-me
 		>
 			{{"INTERFACE.TOPICS_ALL" | translate}}
 		</a>
@@ -89,6 +91,7 @@
 			ng-repeat 	= "topic in icConfigData.topics | orderBy : 'toString()| uppercase | prepend: \'TOPICS.\' |translate'"
 			ng-click 	= "icFilterConfig.toggleFilter('topic', topic)" 
 			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic)}"
+			ic-touch-me			
 		>
 			{{topic | uppercase | prepend: "TOPICS." |translate}}
 		</a>
@@ -98,6 +101,7 @@
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}" 
 		ng-click 	= "expand.targetGroups = !expand.targetGroups"
+		ic-touch-me
 	>
 		{{"INTERFACE.TARGET_GROUPS" | translate}}
 	</a>
@@ -106,6 +110,7 @@
 		<a 
 			ng-click 	= "icFilterConfig.clearFilter('targetGroup')" 
 			ng-class 	= "{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}"
+			ic-touch-me			
 		>
 			{{"INTERFACE.TARGET_GROUPS_ALL" | translate}}
 		</a>

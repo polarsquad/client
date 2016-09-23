@@ -9,6 +9,8 @@ var lcEvents = angular.module('lcEvents', [])
 			restrict:	'A',
 
 			link:function(scope, element, attrs){
+
+				console.error('lcEvents: desprecated')
 				element.on('click', function(){
 					console.log('click')
 					scope.$eval(attrs.lcClick)

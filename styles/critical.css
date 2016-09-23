@@ -1,0 +1,206 @@
+/* javascript missing */
+
+
+#ic-javascript-missing {
+	position:				fixed;
+	top:					0;
+	right:					0;
+	left:					0;
+	bottom:					0;
+	background-image:		url(/images/logo.svg);
+	background-size:		3rem auto;
+	background-position:	50% 2rem;
+	background-repeat:		no-repeat;
+	padding-top:			7rem;
+	background-color:		#fff;
+	text-align:				center;
+	z-index:				99999999;
+}
+
+
+
+
+
+
+ic-loading-screen{
+	display:				block;
+	position:				fixed;
+	top:					0;
+	bottom:					0;
+	left:					0;
+	right:					0;
+	font-size:				initial;
+	z-index:				999;	
+	background-color:		#fff;
+	transition-duration:	1000ms;
+	transition-timing-function: ease-in;
+	box-shadow:				0 0 2rem rgba(0,0,0,0.2);
+}
+
+ic-loading-screen.ic-hide {
+	transition-property:	transform;
+	transform:				translateX(-100%);
+}
+
+ic-loading-screen h1 {
+	text-align:				center;
+	margin-top:				1em;
+	margin-bottom:			1em;
+}
+
+
+
+
+ic-loading-screen .spinner {
+	margin:					0 auto;
+	margin-top:				2em;
+	margin-bottom:			0.5em;
+	width:					100%;
+	font-size:				3em;
+}
+
+
+@keyframes loading-screen-tiles{
+	0%{
+		transform:			rotateY(180deg);
+	}
+
+	100%{
+		transform:			rotateY(0deg);
+	}
+}
+
+@-webkit-keyframes loading-screen-tiles{
+	0%{
+		transform:			rotateY(180deg);
+	}
+
+	100%{
+		transform:			rotateY(0deg);
+	}
+}
+
+
+
+
+
+ic-text-logo{
+	font-family:			Roboto, sans-serif !important;
+	word-spacing: 			0 !important;
+}
+
+ic-text-logo :first-child{
+	font-weight:			bold !important;
+}
+
+ic-text-logo :last-child{
+	font-weight:			normal !important;
+}
+
+
+
+
+
+
+
+
+/* icSpinner */
+
+
+ic-spinner {
+	position:				relative;
+	display:				block;
+	width:					1em;
+	height:					1em;
+	margin:					0 auto;
+	overflow:				hidden;
+	opacity:				0;
+	transition:				opacity 600ms ease-in;
+}
+
+ic-spinner.active{
+	opacity:				1;
+}
+
+
+ic-spinner .foreground{
+	position:				absolute;
+	top:					0;
+	left:					0;
+	width:					1em;
+	height:					1em;
+
+	background-image:		url('../images/logo.svg');
+	background-size:		1em;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	z-index:				5;
+}
+
+
+
+ic-spinner .background{	
+	position:				absolute;
+	top:					0;
+	left:					0;
+	width:					1em;
+	height:					1em;
+	animation:				spin 2000ms infinite linear;
+	-webkit-animation:		spin 2000ms infinite linear;
+}
+
+
+
+ic-spinner .background:before,
+ic-spinner .background:after {
+	content:				'';
+	display:				block;
+
+	position:				absolute;
+	top:					0;
+	left:					0;
+	width:					1em;
+	height:					1em;
+
+	background-image:		url('../images/logo.svg');
+	background-size:		0.725em;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+
+	z-index:				0;
+
+	filter: 				grayscale(100%);
+	-webkit-filter: 		grayscale(100%);
+	-moz-filter: 			grayscale(100%);
+	-o-filter: 				grayscale(100%);
+	-ms-filter: 			grayscale(100%);
+
+}
+
+ic-spinner .background:after {
+	transform:				rotate(135deg);
+}
+
+@keyframes spin {
+
+	0% { 
+		transform:			rotate(0deg);
+	}
+
+	100% { 
+		transform:			rotate(360deg);
+	}
+
+}
+
+@-webkit-keyframes spin {
+
+	0% { 
+		transform:			rotate(0deg);
+	}
+
+	100% { 
+		transform:			rotate(360deg);
+	}
+
+}

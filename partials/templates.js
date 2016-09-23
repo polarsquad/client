@@ -78,6 +78,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<a \n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}\" \n" +
     "		ng-click 	= \"expand.topics = !expand.topics\"\n" +
+    "		ic-touch-me\n" +
     "	>\n" +
     "		{{\"INTERFACE.TOPICS\" | translate}}\n" +
     "	</a>\n" +
@@ -86,6 +87,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click 	= \"icFilterConfig.clearFilter('topic')\" \n" +
     "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', undefined)}\"\n" +
+    "			ic-touch-me\n" +
     "		>\n" +
     "			{{\"INTERFACE.TOPICS_ALL\" | translate}}\n" +
     "		</a>\n" +
@@ -93,6 +95,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-repeat 	= \"topic in icConfigData.topics | orderBy : 'toString()| uppercase | prepend: \\'TOPICS.\\' |translate'\"\n" +
     "			ng-click 	= \"icFilterConfig.toggleFilter('topic', topic)\" \n" +
     "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic)}\"\n" +
+    "			ic-touch-me			\n" +
     "		>\n" +
     "			{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
     "		</a>\n" +
@@ -102,6 +105,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<a \n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}\" \n" +
     "		ng-click 	= \"expand.targetGroups = !expand.targetGroups\"\n" +
+    "		ic-touch-me\n" +
     "	>\n" +
     "		{{\"INTERFACE.TARGET_GROUPS\" | translate}}\n" +
     "	</a>\n" +
@@ -110,6 +114,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click 	= \"icFilterConfig.clearFilter('targetGroup')\" \n" +
     "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}\"\n" +
+    "			ic-touch-me			\n" +
     "		>\n" +
     "			{{\"INTERFACE.TARGET_GROUPS_ALL\" | translate}}\n" +
     "		</a>\n" +
@@ -144,18 +149,20 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-if	= \"!editMode\"\n" +
     "		>{{ item.title }}</h2>\n" +
     "\n" +
+    "		<ic-item-edit\n" +
+    "			ng-if 					= \"editMode\"\n" +
+    "			ic-type 				= \"string\"\n" +
+    "			ic-label				= \"{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)\"\n" +
+    "			ic-key					= \"title\"\n" +
+    "			ic-item					= \"item\"\n" +
+    "			ic-translatable			= \"false\"\n" +
     "\n" +
-    "		<div ng-if = \"editMode\">\n" +
-    "			<label>\n" +
-    "				{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)\n" +
-    "				<input ng-model = \"itemEdit.title\" ></input>\n" +
-    "			</label>\n" +
-    "		</div>\n" +
+    "		></ic-item-edit>\n" +
     "\n" +
     "	<!-- end item title -->\n" +
     "\n" +
     "\n" +
-    "	<!-- start definition -->\n" +
+    "	<!-- start item definition -->\n" +
     "\n" +
     "		<h3 \n" +
     "			class 	= \"definition\"\n" +
@@ -163,25 +170,27 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		> {{ item.definition[language] }}</h3>\n" +
     "\n" +
     "		\n" +
-    "		<div ng-if = \"editMode\">\n" +
-    "			<label>\n" +
-    "				{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)\n" +
-    "				<input ng-model = \"itemEdit.definition\"></input>\n" +
-    "			</label>\n" +
-    "		</div>	\n" +
+    "		<ic-item-edit\n" +
+    "			ng-if 					= \"editMode\"\n" +
+    "			ic-type 				= \"string\"\n" +
+    "			ic-key					= \"definition\"\n" +
+    "			ic-label				= \"{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)\"\n" +
+    "			ic-item					= \"item\"\n" +
+    "			ic-translatable			= \"true\"\n" +
+    "		></ic-item-edit>\n" +
     "\n" +
-    "	<!-- end definition -->\n" +
+    "	<!-- end item definition -->\n" +
     "\n" +
     "\n" +
     "\n" +
     "	<div class = \"topics-and-target-groups highlight\">\n" +
     "		<a \n" +
-    "			ng-repeat 	= \"topic in item.topic\"\n" +
+    "			ng-repeat 	= \"topic in item.topics\"\n" +
     "			class		= \"highlight\"\n" +
     "			ng-href		= \"/#/tp/{{topic}}\"\n" +
     "		>{{topic | uppercase | prepend : \"TOPICS.\" | translate }}</a>\n" +
     "		<a \n" +
-    "			ng-repeat 	= \"target_group in item.targetGroup\"\n" +
+    "			ng-repeat 	= \"target_group in item.targetGroups\"\n" +
     "			class		= \"highlight\"\n" +
     "			ng-href		= \"/#/tg/{{target_group}}\"\n" +
     "		>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
@@ -193,9 +202,30 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-src 	= \"{{item.imageUrl}}\"\n" +
     "	/>\n" +
     "\n" +
-    "	<p>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "	<!-- start item description -->\n" +
+    "\n" +
+    "\n" +
+    "	<p nng-if = \"!editMode\">\n" +
     "		{{item.description[language]}}\n" +
     "	</p>\n" +
+    "\n" +
+    "	<ic-item-edit\n" +
+    "		ng-if 					= \"editMode\"\n" +
+    "		ic-type 				= \"text\"\n" +
+    "		ic-key					= \"description\"\n" +
+    "		ic-label				= \"{{'INTERFACE_ITEM_DESCRIPTION' | translate}} (restrictions...)\"\n" +
+    "		ic-item					= \"item\"\n" +
+    "		ic-translatable			= \"true\"\n" +
+    "	></ic-item-edit>\n" +
+    "\n" +
+    "	<!-- end item description -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "	<ic-info-tag\n" +
     "		ng-if			= \"item.address\"\n" +
@@ -308,6 +338,28 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "</div>\n" +
     "\n" +
     "\n"
+  );
+
+
+  $templateCache.put('partials/ic-item-edit-string.html',
+    "<label>\n" +
+    "	{{icLabel}}\n" +
+    "	<div>\n" +
+    "		<span class =\"current-value\">{{currentValue}}</span>	\n" +
+    "\n" +
+    "		<input \n" +
+    "			ng-if		= \"icType == 'string' \" \n" +
+    "			type 		= \"text\" \n" +
+    "			ng-model	= \"newValue\" \n" +
+    "		></input>\n" +
+    "\n" +
+    "		<textarea\n" +
+    "			ng-if		= \"icType == 'text'\"\n" +
+    "			ng-model	= \"newValue\"\n" +
+    "		>\n" +
+    "		</textarea>\n" +
+    "	</div>\n" +
+    "</label>"
   );
 
 
@@ -512,6 +564,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-class 	= \"{'active' : icFilterConfig.matchFilter('type', type)}\"\n" +
     "		class		= \"border-{{::type | icColor}} text-{{::type | icColor}}\"\n" +
     "		style		= \"background-image: url({{::type | icIcon : 'type' :'color'}});\"\n" +
+    "		ic-touch-me\n" +
     ">\n" +
     "	{{meta[type]}}\n" +
     "</a>"
@@ -520,10 +573,12 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-search-result-list.html',
     "<ic-spinner active = \"icSearchResults.listLoading()\"></ic-spinner>\n" +
+    "\n" +
     "<a\n" +
     "	ng-repeat	= \"item in icSearchResults.filteredList\"\n" +
     "	ng-href		= \"#{{icHref({itemId:item.id})}}\"\n" +
     ">\n" +
+    "\n" +
     "	<ic-preview-item\n" +
     "		ic-title 	= \"::item.title\"\n" +
     "		ic-brief	= \"item.definition[language]\"\n" +
@@ -573,7 +628,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "		<!--TOPICS -->\n" +
     "		<a 	\n" +
-    "			ng-repeat = \"topic in icFilterConfig.filterBy.topic\"\n" +
+    "			ng-repeat = \"topic in icFilterConfig.filterBy.topics\"\n" +
     "			ng-click  = \"icFilterConfig.toggleFilter('topic', topic)\" \n" +
     "		>\n" +
     "			{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
@@ -582,7 +637,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "		<!--TARGET_GROUPS -->\n" +
-    "		<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroup\"\n" +
+    "		<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroups\"\n" +
     "			ng-click  = \"icFilterConfig.toggleFilter('targetGroup', targetGroup)\" \n" +
     "		>\n" +
     "			{{targetGroup | uppercase | prepend: \"TARGET_GROUPS.\" |translate}}\n" +

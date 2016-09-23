@@ -4,6 +4,7 @@
 		ng-class 	= "{'active' : icFilterConfig.matchFilter('type', type)}"
 		class		= "border-{{::type | icColor}} text-{{::type | icColor}}"
 		style		= "background-image: url({{::type | icIcon : 'type' :'color'}});"
+		ic-touch-me
 >
 	{{meta[type]}}
 </a>
