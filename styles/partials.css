@@ -3,18 +3,18 @@
 
 /* header */
 
+
+
+
 ic-header {
 	display:				block;
 	text-align:				left;
+	box-sizing:				border-box;
 	box-shadow:				0 1px 0 0 #666;
 	margin:					0 1rem;
 	line-height:			3rem;
 	height:					3rem;
 	text-align:				right;
-}
-
-ic-header form {
-	display:				inline-block;
 }
 
 ic-header button{
@@ -37,6 +37,29 @@ ic-header button{
 ic-header button + button {
 	margin-left:			0.5rem;
 }
+
+
+
+
+
+/* Workaround, TODO , scroll bump*/
+
+ic-section-list {
+	box-shadow:				0 0 0 1rem #fff;
+	background-color:		#fff;
+	text-align:				left;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -99,13 +122,6 @@ ic-search .auto-suggest a {
 
 
 
-
-/* Workaround, TODO */
-
-ic-section-list {
-	box-shadow:				0 0 0 1rem #fff;
-	background-color:		#fff;
-}
 
 
 
@@ -205,6 +221,7 @@ ic-section-list {
 
 .tags {
 	margin:					1rem -0.2rem;
+	display:				block;
 	display:				flex;
 	white-space: 			normal !important;
 	flex-wrap:				wrap;
@@ -220,21 +237,20 @@ ic-section-list {
 	border-radius:			0.2em;
 	border-width:			0 !important;
 	background:				#ddd;
-	line-height:			1.8em !important;
-	height:					1.6em;
-	padding-right:			1.6em;
-	flex:					1 0 0;
+	line-height:			1.6em !important;
+	padding-left:			1.6em;
 	border:					none;
+	white-space:			nowrap;
+	text-overflow:			ellipsis;
 }
 
 .tags > a > .icon {
 	position:				absolute;
 	top:					0.3em;
 	bottom:					0.3em;
-	right:					0.2em;
+	left:					0.2em;
 	width:					1em !important;
 	height:					auto !important;
-	float:					right;
 	background-size:		1em !important;
 }
 
@@ -354,7 +370,8 @@ ic-section-list {
 ic-search-result-list {
 	display:				block;
 	background:				#fff;
-	padding:				0.5rem 0;
+	padding-top:			0.5rem;
+	padding-bottom:			100%;
 }
 
 
@@ -372,6 +389,10 @@ ic-search-result-list  button {
 
 ic-search-result-list ic-spinner {
 	font-size:				3rem;
+}
+
+ic-search-result-list ic-spinner + ic-spinner {
+	display:				none;
 }
 
 ic-search-result-list .result-group {
@@ -403,7 +424,7 @@ ic-search-result-list ic-preview-item {
 	position:				relative;
 	display:				block;
 	min-height:				5rem;
-	margin:					0.5rem -1rem;
+	margin:					0rem -1rem;
 	padding:				0.5rem 1rem;
 }
 
@@ -451,12 +472,58 @@ ic-search-result-list ic-preview-item .icon {
 
 
 
+/* ic-search-term */
+
+ic-search-term {
+	position:				relative;
+	display:				block;
+}
+
+ic-search-term > div {
+	position:				relative;
+	line-height:			2rem;
+	height:					2rem;
+	font-size:				1rem;
+	color:					#3C3C3C;
+	font-weight:			500;
+	text-align:				center;
+}
+
+ic-search-term button {
+	display:				inline-block;
+	position:				absolute;
+	top:					0;
+	top:					50%;
+	right:					0;
+	width:					2rem;
+	height:					2rem;
+	margin-top:				-1rem;
+	background-position:	50% 50%;
+	box-shadow:				none;
+	background-color:		transparent;
+	border-radius:			100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /* ic-full-item */
 
 ic-full-item {
 	display:				block;
 	background:				#fff;
 }
+
+
+
 
 ic-full-item ic-spinner {
 	font-size:				3rem;
@@ -518,9 +585,10 @@ ic-full-item footer .tools a {
 }
 
 ic-full-item qrcode {
-	display:				block;
-	margin:					5rem auto;
-	width:					50%;
+	display:				inline-block;
+	margin:					5rem 0;
+	width:					10rem;
+	cursor:					pointer;
 }
 
 ic-full-item qrcode > *{
@@ -650,26 +718,6 @@ ic-filter-interface {
 }
 
 
-ic-filter-interface .search-term {
-	position:				relative;
-	color:					#444;
-	font-size:				1.2rem;
-	line-height:			2rem;
-	height:					2rem;
-	margin-bottom:			1rem;
-	text-align:				center;
-}
-
-ic-filter-interface .search-term button {
-	display:				inline-block;
-	height:					2rem;
-	width:					2rem;
-	background-position:	50% 50%;
-	box-shadow:				none;
-	margin-left:			1rem;
-	vertical-align:			middle;
-}
-
 
 ic-filter-interface .controls {
 	display:				flex;
@@ -693,9 +741,9 @@ ic-filter-interface button{
 	background-size:		2rem;
 
 
-	background-color:		#fff;
+	background-color:		#fafafa;
 	color:					#444;
-	box-shadow:				0 0 1px 0 #666 inset;
+	box-shadow:				0 0 0 1px #666 inset;
 	overflow:				hidden;
 }
 
@@ -705,20 +753,21 @@ ic-filter-interface button + button {
 
 ic-filter-interface .panel {
 	display:				block;
-	box-shadow:				0 0 1px 0 #666 inset;
 	padding:				1rem 0;
 	margin-top:				0.5rem;
+	background-color:		#fafafa;
 }
 
 ic-filter-interface .panel > div {
 	display:				block;
-	margin-bottom:			1.5rem;
 }
 
 ic-filter-interface .panel a {
 	display:				block;
-	line-height:			2rem;
+	line-height:			1.2rem;
 	padding-left:			1rem;
+	padding-top:			0.4rem;
+	padding-bottom:			0.4rem;
 	cursor:					pointer;
 	
 	-webkit-user-select:	none;
@@ -731,19 +780,15 @@ ic-filter-interface .panel {
 	margin-top:				1rem;
 }
 
-ic-filter-interface .panel a.active {
-	font-weight:			bold;
-}
 
 ic-filter-interface .panel a.disabled {
 	text-decoration: 		line-through !important;
 }
 
 ic-filter-interface .panel.filter a{
-	padding-left:			4rem;
-
-	background-position:	1rem 50%;
-	background-size:		2rem;
+	padding-left:			3rem;
+	background-position:	0 50%;
+	background-size:		2rem auto !important;
 	background-repeat:		no-repeat;
 } 
 
@@ -864,9 +909,22 @@ ic-overlays > * {
 	min-height:				100%;
 	width:					20rem;
 	padding:				1rem;
+	height:					100%;
+	overflow-x:				hidden;
+	overflow-y:				auto;
 	box-sizing:				border-box;
 	transition-property:	transform;
 	transition-duration:	400ms;
+}
+
+ic-overlays > .static {
+	position:				fixed;
+	top:					0;
+	left:					0;
+	right:					0;
+	bottom:					0;
+	width:					auto !important;
+	height:					auto !important;
 }
 
 ic-overlays > .left {
@@ -892,7 +950,9 @@ ic-overlays.ic-hide .ic-hide {
 }
 
 
-
+ic-overlays .black {
+	background-color:		rgba(0,0,0,0.5);	
+}
 
 ic-overlays .white {
 	background-color:		#fff;
@@ -950,4 +1010,22 @@ ic-language-menu  a  .native {
 ic-language-menu  a  .translation {
 	display:				inline-block;
 	width:					8rem;
+}
+
+
+ic-overlays qrcode {
+	display:				block;
+	position:				absolute;
+	padding:				0;
+}
+
+ic-overlays qrcode > * {
+	position:				absolute;
+	display:				block;
+	width:					20rem;
+	height:					20rem;
+	top:					50%;
+	margin-top:				-10rem;
+	left:					50%;
+	margin-left:			-10rem;
 }

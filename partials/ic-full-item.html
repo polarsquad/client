@@ -90,6 +90,7 @@
 
 
 
+	<hr/>
 
 
 	<ic-info-tag
@@ -119,12 +120,17 @@
 	>
 	</ic-info-tag>
 
+
+	<hr/>
+
+
 	<qrcode 
 		version					=	"3" 
 		error-correction-level	=	"M" 
 		size					=	"200" 
-		data					=	"{{linkToItem}}"
+		data					=	"{{item.id | icItemLink}}"
 		ng-if					=	"item"
+		ic-toggle-overlay		=	"qrcode"
 	>
 	</qrcode>
 

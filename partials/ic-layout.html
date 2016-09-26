@@ -20,7 +20,6 @@
  --><section 
 		class   =   "list"  
 		ng-if   =   "icSite.show('list')"
-		ic-scroll-bump              
 	>
 		<ic-section-list
 			ic-show-filter  =   "smlLayout.mode.name == 'XS'" 
@@ -39,7 +38,14 @@
 		class   = "item" 
 		ng-if   = "icSite.show('item')"
 	>                   
-		<ic-section-item ic-id = "icSite.params.item"></ic-section-item>
+		<ic-header
+			ng-if 			= "icSite.useLocalHeader('item')"
+			ic-close-item	= "true"
+			ic-share		= "true"
+			ic-print		= "true"
+		>
+		</ic-header>
+		<ic-section-item></ic-section-item>
 	</section><!--
 	 </ic-horizontal-swipe-list>
 	 -->

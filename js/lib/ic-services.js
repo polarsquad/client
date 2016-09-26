@@ -526,7 +526,15 @@ angular.module('icServices', [
 			return this
 		}
 
-	
+		icSite.useLocalHeader = function(str){
+			switch(smlLayout.mode.name){
+				case "XS": 	return false; 			break;
+				case "S": 	return false; 			break;
+				case "M": 	return str == 'item'; 	break;
+				case "L": 	return str == 'item'; 	break;
+				case "XL": 	return str == 'item'; 	break;
+			}			
+		}
 
 		icSite.show = function(str){
 			switch(smlLayout.mode.name){
@@ -638,31 +646,17 @@ angular.module('icServices', [
 
 		icOverlays.toggle = function(overlay_name, open){
 
-			//TODO: what's deferred for?
-
-			//deferred[overlay_name] = deferred[overlay_name] || $q.defer()
-
-
 			if(overlay_name) {
 				icOverlays.show[overlay_name] = open !== undefined 
 												?	open 
 												:	!icOverlays.show[overlay_name]
 
-				// if(icOverlays.show[overlay_name]){
-				// 	deferred[overlay_name].reject()
-				// 	deferred[overlay_name]	=	$q.defer()
-				// } else {
-				// 	deferred[overlay_name].resolve() 
-				// }
-
 			} else {
 				for(var key in icOverlays.show){
 					delete icOverlays.show[key]
-					// deferred[overlay_name].resolve()
 				}
 			}
 
-			// return  deferred[overlay_name].promise
 			return this
 		}
 

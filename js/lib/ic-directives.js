@@ -117,19 +117,16 @@ angular.module('icDirectives', [
 
 
 .directive('icSectionItem',[
-	
-	'icSearchResults',
 
-	function(icSearchResults){
+	'icSite',
+
+	function(icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-item.html",
-			scope:			{
-								icId:	"<"
-							},
 
 			link: function(scope, element, attrs){
-				scope.icSearchResults 	= icSearchResults
+				scope.icSite = icSite
 			}
 		}
 	}
@@ -190,22 +187,28 @@ angular.module('icDirectives', [
 
 .directive('icHeader',[
 
-	'$rootScope',
 	'icFilterConfig',
 	'icSite',
 
-	function($rootScope, icFilterConfig, icSite){
+	function(icFilterConfig, icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-header.html",
-			scope:			{},
+			scope:			{
+								icMenu:			"<",
+								icCloseItem:	"<",
+								icShare:		"<",
+								icPrint:		"<",
+								icLanguages:	"<"
+							},
 
 			link: function(scope, element, attr){
 				
 				scope.icSite			= icSite
 				scope.icFilterConfig	= icFilterConfig
 			
-				scope.print				= function(){ window.print() }
+				scope.print				= function(){ window.print() 		}
+				scope.closeItem			= function(){ icsite.clearItem()	}
 			}
 		}
 	}
@@ -437,7 +440,7 @@ angular.module('icDirectives', [
 			restrict:		'AE',
 			templateUrl:	'partials/ic-full-item.html',
 			scope:			{
-								icId:		"<"
+								icId:			"<",
 							},
 
 			link: function(scope, element, attrs){
@@ -465,10 +468,7 @@ angular.module('icDirectives', [
 
 					icSearchResults.downloadItem(id)
 
-
-
-					//TODO:
-					scope.linkToItem = location.origin+'/#/item/'+id
+					
 				})
 
 				scope.$watch(
@@ -1051,7 +1051,7 @@ angular.module('icDirectives', [
 				
 				//scope.icTitles 			= icConfigData.titles
 				scope.icFilterConfig	= icFilterConfig
-
+				scope.searchTerm		= ''
 
 				scope.update = function(){
 					var input = element[0].querySelector('#search-term')
@@ -1062,6 +1062,7 @@ angular.module('icDirectives', [
 					icFilterConfig.clearFilter()
 					icFilterConfig.searchTerm = scope.searchTerm
 					if(scope.icOnUpdate) scope.icOnUpdate()
+					scope.searchTerm = ''
 				}
 
 				scope.setSearchTerm = function(str){
@@ -1072,11 +1073,6 @@ angular.module('icDirectives', [
 						input.focus()
 					})
 				}
-
-				scope.$watch(
-					function(){ return icFilterConfig.searchTerm },
-					function(){ scope.searchTerm = icFilterConfig.searchTerm }
-				)
 			}
 		}
 	}
@@ -1714,6 +1710,24 @@ angular.module('icDirectives', [
 
 
 
+.directive('icSearchTerm', [
+
+	'icFilterConfig',
+	'icSearchResults',
+
+	function(icFilterConfig, icSearchResults){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-search-term.html',
+
+			link: function(scope){
+				scope.icFilterConfig 	= icFilterConfig
+				scope.icSearchResults 	= icSearchResults
+			}
+		}
+	}
+])
+
 
 
 
@@ -1856,18 +1870,35 @@ angular.module('icDirectives', [
 ])
 
 
+.filter('icItemLink',[
+	function(){
+		return function(id){
+			return location.origin+'/#/item/'+id
+		}
+	}
+])
+
+
 .directive('icTouchMe', [
 	function(){
 		return {
 			restrict:		'A',
-			link: function(scope, element){
+			link: function(scope, element, attrs){
+
+				var fading_time = attrs.icTouchMe || 400
 
 				function add(){
 					angular.element(document.body).one('touchend mouseup', remove)									
 					element.addClass('ic-touched')	
 				}
 				function remove(){
-					element.removeClass('ic-touched')					
+					element.addClass('ic-touch-fade')
+					window.requestAnimationFrame(function(){
+						element.removeClass('ic-touched')					
+						window.setTimeout(function(){
+							element.removeClass('ic-touch-fade')
+						}, fading_time)
+					})
 				}
 
 				element.on('touchstart mousedown', add)

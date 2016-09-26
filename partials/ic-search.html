@@ -18,37 +18,6 @@
 		</button>
 	</div>
 
-	<div class = "tags">
-
-		<!--TYPES -->
-		<a 	
-			ng-if		= "icFilterConfig.filterBy.type"
-			ng-click  	= "icFilterConfig.toggleFilter('type', icFilterConfig.filterBy.type)" 
-		>
-			{{icFilterConfig.filterBy.type | uppercase | prepend: "TYPES." |translate}}
-			<span class ="icon icon-nav-close"></span>
-		</a>
-
-		<!--TOPICS -->
-		<a 	
-			ng-repeat = "topic in icFilterConfig.filterBy.topics"
-			ng-click  = "icFilterConfig.toggleFilter('topic', topic)" 
-		>
-			{{topic | uppercase | prepend: "TOPICS." |translate}}
-			<span class ="icon icon-nav-close"></span>
-		</a>
-
-
-		<!--TARGET_GROUPS -->
-		<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroups"
-			ng-click  = "icFilterConfig.toggleFilter('targetGroup', targetGroup)" 
-		>
-			{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}
-			<span class ="icon icon-nav-close"></span>
-		</a>
-
-	</div>
-
 	<!-- <div 
 		class 	= "auto-suggest"
 		ng-if	= "searchTerm.length > 2"

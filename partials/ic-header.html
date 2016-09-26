@@ -1,37 +1,43 @@
-	
-	<button
-		type				= "button"
-		class				= "icon-interface-close fleft"
-		ng-show				= "icSite.show('item')"
-		ng-click			= "icSite.clearItem()"
-	></button>
-
-
 	<button
 		type				= "button"	
 		class 				= "icon-nav-menu fleft"
 		ic-toggle-overlay 	= "mainMenu" 
-		ng-show				= "!icSite.show('item')"
+		ng-if				= "icMenu"
+		ic-touch-me	
 	></button>
+	
+
+	<button
+		type				= "button"
+		class				= "icon-interface-close fleft"
+		ng-if				= "icCloseItem"
+		ng-click			= "icSite.clearItem()"
+		ic-touch-me	
+	></button>
+
 
 
 	<button 
 		type				= "button"
 		class 				= "icon-interface-share"
-		ng-show				= "icSite.show('item')"
+		ng-if				= "icShare"
+		ic-touch-me	
 	></button>
 	
 	<button 
 		type				= "button"
 		class 				= "icon-interface-print"
-		ng-show				= "icSite.show('item')"
+		ng-if				= "icPrint"
 		ng-click			= "print()"
+		ic-touch-me	
 	></button>
 
 	<button 
 		type				= "button"
 		class 				= "icon-nav-language"
+		ng-if				= "icLanguages"
 		ic-toggle-overlay 	= "languageMenu" 
+		ic-touch-me	
 	></button>
 
 <!-- 	<button 

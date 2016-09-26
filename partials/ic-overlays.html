@@ -7,3 +7,15 @@
 	class 				= "white right"
 	ic-on-update 		= "icOverlays.toggle('search')" 
 ></ic-search>
+
+
+<qrcode 
+	version					=	"3" 
+	error-correction-level	=	"M" 
+	size					=	"200" 
+	data					=	"{{icSite.params.item | icItemLink}}"
+	class					=	"black static"
+	ng-if					=	"icOverlays.show.qrcode"
+	ic-toggle-overlay		=	"qrcode"
+>
+</qrcode>

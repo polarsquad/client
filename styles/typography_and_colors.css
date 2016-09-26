@@ -13,7 +13,8 @@ a {
 	cursor:				pointer;
 }
 
-a:active {
+a:active,
+a.ic-touched {
 	background-color:	rgba(0,0,0,0.1) !important;
 }
 
@@ -28,12 +29,14 @@ button {
 	cursor:				pointer;
 }
 
-button:active {
+button:active,
+button.ic-touched {
 	background-color:	rgba(0,0,0,0.2) !important;
 }
 
 button::-moz-focus-inner {
 	border:				0;
+	padding:			0;
 }
 
 
@@ -43,6 +46,23 @@ h1,h2,h3,h4,h5,h6 {
 
 
 
+hr {
+	display:				block;
+	height:					1px;
+	width:					auto;
+	border:					none;
+	background-color:		rgba(0,0,0,0.2);
+	margin:					0.75rem 0;
+}
+
+hr + hr {
+	display:				none;
+}
+
+.ic-touch-fade {
+	transition-duration:	400ms;			
+	transition-property:	border, background-color;
+}
 
 /* aligns */
 

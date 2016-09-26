@@ -164,12 +164,14 @@
 
 		</ic-loading-screen>
 
-
-
-
-
 		<header ng-if = "::icAppReady">
-			<ic-header></ic-header>
+			<ic-header
+				ic-menu 		= "!icSite.params.item 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
+				ic-close-item	= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-print		= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-share		= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-languages 	= "true"
+			></ic-header>
 		</header>
 
 

@@ -66,89 +66,26 @@ TODO:
 * base/default/empty/Item zentral festlegen
 * div > * aus CSS entfernen
 
-Done:
-
-* loading screen gebaut (Seite rendert dahinter)
-* ALL haken fehlt bei Filtern (funktioniert wieder)
-* Wenn keine items mehr da sind nicht nachladen (offset wird jetzt um die tatsächliche Anzahl an Items im letzten call erhöht, gibt es keine, bliebt der call gleich und server regiert mit 'not modified')
-* hr 1 px (box-shadow durhc border ersetzt)
-* icon für primary topic -> warte auf mehr icons
-* Item wird nach searchterm suche nicht angzeigt (läuft -> regex und deepsearch gefixt)
-* Triplet buttons erst ab S
-* Home soll searchterm löschen / explizit link ohne paramter setzen?
-* item nur einmal laden
-* Filter anzeigen in Suche
-* previewItem definition wird nicht übersetzt
-* Overlay background fade in
-* overlay background scrolll =/ (nicht mehr auf firefox und android browser)
-* Main menu icons ergänzt
-* filter nach work gibt culture zurück (BE)
-* filter nach city leer (-> fixed)
-* Javascript FehlerMeldungen abfangen (-> unpraktisch)
-* Item ohne vorgeänger triple scrollt falsch. -> Initial scroll immer falsch! (-> fixed)
-*
-
-
-
-Brauche:
-* Funktionieren die Filter im backend?
-* icon für primary topic -> warte auf mehr icons
-* SearchTerms zurück nach API-Call
-* items in der Datenbank mergen topics und targetGroups
-* topic items noch nicht komplett
-* edit icon SVG
-* share icon top
-* mehere topcis im filter -> 500 internal server error
-
-* Icons
-* Sortieren?
-* Worauf konzentrieren
-* contacts -> details... alles was ein icon bekommen soll zusammenfassen
-* Query term
-
-
-Next:
-* (Druckansicht)
-* QR-Code online testen
-
-
-
-Done:
-* targetgroups ins fullitem
-* Full item komplett machen
-* Filter ausklappen
-* android active states weg machen
-* swipe raus! erstmal
-* Suche läuft 'wiLkommen'
-* Layoutbrüche fixen
-* Neues Icons eingebaut
-* (QR-Codes)
-* Extra Demo Kacheln (targetgroups)
-* loadingscreen wartet auf images
-* Suche ins main menu
-* Query? lokaler filter spinnt (nicht mehr)
-* full item läd nicht richtig nach (jetzt schon)
-* neue icons (-> sind nicht neu)
-* Übersetzung prüfen : NAME FACEBOOK TYPE TARGET_GROUP
-* Sprachbug (war::links)
-* Print.CSS
-* QR-Code
-* loading order loading screen
-
-
-
-
-Brauche:
-* Klarmachen, was passieren soll, wenn mehere Filter angeklickt sind
-* Passende Icons oO
-* Suche gibt zulange listen zurück wenn gefiltert wird
-* Übersetzung Interface
-* Bisheriges Testen, nächste Woche nur noch edit und Kram
-* Antrengend Testgerät
-
 
 Todo:
-* Suche löscht Filtereinstellungen
 * line-break in Datenfelder anzeigen
 * active Spinner!
 * neue Icons
+* Edit
+* title quickfilter tooltip und überschrift
+* Überschrift für types
+* close icon white for tags
+* list loading spinner/ no more item tuts nicht
+
+Brauche:
+* Wie verhält sich das Bearbeiten
+* icons header lokal /global
+* icon white
+
+Done:
+* Suche löscht Filtereinstellungen
+* x ALLE funktioniert nicht -> fixed
+* Suchfeld leer machen / tags weg
+* tags in filter interface
+* Filter zweizeilig
+* Lokale Header

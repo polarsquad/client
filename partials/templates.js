@@ -3,15 +3,31 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-filter-interface.html',
     "<div \n" +
-    "	class 	= \"search-term\"\n" +
-    "	ng-if	= \"icFilterConfig.searchTerm\"\n" +
+    "	class = \"tags\"\n" +
+    "	ng-if = \"icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length\"\n" +
     ">\n" +
-    "		\"{{icFilterConfig.searchTerm}}\"\n" +
-    "		<button \n" +
-    "			class 		= \"icon-nav-close\"\n" +
-    "			ng-click 	= \"icFilterConfig.searchTerm = ''\" \n" +
-    "		></button>\n" +
+    "\n" +
+    "	<!--TOPICS -->\n" +
+    "	<a 	\n" +
+    "		ng-repeat = \"topic in icFilterConfig.filterBy.topics\"\n" +
+    "		ng-click  = \"icFilterConfig.toggleFilter('topics', topic)\" \n" +
+    "	>\n" +
+    "		<span class =\"icon icon-nav-close\"></span>\n" +
+    "		{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
+    "	</a>\n" +
+    "\n" +
+    "\n" +
+    "	<!--TARGET_GROUPS -->\n" +
+    "	<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroups\"\n" +
+    "		ng-click  = \"icFilterConfig.toggleFilter('targetGroups', targetGroup)\" \n" +
+    "	>\n" +
+    "		<span class =\"icon icon-nav-close\"></span>\n" +
+    "		{{targetGroup | uppercase | prepend: \"TARGET_GROUPS.\" |translate}}\n" +
+    "	</a>\n" +
+    "\n" +
     "</div>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "<div class = \"controls\">	\n" +
@@ -85,22 +101,23 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<div ng-if = \"expand.topics\">\n" +
     "		<a \n" +
-    "			ng-click 	= \"icFilterConfig.clearFilter('topic')\" \n" +
-    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', undefined)}\"\n" +
+    "			ng-click 	= \"icFilterConfig.clearFilter('topics')\" \n" +
+    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topics', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topics', undefined)}\"\n" +
     "			ic-touch-me\n" +
     "		>\n" +
     "			{{\"INTERFACE.TOPICS_ALL\" | translate}}\n" +
     "		</a>\n" +
     "		<a \n" +
     "			ng-repeat 	= \"topic in icConfigData.topics | orderBy : 'toString()| uppercase | prepend: \\'TOPICS.\\' |translate'\"\n" +
-    "			ng-click 	= \"icFilterConfig.toggleFilter('topic', topic)\" \n" +
-    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topic', topic), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topic', topic)}\"\n" +
+    "			ng-click 	= \"icFilterConfig.toggleFilter('topics', topic)\" \n" +
+    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('topics', topic), 'icon-interface-checkbox': !icFilterConfig.matchFilter('topics', topic)}\"\n" +
     "			ic-touch-me			\n" +
     "		>\n" +
     "			{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
     "		</a>\n" +
     "	</div>\n" +
     "\n" +
+    "	<hr/>\n" +
     "\n" +
     "	<a \n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}\" \n" +
@@ -112,16 +129,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<div ng-if = \"expand.targetGroups\">\n" +
     "		<a \n" +
-    "			ng-click 	= \"icFilterConfig.clearFilter('targetGroup')\" \n" +
-    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', undefined)}\"\n" +
+    "			ng-click 	= \"icFilterConfig.clearFilter('targetGroups')\" \n" +
+    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroups', undefined), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroups', undefined)}\"\n" +
     "			ic-touch-me			\n" +
     "		>\n" +
     "			{{\"INTERFACE.TARGET_GROUPS_ALL\" | translate}}\n" +
     "		</a>\n" +
     "		<a \n" +
     "			ng-repeat 	= \"targetGroup in icConfigData.targetGroups | orderBy : 'toString()| uppercase | prepend: \\'TARGET_GROUPS.\\' |translate'\"\n" +
-    "			ng-click 	= \"icFilterConfig.toggleFilter('targetGroup', targetGroup)\" \n" +
-    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroup', targetGroup), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroup', targetGroup)}\"\n" +
+    "			ng-click 	= \"icFilterConfig.toggleFilter('targetGroups', targetGroup)\" \n" +
+    "			ng-class 	= \"{'icon-interface-checkbox-selected' : icFilterConfig.matchFilter('targetGroups', targetGroup), 'icon-interface-checkbox': !icFilterConfig.matchFilter('targetGroups', targetGroup)}\"\n" +
+    "			ic-touch-me			\n" +
     "		>\n" +
     "			{{targetGroup | uppercase | prepend: \"TARGET_GROUPS.\" |translate}}\n" +
     "		</a>\n" +
@@ -225,6 +243,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
+    "	<hr/>\n" +
     "\n" +
     "\n" +
     "	<ic-info-tag\n" +
@@ -254,12 +273,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
+    "\n" +
+    "	<hr/>\n" +
+    "\n" +
+    "\n" +
     "	<qrcode \n" +
     "		version					=	\"3\" \n" +
     "		error-correction-level	=	\"M\" \n" +
     "		size					=	\"200\" \n" +
-    "		data					=	\"{{linkToItem}}\"\n" +
+    "		data					=	\"{{item.id | icItemLink}}\"\n" +
     "		ng-if					=	\"item\"\n" +
+    "		ic-toggle-overlay		=	\"qrcode\"\n" +
     "	>\n" +
     "	</qrcode>\n" +
     "\n" +
@@ -279,40 +303,46 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-header.html',
-    "	\n" +
-    "	<button\n" +
-    "		type				= \"button\"\n" +
-    "		class				= \"icon-interface-close fleft\"\n" +
-    "		ng-show				= \"icSite.show('item')\"\n" +
-    "		ng-click			= \"icSite.clearItem()\"\n" +
-    "	></button>\n" +
-    "\n" +
-    "\n" +
     "	<button\n" +
     "		type				= \"button\"	\n" +
     "		class 				= \"icon-nav-menu fleft\"\n" +
     "		ic-toggle-overlay 	= \"mainMenu\" \n" +
-    "		ng-show				= \"!icSite.show('item')\"\n" +
+    "		ng-if				= \"icMenu\"\n" +
+    "		ic-touch-me	\n" +
     "	></button>\n" +
+    "	\n" +
+    "\n" +
+    "	<button\n" +
+    "		type				= \"button\"\n" +
+    "		class				= \"icon-interface-close fleft\"\n" +
+    "		ng-if				= \"icCloseItem\"\n" +
+    "		ng-click			= \"icSite.clearItem()\"\n" +
+    "		ic-touch-me	\n" +
+    "	></button>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "	<button \n" +
     "		type				= \"button\"\n" +
     "		class 				= \"icon-interface-share\"\n" +
-    "		ng-show				= \"icSite.show('item')\"\n" +
+    "		ng-if				= \"icShare\"\n" +
+    "		ic-touch-me	\n" +
     "	></button>\n" +
     "	\n" +
     "	<button \n" +
     "		type				= \"button\"\n" +
     "		class 				= \"icon-interface-print\"\n" +
-    "		ng-show				= \"icSite.show('item')\"\n" +
+    "		ng-if				= \"icPrint\"\n" +
     "		ng-click			= \"print()\"\n" +
+    "		ic-touch-me	\n" +
     "	></button>\n" +
     "\n" +
     "	<button \n" +
     "		type				= \"button\"\n" +
     "		class 				= \"icon-nav-language\"\n" +
+    "		ng-if				= \"icLanguages\"\n" +
     "		ic-toggle-overlay 	= \"languageMenu\" \n" +
+    "		ic-touch-me	\n" +
     "	></button>\n" +
     "\n" +
     "<!-- 	<button \n" +
@@ -411,7 +441,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     " --><section \n" +
     "		class   =   \"list\"  \n" +
     "		ng-if   =   \"icSite.show('list')\"\n" +
-    "		ic-scroll-bump              \n" +
     "	>\n" +
     "		<ic-section-list\n" +
     "			ic-show-filter  =   \"smlLayout.mode.name == 'XS'\" \n" +
@@ -430,7 +459,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		class   = \"item\" \n" +
     "		ng-if   = \"icSite.show('item')\"\n" +
     "	>                   \n" +
-    "		<ic-section-item ic-id = \"icSite.params.item\"></ic-section-item>\n" +
+    "		<ic-header\n" +
+    "			ng-if 			= \"icSite.useLocalHeader('item')\"\n" +
+    "			ic-close-item	= \"true\"\n" +
+    "			ic-share		= \"true\"\n" +
+    "			ic-print		= \"true\"\n" +
+    "		>\n" +
+    "		</ic-header>\n" +
+    "		<ic-section-item></ic-section-item>\n" +
     "	</section><!--\n" +
     "	 </ic-horizontal-swipe-list>\n" +
     "	 -->\n" +
@@ -533,7 +569,19 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ng-class 			= \"{'ic-hide':!icOverlays.show.search}\"\n" +
     "	class 				= \"white right\"\n" +
     "	ic-on-update 		= \"icOverlays.toggle('search')\" \n" +
-    "></ic-search>\n"
+    "></ic-search>\n" +
+    "\n" +
+    "\n" +
+    "<qrcode \n" +
+    "	version					=	\"3\" \n" +
+    "	error-correction-level	=	\"M\" \n" +
+    "	size					=	\"200\" \n" +
+    "	data					=	\"{{icSite.params.item | icItemLink}}\"\n" +
+    "	class					=	\"black static\"\n" +
+    "	ng-if					=	\"icOverlays.show.qrcode\"\n" +
+    "	ic-toggle-overlay		=	\"qrcode\"\n" +
+    ">\n" +
+    "</qrcode>"
   );
 
 
@@ -589,8 +637,23 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</ic-preview-item>\n" +
     "</a>\n" +
     "\n" +
+    "<ic-spinner active = \"icSearchResults.listLoading()\"></ic-spinner>\n" +
+    "\n" +
     "<div ng-if = \"icSearchResults.noMoreItems\" class =\"no-more-items\">no more items</div>\n" +
     "\n"
+  );
+
+
+  $templateCache.put('partials/ic-search-term.html',
+    "<div ng-if	= \"icFilterConfig.searchTerm\">\n" +
+    "		»{{icFilterConfig.searchTerm | uppercase}}« ({{icSearchResults.meta['total']}})\n" +
+    "		<button \n" +
+    "			class 		= \"icon-nav-close\"\n" +
+    "			ng-click 	= \"icFilterConfig.searchTerm = ''\" \n" +
+    "		></button>\n" +
+    "</div>\n" +
+    "\n" +
+    "<hr ng-if	= \"icFilterConfig.searchTerm\"/>\n"
   );
 
 
@@ -613,37 +676,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			type	= \"submit\"	 \n" +
     "		>\n" +
     "		</button>\n" +
-    "	</div>\n" +
-    "\n" +
-    "	<div class = \"tags\">\n" +
-    "\n" +
-    "		<!--TYPES -->\n" +
-    "		<a 	\n" +
-    "			ng-if		= \"icFilterConfig.filterBy.type\"\n" +
-    "			ng-click  	= \"icFilterConfig.toggleFilter('type', icFilterConfig.filterBy.type)\" \n" +
-    "		>\n" +
-    "			{{icFilterConfig.filterBy.type | uppercase | prepend: \"TYPES.\" |translate}}\n" +
-    "			<span class =\"icon icon-nav-close\"></span>\n" +
-    "		</a>\n" +
-    "\n" +
-    "		<!--TOPICS -->\n" +
-    "		<a 	\n" +
-    "			ng-repeat = \"topic in icFilterConfig.filterBy.topics\"\n" +
-    "			ng-click  = \"icFilterConfig.toggleFilter('topic', topic)\" \n" +
-    "		>\n" +
-    "			{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
-    "			<span class =\"icon icon-nav-close\"></span>\n" +
-    "		</a>\n" +
-    "\n" +
-    "\n" +
-    "		<!--TARGET_GROUPS -->\n" +
-    "		<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroups\"\n" +
-    "			ng-click  = \"icFilterConfig.toggleFilter('targetGroup', targetGroup)\" \n" +
-    "		>\n" +
-    "			{{targetGroup | uppercase | prepend: \"TARGET_GROUPS.\" |translate}}\n" +
-    "			<span class =\"icon icon-nav-close\"></span>\n" +
-    "		</a>\n" +
-    "\n" +
     "	</div>\n" +
     "\n" +
     "	<!-- <div \n" +
@@ -686,17 +718,19 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/section-item.html',
-    "<ic-full-item 	ng-if = \"icId\" ic-id = \"icId\"></ic-full-item>\n" +
-    "<ic-unavailable	ng-if = \"!icId\"></ic-unavailable>\n"
+    "<ic-full-item 	ng-if = \"icSite.params.item\" ic-id = \"icSite.params.item\"></ic-full-item>\n" +
+    "<ic-unavailable	ng-if = \"!icSite.params.item\"></ic-unavailable>\n"
   );
 
 
   $templateCache.put('partials/section-list.html',
+    "<ic-search-term></ic-search-term>\n" +
     "\n" +
     "<ic-filter-interface\n" +
     "	ng-if = \"icShowFilter\"\n" +
     ">\n" +
     "</ic-filter-interface>\n" +
+    "\n" +
     "\n" +
     "<ic-quick-filter>\n" +
     "</ic-quick-filter>\n" +

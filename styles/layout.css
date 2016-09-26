@@ -53,7 +53,7 @@ body > #content {
 
 
 
-#content  section {
+#content section {
 	position:				relative;
 	height:					100%;
 	display:				inline-block;
@@ -70,9 +70,16 @@ body > #content {
 
 
 
-#content  section > * {
+#content section > * {
 	margin:					0 auto;
 	min-height:				100%;
+}
+
+#content section > ic-header {
+	min-width:				100% !important;
+	box-shadow:				none;
+	height:					3rem;
+	min-height:				0;
 }
 
 
@@ -81,7 +88,7 @@ body > #content {
 
 
 
-#content  section {
+#content section {
 	overflow-y:				scroll;
 	will-change:			scroll-position;
 	-webkit-overflow-scrolling: touch;
@@ -92,15 +99,20 @@ body > #content {
 }
 
 .scrollbar-takes-space #content > section:hover {
-	overflow-y:				scroll;
+	overflow-y:				auto;
 
 	-webkit-overflow-scrolling: touch;
 }
 
 .XS #content  section {
-	overflow-y:				scroll;
+	overflow-y:				auto;
 	
 	-webkit-overflow-scrolling: touch;
+}
+
+.L section.item,
+.XL section.item{
+	overflow-y:				scroll !important;
 }
 
 
@@ -172,6 +184,13 @@ body > #content {
 
 
 /*Layout filter */
+
+#content section.filter {
+	box-shadow:				none !important;
+	z-index:				99;
+	background-color:		#fafafa;
+}
+
 
 .XS	#content section.filter {
 	width:					23rem;
@@ -311,7 +330,6 @@ ic-section-filter,
 ic-section-list,
 ic-section-item {
 	display:				block;
-	position:				relative;
 }
 
 
