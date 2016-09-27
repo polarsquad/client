@@ -330,14 +330,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<button \n" +
     "		type				= \"button\"\n" +
-    "		class 				= \"icon-interface-share\"\n" +
+    "		class 				= \"icon-interface-share highlight\"\n" +
     "		ng-if				= \"icShare\"\n" +
     "		ic-touch-me	\n" +
     "	></button>\n" +
     "	\n" +
     "	<button \n" +
     "		type				= \"button\"\n" +
-    "		class 				= \"icon-interface-print\"\n" +
+    "		class 				= \"icon-interface-print highlight\"\n" +
     "		ng-if				= \"icPrint\"\n" +
     "		ng-click			= \"print()\"\n" +
     "		ic-touch-me	\n" +
