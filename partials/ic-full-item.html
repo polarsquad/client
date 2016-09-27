@@ -73,9 +73,12 @@
 	<!-- start item description -->
 
 
-	<p nng-if = "!editMode">
-		{{item.description[language]}}
+	<p 
+		ng-if 			= "!editMode"
+		ng-bind-html 	= "item.description[language]"
+	>
 	</p>
+
 
 	<ic-item-edit
 		ng-if 					= "editMode"
@@ -97,14 +100,14 @@
 		ng-if			= "item.address"
 		ic-title 		= "'INTERFACE.ITEM_INFO_ADDRESS' | translate"
 		ic-content		= "item.address"
-		ic-extra-lines	= "[item.zip + ' ' +item.location]"
+		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||'')]"
 		ic-icon			= "'address'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
 
 	<ic-info-tag
-		ng-repeat	= "key in ['phone', 'email', 'website']"
+		ng-repeat	= "key in ['website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']"
 		ng-if		= "item[key]"
 		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate"
 		ic-content	= "item[key]"
@@ -113,10 +116,10 @@
 	</ic-info-tag>
 
 	<ic-info-tag
-		ng-repeat	= "(key, content) in item.contacts"
-		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate"
-		ic-content	= "content"
-		ic-icon		= "key | icIcon : 'item' : 'black'"
+		ng-if			= "item.hours.length > 0"
+		ic-title 		= "'INTERFACE.ITEM_INFO_HOURS' | translate"
+		ic-extra-lines	= "item.hours |icHours"
+		ic-icon			= "'address'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -135,12 +138,15 @@
 	</qrcode>
 
 
+	<hr/>
+
+
 	<footer>
 		<div class = "tools">
-			<a class = "icon-interface-print highlight">	{{'INTERFACE.PRINT' | translate}}		</a>
-			<a class = "icon-interface-share highlight">	{{'INTERFACE.SHARE'	| translate}}		</a>
+			<a>	{{'INTERFACE.PRINT' | translate}}		</a>
+			<a>	{{'INTERFACE.SHARE'	| translate}}		</a>
 			<a 
-				class 		= "icon-interface-edit  highlight"
+				class 		= ""
 				ic-click	= "edit()"
 			> {{'INTERFACE.EDIT' | translate}} </a>
 		</div>

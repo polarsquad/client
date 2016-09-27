@@ -737,22 +737,19 @@ angular.module('icServices', [
 
 			//special properties:
 
-			icItem.longitude 	= ''
-			icItem.latitude		= ''
-			icItem.queries 		= []
-
-
-			//topics, targetGroups, primaryTopic
-
+			icItem.longitude 	= 	''
+			icItem.latitude		= 	''
+			icItem.queries 		= 	[]
 
 
 
 			icItem.importData = function(data){
 				if(!data) return icItem
 
-				//preliminary workaround:			
-				(data.contacts||{}).forEach(function(key, value){
-					new_item_data[key] = value
+
+				//temporary workaround:			
+				;(data.contacts||[]).forEach(function(obj){
+					data[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]]
 				})
 
 				// Fallbacks:
@@ -761,7 +758,7 @@ angular.module('icServices', [
 
 
 				//Strings:			
-				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] }
+				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] || icItem[key] }
 				for( key in rawHashes)				{ angular.merge(icItem[key], data[rawHashes[key]]) }
 				for( key in rawArrays)				{ angular.merge(icItem[key], data[rawArrays[key]]) }
 
@@ -933,6 +930,7 @@ angular.module('icServices', [
 					.then(
 						function(result){
 							var item_data = result.item
+
 
 							searchResults.storeItem(item_data)
 							searchResults.fullItemDownloads[item_data.id] = true

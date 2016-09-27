@@ -76,16 +76,28 @@ Todo:
 * Überschrift für types
 * close icon white for tags
 * list loading spinner/ no more item tuts nicht
+* Filter in M/L? über die Liste
+* Logo auf Startseite verlinken
+* Quickfilter, Zahlen grau, icons kleiner
+* Moritz, neue Reiter im Dictionary 
+* DO: Check übersetzung
+
+
+Done:
+* DO: Wenn keine Eingabe, nichts machen
+* Adresse 0 null -> nicht mehr aufgetaucht (aber auch blind gefixt)
+* DO: Metadaten single view
+* DO: Main Menu kaputte Links raus
+* DO: CLAIM!
+* DO: Footer single view
+* DO: Themen-Icons
+* QR-Code Zoom: URL drunter
+
+
 
 Brauche:
 * Wie verhält sich das Bearbeiten
 * icons header lokal /global
 * icon white
-
-Done:
-* Suche löscht Filtereinstellungen
-* x ALLE funktioniert nicht -> fixed
-* Suchfeld leer machen / tags weg
-* tags in filter interface
-* Filter zweizeilig
-* Lokale Header
+* Moritz: contacts flachmachen
+* Stefan: themen icons schwarz

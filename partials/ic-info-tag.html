@@ -4,7 +4,7 @@
 	{{icContent}}	
 	<div 
 		ng-repeat 	= "line in icExtraLines"
-		ng-if		= "line"
+		ng-if		= "line | trim"
 	>
 		{{line}}
 	</div>

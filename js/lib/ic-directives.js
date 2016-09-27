@@ -461,7 +461,6 @@ angular.module('icDirectives', [
 
 
 
-
 				scope.$watch('icId', function(id){
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
@@ -585,7 +584,6 @@ angular.module('icDirectives', [
 			var p = pre		||	'type',
 				c = color 	|| 'black'
 
-			if(pre == 'topic' && str == 'information') return "/images/icon_nav_close.svg"
 
 			switch(str){
 				case 'information': return "/images/icon_"+p+"_information_"+c+".svg"; 	break;
@@ -599,6 +597,9 @@ angular.module('icDirectives', [
 				case 'health':		return "/images/icon_"+p+"_health_"+c+".svg";		break;
 				case 'leisure':		return "/images/icon_"+p+"_leisure_"+c+".svg";		break;
 				case 'work':		return "/images/icon_"+p+"_work_"+c+".svg";			break;
+				case 'support':		return "/images/icon_"+p+"_support_"+c+".svg";		break;
+				case 'law':			return "/images/icon_"+p+"_law_"+c+".svg";			break;
+				case 'culture':		return "/images/icon_"+p+"_culture_"+c+".svg";		break;
 
 				case 'email':		return "/images/icon_"+p+"_email_"+c+".svg";		break;
 				case 'address':		return "/images/icon_"+p+"_place_"+c+".svg";		break;
@@ -1060,9 +1061,9 @@ angular.module('icDirectives', [
 					input.blur()
 
 					icFilterConfig.clearFilter()
-					icFilterConfig.searchTerm = scope.searchTerm
+					icFilterConfig.searchTerm =  scope.searchTerm || icFilterConfig.searchTerm
 					if(scope.icOnUpdate) scope.icOnUpdate()
-					scope.searchTerm = ''
+					scope.searchTerm = undefined
 				}
 
 				scope.setSearchTerm = function(str){
@@ -1909,6 +1910,32 @@ angular.module('icDirectives', [
 				})
 
 			}
+		}
+	}
+])
+
+
+.filter('icHours', function(){
+
+	var cache = {}
+
+	return function(hours){
+		cache[hours.toString()] = cache[hours.toString()] || []
+		while(cache[hours.toString()].length) cache[hours.toString()].pop()
+
+		hours.forEach(function(obj){
+			cache[hours.toString()].push( obj.days + (obj.hours ? ': ' + obj.hours : '') )
+		})
+
+		return cache[hours.toString()]
+	}
+})
+
+.filter('trim',[
+
+	function(){
+		return function(str){
+			return str.replace(/^\s+|\s+$/g,'')
 		}
 	}
 ])

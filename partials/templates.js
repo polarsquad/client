@@ -226,9 +226,12 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- start item description -->\n" +
     "\n" +
     "\n" +
-    "	<p nng-if = \"!editMode\">\n" +
-    "		{{item.description[language]}}\n" +
+    "	<p \n" +
+    "		ng-if 			= \"!editMode\"\n" +
+    "		ng-bind-html 	= \"item.description[language]\"\n" +
+    "	>\n" +
     "	</p>\n" +
+    "\n" +
     "\n" +
     "	<ic-item-edit\n" +
     "		ng-if 					= \"editMode\"\n" +
@@ -250,14 +253,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if			= \"item.address\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_INFO_ADDRESS' | translate\"\n" +
     "		ic-content		= \"item.address\"\n" +
-    "		ic-extra-lines	= \"[item.zip + ' ' +item.location]\"\n" +
+    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||'')]\"\n" +
     "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat	= \"key in ['phone', 'email', 'website']\"\n" +
+    "		ng-repeat	= \"key in ['website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']\"\n" +
     "		ng-if		= \"item[key]\"\n" +
     "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
     "		ic-content	= \"item[key]\"\n" +
@@ -266,10 +269,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</ic-info-tag>\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat	= \"(key, content) in item.contacts\"\n" +
-    "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate\"\n" +
-    "		ic-content	= \"content\"\n" +
-    "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
+    "		ng-if			= \"item.hours.length > 0\"\n" +
+    "		ic-title 		= \"'INTERFACE.ITEM_INFO_HOURS' | translate\"\n" +
+    "		ic-extra-lines	= \"item.hours |icHours\"\n" +
+    "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -288,12 +291,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</qrcode>\n" +
     "\n" +
     "\n" +
+    "	<hr/>\n" +
+    "\n" +
+    "\n" +
     "	<footer>\n" +
     "		<div class = \"tools\">\n" +
-    "			<a class = \"icon-interface-print highlight\">	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
-    "			<a class = \"icon-interface-share highlight\">	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
+    "			<a>	{{'INTERFACE.PRINT' | translate}}		</a>\n" +
+    "			<a>	{{'INTERFACE.SHARE'	| translate}}		</a>\n" +
     "			<a \n" +
-    "				class 		= \"icon-interface-edit  highlight\"\n" +
+    "				class 		= \"\"\n" +
     "				ic-click	= \"edit()\"\n" +
     "			> {{'INTERFACE.EDIT' | translate}} </a>\n" +
     "		</div>\n" +
@@ -361,7 +367,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	{{icContent}}	\n" +
     "	<div \n" +
     "		ng-repeat 	= \"line in icExtraLines\"\n" +
-    "		ng-if		= \"line\"\n" +
+    "		ng-if		= \"line | trim\"\n" +
     "	>\n" +
     "		{{line}}\n" +
     "	</div>\n" +
@@ -530,33 +536,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{topic | uppercase | prepend : \"TOPICS.\" | translate}}\n" +
     "	</a>\n" +
     "</div>\n" +
-    "\n" +
-    "\n" +
-    "<a \n" +
-    ">\n" +
-    "	MERKLISTE\n" +
-    "</a>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<a \n" +
-    ">\n" +
-    "	BEITRAG ERSTELLEN\n" +
-    "</a>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<a \n" +
-    ">\n" +
-    "	ABOUT\n" +
-    "</a>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<a \n" +
-    ">\n" +
-    "	LOGIN\n" +
-    "</a>"
+    "\n"
   );
 
 
@@ -571,17 +551,20 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ic-on-update 		= \"icOverlays.toggle('search')\" \n" +
     "></ic-search>\n" +
     "\n" +
-    "\n" +
-    "<qrcode \n" +
-    "	version					=	\"3\" \n" +
-    "	error-correction-level	=	\"M\" \n" +
-    "	size					=	\"200\" \n" +
-    "	data					=	\"{{icSite.params.item | icItemLink}}\"\n" +
-    "	class					=	\"black static\"\n" +
-    "	ng-if					=	\"icOverlays.show.qrcode\"\n" +
-    "	ic-toggle-overlay		=	\"qrcode\"\n" +
+    "<div \n" +
+    "	class 				=	\"qrcode black static\"\n" +
+    "	ic-toggle-overlay	=	\"qrcode\"\n" +
+    "	ng-if				=	\"icOverlays.show.qrcode\"\n" +
     ">\n" +
-    "</qrcode>"
+    "	<qrcode \n" +
+    "		version					=	\"3\" \n" +
+    "		error-correction-level	=	\"M\" \n" +
+    "		size					=	\"200\" \n" +
+    "		data					=	\"{{icSite.params.item | icItemLink}}\"\n" +
+    "	>\n" +
+    "	</qrcode>\n" +
+    "	<div>{{icSite.params.item | icItemLink}}</div>\n" +
+    "</div>\n"
   );
 
 
@@ -630,7 +613,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<ic-preview-item\n" +
     "		ic-title 	= \"::item.title\"\n" +
     "		ic-brief	= \"item.definition[language]\"\n" +
-    "		ic-topic	= \"::item.primary_topic\"\n" +
+    "		ic-topic	= \"::item.primaryTopic\"\n" +
     "		ic-type		= \"::item.type\"\n" +
     "		ng-class	= \"{active: icActive({itemId: item.id})}\"\n" +
     "	>\n" +
@@ -748,7 +731,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('pages/main.html',
     "<div class = \"logo\">\n" +
     "	<h1><ic-text-logo></ic-text-logo></h1>\n" +
-    "	<h2>Informationen und Angebote für Geflüchtete und Unterstützer*innen (mehr)</h2>\n" +
+    "	<h2>{{'PARAGRAPHS.CLAIM' | translate}}</h2>\n" +
     "</div>\n" +
     "\n" +
     "<div\n" +
