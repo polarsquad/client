@@ -505,7 +505,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<ic-search				\n" +
     "	class 				= \"white right\"\n" +
-    "	ic-on-update		= \"icSite.clearItem(); icFilterConfig.clearFilter();\"\n" +
+    "	ic-on-update		= \"icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');\"\n" +
     "></ic-search>\n" +
     "\n" +
     "\n" +
