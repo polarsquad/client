@@ -460,6 +460,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     " --><section \n" +
     "		class   =   \"list\"  \n" +
     "		ng-if   =   \"icSite.show('list')\"\n" +
+    "		fake-scroll-bump\n" +
     "	>\n" +
     "		<ic-section-list\n" +
     "			ic-show-filter  =   \"smlLayout.mode.name == 'XS'\" \n" +
@@ -642,7 +643,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</ic-preview-item>\n" +
     "</a>\n" +
     "\n" +
-    "<ic-spinner active = \"icSearchResults.listLoading()\"></ic-spinner>\n" +
+    "<ic-spinner \n" +
+    "	ng-if 	= \"!icSearchResults.noMoreItems\"\n" +
+    "	active 	= \"icSearchResults.listLoading()\"\n" +
+    "></ic-spinner>\n" +
     "\n" +
     "<div ng-if = \"icSearchResults.noMoreItems\" class =\"no-more-items\">no more items</div>\n" +
     "\n"

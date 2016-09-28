@@ -501,6 +501,9 @@ ic-search-term button {
 	box-shadow:				none;
 	background-color:		transparent;
 	border-radius:			100%;
+	background-repeat:		no-repeat;
+	background-size:		2em;
+	background-position:	50% 50%;
 }
 
 

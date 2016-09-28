@@ -15,7 +15,10 @@
 	</ic-preview-item>
 </a>
 
-<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+<ic-spinner 
+	ng-if 	= "!icSearchResults.noMoreItems"
+	active 	= "icSearchResults.listLoading()"
+></ic-spinner>
 
 <div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">no more items</div>
 

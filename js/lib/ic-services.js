@@ -844,11 +844,6 @@ angular.module('icServices', [
 
 
 		searchResults.listLoading = function(){
-			searchResults.listCalls = 	(searchResults.listCalls || [])
-										.filter(function(call){
-											return call.$$state.status == 0
-										})
-
 			return searchResults.listCalls.length > 0
 		}
 
@@ -883,10 +878,12 @@ angular.module('icServices', [
 
 						searchResults.offset 		+= 	result.items.length
 						searchResults.meta 			= 	result.meta
-						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0
+						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
 
 						searchResults.filterList()
-
+					})
+					.finally(function(){
+						searchResults.listCalls = searchResults.listCalls.filter(function(call){ return call != currentCall })
 					})
 		}
 
@@ -894,13 +891,12 @@ angular.module('icServices', [
 
 		searchResults.itemLoading = function(id){
 
-
 			searchResults.itemCalls[id] = 	(searchResults.itemCalls[id] || [])
 											.filter(function(call){
 												return call.$$state.status == 0
 											})
 
-			if(searchResults.itemCalls[id] == 0) delete searchResults.itemCalls[id]
+			if(searchResults.itemCalls[id].length == 0) delete searchResults.itemCalls[id]
 
 			return !!searchResults.itemCalls[id]
 		}

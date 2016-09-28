@@ -99,8 +99,9 @@ angular.module('icDirectives', [
 .directive('icSectionList',[
 
 	'icSite',
+	'icSearchResults',
 
-	function(icSite, smlLayout){
+	function(icSite, smlLayout, icSearchResults){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/section-list.html",
@@ -269,6 +270,17 @@ angular.module('icDirectives', [
 
 				scope.$on('icScrollBump', function(){
 					icSearchResults.download()
+				})
+
+
+				element.on('scroll', function(){
+					console.log('peng')
+					// window.requestAnimationFrame(function(){
+					// 	if(element[0.scrollTop > element.clientHeight])
+					// 	if(!icSearchResults.listLoading()){
+
+					// 	}
+					// })
 				})
 
 				scope.$watch(
@@ -1948,6 +1960,32 @@ angular.module('icDirectives', [
 	function(){
 		return function(str){
 			return str.replace(/^\s+|\s+$/g,'')
+		}
+	}
+])
+
+
+
+//TODO: remove this
+.directive('fakeScrollBump', [
+
+	'icSearchResults',
+
+	function(icSearchResults){
+		return {
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+				element.on('scroll', function(){
+					requestAnimationFrame(function(){
+						if(icSearchResults.listLoading()) return null
+						if(element[0].scrollTop + 2*element[0].clientHeight <= element[0].scrollHeight) return null
+						icSearchResults.download()
+
+					})
+				})
+			}
 		}
 	}
 ])
