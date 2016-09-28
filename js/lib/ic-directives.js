@@ -458,6 +458,9 @@ angular.module('icDirectives', [
 					icItemEdits.upload(icId)
 				}
 
+				scope.print = function(){
+					window.print()
+				}
 
 
 
@@ -1044,7 +1047,7 @@ angular.module('icDirectives', [
 			restrict: 		'E',
 			templateUrl:	'partials/ic-search.html',
 			scope:			{
-								icOnUpdate : '&'
+								icOnSubmit : '&'
 							},
 
 			link: function(scope, element, attrs){
@@ -1060,9 +1063,9 @@ angular.module('icDirectives', [
 					input.focus()
 					input.blur()
 
-					icFilterConfig.clearFilter()
-					icFilterConfig.searchTerm =  scope.searchTerm || icFilterConfig.searchTerm
-					if(scope.icOnUpdate) scope.icOnUpdate()
+					if(scope.searchTerm) icFilterConfig.searchTerm = scope.searchTerm
+					if(scope.icOnSubmit) scope.icOnSubmit()
+
 					scope.searchTerm = undefined
 				}
 

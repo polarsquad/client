@@ -1,16 +1,22 @@
 <h2>
+	<a
+		ng-href		= "/"
+		ic-toggle-overlay 
+	>
 	<ic-text-logo></ic-text-logo>
+	</a>
 </h2>
 
 <ic-search				
 	class 				= "white right"
-	ic-on-update 		= "icOverlays.toggle('mainMenu')" 
+	ic-on-submit 		= "icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle('mainMenu');" 
 ></ic-search>
 
 
 <a 
 	ng-href		= "/"
-	ng-click 	= "icOverlays.toggle()" 
+	ic-toggle-overlay 
+	ic-touch-me
 >
 	Home
 </a>
@@ -19,6 +25,7 @@
 	ng-repeat 	= "type in ::icConfigData.types"
 	ng-href		= "/#t/{{type}}"
 	ng-click 	= "icOverlays.toggle()" 
+	ic-touch-me
 >
 	<span 
 		class 		= "icon"
@@ -35,6 +42,7 @@
 	ng-click 	= "expand.topics = !expand.topics"
 	ng-class	= "{'icon-interface-arrow-down': expand.topics, 'icon-interface-arrow-right': !expand.topics}"
 	class	 	= "expand "
+	ic-touch-me
 >
 	{{"INTERFACE.TOPICS" | translate}}
 </a>
@@ -44,6 +52,7 @@
 		ng-repeat 	= "topic in ::icConfigData.topics"
 		ng-href		= "/#tp/{{topic}}"
 		ng-click 	= "icOverlays.toggle()" 		
+		ic-touch-me
 	>
 		<span 
 			class 		= "icon"

@@ -674,8 +674,8 @@ ic-info-tag .icon {
 	position:				absolute;
 	background-color:		transparent;
 	height:					2rem;
-	width:					3rem;
-	opacity:				0.5;
+	width:					2rem;
+	margin:					0 0.5rem;
 }
 
 ic-info-tag .icon img{
@@ -1035,4 +1035,13 @@ ic-overlays .qrcode > div {
 	text-align:				center;
 	left:					0;
 	right:					0;
+}
+
+ic-main-menu h2 a {
+	box-shadow:				none !important;
+	border:					none !important;
+}
+
+ic-main-menu ic-search {
+	margin-bottom:			1rem;
 }

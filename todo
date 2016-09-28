@@ -70,7 +70,6 @@ TODO:
 Todo:
 * line-break in Datenfelder anzeigen
 * active Spinner!
-* neue Icons
 * Edit
 * title quickfilter tooltip und überschrift
 * Überschrift für types
@@ -92,6 +91,7 @@ Done:
 * DO: Footer single view
 * DO: Themen-Icons
 * QR-Code Zoom: URL drunter
+* neue Icons
 
 
 
@@ -101,3 +101,32 @@ Brauche:
 * icon white
 * Moritz: contacts flachmachen
 * Stefan: themen icons schwarz
+* Bitte: die Metadaten Icons noch mal ersetzen (habe die Größen angeglichen): Farbe doch etwas dunkler #1E1E1E (liegen alle im Ordner: icons/meta), Größe: 1.5 rem (24px im Layout)
+
+
+Done:
+* schwarze Icons für Themen
+* »Art« rausnehmen bei vier Hauptkacheln 
+* Information > Informationen (kann ich das auch schon selbst ändern über den Dictionary?) Ja -> braucht update
+* Suchfeld zu lang, und mehr Abstand nach unten -> fixed
+* visuelles Feedback (on touch Zeile eingrauen): fehlt -> fixed
+* InfoCompass mit Home verlinken
+* SingleView M verrutscht
+* Suche Macht alles andere dicht
+* »Bearbeiten« (Button unten): lieber inaktiv schalten, solange noch nicht gemacht (tut aktuell irgendwas)
+* »Drucken« (Button unten): Funktion aktivieren wie oben
+* Cache: Folgende Darstellung der drucken / sharing Buttons bei mir in Safari (Chrome: gut!): 
+
+
+Todo:
+* Datenbank Dictionary
+* Themenkacheln mit Bild
+* Zielgrupp leer
+
+Kleine Anmerkungen / Wünsche: 
+
+Start Screen
+– könnten wir ohne zu großen Aufwand vier Themenkacheln anlegen (nur exemplarisch mit Bild, gerne nur simuliert-dynamisch)?
+
+Hauptmenü
+

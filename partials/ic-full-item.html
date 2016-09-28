@@ -143,11 +143,23 @@
 
 	<footer>
 		<div class = "tools">
-			<a>	{{'INTERFACE.PRINT' | translate}}		</a>
-			<a>	{{'INTERFACE.SHARE'	| translate}}		</a>
+			<a 
+				ng-click = "print()"
+				ic-touch-me
+			>	
+				{{'INTERFACE.PRINT' | translate}}		
+			</a>
+			<a 
+				disabled
+				ic-touch-me
+			>				
+				{{'INTERFACE.SHARE'	| translate}}		
+			</a>
 			<a 
 				class 		= ""
-				ic-click	= "edit()"
+				ic-XXXclick	= "edit()"
+				disabled
+				ic-touch-me
 			> {{'INTERFACE.EDIT' | translate}} </a>
 		</div>
 	</footer>
