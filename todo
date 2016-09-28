@@ -116,12 +116,14 @@ Done:
 * »Bearbeiten« (Button unten): lieber inaktiv schalten, solange noch nicht gemacht (tut aktuell irgendwas)
 * »Drucken« (Button unten): Funktion aktivieren wie oben
 * Cache: Folgende Darstellung der drucken / sharing Buttons bei mir in Safari (Chrome: gut!): 
+* Suche löscht item auch wenn leer
+* Datenbank Dictionary
+* Zielgruppe leer -> fixed
 
 
 Todo:
-* Datenbank Dictionary
 * Themenkacheln mit Bild
-* Zielgrupp leer
+* Overlay hakt
 
 Kleine Anmerkungen / Wünsche: 
 

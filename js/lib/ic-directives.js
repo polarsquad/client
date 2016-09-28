@@ -547,7 +547,7 @@ angular.module('icDirectives', [
 	'icFilterConfig',
 	'icOverlays',
 
-	function(icConfigData, icSite,icFilterConfig,icOverlays){
+	function(icConfigData, icSite, icFilterConfig, icOverlays){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-main-menu.html',
@@ -610,7 +610,9 @@ angular.module('icDirectives', [
 				case 'time':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
 				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;				
 
-				default:			return "/images/icon_nav_close.svg";				break;
+				console.warn('icIcon: missing icon displayed as info!')
+				// default:			return "/images/icon_nav_close.svg";				break;
+				default:			return "/images/icon_topic_information_white.svg";	break;
 			}
 		}
 })
@@ -1047,7 +1049,8 @@ angular.module('icDirectives', [
 			restrict: 		'E',
 			templateUrl:	'partials/ic-search.html',
 			scope:			{
-								icOnSubmit : '&'
+								icOnSubmit: 	'&',
+								icOnUpdate: 	'&'
 							},
 
 			link: function(scope, element, attrs){
@@ -1063,8 +1066,14 @@ angular.module('icDirectives', [
 					input.focus()
 					input.blur()
 
-					if(scope.searchTerm) icFilterConfig.searchTerm = scope.searchTerm
 					if(scope.icOnSubmit) scope.icOnSubmit()
+
+					if(scope.searchTerm){
+						icFilterConfig.searchTerm = scope.searchTerm
+						if(scope.icOnUpdate){
+							scope.icOnUpdate()
+						}
+					}
 
 					scope.searchTerm = undefined
 				}
@@ -1787,8 +1796,8 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				element.on('click', function(e){
-					e.preventDefault()
-					e.stopImmediatePropagation()
+					// e.preventDefault()
+					// e.stopImmediatePropagation()
 					icOverlays.toggle(attrs.icToggleOverlay)
 					icOverlays.$digest()
 				})

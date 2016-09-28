@@ -313,11 +313,10 @@ ic-search .auto-suggest a {
 }
 
 [ic-tile] .background.image {
-	display:				none;
 	background-size:		cover;
 	background-position:	50% 50%;
 	opacity:				0.5;
-	/*filter: 				grayscale(100%);*/
+	filter: 				grayscale(100%);
 }
 
 [ic-tile] .background.icon {

@@ -505,7 +505,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<ic-search				\n" +
     "	class 				= \"white right\"\n" +
-    "	ic-on-submit 		= \"icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle('mainMenu');\" \n" +
+    "	ic-on-submit 		= \"icOverlays.toggle('mainMenu');\" \n" +
+    "	ic-on-update		= \"icSite.clearItem(); icFilterConfig.clearFilter();\"\n" +
     "></ic-search>\n" +
     "\n" +
     "\n" +
@@ -753,7 +754,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('pages/main.html',
     "<div class = \"logo\">\n" +
     "	<h1><ic-text-logo></ic-text-logo></h1>\n" +
-    "	<h2>{{'PARAGRAPHS.CLAIM' | translate}}</h2>\n" +
+    "	<h2>{{'INTERFACE.CLAIM' | translate}}</h2>\n" +
     "</div>\n" +
     "\n" +
     "<div\n" +
@@ -773,6 +774,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-brief	= \"\"\n" +
     "		ic-icon		= \"type | icIcon : 'type' : 'white'\"\n" +
     "		ic-type		= \"type\"\n" +
+    "	></a>\n" +
+    "\n" +
+    "	<a\n" +
+    "		ng-href 	= \"#/s/infopoint\"\n" +
+    "		ic-tile\n" +
+    "		ic-title	= \"'Infopoints'\"\n" +
+    "		ic-brief	= \"\"\n" +
+    "		ic-type		= \"'places'\"\n" +
+    "		ic-image	= \"'/images/infopoint.jpg'\"\n" +
     "	></a>\n" +
     "\n" +
     "\n" +

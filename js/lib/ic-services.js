@@ -727,7 +727,7 @@ angular.module('icServices', [
 
 				rawArrays				=	{
 												topics:			'topics',
-												targetGroups:	'tragetGroups'
+												targetGroups:	'target_groups'
 											}
 
 			for(var key in rawStringProperties)	{ icItem[key] = "" }								
