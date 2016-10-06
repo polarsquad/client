@@ -453,7 +453,7 @@ angular.module('icDirectives', [
 				scope.icSearchResults 	= icSearchResults
 				scope.icConfigData		= icConfigData
 
-				scope.editMode			= true //false
+				scope.editMode			= false
 
 				scope.edit = function() {
 					scope.editMode = true
