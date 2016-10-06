@@ -30,7 +30,8 @@
 	<button
 		class 		= "sort"
 		ng-class	= "{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}"
-		ng-click 	= "toggleSortPanel()" 
+		ic-click 	= "toggleSortPanel()" 
+		ic-touch-me
 	>
 		{{"INTERFACE.SORT" | translate}}
 	</button>
@@ -38,7 +39,8 @@
 	<button
 		class 		= "sort"
 		ng-class	= "{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}"<
-		ng-click 	= "toggleFilterPanel()" 
+		ic-click 	= "toggleFilterPanel()" 
+		ic-touch-me
 	>
 		{{"INTERFACE.FILTER" | translate}}
 	</button>
@@ -89,7 +91,7 @@
 
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
-		ng-click 	= "expand.topics = !expand.topics"
+		ic-click 	= "expand.topics = !expand.topics"
 		ic-touch-me
 	>
 		{{"INTERFACE.TOPICS" | translate}}
@@ -117,7 +119,7 @@
 
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}" 
-		ng-click 	= "expand.targetGroups = !expand.targetGroups"
+		ic-click 	= "expand.targetGroups = !expand.targetGroups"
 		ic-touch-me
 	>
 		{{"INTERFACE.TARGET_GROUPS" | translate}}

@@ -69,7 +69,9 @@ angular.module('icDirectives', [
 
 						return deferred.promise
 					})
-					.then(clear)
+					.then(clear, function(reason){
+						scope.error = reason					
+					})
 
 				})
 			}
@@ -273,16 +275,6 @@ angular.module('icDirectives', [
 				})
 
 
-				element.on('scroll', function(){
-					console.log('peng')
-					// window.requestAnimationFrame(function(){
-					// 	if(element[0.scrollTop > element.clientHeight])
-					// 	if(!icSearchResults.listLoading()){
-
-					// 	}
-					// })
-				})
-
 				scope.$watch(
 					function(){
 						return icLanguageConfig.currentLanguage
@@ -445,8 +437,9 @@ angular.module('icDirectives', [
 	'icSearchResults',
 	'icLanguageConfig',
 	'icItemEdits',
+	'icConfigData',
 
-	function(icSearchResults, icLanguageConfig, icItemEdits){
+	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData){
 
 		return {
 			restrict:		'AE',
@@ -458,11 +451,16 @@ angular.module('icDirectives', [
 			link: function(scope, element, attrs){
 
 				scope.icSearchResults 	= icSearchResults
+				scope.icConfigData		= icConfigData
 
-				scope.editMode			= false
+				scope.editMode			= true //false
 
 				scope.edit = function() {
 					scope.editMode = true
+				}
+
+				scope.cancelEdit = function(){
+					scope.editMode = false
 				}
 
 				scope.save = function() {
@@ -621,10 +619,8 @@ angular.module('icDirectives', [
 				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
 				case 'time':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
 				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;				
-
-				console.warn('icIcon: missing icon displayed as info!')
 				// default:			return "/images/icon_nav_close.svg";				break;
-				default:			return "/images/icon_topic_information_white.svg";	break;
+				default:			return "/images/icon_topic_information_white.svg";	console.warn('icIcon: missing icon displayed as info!'); break;
 			}
 		}
 })
@@ -1785,6 +1781,7 @@ angular.module('icDirectives', [
 
 
 				element.on('click', function(e){
+					e.stopPropagation()
 					if(element[0] == e.target){
 						icOverlays.toggle(null)
 						scope.$digest()
@@ -1807,13 +1804,16 @@ angular.module('icDirectives', [
 			restrict:	"A",
 
 			link: function(scope, element, attrs){
-				element.on('click', function(e){
-					// e.preventDefault()
-					// e.stopImmediatePropagation()
-					icOverlays.toggle(attrs.icToggleOverlay)
-					icOverlays.$digest()
-				})
 
+				function toggle(e){
+					// e.preventDefault()
+					e.stopPropagation()
+					icOverlays.toggle(attrs.icToggleOverlay)
+					icOverlays.$digest()					
+				}
+
+				element.on('click', toggle)
+				scope.$on('$destroy', function(){ element.off('click', toggle) })
 			}
 		}
 	}
@@ -1826,10 +1826,15 @@ angular.module('icDirectives', [
 			restrict:	'A',
 
 			link: function(scope, element, attrs){
-				element.on('click', function(){
+
+				function trigger(e){
+					e.stopPropagation()
 					scope.$eval(attrs.icClick)
-					scope.$digest()
-				})
+					scope.$digest()					
+				}
+
+				element.on('click', trigger)
+				scope.$on('$destroy', function(){ element.off('click', trigger) })
 			}
 		}
 	}
@@ -1850,10 +1855,12 @@ angular.module('icDirectives', [
 								icKey:					"@",
 								icTitle: 				"<",
 								icItem:					"=",
-								icType:					"@"
+								icType:					"@",
+								icOptions:				"<",
+								icOptionLabel:			"&"
 							},
 
-			templateUrl: 	"partials/ic-item-edit-string.html",
+			templateUrl: 	"partials/ic-item-edit-item-property.html",
 
 			link: function(scope, element, attrs){
 
@@ -1861,32 +1868,81 @@ angular.module('icDirectives', [
 
 				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
 				scope.icLanguageConfig	= 	icLanguageConfig
+				scope.value				=	{}
+				scope.expand			=	undefined
 
-				console.log(scope.icTranslatable)
+
+				scope.update = function(){
+
+					itemEdit
+					.update(scope.icKey, scope.icTranslatable ? icLanguageConfig.currentLanguage : undefined)
+					.then(function(item_data){
+						console.log(scope.icKey, scope.icTranslatable, icLanguageConfig.currentLanguage)
+						console.log(item_data)
+						scope.icItem.importData(item_data)
+						refreshValues()
+					})
+				}
+
+				scope.revert = function(){
+					scope.value.new = angular.copy(scope.value.current)
+				}
+
+				scope.diff = function(){
+					if(!scope.value.new) 		return !!scope.value.current
+					if(!scope.value.current) 	return !!scope.value.new
+
+					switch(scope.icType){
+						case "string": 	return scope.value.new != scope.value.current; break;
+						case "text": 	return scope.value.new != scope.value.current; break;
+						case "array": 	return scope.value.new.length != scope.value.current.length || scope.value.new.some(function(option){ return scope.value.current.indexOf(option) == -1 })
+					}
+				}
+
+				scope.toggleOption = function(option){
+					var pos = scope.value.new.indexOf(option)
+
+					return	pos != -1
+							?	scope.value.new.splice(pos,1)
+							:	scope.value.new.push(option)
+
+				}
+
+
+
+
+
 
 				function refreshValues(){
-					scope.newValue			= 	scope.icTranslatable
-												?	itemEdit[scope.icKey][icLanguageConfig.currentLanguage] 
-												:	itemEdit[scope.icKey]
+					itemEdit = icItemEdits.open(scope.icItem.id)
+
+					scope.value.new			= 	angular.copy(
+													scope.icTranslatable
+													?	itemEdit[scope.icKey][icLanguageConfig.currentLanguage] 
+													:	itemEdit[scope.icKey]
+												)
 
 
-					scope.currentValue		= 	scope.icTranslatable
-												?	scope.icItem[scope.icKey][icLanguageConfig.currentLanguage] 
-												:	scope.icItem[scope.icKey]
+					scope.value.current		= 	angular.copy(
+													scope.icTranslatable
+													?	scope.icItem[scope.icKey][icLanguageConfig.currentLanguage] 
+													:	scope.icItem[scope.icKey]
+												)
 
+					if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
 
-					scope.newValue			=	scope.newValue === undefined
-												?	scope.currentValue
-												:	scope.newValue
+					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
 				}
 
 				scope.$watch(function(){ return icLanguageConfig.currentLanguage }, refreshValues)
 
-				scope.$watch('newValue', function(){
+				scope.$watch('icItem[icKey]', refreshValues, true)
+
+				scope.$watch('value.new', function(){
 					if(scope.icTranslatable){
-						itemEdit[scope.icKey][icLanguageConfig.currentLanguage] = scope.newValue
+						itemEdit[scope.icKey][icLanguageConfig.currentLanguage] = scope.value.new
 					} else {
-						itemEdit[scope.icKey] = scope.newValue
+						itemEdit[scope.icKey] = scope.value.new
 					}
 				})
 			}
@@ -1977,14 +2033,66 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 
-				element.on('scroll', function(){
+				function trigger(){
 					requestAnimationFrame(function(){
-						if(icSearchResults.listLoading()) return null
+
+						if(icSearchResults.listLoading()) 	return null
+						if(icSearchResults.noMoreItems) 	return null
+
 						if(element[0].scrollTop + 2*element[0].clientHeight <= element[0].scrollHeight) return null
-						icSearchResults.download()
+						icSearchResults
+						.download()
+						.then(function(){
+							trigger()
+						})
 
 					})
-				})
+				}
+
+				element.on('scroll', trigger)
+			}
+		}
+	}
+])
+
+
+
+
+.directive('icAutoGrow', [
+
+	function(){
+		return {
+			restrict:	"A",
+			require:	"ngModel",
+
+			link: function(scope, element, attrs){
+
+				function resize(){
+					window.requestAnimationFrame(function(){
+						element.css('height', 'auto')
+						element.css('height', element[0].scrollHeight + 'px')
+					})
+				}
+
+				element.on('blur keyup keydown change',resize)
+				scope.$watch(attrs.ngModel, resize)
+			}
+		}
+	}
+
+])
+
+
+.directive('icLogin',[
+
+	function(){
+		return {
+			restrict:		'E',
+			scope:			true,
+			templateUrl:	'partials/ic-login.html',
+
+			link: function(){
+
 			}
 		}
 	}

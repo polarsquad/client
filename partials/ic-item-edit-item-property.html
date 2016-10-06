@@ -1,0 +1,98 @@
+<h4
+	ic-click 	= "expand = !expand"
+	ng-class	= "{'icon-interface-arrow-right': !expand, 'icon-interface-arrow-down': expand}"
+	ic-touch-me
+> {{icLabel}} </h4>
+
+
+
+<form 
+	ng-submit 	= "update()"
+	ng-if		= "expand"
+>
+
+
+	<!-- String -->	
+
+	<div ng-if	= "::icType == 'string' && !icOptions" >
+		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{value.current || ('INTERFACE.EMPTY' | translate) }}</span>	
+		<input 
+			type 		= "text"
+			ng-model	= "value.new" 
+		></input>
+	</div>
+
+	<div ng-if = "::icType == 'string' && icOptions">
+		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.MISSING' | translate) }}</span>	
+		<div class = "options">
+			<a 
+				ng-repeat 	= "option in ::icOptions"
+				ng-class 	= "{'icon-interface-checkbox-selected' : value.new == option , 'icon-interface-checkbox': value.new  != option}"
+				ng-click	= "value.new = option"
+			>{{icOptionLabel({option: option}) }}</a>
+		</div>
+
+	</div>
+
+
+
+
+
+
+
+	<!-- Text -->
+
+	<div ng-if		= "::icType == 'text'">
+		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{value.current || ('INTERFACE.EMPTY' | translate) }}</span>	
+		<textarea
+			ng-model	= "value.new"
+			ic-auto-grow
+		>
+		</textarea>
+	</div>
+
+
+
+
+
+
+
+	<!-- Array -->
+
+	<div ng-if	= "::icType == 'array'">
+		<span class ="current-value {{diff() ? 'diff' : ''}} ">
+			<span ng-repeat = "option in value.current">
+				{{icOptionLabel({option: option})}}{{$last ? '' : ','}}
+			</span>
+			{{value.current.length == 0 ? ('INTERFACE.EMPTY' | translate) : ''}}
+		</span>	
+		<div class = "options">
+			<a 
+				ng-repeat 	= "option in ::icOptions"
+				ng-class 	= "{'icon-interface-checkbox-selected' : value.new.indexOf(option) != -1 , 'icon-interface-checkbox': value.new.indexOf(option) == -1}"
+				ng-click	= "toggleOption(option)"
+			>{{icOptionLabel({option: option})}}</a>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+
+	<button
+		type = "submit"
+	>
+		update
+	</buton>
+
+	<button
+		ic-click	= "revert()" 
+		ng-disabled	= "value.new == value.current"
+	>
+		revert
+	</buton>
+</form>

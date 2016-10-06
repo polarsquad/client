@@ -24,8 +24,9 @@
 
 			(function(){
 				var lazyLoadScripts 	= 	[
-												"mock/mock.js",
-												"js/lib/angular.min.js",
+												//"mock/mock.js",
+												// "js/lib/angular.min.js",
+												"js/lib/angular.js",
 												"js/lib/angular-sanitize.min.js",
 												"js/lib/angular-translate.min.js",
 												"js/lib/qrcode.js",
@@ -100,8 +101,8 @@
 
 					})
 
-					window.addEventListener('icStylesLoaded', start)
-					window.addEventListener('icScriptsLoaded', start)
+					window.addEventListener('icStylesLoaded', 	start)
+					window.addEventListener('icScriptsLoaded', 	start)
 
 					function start(){
 						if(icStylesLoaded && icScriptsLoaded){
@@ -147,7 +148,7 @@
 
 		<ic-loading-screen 			
 			ic-app-ready	= "::icAppReady"
-			ic-min-duration	= "2000"
+			ic-min-duration	= "1000"
 		>
 
 			<div class ="spinner">
@@ -160,7 +161,10 @@
 			</div>
 
 			<h1><ic-text-logo><span>Info</span><span>Compass</span></ic-text-logo></ic-text-logo></h1>
-			
+			<br/>
+			<div ng-show = "error" class = "ng-hide error">
+					{{error}}
+			</div>
 
 		</ic-loading-screen>
 

@@ -1,0 +1,24 @@
+<form ng-submit = "login()">
+	<label>
+		{{'INTERFACE.USERNAME' | translate}}
+		<input
+			type 		= "text"
+			ng-model 	= "username"			 
+		></input>
+	</label>
+	<label>
+		{{'INTERFACE.PASSWORD' | translate}}
+		<input
+			type 		= "password"
+			ng-model 	= "password"			 
+		></input>
+	</label>
+
+	<button type = "button>">
+		{{ 'INTERFACE.CANCEL' | translate}}
+	</button>
+
+	<button type = "submit">
+		{{'INTERFACE.LOGIN' | translate}}
+	</butto>
+</form>

@@ -13,8 +13,7 @@ a {
 	cursor:				pointer;
 }
 
-a:active,
-a.ic-touched {
+.ic-touched {
 	background-color:	rgba(0,0,0,0.1) !important;
 }
 
@@ -27,6 +26,7 @@ button:active {
 
 button {
 	cursor:				pointer;
+	outline:			none !important;
 }
 
 button:active,

@@ -22,11 +22,11 @@ angular.module("InfoCompass",[
 
 		$animate.enabled(false)
 
-		$rootScope.Mock = new Mock() //todo
-		$rootScope.$watch(function(){
-			// console.log('root digest!')
-			// console.dir($rootScope.$$watchers)
-		})
+		//$rootScope.Mock = new Mock() //todo
+		// $rootScope.$watch(function(){
+		// 	console.log('root digest!')
+		// 	//console.dir($rootScope.$$watchers)
+		// })
 	}
 ])
 

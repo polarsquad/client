@@ -69,7 +69,6 @@ TODO:
 
 Todo:
 * line-break in Datenfelder anzeigen
-* active Spinner!
 * Edit
 * title quickfilter tooltip und überschrift
 * Überschrift für types
@@ -79,7 +78,13 @@ Todo:
 * Logo auf Startseite verlinken
 * Quickfilter, Zahlen grau, icons kleiner
 * Moritz, neue Reiter im Dictionary 
-* DO: Check übersetzung
+* no more items übersetzen
+
+
+
+Vorab:
+* Rechnung
+* Stunden
 
 
 Done:
@@ -93,18 +98,7 @@ Done:
 * QR-Code Zoom: URL drunter
 * neue Icons
 
-
-
-Brauche:
-* Wie verhält sich das Bearbeiten
-* icons header lokal /global
-* icon white
-* Moritz: contacts flachmachen
-* Stefan: themen icons schwarz
-* Bitte: die Metadaten Icons noch mal ersetzen (habe die Größen angeglichen): Farbe doch etwas dunkler #1E1E1E (liegen alle im Ordner: icons/meta), Größe: 1.5 rem (24px im Layout)
-
-
-Done:
+* active Spinner!
 * schwarze Icons für Themen
 * »Art« rausnehmen bei vier Hauptkacheln 
 * Information > Informationen (kann ich das auch schon selbst ändern über den Dictionary?) Ja -> braucht update
@@ -119,16 +113,16 @@ Done:
 * Suche löscht item auch wenn leer
 * Datenbank Dictionary
 * Zielgruppe leer -> fixed
-
-
-Todo:
 * Themenkacheln mit Bild
-* Overlay hakt
+* Overlay hakt -> nicht mehr oO
+* Performance verbessert
 
-Kleine Anmerkungen / Wünsche: 
 
-Start Screen
-– könnten wir ohne zu großen Aufwand vier Themenkacheln anlegen (nur exemplarisch mit Bild, gerne nur simuliert-dynamisch)?
-
-Hauptmenü
-
+Brauche:
+* Wie verhält sich das Bearbeiten
+* icons header lokal /global
+* icon white
+* Moritz: contacts flachmachen ! Öffnungszeiten
+* Stefan: themen icons schwarz
+* edit Icons
+* Ditionary andere tabs als interface?

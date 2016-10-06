@@ -602,24 +602,42 @@ ic-full-item qrcode > *{
 
 ic-item-edit {
 	display:				block;
-	margin-bottom:			3rem;
 }
 
-ic-item-edit label {
+ic-item-edit h4 {
+	font-size:				1.1rem !important;
+	font-weight:			400 !important;
+	line-height:			2em;
+	padding-right:			3rem;
+	margin:					0;
+	background-position: 	100% 50%;
+	background-size:		2rem;
+	background-repeat:		no-repeat;
+	cursor:					pointer;
+}
+
+
+ic-item-edit form {
 	display:				block;
-	font-size:				1.1rem;
-	margin:					1rem 0;
+	margin-bottom:			2rem;
 }
 
-ic-item-edit label .current-value {
+ic-item-edit form .current-value {
 	display:				block;
 	font-size:				0.9rem;
 	opacity:				0.5;
 	padding-left:			1rem;
 	margin:					0.5rem 0;
+	white-space: 			nowrap;
+	text-overflow:			ellipsis;
+	overflow:				hidden;
 }
 
-ic-item-edit label input {
+ic-item-edit form .current-value.diff {
+	text-decoration:		line-through;
+}
+
+ic-item-edit form input {
 	display:				block;
 	box-sizing:				border-box;
 	background-color:		#eee;
@@ -630,7 +648,8 @@ ic-item-edit label input {
 	margin:					0.5rem 0;
 }
 
-ic-item-edit label textarea {
+ic-item-edit form textarea,
+ ic-item-edit form [contenteditable]{
 	display:				block;
 	box-sizing:				border-box;
 	width:					100%;
@@ -638,7 +657,22 @@ ic-item-edit label textarea {
 	padding:				0.5rem 1rem;
 	margin:					0.5rem 0;
 	border:					0 none;
+	resize: 				none;
+	overflow:				hidden;
 	font-family:			Roboto, sans-serif;
+}
+
+
+ic-item-edit form .options a{
+	display:				inline-block;
+	box-sizing:				border-box;
+	width:					50%;
+	padding:				0.5rem 0;
+	padding-left:			2rem;
+	padding-right:			0.5rem;
+	background-position:	0 50%;
+	background-repeat:		no-repeat;
+	vertical-align:			middle;
 }
 
 
@@ -915,7 +949,12 @@ ic-overlays > * {
 	transition-duration:	400ms;
 }
 
-ic-overlays > .static {
+ic-overlays > * > * {
+	display:				block;
+	width:					18rem;
+}
+
+ic-overlays > .full {
 	position:				fixed;
 	top:					0;
 	left:					0;
@@ -923,6 +962,15 @@ ic-overlays > .static {
 	bottom:					0;
 	width:					auto !important;
 	height:					auto !important;
+}
+
+ic-overlays > .center {
+	position:				relative;
+	display:				block;
+	margin:					5rem auto;
+	width:					20rem;
+	height:					auto !important;
+	min-height:				0;
 }
 
 ic-overlays > .left {

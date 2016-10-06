@@ -1,6 +1,6 @@
 <h2>
 	<a
-		ng-href		= "/"
+		ng-href		= "/#"
 		ic-toggle-overlay 
 	>
 	<ic-text-logo></ic-text-logo>
@@ -14,7 +14,7 @@
 
 
 <a 
-	ng-href		= "/"
+	ng-href		= "/#"
 	ic-toggle-overlay 
 	ic-touch-me
 >
@@ -62,4 +62,9 @@
 		{{topic | uppercase | prepend : "TOPICS." | translate}}
 	</a>
 </div>
+
+
+<a ic-toggle-overlay = "login">
+	{{'INTERFACE.LOGIN' | translate}}
+</a>
 

@@ -49,14 +49,11 @@ angular.module('icServices', [
 
 
 
-		$q.all([
+		$rootScope.icAppReady = $q.all([
 			icConfigData.ready,
-			icLanguageConfig,
+			icLanguageConfig.ready,
 			documentReady
 		])
-		.then(function(){
-			$rootScope.icAppReady = true
-		})
 	}
 ])
 
@@ -68,13 +65,14 @@ angular.module('icServices', [
 .service('icConfigData',[
 
 	'icApi',
+	'$q',
 
-	function(icApi){
+	function(icApi, $q){
 
 		var icConfigData = 	{
-								types:	[],
-								topics:	[],
-								availableLanguages: []
+								types:	undefined,
+								topics:	undefined,
+								availableLanguages: undefined
 							}
 
 
@@ -96,13 +94,18 @@ angular.module('icServices', [
 
 
 		icConfigData.ready	=	icApi.getConfigData()
-								.then(function(result){
-									icConfigData.types 				= result.types
-									icConfigData.topics 			= result.topics
-									icConfigData.targetGroups		= result.target_groups
-									icConfigData.availableLanguages = result.langs 
-									icConfigData.titles 			= result.titles
-								})
+								.then(
+									function(result){
+										icConfigData.types 				= result.types
+										icConfigData.topics 			= result.topics
+										icConfigData.targetGroups		= result.target_groups
+										icConfigData.availableLanguages = result.langs 
+										//icConfigData.titles 			= result.titles
+									},
+									function(){
+										return $q.reject("Unable to load config data.")
+									}
+								)
 
 		return icConfigData
 	}
@@ -143,8 +146,11 @@ angular.module('icServices', [
 					}
 
 
+
+
 		icFilterConfig.matchFilter = function(key, haystack, empty_matches_all){
-			 	
+			
+			//called to often
 
 			var needles = 	typeof icFilterConfig.filterBy[key] == 'string'
 	 						?	[icFilterConfig.filterBy[key]]
@@ -160,6 +166,40 @@ angular.module('icServices', [
 								?	haystack.indexOf(needle) != -1
 								:	haystack == needle
 			 		})
+		}
+
+
+		function deepSearch(obj,needle){
+
+			if(!needle) return true
+
+			needle 	= 	typeof needle == 'string' 
+						?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
+						:	needle
+
+			for(var key in obj){
+
+				if(	
+					typeof obj[key] == 'object'
+					?	deepSearch(obj[key], needle)
+					:	String(obj[key]).match(needle) != null
+				){
+					return true
+				}
+
+			}
+
+			return false
+		}
+
+
+		icFilterConfig.matchItem = function(item){
+
+			for(var key in icFilterConfig.filterBy){
+				if(!icFilterConfig.matchFilter(key, item[key], true)) return false
+			}
+
+			return	deepSearch(item, icFilterConfig.searchTerm)
 		}
 
 
@@ -216,14 +256,15 @@ angular.module('icServices', [
 
 	'$window',
 	'$rootScope',
+	'$q',
 	'$translate',
 	'icConfigData',
 	'icApi',
 
-	function($window, $rootScope, $translate, icConfigData, icApi){
+	function($window, $rootScope, $q, $translate, icConfigData, icApi){
 
 		var icLanguageConfig 			= 	{
-												availableLanguages:	[],
+												availableLanguages:	undefined,
 												currentLanguage:	undefined									
 											}
 
@@ -232,6 +273,11 @@ angular.module('icServices', [
 		.then(function(){
 			icLanguageConfig.availableLanguages = icConfigData.availableLanguages
 		})
+
+		icLanguageConfig.ready = 	icApi.getInterfaceTranslations()
+									.catch(function(){
+										return $q.reject("Unable to load language data.")
+									})
 
 		function objectKeysToUpperCase(obj){
 			var up = {}
@@ -246,7 +292,6 @@ angular.module('icServices', [
 			return up
 		}
 
-		icLanguageConfig.ready = icApi.getInterfaceTranslations()
 
 		icLanguageConfig.getTranslationTable = function(lang){
 			return	icLanguageConfig.ready
@@ -366,7 +411,8 @@ angular.module('icServices', [
 														page:	true
 													}
 							},
-			scheduledUpdate
+			scheduledUpdate,
+			scheduledPath
 
 		icSite.path2Params = function(str){
 			var result = {}
@@ -433,14 +479,15 @@ angular.module('icServices', [
 
 
 		icSite.schedulePathUpdate = function(obj){
-			//TODO: Maybe prevent rerender
 
 			if(scheduledUpdate) $timeout.cancel(scheduledUpdate)
 
+			scheduledPath = icSite.params2Path({}, 'replace')
+
 
 			scheduledUpdate = 	$timeout(function(){
-									$location.path(icSite.params2Path({}, 'replace'))
-								}, 500)
+									$location.path(scheduledPath)
+								}, 100)
 
 			return this
 		}
@@ -491,7 +538,13 @@ angular.module('icServices', [
 
 		icSite.updateFromPath = function(){
 
+
+			//todo: is this neccesary?
 			$timeout.cancel(scheduledUpdate)
+
+			//We set the path ourself, or for some random reason the path already matches our params
+			if(scheduledPath == $location.path()) return null
+
 			
 			icSite.getParamsFromPath()
 
@@ -651,10 +704,10 @@ angular.module('icServices', [
 												?	open 
 												:	!icOverlays.show[overlay_name]
 
-			} else {
-				for(var key in icOverlays.show){
-					delete icOverlays.show[key]
-				}
+			}
+
+			for(var key in icOverlays.show){
+				if(key != overlay_name) delete icOverlays.show[key]
 			}
 
 			return this
@@ -695,12 +748,15 @@ angular.module('icServices', [
 
 
 
-
+//Todo: icItem should be able to download itself
 
 
 .service('icItem', [
-	function(){
-		return function IcItem(){
+
+	'icApi',
+
+	function(icApi){
+		return function IcItem(item_data){
 			var icItem					=	this,
 				rawStringProperties 	= 	{
 												id:				'id',
@@ -709,6 +765,7 @@ angular.module('icServices', [
 												imageUrl:		'image_url',
 												zip:			'zip_code',
 												location:		'place',
+												name:			'name',
 												website:		'website',
 												facebook:		'facebook',
 												primaryTopic:	'primary_topic',
@@ -743,7 +800,10 @@ angular.module('icServices', [
 
 
 
-			icItem.importData = function(data){
+			icItem.importData = function(item_data){
+
+				var data = item_data
+
 				if(!data) return icItem
 
 
@@ -758,9 +818,9 @@ angular.module('icServices', [
 
 
 				//Strings:			
-				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] || icItem[key] }
+				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] 	== undefined ? icItem[key]	: data[rawStringProperties[key]] }
 				for( key in rawHashes)				{ angular.merge(icItem[key], data[rawHashes[key]]) }
-				for( key in rawArrays)				{ angular.merge(icItem[key], data[rawArrays[key]]) }
+				for( key in rawArrays)				{ icItem[key] = data[rawArrays[key]] 			== undefined ? icItem[key] 	: (data[rawArrays[key]] || []) }
 
 
 				//special properties:
@@ -774,6 +834,44 @@ angular.module('icServices', [
 
 				return icItem
 			}
+
+			icItem.exportData = function(){
+				var export_data = {}
+
+				for(var key in rawStringProperties)	{ export_data[rawStringProperties[key]] = icItem[key] }
+				for(var key in rawHashes)			{ export_data[rawHashes[key]] 			= icItem[key] }							
+				for(var key in rawArrays)			{ export_data[rawArrays[key]] 			= icItem[key] }
+
+				return export_data
+			}
+
+
+			icItem.update = function(key, subkey){
+				var export_data = icItem.exportData(),
+					data		= {},
+					e_key		= rawStringProperties[key] || rawHashes[key] || rawArrays[key],
+					e_subkey	= subkey
+
+
+				if(e_key)		data[e_key] 			= {}
+				if(e_subkey)	data[e_key][e_subkey]	= {}
+
+
+				if(subkey){
+					data[e_key][e_subkey] = export_data[e_key][e_subkey]
+					return icApi.updateItem(icItem.id, data)
+				}
+
+				if(key){
+					data[e_key] = export_data[e_key]
+					return icApi.updateItem(icItem.id, data)
+				}
+
+				return export_data
+			}
+
+			if(!!item_data) icItem.importData(item_data)
+
 		}
 	}	
 ])
@@ -822,8 +920,16 @@ angular.module('icServices', [
 
 			if(!item) searchResults.data.push(item = new icItem())
 
+			item.importData(new_item_data)
 
-			return item.importData(new_item_data)
+			if(
+					searchResults.filteredList.indexOf(item) == -1
+				&&	icFilterConfig.matchItem(item)
+			){
+				searchResults.filteredList.push(item)
+			}
+
+			return item
 		}
 
 
@@ -865,22 +971,24 @@ angular.module('icServices', [
 												searchResults.offset, 
 												parameters
 											)
-								})
+								}),
+				length_before = searchResults.filteredList.length
 
 			searchResults.listCalls.push(currentCall)
 
 			return 	currentCall
 					.then(function(result){
 						result.items = result.items || []
-						result.items.forEach(function(item){
-							searchResults.storeItem(item)
-						})
+
+						result.items.forEach(function(item){ searchResults.storeItem(item) })
+										
 
 						searchResults.offset 		+= 	result.items.length
 						searchResults.meta 			= 	result.meta
 						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
 
-						searchResults.filterList()
+						if(searchResults.noMoreItems) return result
+
 					})
 					.finally(function(){
 						searchResults.listCalls = searchResults.listCalls.filter(function(call){ return call != currentCall })
@@ -935,28 +1043,6 @@ angular.module('icServices', [
 		}
 
 
-		function deepSearch(obj,needle){
-
-
-			needle 	= 	typeof needle == 'string' 
-						?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
-						:	needle
-
-			for(var key in obj){
-
-				if(	
-					typeof obj[key] == 'object'
-					?	deepSearch(obj[key], needle)
-					:	String(obj[key]).match(needle) != null
-				){
-					return true
-				}
-
-			}
-
-			return false
-		}
-
 		searchResults.clearFilteredList = function(){
 			while(searchResults.filteredList.length > 0) searchResults.filteredList.pop()
 		}
@@ -971,22 +1057,7 @@ angular.module('icServices', [
 				searchResults.filteredList, 
 				searchResults.data
 				.filter(function(item){
-
-					var passed 		= true
-
-					for(var key in icFilterConfig.filterBy){
-						passed = 		passed 
-									&& 	icFilterConfig.matchFilter(key, item[key], true)
-					}
-
-					return passed		
-				})					
-				.filter(function(item){
-					//TODO prevent cycles
-
-					return 	searchTerm
-							?	deepSearch(item, searchTerm)
-							:	true
+					return icFilterConfig.matchItem(item)
 				})
 			)
 
@@ -1034,16 +1105,16 @@ angular.module('icServices', [
 
 				searchResults.offset = 0
 
-				searchResults.clearFilteredList()
-
+				searchResults
+				//.clearFilteredList()
 
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
-					$timeout(function(){
+					window.requestAnimationFrame(function(){
 						searchResults
 						.filterList()
 						.download()
-					}, 0)
+					})
 				}
 			},
 			true
@@ -1065,7 +1136,7 @@ angular.module('icServices', [
 			icItemEdits = {}
 
 		icItemEdits.open = function(id){
-			data[id] = data[id] || new icItem()
+			data[id] = data[id] || new icItem({id:id})
 			return data[id]
 		}
 

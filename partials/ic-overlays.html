@@ -8,8 +8,15 @@
 	ic-on-update 		= "icOverlays.toggle('search')" 
 ></ic-search>
 
+
+<ic-login 
+	ng-if = "icOverlays.show.login" 
+	class = "white center"
+></ic-login>
+
+
 <div 
-	class 				=	"qrcode black static"
+	class 				=	"qrcode black full"
 	ic-toggle-overlay	=	"qrcode"
 	ng-if				=	"icOverlays.show.qrcode"
 >

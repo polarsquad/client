@@ -59,27 +59,16 @@ ic-loading-screen .spinner {
 	font-size:				3em;
 }
 
-
-@keyframes loading-screen-tiles{
-	0%{
-		transform:			rotateY(180deg);
-	}
-
-	100%{
-		transform:			rotateY(0deg);
-	}
+ic-loading-screen .ng-hide {
+	display:				none;
 }
 
-@-webkit-keyframes loading-screen-tiles{
-	0%{
-		transform:			rotateY(180deg);
-	}
-
-	100%{
-		transform:			rotateY(0deg);
-	}
+ic-loading-screen .error {
+	text-align:				center;
+	color:					red;
+	width:					50%;
+	margin:					1rem auto;
 }
-
 
 
 
@@ -147,6 +136,7 @@ ic-spinner .background{
 	height:					1em;
 	animation:				spin 2000ms infinite linear;
 	-webkit-animation:		spin 2000ms infinite linear;
+	z-index:				0;
 }
 
 

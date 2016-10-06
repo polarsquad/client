@@ -17,14 +17,15 @@
 		<ic-item-edit
 			ng-if 					= "editMode"
 			ic-type 				= "string"
-			ic-label				= "{{'INTERFACE_ITEM_TITLE' | translate}} (restrictions...)"
+			ic-label				= "{{'INTERFACE.ITEM_TITLE' | translate}} "
 			ic-key					= "title"
 			ic-item					= "item"
 			ic-translatable			= "false"
-
 		></ic-item-edit>
 
 	<!-- end item title -->
+
+
 
 
 	<!-- start item definition -->
@@ -39,7 +40,7 @@
 			ng-if 					= "editMode"
 			ic-type 				= "string"
 			ic-key					= "definition"
-			ic-label				= "{{'INTERFACE_ITEM_DEFINITION' | translate}} (restrictions...)"
+			ic-label				= "{{'INTERFACE.ITEM_DEFINITION' | translate}} "
 			ic-item					= "item"
 			ic-translatable			= "true"
 		></ic-item-edit>
@@ -48,7 +49,33 @@
 
 
 
-	<div class = "topics-and-target-groups highlight">
+
+
+
+	<!-- start type -->
+
+	<ic-item-edit
+		ng-if			= "editMode"
+		ic-type			= "string"
+		ic-options		= "::icConfigData['types']"
+		ic-option-label	= "option | uppercase | prepend : 'TYPES.' | translate"
+		ic-key			= "type"
+		ic-label		= "{{'INTERFACE.ITEM_TYPE' | translate}} "
+		ic-item			= "item"
+	></ic-item-edit>
+
+	<!-- end type -->
+
+
+
+
+
+	<!-- start topic and targets groups -->
+
+	<div 
+		class 	= "topics-and-target-groups highlight"
+		ng-if	= "!editMode"
+	>
 		<a 
 			ng-repeat 	= "topic in item.topics"
 			class		= "highlight"
@@ -61,11 +88,57 @@
 		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
 	</div>
 
+		
+	<ic-item-edit
+		ng-if			= "editMode"
+		ic-type			= "array"
+		ic-options		= "::icConfigData['topics']"
+		ic-option-label	= "option | uppercase | prepend : 'TOPICS.' | translate"
+		ic-key			= "topics"
+		ic-label		= "{{'INTERFACE.ITEM_TOPICS' | translate}} "
+		ic-item			= "item"
+	></ic-item-edit>
+
+	<ic-item-edit
+		ng-if			= "editMode"
+		ic-type			= "array"
+		ic-options		= "::icConfigData['targetGroups']"
+		ic-option-label	= "option | uppercase | prepend : 'TARGET_GROUPS.' | translate"
+		ic-key			= "targetGroups"
+		ic-label		= "{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} "
+		ic-item			= "item"
+	></ic-item-edit>
+
+
+
+
+	<!-- end topic and targets groups -->
+
+
+
+
+
+
+	<!-- start image -->
+
 	<img
 		class	= "hero" 
-		ng-if 	= "item.imageUrl" 
+		ng-if 	= "!editMode && item.imageUrl" 
 		ng-src 	= "{{item.imageUrl}}"
 	/>
+
+	<ic-item-edit
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{'INTERFACE.ITEM_IMAGE' | translate}} "
+		ic-key					= "imageUrl"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-edit>
+
+	<!-- end image -->
+
+
 
 
 
@@ -84,7 +157,7 @@
 		ng-if 					= "editMode"
 		ic-type 				= "text"
 		ic-key					= "description"
-		ic-label				= "{{'INTERFACE_ITEM_DESCRIPTION' | translate}} (restrictions...)"
+		ic-label				= "{{'INTERFACE.ITEM_DESCRIPTION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
 	></ic-item-edit>
@@ -96,9 +169,13 @@
 	<hr/>
 
 
+
+
+	<!-- start adress -->
+
 	<ic-info-tag
-		ng-if			= "item.address"
-		ic-title 		= "'INTERFACE.ITEM_INFO_ADDRESS' | translate"
+		ng-if			= "item.address && !editMode"
+		ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
 		ic-content		= "item.address"
 		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||'')]"
 		ic-icon			= "'address'| icIcon : 'item' : 'black'"
@@ -106,14 +183,65 @@
 	</ic-info-tag>
 
 
+	<ic-item-edit
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{'INTERFACE.ITEM_ADDRESS' | translate}} "
+		ic-key					= "address"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-edit>
+
+	<ic-item-edit
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{'INTERFACE.ITEM_ZIP' | translate}} "
+		ic-key					= "zip"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-edit>
+
+	<ic-item-edit
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{'INTERFACE.ITEM_LOCATION' | translate}} "
+		ic-key					= "location"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-edit>
+
+
+
+	<!-- end address -->
+
+
+
+
+	<!-- start misc -->
+
 	<ic-info-tag
-		ng-repeat	= "key in ['website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']"
-		ng-if		= "item[key]"
-		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_INFO_' | translate"
+		ng-repeat-start	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']"
+		ng-if		= "item[key] && !editMode"
+		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_' | translate"
 		ic-content	= "item[key]"
 		ic-icon		= "key | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
+
+	<ic-item-edit
+		ng-repeat-end
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{key | uppercase | prepend: 'INTERFACE.ITEM_' | translate}} "
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-edit>
+
+
+	<!-- end misc -->
+
+
 
 	<ic-info-tag
 		ng-if			= "item.hours.length > 0"
@@ -128,6 +256,7 @@
 
 
 	<qrcode 
+		ng-if					=	"!editMode"
 		version					=	"3" 
 		error-correction-level	=	"M" 
 		size					=	"200" 
@@ -149,16 +278,23 @@
 			>	
 				{{'INTERFACE.PRINT' | translate}}		
 			</a>
+
 			<a 
 				disabled
 				ic-touch-me
 			>				
 				{{'INTERFACE.SHARE'	| translate}}		
 			</a>
+
 			<a 
-				class 		= ""
-				ic-XXXclick	= "edit()"
-				disabled
+				ic-click	= "cancelEdit()"
+				ng-show		= "editMode"
+				ic-touch-me
+			> {{'INTERFACE.CANCEL' | translate}} </a>
+
+			<a 
+				ic-click	= "edit()"
+				ng-show		= "!editMode"
 				ic-touch-me
 			> {{'INTERFACE.EDIT' | translate}} </a>
 		</div>
