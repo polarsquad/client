@@ -84,6 +84,11 @@ hr + hr {
 	float:					right;
 }
 
+.xjust{
+	display:				flex !important;
+	justify-content:		space-between;
+}
+
 
 
 /* weight */

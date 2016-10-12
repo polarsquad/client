@@ -438,8 +438,9 @@ angular.module('icDirectives', [
 	'icLanguageConfig',
 	'icItemEdits',
 	'icConfigData',
+	'icUser',
 
-	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData){
+	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser){
 
 		return {
 			restrict:		'AE',
@@ -452,6 +453,7 @@ angular.module('icDirectives', [
 
 				scope.icSearchResults 	= icSearchResults
 				scope.icConfigData		= icConfigData
+				scope.icUser			= icUser
 
 				scope.editMode			= false
 
@@ -556,8 +558,10 @@ angular.module('icDirectives', [
 	'icSite',
 	'icFilterConfig',
 	'icOverlays',
+	'icUser',
+	'icApi', //Todo not nice
 
-	function(icConfigData, icSite, icFilterConfig, icOverlays){
+	function(icConfigData, icSite, icFilterConfig, icOverlays, icUser, icApi){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-main-menu.html',
@@ -568,8 +572,11 @@ angular.module('icDirectives', [
 				scope.icSite 			= icSite
 				scope.icFilterConfig 	= icFilterConfig
 				scope.icOverlays		= icOverlays
+				scope.icUser			= icUser
 
 				scope.expand = {}
+
+				scope.logout = icApi.logout
 			}
 		}
 	}
@@ -1857,7 +1864,8 @@ angular.module('icDirectives', [
 								icItem:					"=",
 								icType:					"@",
 								icOptions:				"<",
-								icOptionLabel:			"&"
+								icOptionLabel:			"&",
+								icAllowLocalEdit:		"<",
 							},
 
 			templateUrl: 	"partials/ic-item-edit-item-property.html",
@@ -2085,14 +2093,37 @@ angular.module('icDirectives', [
 
 .directive('icLogin',[
 
-	function(){
+	'icApi',
+
+	function(icApi){
 		return {
 			restrict:		'E',
-			scope:			true,
 			templateUrl:	'partials/ic-login.html',
+			transclude:		true,
+			scope:			{
+								icOnSuccess:	'&',
+								icOnFailure:	'&',
+							},
 
-			link: function(){
+			link: function(scope, element){
+				scope.username = ''
+				scope.password = ''
 
+				scope.login = function(){
+					icApi.login(scope.username, scope.password)
+					.then(
+						function(){
+							console.log('done')
+							scope.username = ''
+							scope.password = ''
+							scope.icOnSuccess()
+						},
+						function(){
+							console.log('failed')
+							scope.icOnFailure()
+						}
+					)
+				}
 			}
 		}
 	}

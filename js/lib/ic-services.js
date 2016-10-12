@@ -122,16 +122,6 @@ angular.module('icServices', [
 
 
 
-
-
-
-
-
-
-
-
-
-
 .service('icFilterConfig', [
 
 	function(){
@@ -674,6 +664,11 @@ angular.module('icServices', [
 		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
 		$rootScope.$watch(function(){ return icLanguageConfig }, 	icSite.addLanguageParamsToPath, true)
 
+		$rootScope.$on('loginRequired', function(event, message){ 
+			icOverlays.open('login', message)
+			$rootScope.$digest() 
+		})
+
 		return icSite
 	}
 								
@@ -690,38 +685,50 @@ angular.module('icServices', [
 
 	function($q){
 		var icOverlays 	= 	{
-								show:	{}
+								show:		{},
+								messages:	{},
 							},
 			scope 		=	undefined,
 			deferred	=	{}
 
 
 
+
 		icOverlays.toggle = function(overlay_name, open){
+
+
 
 			if(overlay_name) {
 				icOverlays.show[overlay_name] = open !== undefined 
 												?	open 
 												:	!icOverlays.show[overlay_name]
 
+				//if overlay gets closed, remove all messages
+
 			}
 
 			for(var key in icOverlays.show){
-				if(key != overlay_name) delete icOverlays.show[key]
+				if(key != overlay_name) 	delete icOverlays.show[key]
+				if(!icOverlays.show[key]) 	delete icOverlays.messages[key]
 			}
 
 			return this
 		}
 
+		icOverlays.open = function(overlay_name, message){
+			icOverlays.messages[overlay_name] = icOverlays.messages[overlay_name] || []
+			
+			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
+			icOverlays.toggle(overlay_name, true)
+		}
+
 	
 		icOverlays.active = function(){
-			var active = false
-
 			for(var key in icOverlays.show){
-				if(icOverlays.show[key]) active = true
+				if(icOverlays.show[key]) return true
 			}
 
-			return active
+			return false
 		}
 
 		icOverlays.registerScope = function(s){

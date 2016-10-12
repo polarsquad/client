@@ -21,6 +21,7 @@
 			ic-key					= "title"
 			ic-item					= "item"
 			ic-translatable			= "false"
+			ic-allow-local-edit		= "icUser.can('edit')"
 		></ic-item-edit>
 
 	<!-- end item title -->
@@ -43,6 +44,7 @@
 			ic-label				= "{{'INTERFACE.ITEM_DEFINITION' | translate}} "
 			ic-item					= "item"
 			ic-translatable			= "true"
+			ic-allow-local-edit		= "icUser.can('edit')"
 		></ic-item-edit>
 
 	<!-- end item definition -->
@@ -55,13 +57,14 @@
 	<!-- start type -->
 
 	<ic-item-edit
-		ng-if			= "editMode"
-		ic-type			= "string"
-		ic-options		= "::icConfigData['types']"
-		ic-option-label	= "option | uppercase | prepend : 'TYPES.' | translate"
-		ic-key			= "type"
-		ic-label		= "{{'INTERFACE.ITEM_TYPE' | translate}} "
-		ic-item			= "item"
+		ng-if					= "editMode"
+		ic-type					= "string"
+		ic-options				= "::icConfigData['types']"
+		ic-option-label			= "option | uppercase | prepend : 'TYPES.' | translate"
+		ic-key					= "type"
+		ic-label				= "{{'INTERFACE.ITEM_TYPE' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<!-- end type -->
@@ -90,23 +93,25 @@
 
 		
 	<ic-item-edit
-		ng-if			= "editMode"
-		ic-type			= "array"
-		ic-options		= "::icConfigData['topics']"
-		ic-option-label	= "option | uppercase | prepend : 'TOPICS.' | translate"
-		ic-key			= "topics"
-		ic-label		= "{{'INTERFACE.ITEM_TOPICS' | translate}} "
-		ic-item			= "item"
+		ng-if					= "editMode"
+		ic-type					= "array"
+		ic-options				= "::icConfigData['topics']"
+		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
+		ic-key					= "topics"
+		ic-label				= "{{'INTERFACE.ITEM_TOPICS' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<ic-item-edit
-		ng-if			= "editMode"
-		ic-type			= "array"
-		ic-options		= "::icConfigData['targetGroups']"
-		ic-option-label	= "option | uppercase | prepend : 'TARGET_GROUPS.' | translate"
-		ic-key			= "targetGroups"
-		ic-label		= "{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} "
-		ic-item			= "item"
+		ng-if					= "editMode"
+		ic-type					= "array"
+		ic-options				= "::icConfigData['targetGroups']"
+		ic-option-label			= "option | uppercase | prepend : 'TARGET_GROUPS.' | translate"
+		ic-key					= "targetGroups"
+		ic-label				= "{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 
@@ -134,6 +139,7 @@
 		ic-key					= "imageUrl"
 		ic-item					= "item"
 		ic-translatable			= "false"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<!-- end image -->
@@ -160,6 +166,7 @@
 		ic-label				= "{{'INTERFACE.ITEM_DESCRIPTION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<!-- end item description -->
@@ -190,6 +197,7 @@
 		ic-key					= "address"
 		ic-item					= "item"
 		ic-translatable			= "false"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<ic-item-edit
@@ -199,6 +207,7 @@
 		ic-key					= "zip"
 		ic-item					= "item"
 		ic-translatable			= "false"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 	<ic-item-edit
@@ -208,6 +217,7 @@
 		ic-key					= "location"
 		ic-item					= "item"
 		ic-translatable			= "false"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 
@@ -236,6 +246,7 @@
 		ic-key					= "{{key}}"
 		ic-item					= "item"
 		ic-translatable			= "false"
+		ic-allow-local-edit		= "icUser.can('edit')"
 	></ic-item-edit>
 
 
@@ -297,6 +308,13 @@
 				ng-show		= "!editMode"
 				ic-touch-me
 			> {{'INTERFACE.EDIT' | translate}} </a>
+
+			<a 
+				ic-click	= "saveAll()"
+				ng-show		= "editMode"
+				ic-touch-me
+			> {{'INTERFACE.SAVE_ALL' | translate}} </a>
+
 		</div>
 	</footer>
 </div>

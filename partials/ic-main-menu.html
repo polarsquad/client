@@ -63,8 +63,17 @@
 	</a>
 </div>
 
+<a ng-if = "icUser.authToken"></a>
+<a 
+	ng-if 		= "icUser.authToken" 
+	class 		= "xjust"
+	ng-click 	= "logout()" 
+><span>{{icUser.name}}</span>  <span>{{'INTERFACE.LOGOUT' | translate}}</span></a>
 
-<a ic-toggle-overlay = "login">
+<a 
+	ng-if 				= "!icUser.authToken"
+	ic-toggle-overlay 	= "login"
+>
 	{{'INTERFACE.LOGIN' | translate}}
 </a>
 

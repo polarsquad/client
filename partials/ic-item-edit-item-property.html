@@ -84,12 +84,14 @@
 
 
 	<button
-		type = "submit"
+		ng-if	= "icAllowLocalEdit"
+		type 	= "submit"
 	>
 		update
 	</buton>
 
 	<button
+		ng-if		= "icAllowLocalEdit"
 		ic-click	= "revert()" 
 		ng-disabled	= "value.new == value.current"
 	>

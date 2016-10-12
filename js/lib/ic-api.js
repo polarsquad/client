@@ -13,6 +13,73 @@ angular.module('icApi', [])
 
 
 
+
+.service('icUser', [
+
+	function(icApi){
+		var icUser = this
+
+		icUser.name 		= undefined 
+		icUser.role			= 'guest'
+		icUser.authToken	= undefined
+
+		if(!window.localStorage) console.warn('icUser: Browser does not support localStorage!')
+
+		icUser.store = function(){
+			var storeMe = 	{
+								name: 		icUser.name,
+								role: 		icUser.role,
+								authToken:	icUser.authToken
+							}
+			window.localStorage.icUser = JSON.stringify(storeMe)
+		}
+
+		icUser.get = function(){
+			var stored = JSON.parse(window.localStorage.icUser || '{}')
+
+			icUser.name 		= stored.name
+			icUser.role 		= stored.role
+			icUser.authToken 	= stored.authToken
+
+		}
+
+
+		icUser.set = function(obj){
+			console.dir(obj)
+			icUser.name 		= obj.name
+			icUser.role 		= obj.role
+			icUser.authToken	= obj.authToken
+			icUser.store()
+		}
+
+		icUser.clear = function(){
+			icUser.name 		= undefined
+			icUser.role 		= 'guest'
+			icUser.authToken	= undefined
+			icUser.store()
+		}
+
+		var rights = 	{
+							'guest':	[],
+							'editor':	['edit']
+						}
+
+		icUser.can = function(task){
+			console.log(task, rights[icUser.role] &&  (rights[icUser.role].indexOf(task) != -1))
+			return 	rights[icUser.role] &&  (rights[icUser.role].indexOf(task) != -1)						
+		}
+
+
+		icUser.get()
+
+		return icUser
+	}
+])
+
+
+
+
+
 .provider('icApi', function(){
 
 	var base = '/'
@@ -24,15 +91,17 @@ angular.module('icApi', [])
 
 	this.$get = [
 
+		'$rootScope',
 		'$http',
 		'$timeout',
 		'$q',
+		'icUser',
 
-		function($http, $timeout, $q){
+		function($rootScope, $http, $timeout, $q, icUser){
 
 			var icApi = {}
 
-			// icApi.acceptLanguage = 'en'
+			console.log($rootScope)
 
 			icApi.call = function(method, path, data){
 
@@ -43,22 +112,50 @@ angular.module('icApi', [])
 							data:				method == 'GET' ? undefined : data,
 							headers:			{
 													'Accept':			'application/json',
+													'Authorization':	icUser.authToken
 												},
 							paramSerializer: 	'$httpParamSerializerJQLike'
 						})
-						.then(function(result){
-							return result.data
-						})
+						.then(
+							function(result){
+								return result.data
+							}, 
+							function(result){
+								if(result.status == 305){
+									$rootScope.$broadcast('loginRequired', 'message ztest')
+								}
+							}
+						)
+
 			}
 
-			icApi.get = function(path, data){ return icApi.call('GET', path, data)}
-			icApi.put = function(path, data){ return icApi.call('PUT', path, data)}
+			icApi.get 	= function(path, data){ return icApi.call('GET', 	path, data)}
+			icApi.put 	= function(path, data){ return icApi.call('PUT', 	path, data)}
+			icApi.post 	= function(path, data){ return icApi.call('POST',	path, data)}
 
 
 			icApi.getConfigData = function(){
 				return icApi.get('/frontend/init')
 			}
 
+
+			icApi.login = function(username, password){
+				return 	$q.resolve({name: username, role:'editor', authToken: 'sahdkjdfhkdsfh213'})
+						// icApi.post('/login', {username: username, password: password})
+						.then(function(result){
+							icUser.set(result)
+						})
+			}
+
+			icApi.logout = function(){
+				console.log('logout')
+				return 	$q.resolve()
+						//icApi.get('/logout')
+						.then(function(){
+							icUser.clear()
+						})
+
+			}
 
 			icApi.getList = function(limit, offset, filter, search){
 

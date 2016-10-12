@@ -10,9 +10,17 @@
 
 
 <ic-login 
-	ng-if = "icOverlays.show.login" 
-	class = "white center"
-></ic-login>
+	ng-if 				= "icOverlays.show.login" 
+	class 				= "white center"
+	ic-on-success		= "icOverlays.toggle()"
+	ic-on-failure		= "icOverlays.toggle()"
+>
+	<div
+		class		= "message" 
+		ng-repeat 	= "message in icOverlays.messages.login">
+		{{message}}
+	</div>
+</ic-login>
 
 
 <div 

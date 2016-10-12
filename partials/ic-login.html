@@ -1,3 +1,5 @@
+<ng-transclude></ng-transclude>
+
 <form ng-submit = "login()">
 	<label>
 		{{'INTERFACE.USERNAME' | translate}}
@@ -14,11 +16,13 @@
 		></input>
 	</label>
 
-	<button type = "button>">
-		{{ 'INTERFACE.CANCEL' | translate}}
-	</button>
+	<div>
+		<button type = "button>">
+			{{ 'INTERFACE.CANCEL' | translate}}
+		</button>
 
-	<button type = "submit">
-		{{'INTERFACE.LOGIN' | translate}}
-	</butto>
+		<button type = "submit">
+			{{'INTERFACE.LOGIN' | translate}}
+		</button>
+	</div>
 </form>
