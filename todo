@@ -132,20 +132,39 @@ Brauche:
 
 todo:
 
-* primary topic
 * coordinates
 * google auto translate
 * neuer eintrag hinzufügen
-* Item bearbeiten nicht mehr default
 * zwei Kacheln "Frauen"
-* filter über spalte
-* Brauche von oben checken
+* 'Brauche' von oben checken
 
 Done:
 
 * Login/Auth angelegt
+* Fehleranzeige beim Laden
+* filter über spalte
+* Item bearbeiten nicht mehr default
+* (primary topic)
 
 
 Brauche:
 * Benutzer anlegen und Rollen verteilen
 
+
+
+
+
+
+
+
+
+
+
+
+----
+Branding:
+
+* index.html: Loading Screen
+* icTextLogo
+
+* types, targetgrups, topic -> tags1/tags2/ category...

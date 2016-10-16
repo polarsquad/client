@@ -75,6 +75,17 @@
 
 	<!-- start topic and targets groups -->
 
+	<ic-item-edit
+		ng-if					= "editMode"
+		ic-type					= "string"
+		ic-options				= "::icConfigData['topics']"
+		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
+		ic-key					= "primaryTopic"
+		ic-label				= "{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "icUser.can('edit')"
+	></ic-item-edit>
+
 	<div 
 		class 	= "topics-and-target-groups highlight"
 		ng-if	= "!editMode"

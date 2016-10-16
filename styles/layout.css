@@ -51,8 +51,6 @@ body > #content {
 
 
 
-
-
 #content section {
 	position:				relative;
 	height:					100%;
@@ -63,7 +61,6 @@ body > #content {
 	white-space:			normal;
 	z-index:				1;
 	box-shadow:				0 0 1rem rgba(0,0,0,0.2);
-	will-change:			scroll-position;
 	padding:				1rem;
 	box-sizing:				border-box;
 }
@@ -117,9 +114,6 @@ body > #content {
 
 
 
-
-
-
 /*Layout page */
 
 #content section.page {
@@ -150,6 +144,10 @@ body > #content {
 
 
 /*Layout list */
+
+#content section.list {
+	will-change:			scroll-position;
+}
 
 .XS	#content section.list  {
 	width:					23rem;

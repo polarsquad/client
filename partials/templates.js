@@ -230,6 +230,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<!-- start topic and targets groups -->\n" +
     "\n" +
+    "	<ic-item-edit\n" +
+    "		ng-if					= \"editMode\"\n" +
+    "		ic-type					= \"string\"\n" +
+    "		ic-options				= \"::icConfigData['topics']\"\n" +
+    "		ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
+    "		ic-key					= \"primaryTopic\"\n" +
+    "		ic-label				= \"{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} \"\n" +
+    "		ic-item					= \"item\"\n" +
+    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
+    "	></ic-item-edit>\n" +
+    "\n" +
     "	<div \n" +
     "		class 	= \"topics-and-target-groups highlight\"\n" +
     "		ng-if	= \"!editMode\"\n" +
@@ -701,7 +712,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		fake-scroll-bump\n" +
     "	>\n" +
     "		<ic-section-list\n" +
-    "			ic-show-filter  =   \"smlLayout.mode.name == 'XS'\" \n" +
+    "			ic-show-filter  =   \"smlLayout.mode.name == 'XS' || (smlLayout.mode.name == 'M' && icSite.show('item'))\" \n" +
     "		></ic-section-list>\n" +
     "	</section><!--\n" +
     "\n" +

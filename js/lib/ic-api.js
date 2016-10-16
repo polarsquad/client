@@ -45,7 +45,6 @@ angular.module('icApi', [])
 
 
 		icUser.set = function(obj){
-			console.dir(obj)
 			icUser.name 		= obj.name
 			icUser.role 		= obj.role
 			icUser.authToken	= obj.authToken
@@ -65,7 +64,6 @@ angular.module('icApi', [])
 						}
 
 		icUser.can = function(task){
-			console.log(task, rights[icUser.role] &&  (rights[icUser.role].indexOf(task) != -1))
 			return 	rights[icUser.role] &&  (rights[icUser.role].indexOf(task) != -1)						
 		}
 
@@ -101,7 +99,6 @@ angular.module('icApi', [])
 
 			var icApi = {}
 
-			console.log($rootScope)
 
 			icApi.call = function(method, path, data){
 
@@ -122,8 +119,9 @@ angular.module('icApi', [])
 							}, 
 							function(result){
 								if(result.status == 305){
-									$rootScope.$broadcast('loginRequired', 'message ztest')
+									$rootScope.$broadcast('loginRequired', 'Acces denied')
 								}
+								return $q.reject(result)
 							}
 						)
 
