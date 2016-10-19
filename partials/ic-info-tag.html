@@ -1,7 +1,19 @@
 <div class = "icon"><img ng-src = "{{icIcon}}"/></div>
-<div class = "title">					{{icTitle}}		</div>
+<div class = "title"> {{icTitle}} </div>
 <div class = "content highlight">		
-	{{icContent}}	
+	<a
+		ng-if	=	"link"
+		ng-href = "{{link}}"
+	>
+		{{icContent}}	
+	</a>
+
+	<span
+		ng-if 	= "!link"
+	>
+		{{icContent}}	
+	</span>
+
 	<div 
 		ng-repeat 	= "line in icExtraLines"
 		ng-if		= "line | trim"

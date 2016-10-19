@@ -14,7 +14,7 @@
 	
 	<a
 		ng-repeat	= "type in icConfigData.types"
-		ng-href 	= "#{{icSite.getNewPath({t: type}, true)}}"
+		ng-href 	= "{{icSite.getNewPath({t: type}, true)}}"
 		ic-tile
 		ic-title	= "'TYPES.'+type | uppercase | translate"
 		ic-brief	= ""

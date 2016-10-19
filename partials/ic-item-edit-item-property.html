@@ -87,7 +87,7 @@
 		ng-if	= "icAllowLocalEdit"
 		type 	= "submit"
 	>
-		update
+		{{ "INTERFACE.UPDATE" | translate }}
 	</buton>
 
 	<button
@@ -95,6 +95,7 @@
 		ic-click	= "revert()" 
 		ng-disabled	= "value.new == value.current"
 	>
-		revert
+		{{ "INTERFACE.REVERT" | translate }}
 	</buton>
+
 </form>

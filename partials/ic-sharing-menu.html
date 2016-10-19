@@ -1,0 +1,15 @@
+<h2>
+	{{"INTERFACE.SHARE" | translate}}
+</h2>
+
+<a 
+	ng-repeat  	= "platform in platforms"
+	ng-href		= "::{{platform.link}}" 
+>
+		<span 
+			class 		= "icon"
+			style		= "background-image: url({{::platform.name | icIcon : 'item' : 'black'}});"
+		>		
+		</span>
+	{{platform.name | prepend: "INTERFACE.SHARE." | translate}}
+</a>

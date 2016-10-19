@@ -92,14 +92,23 @@ angular.module('icServices', [
 			return icConfigData.topics.filter(function(topic){ return topic.uri == uri })[0]
 		}
 
+		function unique(arr){
+			var result = []
+
+			arr.forEach(function(item){
+				if(result.indexOf(item) == -1) result.push(item)
+			})
+
+			return result
+		}
 
 		icConfigData.ready	=	icApi.getConfigData()
 								.then(
 									function(result){
-										icConfigData.types 				= result.types
-										icConfigData.topics 			= result.topics
-										icConfigData.targetGroups		= result.target_groups
-										icConfigData.availableLanguages = result.langs 
+										icConfigData.types 				= unique(result.types)
+										icConfigData.topics 			= unique(result.topics)
+										icConfigData.targetGroups		= unique(result.target_groups)
+										icConfigData.availableLanguages = unique(result.langs)
 										//icConfigData.titles 			= result.titles
 									},
 									function(){
@@ -414,7 +423,7 @@ angular.module('icServices', [
 
 				if(typeof icSite.params[key] == 'object'){
 					//Array:
-					result[key] = 	value_str 
+					result[key] = 	value_str
 									?	value_str.split('-')
 									:	[]
 				} else {
@@ -484,7 +493,7 @@ angular.module('icServices', [
 
 	
 		icSite.addFilterParamsToPath = function(){
-			icSite.params.s 	= encodeURIComponent(icFilterConfig.searchTerm||'')
+			icSite.params.s		= icFilterConfig.searchTerm
 			icSite.params.t		= icFilterConfig.filterBy.type
 			icSite.params.tp	= icFilterConfig.filterBy.topics
 			icSite.params.tg	= icFilterConfig.filterBy.targetGroups
@@ -528,11 +537,10 @@ angular.module('icServices', [
 
 		icSite.updateFromPath = function(){
 
-
 			//todo: is this neccesary?
 			$timeout.cancel(scheduledUpdate)
 
-			//We set the path ourself, or for some random reason the path already matches our params
+			//We set the path ourselves, or for some random reason the path already matches our params
 			if(scheduledPath == $location.path()) return null
 
 			
@@ -657,6 +665,7 @@ angular.module('icServices', [
 
 		//setup
 		
+		console.log('Y', location.href)
 		icSite.updateFromPath()
 
 
@@ -772,9 +781,13 @@ angular.module('icServices', [
 												imageUrl:		'image_url',
 												zip:			'zip_code',
 												location:		'place',
+												country:		'country',
 												name:			'name',
 												website:		'website',
 												facebook:		'facebook',
+												twitter:		'twitter',
+												instagram:		'instagram',
+												linkedin:		'linkedin',
 												primaryTopic:	'primary_topic',
 												address:		'address', 
 												phone:			'phone', 

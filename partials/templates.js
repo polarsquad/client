@@ -393,14 +393,34 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
+    "	<!-- start geo coordinates -->\n" +
+    "\n" +
+    "	<ic-info-tag\n" +
+    "		ng-if			= \"item.longitude && item.latitude && !editMode\"\n" +
+    "		ic-title 		= \"'INTERFACE.ITEM_GEO_COORDINATES' | translate\"\n" +
+    "		ic-content		= \"item.longitude + '/' +item.latitude\"\n" +
+    "		ic-icon			= \"'geo_coordinates'| icIcon : 'item' : 'black'\"\n" +
+    "		ic-link			= \"'https://www.openstreetmap.org/#map=19/'\"\n" +
+    "	>\n" +
+    "	</ic-info-tag>\n" +
+    "\n" +
+    "\n" +
+    "	<!-- end geo coordinates -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "	<!-- start misc -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat-start	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']\"\n" +
+    "		ng-repeat-start	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'linkedin', 'pinterest', 'price', 'maxParticipants']\"\n" +
     "		ng-if		= \"item[key] && !editMode\"\n" +
     "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_' | translate\"\n" +
     "		ic-content	= \"item[key]\"\n" +
     "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
+    "		ic-link		= \"::key | icLinkPrefix\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -424,7 +444,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if			= \"item.hours.length > 0\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_INFO_HOURS' | translate\"\n" +
     "		ic-extra-lines	= \"item.hours |icHours\"\n" +
-    "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
+    "		ic-icon			= \"'hours'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -511,8 +531,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		type				= \"button\"\n" +
     "		class 				= \"icon-interface-share highlight\"\n" +
     "		ng-if				= \"icShare\"\n" +
+    "		ic-toggle-overlay	= \"sharingMenu\"\n" +
     "		ic-touch-me	\n" +
-    "		disabled\n" +
     "	></button>\n" +
     "	\n" +
     "	<button \n" +
@@ -542,9 +562,21 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-info-tag.html',
     "<div class = \"icon\"><img ng-src = \"{{icIcon}}\"/></div>\n" +
-    "<div class = \"title\">					{{icTitle}}		</div>\n" +
+    "<div class = \"title\"> {{icTitle}} </div>\n" +
     "<div class = \"content highlight\">		\n" +
-    "	{{icContent}}	\n" +
+    "	<a\n" +
+    "		ng-if	=	\"link\"\n" +
+    "		ng-href = \"{{link}}\"\n" +
+    "	>\n" +
+    "		{{icContent}}	\n" +
+    "	</a>\n" +
+    "\n" +
+    "	<span\n" +
+    "		ng-if 	= \"!link\"\n" +
+    "	>\n" +
+    "		{{icContent}}	\n" +
+    "	</span>\n" +
+    "\n" +
     "	<div \n" +
     "		ng-repeat 	= \"line in icExtraLines\"\n" +
     "		ng-if		= \"line | trim\"\n" +
@@ -647,7 +679,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if	= \"icAllowLocalEdit\"\n" +
     "		type 	= \"submit\"\n" +
     "	>\n" +
-    "		update\n" +
+    "		{{ \"INTERFACE.UPDATE\" | translate }}\n" +
     "	</buton>\n" +
     "\n" +
     "	<button\n" +
@@ -655,8 +687,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-click	= \"revert()\" \n" +
     "		ng-disabled	= \"value.new == value.current\"\n" +
     "	>\n" +
-    "		revert\n" +
+    "		{{ \"INTERFACE.REVERT\" | translate }}\n" +
     "	</buton>\n" +
+    "\n" +
     "</form>"
   );
 
@@ -883,6 +916,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</div>\n" +
     "</ic-login>\n" +
     "\n" +
+    "<ic-sharing-menu ng-class = \"{'ic-hide': !icOverlays.show.sharingMenu}\" class = \"white right\"></ic-sharing-menu>\n" +
+    "\n" +
     "\n" +
     "<div \n" +
     "	class 				=	\"qrcode black full\"\n" +
@@ -940,7 +975,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<a\n" +
     "	ng-repeat	= \"item in icSearchResults.filteredList\"\n" +
-    "	ng-href		= \"#{{icHref({itemId:item.id})}}\"\n" +
+    "	ng-href		= \"{{icHref({itemId:item.id})}}\"\n" +
     ">\n" +
     "\n" +
     "	<ic-preview-item\n" +
@@ -965,7 +1000,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-search-term.html',
     "<div ng-if	= \"icFilterConfig.searchTerm\">\n" +
-    "		»{{icFilterConfig.searchTerm | uppercase}}« ({{icSearchResults.meta['total']}})\n" +
+    "		<span>{{icFilterConfig.searchTerm | uppercase}}</span> ({{icSearchResults.meta['total']}})\n" +
     "		<button \n" +
     "			class 		= \"icon-nav-close\"\n" +
     "			ng-click 	= \"icFilterConfig.searchTerm = ''\" \n" +
@@ -996,21 +1031,26 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		>\n" +
     "		</button>\n" +
     "	</div>\n" +
-    "\n" +
-    "	<!-- <div \n" +
-    "		class 	= \"auto-suggest\"\n" +
-    "		ng-if	= \"searchTerm.length > 2\"\n" +
-    "	>\n" +
-    "		<a\n" +
-    "			ng-repeat 		= \"title in icTitles | filter : searchTerm | limitTo: 5 track by $index\"		\n" +
-    "			ng-mousedown  	= \"setSearchTerm(title)\"\n" +
-    "			ng-if 			= \"title != searchTerm\" \n" +
-    "		>\n" +
-    "			{{title}}\n" +
-    "		</a>\n" +
-    "	</div> -->\n" +
-    "\n" +
     "</form>"
+  );
+
+
+  $templateCache.put('partials/ic-sharing-menu.html',
+    "<h2>\n" +
+    "	{{\"INTERFACE.SHARE\" | translate}}\n" +
+    "</h2>\n" +
+    "\n" +
+    "<a \n" +
+    "	ng-repeat  	= \"platform in platforms\"\n" +
+    "	ng-href		= \"::{{platform.link}}\" \n" +
+    ">\n" +
+    "		<span \n" +
+    "			class 		= \"icon\"\n" +
+    "			style		= \"background-image: url({{::platform.name | icIcon : 'item' : 'black'}});\"\n" +
+    "		>		\n" +
+    "		</span>\n" +
+    "	{{platform.name | prepend: \"INTERFACE.SHARE.\" | translate}}\n" +
+    "</a>"
   );
 
 
@@ -1081,7 +1121,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	\n" +
     "	<a\n" +
     "		ng-repeat	= \"type in icConfigData.types\"\n" +
-    "		ng-href 	= \"#{{icSite.getNewPath({t: type}, true)}}\"\n" +
+    "		ng-href 	= \"{{icSite.getNewPath({t: type}, true)}}\"\n" +
     "		ic-tile\n" +
     "		ic-title	= \"'TYPES.'+type | uppercase | translate\"\n" +
     "		ic-brief	= \"\"\n" +

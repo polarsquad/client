@@ -21,6 +21,7 @@ angular.module('InfoCompassModule',[
 
 		icApiProvider.setBase('http://213.187.84.22:3000')
 
+
 		smlLayoutProvider.setModes([			
 			{
 				name:		'XS',	

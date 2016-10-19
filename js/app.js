@@ -9,7 +9,10 @@ angular.module("InfoCompass",[
 	'$locationProvider',
 
 	function($locationProvider){
-		 //$locationProvider.html5Mode(true)
+		 $locationProvider
+		 .html5Mode({
+		 	enabled:		true
+		 })
 	}
 		
 ])
@@ -17,8 +20,11 @@ angular.module("InfoCompass",[
 .run([
 	'$rootScope',
 	'$animate',
+	'$location',
 
-	function($rootScope, $animate){
+	function($rootScope, $animate, $location){
+
+		console.log('S', location.href)
 
 		$animate.enabled(false)
 

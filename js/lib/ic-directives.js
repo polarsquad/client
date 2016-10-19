@@ -522,13 +522,47 @@ angular.module('icDirectives', [
 								icTitle:		"<",
 								icContent:		"<",
 								icExtraLines:	"<",
-								icIcon:			"<"
+								icIcon:			"<",
+								icLink:			"<",
 							},
 
 			link: function(scope, element, attrs){
+				scope.$watch('icContent', function(){
+					if(typeof scope.icLink == "string"){
+						scope.link = scope.icLink + scope.icContent
+					}
+				})
+
 			}
 		}
 	}
+])
+
+
+.directive('icSharingMenu', [
+
+	'$location', 
+
+	function($location){
+		return {
+			restrict: 		'AE',
+			templateUrl:	'partials/ic-sharing-menu.html',
+
+			link:		function(scope){
+
+				var url = $location.absUrl()
+
+				scope.platforms = [
+					{name: 'email',		link: 'mailto:?&body='+url},
+					{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
+					{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
+					{name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
+					{name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
+				]
+			}
+		}
+	}
+
 ])
 
 
@@ -601,7 +635,7 @@ angular.module('icDirectives', [
 
 .filter('icIcon', function(){
 	return 	function(str, pre, color){
-			var p = pre		||	'type',
+			var p = pre		|| 'type',
 				c = color 	|| 'black'
 
 
@@ -624,14 +658,33 @@ angular.module('icDirectives', [
 				case 'email':		return "/images/icon_"+p+"_email_"+c+".svg";		break;
 				case 'address':		return "/images/icon_"+p+"_place_"+c+".svg";		break;
 				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
-				case 'time':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
-				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;				
+				case 'hours':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
+				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;	
+				
+				case 'twitter':		return "/images/icon_"+p+"_twitter_"+c+".svg";		break;				
+				case 'facebook':	return "/images/icon_"+p+"_facebook_"+c+".svg";		break;				
+
 				// default:			return "/images/icon_nav_close.svg";				break;
 				default:			return "/images/icon_topic_information_white.svg";	console.warn('icIcon: missing icon displayed as info!'); break;
 			}
 		}
 })
 
+
+.filter('icLinkPrefix', function(){
+	return function(key){
+		return	{
+					'website':		'',
+					'twitter':		'',
+					'facebook':		'',
+					'linkedin':		'',
+					'instagram':	'',
+					'pinterest':	'',
+					'email':		'mailto:',
+					'phone':		'tel:'
+				}[key]
+	}
+})
 
 
 .filter('icAddParameters',[
@@ -1084,7 +1137,7 @@ angular.module('icDirectives', [
 					if(scope.icOnSubmit) scope.icOnSubmit()
 
 					if(scope.searchTerm){
-						icFilterConfig.searchTerm = scope.searchTerm
+						icFilterConfig.searchTerm = scope.searchTerm.replace(/[\/?#]+/g,' ')
 						if(scope.icOnUpdate){
 							scope.icOnUpdate()
 						}
@@ -1093,14 +1146,6 @@ angular.module('icDirectives', [
 					scope.searchTerm = undefined
 				}
 
-				scope.setSearchTerm = function(str){
-					var input = element[0].querySelector('#search-term')
-
-					scope.searchTerm = str
-					window.requestAnimationFrame(function(){
-						input.focus()
-					})
-				}
 			}
 		}
 	}
@@ -1881,7 +1926,6 @@ angular.module('icDirectives', [
 
 
 				scope.update = function(){
-
 					itemEdit
 					.update(scope.icKey, scope.icTranslatable ? icLanguageConfig.currentLanguage : undefined)
 					.then(function(item_data){
@@ -1894,6 +1938,17 @@ angular.module('icDirectives', [
 
 				scope.revert = function(){
 					scope.value.new = angular.copy(scope.value.current)
+				}
+
+				scope.autoTranslate = function(){
+					if(!scope.icTranslatable) console.warn('icItemEdit: field not translatable: ', scope.icKey); return null
+
+					icLanguageConfig.availableLanguages.forEach(function(language){
+						if(!scope.icItem[scope.icKey][language]) {
+							scope.icItem[scope.icKey][language] = 'googleTranslate:'
+						}						
+					})
+
 				}
 
 				scope.diff = function(){

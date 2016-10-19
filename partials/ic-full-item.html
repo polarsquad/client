@@ -238,14 +238,34 @@
 
 
 
+	<!-- start geo coordinates -->
+
+	<ic-info-tag
+		ng-if			= "item.longitude && item.latitude && !editMode"
+		ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
+		ic-content		= "item.longitude + '/' +item.latitude"
+		ic-icon			= "'geo_coordinates'| icIcon : 'item' : 'black'"
+		ic-link			= "'https://www.openstreetmap.org/#map=19/'"
+	>
+	</ic-info-tag>
+
+
+	<!-- end geo coordinates -->
+
+
+
+
+
+
 	<!-- start misc -->
 
 	<ic-info-tag
-		ng-repeat-start	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'price', 'maxParticipants']"
+		ng-repeat-start	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'linkedin', 'pinterest', 'price', 'maxParticipants']"
 		ng-if		= "item[key] && !editMode"
 		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_' | translate"
 		ic-content	= "item[key]"
 		ic-icon		= "key | icIcon : 'item' : 'black'"
+		ic-link		= "::key | icLinkPrefix"
 	>
 	</ic-info-tag>
 
@@ -269,7 +289,7 @@
 		ng-if			= "item.hours.length > 0"
 		ic-title 		= "'INTERFACE.ITEM_INFO_HOURS' | translate"
 		ic-extra-lines	= "item.hours |icHours"
-		ic-icon			= "'address'| icIcon : 'item' : 'black'"
+		ic-icon			= "'hours'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 

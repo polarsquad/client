@@ -129,15 +129,6 @@ Brauche:
 * edit Icons
 * Dictionary andere tabs als interface?
 
-
-todo:
-
-* coordinates
-* google auto translate
-* neuer eintrag hinzufügen
-* zwei Kacheln "Frauen"
-* 'Brauche' von oben checken
-
 Done:
 
 * Login/Auth angelegt
@@ -148,16 +139,33 @@ Done:
 
 
 Brauche:
-* Benutzer anlegen und Rollen verteilen
+* Benutzer anlegen und Rollen verteilen (per config file)
 
 
+todo:
+* neuer eintrag hinzufügen
+* 'Brauche' von oben checken
+* Edits übernehmen
+* Neuer Eintrag
+* Übersetzen "INTERFACE..."
+* watch durch events ersetzen
 
+Done:
+* Website verlinken, mail verlinken 
+* linked in
+* twitter
+* country
+* instagram
+* coordinates (link auf openstreetmap)
+* sharing
+* !google auto translate ( braucht API-KEY )
+* html5 mode
+* back und escapete search terme
 
+Brauche:
 
-
-
-
-
+* icons für google+ und linkedin
+* icApi Ergebnisse, fehler abfangen: duplicates, auch für item.topic
 
 
 
@@ -168,3 +176,5 @@ Branding:
 * icTextLogo
 
 * types, targetgrups, topic -> tags1/tags2/ category...
+* icColors
+* icons
