@@ -45,10 +45,12 @@ angular.module('icApi', [])
 
 
 		icUser.set = function(obj){
-			icUser.name 		= obj.name
+			icUser.name 		= obj.username //make configurable
 			icUser.role 		= obj.role
-			icUser.authToken	= obj.authToken
+			icUser.authToken	= obj.auth_token
 			icUser.store()
+
+			return icUser
 		}
 
 		icUser.clear = function(){
@@ -109,7 +111,7 @@ angular.module('icApi', [])
 							data:				method == 'GET' ? undefined : data,
 							headers:			{
 													'Accept':			'application/json',
-													'Authorization':	icUser.authToken
+													'Auth-Token':		icUser.authToken
 												},
 							paramSerializer: 	'$httpParamSerializerJQLike'
 						})
@@ -119,7 +121,7 @@ angular.module('icApi', [])
 							}, 
 							function(result){
 								if(result.status == 305){
-									$rootScope.$broadcast('loginRequired', 'Acces denied')
+									$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
 								}
 								return $q.reject(result)
 							}
@@ -127,9 +129,10 @@ angular.module('icApi', [])
 
 			}
 
-			icApi.get 	= function(path, data){ return icApi.call('GET', 	path, data)}
-			icApi.put 	= function(path, data){ return icApi.call('PUT', 	path, data)}
-			icApi.post 	= function(path, data){ return icApi.call('POST',	path, data)}
+			icApi.get 		= function(path, data){ return icApi.call('GET', 	path, data)}
+			icApi.put 		= function(path, data){ return icApi.call('PUT', 	path, data)}
+			icApi.post 		= function(path, data){ return icApi.call('POST',	path, data)}
+			icApi.delete 	= function(path, data){ return icApi.call('DELETE',	path, data)}
 
 
 			icApi.getConfigData = function(){
@@ -138,17 +141,20 @@ angular.module('icApi', [])
 
 
 			icApi.login = function(username, password){
-				return 	$q.resolve({name: username, role:'editor', authToken: 'sahdkjdfhkdsfh213'})
-						// icApi.post('/login', {username: username, password: password})
-						.then(function(result){
-							icUser.set(result)
-						})
+				return 	icApi.post('/users/sessions', {username: username, password: password})
+						.then(
+							function(result){
+								return icUser.set(result.user)
+							},
+							function(result){
+								return $q.reject(result.data && result.data.error)
+							}
+						)
 			}
 
 			icApi.logout = function(){
 				console.log('logout')
-				return 	$q.resolve()
-						//icApi.get('/logout')
+				return 	icApi.delete('/users/sessions')
 						.then(function(){
 							icUser.clear()
 						})
@@ -177,6 +183,10 @@ angular.module('icApi', [])
 
 			icApi.updateItem = function(id, item_data){
 				return 	icApi.put('/items/'+id, item_data)
+			}
+
+			icApi.newItem = function(item_data){
+				return 	icApi.post('/items', item_data)
 			}
 
 

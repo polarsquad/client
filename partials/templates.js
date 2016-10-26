@@ -153,357 +153,361 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-full-item.html',
-    "<ic-unavailable ng-if =\"!loading && !item.title\"></ic-unavailable>\n" +
+    "<ic-unavailable ng-if =\"!loading && !item\"></ic-unavailable>\n" +
     "\n" +
     "<ic-spinner active = \"loading\"></ic-spinner>\n" +
     "\n" +
     "\n" +
-    "<div ng-if =\"item.title\">\n" +
     "\n" +
     "\n" +
     "\n" +
-    "	<!-- start item title -->\n" +
+    "<!-- start item title -->\n" +
     "\n" +
-    "		<h2 \n" +
-    "			class 	= \"title\"\n" +
-    "			ng-if	= \"!editMode\"\n" +
-    "		>{{ item.title }}</h2>\n" +
+    "<h2 \n" +
+    "	class 	= \"title\"\n" +
+    "	ng-if	= \"!editMode\"\n" +
+    ">{{ item.title }}</h2>\n" +
     "\n" +
-    "		<ic-item-edit\n" +
-    "			ng-if 					= \"editMode\"\n" +
-    "			ic-type 				= \"string\"\n" +
-    "			ic-label				= \"{{'INTERFACE.ITEM_TITLE' | translate}} \"\n" +
-    "			ic-key					= \"title\"\n" +
-    "			ic-item					= \"item\"\n" +
-    "			ic-translatable			= \"false\"\n" +
-    "			ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "		></ic-item-edit>\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_TITLE' | translate}} \"\n" +
+    "	ic-key					= \"title\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
     "\n" +
-    "	<!-- end item title -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start item definition -->\n" +
-    "\n" +
-    "		<h3 \n" +
-    "			class 	= \"definition\"\n" +
-    "			ng-if	= \"!editMode\"\n" +
-    "		> {{ item.definition[language] }}</h3>\n" +
-    "\n" +
-    "		\n" +
-    "		<ic-item-edit\n" +
-    "			ng-if 					= \"editMode\"\n" +
-    "			ic-type 				= \"string\"\n" +
-    "			ic-key					= \"definition\"\n" +
-    "			ic-label				= \"{{'INTERFACE.ITEM_DEFINITION' | translate}} \"\n" +
-    "			ic-item					= \"item\"\n" +
-    "			ic-translatable			= \"true\"\n" +
-    "			ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "		></ic-item-edit>\n" +
-    "\n" +
-    "	<!-- end item definition -->\n" +
+    "<!-- end item title -->\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
+    "<!-- start item definition -->\n" +
+    "\n" +
+    "<h3 \n" +
+    "	class 	= \"definition\"\n" +
+    "	ng-if	= \"!editMode\"\n" +
+    "> {{ item.definition[language] }}</h3>\n" +
     "\n" +
     "\n" +
-    "	<!-- start type -->\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-key					= \"definition\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_DEFINITION' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"true\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
     "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if					= \"editMode\"\n" +
-    "		ic-type					= \"string\"\n" +
-    "		ic-options				= \"::icConfigData['types']\"\n" +
-    "		ic-option-label			= \"option | uppercase | prepend : 'TYPES.' | translate\"\n" +
-    "		ic-key					= \"type\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_TYPE' | translate}} \"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<!-- end type -->\n" +
+    "<!-- end item definition -->\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
     "\n" +
-    "	<!-- start topic and targets groups -->\n" +
     "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if					= \"editMode\"\n" +
-    "		ic-type					= \"string\"\n" +
-    "		ic-options				= \"::icConfigData['topics']\"\n" +
-    "		ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
-    "		ic-key					= \"primaryTopic\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} \"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
+    "<!-- start type -->\n" +
     "\n" +
-    "	<div \n" +
-    "		class 	= \"topics-and-target-groups highlight\"\n" +
-    "		ng-if	= \"!editMode\"\n" +
-    "	>\n" +
-    "		<a \n" +
-    "			ng-repeat 	= \"topic in item.topics\"\n" +
-    "			class		= \"highlight\"\n" +
-    "			ng-href		= \"/#/tp/{{topic}}\"\n" +
-    "		>{{topic | uppercase | prepend : \"TOPICS.\" | translate }}</a>\n" +
-    "		<a \n" +
-    "			ng-repeat 	= \"target_group in item.targetGroups\"\n" +
-    "			class		= \"highlight\"\n" +
-    "			ng-href		= \"/#/tg/{{target_group}}\"\n" +
-    "		>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
+    "<ic-item-edit\n" +
+    "	ng-if					= \"editMode\"\n" +
+    "	ic-type					= \"string\"\n" +
+    "	ic-options				= \"::icConfigData['types']\"\n" +
+    "	ic-option-label			= \"option | uppercase | prepend : 'TYPES.' | translate\"\n" +
+    "	ic-key					= \"type\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_TYPE' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<!-- end type -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start topic and targets groups -->\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if					= \"editMode\"\n" +
+    "	ic-type					= \"string\"\n" +
+    "	ic-options				= \"::icConfigData['topics']\"\n" +
+    "	ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
+    "	ic-key					= \"primaryTopic\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<div \n" +
+    "	class 	= \"topics-and-target-groups highlight\"\n" +
+    "	ng-if	= \"!editMode\"\n" +
+    ">\n" +
+    "	<a \n" +
+    "		ng-repeat 	= \"topic in item.topics\"\n" +
+    "		class		= \"highlight\"\n" +
+    "		ng-href		= \"/#/tp/{{topic}}\"\n" +
+    "	>{{topic | uppercase | prepend : \"TOPICS.\" | translate }}</a>\n" +
+    "	<a \n" +
+    "		ng-repeat 	= \"target_group in item.targetGroups\"\n" +
+    "		class		= \"highlight\"\n" +
+    "		ng-href		= \"/#/tg/{{target_group}}\"\n" +
+    "	>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
+    "</div>\n" +
+    "\n" +
+    "	\n" +
+    "<ic-item-edit\n" +
+    "	ng-if					= \"editMode\"\n" +
+    "	ic-type					= \"array\"\n" +
+    "	ic-options				= \"::icConfigData['topics']\"\n" +
+    "	ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
+    "	ic-key					= \"topics\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_TOPICS' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if					= \"editMode\"\n" +
+    "	ic-type					= \"array\"\n" +
+    "	ic-options				= \"::icConfigData['targetGroups']\"\n" +
+    "	ic-option-label			= \"option | uppercase | prepend : 'TARGET_GROUPS.' | translate\"\n" +
+    "	ic-key					= \"targetGroups\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- end topic and targets groups -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start image -->\n" +
+    "\n" +
+    "<img\n" +
+    "	class	= \"hero\" \n" +
+    "	ng-if 	= \"!editMode && item.imageUrl\" \n" +
+    "	ng-src 	= \"{{item.imageUrl}}\"\n" +
+    "/>\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_IMAGE' | translate}} \"\n" +
+    "	ic-key					= \"imageUrl\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<!-- end image -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start item description -->\n" +
+    "\n" +
+    "\n" +
+    "<p \n" +
+    "	ng-if 			= \"!editMode\"\n" +
+    "	ng-bind-html 	= \"item.description[language]\"\n" +
+    ">\n" +
+    "</p>\n" +
+    "\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"text\"\n" +
+    "	ic-key					= \"description\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_DESCRIPTION' | translate}} \"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"true\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<!-- end item description -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<hr/>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start adress -->\n" +
+    "\n" +
+    "<ic-info-tag\n" +
+    "	ng-if			= \"item.address && !editMode\"\n" +
+    "	ic-title 		= \"'INTERFACE.ITEM_ADDRESS' | translate\"\n" +
+    "	ic-content		= \"item.address\"\n" +
+    "	ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||'')]\"\n" +
+    "	ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
+    ">\n" +
+    "</ic-info-tag>\n" +
+    "\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_ADDRESS' | translate}} \"\n" +
+    "	ic-key					= \"address\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_ZIP' | translate}} \"\n" +
+    "	ic-key					= \"zip\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{'INTERFACE.ITEM_LOCATION' | translate}} \"\n" +
+    "	ic-key					= \"location\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- end address -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start geo coordinates -->\n" +
+    "\n" +
+    "<ic-info-tag\n" +
+    "	ng-if			= \"item.longitude && item.latitude && !editMode\"\n" +
+    "	ic-title 		= \"'INTERFACE.ITEM_GEO_COORDINATES' | translate\"\n" +
+    "	ic-content		= \"item.longitude + '/' +item.latitude\"\n" +
+    "	ic-icon			= \"'geo_coordinates'| icIcon : 'item' : 'black'\"\n" +
+    "	ic-link			= \"'https://www.openstreetmap.org/#map=19/'\"\n" +
+    ">\n" +
+    "</ic-info-tag>\n" +
+    "\n" +
+    "\n" +
+    "<!-- end geo coordinates -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- start misc -->\n" +
+    "\n" +
+    "<ic-info-tag\n" +
+    "	ng-repeat-start	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'linkedin', 'pinterest', 'price', 'maxParticipants']\"\n" +
+    "	ng-if		= \"item[key] && !editMode\"\n" +
+    "	ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_' | translate\"\n" +
+    "	ic-content	= \"item[key]\"\n" +
+    "	ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
+    "	ic-link		= \"::key | icLinkPrefix\"\n" +
+    ">\n" +
+    "</ic-info-tag>\n" +
+    "\n" +
+    "<ic-item-edit\n" +
+    "	ng-repeat-end\n" +
+    "	ng-if 					= \"editMode\"\n" +
+    "	ic-type 				= \"string\"\n" +
+    "	ic-label				= \"{{key | uppercase | prepend: 'INTERFACE.ITEM_' | translate}} \"\n" +
+    "	ic-key					= \"{{key}}\"\n" +
+    "	ic-item					= \"item\"\n" +
+    "	ic-translatable			= \"false\"\n" +
+    "	ic-allow-local-edit		= \"!item.new && icUser.can('edit')\"\n" +
+    "></ic-item-edit>\n" +
+    "\n" +
+    "\n" +
+    "<!-- end misc -->\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<ic-info-tag\n" +
+    "	ng-if			= \"item.hours.length > 0\"\n" +
+    "	ic-title 		= \"'INTERFACE.ITEM_INFO_HOURS' | translate\"\n" +
+    "	ic-extra-lines	= \"item.hours |icHours\"\n" +
+    "	ic-icon			= \"'hours'| icIcon : 'item' : 'black'\"\n" +
+    ">\n" +
+    "</ic-info-tag>\n" +
+    "\n" +
+    "\n" +
+    "<hr/>\n" +
+    "\n" +
+    "\n" +
+    "<qrcode \n" +
+    "	ng-if					=	\"!editMode\"\n" +
+    "	version					=	\"3\" \n" +
+    "	error-correction-level	=	\"M\" \n" +
+    "	size					=	\"200\" \n" +
+    "	data					=	\"{{item.id | icItemLink}}\"\n" +
+    "	ng-if					=	\"item\"\n" +
+    "	ic-toggle-overlay		=	\"qrcode\"\n" +
+    ">\n" +
+    "</qrcode>\n" +
+    "\n" +
+    "\n" +
+    "<hr/>\n" +
+    "\n" +
+    "\n" +
+    "<footer>\n" +
+    "	<div ng-if = \"saving_failed\">\n" +
+    "		{{ 'INTERFACE.SAVING_FAILED' | translate }}\n" +
     "	</div>\n" +
     "\n" +
-    "		\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if					= \"editMode\"\n" +
-    "		ic-type					= \"array\"\n" +
-    "		ic-options				= \"::icConfigData['topics']\"\n" +
-    "		ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
-    "		ic-key					= \"topics\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_TOPICS' | translate}} \"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if					= \"editMode\"\n" +
-    "		ic-type					= \"array\"\n" +
-    "		ic-options				= \"::icConfigData['targetGroups']\"\n" +
-    "		ic-option-label			= \"option | uppercase | prepend : 'TARGET_GROUPS.' | translate\"\n" +
-    "		ic-key					= \"targetGroups\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} \"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- end topic and targets groups -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start image -->\n" +
-    "\n" +
-    "	<img\n" +
-    "		class	= \"hero\" \n" +
-    "		ng-if 	= \"!editMode && item.imageUrl\" \n" +
-    "		ng-src 	= \"{{item.imageUrl}}\"\n" +
-    "	/>\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"string\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_IMAGE' | translate}} \"\n" +
-    "		ic-key					= \"imageUrl\"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<!-- end image -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start item description -->\n" +
-    "\n" +
-    "\n" +
-    "	<p \n" +
-    "		ng-if 			= \"!editMode\"\n" +
-    "		ng-bind-html 	= \"item.description[language]\"\n" +
-    "	>\n" +
-    "	</p>\n" +
-    "\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"text\"\n" +
-    "		ic-key					= \"description\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_DESCRIPTION' | translate}} \"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"true\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<!-- end item description -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<hr/>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start adress -->\n" +
-    "\n" +
-    "	<ic-info-tag\n" +
-    "		ng-if			= \"item.address && !editMode\"\n" +
-    "		ic-title 		= \"'INTERFACE.ITEM_ADDRESS' | translate\"\n" +
-    "		ic-content		= \"item.address\"\n" +
-    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||'')]\"\n" +
-    "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
-    "	>\n" +
-    "	</ic-info-tag>\n" +
-    "\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"string\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_ADDRESS' | translate}} \"\n" +
-    "		ic-key					= \"address\"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"string\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_ZIP' | translate}} \"\n" +
-    "		ic-key					= \"zip\"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"string\"\n" +
-    "		ic-label				= \"{{'INTERFACE.ITEM_LOCATION' | translate}} \"\n" +
-    "		ic-key					= \"location\"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- end address -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start geo coordinates -->\n" +
-    "\n" +
-    "	<ic-info-tag\n" +
-    "		ng-if			= \"item.longitude && item.latitude && !editMode\"\n" +
-    "		ic-title 		= \"'INTERFACE.ITEM_GEO_COORDINATES' | translate\"\n" +
-    "		ic-content		= \"item.longitude + '/' +item.latitude\"\n" +
-    "		ic-icon			= \"'geo_coordinates'| icIcon : 'item' : 'black'\"\n" +
-    "		ic-link			= \"'https://www.openstreetmap.org/#map=19/'\"\n" +
-    "	>\n" +
-    "	</ic-info-tag>\n" +
-    "\n" +
-    "\n" +
-    "	<!-- end geo coordinates -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<!-- start misc -->\n" +
-    "\n" +
-    "	<ic-info-tag\n" +
-    "		ng-repeat-start	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'linkedin', 'pinterest', 'price', 'maxParticipants']\"\n" +
-    "		ng-if		= \"item[key] && !editMode\"\n" +
-    "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_' | translate\"\n" +
-    "		ic-content	= \"item[key]\"\n" +
-    "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
-    "		ic-link		= \"::key | icLinkPrefix\"\n" +
-    "	>\n" +
-    "	</ic-info-tag>\n" +
-    "\n" +
-    "	<ic-item-edit\n" +
-    "		ng-repeat-end\n" +
-    "		ng-if 					= \"editMode\"\n" +
-    "		ic-type 				= \"string\"\n" +
-    "		ic-label				= \"{{key | uppercase | prepend: 'INTERFACE.ITEM_' | translate}} \"\n" +
-    "		ic-key					= \"{{key}}\"\n" +
-    "		ic-item					= \"item\"\n" +
-    "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"icUser.can('edit')\"\n" +
-    "	></ic-item-edit>\n" +
-    "\n" +
-    "\n" +
-    "	<!-- end misc -->\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "	<ic-info-tag\n" +
-    "		ng-if			= \"item.hours.length > 0\"\n" +
-    "		ic-title 		= \"'INTERFACE.ITEM_INFO_HOURS' | translate\"\n" +
-    "		ic-extra-lines	= \"item.hours |icHours\"\n" +
-    "		ic-icon			= \"'hours'| icIcon : 'item' : 'black'\"\n" +
-    "	>\n" +
-    "	</ic-info-tag>\n" +
-    "\n" +
-    "\n" +
-    "	<hr/>\n" +
-    "\n" +
-    "\n" +
-    "	<qrcode \n" +
-    "		ng-if					=	\"!editMode\"\n" +
-    "		version					=	\"3\" \n" +
-    "		error-correction-level	=	\"M\" \n" +
-    "		size					=	\"200\" \n" +
-    "		data					=	\"{{item.id | icItemLink}}\"\n" +
-    "		ng-if					=	\"item\"\n" +
-    "		ic-toggle-overlay		=	\"qrcode\"\n" +
-    "	>\n" +
-    "	</qrcode>\n" +
-    "\n" +
-    "\n" +
-    "	<hr/>\n" +
-    "\n" +
-    "\n" +
-    "	<footer>\n" +
-    "		<div class = \"tools\">\n" +
-    "			<a \n" +
-    "				ng-click = \"print()\"\n" +
-    "				ic-touch-me\n" +
-    "			>	\n" +
-    "				{{'INTERFACE.PRINT' | translate}}		\n" +
-    "			</a>\n" +
-    "\n" +
-    "			<a \n" +
-    "				disabled\n" +
-    "				ic-touch-me\n" +
-    "			>				\n" +
-    "				{{'INTERFACE.SHARE'	| translate}}		\n" +
-    "			</a>\n" +
-    "\n" +
-    "			<a \n" +
-    "				ic-click	= \"cancelEdit()\"\n" +
-    "				ng-show		= \"editMode\"\n" +
-    "				ic-touch-me\n" +
-    "			> {{'INTERFACE.CANCEL' | translate}} </a>\n" +
-    "\n" +
-    "			<a \n" +
-    "				ic-click	= \"edit()\"\n" +
-    "				ng-show		= \"!editMode\"\n" +
-    "				ic-touch-me\n" +
-    "			> {{'INTERFACE.EDIT' | translate}} </a>\n" +
-    "\n" +
-    "			<a \n" +
-    "				ic-click	= \"saveAll()\"\n" +
-    "				ng-show		= \"editMode\"\n" +
-    "				ic-touch-me\n" +
-    "			> {{'INTERFACE.SAVE_ALL' | translate}} </a>\n" +
-    "\n" +
-    "		</div>\n" +
-    "	</footer>\n" +
-    "</div>"
+    "	<div class = \"tools\">\n" +
+    "		<a \n" +
+    "			ng-click 	= \"print()\"\n" +
+    "			ng-show		= \"!editMode\"\n" +
+    "			ic-touch-me\n" +
+    "		>	\n" +
+    "			{{'INTERFACE.PRINT' | translate}}		\n" +
+    "		</a>\n" +
+    "\n" +
+    "		<a \n" +
+    "			disabled\n" +
+    "			ng-show		= \"!editMode\"\n" +
+    "			ic-touch-me\n" +
+    "		>				\n" +
+    "			{{'INTERFACE.SHARE'	| translate}}		\n" +
+    "		</a>\n" +
+    "\n" +
+    "		<a \n" +
+    "			ic-click	= \"cancelEdit()\"\n" +
+    "			ng-show		= \"editMode\"\n" +
+    "			ic-touch-me\n" +
+    "		> {{'INTERFACE.CANCEL' | translate}} </a>\n" +
+    "\n" +
+    "		<a \n" +
+    "			ic-click	= \"edit()\"\n" +
+    "			ng-show		= \"!editMode\"\n" +
+    "			ic-touch-me\n" +
+    "		> {{'INTERFACE.EDIT' | translate}} </a>\n" +
+    "\n" +
+    "		<a \n" +
+    "			ic-click	= \"saveAll()\"\n" +
+    "			ng-show		= \"editMode\"\n" +
+    "			ic-touch-me\n" +
+    "		> {{'INTERFACE.SAVE_ALL' | translate}} </a>\n" +
+    "\n" +
+    "	</div>\n" +
+    "</footer>\n"
   );
 
 
@@ -514,8 +518,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-toggle-overlay 	= \"mainMenu\" \n" +
     "		ng-if				= \"icMenu\"\n" +
     "		ic-touch-me	\n" +
-    "	></button>\n" +
-    "	\n" +
+    "	>{{\"INTERFACE.MENU\" | translate }}</button>\n" +
     "\n" +
     "	<button\n" +
     "		type				= \"button\"\n" +
@@ -599,7 +602,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "<form \n" +
-    "	ng-submit 	= \"update()\"\n" +
+    "	ng-submit 	= \"icAllowLocalEdit && update()\"\n" +
     "	ng-if		= \"expand\"\n" +
     ">\n" +
     "\n" +
@@ -676,16 +679,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "	<button\n" +
-    "		ng-if	= \"icAllowLocalEdit\"\n" +
+    "		ng-show	= \"icAllowLocalEdit\"\n" +
     "		type 	= \"submit\"\n" +
     "	>\n" +
     "		{{ \"INTERFACE.UPDATE\" | translate }}\n" +
     "	</buton>\n" +
     "\n" +
     "	<button\n" +
-    "		ng-if		= \"icAllowLocalEdit\"\n" +
+    "		ng-show		= \"icAllowLocalEdit\"\n" +
     "		ic-click	= \"revert()\" \n" +
     "		ng-disabled	= \"value.new == value.current\"\n" +
+    "		type		= \"button\"\n" +
     "	>\n" +
     "		{{ \"INTERFACE.REVERT\" | translate }}\n" +
     "	</buton>\n" +
@@ -703,18 +707,16 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<a \n" +
     "	ng-repeat 	= \"language in ::icLanguageConfig.availableLanguages\"\n" +
     "	ng-click	= \"icLanguageConfig.currentLanguage = language\"\n" +
+    "	ng-class 	= \"{'highlight active': icLanguageConfig.currentLanguage == language}\"	\n" +
+    "	ic-touch-me	\n" +
     ">\n" +
-    "	<div \n" +
-    "		ng-class 	= \"{'highlight': icLanguageConfig.currentLanguage == language}\"		\n" +
+    "	<span \n" +
+    "		ng-if = \"icLanguageConfig.currentLanguage != language\"\n" +
+    "		class = \"translation light\"\n" +
     "	>\n" +
-    "		<span class = \"native\">{{\"LANGUAGES.\"+language.toUpperCase()+\".NATIVE\" | translate}}</span>\n" +
-    "		<span \n" +
-    "			ng-if = \"icLanguageConfig.currentLanguage != language\"\n" +
-    "			class = \"translation small light\"\n" +
-    "		>\n" +
-    "				{{\"LANGUAGES.\"+language.toUpperCase()+\".NAME\" | translate}}\n" +
-    "		</span>\n" +
-    "	</div>\n" +
+    "			{{\"LANGUAGES.\"+language.toUpperCase()+\".NAME\" | translate}}\n" +
+    "	</span>\n" +
+    "	<span class = \"native\">{{\"LANGUAGES.\"+language.toUpperCase()+\".NATIVE\" | translate}}</span>\n" +
     "</a>"
   );
 
@@ -796,7 +798,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</label>\n" +
     "\n" +
     "	<div>\n" +
-    "		<button type = \"button>\">\n" +
+    "		<button \n" +
+    "			type 		= \"button\"\n" +
+    "			ng-click 	= \"cancel()\"\n" +
+    "		>\n" +
     "			{{ 'INTERFACE.CANCEL' | translate}}\n" +
     "		</button>\n" +
     "\n" +
@@ -811,7 +816,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-main-menu.html',
     "<h2>\n" +
     "	<a\n" +
-    "		ng-href		= \"/#\"\n" +
+    "		ic-home\n" +
     "		ic-toggle-overlay \n" +
     "	>\n" +
     "	<ic-text-logo></ic-text-logo>\n" +
@@ -825,7 +830,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "<a \n" +
-    "	ng-href		= \"/#\"\n" +
+    "	ic-home\n" +
     "	ic-toggle-overlay \n" +
     "	ic-touch-me\n" +
     ">\n" +
@@ -834,7 +839,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<a \n" +
     "	ng-repeat 	= \"type in ::icConfigData.types\"\n" +
-    "	ng-href		= \"/#t/{{type}}\"\n" +
+    "	ng-href		= \"/t/{{::type}}\"\n" +
     "	ng-click 	= \"icOverlays.toggle()\" \n" +
     "	ic-touch-me\n" +
     ">\n" +
@@ -861,7 +866,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<div ng-show = \"expand.topics\">\n" +
     "	<a \n" +
     "		ng-repeat 	= \"topic in ::icConfigData.topics\"\n" +
-    "		ng-href		= \"/#tp/{{topic}}\"\n" +
+    "		ng-href		= \"/tp/{{::topic}}\"\n" +
     "		ng-click 	= \"icOverlays.toggle()\" 		\n" +
     "		ic-touch-me\n" +
     "	>\n" +
@@ -884,39 +889,60 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<a \n" +
     "	ng-if 				= \"!icUser.authToken\"\n" +
     "	ic-toggle-overlay 	= \"login\"\n" +
+    "	ic-touch-me\n" +
     ">\n" +
     "	{{'INTERFACE.LOGIN' | translate}}\n" +
     "</a>\n" +
-    "\n"
+    "\n" +
+    "\n" +
+    "<a \n" +
+    "	ng-click 		= \"icSite.addItemToPath(icItemCreation.newItem().id)\"\n" +
+    "	ic-toggle-overlay\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{ (icUser.role == 'editor' ? 'INTERFACE.NEW_ITEM' : 'INTERFACE.SUGGEST_ITEM') | translate}}\n" +
+    "</a>\n" +
+    "\n" +
+    "\n" +
+    "<a\n" +
+    "	ng-if		= \"icItemCreation.items.length > 0\"\n" +
+    "	ng-click 	= \"expand.newItems = !expand.newItems\"\n" +
+    "	ng-class	= \"{'icon-interface-arrow-down': expand.newItems, 'icon-interface-arrow-right': !expand.newItems}\"\n" +
+    "	class	 	= \"expand \"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.NEW_ITEM_LIST' | translate}}\n" +
+    "</a>\n" +
+    "\n" +
+    "<div ng-show = \"expand.newItems\">\n" +
+    "	<a\n" +
+    "		ng-repeat	= \"item in icItemCreation.items\"\n" +
+    "		ng-href		= \"{{ {item : item.id} | icAddParameters }}\"\n" +
+    "		ic-toggle-overlay\n" +
+    "		ic-touch-me\n" +
+    "	>{{item.title || item.id}}</a>\n" +
+    "</div>\n"
   );
 
 
   $templateCache.put('partials/ic-overlays.html',
-    "\n" +
-    "<ic-language-menu 		ng-class = \"{'ic-hide': !icOverlays.show.languageMenu}\" 	class = \"white right\">	</ic-language-menu>	\n" +
     "<ic-main-menu			ng-class = \"{'ic-hide': !icOverlays.show.mainMenu}\"			class = \"white left\">	</ic-main-menu>\n" +
-    "\n" +
-    "<ic-search				\n" +
-    "	ng-class 			= \"{'ic-hide':!icOverlays.show.search}\"\n" +
-    "	class 				= \"white right\"\n" +
-    "	ic-on-update 		= \"icOverlays.toggle('search')\" \n" +
-    "></ic-search>\n" +
-    "\n" +
+    "<ic-language-menu 		ng-class = \"{'ic-hide': !icOverlays.show.languageMenu}\" 	class = \"white right\">	</ic-language-menu>	\n" +
+    "<ic-sharing-menu 		ng-class = \"{'ic-hide': !icOverlays.show.sharingMenu}\" 		class = \"white right\">	</ic-sharing-menu>\n" +
     "\n" +
     "<ic-login \n" +
     "	ng-if 				= \"icOverlays.show.login\" \n" +
     "	class 				= \"white center\"\n" +
     "	ic-on-success		= \"icOverlays.toggle()\"\n" +
-    "	ic-on-failure		= \"icOverlays.toggle()\"\n" +
+    "	ic-on-cancel		= \"icOverlays.toggle()\"\n" +
     ">\n" +
     "	<div\n" +
     "		class		= \"message\" \n" +
     "		ng-repeat 	= \"message in icOverlays.messages.login\">\n" +
-    "		{{message}}\n" +
+    "		{{message | translate}}\n" +
     "	</div>\n" +
     "</ic-login>\n" +
     "\n" +
-    "<ic-sharing-menu ng-class = \"{'ic-hide': !icOverlays.show.sharingMenu}\" class = \"white right\"></ic-sharing-menu>\n" +
     "\n" +
     "\n" +
     "<div \n" +
@@ -932,7 +958,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "	</qrcode>\n" +
     "	<div>{{icSite.params.item | icItemLink}}</div>\n" +
-    "</div>\n"
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n"
   );
 
 
@@ -1000,7 +1029,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
   $templateCache.put('partials/ic-search-term.html',
     "<div ng-if	= \"icFilterConfig.searchTerm\">\n" +
-    "		<span>{{icFilterConfig.searchTerm | uppercase}}</span> ({{icSearchResults.meta['total']}})\n" +
+    "		» <span>{{icFilterConfig.searchTerm | uppercase}}</span> «\n" +
+    "		<span>({{icSearchResults.meta['total']}})</span>\n" +
     "		<button \n" +
     "			class 		= \"icon-nav-close\"\n" +
     "			ng-click 	= \"icFilterConfig.searchTerm = ''\" \n" +
@@ -1042,7 +1072,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<a \n" +
     "	ng-repeat  	= \"platform in platforms\"\n" +
-    "	ng-href		= \"::{{platform.link}}\" \n" +
+    "	ng-href		= \"{{::platform.link}}\" \n" +
     ">\n" +
     "		<span \n" +
     "			class 		= \"icon\"\n" +
@@ -1110,6 +1140,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<h2>{{'INTERFACE.CLAIM' | translate}}</h2>\n" +
     "</div>\n" +
     "\n" +
+    "\n" +
+    "\n" +
     "<div\n" +
     "	no-text-nodes \n" +
     "	class = \"tiles\"\n" +
@@ -1130,7 +1162,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	></a>\n" +
     "\n" +
     "	<a\n" +
-    "		ng-href 	= \"#/s/infopoint\"\n" +
+    "		ng-href 	= \"/s/infopoint\"\n" +
     "		ic-tile\n" +
     "		ic-title	= \"'Infopoints'\"\n" +
     "		ic-brief	= \"\"\n" +

@@ -11,13 +11,16 @@
 
 	<head>
 
+		<title>InfoCompass</title>
+
 		<base href = "/">
 		<meta charset="utf-8">		
 		<meta name="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
 
 
 
-
+		
+		<link type="text/css" rel="stylesheet" href="styles/roboto.css"/>
 		<link type="text/css" rel="stylesheet" href="styles/critical.css"/>
 
 
@@ -46,7 +49,6 @@
 												{ src: "styles/partials.css" },
 												{ src: "styles/layout.css" } ,
 												{ src: "styles/typography_and_colors.css" },
-												{ src: "styles/roboto.css" },
 												{ src: "styles/print.css", media: 'print'},
 												{ src: "styles/preload_images.css" },
 											]
@@ -185,7 +187,6 @@
 			ng-if   	= "::icAppReady"
 			ng-include 	= "'partials/ic-layout.html'"
 		></section>
-
 
 
 		<ic-overlays 

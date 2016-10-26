@@ -7,7 +7,7 @@
 
 
 <form 
-	ng-submit 	= "update()"
+	ng-submit 	= "icAllowLocalEdit && update()"
 	ng-if		= "expand"
 >
 
@@ -84,16 +84,17 @@
 
 
 	<button
-		ng-if	= "icAllowLocalEdit"
+		ng-show	= "icAllowLocalEdit"
 		type 	= "submit"
 	>
 		{{ "INTERFACE.UPDATE" | translate }}
 	</buton>
 
 	<button
-		ng-if		= "icAllowLocalEdit"
+		ng-show		= "icAllowLocalEdit"
 		ic-click	= "revert()" 
 		ng-disabled	= "value.new == value.current"
+		type		= "button"
 	>
 		{{ "INTERFACE.REVERT" | translate }}
 	</buton>

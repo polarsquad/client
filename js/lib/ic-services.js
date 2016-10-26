@@ -167,38 +167,48 @@ angular.module('icServices', [
 			 		})
 		}
 
+		function deepSearch(haystack, needle, prio){
 
-		function deepSearch(obj,needle){
 
-			if(!needle) return true
+			if(!needle) 	return true
+			if(!haystack)	return false
 
 			needle 	= 	typeof needle == 'string' 
 						?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
 						:	needle
 
-			for(var key in obj){
 
-				if(	
-					typeof obj[key] == 'object'
-					?	deepSearch(obj[key], needle)
-					:	String(obj[key]).match(needle) != null
-				){
-					return true
-				}
+			switch(typeof haystack){
+				case 'function':
+					return false
+				break;
 
+				case 'object':
+					if( prio && (prio in haystack) && deepSearch(haystack[prio], needle, prio) ) return true
+					for(var key in haystack){
+						if(key != prio && deepSearch(haystack[key], needle, prio)) return true
+					}
+				break;
+
+				default:
+					return String(haystack).match(needle) != null
+				break;
 			}
-
+	
 			return false
 		}
 
 
 		icFilterConfig.matchItem = function(item){
 
+
 			for(var key in icFilterConfig.filterBy){
 				if(!icFilterConfig.matchFilter(key, item[key], true)) return false
 			}
 
-			return	deepSearch(item, icFilterConfig.searchTerm)
+			var ds = deepSearch(item, icFilterConfig.searchTerm, 'queries')
+
+			return	ds
 		}
 
 
@@ -311,17 +321,9 @@ angular.module('icServices', [
 		}
 
 		guessLanguage()
-
-		$rootScope.$watch(
-			function(){ return icLanguageConfig.currentLanguage }, 
-			function(){
-				guessLanguage()
-
-				$translate.use(icLanguageConfig.currentLanguage)
-				$window.localStorage.setItem('language',icLanguageConfig.currentLanguage)
-				$translate.use(icLanguageConfig.currentLanguage)
-			}
-		)
+		$rootScope.$evalAsync(function(){
+			$translate.use(icLanguageConfig.currentLanguage)
+		})
 
 
 		return	icLanguageConfig
@@ -401,10 +403,10 @@ angular.module('icServices', [
 														item:	'',			// item for full view
 														t:		'',			// type filter
 														s:		'',			// search term
+														l:		'',			// language
 														so:		'',			// sorting
 														tp:		[],			// topics
 														tg:		[],			// target groups
-														ln:		'',			// language
 													},
 								activeComponents:	{
 														page:	true
@@ -504,7 +506,7 @@ angular.module('icServices', [
 		}
 
 		icSite.addLanguageParamsToPath = function(){
-			icSite.params.ln	= icLanguageConfig.currentLanguage
+			icSite.params.l	= icLanguageConfig.currentLanguage
 
 			icSite.schedulePathUpdate()
 		}
@@ -665,7 +667,6 @@ angular.module('icServices', [
 
 		//setup
 		
-		console.log('Y', location.href)
 		icSite.updateFromPath()
 
 
@@ -675,7 +676,7 @@ angular.module('icServices', [
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
-			$rootScope.$digest() 
+			//$rootScope.$digest() 
 		})
 
 		return icSite
@@ -879,15 +880,28 @@ angular.module('icServices', [
 
 				if(subkey){
 					data[e_key][e_subkey] = export_data[e_key][e_subkey]
-					return icApi.updateItem(icItem.id, data)
+					return 	icApi.updateItem(icItem.id, data)
+							.then(function(){
+								return data
+							})
 				}
 
 				if(key){
 					data[e_key] = export_data[e_key]
-					return icApi.updateItem(icItem.id, data)
+					return 	icApi.updateItem(icItem.id, data)
+							.then(function(){
+								return data
+							})
 				}
 
-				return export_data
+				return 	icItem.new
+						?	icApi.updateItem(icItem.id, export_data)
+							.then(function(item_data){
+								icItem.new = false
+								return item_data
+							})
+
+						:	icApi.newItem(export_data)
 			}
 
 			if(!!item_data) icItem.importData(item_data)
@@ -1068,7 +1082,6 @@ angular.module('icServices', [
 		}
 
 		searchResults.filterList = function(){
-
 			var searchTerm = icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,'')	
 
 			searchResults.clearFilteredList()
@@ -1151,9 +1164,9 @@ angular.module('icServices', [
 
 	'icItem',
 
-	function(icItem){
+	function icItemEdits(icItem){
 		var data 		= {},
-			icItemEdits = {}
+			icItemEdits = this
 
 		icItemEdits.open = function(id){
 			data[id] = data[id] || new icItem({id:id})
@@ -1171,7 +1184,34 @@ angular.module('icServices', [
 
 
 
+.service('icItemCreation', [
 
+	'icSearchResults',
+	'icItem',
+
+	function(icSearchResults, icItem){
+		var icItemCreation  	= this
+
+
+		icItemCreation.items 	= []
+
+
+		icItemCreation.newItem = function(){
+			var id 		= "new_"+new Date().getTime(),
+				item 	= undefined 
+
+
+			item 		= icSearchResults.storeItem({id:id})
+			item.new 	= true
+			icItemCreation.items.push(item)
+
+			return item
+		}
+
+		return icItemCreation
+	}
+
+])
 
 
 

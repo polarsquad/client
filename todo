@@ -138,17 +138,22 @@ Done:
 * (primary topic)
 
 
-Brauche:
-* Benutzer anlegen und Rollen verteilen (per config file)
-
-
 todo:
-* neuer eintrag hinzufügen
 * 'Brauche' von oben checken
-* Edits übernehmen
-* Neuer Eintrag
-* Übersetzen "INTERFACE..."
 * watch durch events ersetzen
+* Alphabetisch nach Titel sortieren
+* Nach Datum sortieren -> Moritz?
+* CALDAV
+* leerere XML response?
+* item edits bequemer machen tab index
+* revert shcikt daten ab! sollte nicht
+* item get abfangen, wenn das item neu ist
+* POST SUGGESTION abfangen
+* Api-Fehler abfange
+* check ic-click and ng-if
+
+
+
 
 Done:
 * Website verlinken, mail verlinken 
@@ -161,11 +166,38 @@ Done:
 * !google auto translate ( braucht API-KEY )
 * html5 mode
 * back und escapete search terme
+* Übersetzen "INTERFACE..."
+
+* fixed links in overlay (#home)
+* search optimiert mit prio
+* sharing bug, Adresse wird abgeschnitten (-> cant reproduce)
+* Title: Infocompass
+* Fonts mit Sonderzeichen kommen durcheinernader -> inline-block einfügen
+* Header Icon vertical-align stimmt nicht -> fixed
+* "Menu" hinter Menu
+* Schrifthöhe in der Suche (IOS)
+* Sprachauswahl animieren
+* ontouchstart in window -> Klasse setzten auf body -> nicht zuverlässig
+* username anziegen, wenn eingeloggt
+* login POST /users/sessions {email:, password:} -> {email:, role: , token:}
+* logout DELETE /users/sessions
+* new Item -> Ablauf
+* Neuer Eintrag
+* neuer eintrag hinzufügen
+* Edits übernehmen
+* Nach nem Update Daten lokal übernehmen
+* localEdit bei neuen Items verbieten
+* FONT-weight stresst - < robto into critical
+* login cancel canceld nicht -> fixed
+
 
 Brauche:
 
 * icons für google+ und linkedin
 * icApi Ergebnisse, fehler abfangen: duplicates, auch für item.topic
+* Backend Google übersetzung
+* PGP für Jan und Stefan
+* Benutzer anlegen und Rollen verteilen (per config file)
 
 
 
@@ -178,3 +210,4 @@ Branding:
 * types, targetgrups, topic -> tags1/tags2/ category...
 * icColors
 * icons
+* Parameter konfigurierbar machen

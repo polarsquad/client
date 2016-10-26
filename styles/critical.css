@@ -32,8 +32,8 @@ ic-loading-screen{
 	font-size:				initial;
 	z-index:				999;	
 	background-color:		#fff;
-	transition-duration:	1000ms;
-	transition-timing-function: ease-in;
+	/*transition-duration:	1000ms;
+	transition-timing-function: ease-in;*/
 	box-shadow:				0 0 2rem rgba(0,0,0,0.2);
 }
 
@@ -79,11 +79,11 @@ ic-text-logo{
 }
 
 ic-text-logo :first-child{
-	font-weight:			bold !important;
+	font-weight:			500 !important;
 }
 
 ic-text-logo :last-child{
-	font-weight:			normal !important;
+	font-weight:			300 !important;
 }
 
 

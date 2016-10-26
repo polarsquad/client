@@ -24,8 +24,6 @@ angular.module("InfoCompass",[
 
 	function($rootScope, $animate, $location){
 
-		console.log('S', location.href)
-
 		$animate.enabled(false)
 
 		//$rootScope.Mock = new Mock() //todo

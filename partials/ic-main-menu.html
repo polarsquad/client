@@ -1,6 +1,6 @@
 <h2>
 	<a
-		ng-href		= "/#"
+		ic-home
 		ic-toggle-overlay 
 	>
 	<ic-text-logo></ic-text-logo>
@@ -14,7 +14,7 @@
 
 
 <a 
-	ng-href		= "/#"
+	ic-home
 	ic-toggle-overlay 
 	ic-touch-me
 >
@@ -23,7 +23,7 @@
 
 <a 
 	ng-repeat 	= "type in ::icConfigData.types"
-	ng-href		= "/#t/{{type}}"
+	ng-href		= "/t/{{::type}}"
 	ng-click 	= "icOverlays.toggle()" 
 	ic-touch-me
 >
@@ -50,7 +50,7 @@
 <div ng-show = "expand.topics">
 	<a 
 		ng-repeat 	= "topic in ::icConfigData.topics"
-		ng-href		= "/#tp/{{topic}}"
+		ng-href		= "/tp/{{::topic}}"
 		ng-click 	= "icOverlays.toggle()" 		
 		ic-touch-me
 	>
@@ -73,7 +73,36 @@
 <a 
 	ng-if 				= "!icUser.authToken"
 	ic-toggle-overlay 	= "login"
+	ic-touch-me
 >
 	{{'INTERFACE.LOGIN' | translate}}
 </a>
 
+
+<a 
+	ng-click 		= "icSite.addItemToPath(icItemCreation.newItem().id)"
+	ic-toggle-overlay
+	ic-touch-me
+>
+	{{ (icUser.role == 'editor' ? 'INTERFACE.NEW_ITEM' : 'INTERFACE.SUGGEST_ITEM') | translate}}
+</a>
+
+
+<a
+	ng-if		= "icItemCreation.items.length > 0"
+	ng-click 	= "expand.newItems = !expand.newItems"
+	ng-class	= "{'icon-interface-arrow-down': expand.newItems, 'icon-interface-arrow-right': !expand.newItems}"
+	class	 	= "expand "
+	ic-touch-me
+>
+	{{'INTERFACE.NEW_ITEM_LIST' | translate}}
+</a>
+
+<div ng-show = "expand.newItems">
+	<a
+		ng-repeat	= "item in icItemCreation.items"
+		ng-href		= "{{ {item : item.id} | icAddParameters }}"
+		ic-toggle-overlay
+		ic-touch-me
+	>{{item.title || item.id}}</a>
+</div>

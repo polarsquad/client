@@ -1,28 +1,20 @@
-
-<ic-language-menu 		ng-class = "{'ic-hide': !icOverlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
 <ic-main-menu			ng-class = "{'ic-hide': !icOverlays.show.mainMenu}"			class = "white left">	</ic-main-menu>
-
-<ic-search				
-	ng-class 			= "{'ic-hide':!icOverlays.show.search}"
-	class 				= "white right"
-	ic-on-update 		= "icOverlays.toggle('search')" 
-></ic-search>
-
+<ic-language-menu 		ng-class = "{'ic-hide': !icOverlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
+<ic-sharing-menu 		ng-class = "{'ic-hide': !icOverlays.show.sharingMenu}" 		class = "white right">	</ic-sharing-menu>
 
 <ic-login 
 	ng-if 				= "icOverlays.show.login" 
 	class 				= "white center"
 	ic-on-success		= "icOverlays.toggle()"
-	ic-on-failure		= "icOverlays.toggle()"
+	ic-on-cancel		= "icOverlays.toggle()"
 >
 	<div
 		class		= "message" 
 		ng-repeat 	= "message in icOverlays.messages.login">
-		{{message}}
+		{{message | translate}}
 	</div>
 </ic-login>
 
-<ic-sharing-menu ng-class = "{'ic-hide': !icOverlays.show.sharingMenu}" class = "white right"></ic-sharing-menu>
 
 
 <div 
@@ -39,3 +31,6 @@
 	</qrcode>
 	<div>{{icSite.params.item | icItemLink}}</div>
 </div>
+
+
+

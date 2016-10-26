@@ -432,6 +432,7 @@ angular.module('icDirectives', [
 
 
 
+
 .directive('icFullItem',[
 
 	'icSearchResults',
@@ -465,9 +466,22 @@ angular.module('icDirectives', [
 					scope.editMode = false
 				}
 
-				scope.save = function() {
-					scope.editMode = false
-					icItemEdits.upload(icId)
+				scope.saveAll = function(){
+					scope.saving_failed = false
+
+					scope.itemEdit.update()
+					.then(
+						function(item_data){
+							console.warn('TODO: scope.saveAll')
+							console.dir(item_data)
+							scope.item.importData(item_data)
+							scope.saving_failed = false
+							scope.editMode = false
+						},
+						function(){
+							scope.saving_failed = true
+						}
+					)
 				}
 
 				scope.print = function(){
@@ -476,12 +490,13 @@ angular.module('icDirectives', [
 
 
 
+
 				scope.$watch('icId', function(id){
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
+					scope.editMode	= scope.item.new
 
-					icSearchResults.downloadItem(id)
-
+					if(!scope.item.ne) icSearchResults.downloadItem(id)
 					
 				})
 
@@ -593,9 +608,10 @@ angular.module('icDirectives', [
 	'icFilterConfig',
 	'icOverlays',
 	'icUser',
-	'icApi', //Todo not nice
+	'icApi', //Todo not nice, teplates should to be able to acces api, thats weird
+	'icItemCreation',
 
-	function(icConfigData, icSite, icFilterConfig, icOverlays, icUser, icApi){
+	function(icConfigData, icSite, icFilterConfig, icOverlays, icUser, icApi, icItemCreation){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-main-menu.html',
@@ -608,9 +624,11 @@ angular.module('icDirectives', [
 				scope.icOverlays		= icOverlays
 				scope.icUser			= icUser
 
-				scope.expand = {}
+				scope.expand 	= {}
 
-				scope.logout = icApi.logout
+				scope.logout 			= icApi.logout
+				scope.icApi 			= icApi //TODO: not nice
+				scope.icItemCreation 	= icItemCreation
 			}
 		}
 	}
@@ -1833,7 +1851,6 @@ angular.module('icDirectives', [
 
 
 				element.on('click', function(e){
-					e.stopPropagation()
 					if(element[0] == e.target){
 						icOverlays.toggle(null)
 						scope.$digest()
@@ -1847,6 +1864,28 @@ angular.module('icDirectives', [
 ])
 
 
+.directive('icHome', [
+
+	'$location',
+
+	function($location){
+
+		return {
+			restrict:	"A",
+
+			link: function(scope, element){
+
+				element.on('click', function(){
+					scope.$apply(function(){
+						$location.path('/')
+					})
+				})
+
+			}
+		}
+	}
+])
+
 .directive('icToggleOverlay',[
 
 	'icOverlays',
@@ -1859,7 +1898,7 @@ angular.module('icDirectives', [
 
 				function toggle(e){
 					// e.preventDefault()
-					e.stopPropagation()
+					//e.stopPropagation()
 					icOverlays.toggle(attrs.icToggleOverlay)
 					icOverlays.$digest()					
 				}
@@ -1929,8 +1968,6 @@ angular.module('icDirectives', [
 					itemEdit
 					.update(scope.icKey, scope.icTranslatable ? icLanguageConfig.currentLanguage : undefined)
 					.then(function(item_data){
-						console.log(scope.icKey, scope.icTranslatable, icLanguageConfig.currentLanguage)
-						console.log(item_data)
 						scope.icItem.importData(item_data)
 						refreshValues()
 					})
@@ -2148,9 +2185,10 @@ angular.module('icDirectives', [
 
 .directive('icLogin',[
 
+	'$rootScope',
 	'icApi',
 
-	function(icApi){
+	function($rootScope, icApi){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-login.html',
@@ -2158,6 +2196,7 @@ angular.module('icDirectives', [
 			scope:			{
 								icOnSuccess:	'&',
 								icOnFailure:	'&',
+								icOnCancel:		'&',
 							},
 
 			link: function(scope, element){
@@ -2168,17 +2207,23 @@ angular.module('icDirectives', [
 					icApi.login(scope.username, scope.password)
 					.then(
 						function(){
-							console.log('done')
 							scope.username = ''
 							scope.password = ''
 							scope.icOnSuccess()
 						},
-						function(){
-							console.log('failed')
+						function(reason){
 							scope.icOnFailure()
+							$rootScope.$broadcast('loginRequired', reason)
 						}
 					)
 				}
+
+				scope.cancel = function(){
+					scope.username = ''
+					scope.password = ''
+					scope.icOnCancel()
+				}
+
 			}
 		}
 	}

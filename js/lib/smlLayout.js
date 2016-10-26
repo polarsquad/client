@@ -154,7 +154,6 @@ var cdL = angular.module('smlLayout', [])
 						if(smlLayout.getScrollbarWidth() != 0) $_html.addClass('scrollbar-takes-space')
 
 
-
 						$_window.on('resize', function(){ 
 							if($window.innerWidth == last_width) return null
 							$window.requestAnimationFrame(smlLayout.adjust)

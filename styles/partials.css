@@ -12,25 +12,27 @@ ic-header {
 	box-sizing:				border-box;
 	box-shadow:				0 1px 0 0 #666;
 	margin:					0 1rem;
-	line-height:			3rem;
+	line-height:			2.5rem;
 	height:					3rem;
+	padding:				0.25rem 0;
 	text-align:				right;
 }
 
 ic-header button{
 	display:				inline-block;
 	height:					2.5rem;
-	min-width:				2.5rem;
-	margin:					0.25em -0.25rem;
-	border-radius:			0;
+	margin:					0 -0.25rem;
 	background-size:		2rem;
-	background-position:	50% 50%;
+	background-position:	0.25rem 50%;
 	background-repeat:		no-repeat;
 	background-color:		transparent;
 	cursor:					pointer;
-	vertical-align:			middle;
-	border-radius:			100%;
+	vertical-align:			top;
+	border-radius:			2.5rem;
 	padding:				0;
+	padding-left:			2.25rem;
+	padding-right:			0.25rem;
+	text-align:				left;
 }
 
 
@@ -76,12 +78,12 @@ ic-search .search-term {
 
 ic-search .search-term input {
 	width:					100%;
-	padding-right:			2rem;
+	padding:				0.5rem 2rem 0.5rem 0;
 	box-sizing:				border-box;
 	border-radius:			0;
 	background:				#eee;
 	font-size:				1.2rem;
-	line-height:			2rem;
+	line-height:			1.5rem;
 	text-align:				center;
 }
 
@@ -209,7 +211,7 @@ ic-search .auto-suggest a {
 .logo h2 {
 	margin:					0;
 	white-space: 			normal;
-	font-weight:			normal;
+	font-weight:			300;
 	font-size: 				1rem;
 }
 
@@ -335,9 +337,9 @@ ic-search .auto-suggest a {
 }
 
 [ic-tile] .content .title {
-	font-weight:			bold;
+	font-weight:			500;
 	line-height:			1.2rem;
-	height:					1.2rem;
+	height:					1.5rem;
 	color:					#fff;
 	white-space: 			nowrap;
 	overflow:				hidden;
@@ -478,6 +480,7 @@ ic-search-term {
 	display:				block;
 }
 
+
 ic-search-term > div {
 	position:				relative;
 	line-height:			2rem;
@@ -486,6 +489,10 @@ ic-search-term > div {
 	color:					#3C3C3C;
 	font-weight:			500;
 	text-align:				center;
+}
+
+ic-search-term  span {
+	display:				inline-block;
 }
 
 ic-search-term button {
@@ -1047,16 +1054,37 @@ ic-overlays .expand {
 	background-repeat:		no-repeat;
 }
 
-
-ic-language-menu  a  .native {
-	display:				inline-block;
-	width:					8rem;
+ic-language-menu  a {
+	clear:					both;
 }
+
 
 ic-language-menu  a  .translation {
 	display:				inline-block;
-	width:					8rem;
+	/*width:				8rem;*/
+	float:					right;
 }
+
+ic-language-menu  a  .native {
+	display:				inline-block;
+	text-align:				center;
+	/*width:					8rem;*/
+	width:					0%;
+	transition:				width 300ms ease-out;
+}
+
+ic-language-menu  a.active  .native {
+	display:				inline-block;
+	width:					100%;
+}
+
+
+
+
+
+
+
+
 
 
 ic-overlays .qrcode {

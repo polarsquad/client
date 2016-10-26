@@ -6,16 +6,14 @@
 <a 
 	ng-repeat 	= "language in ::icLanguageConfig.availableLanguages"
 	ng-click	= "icLanguageConfig.currentLanguage = language"
+	ng-class 	= "{'highlight active': icLanguageConfig.currentLanguage == language}"	
+	ic-touch-me	
 >
-	<div 
-		ng-class 	= "{'highlight': icLanguageConfig.currentLanguage == language}"		
+	<span 
+		ng-if = "icLanguageConfig.currentLanguage != language"
+		class = "translation light"
 	>
-		<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
-		<span 
-			ng-if = "icLanguageConfig.currentLanguage != language"
-			class = "translation small light"
-		>
-				{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}
-		</span>
-	</div>
+			{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}
+	</span>
+	<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
 </a>
