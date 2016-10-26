@@ -325,6 +325,17 @@ angular.module('icServices', [
 			$translate.use(icLanguageConfig.currentLanguage)
 		})
 
+		$rootScope.$watch(
+			function(){ return icLanguageConfig.currentLanguage }, 
+			function(){
+				//guessLanguage()
+
+				$translate.use(icLanguageConfig.currentLanguage)
+				$window.localStorage.setItem('language',icLanguageConfig.currentLanguage)
+				//$translate.use(icLanguageConfig.currentLanguage)
+			}
+		)
+
 
 		return	icLanguageConfig
 	}
