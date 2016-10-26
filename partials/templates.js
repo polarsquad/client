@@ -157,7 +157,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<ic-spinner active = \"loading\"></ic-spinner>\n" +
     "\n" +
-    "\n" +
+    "<h2 ng-if = \"item.new\"> {{ 'INTERFACE.NEW_ITEM' }}</h2>\n" +
     "\n" +
     "\n" +
     "\n" +
