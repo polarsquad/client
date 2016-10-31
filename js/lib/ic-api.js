@@ -20,8 +20,9 @@ angular.module('icApi', [])
 		var icUser = this
 
 		icUser.name 		= undefined 
-		icUser.role			= 'guest'
+		icUser.role			= undefined
 		icUser.authToken	= undefined
+
 
 		if(!window.localStorage) console.warn('icUser: Browser does not support localStorage!')
 
@@ -55,14 +56,14 @@ angular.module('icApi', [])
 
 		icUser.clear = function(){
 			icUser.name 		= undefined
-			icUser.role 		= 'guest'
+			icUser.role 		= undefined
 			icUser.authToken	= undefined
 			icUser.store()
 		}
 
 		var rights = 	{
-							'guest':	[],
-							'editor':	['edit']
+							undefined:	['suggest_new_items', 'suggest_item_edits'],
+							'editor':	['add_new_items', 'edit_items']
 						}
 
 		icUser.can = function(task){

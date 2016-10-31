@@ -33,6 +33,7 @@ ic-header button{
 	padding-left:			2.25rem;
 	padding-right:			0.25rem;
 	text-align:				left;
+	font-size:				1rem;
 }
 
 
@@ -607,11 +608,11 @@ ic-full-item qrcode > *{
 
 /* full-item edit */
 
-ic-item-edit {
+ic-item-edit-property {
 	display:				block;
 }
 
-ic-item-edit h4 {
+ic-item-edit-property h4 {
 	font-size:				1.1rem !important;
 	font-weight:			400 !important;
 	line-height:			2em;
@@ -624,12 +625,12 @@ ic-item-edit h4 {
 }
 
 
-ic-item-edit form {
+ic-item-edit-property form {
 	display:				block;
 	margin-bottom:			2rem;
 }
 
-ic-item-edit form .current-value {
+ic-item-edit-property form .current-value {
 	display:				block;
 	font-size:				0.9rem;
 	opacity:				0.5;
@@ -640,11 +641,11 @@ ic-item-edit form .current-value {
 	overflow:				hidden;
 }
 
-ic-item-edit form .current-value.diff {
+ic-item-edit-property form .current-value.diff {
 	text-decoration:		line-through;
 }
 
-ic-item-edit form input {
+ic-item-edit-property form input {
 	display:				block;
 	box-sizing:				border-box;
 	background-color:		#eee;
@@ -655,8 +656,8 @@ ic-item-edit form input {
 	margin:					0.5rem 0;
 }
 
-ic-item-edit form textarea,
- ic-item-edit form [contenteditable]{
+ic-item-edit-property form textarea,
+ic-item-edit-property form [contenteditable]{
 	display:				block;
 	box-sizing:				border-box;
 	width:					100%;
@@ -670,7 +671,7 @@ ic-item-edit form textarea,
 }
 
 
-ic-item-edit form .options a{
+ic-item-edit-property form .options a{
 	display:				inline-block;
 	box-sizing:				border-box;
 	width:					50%;
@@ -690,16 +691,11 @@ ic-item-edit form .options a{
 /* ic-unavailable */
 ic-unavailable {
 	display:				block;
-	position:				absolute;
-	top:					0;
-	left:					0;
-	right:					0;
-	left:					0;
-	bottom:					0;
 	background-image:		url('/images/icon_interface_unavailable.svg');
 	background-repeat:		no-repeat;
 	background-position:	50% 50%;
 	background-size:		50% auto;
+	padding-top:			100%;
 }
 
 

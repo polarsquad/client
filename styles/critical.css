@@ -141,8 +141,7 @@ ic-spinner .background{
 
 
 
-ic-spinner .background:before,
-ic-spinner .background:after {
+ic-spinner .background:before {
 	content:				'';
 	display:				block;
 
@@ -152,19 +151,12 @@ ic-spinner .background:after {
 	width:					1em;
 	height:					1em;
 
-	background-image:		url('../images/logo.svg');
+	background-image:		url('../images/rose_grey.svg');
 	background-size:		0.725em;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
 
 	z-index:				0;
-
-	filter: 				grayscale(100%);
-	-webkit-filter: 		grayscale(100%);
-	-moz-filter: 			grayscale(100%);
-	-o-filter: 				grayscale(100%);
-	-ms-filter: 			grayscale(100%);
-
 }
 
 ic-spinner .background:after {

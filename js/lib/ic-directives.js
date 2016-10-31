@@ -440,8 +440,9 @@ angular.module('icDirectives', [
 	'icItemEdits',
 	'icConfigData',
 	'icUser',
+	'icSite', //TODO shoudln't be here
 
-	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser){
+	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser, icSite){
 
 		return {
 			restrict:		'AE',
@@ -464,6 +465,7 @@ angular.module('icDirectives', [
 
 				scope.cancelEdit = function(){
 					scope.editMode = false
+					if(scope.item.meta.state == 'new') icSite.clearItem()
 				}
 
 				scope.saveAll = function(){
@@ -472,11 +474,12 @@ angular.module('icDirectives', [
 					scope.itemEdit.update()
 					.then(
 						function(item_data){
-							console.warn('TODO: scope.saveAll')
-							console.dir(item_data)
 							scope.item.importData(item_data)
-							scope.saving_failed = false
-							scope.editMode = false
+							scope.itemEdit.importData(item_data)
+
+							scope.saving_failed	= false
+							scope.editMode		= false
+
 						},
 						function(){
 							scope.saving_failed = true
@@ -494,9 +497,17 @@ angular.module('icDirectives', [
 				scope.$watch('icId', function(id){
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
-					scope.editMode	= scope.item.new
+					scope.editMode	= scope.item.meta.state == 'new'
 
-					if(!scope.item.ne) icSearchResults.downloadItem(id)
+					if(scope.item.meta.state != 'new'){
+						icSearchResults.downloadItem(id)
+						.then(
+							null,
+							function(){
+								scope.item = undefined
+							}
+						)
+					}
 					
 				})
 
@@ -608,10 +619,10 @@ angular.module('icDirectives', [
 	'icFilterConfig',
 	'icOverlays',
 	'icUser',
-	'icApi', //Todo not nice, teplates should to be able to acces api, thats weird
-	'icItemCreation',
+	'icApi', //Todo not nice, templates should to be able to acces api, thats weird
+	'icSearchResults',
 
-	function(icConfigData, icSite, icFilterConfig, icOverlays, icUser, icApi, icItemCreation){
+	function(icConfigData, icSite, icFilterConfig, icOverlays, icUser, icApi, icSearchResults){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-main-menu.html',
@@ -628,7 +639,12 @@ angular.module('icDirectives', [
 
 				scope.logout 			= icApi.logout
 				scope.icApi 			= icApi //TODO: not nice
-				scope.icItemCreation 	= icItemCreation
+
+				scope.addNewItem = function(){
+					var item = icSearchResults.addNewItem()
+					
+					scope.newItemId = item.id
+				}
 			}
 		}
 	}
@@ -1933,12 +1949,13 @@ angular.module('icDirectives', [
 
 
 
-.directive('icItemEdit', [
+.directive('icItemEditProperty', [
 
 	'icItemEdits',
+	'icUser',
 	'icLanguageConfig',
 
-	function(icItemEdits, icLanguageConfig){
+	function(icItemEdits, icUser, icLanguageConfig){
 		return {
 			restrict:		'AE',
 			scope:			{
@@ -1949,10 +1966,9 @@ angular.module('icDirectives', [
 								icType:					"@",
 								icOptions:				"<",
 								icOptionLabel:			"&",
-								icAllowLocalEdit:		"<",
 							},
 
-			templateUrl: 	"partials/ic-item-edit-item-property.html",
+			templateUrl: 	"partials/ic-item-edit-property.html",
 
 			link: function(scope, element, attrs){
 
@@ -1962,6 +1978,8 @@ angular.module('icDirectives', [
 				scope.icLanguageConfig	= 	icLanguageConfig
 				scope.value				=	{}
 				scope.expand			=	undefined
+				scope.allowLocalEdit	= 	scope.icItem.meta.state != 'new' && icUser.can('edit_items')
+				scope.showCurrentValue	=	scope.icItem.meta.state != 'new'
 
 
 				scope.update = function(){

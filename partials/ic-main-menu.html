@@ -63,7 +63,6 @@
 	</a>
 </div>
 
-<a ng-if = "icUser.authToken"></a>
 <a 
 	ng-if 		= "icUser.authToken" 
 	class 		= "xjust"
@@ -80,14 +79,16 @@
 
 
 <a 
-	ng-click 		= "icSite.addItemToPath(icItemCreation.newItem().id)"
+	ng-click 		= "addNewItem()"
+	ng-href			= "/item/{{newItemId}}"
 	ic-toggle-overlay
 	ic-touch-me
 >
-	{{ (icUser.role == 'editor' ? 'INTERFACE.NEW_ITEM' : 'INTERFACE.SUGGEST_ITEM') | translate}}
+	<span ng-if = "icUser.can('suggest_new_items')">	{{ 'INTERFACE.SUGGEST_NEW_ITEM'	| translate}} </span>
+	<span ng-if = "icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM' 	| translate}} </span>
 </a>
 
-
+<!-- 
 <a
 	ng-if		= "icItemCreation.items.length > 0"
 	ng-click 	= "expand.newItems = !expand.newItems"
@@ -105,4 +106,4 @@
 		ic-toggle-overlay
 		ic-touch-me
 	>{{item.title || item.id}}</a>
-</div>
+</div> -->

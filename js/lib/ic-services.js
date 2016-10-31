@@ -490,7 +490,7 @@ angular.module('icServices', [
 		}
 
 
-		icSite.schedulePathUpdate = function(obj){
+		icSite.schedulePathUpdate = function(){
 
 			if(scheduledUpdate) $timeout.cancel(scheduledUpdate)
 
@@ -799,7 +799,6 @@ angular.module('icServices', [
 												facebook:		'facebook',
 												twitter:		'twitter',
 												instagram:		'instagram',
-												linkedin:		'linkedin',
 												primaryTopic:	'primary_topic',
 												address:		'address', 
 												phone:			'phone', 
@@ -831,6 +830,9 @@ angular.module('icServices', [
 			icItem.queries 		= 	[]
 
 
+			icItem.meta = 	{
+								state:		'public',
+							}
 
 			icItem.importData = function(item_data){
 
@@ -950,7 +952,7 @@ angular.module('icServices', [
 		searchResults.itemCalls 		= []
 		searchResults.filteredList		= []
 		searchResults.noMoreItems		= false
-		searchResults.meta				= undefined
+		searchResults.meta				= {}
 		searchResults.fullItemDownloads = {}
 
 
@@ -977,6 +979,17 @@ angular.module('icServices', [
 			return item
 		}
 
+		searchResults.addNewItem = function(){
+			var id 		= "new_"+new Date().getTime(),
+				item 	= undefined 
+
+
+			item 			= searchResults.storeItem({id:id})
+			item.meta.state = 'new'
+
+			return item
+		}
+
 
 		searchResults.getItem = function(id){
 			if(!id) return null
@@ -992,7 +1005,10 @@ angular.module('icServices', [
 		}
 
 
-
+		searchResults.resetMetaData = function(){
+			searchResults.meta = {}
+			return searchResults
+		}
 
 		searchResults.listLoading = function(){
 			return searchResults.listCalls.length > 0
@@ -1029,7 +1045,7 @@ angular.module('icServices', [
 										
 
 						searchResults.offset 		+= 	result.items.length
-						searchResults.meta 			= 	result.meta
+						searchResults.meta 			= 	result.meta		//TODO: dont rely on backend
 						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
 
 						if(searchResults.noMoreItems) return result
@@ -1101,7 +1117,7 @@ angular.module('icServices', [
 				searchResults.filteredList, 
 				searchResults.data
 				.filter(function(item){
-					return icFilterConfig.matchItem(item)
+					return item.meta.state != 'new' && icFilterConfig.matchItem(item)
 				})
 			)
 
@@ -1155,7 +1171,9 @@ angular.module('icServices', [
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
 					window.requestAnimationFrame(function(){
+
 						searchResults
+						.resetMetaData()
 						.filterList()
 						.download()
 					})
@@ -1192,43 +1210,6 @@ angular.module('icServices', [
 		return icItemEdits
 	}
 ])
-
-
-
-.service('icItemCreation', [
-
-	'icSearchResults',
-	'icItem',
-
-	function(icSearchResults, icItem){
-		var icItemCreation  	= this
-
-
-		icItemCreation.items 	= []
-
-
-		icItemCreation.newItem = function(){
-			var id 		= "new_"+new Date().getTime(),
-				item 	= undefined 
-
-
-			item 		= icSearchResults.storeItem({id:id})
-			item.new 	= true
-			icItemCreation.items.push(item)
-
-			return item
-		}
-
-		return icItemCreation
-	}
-
-])
-
-
-
-
-
-
 
 
 //used by icFilterConfig and icSite: (echt in icSite?)

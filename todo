@@ -178,7 +178,7 @@ Done:
 * Schrifthöhe in der Suche (IOS)
 * Sprachauswahl animieren
 * ontouchstart in window -> Klasse setzten auf body -> nicht zuverlässig
-* username anziegen, wenn eingeloggt
+* username anzeigen, wenn eingeloggt
 * login POST /users/sessions {email:, password:} -> {email:, role: , token:}
 * logout DELETE /users/sessions
 * new Item -> Ablauf
@@ -211,3 +211,27 @@ Branding:
 * icColors
 * icons
 * Parameter konfigurierbar machen
+
+
+Todo:
+
+* Sprachen anders animieren 2 Spalten
+
+* Event Date
+* Metadaten anzeigen
+* Edit-Status als Feld einbauen -> halb
+* Services auf rootscope
+* ? meta ignore type change
+
+Done:
+* Spinner svg vorbereiten
+* radio buttons
+* Pinterest und Linked In raus
+* Doppelte Linie im Menu -> fixed
+
+Brauche:
+* Moritz: Fehlerangabe detailierter {field: 'topics', reason: ''} mit liste von Reasons
+* Moritz: Meta state
+* Moritz: Item edit -> komplettes item zurück
+* new item istzustand weg
+* ? bei meta

@@ -7,7 +7,7 @@
 
 
 <form 
-	ng-submit 	= "icAllowLocalEdit && update()"
+	ng-submit 	= "allowLocalEdit && update()"
 	ng-if		= "expand"
 >
 
@@ -15,7 +15,14 @@
 	<!-- String -->	
 
 	<div ng-if	= "::icType == 'string' && !icOptions" >
-		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{value.current || ('INTERFACE.EMPTY' | translate) }}</span>	
+
+		<div 
+			ng-if 	= "showCurrentValue"
+			class 	= "current-value {{diff() ? 'diff' : ''}} "
+		>
+			{{value.current || ('INTERFACE.EMPTY' | translate) }}
+		</div>	
+
 		<input 
 			type 		= "text"
 			ng-model	= "value.new" 
@@ -23,11 +30,18 @@
 	</div>
 
 	<div ng-if = "::icType == 'string' && icOptions">
-		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.MISSING' | translate) }}</span>	
+
+		<div 
+			ng-if 	= "showCurrentValue"
+			class 	= "current-value {{diff() ? 'diff' : ''}} "
+		>
+			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.MISSING' | translate) }}
+		</div>	
+
 		<div class = "options">
 			<a 
 				ng-repeat 	= "option in ::icOptions"
-				ng-class 	= "{'icon-interface-checkbox-selected' : value.new == option , 'icon-interface-checkbox': value.new  != option}"
+				ng-class 	= "{'icon-interface-radio-selected' : value.new == option , 'icon-interface-radio': value.new  != option}"
 				ng-click	= "value.new = option"
 			>{{icOptionLabel({option: option}) }}</a>
 		</div>
@@ -43,7 +57,14 @@
 	<!-- Text -->
 
 	<div ng-if		= "::icType == 'text'">
-		<span class ="current-value {{diff() ? 'diff' : ''}} ">{{value.current || ('INTERFACE.EMPTY' | translate) }}</span>	
+
+		<div 
+			ng-if 	= "showCurrentValue"
+			class 	= "current-value {{diff() ? 'diff' : ''}} "
+		>
+			{{value.current || ('INTERFACE.EMPTY' | translate) }}
+		</div>	
+		
 		<textarea
 			ng-model	= "value.new"
 			ic-auto-grow
@@ -60,12 +81,17 @@
 	<!-- Array -->
 
 	<div ng-if	= "::icType == 'array'">
-		<span class ="current-value {{diff() ? 'diff' : ''}} ">
+
+		<div 
+			ng-if 	= "showCurrentValue"
+			class 	= "current-value {{diff() ? 'diff' : ''}} "
+		>
 			<span ng-repeat = "option in value.current">
 				{{icOptionLabel({option: option})}}{{$last ? '' : ','}}
 			</span>
 			{{value.current.length == 0 ? ('INTERFACE.EMPTY' | translate) : ''}}
-		</span>	
+		</div>	
+
 		<div class = "options">
 			<a 
 				ng-repeat 	= "option in ::icOptions"
@@ -84,14 +110,14 @@
 
 
 	<button
-		ng-show	= "icAllowLocalEdit"
+		ng-show	= "allowLocalEdit"
 		type 	= "submit"
 	>
 		{{ "INTERFACE.UPDATE" | translate }}
 	</buton>
 
 	<button
-		ng-show		= "icAllowLocalEdit"
+		ng-show		= "allowLocalEdit"
 		ic-click	= "revert()" 
 		ng-disabled	= "value.new == value.current"
 		type		= "button"

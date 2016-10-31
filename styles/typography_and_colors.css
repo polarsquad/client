@@ -69,10 +69,18 @@ hr + hr {
 }
 
 
+.iblock {
+	display:				inline-block;
+}
+
+
 .ic-touch-fade {
 	transition-duration:	400ms;			
 	transition-property:	border, background-color;
 }
+
+
+
 
 /* aligns */
 
@@ -219,6 +227,15 @@ hr + hr {
 .icon-interface-checkbox {
 	background-image:		url(/images/icon_interface_checkbox.svg);	
 }
+
+.icon-interface-radio-selected {
+	background-image:		url(/images/icon_interface_radio_selected.svg);	
+}
+
+.icon-interface-radio {
+	background-image:		url(/images/icon_interface_radio.svg);	
+}
+
 
 .icon-interface-close {
 	background-image:		url(/images/icon_interface_close.svg);	
