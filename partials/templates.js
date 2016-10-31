@@ -588,8 +588,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-info-tag.html',
     "<div class = \"icon\"><img ng-src = \"{{icIcon}}\"/></div>\n" +
     "<div class = \"title\"> {{icTitle}} </div>\n" +
-    "<div class = \"content highlight\">		\n" +
-    "	<a\n" +
+    "<div class = \"content\">		\n" +
+    "	<a \n" +
+    "		class = \"highlight\"\n" +
     "		ng-if	=	\"link\"\n" +
     "		ng-href = \"{{link}}\"\n" +
     "	>\n" +
