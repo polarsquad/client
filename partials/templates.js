@@ -758,13 +758,13 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ng-class 	= \"{'highlight active': icLanguageConfig.currentLanguage == language}\"	\n" +
     "	ic-touch-me	\n" +
     ">\n" +
+    "	<span class = \"native\">{{\"LANGUAGES.\"+language.toUpperCase()+\".NATIVE\" | translate}}</span>\n" +
     "	<span \n" +
     "		ng-if = \"icLanguageConfig.currentLanguage != language\"\n" +
     "		class = \"translation light\"\n" +
     "	>\n" +
     "			{{\"LANGUAGES.\"+language.toUpperCase()+\".NAME\" | translate}}\n" +
     "	</span>\n" +
-    "	<span class = \"native\">{{\"LANGUAGES.\"+language.toUpperCase()+\".NATIVE\" | translate}}</span>\n" +
     "</a>"
   );
 

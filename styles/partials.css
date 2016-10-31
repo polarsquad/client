@@ -1057,16 +1057,13 @@ ic-language-menu  a {
 
 ic-language-menu  a  .translation {
 	display:				inline-block;
-	/*width:				8rem;*/
-	float:					right;
+	width:					50%;
 }
 
 ic-language-menu  a  .native {
 	display:				inline-block;
-	text-align:				center;
-	/*width:					8rem;*/
-	width:					0%;
-	transition:				width 300ms ease-out;
+	width:					50%;
+	/*transition:				width 300ms ease-out;*/
 }
 
 ic-language-menu  a.active  .native {

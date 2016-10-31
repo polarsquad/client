@@ -9,11 +9,11 @@
 	ng-class 	= "{'highlight active': icLanguageConfig.currentLanguage == language}"	
 	ic-touch-me	
 >
+	<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
 	<span 
 		ng-if = "icLanguageConfig.currentLanguage != language"
 		class = "translation light"
 	>
 			{{"LANGUAGES."+language.toUpperCase()+".NAME" | translate}}
 	</span>
-	<span class = "native">{{"LANGUAGES."+language.toUpperCase()+".NATIVE" | translate}}</span>
 </a>
