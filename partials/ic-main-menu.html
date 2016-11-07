@@ -79,8 +79,7 @@
 
 
 <a 
-	ng-click 		= "addNewItem()"
-	ng-href			= "/item/{{newItemId}}"
+	ng-click 		= "addNewItem(); icSite.addItemToPath(newItemId)"
 	ic-toggle-overlay
 	ic-touch-me
 >
@@ -88,22 +87,31 @@
 	<span ng-if = "icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM' 	| translate}} </span>
 </a>
 
-<!-- 
+
+
 <a
-	ng-if		= "icItemCreation.items.length > 0"
-	ng-click 	= "expand.newItems = !expand.newItems"
-	ng-class	= "{'icon-interface-arrow-down': expand.newItems, 'icon-interface-arrow-right': !expand.newItems}"
-	class	 	= "expand "
+	ng-if	= "icUser.can('edit_items')"
+	ng-href = "/st/draft"
+	ic-toggle-overlay
 	ic-touch-me
 >
-	{{'INTERFACE.NEW_ITEM_LIST' | translate}}
+	{{'INTERFACE.DRAFT_ITEMS' | translate}}
 </a>
 
-<div ng-show = "expand.newItems">
-	<a
-		ng-repeat	= "item in icItemCreation.items"
-		ng-href		= "{{ {item : item.id} | icAddParameters }}"
-		ic-toggle-overlay
-		ic-touch-me
-	>{{item.title || item.id}}</a>
-</div> -->
+<a
+	ng-if	= "icUser.can('edit_items')"
+	ng-href = "/st/suggestion"
+	ic-toggle-overlay
+	ic-touch-me
+>
+	{{'INTERFACE.SUGGESTED_ITEMS' | translate}}
+</a>
+
+<a
+	ng-if	= "icUser.can('edit_items')"
+	ng-href = "/st/archived"
+	ic-toggle-overlay
+	ic-touch-me
+>
+	{{'INTERFACE.ARCHIVED_ITEMS' | translate}}
+</a>

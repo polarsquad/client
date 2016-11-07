@@ -23,9 +23,12 @@ a {
 
 input, 
 button, 
-button:active {
+button:active,
+button:hover {
 	display:			inline-block;
 	border:				none;	
+	background-color:	#eeeeee;
+	font-size:			1rem;
 }
 
 button {
@@ -62,6 +65,35 @@ hr {
 hr + hr {
 	display:				none;
 }
+
+
+textarea,
+form [contenteditable]{
+	display:				block;
+	box-sizing:				border-box;
+	width:					100%;
+	background-color:		#eee;
+	padding:				0.5rem 1rem;
+	margin:					0.5rem 0;
+	border:					0 none;
+	resize: 				none;
+	overflow:				hidden;
+	font-family:			Roboto, sans-serif;
+}
+
+input {
+	display:				block;
+	box-sizing:				border-box;
+	background-color:		#eee;
+	font-size:				1rem;
+	line-height:			2rem;
+	width:					100%;
+	padding:				0 1rem;
+	margin:					0.5rem 0;
+}
+
+
+
 
 
 [disabled] {

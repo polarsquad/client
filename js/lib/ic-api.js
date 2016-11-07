@@ -105,28 +105,36 @@ angular.module('icApi', [])
 
 			icApi.call = function(method, path, data){
 
-				return 	$http({
-							method: 			method,
-							url:				base.replace(/\/$/g, '')+'/'+(path.replace(/^\//g,'')),
-							params:				method == 'GET' ? data : undefined,
-							data:				method == 'GET' ? undefined : data,
-							headers:			{
-													'Accept':			'application/json',
-													'Auth-Token':		icUser.authToken
-												},
-							paramSerializer: 	'$httpParamSerializerJQLike'
-						})
-						.then(
-							function(result){
-								return result.data
-							}, 
-							function(result){
-								if(result.status == 305){
-									$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
-								}
-								return $q.reject(result)
-							}
-						)
+				var cancel_call =	 $q.defer(),
+					call		=	$http({
+										method: 			method,
+										url:				base.replace(/\/$/g, '')+'/'+(path.replace(/^\//g,'')),
+										params:				method == 'GET' ? data : undefined,
+										data:				method == 'GET' ? undefined : data,
+										headers:			{
+																'Accept':			'application/json',
+																'Auth-Token':		icUser.authToken
+															},
+										paramSerializer: 	'$httpParamSerializerJQLike',
+										timeout: 			cancel_call.promise,
+									})
+									.then(
+										function(result){
+											return result.data
+										}, 
+										function(result){
+											if(result.status == 305){
+												$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
+											}
+											return $q.reject(result.data)
+										}
+									)
+
+				call.cancel = function(){
+					cancel_call.resolve("user cancelled")
+				}
+
+				return call
 
 			}
 
@@ -188,6 +196,9 @@ angular.module('icApi', [])
 
 			icApi.newItem = function(item_data){
 				return 	icApi.post('/items', item_data)
+						.then(function(result){
+							return result.item
+						})
 			}
 
 

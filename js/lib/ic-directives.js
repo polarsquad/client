@@ -435,14 +435,16 @@ angular.module('icDirectives', [
 
 .directive('icFullItem',[
 
+	'$q',
 	'icSearchResults',
 	'icLanguageConfig',
 	'icItemEdits',
 	'icConfigData',
 	'icUser',
 	'icSite', //TODO shoudln't be here
+	'icOverlays', 
 
-	function(icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser, icSite){
+	function($q, icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser, icSite, icOverlays){
 
 		return {
 			restrict:		'AE',
@@ -458,18 +460,52 @@ angular.module('icDirectives', [
 				scope.icUser			= icUser
 
 				scope.editMode			= false
+				scope.data				= 	{
+												comment:''
+											}
 
 				scope.edit = function() {
 					scope.editMode = true
 				}
 
 				scope.cancelEdit = function(){
-					scope.editMode = false
-					if(scope.item.meta.state == 'new') icSite.clearItem()
+					if(scope.item.state == 'new'){
+						var confirm = $q.defer()
+
+						icOverlays.open('confirmationModal', 'INTERFACE.CONFIRM_CANCEL_SUGGESTION', confirm)
+
+						confirm.promise
+						.then(function(){
+							scope.editMode = false
+							icSite.clearItem()	
+						})
+					} else {
+						scope.editMode = false
+					}
+					
 				}
 
-				scope.saveAll = function(){
-					scope.saving_failed = false
+				scope.submitItemEdits = function(){
+					scope.itemEdit.update()
+					.then(
+						function(item_data){
+							scope.item.importData(item_data)
+							scope.itemEdit.importData(item_data)
+
+							scope.item.id 		= item_data.id
+							scope.itemEdit.id 	= item_data.id
+
+							scope.editMode		= false
+
+							icSite.addItemToPath(scope.item.id)
+						},
+						function(){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_NEW_ITEM')
+						}
+					)
+				}
+
+				scope.submitNewItem = function(){
 
 					scope.itemEdit.update()
 					.then(
@@ -477,15 +513,72 @@ angular.module('icDirectives', [
 							scope.item.importData(item_data)
 							scope.itemEdit.importData(item_data)
 
-							scope.saving_failed	= false
-							scope.editMode		= false
+							scope.item.id 		= item_data.id
+							scope.itemEdit.id 	= item_data.id
+
+							scope.item.state 	= 	scope.item.state == 'new'
+													?	'draft' //TODO, backend should set this
+													:	scope.item.state || 'draft'
+
+							var message = "INTERFACE_ITEM_SUBMITTED"
+
+							switch(scope.item.state){
+								case "published":	message = 'INTERFACE.ITEM_PUBLISHED'; 		break;
+								case "draft":		message = 'INTERFACE.ITEM_SAVED_AS_DRAFT'; 	break;
+							}
+
+							icOverlays.open('popup', message)
+							.finally(function(){
+								scope.editMode		= false
+								icSite.addItemToPath(scope.item.id)								
+							})
 
 						},
-						function(){
-							scope.saving_failed = true
+						function(reason){
+							var error = JSON.stringify(reason)
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_NEW_ITEM')
+							icOverlays.open('popup', error)
 						}
 					)
 				}
+
+				scope.submitItemSuggestion = function(){
+					scope.itemEdit.update(null, null, scope.data.comment)
+					.then(
+						function(){
+							icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
+							.finally(function(){
+								icSite.clearItem()
+							})
+						},
+						function(reason){
+							var error = JSON.stringify(reason)
+
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_SUGGESTION')
+							icOverlays.open('popup', error)
+						}
+					)
+				}
+
+				scope.submitEditSuggestions = function(){
+					scope.itemEdit.update(null,  null, scope.data.comment)
+					.then(
+						function(item_data){
+							icOverlays.open('popup', 'INTERFACE.EDIT_SUGGESTION_SUBMITTED')
+							.finally(function(){
+								scope.item.importData(item_data)
+								scope.itemEdit.importData(item_data)
+
+								scope.saving_failed	= false
+								scope.editMode		= false
+							})
+						},
+						function(){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDIT_SUGGESTION')
+						}
+					)
+				}
+
 
 				scope.print = function(){
 					window.print()
@@ -497,9 +590,16 @@ angular.module('icDirectives', [
 				scope.$watch('icId', function(id){
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
-					scope.editMode	= scope.item.meta.state == 'new'
 
-					if(scope.item.meta.state != 'new'){
+					if(!scope.itemEdit.state || scope.itemEdit.state == 'new'){
+						scope.itemEdit.state =	icUser.can('add_new_items')
+												?	'draft'
+												:	'suggestion'
+					}
+
+					scope.editMode	= scope.item.state == 'new'
+
+					if(scope.item.state != 'new'){
 						icSearchResults.downloadItem(id)
 						.then(
 							null,
@@ -584,6 +684,7 @@ angular.module('icDirectives', [
 					{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
 					{name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 					{name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
+					{name: 'WhatsApp',	link: 'whatsapp://send?text='+url}
 				]
 			}
 		}
@@ -650,6 +751,61 @@ angular.module('icDirectives', [
 	}
 
 ])
+
+
+.directive('icConfirmationModal', [
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:		'AE',
+			transclude:		true,
+			templateUrl:	'partials/ic-confirmation-modal.html',
+
+			link: function(scope){
+
+				scope.icOverlays = icOverlays
+
+				scope.cancel = function(){
+					icOverlays.deferred.confirmationModal.reject()
+					icOverlays.toggle('confirmationModal')
+				}
+
+				scope.confirm = function(){
+					icOverlays.deferred.confirmationModal.resolve()
+					icOverlays.toggle('confirmationModal')
+				}
+			}
+		}
+	}
+])
+
+
+.directive('icPopup', [
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:		'AE',
+			transclude:		true,
+			templateUrl:	'partials/ic-popup.html',
+
+			link: function(scope){
+
+				scope.icOverlays = icOverlays
+
+				scope.okay = function(){
+					icOverlays.toggle('popup')
+				}
+
+			}
+		}
+	}
+])
+
+
 
 
 
@@ -849,8 +1005,9 @@ angular.module('icDirectives', [
 
 	'icFilterConfig',
 	'icConfigData',
+	'icUser',
 
-	function(icFilterConfig, icConfigData){
+	function(icFilterConfig, icConfigData, icUser){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-filter-interface.html',
@@ -862,6 +1019,7 @@ angular.module('icDirectives', [
 				scope.open 				= false
 				scope.icFilterConfig 	= icFilterConfig
 				scope.icConfigData 		= icConfigData
+				scope.icUser			= icUser
 				scope.expand			= {}
 
 
@@ -869,6 +1027,7 @@ angular.module('icDirectives', [
 					scope.open 					= 'filter'
 					scope.expand.topics 		= true
 					scope.expand.targetGroups 	= true
+					scope.expand.state			= true
 				}
 
 				scope.toggleSortPanel = function(){
@@ -1978,8 +2137,8 @@ angular.module('icDirectives', [
 				scope.icLanguageConfig	= 	icLanguageConfig
 				scope.value				=	{}
 				scope.expand			=	undefined
-				scope.allowLocalEdit	= 	scope.icItem.meta.state != 'new' && icUser.can('edit_items')
-				scope.showCurrentValue	=	scope.icItem.meta.state != 'new'
+				scope.allowLocalEdit	= 	scope.icItem.state != 'new' && icUser.can('edit_items')
+				scope.showCurrentValue	=	scope.icItem.state != 'new'
 
 
 				scope.update = function(){
@@ -2072,7 +2231,7 @@ angular.module('icDirectives', [
 .filter('icItemLink',[
 	function(){
 		return function(id){
-			return location.origin+'/#/item/'+id
+			return location.origin+'/item/'+id
 		}
 	}
 ])
@@ -2139,6 +2298,17 @@ angular.module('icDirectives', [
 ])
 
 
+.filter('icDate', function(){
+	return function(timestamp){
+		if(!timestamp) return "INTERFACE.UNKNOWN"
+
+		var date = new Date(timestamp)
+
+		return String(date)
+	}
+})
+
+
 
 //TODO: remove this
 .directive('fakeScrollBump', [
@@ -2157,12 +2327,17 @@ angular.module('icDirectives', [
 						if(icSearchResults.listLoading()) 	return null
 						if(icSearchResults.noMoreItems) 	return null
 
-						if(element[0].scrollTop + 2*element[0].clientHeight <= element[0].scrollHeight) return null
-						icSearchResults
-						.download()
-						.then(function(){
-							trigger()
-						})
+						var boundry 	= element[0].scrollHeight
+
+						if(element[0].scrollTop + 2*element[0].clientHeight <= boundry) return null
+
+						if(!icSearchResults.listLoading()){
+							icSearchResults
+							.download()
+							.then(function(){
+								trigger()
+							})
+						}
 
 					})
 				}
@@ -2185,10 +2360,10 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 
-				function resize(){
+				function resize(value){
 					window.requestAnimationFrame(function(){
 						element.css('height', 'auto')
-						element.css('height', element[0].scrollHeight + 'px')
+						if(value) element.css('height', element[0].scrollHeight + 'px')
 					})
 				}
 

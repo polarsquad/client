@@ -1,8 +1,10 @@
 <ic-unavailable ng-if ="!loading && !item"></ic-unavailable>
 
 <article ng-if = "item">
-	<h2 ng-if = "item.meta.state == 'new' && icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM'		| translate }}</h2>
-	<h2 ng-if = "item.meta.state == 'new' && icUser.can('suggest_new_items')"> 	{{ 'INTERFACE.SUGGEST_NEW_ITEM'	| translate }}</h2>
+	<h2 ng-if = "item.state == 'new' && icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM'		| translate }}</h2>
+	<h2 ng-if = "item.state == 'new' && icUser.can('suggest_new_items')"> 	{{ 'INTERFACE.SUGGEST_NEW_ITEM'	| translate }}</h2>
+
+	<div ng-if = "icUser.can(edit_items)" class = "last-edit"> {{'INTERFACE.LAST_EDIT' | translate}}: {{item.lastEdit | icDate}}</div>
 
 	<ic-spinner active = "loading"></ic-spinner>
 
@@ -16,17 +18,11 @@
 
 		<span 
 			class = "iblock"
-			ng-if = "item.meta.state == 'new'"
+			ng-if = "icUser.can('edit_items') && item.state"
 		>
-			[ {{'INTERFACE.STATE_NEW' | translate}} ]
+			[ {{item.state | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate}} ]
 		</span>
 
-		<span 
-			class = "iblock"
-			ng-if = "item.meta.state == 'draft'"
-		>
-			[ {{'INTERFACE.STATE_DRAFT' | translate}} ]
-		</span>
 
 		<span class = "iblock">
 			{{ item.title }}
@@ -40,7 +36,7 @@
 		ic-key					= "title"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<!-- end item title -->
@@ -63,7 +59,7 @@
 		ic-label				= "{{'INTERFACE.ITEM_DEFINITION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<!-- end item definition -->
@@ -83,7 +79,7 @@
 		ic-key					= "type"
 		ic-label				= "{{'INTERFACE.ITEM_TYPE' | translate}} "
 		ic-item					= "item"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<!-- end type -->
@@ -102,7 +98,7 @@
 		ic-key					= "primaryTopic"
 		ic-label				= "{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} "
 		ic-item					= "item"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<div 
@@ -130,7 +126,7 @@
 		ic-key					= "topics"
 		ic-label				= "{{'INTERFACE.ITEM_TOPICS' | translate}} "
 		ic-item					= "item"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<ic-item-edit-property
@@ -141,16 +137,13 @@
 		ic-key					= "targetGroups"
 		ic-label				= "{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} "
 		ic-item					= "item"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 
 
 
 	<!-- end topic and targets groups -->
-
-
-
 
 
 
@@ -169,7 +162,7 @@
 		ic-key					= "imageUrl"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<!-- end image -->
@@ -196,7 +189,7 @@
 		ic-label				= "{{'INTERFACE.ITEM_DESCRIPTION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<!-- end item description -->
@@ -227,7 +220,7 @@
 		ic-key					= "address"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<ic-item-edit-property
@@ -237,7 +230,7 @@
 		ic-key					= "zip"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 	<ic-item-edit-property
@@ -247,7 +240,7 @@
 		ic-key					= "location"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 
@@ -273,6 +266,19 @@
 
 
 
+	<!-- star Start Date -->
+
+	<ic-item-edit-property
+		ng-if 					= "editMode"
+		ic-type 				= "string"
+		ic-label				= "{{'INTERFACE.ITEM_START_DATE' | translate}} "
+		ic-key					= "startDate"
+		ic-item					= "item"
+		ic-translatable			= "false"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
+	></ic-item-edit-property>
+
+	<!-- end Start Date -->
 
 
 
@@ -296,21 +302,45 @@
 		ic-key					= "{{key}}"
 		ic-item					= "item"
 		ic-translatable			= "false"
-		ic-allow-local-edit		= "!item.meta.state == 'new' && icUser.can('edit_items')"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
 
 	<!-- end misc -->
 
 
+	<!-- start hours -->
 
 	<ic-info-tag
-		ng-if			= "item.hours.length > 0"
+		ng-if			= "item.hours.length > 0 && !editMode"
 		ic-title 		= "'INTERFACE.ITEM_INFO_HOURS' | translate"
 		ic-extra-lines	= "item.hours |icHours"
 		ic-icon			= "'hours'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
+
+	<!-- end hours -->
+
+
+
+	<!-- start state -->
+
+	<ic-item-edit-property
+		ng-if					= "icUser.can('edit_items') && editMode"
+		ic-type					= "string"
+		ic-options				= "['draft', 'published', 'suggestion', 'archived']"
+		ic-option-label			= "option | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate"
+		ic-key					= "state"
+		ic-label				= "{{'INTERFACE.ITEM_STATE' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
+	></ic-item-edit-property>
+
+
+
+
+	<!-- end state -->
+
 
 
 	<hr/>
@@ -330,13 +360,19 @@
 
 	<hr/>
 
+	<!-- Suggestion comment -->
+
+	<h4 ng-show = "(icUser.can('suggest_new_items') || icUser.can('suggest_item_edits')) && editMode">{{ 'INTERFACE.COMMENT_SUGGESTION' | translate }}</h4>
+	<textarea
+		ng-show 	= "(icUser.can('suggest_new_items') || icUser.can('suggest_item_edits')) && editMode"
+		ng-model	= "data.comment"
+		rows		= "5"
+		ic-auto-grow
+	></textarea>
+
 </article>
 
 <footer ng-if = "item">
-	<div ng-if = "saving_failed">
-		{{ 'INTERFACE.SAVING_FAILED' | translate }}
-	</div>
-
 	<div class = "tools">
 		<a 
 			ng-click 	= "print()"
@@ -347,8 +383,8 @@
 		</a>
 
 		<a 
-			disabled
-			ng-if		= "!editMode"
+			ng-if				= "!editMode"
+			ic-toggle-overlay	= "sharingMenu"
 			ic-touch-me
 		>				
 			{{'INTERFACE.SHARE'	| translate}}		
@@ -367,11 +403,41 @@
 			ic-touch-me
 		> {{'INTERFACE.EDIT' | translate}} </a>
 
+
+
+
+
+		<!-- submit -->
+
 		<a 
-			ng-click	= "saveAll()"
-			ng-if		= "editMode"
+			ng-click	= "submitItemEdits()"
+			ng-if		= "item.state != 'new' && icUser.can('edit_items') && editMode"
 			ic-touch-me
-		> {{'INTERFACE.SAVE_ALL' | translate}} </a>
+		> {{'INTERFACE.SUBMIT_ITEM_EDITS' | translate}} </a>
+
+
+		<a 
+			ng-click	= "submitNewItem()"
+			ng-if		= "item.state == 'new' && icUser.can('add_new_items') && editMode"
+			ic-touch-me
+		> {{'INTERFACE.SUBMIT_NEW_ITEM' | translate}} </a>
+
+
+
+		<!-- Suggestion -->
+
+
+		<a 
+			ng-click	= "submitEditSuggestions()"
+			ng-if		= "item.state != 'new' && icUser.can('suggest_item_edits') && editMode"
+			ic-touch-me
+		> {{'INTERFACE.SUBMIT_EDIT_SUGGESTIONS' | translate}} </a>
+
+		<a 
+			ng-click	= "submitItemSuggestion()"
+			ng-if		= "item.state == 'new' && icUser.can('suggest_new_items') && editMode"
+			ic-touch-me
+		> {{'INTERFACE.SUBMIT_ITEM_SUGGESTION' | translate}} </a>
 
 	</div>
 </footer>

@@ -7,7 +7,7 @@
 	<polygon fill="#AAAAAA" points="36,60 48,96 60,60 48,48 				"/>
 	<polygon fill="#AAAAAA" points="0,48 36,59.999 48,48 36,36 				"/>
 	<polygon fill="#AAAAAA" points="48,0 60,36 48,47.999 36,36 				"/>
-	<polygon fill="#AAAAAA" points="96,48 59.999,60.001 48,48 59.999,36 	"/>
+	<polygon fill="#AAAAAA" points="96,48 60,60.001 48,48 60,36 			"/>
 </g>
 
 <g transform = "rotate(45, 48, 48)">

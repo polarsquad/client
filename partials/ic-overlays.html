@@ -2,6 +2,11 @@
 <ic-language-menu 		ng-class = "{'ic-hide': !icOverlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
 <ic-sharing-menu 		ng-class = "{'ic-hide': !icOverlays.show.sharingMenu}" 		class = "white right">	</ic-sharing-menu>
 
+
+<ic-confirmation-modal	ng-if = "icOverlays.show.confirmationModal" 				class = "white center">	</ic-confirmation-modal>
+<ic-popup				ng-if = "icOverlays.show.popup" 							class = "white center">	</ic-popup>
+
+
 <ic-login 
 	ng-if 				= "icOverlays.show.login" 
 	class 				= "white center"

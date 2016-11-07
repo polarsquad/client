@@ -50,32 +50,28 @@
 	class 	= "panel sort"
 	ng-if 	= "open == 'sort'" 
 >
+	<a
+		ng-click	= "icFilterConfig.reverse = !icFilterConfig.reverse" 
+		ng-class 	= "{'icon-interface-checkbox-selected' :icFilterConfig.reverse, 'icon-interface-checkbox': !icFilterConfig.reverse}"
+		ic-touch-me
+	> {{'INTERFACE.SORT_REVERSE' | translate }}</a>
+
+	<hr/>
+
 	<a 
-		ng-class 	= "{active : icSite.params.so == 'a'}"
-		class		= "disabled"
+		ng-click	= "icFilterConfig.orderBy = 'title'"
+		ng-class 	= "{'icon-interface-radio-selected' : icFilterConfig.orderBy == 'title', 'icon-interface-radio': icFilterConfig.orderBy != 'title'}"
+		ic-touch-me
 	> 
-		A-Z
+		{{'INTERFACE.SORT_TITLE' | translate}}
 	</a>
 
 	<a 
-		ng-class 	= "{active : icSite.params.so == 'n'}"
-		class 		= "disabled"
+		ng-click	= "icFilterConfig.orderBy = 'start_date'"
+		ng-class 	= "{'icon-interface-radio-selected' : icFilterConfig.orderBy == 'start_date', 'icon-interface-radio': icFilterConfig.orderBy != 'start_date'}"
+		ic-touch-me
 	> 
-		Neuste
-	</a>
-
-	<a 
-		ng-class 	= "{active : icSite.params.so == 'b'}"		
-		class 		= "disabled"
-	> 
-		Am häufigsten gemerkt
-	</a>
-
-	<a 
-		ng-class 	= "{active : icSite.params.so == 'l'}"
-		class 		= "disabled"
-	> 
-		Nähe zum Standort
+		{{'INTERFACE.SORT_DATE' | translate}}
 	</a>
 
 </div>
@@ -115,7 +111,11 @@
 		</a>
 	</div>
 
+
+
 	<hr/>
+
+
 
 	<a 
 		ng-class	= "{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}" 
@@ -142,6 +142,43 @@
 			{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}
 		</a>
 	</div>
+
+
+
+	<hr ng-if		= "icUser.can('edit_items')"/>
+
+
+
+	<a 
+		ng-if		= "icUser.can('edit_items')"
+		ng-class	= "{'icon-interface-arrow-right': !expand.state, 'icon-interface-arrow-down': expand.state}" 
+		ng-click 	= "expand.state = !expand.state"
+		ic-touch-me
+	>
+		{{"INTERFACE.ITEM_STATUS" | translate}}
+	</a>
+
+	<div ng-if = "expand.state && icUser.can('edit_items')">
+
+		<a 
+			ng-click 	= "icFilterConfig.filterBy.state = undefined" 
+			ng-class 	= "{'icon-interface-radio-selected' : !icFilterConfigfilterBy.state, 'icon-interface-radio': icFilterConfig.filterBy.state}"
+			ic-touch-me			
+		>
+			{{"INTERFACE.STATUS_ALL" | translate}}
+		</a>
+
+		<a 
+			ng-repeat 	= "state in  ['published', 'draft', 'suggestion', 'archived']"
+			ng-click 	= "icFilterConfig.filterBy.state = state" 
+			ng-class 	= "{'icon-interface-radio-selected' : icFilterConfig.filterBy.state == state, 'icon-interface-radio': icFilterConfig.filterBy.state != state}"
+			ic-touch-me			
+		>
+			{{state | uppercase | prepend: "INTERFACE.ITEM_STATUS_" |translate}}
+		</a>
+	</div>
+
+
 
 
 </div>

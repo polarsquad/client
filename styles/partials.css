@@ -407,8 +407,10 @@ ic-search-result-list .result-group {
 
 ic-search-result-list .no-more-items {
 	display:				block;
+	display:				flex;
 	text-align:				center;
 	line-height:			5rem;
+	align-items:			center;
 }
 
 ic-search-result-list .no-more-items:before,
@@ -420,6 +422,7 @@ ic-search-result-list .no-more-items:after {
 	vertical-align:			middle;
 	background-color:		#000;
 	margin:					1rem;
+	flex:					1 0 0;
 }
 
 ic-search-result-list ic-preview-item {
@@ -429,7 +432,6 @@ ic-search-result-list ic-preview-item {
 	margin:					0rem -1rem;
 	padding:				0.5rem 1rem;
 }
-
 
 ic-search-result-list ic-preview-item:active,
 ic-search-result-list ic-preview-item.active {
@@ -471,6 +473,9 @@ ic-search-result-list ic-preview-item .icon {
 	background-repeat:		no-repeat;	
 }
 
+ic-search-result-list [ic-last-added=true]{
+	background-color:		green !important;
+}
 
 
 
@@ -646,29 +651,8 @@ ic-item-edit-property form .current-value.diff {
 }
 
 ic-item-edit-property form input {
-	display:				block;
-	box-sizing:				border-box;
-	background-color:		#eee;
-	font-size:				1rem;
-	line-height:			2rem;
-	width:					100%;
-	padding:				0 1rem;
-	margin:					0.5rem 0;
 }
 
-ic-item-edit-property form textarea,
-ic-item-edit-property form [contenteditable]{
-	display:				block;
-	box-sizing:				border-box;
-	width:					100%;
-	background-color:		#eee;
-	padding:				0.5rem 1rem;
-	margin:					0.5rem 0;
-	border:					0 none;
-	resize: 				none;
-	overflow:				hidden;
-	font-family:			Roboto, sans-serif;
-}
 
 
 ic-item-edit-property form .options a{
@@ -676,10 +660,11 @@ ic-item-edit-property form .options a{
 	box-sizing:				border-box;
 	width:					50%;
 	padding:				0.5rem 0;
-	padding-left:			2rem;
+	padding-left:			2.5rem;
 	padding-right:			0.5rem;
 	background-position:	0 50%;
 	background-repeat:		no-repeat;
+	background-size:		2rem;
 	vertical-align:			middle;
 }
 
@@ -800,11 +785,15 @@ ic-filter-interface .panel > div {
 ic-filter-interface .panel a {
 	display:				block;
 	line-height:			1.2rem;
-	padding-left:			1rem;
 	padding-top:			0.4rem;
 	padding-bottom:			0.4rem;
 	cursor:					pointer;
 	
+	padding-left:			3rem;
+	background-position:	0 50%;
+	background-size:		2rem auto !important;
+	background-repeat:		no-repeat;
+
 	-webkit-user-select:	none;
 	-moz-user-select: 		none;
 	-ms-user-select: 		none;
@@ -819,15 +808,6 @@ ic-filter-interface .panel {
 ic-filter-interface .panel a.disabled {
 	text-decoration: 		line-through !important;
 }
-
-ic-filter-interface .panel.filter a{
-	padding-left:			3rem;
-	background-position:	0 50%;
-	background-size:		2rem auto !important;
-	background-repeat:		no-repeat;
-} 
-
-
 
 
 
@@ -938,7 +918,7 @@ ic-overlays.ic-hide {
 
 ic-overlays > * {
 	position:				absolute;
-	transform:				translateX(0);
+	transform:				translateX(0) translateY(0);
 	top:					0;
 	display:				block;
 	min-height:				100%;
@@ -971,9 +951,27 @@ ic-overlays > .center {
 	position:				relative;
 	display:				block;
 	margin:					5rem auto;
-	width:					20rem;
+	width:					21rem;
+	padding:				2rem;
 	height:					auto !important;
 	min-height:				0;
+}
+
+ic-overlays > .center .buttons {
+	margin-top:				2rem;
+	display:				flex;
+	text-align:				center;
+}
+
+ic-overlays > .center .buttons button {
+	display:				inline-block;
+	padding:				0 1rem;
+	flex:					1 0 0;
+	line-height:			2rem;
+}
+
+ic-overlays > .center .buttons button + button {
+	margin-left:			1rem;
 }
 
 ic-overlays > .left {
@@ -993,6 +991,12 @@ ic-overlays > .ic-hide.right {
 	opacity:				0;
 	transform:				translateX(100%);
 }
+
+ic-overlays > .ic-hide.center {
+	opacity:				0;
+	transform:				translateY(-100%);
+}
+
 
 ic-overlays.ic-hide .ic-hide {
 	display:				block !important;

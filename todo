@@ -217,21 +217,62 @@ Todo:
 
 * Sprachen anders animieren 2 Spalten
 
-* Event Date
-* Metadaten anzeigen
-* Edit-Status als Feld einbauen -> halb
-* Services auf rootscope
-* ? meta ignore type change
 
 Done:
 * Spinner svg vorbereiten
 * radio buttons
 * Pinterest und Linked In raus
 * Doppelte Linie im Menu -> fixed
+* new item istzustand weg
 
 Brauche:
 * Moritz: Fehlerangabe detailierter {field: 'topics', reason: ''} mit liste von Reasons
 * Moritz: Meta state
-* Moritz: Item edit -> komplettes item zurück
-* new item istzustand weg
-* ? bei meta
+* Moritz: Item edit -> komplettes item zurück {item:...?}
+* Moritz: SORTing in die api
+* Moritz: Wie wird sortiert, locale? -> Reihenfolge mitgeben
+* Moritz: .state
+* Moritz: .edit_date
+* Moritz: Sort params?
+* Moritz: wenn eingeloggt muss ein neues Item angelegt werden und für eingeloggte sichtbar sein
+* Moritz filter für drafts and suggestions
+
+Todo:
+
+* s.o.
+* Edit fertig machen
+* share links still broken -> nur auf server
+* new state suggestions
+* bugs im parameters system, searchterm: item
+* Filter config eigenes scope mit commits
+* Edit into url
+* Event Date
+* Services auf rootscope
+* hours
+
+
+Done:
+* share im footer aktivieren
+* ? meta ignore type change -> meta wird jetzt nicht mehr zurückgesetzt
+* ? bei meta -> gits nicht mehr
+* Sortieren A-Z, Z-A Title ->  meh -> macht das backend
+* fixed: no more items
+* keine lokale Fiöterung mehr
+* share whatsapp
+* Umbau filter/sortierung: Alle IDs mitgeben und mit denen dann filtern sortieren
+  -> eventuell array of ids merken oder reicht not modified?
+  -> backend macht alles
+* Metadaten anzeigen
+ -> last changed 
+ -> werden angezeigt, fehlt noch im backend
+* List suggestions and drafts
+ -> backend fehlt noch
+* Edit-Status als Feld einbauen
+* Filter für states
+* State wird im Titel angezeigt, wenn der user die passenden rechte hat und ein state gesetzt ist
+* im Main menu filter für drafts und suggestions
+
+STAND:
+
+delete nicht geschafft
+

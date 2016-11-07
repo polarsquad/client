@@ -1,8 +1,9 @@
 <ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 
 <a
-	ng-repeat	= "item in icSearchResults.filteredList"
-	ng-href		= "{{icHref({itemId:item.id})}}"
+	ng-repeat		= "item in icSearchResults.filteredList"
+	ng-href			= "{{icHref({itemId:item.id})}}"
+	ic-last-added 	= "{{item == icSearchResults.lastAddedItem}}" 
 >
 
 	<ic-preview-item
@@ -20,5 +21,5 @@
 	active 	= "icSearchResults.listLoading()"
 ></ic-spinner>
 
-<div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">no more items</div>
+<div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">{{'INTERFACE.NO_MORE_ITEMS' | translate}}</div>
 
