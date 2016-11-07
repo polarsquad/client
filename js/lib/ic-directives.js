@@ -590,6 +590,8 @@ angular.module('icDirectives', [
 				scope.$watch('icId', function(id){
 					scope.item 		= icSearchResults.getItem(id)
 					scope.itemEdit 	= icItemEdits.open(id)
+					
+					scope.editMode	= scope.item.state == 'new'
 
 					if(!scope.itemEdit.state || scope.itemEdit.state == 'new'){
 						scope.itemEdit.state =	icUser.can('add_new_items')
@@ -597,7 +599,6 @@ angular.module('icDirectives', [
 												:	'suggestion'
 					}
 
-					scope.editMode	= scope.item.state == 'new'
 
 					if(scope.item.state != 'new'){
 						icSearchResults.downloadItem(id)

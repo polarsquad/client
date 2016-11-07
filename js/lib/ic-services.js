@@ -460,6 +460,7 @@ angular.module('icServices', [
 				}
 			}
 
+
 			return result
 		}
 
@@ -541,7 +542,8 @@ angular.module('icServices', [
 		icSite.addItemToPath = function(id){
 			icSite.params.item 	= id
 			
-			
+			console.log(icSite.params)
+
 			icSite
 			.updateCompontents()
 			.schedulePathUpdate()
@@ -588,7 +590,7 @@ angular.module('icServices', [
 			icFilterConfig.filterBy.targetGroups	=	icSite.params.tg 	|| []
 			icFilterConfig.filterBy.state			=	icSite.params.st 	|| undefined
 			icFilterConfig.orderBy					=	icSite.params.so	|| undefined
-			icFilterConfig.direction				=	!!icSite.params.r	|| false
+			icFilterConfig.reverse					=	!!icSite.params.r	|| false
 
 			icFilterConfig.searchTerm				=	decodeURIComponent(icSite.params.s) || ''
 
@@ -1246,7 +1248,6 @@ angular.module('icServices', [
 		$rootScope.$watch(
 			function(){ return icFilterConfig }, 
 			function(){ 
-				console.log('df')
 				//searchResults
 				//.clearFilteredList()
 
