@@ -5,6 +5,7 @@ angular.module('InfoCompassModule',[
 	"icApi",
 	"smlLayout",
 	"ngSanitize",
+	"icInit",
 	"icServices",
 	"icDirectives",
 	"monospaced.qrcode",
@@ -56,21 +57,22 @@ angular.module('InfoCompassModule',[
 .controller('InfoCompassCtrl',[
 	
 	'$scope',
-	'icBootstrap',
+	'icInit',
 	'icSite',
 	'icFilterConfig',
 	'smlLayout',
 	'icConfigData',
-	'icLanguageConfig',
+	'icLanguages',
 	'icSearchResults',
 
 
-	function($scope, icBootstrap, icSite, icFilterConfig, smlLayout, icConfigData, icLanguageConfig, icSearchResults){
+	function($scope, icInit, icSite, icFilterConfig, smlLayout, icConfigData, icLanguages, icSearchResults){
 		$scope.icSite 			= icSite
+		$scope.icLanguages 		= icLanguages 
+		$scope.icInit			= icInit
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
 		$scope.icConfigData		= icConfigData 
 		$scope.icSearchResults	= icSearchResults
-		$scope.icLanguageConfig = icLanguageConfig
 	}
 
 ])

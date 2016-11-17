@@ -26,103 +26,6 @@ angular.module('icServices', [
 
 
 
-.service('icBootstrap',[
-
-	'$rootScope',
-	'$q',
-	'$timeout',
-	'icConfigData',
-	'icLanguageConfig',
-
-
-	function($rootScope, $q, $timeout, icConfigData, icLanguageConfig){
-
-
-		var	documentReady = $q.defer()
-
-		if(document.readyState == 'complete') {
-			$timeout(function(){ documentReady.resolve() }, 50)
-		} else {
-			document.onload = function(){
-				$timeout(function(){ documentReady.resolve() }, 50)
-			}
-		}
-
-
-
-		$rootScope.icAppReady = $q.all([
-			icConfigData.ready,
-			icLanguageConfig.ready,
-			documentReady
-		])
-	}
-])
-
-
-
-
-
-
-.service('icConfigData',[
-
-	'icApi',
-	'$q',
-
-	function(icApi, $q){
-
-		var icConfigData = 	{
-								types:	undefined,
-								topics:	undefined,
-								availableLanguages: undefined
-							}
-
-
-		icConfigData.getTypeById = function(id){
-			return icConfigData.types.filter(function(type){ return type.id == id })[0]
-		}
-
-		icConfigData.getTypeByUri = function(uri){
-			return icConfigData.types.filter(function(type){ return type.uri == uri })[0]
-		}
-
-		icConfigData.getTopicById = function(id){
-			return icConfigData.topics.filter(function(topic){ return topic.id == id })[0]
-		}
-
-		icConfigData.getTopicUri = function(uri){
-			return icConfigData.topics.filter(function(topic){ return topic.uri == uri })[0]
-		}
-
-		function unique(arr){
-			var result = []
-
-			arr.forEach(function(item){
-				if(result.indexOf(item) == -1) result.push(item)
-			})
-
-			return result
-		}
-
-		icConfigData.ready	=	icApi.getConfigData()
-								.then(
-									function(result){
-										icConfigData.types 				= unique(result.types)
-										icConfigData.topics 			= unique(result.topics)
-										icConfigData.targetGroups		= unique(result.target_groups)
-										icConfigData.availableLanguages = unique(result.langs)
-										//icConfigData.titles 			= result.titles
-									},
-									function(){
-										return $q.reject("Unable to load config data.")
-									}
-								)
-
-		return icConfigData
-	}
-])
-
-
-
 
 
 
@@ -271,109 +174,6 @@ angular.module('icServices', [
 
 
 
-.service('icLanguageConfig', [
-
-	'$window',
-	'$rootScope',
-	'$q',
-	'$translate',
-	'icConfigData',
-	'icApi',
-
-	function($window, $rootScope, $q, $translate, icConfigData, icApi){
-
-		var icLanguageConfig 			= 	{
-												availableLanguages:	undefined,
-												currentLanguage:	undefined									
-											}
-
-
-		icConfigData.ready
-		.then(function(){
-			icLanguageConfig.availableLanguages = icConfigData.availableLanguages
-		})
-
-		icLanguageConfig.ready = 	icApi.getInterfaceTranslations()
-									.catch(function(){
-										return $q.reject("Unable to load language data.")
-									})
-
-		function objectKeysToUpperCase(obj){
-			var up = {}
-
-				for(var key in obj){
-
-					up[key.toUpperCase()] = typeof obj[key] == 'object'
-											?	objectKeysToUpperCase(obj[key])
-											:	obj[key]
-				}
-
-			return up
-		}
-
-
-		icLanguageConfig.getTranslationTable = function(lang){
-			return	icLanguageConfig.ready
-					.then(function(translations){
-						return objectKeysToUpperCase(translations)[lang.toUpperCase()]
-					})
-		}
-
-
-
-		function guessLanguage(){
-			icLanguageConfig.currentLanguage =	icLanguageConfig.currentLanguage 
-												|| $window.localStorage.getItem('language') 
-												|| (icConfigData.preferredLanguages && icConfigData.preferredLanguages[0])
-												|| 'en'
-
-			
-		}
-
-		guessLanguage()
-		$rootScope.$evalAsync(function(){
-			$translate.use(icLanguageConfig.currentLanguage)
-		})
-
-		$rootScope.$watch(
-			function(){ return icLanguageConfig.currentLanguage }, 
-			function(){
-				//guessLanguage()
-
-				$translate.use(icLanguageConfig.currentLanguage)
-				$window.localStorage.setItem('language',icLanguageConfig.currentLanguage)
-				//$translate.use(icLanguageConfig.currentLanguage)
-			}
-		)
-
-
-		return	icLanguageConfig
-	}
-])
-
-.factory('icInterfaceTranslationLoader', [
-
-	'icLanguageConfig',
-
-	function(icLanguageConfig){
-		return 	function(options){
-					if(!options || !options.key) throw new Error('Couldn\'t use icInterfaceTranslationLoader since language key is given!');
-					return icLanguageConfig.getTranslationTable(options.key)
-				}
-	}
-])
-
-.config([
-	'$translateProvider',
-
-	function($translateProvider){
-		$translateProvider.useLoader('icInterfaceTranslationLoader')
-		$translateProvider.useSanitizeValueStrategy('sanitizeParameters')
-		$translateProvider.preferredLanguage('en')
-	}
-])
-
-
 
 
 
@@ -412,10 +212,10 @@ angular.module('icServices', [
 	'icApi',
 	'smlLayout',
 	'icFilterConfig',
-	'icLanguageConfig',
+	'icLanguages',
 	'icOverlays',
 
-	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguageConfig, icOverlays){
+	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays){
 		var icSite 		= 	{
 								fullItem:			false,
 								page:				'main',
@@ -534,7 +334,7 @@ angular.module('icServices', [
 		}
 
 		icSite.addLanguageParamsToPath = function(){
-			icSite.params.l	= icLanguageConfig.currentLanguage
+			icSite.params.l	= icLanguages.currentLanguage
 
 			icSite.schedulePathUpdate()
 		}
@@ -542,8 +342,6 @@ angular.module('icServices', [
 		icSite.addItemToPath = function(id){
 			icSite.params.item 	= id
 			
-			console.log(icSite.params)
-
 			icSite
 			.updateCompontents()
 			.schedulePathUpdate()
@@ -597,12 +395,12 @@ angular.module('icServices', [
 
 
 			//updateLanguage
-			if(!icLanguageConfig.currentLanguage){
-				icLanguageConfig.currentLanguage = icSite.params.ln
+			if(!icLanguages.currentLanguage){
+				icLanguages.currentLanguage = icSite.params.ln
 			}	
 
-			if(icSite.params.ln && icLanguageConfig.currentLanguage != icSite.params.ln){
-				icLanguageConfig.currentLanguage = icSite.params.ln
+			if(icSite.params.ln && icLanguages.currentLanguage != icSite.params.ln){
+				icLanguages.currentLanguage = icSite.params.ln
 				icOverlays.toggle('languageMenu', true)
 			}
 			
@@ -705,7 +503,7 @@ angular.module('icServices', [
 
 		$rootScope.$on('$locationChangeSuccess', 					icSite.updateFromPath)
 		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
-		$rootScope.$watch(function(){ return icLanguageConfig }, 	icSite.addLanguageParamsToPath, true)
+		$rootScope.$watch(function(){ return icLanguages }, 	icSite.addLanguageParamsToPath, true)
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
@@ -1038,6 +836,7 @@ angular.module('icServices', [
 			if(!stored_item){
 				var preliminary_item = {id:id}
 				stored_item = searchResults.storeItem(preliminary_item)
+				stored_item.preliminary = true
 			}
 
 			return 	stored_item					
@@ -1144,10 +943,11 @@ angular.module('icServices', [
 			return 	currentCall
 					.then(
 						function(result){
-							var item_data = result.item
+							var item_data 	= result.item,
+								item		= searchResults.storeItem(item_data)
 
+							delete item.preliminary
 
-							searchResults.storeItem(item_data)
 							searchResults.fullItemDownloads[item_data.id] = true
 						}
 					)
@@ -1276,16 +1076,25 @@ angular.module('icServices', [
 	'icItem',
 
 	function icItemEdits(icItem){
-		var data 		= {},
+		var data 		= [],
 			icItemEdits = this
 
 		icItemEdits.open = function(id){
-			data[id] = data[id] || new icItem({id:id})
-			return data[id]
+			var item = 	data.filter(function(itemEdit){
+							return itemEdit.id == id
+						})[0]
+			if(!item){
+				item = new icItem({id:id})
+				data.push(item)
+			}
+
+			return item
 		}
 
 		icItemEdits.clear = function(id){
-			data[id] = {}
+			data = 	data.filter(function(itemEdit){
+						return itemEdit.id != id
+					})
 		}
 
 

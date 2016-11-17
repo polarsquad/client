@@ -9,78 +9,6 @@ angular.module('icDirectives', [
 
 
 
-.directive('icLoadingScreen',[
-
-	'$q',
-	'$timeout',
-	'$rootScope',
-
-	function($q, $timeout){
-		return {
-			restrict:	'AE',
-			transclude:	true,
-
-			link: function(scope, element, attrs, ctrl, transclude){
-
-
-				var childScope 	= undefined,
-					unwatch		= undefined,
-					timer		= $timeout(parseInt(attrs.icMinDuration), false) 
-
-
-
-				function clear(){
-					childScope.$destroy()
-					element.remove()
-					unwatch()
-				}
-
-				transclude(function(clone, scope){
-					childScope = scope
-					element.append(clone)
-				})
-
-				unwatch = scope.$watch(attrs.icAppReady , function(appReady){ 
-
-					if(!appReady) 			return null
-					if(appReady === true) 	appReady = $q.resolve()
-
-					
-
-					appReady
-					.then(function(){
-						return timer
-					})
-					.then(function(){
-						var deferred 			= $q.defer(),
-							has_transition 		= undefined,
-							no_transition_timer = $timeout(2000, false) 
-
-						element.addClass('ic-hide')						    
-						
-						no_transition_timer
-						.then(function(){
-							deferred.resolve()
-						})
-
-						element.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function(){
-							deferred.resolve()
-						})
-
-						return deferred.promise
-					})
-					.then(clear, function(reason){
-						scope.error = reason					
-					})
-
-				})
-			}
-		}
-	}
-])
-
-
-
 /* sections: */
 
 .directive('icSectionFilter',[
@@ -88,11 +16,8 @@ angular.module('icDirectives', [
 	function(){
 		return {
 			restrict: 		"AE",
-			templateUrl:	"partials/section-filter.html",
+			templateUrl:	"partials/ic-section-filter.html",
 			scope:			{},
-
-			link: function(){
-			}
 		}
 	}
 ])
@@ -106,7 +31,7 @@ angular.module('icDirectives', [
 	function(icSite, smlLayout, icSearchResults){
 		return {
 			restrict: 		"AE",
-			templateUrl:	"partials/section-list.html",
+			templateUrl:	"partials/ic-section-list.html",
 			scope:			{
 								icShowFilter:	'<'
 							},
@@ -126,65 +51,12 @@ angular.module('icDirectives', [
 	function(icSite){
 		return {
 			restrict: 		"AE",
-			templateUrl:	"partials/section-item.html",
-
-			link: function(scope, element, attrs){
-				scope.icSite = icSite
-			}
+			templateUrl:	"partials/ic-section-item.html",
 		}
 	}
 ])
 
 
-
-
-
-
-
-
-
-
-/*header*/
-
-// .service('icHeaders', [
-
-// 	function(){
-
-// 		var icHeaders =	{
-// 							mainHeader: 	undefined,
-// 							localHeaders: 	[]
-// 						}
-
-// 		icHeaders.registerMain = function(el){
-// 			if(icHeaders.mainHeader){
-// 				console.error('icHeaders: only one main header allowed.')
-// 				return null
-// 			}
-
-// 			icHeaders.mainHeader	=	el
-
-
-// 			while(icHeaders.localHeaders.length){
-// 				var el 	= icHeaders.localHeaders.shift()
-// 				icHeaders.mainHeader.append(el)
-// 			}
-// 		}
-
-// 		icHeaders.deregisterMain = function(){
-// 			icHeaders.mainHeader = undefined
-// 		}
-
-// 		icHeaders.registerLocal = function(el){
-// 			if(icHeaders.mainHeader){
-// 				icHeaders.mainHeader.append(el)
-// 			} else {
-// 				icHeaders.localHeaders.push(el)
-// 			}
-// 		}
-
-// 		return icHeaders
-// 	}
-// ])
 
 
 
@@ -217,33 +89,6 @@ angular.module('icDirectives', [
 	}
 ])
 
-// .directive('icLocalHeader',[
-
-// 	'icHeaders',
-
-// 	function(icHeaders){
-// 		return {
-// 			restrict: 		"AE",
-// 			scope:			{},
-
-// 			link: function(scope, element, attr, ctrl, transclude){
-// 				icHeaders.registerLocal(element)
-
-// 				scope.$on('$destroy', function(){
-// 					element.remove()
-// 				})
-// 			}
-// 		}
-// 	}
-
-// ])
-
-
-
-
-
-
-
 
 
 
@@ -254,9 +99,9 @@ angular.module('icDirectives', [
 
 	'icSearchResults',
 	'icFilterConfig',
-	'icLanguageConfig',
+	'icLanguages',
 
-	function(icSearchResults, icFilterConfig, icLanguageConfig){
+	function(icSearchResults, icFilterConfig, icLanguages){
 		return {
 			restrict:		'AE',
 			templateUrl: 	'partials/ic-search-result-list.html',
@@ -277,10 +122,10 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){
-						return icLanguageConfig.currentLanguage
+						return icLanguages.currentLanguage
 					},
 					function(){
-						scope.language = icLanguageConfig.currentLanguage
+						scope.language = icLanguages.currentLanguage
 					}
 				)
 			}
@@ -437,14 +282,14 @@ angular.module('icDirectives', [
 
 	'$q',
 	'icSearchResults',
-	'icLanguageConfig',
+	'icLanguages',
 	'icItemEdits',
 	'icConfigData',
 	'icUser',
 	'icSite', //TODO shoudln't be here
 	'icOverlays', 
 
-	function($q, icSearchResults, icLanguageConfig, icItemEdits, icConfigData, icUser, icSite, icOverlays){
+	function($q, icSearchResults, icLanguages, icItemEdits, icConfigData, icUser, icSite, icOverlays){
 
 		return {
 			restrict:		'AE',
@@ -516,10 +361,6 @@ angular.module('icDirectives', [
 							scope.item.id 		= item_data.id
 							scope.itemEdit.id 	= item_data.id
 
-							scope.item.state 	= 	scope.item.state == 'new'
-													?	'draft' //TODO, backend should set this
-													:	scope.item.state || 'draft'
-
 							var message = "INTERFACE_ITEM_SUBMITTED"
 
 							switch(scope.item.state){
@@ -530,7 +371,7 @@ angular.module('icDirectives', [
 							icOverlays.open('popup', message)
 							.finally(function(){
 								scope.editMode		= false
-								icSite.addItemToPath(scope.item.id)								
+								icSite.addItemToPath(scope.item.id)	
 							})
 
 						},
@@ -605,7 +446,7 @@ angular.module('icDirectives', [
 						.then(
 							null,
 							function(){
-								scope.item = undefined
+								if(scope.item.preliminray) scope.item = undefined
 							}
 						)
 					}
@@ -624,10 +465,10 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){
-						return icLanguageConfig.currentLanguage
+						return icLanguages.currentLanguage
 					},
 					function(){
-						scope.language = icLanguageConfig.currentLanguage
+						scope.language = icLanguages.currentLanguage
 					}
 				)
 
@@ -697,16 +538,16 @@ angular.module('icDirectives', [
 
 .directive('icLanguageMenu', [
 
-	'icLanguageConfig',
+	'icLanguages',
 
-	function(icLanguageConfig){
+	function(icLanguages){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-language-menu.html',
 			scope:			{},
 
 			link: function(scope, element){				
-				scope.icLanguageConfig = icLanguageConfig
+				scope.icLanguages = icLanguages
 			}
 		}
 	}
@@ -2025,12 +1866,28 @@ angular.module('icDirectives', [
 				icOverlays.registerScope(scope)
 				scope.icOverlays = icOverlays
 
+				var body = angular.element(document.getElementsByTagName('body'))
 
-				element.on('click', function(e){
-					if(element[0] == e.target){
-						icOverlays.toggle(null)
-						scope.$digest()
-					}
+				function close(){
+					icOverlays.toggle(null)
+					scope.$digest()
+				}
+
+				function elementClose(e){
+					if(element[0] == e.target) close()					
+				}
+
+				function bodyClose(e){
+					if(e.code == 'Escape') close()
+				}
+
+
+				element.on('click',	elementClose)
+
+				body.on('keydown',	bodyClose)
+
+				scope.$on('$destroy', function(){
+					body.off(bodyClose)
 				})
 
 			}
@@ -2113,9 +1970,9 @@ angular.module('icDirectives', [
 
 	'icItemEdits',
 	'icUser',
-	'icLanguageConfig',
+	'icLanguages',
 
-	function(icItemEdits, icUser, icLanguageConfig){
+	function(icItemEdits, icUser, icLanguages){
 		return {
 			restrict:		'AE',
 			scope:			{
@@ -2135,7 +1992,7 @@ angular.module('icDirectives', [
 				var itemEdit = icItemEdits.open(scope.icItem.id)
 
 				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
-				scope.icLanguageConfig	= 	icLanguageConfig
+				scope.icLanguages	= 	icLanguages
 				scope.value				=	{}
 				scope.expand			=	undefined
 				scope.allowLocalEdit	= 	scope.icItem.state != 'new' && icUser.can('edit_items')
@@ -2144,7 +2001,7 @@ angular.module('icDirectives', [
 
 				scope.update = function(){
 					itemEdit
-					.update(scope.icKey, scope.icTranslatable ? icLanguageConfig.currentLanguage : undefined)
+					.update(scope.icKey, scope.icTranslatable ? icLanguages.currentLanguage : undefined)
 					.then(function(item_data){
 						scope.icItem.importData(item_data)
 						refreshValues()
@@ -2158,7 +2015,7 @@ angular.module('icDirectives', [
 				scope.autoTranslate = function(){
 					if(!scope.icTranslatable) console.warn('icItemEdit: field not translatable: ', scope.icKey); return null
 
-					icLanguageConfig.availableLanguages.forEach(function(language){
+					icLanguages.availableLanguages.forEach(function(language){
 						if(!scope.icItem[scope.icKey][language]) {
 							scope.icItem[scope.icKey][language] = 'googleTranslate:'
 						}						
@@ -2196,14 +2053,14 @@ angular.module('icDirectives', [
 
 					scope.value.new			= 	angular.copy(
 													scope.icTranslatable
-													?	itemEdit[scope.icKey][icLanguageConfig.currentLanguage] 
+													?	itemEdit[scope.icKey][icLanguages.currentLanguage] 
 													:	itemEdit[scope.icKey]
 												)
 
 
 					scope.value.current		= 	angular.copy(
 													scope.icTranslatable
-													?	scope.icItem[scope.icKey][icLanguageConfig.currentLanguage] 
+													?	scope.icItem[scope.icKey][icLanguages.currentLanguage] 
 													:	scope.icItem[scope.icKey]
 												)
 
@@ -2212,13 +2069,13 @@ angular.module('icDirectives', [
 					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
 				}
 
-				scope.$watch(function(){ return icLanguageConfig.currentLanguage }, refreshValues)
+				scope.$watch(function(){ return icLanguages.currentLanguage }, refreshValues)
 
 				scope.$watch('icItem[icKey]', refreshValues, true)
 
 				scope.$watch('value.new', function(){
 					if(scope.icTranslatable){
-						itemEdit[scope.icKey][icLanguageConfig.currentLanguage] = scope.value.new
+						itemEdit[scope.icKey][icLanguages.currentLanguage] = scope.value.new
 					} else {
 						itemEdit[scope.icKey] = scope.value.new
 					}

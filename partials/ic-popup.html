@@ -1,0 +1,14 @@
+<div
+	class		= "message" 
+	ng-repeat 	= "message in icOverlays.messages.popup">
+	{{message | translate}}
+</div>
+
+<div class = "buttons">
+	<button 
+		type 		= "button"
+		ng-click 	= "okay()"
+	>
+		{{ 'INTERFACE.OKAY' | translate}}
+	</button>
+</div>

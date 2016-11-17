@@ -2,24 +2,24 @@
 
 
  --><section 
-		class   =   "page"
-		ng-if   =   "icSite.show('page')"
+		class   = "page"
+		ng-if   = "icSite.show('page')"
 	>
 		<div ng-include = "icSite.pageUrl"></div>
 	</section><!--
 
 
  --><section 
-		class           =   "filter"    
-		ng-if           =   "icSite.show('filter')"
+		class	= "filter"    
+		ng-if	= "icSite.show('filter')"
 	>
 		<ic-section-filter></ic-section-filter>
 	</section><!--
 
 
  --><section 
-		class   =   "list"  
-		ng-if   =   "icSite.show('list')"
+		class   = "list"  
+		ng-if   = "icSite.show('list')"
 		fake-scroll-bump
 	>
 		<ic-section-list

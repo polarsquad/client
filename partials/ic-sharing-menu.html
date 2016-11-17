@@ -11,5 +11,5 @@
 			style		= "background-image: url({{::platform.name | icIcon : 'item' : 'black'}});"
 		>		
 		</span>
-	{{platform.name | prepend: "INTERFACE.SHARE." | translate}}
+	{{platform.name | uppercase | prepend: "INTERFACE.SHARE." | translate}}
 </a>

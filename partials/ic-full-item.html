@@ -15,17 +15,15 @@
 		class 	= "title"
 		ng-if	= "!editMode"
 	>
+		<span class = "iblock">
+			{{ item.title }}
+		</span>
 
 		<span 
 			class = "iblock"
 			ng-if = "icUser.can('edit_items') && item.state"
 		>
 			[ {{item.state | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate}} ]
-		</span>
-
-
-		<span class = "iblock">
-			{{ item.title }}
 		</span>
 	</h2>
 
@@ -90,16 +88,6 @@
 
 	<!-- start topic and targets groups -->
 
-	<ic-item-edit-property
-		ng-if					= "editMode"
-		ic-type					= "string"
-		ic-options				= "::icConfigData['topics']"
-		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
-		ic-key					= "primaryTopic"
-		ic-label				= "{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} "
-		ic-item					= "item"
-		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
-	></ic-item-edit-property>
 
 	<div 
 		class 	= "topics-and-target-groups highlight"
@@ -128,6 +116,19 @@
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
+
+
+	<ic-item-edit-property
+		ng-if					= "editMode"
+		ic-type					= "string"
+		ic-options				= "itemEdit.topics"
+		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
+		ic-key					= "primaryTopic"
+		ic-label				= "{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} "
+		ic-item					= "item"
+		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
+	></ic-item-edit-property>
+	
 
 	<ic-item-edit-property
 		ng-if					= "editMode"

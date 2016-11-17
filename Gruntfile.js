@@ -47,6 +47,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('default', ['ngtemplates', 'preload_images', 'watch']);
 
 
+
+
 	grunt.registerMultiTask('preload_images', 'Preload images with CSS2 body:after', function() {
 		
 		function clipPath(src, dest){
@@ -84,5 +86,9 @@ module.exports = function(grunt) {
 			grunt.log.writeln('File "' + file.dest + '" created.')
 		});
 	})
+
+
+
+
 
 };

@@ -272,7 +272,19 @@ Done:
 * State wird im Titel angezeigt, wenn der user die passenden rechte hat und ein state gesetzt ist
 * im Main menu filter für drafts und suggestions
 
-STAND:
+STAND:s
 
 delete nicht geschafft
+übersetzungen selber machen
 
+
+Todo:
+* translation ? 
+* Fehlermeldung ins Formular einbauen
+
+Done:
+* Status hinter title
+* ESC schließt overlays
+* status -> draft after submit
+* primary topic -> topics
+* translate 'share'?

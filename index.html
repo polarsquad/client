@@ -1,6 +1,6 @@
 <!doctype html>
 <html 
-	lang			=	"{{icLanguageConfig.currentLanguage}}" 
+	lang			=	"{{icLanguages.currentLanguage}}" 
 	ng-controller 	= 	"InfoCompassCtrl"
 	ng-class		=	"{'show-page': icSite.show('page'), 'show-list': icSite.show('list'), 'show-item': icSite.show('item')}"
 >
@@ -14,143 +14,42 @@
 		<title>InfoCompass</title>
 
 		<base href = "/">
-		<meta charset="utf-8">		
-		<meta name="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
+		<meta charset ="utf-8">		
+		<meta name ="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
 
 
 
 		
-		<link type="text/css" rel="stylesheet" href="styles/roboto.css"/>
-		<link type="text/css" rel="stylesheet" href="styles/critical.css"/>
+		<link type="text/css" rel = "stylesheet" href = "styles/roboto.css"/>
+		<link type="text/css" rel = "stylesheet" href = "styles/critical.css"/>
 
 
-		<script>
-
-			(function(){
-				var lazyLoadScripts 	= 	[
-												//"mock/mock.js",
-												// "js/lib/angular.min.js",
-												"js/lib/angular.js",
-												"js/lib/angular-sanitize.min.js",
-												"js/lib/angular-translate.min.js",
-												"js/lib/qrcode.js",
-												"js/lib/qrcode_UTF8.js",
-												"js/lib/angular-qrcode.js",
-												"js/lib/smlLayout.js",
-												"js/lib/ic-api.js",
-												"js/lib/ic-services.js",
-												"js/lib/ic-directives.js",
-												"js/lib/ic-module.js",
-												"js/app.js",
-												"partials/templates.js"
-											],
-
-					lazyLoadStyles		=	[
-												{ src: "styles/partials.css" },
-												{ src: "styles/layout.css" } ,
-												{ src: "styles/typography_and_colors.css" },
-												{ src: "styles/print.css", media: 'print'},
-												{ src: "styles/preload_images.css" },
-											]
-				
-					var numberOfStylesLoaded 	= 0,
-						icStylesLoaded			= false
-						icScriptsLoaded			= false
-
-
-					window.addEventListener('load', function(){
-
-						//styles:
-
-						lazyLoadStyles.forEach(function(style){
-							var link = document.createElement('link')
-
-							link.rel	= 'stylesheet'
-							link.href 	= style.src
-							link.media 	= style.media || 'all'
-
-							link.addEventListener('load', function(){
-								numberOfStylesLoaded ++
-
-								if(numberOfStylesLoaded == lazyLoadStyles.length){
-									icStylesLoaded = true
-									start()
-								}
-							})
-
-							document.head.appendChild(link)
-						})
-
-						//scripts:
-
-						function addScript(pos){
-							var	script = document.createElement('script')
-
-							script.src = lazyLoadScripts[pos]
-
-							script.addEventListener('load', function(){
-								if(pos < lazyLoadScripts.length-1){
-									addScript(pos+1)
-								} else {
-									icScriptsLoaded = true
-									start()
-								}
-							})
-
-							document.head.appendChild(script)
-						}
-
-						addScript(0)
-
-					})
-
-					window.addEventListener('icStylesLoaded', 	start)
-					window.addEventListener('icScriptsLoaded', 	start)
-
-					function start(){
-						if(icStylesLoaded && icScriptsLoaded){
-							angular.bootstrap(document, ['InfoCompass'])
-						}
-					}
-
-
-			})()
-
-		</script>		
+		<script src = "/js/ic-lazyload.js"></script>		
 
 	</head>
-
-
 
 
 
 	<body>
 
 
+		<!-- javascript misssing -->
 		<div id = "ic-javascript-missing">
-
 			<script id = "javascrip">
 				var el = document.getElementById('ic-javascript-missing')
 				el.parentNode.removeChild(el)
 			</script>
 			Please enable Javascript.
-
 		</div>
 
 
 
 
 
-<!-- 		<ic-loading-screen>
-			<h1><ic-text-logo><span>Info</span><span>Compass</span></ic-text-logo></h1>
-			<ic-spinner class ="active"><div class = "foreground"></div><div class = "background"></ic-spinner>
-		</ic-loading-screen>
- -->
 
-
-
+		<!-- loading screen -->
 		<ic-loading-screen 			
-			ic-app-ready	= "::icAppReady"
+			ic-ready		= "::icInit.ready"
 			ic-min-duration	= "1000"
 		>
 
@@ -171,7 +70,12 @@
 
 		</ic-loading-screen>
 
-		<header ng-if = "::icAppReady">
+
+
+
+
+		<!-- header -->
+		<header ng-if = "::icInit.ready">
 			<ic-header
 				ic-menu 		= "!icSite.params.item 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
 				ic-close-item	= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
@@ -182,18 +86,24 @@
 		</header>
 
 
+
+		<!-- content -->
 		<section 
 			id      	= "content"
-			ng-if   	= "::icAppReady"
+			ng-if   	= "::icInit.ready"
 			ng-include 	= "'partials/ic-layout.html'"
 		></section>
 
 
+
+
+		<!-- overlays -->
 		<ic-overlays 
-			ng-if       = "::icAppReady"
+			ng-if       = "::icInit.ready"
 			class		= "ic-hide"
 			ng-class    = "{'ic-hide' :!icOverlays.active()}"
 		></ic-overlays>
+
 
 	</body>
 

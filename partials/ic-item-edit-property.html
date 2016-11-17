@@ -29,7 +29,7 @@
 		></input>
 	</div>
 
-	<div ng-if = "::icType == 'string' && icOptions">
+	<div ng-if = "::icType == 'string' && icOptions != undefined">
 
 		<div 
 			ng-if 	= "showCurrentValue"
@@ -40,11 +40,14 @@
 
 		<div class = "options">
 			<a 
-				ng-repeat 	= "option in ::icOptions"
+				ng-repeat 	= "option in icOptions"
 				ng-class 	= "{'icon-interface-radio-selected' : value.new == option , 'icon-interface-radio': value.new  != option}"
 				ng-click	= "value.new = option"
 			>{{icOptionLabel({option: option}) }}</a>
+			<span ng-if = "icOptions.length == 0">{{'INTERFACE.NO_OPTIONS' | translate}}</span>
 		</div>
+
+
 
 	</div>
 
