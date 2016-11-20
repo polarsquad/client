@@ -2,22 +2,26 @@
 <ic-language-menu 		ng-class = "{'ic-hide': !icOverlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
 <ic-sharing-menu 		ng-class = "{'ic-hide': !icOverlays.show.sharingMenu}" 		class = "white right">	</ic-sharing-menu>
 
+<ic-spinner				ng-class = "{'ic-hide': !icOverlays.show.spinner}" 			active = "true">		</ic-spinner>
 
 <ic-confirmation-modal	ng-if = "icOverlays.show.confirmationModal" 				class = "white center">	</ic-confirmation-modal>
 <ic-popup				ng-if = "icOverlays.show.popup" 							class = "white center">	</ic-popup>
 
 
+
+<div 
+	ng-if		=	"icOverlays.show.about"
+	ng-include 	= 	"'partials/ic-about.html'"
+	class		=	"white center"
+>
+</div>
+
+
 <ic-login 
 	ng-if 				= "icOverlays.show.login" 
 	class 				= "white center"
-	ic-on-success		= "icOverlays.toggle()"
-	ic-on-cancel		= "icOverlays.toggle()"
 >
-	<div
-		class		= "message" 
-		ng-repeat 	= "message in icOverlays.messages.login">
-		{{message | translate}}
-	</div>
+
 </ic-login>
 
 

@@ -37,7 +37,9 @@ angular.module('icServices', [
 
 .service('icFilterConfig', [
 
-	function(){
+	'$rootScope',
+
+	function($rootScope){
 
 		var icFilterConfig = 	{
 						filterBy:	{
@@ -45,7 +47,7 @@ angular.module('icServices', [
 										topics:			[],
 										targetGroups:	[]
 									},
-						orderBy:	"", // title, start
+						orderBy:	"", // title, start_date
 						reverse:	false,
 						searchTerm: ''
 					}
@@ -165,6 +167,18 @@ angular.module('icServices', [
 		icFilterConfig.active = function(){
 			return !icFilterConfig.cleared()
 		}
+
+
+		$rootScope.$watch(
+			function(){ return icFilterConfig.filterBy.type },
+			function(){
+				icFilterConfig.orderBy	=	['services', 'events'].indexOf(icFilterConfig.filterBy.type) == -1
+											?	'title'
+											:	'start_date'
+			}
+	)
+
+
 		
 		return icFilterConfig
 
@@ -507,7 +521,6 @@ angular.module('icServices', [
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
-			//$rootScope.$digest() 
 		})
 
 		return icSite
@@ -536,7 +549,7 @@ angular.module('icServices', [
 
 
 
-		icOverlays.toggle = function(overlay_name, open){
+		icOverlays.toggle = function(overlay_name, open, leave_others_open){
 
 			if(overlay_name) {
 				icOverlays.show[overlay_name] = open !== undefined 
@@ -546,6 +559,8 @@ angular.module('icServices', [
 				//if overlay gets closed, remove all messages
 
 			}
+
+			if(leave_others_open) return this
 
 			for(var key in icOverlays.show){
 				//close all other overlays
@@ -565,8 +580,8 @@ angular.module('icServices', [
 			return this
 		}
 
-		icOverlays.open = function(overlay_name, message, deferred){
-			icOverlays.messages[overlay_name] = icOverlays.messages[overlay_name] || []
+		icOverlays.open = function(overlay_name, message, deferred, clear_messages){
+			icOverlays.messages[overlay_name] = clear_messages ? [] : (icOverlays.messages[overlay_name] || [])
 			icOverlays.deferred[overlay_name] = deferred || $q.defer()
 			
 			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
@@ -702,6 +717,12 @@ angular.module('icServices', [
 				return icItem
 			}
 
+			icItem.getExternalKey = function(internal_key){
+				return 		rawStringProperties[internal_key]
+						||	rawHashes[internal_key]
+						||	rawArrays[internal_key]
+			}		
+
 			icItem.exportData = function(){
 				var export_data = {}
 
@@ -751,6 +772,10 @@ angular.module('icServices', [
 							})
 
 						:	icApi.newItem(export_data)
+			}
+
+			icItem.delete = function(){
+				return icApi.deleteItem(icItem.id)
 			}
 
 			if(!!item_data) icItem.importData(item_data)
@@ -1070,12 +1095,47 @@ angular.module('icServices', [
 ])
 
 
-
-.service('icItemEdits', [
+.service('icItemEdit', [
 
 	'icItem',
 
-	function icItemEdits(icItem){
+	function(icItem){
+		return function icItemEdit(id){
+			var icItemEdit 	= new icItem({id:id}),
+				badFields	= []
+
+			icItemEdit.setInvalidKeys = function(external_keys){
+				badFields = []
+				for(var i in external_keys || []){
+					badFields.push(external_keys[i])
+				}
+			}
+
+			icItemEdit.isInvalidKey = function(key){
+				return badFields.indexOf(icItemEdit.getExternalKey(key)) != -1
+			}
+
+			icItemEdit.isValidKey = function(key){
+				return !icItemEdit.isInvalidKey(key)
+			}
+
+			icItemEdit.validateKey = function(key){
+				badFields = badFields.filter(function(external_key){
+								return external_key != icItemEdit.getExternalKey(key)
+							})
+			}
+
+			return icItemEdit
+		}
+	}
+])
+
+
+.service('icItemEdits', [
+
+	'icItemEdit',
+
+	function icItemEdits(icItemEdit){
 		var data 		= [],
 			icItemEdits = this
 
@@ -1084,7 +1144,7 @@ angular.module('icServices', [
 							return itemEdit.id == id
 						})[0]
 			if(!item){
-				item = new icItem({id:id})
+				item = new icItemEdit(id)
 				data.push(item)
 			}
 

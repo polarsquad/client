@@ -74,7 +74,8 @@ angular.module('icDirectives', [
 								icCloseItem:	"<",
 								icShare:		"<",
 								icPrint:		"<",
-								icLanguages:	"<"
+								icLanguages:	"<",
+								icLarge:		"<"
 							},
 
 			link: function(scope, element, attr){
@@ -330,28 +331,30 @@ angular.module('icDirectives', [
 					
 				}
 
-				scope.submitItemEdits = function(){
-					scope.itemEdit.update()
-					.then(
-						function(item_data){
-							scope.item.importData(item_data)
-							scope.itemEdit.importData(item_data)
 
-							scope.item.id 		= item_data.id
-							scope.itemEdit.id 	= item_data.id
+				function handleError(error){
+					if(error.status == 422){
+						icOverlays.open('popup', 'INTERFACE.PLEASE_CORRECT_INPUT')
+						console.warn('icFullItem: invalid data:', error.data)
+						scope.itemEdit.setInvalidKeys(error.data)
+					} else {
+						icOverlays.open('popup', 'INTERFACE.SERVER_FAULT')
+					}
 
-							scope.editMode		= false
-
-							icSite.addItemToPath(scope.item.id)
-						},
-						function(){
-							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_NEW_ITEM')
-						}
-					)
+					return $q.reject(error)
 				}
 
-				scope.submitNewItem = function(){
+				function beforeSubmission() {
+					delete scope.itemEdit.invalidFields 
+					icOverlays.open('spinner')
+				}
 
+				function afterSubmission(){
+					icOverlays.toggle(null)
+				}
+
+				scope.submitItemEdits = function(){
+					beforeSubmission()
 					scope.itemEdit.update()
 					.then(
 						function(item_data){
@@ -368,56 +371,96 @@ angular.module('icDirectives', [
 								case "draft":		message = 'INTERFACE.ITEM_SAVED_AS_DRAFT'; 	break;
 							}
 
-							icOverlays.open('popup', message)
-							.finally(function(){
-								scope.editMode		= false
-								icSite.addItemToPath(scope.item.id)	
-							})
-
+							return	icOverlays.open('popup', message)
+									.finally(function(){
+										scope.editMode		= false										
+									})
 						},
-						function(reason){
-							var error = JSON.stringify(reason)
-							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_NEW_ITEM')
-							icOverlays.open('popup', error)
+						function(error){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_EDITS')
+							return handleError(error)								
 						}
 					)
+					.finally(afterSubmission)
 				}
 
-				scope.submitItemSuggestion = function(){
-					scope.itemEdit.update(null, null, scope.data.comment)
-					.then(
-						function(){
-							icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
-							.finally(function(){
-								icSite.clearItem()
-							})
-						},
-						function(reason){
-							var error = JSON.stringify(reason)
 
-							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_SUGGESTION')
-							icOverlays.open('popup', error)
+				scope.submitNewItem = function(){
+					beforeSubmission()
+					
+					scope.itemEdit.update()
+					.then(
+						function(item_data){
+							scope.item.importData(item_data)
+							scope.itemEdit.importData(item_data)
+
+							scope.item.id 		= item_data.id
+							scope.itemEdit.id 	= item_data.id
+
+							var message = "INTERFACE_ITEM_SUBMITTED"
+
+							switch(scope.item.state){
+								case "published":	message = 'INTERFACE.ITEM_PUBLISHED'; 		break;
+								case "draft":		message = 'INTERFACE.ITEM_SAVED_AS_DRAFT'; 	break;
+							}
+
+							return	icOverlays.open('popup', message)
+									.finally(function(){
+										scope.editMode		= false
+										icSite.addItemToPath(scope.item.id)	
+									})
+
+						},
+						function(error){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_NEW_ITEM')
+							return handleError(error)
 						}
 					)
+					.finally(afterSubmission)
+
 				}
 
 				scope.submitEditSuggestions = function(){
+					beforeSubmission()
+					
 					scope.itemEdit.update(null,  null, scope.data.comment)
 					.then(
 						function(item_data){
-							icOverlays.open('popup', 'INTERFACE.EDIT_SUGGESTION_SUBMITTED')
-							.finally(function(){
-								scope.item.importData(item_data)
-								scope.itemEdit.importData(item_data)
+							return	icOverlays.open('popup', 'INTERFACE.EDIT_SUGGESTION_SUBMITTED')
+									.finally(function(){
+										scope.item.importData(item_data)
+										scope.itemEdit.importData(item_data)
 
-								scope.saving_failed	= false
-								scope.editMode		= false
-							})
+										scope.saving_failed	= false
+										scope.editMode		= false
+									})
 						},
-						function(){
-							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDIT_SUGGESTION')
+						function(error){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDIT_SUGGESTIONS')
+							return handleError(error)
 						}
 					)
+					.finally(function(){afterSubmission})
+
+				}
+
+				scope.submitItemSuggestion = function(){
+					beforeSubmission()
+					
+					scope.itemEdit.update(null, null, scope.data.comment)
+					.then(
+						function(){
+							return	icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
+									.finally(function(){
+										icSite.clearItem()
+									})
+						},
+						function(error){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_SUGGESTION')
+							return handleError(error)
+						}
+					)
+					.finally(function(){afterSubmission})
 				}
 
 
@@ -425,6 +468,24 @@ angular.module('icDirectives', [
 					window.print()
 				}
 
+				scope.delete = function(){
+					icOverlays.open('confirmationModal', 'INTERFACE.CONFIRM_DELETION')
+					.then(function(){
+						return 	scope.item.delete()
+								.then(
+									function(){
+										return 	icOverlays.open('popup', 'INTERFACE.ITEM_DELETED')
+												.finally(function(){
+													icSite.clearItem()										
+												})
+									},
+									function(){
+										return 	icOverlays.open('popup', 'INTERFACE.UNABLE_TO_DELETE_ITEM')
+									}
+								)
+					})
+					
+				}
 
 
 
@@ -923,6 +984,15 @@ angular.module('icDirectives', [
 ])
 
 
+.filter('fill', [
+	function(){
+		return function(str, rep){
+			rep = rep || ''
+			rep = rep.replace(/([A-Z])/g, '_$1').toUpperCase()
+			return str.replace(/%s/, rep)
+		}
+	}
+])
 
 
 .filter('prepend',[
@@ -1971,12 +2041,12 @@ angular.module('icDirectives', [
 	'icItemEdits',
 	'icUser',
 	'icLanguages',
+	'icOverlays',
 
-	function(icItemEdits, icUser, icLanguages){
+	function(icItemEdits, icUser, icLanguages, icOverlays){
 		return {
 			restrict:		'AE',
 			scope:			{
-								icLabel:				"@",
 								icKey:					"@",
 								icTitle: 				"<",
 								icItem:					"=",
@@ -2002,10 +2072,15 @@ angular.module('icDirectives', [
 				scope.update = function(){
 					itemEdit
 					.update(scope.icKey, scope.icTranslatable ? icLanguages.currentLanguage : undefined)
-					.then(function(item_data){
-						scope.icItem.importData(item_data)
-						refreshValues()
-					})
+					.then(
+						function(item_data){
+							scope.icItem.importData(item_data)
+							refreshValues()
+						},
+						function(){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDITS')
+						}
+					)
 				}
 
 				scope.revert = function(){
@@ -2069,7 +2144,18 @@ angular.module('icDirectives', [
 					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
 				}
 
+
+
+
+
 				scope.$watch(function(){ return icLanguages.currentLanguage }, refreshValues)
+
+				scope.$watch(
+					function(){ return itemEdit.isInvalidKey(scope.icKey)},
+					function(invalid){
+						element.toggleClass('invalid', invalid)
+					}
+				)
 
 				scope.$watch('icItem[icKey]', refreshValues, true)
 
@@ -2079,6 +2165,8 @@ angular.module('icDirectives', [
 					} else {
 						itemEdit[scope.icKey] = scope.value.new
 					}
+
+					itemEdit.validateKey(scope.icKey)
 				})
 			}
 		}
@@ -2208,6 +2296,20 @@ angular.module('icDirectives', [
 
 
 
+.directive('icError', [
+	function(){
+		return {
+			restrict:	"A",
+
+			link: function(scope, element, attrs){
+				element.on('error', function(){
+					scope.$eval(attrs.icError)
+				})
+			}
+		}
+	}
+])
+
 
 .directive('icAutoGrow', [
 
@@ -2238,33 +2340,30 @@ angular.module('icDirectives', [
 
 	'$rootScope',
 	'icApi',
+	'icOverlays',
 
-	function($rootScope, icApi){
+	function($rootScope, icApi, icOverlays){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-login.html',
 			transclude:		true,
-			scope:			{
-								icOnSuccess:	'&',
-								icOnFailure:	'&',
-								icOnCancel:		'&',
-							},
 
 			link: function(scope, element){
 				scope.username = ''
 				scope.password = ''
 
 				scope.login = function(){
+					icOverlays.toggle('spinner', true, true)
 					icApi.login(scope.username, scope.password)
 					.then(
 						function(){
 							scope.username = ''
 							scope.password = ''
-							scope.icOnSuccess()
+							icOverlays.deferred.login.reject()
+							icOverlays.toggle('login')
 						},
 						function(reason){
-							scope.icOnFailure()
-							$rootScope.$broadcast('loginRequired', reason)
+							return icOverlays.open('login', reason, null, true)
 						}
 					)
 				}
@@ -2272,7 +2371,8 @@ angular.module('icDirectives', [
 				scope.cancel = function(){
 					scope.username = ''
 					scope.password = ''
-					scope.icOnCancel()
+					icOverlays.deferred.login.reject()
+					icOverlays.toggle('login')
 				}
 
 			}

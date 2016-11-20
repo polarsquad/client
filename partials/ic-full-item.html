@@ -30,7 +30,6 @@
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_TITLE' | translate}} "
 		ic-key					= "title"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -54,7 +53,6 @@
 		ng-if 					= "editMode"
 		ic-type 				= "string"
 		ic-key					= "definition"
-		ic-label				= "{{'INTERFACE.ITEM_DEFINITION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
@@ -75,7 +73,6 @@
 		ic-options				= "::icConfigData['types']"
 		ic-option-label			= "option | uppercase | prepend : 'TYPES.' | translate"
 		ic-key					= "type"
-		ic-label				= "{{'INTERFACE.ITEM_TYPE' | translate}} "
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
@@ -112,7 +109,6 @@
 		ic-options				= "::icConfigData['topics']"
 		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
 		ic-key					= "topics"
-		ic-label				= "{{'INTERFACE.ITEM_TOPICS' | translate}} "
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
@@ -124,7 +120,6 @@
 		ic-options				= "itemEdit.topics"
 		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
 		ic-key					= "primaryTopic"
-		ic-label				= "{{'INTERFACE.ITEM_PRIMARY_TOPIC' | translate}} "
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
@@ -136,7 +131,6 @@
 		ic-options				= "::icConfigData['targetGroups']"
 		ic-option-label			= "option | uppercase | prepend : 'TARGET_GROUPS.' | translate"
 		ic-key					= "targetGroups"
-		ic-label				= "{{'INTERFACE.ITEM_TARGET_GROUPS' | translate}} "
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
@@ -151,15 +145,23 @@
 	<!-- start image -->
 
 	<img
-		class	= "hero" 
-		ng-if 	= "!editMode && item.imageUrl" 
-		ng-src 	= "{{item.imageUrl}}"
+		class		= "hero" 
+		ng-show		= "!editMode && item.imageUrl && !fallback" 
+		ng-src 		= "{{item.imageUrl}}"
+		ic-error	= "fallback = true" 
 	/>
+
+	<div
+		ng-show = "!editMode && item.imageUrl && fallback" 
+		class 	= "fallback"
+		title 	= "{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}"
+	>
+	</div>
+	
 
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_IMAGE' | translate}} "
 		ic-key					= "imageUrl"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -187,7 +189,6 @@
 		ng-if 					= "editMode"
 		ic-type 				= "text"
 		ic-key					= "description"
-		ic-label				= "{{'INTERFACE.ITEM_DESCRIPTION' | translate}} "
 		ic-item					= "item"
 		ic-translatable			= "true"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
@@ -217,7 +218,6 @@
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_ADDRESS' | translate}} "
 		ic-key					= "address"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -227,7 +227,6 @@
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_ZIP' | translate}} "
 		ic-key					= "zip"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -237,7 +236,6 @@
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_LOCATION' | translate}} "
 		ic-key					= "location"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -272,7 +270,6 @@
 	<ic-item-edit-property
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{'INTERFACE.ITEM_START_DATE' | translate}} "
 		ic-key					= "startDate"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -299,7 +296,6 @@
 		ng-repeat-end
 		ng-if 					= "editMode"
 		ic-type 				= "string"
-		ic-label				= "{{key | uppercase | prepend: 'INTERFACE.ITEM_' | translate}} "
 		ic-key					= "{{key}}"
 		ic-item					= "item"
 		ic-translatable			= "false"
@@ -329,10 +325,9 @@
 	<ic-item-edit-property
 		ng-if					= "icUser.can('edit_items') && editMode"
 		ic-type					= "string"
-		ic-options				= "['draft', 'published', 'suggestion', 'archived']"
-		ic-option-label			= "option | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate"
+		ic-options				= "::['draft', 'published', 'suggestion', 'archived']"
+		ic-option-label			= "'INTERFACE.ITEM_STATE_%s' | fill : option | translate"
 		ic-key					= "state"
-		ic-label				= "{{'INTERFACE.ITEM_STATE' | translate}} "
 		ic-item					= "item"
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
@@ -370,6 +365,12 @@
 		rows		= "5"
 		ic-auto-grow
 	></textarea>
+	<div 
+		ng-show = "(icUser.can('suggest_new_items') || icUser.can('suggest_item_edits')) && editMode"
+		class 	= "annotation"
+	>
+		{{'INTERFACE.ITEM_COMMENT_REQUIREMENT' | translate}}
+	</div>
 
 </article>
 
@@ -405,7 +406,11 @@
 		> {{'INTERFACE.EDIT' | translate}} </a>
 
 
-
+		<a
+			ng-click	= "delete()"
+			ng-show		= "icUser.can('delete_items') && !editMode"
+			ic-touch-me
+		> {{'INTERFACE.DELETE' | translate }}</a>
 
 
 		<!-- submit -->
@@ -439,6 +444,8 @@
 			ng-if		= "item.state == 'new' && icUser.can('suggest_new_items') && editMode"
 			ic-touch-me
 		> {{'INTERFACE.SUBMIT_ITEM_SUGGESTION' | translate}} </a>
+
+
 
 	</div>
 </footer>

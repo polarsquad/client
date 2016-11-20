@@ -114,10 +114,12 @@ ic-spinner.active{
 
 ic-spinner .foreground{
 	position:				absolute;
-	top:					0;
-	left:					0;
+	top:					50%;
+	left:					50%;
 	width:					1em;
 	height:					1em;
+	margin-top:				-0.5em;
+	margin-left:			-0.5em;
 
 	background-image:		url('../images/logo.svg');
 	background-size:		1em;
@@ -130,10 +132,12 @@ ic-spinner .foreground{
 
 ic-spinner .background{	
 	position:				absolute;
-	top:					0;
-	left:					0;
+	top:					50%;
+	left:					50%;
 	width:					1em;
 	height:					1em;
+	margin-top:				-0.5em;
+	margin-left:			-0.5em;
 	animation:				spin 2000ms infinite linear;
 	-webkit-animation:		spin 2000ms infinite linear;
 	z-index:				0;

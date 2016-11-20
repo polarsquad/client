@@ -278,13 +278,56 @@ delete nicht geschafft
 übersetzungen selber machen
 
 
-Todo:
-* translation ? 
-* Fehlermeldung ins Formular einbauen
-
 Done:
 * Status hinter title
 * ESC schließt overlays
 * status -> draft after submit
 * primary topic -> topics
 * translate 'share'?
+* about popup
+* wenn es item nicht gibt, schließen
+* quickfilter tools_tips
+* post item fehler status abfangen
+* Fehlermeldung ins Formular einbauen
+* Autoselect sort
+* Languages neben button
+* fallback für images
+* Quickfilter übersetzen -> kein extra tooltip, einfach types
+* Übersetzbare Felder mit Sprachcode markieren.
+
+
+Todo (heute noch)
+* Titeldopplung prüfen
+* translation ? 
+* Fix reload after suggestion
+* LOGIN Fehlermeldungen
+* Submission spinner
+
+Todo (Moritz):
+* Inputcheck klappt noch nicht richtig
+* Dürfen Themen leer sein? Wenn nicht, dann auch Themenfehler schmeissen
+* PUT edits klappt nicht 404
+
+
+TODO:
+
+* Walkthrough Presentation (jeden kleinen Schritt festhalten)
+* Übersetzer prüfen lassen
+* About-Seite
+
+* Test Presentation
+* Auf Deutsch alles testen
+* Auf English alles testen
+* Desktop
+* Tablet
+* Smartphone
+* Eingeloggt
+* Guest
+* Item draft vs item published testen
+
+* Zukünftiges vorgehen: Jan sagt was er selber anpassen möchte, ich abstrahiere und schreibe passende Doku 
+
+
+Todo (long term):
+
+* Jedes Feld in extra config.js beschrieben, samt validation

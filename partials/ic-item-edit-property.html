@@ -2,14 +2,18 @@
 	ic-click 	= "expand = !expand"
 	ng-class	= "{'icon-interface-arrow-right': !expand, 'icon-interface-arrow-down': expand}"
 	ic-touch-me
-> {{icLabel}} </h4>
-
+> {{::'INTERFACE.ITEM_%s' | fill : icKey | translate}} {{ icTranslatable ? '('+icLanguages.currentLanguage+')' : ''}}</h4>
+<div 
+	ng-if	= "expand"
+	class 	= "requirement"
+>{{'INTERFACE.ITEM_%s_REQUIREMENT' | fill : icKey | translate}}</div>
 
 
 <form 
 	ng-submit 	= "allowLocalEdit && update()"
 	ng-if		= "expand"
 >
+
 
 
 	<!-- String -->	
@@ -57,6 +61,9 @@
 
 
 
+
+
+
 	<!-- Text -->
 
 	<div ng-if		= "::icType == 'text'">
@@ -73,6 +80,9 @@
 			ic-auto-grow
 		></textarea>
 	</div>
+
+
+
 
 
 
@@ -111,6 +121,9 @@
 
 
 
+
+
+
 	<button
 		ng-show	= "allowLocalEdit"
 		type 	= "submit"
@@ -126,5 +139,8 @@
 	>
 		{{ "INTERFACE.REVERT" | translate }}
 	</buton>
+
+
+
 
 </form>

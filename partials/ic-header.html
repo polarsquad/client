@@ -1,6 +1,6 @@
 	<button
 		type				= "button"	
-		class 				= "icon-nav-menu fleft"
+		class 				= "icon-nav-menu fleft text-right"
 		ic-toggle-overlay 	= "mainMenu" 
 		ng-if				= "icMenu"
 		ic-touch-me	
@@ -34,15 +34,12 @@
 
 	<button 
 		type				= "button"
-		class 				= "icon-nav-language"
+		class 				= "icon-nav-language text-left"
 		ng-if				= "icLanguages"
 		ic-toggle-overlay 	= "languageMenu" 
 		ic-touch-me	
-	></button>
-
-<!-- 	<button 
-		type				= "button"
-		class 				= "icon-nav-search"
-		ic-toggle-overlay 	= "search"
-		ng-show				= "!icSite.show('item')"
-	></button> -->
+	>
+		<span ng-if = "icLarge">
+			{{"INTERFACE.LANGUAGES" | translate }}
+		</span>
+	</button>

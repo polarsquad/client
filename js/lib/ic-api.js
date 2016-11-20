@@ -63,7 +63,7 @@ angular.module('icApi', [])
 
 		var rights = 	{
 							undefined:	['suggest_new_items', 'suggest_item_edits'],
-							'editor':	['add_new_items', 'edit_items']
+							'editor':	['add_new_items', 'edit_items', 'delete_items']
 						}
 
 		icUser.can = function(task){
@@ -126,7 +126,7 @@ angular.module('icApi', [])
 											if(result.status == 305){
 												$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
 											}
-											return $q.reject(result.data)
+											return $q.reject(result)
 										}
 									)
 
@@ -196,9 +196,18 @@ angular.module('icApi', [])
 
 			icApi.newItem = function(item_data){
 				return 	icApi.post('/items', item_data)
-						.then(function(result){
-							return result.item
-						})
+						.then(
+							function(result){
+								return result.item
+							},
+							function(result){
+								return $q.reject(result)
+							}
+						)
+			}
+
+			icApi.deleteItem = function(id){
+				return 	icApi.delete('/items/'+id)
 			}
 
 

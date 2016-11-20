@@ -2,8 +2,9 @@
 		ng-repeat 	= "type in ::icConfigData.types"
 		ng-click 	= "icFilterConfig.toggleFilter('type', type)" 
 		ng-class 	= "{'active' : icFilterConfig.matchFilter('type', type)}"
-		class		= "border-{{::type | icColor}} text-{{::type | icColor}}"
+		class		= "border-{{::type | icColor}}"
 		style		= "background-image: url({{::type | icIcon : 'type' :'color'}});"
+		title		= "{{'TYPES.%s' | fill : type | translate}}"
 		ic-touch-me
 >
 	{{meta[type] === undefined ? '–' : meta[type]}}

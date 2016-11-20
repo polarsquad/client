@@ -1,4 +1,8 @@
-<ng-transclude></ng-transclude>
+<div
+	class		= "message" 
+	ng-repeat 	= "message in icOverlays.messages.login">
+	{{message | translate}}
+</div>
 
 <form ng-submit = "login()">
 	<label>
