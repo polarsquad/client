@@ -262,6 +262,18 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
+    "	<div\n" +
+    "		ng-if = \"editMode && itemEdit.title\"\n" +
+    "	>\n" +
+    "		<div\n" +
+    "			ng-repeat 	= \"title in icConfigData.titles\"\n" +
+    "			ng-if		= \"(item.title | stripSpecialChars) != (itemEdit.title | stripSpecialChars) && (title | stripSpecialChars) == (itemEdit.title | stripSpecialChars)\"\n" +
+    "			\n" +
+    "		>\n" +
+    "			{{'INTERFACE.POSSIBLE_ITEM_DUPLICATE' | translate}}: {{title}}\n" +
+    "		</div>\n" +
+    "	</div>\n" +
+    "\n" +
     "	<!-- end item title -->\n" +
     "\n" +
     "\n" +
@@ -990,8 +1002,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-login.html',
     "<div\n" +
     "	class		= \"message\" \n" +
-    "	ng-repeat 	= \"message in icOverlays.messages.login\">\n" +
-    "	{{message | translate}}\n" +
+    "	ng-repeat 	= \"message in icOverlays.messages.login\"\n" +
+    ">\n" +
+    "	{{'INTERFACE.LOGIN_%s' | fill : message | translate}}\n" +
     "</div>\n" +
     "\n" +
     "<form ng-submit = \"login()\">\n" +

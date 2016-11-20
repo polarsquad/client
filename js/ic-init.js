@@ -20,9 +20,10 @@ angular.module('icInit', [
 	function(icApi, $q){
 
 		var icConfigData = 	{
-								types:	undefined,
-								topics:	undefined,
-								availableLanguages: undefined
+								types:				[],
+								topics:				[],
+								titles:				[],
+								availableLanguages: []
 							}
 
 
@@ -59,6 +60,7 @@ angular.module('icInit', [
 										icConfigData.topics 			= unique(result.topics)
 										icConfigData.targetGroups		= unique(result.target_groups)
 										icConfigData.availableLanguages = unique(result.langs)
+										icConfigData.titles				= unique(result.titles)
 										//icConfigData.titles 			= result.titles
 									},
 									function(){

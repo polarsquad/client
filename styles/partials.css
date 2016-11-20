@@ -646,6 +646,7 @@ ic-item-edit-property h4 {
 	padding-right:			3rem;
 	margin:					0;
 	margin-bottom:			0.5rem;
+	margin-top:				2rem;
 	background-position: 	100% 50%;
 	background-size:		2rem;
 	background-repeat:		no-repeat;
@@ -669,7 +670,6 @@ ic-item-edit-property.invalid h4 {
 
 ic-item-edit-property form {
 	display:				block;
-	margin-bottom:			2rem;
 }
 
 ic-item-edit-property form .current-value {
@@ -1001,7 +1001,7 @@ ic-overlays > ic-spinner {
 	border-radius:			100%;
 	overflow:				hidden;
 	box-shadow:				0 0 0.5em 0 rgba(0,0,0,0.4);
-	transition:				opacity 1000ms;
+	transition:				opacity 800ms;
 }
 
 ic-overlays > .center {

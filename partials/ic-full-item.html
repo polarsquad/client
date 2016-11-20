@@ -36,6 +36,18 @@
 		ic-allow-local-edit		= "!item.state == 'new' && icUser.can('edit_items')"
 	></ic-item-edit-property>
 
+	<div
+		ng-if = "editMode && itemEdit.title"
+	>
+		<div
+			ng-repeat 	= "title in icConfigData.titles"
+			ng-if		= "(item.title | stripSpecialChars) != (itemEdit.title | stripSpecialChars) && (title | stripSpecialChars) == (itemEdit.title | stripSpecialChars)"
+			
+		>
+			{{'INTERFACE.POSSIBLE_ITEM_DUPLICATE' | translate}}: {{title}}
+		</div>
+	</div>
+
 	<!-- end item title -->
 
 

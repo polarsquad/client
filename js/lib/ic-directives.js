@@ -334,14 +334,12 @@ angular.module('icDirectives', [
 
 				function handleError(error){
 					if(error.status == 422){
-						icOverlays.open('popup', 'INTERFACE.PLEASE_CORRECT_INPUT')
 						console.warn('icFullItem: invalid data:', error.data)
 						scope.itemEdit.setInvalidKeys(error.data)
+						return icOverlays.open('popup', 'INTERFACE.PLEASE_CORRECT_INPUT')
 					} else {
-						icOverlays.open('popup', 'INTERFACE.SERVER_FAULT')
+						return icOverlays.open('popup', 'INTERFACE.SERVER_FAULT')
 					}
-
-					return $q.reject(error)
 				}
 
 				function beforeSubmission() {
@@ -372,9 +370,12 @@ angular.module('icDirectives', [
 							}
 
 							return	icOverlays.open('popup', message)
-									.finally(function(){
-										scope.editMode		= false										
-									})
+									.then(
+										null,
+										function(){
+											scope.editMode		= false										
+										}
+									)
 						},
 						function(error){
 							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_EDITS')
@@ -405,10 +406,13 @@ angular.module('icDirectives', [
 							}
 
 							return	icOverlays.open('popup', message)
-									.finally(function(){
-										scope.editMode		= false
-										icSite.addItemToPath(scope.item.id)	
-									})
+									.then(
+										null,
+										function(){
+											scope.editMode		= false
+											icSite.addItemToPath(scope.item.id)	
+										}
+									)
 
 						},
 						function(error){
@@ -427,13 +431,16 @@ angular.module('icDirectives', [
 					.then(
 						function(item_data){
 							return	icOverlays.open('popup', 'INTERFACE.EDIT_SUGGESTION_SUBMITTED')
-									.finally(function(){
-										scope.item.importData(item_data)
-										scope.itemEdit.importData(item_data)
+									.then(
+										null,
+										function(){
+											scope.item.importData(item_data)
+											scope.itemEdit.importData(item_data)
 
-										scope.saving_failed	= false
-										scope.editMode		= false
-									})
+											scope.saving_failed	= false
+											scope.editMode		= false
+										}
+									)
 						},
 						function(error){
 							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDIT_SUGGESTIONS')
@@ -451,9 +458,12 @@ angular.module('icDirectives', [
 					.then(
 						function(){
 							return	icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
-									.finally(function(){
-										icSite.clearItem()
-									})
+									.then(
+										null,
+										function(){
+											icSite.clearItem()
+										}
+									)
 						},
 						function(error){
 							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_ITEM_SUGGESTION')
@@ -507,7 +517,7 @@ angular.module('icDirectives', [
 						.then(
 							null,
 							function(){
-								if(scope.item.preliminray) scope.item = undefined
+								if(scope.item.preliminary) scope.item = undefined
 							}
 						)
 					}
@@ -984,11 +994,21 @@ angular.module('icDirectives', [
 ])
 
 
+.filter('stripSpecialChars', [
+	function(){
+		return function(str){
+			return str.replace(/[^a-zA-Z]/gi, '').toUpperCase()
+		}
+	}
+])
+
 .filter('fill', [
 	function(){
 		return function(str, rep){
-			rep = rep || ''
-			rep = rep.replace(/([A-Z])/g, '_$1').toUpperCase()
+			rep = 	rep || ''
+			rep = 	rep
+					.replace(/\s/, '_')
+					.replace(/([A-Z])/g, '_$1').toUpperCase()
 			return str.replace(/%s/, rep)
 		}
 	}
@@ -2359,20 +2379,23 @@ angular.module('icDirectives', [
 						function(){
 							scope.username = ''
 							scope.password = ''
-							icOverlays.deferred.login.reject()
-							icOverlays.toggle('login')
+							return icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
+
 						},
 						function(reason){
 							return icOverlays.open('login', reason, null, true)
 						}
 					)
+					.finally(function(){
+						if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
+					})
 				}
 
 				scope.cancel = function(){
 					scope.username = ''
 					scope.password = ''
-					icOverlays.deferred.login.reject()
-					icOverlays.toggle('login')
+					if(icOverlays.deferred.login) icOverlays.deferred.login.reject()
+					icOverlays.toggle('login', false)
 				}
 
 			}

@@ -294,14 +294,13 @@ Done:
 * fallback für images
 * Quickfilter übersetzen -> kein extra tooltip, einfach types
 * Übersetzbare Felder mit Sprachcode markieren.
-
-
-Todo (heute noch)
-* Titeldopplung prüfen
 * translation ? 
 * Fix reload after suggestion
 * LOGIN Fehlermeldungen
 * Submission spinner
+* Titeldopplung prüfen
+
+
 
 Todo (Moritz):
 * Inputcheck klappt noch nicht richtig

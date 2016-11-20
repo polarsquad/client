@@ -162,7 +162,6 @@ angular.module('icApi', [])
 			}
 
 			icApi.logout = function(){
-				console.log('logout')
 				return 	icApi.delete('/users/sessions')
 						.then(function(){
 							icUser.clear()
