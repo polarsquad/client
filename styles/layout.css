@@ -13,9 +13,9 @@ body {
 
 /* Mock*/
 html.initial-rem {
-	background-image:		url(../mock/example_map.jpeg);
-	background-size:		cover;
-	background-repeat:		no-repeat;
+	background-image:		url(/images/background.svg);
+	background-size: 		16rem;
+	background-repeat:		repeat;
 }
 
 
