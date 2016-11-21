@@ -347,7 +347,7 @@ ic-search .search-term button {
 }
 
 [ic-tile] .content .brief {
-	font-size:				0.7rem;
+	font-size:				0.7em;
 	line-height:			1rem;
 	height:					1rem;
 	color:					#fff;
@@ -590,12 +590,18 @@ ic-full-item .fallback {
 
 ic-full-item footer .tools{
 	display:				block;
+	display:				flex;
+	flex-wrap:				wrap;
 	margin-top:				5rem;
 	margin-bottom:			2rem;
+	margin-left:			-0.5rem;
+	margin-right:			-0.5rem;
 }
 
 ic-full-item footer .tools > a {
 	display:				inline-block;
+	flex:					1 0 auto;
+	margin:					0.5rem;
 	line-height:			3rem;
 	height:					3rem;
 	text-align:				right;
@@ -606,12 +612,15 @@ ic-full-item footer .tools > a {
 	background-repeat:		no-repeat;
 	margin-right:			1rem;
 	box-shadow:				0 0 0 1px #666;
+	white-space: 			nowrap;
+	overflow:				hidden;
+	text-overflow:			ellipsis;
 }
 
 
 ic-full-item qrcode {
-	display:				inline-block;
-	margin:					5rem 0;
+	display:				block;
+	margin:					5rem auto;
 	width:					10rem;
 	cursor:					pointer;
 }
@@ -645,6 +654,7 @@ ic-item-edit-property h4 {
 	background-repeat:		no-repeat;
 	cursor:					pointer;
 }
+
 
 ic-item-edit-property .requirement {
 	font-size:				0.8em;
@@ -751,6 +761,12 @@ ic-info-tag .content {
 	line-height:			1.5rem;
 }
 
+ic-info-tag .content a {
+	display:				inline-block;
+	word-break: 			break-all;
+	word-break: 			break-word;
+}
+
 
 
 /* scrollbump */
@@ -765,47 +781,49 @@ ic-info-tag .content {
 ic-filter-interface {
 	display:				block;
 	margin-bottom:			1rem;
+	background-color:		#fafafa;
 }
 
 
 
 ic-filter-interface .controls {
+	display:				block;
 	display:				flex;
 	justify-content:		space-between;
 }
 
 
-ic-filter-interface button{
+ic-filter-interface .controls button{
+
 	display:				inline-block;
-	flex:					1 0 0;
-	min-width:				2rem;
-	height:					2rem;
-	font-size:				1rem;
-	line-height:			2rem;
+	width:					50%;
+	height:					3rem;
+	line-height:			3rem;
+	flex:					1 0 1rem;
+	border-bottom:			0.3rem solid transparent;
+	cursor:					pointer;
 	text-align:				center;
 	padding:				0;
-	padding-left:			2rem;
-
-	background-position:	0 50%;
-	background-repeat:		no-repeat;
-	background-size:		2rem;
-
-
-	background-color:		#fafafa;
-	color:					#444;
-	box-shadow:				0 0 0 1px #666 inset;
+	background-color:		transparent;
+	box-sizing:				content-box;
 	overflow:				hidden;
 }
 
-ic-filter-interface button + button {
-	margin-left:			1rem;
+ic-filter-interface .controls button:active,
+ic-filter-interface .controls button.ic-touched {
+	background-color:		transparent !important;
+	border-color:			#ccc;
 }
+
+ic-filter-interface .controls button.active {
+	border-color:			#888;
+}
+
 
 ic-filter-interface .panel {
 	display:				block;
 	padding:				1rem 0;
 	margin-top:				0.5rem;
-	background-color:		#fafafa;
 }
 
 ic-filter-interface .panel > div {
@@ -900,15 +918,6 @@ ic-horizontal-swipe-list > button,
 	background-color:		transparent;
 	border-radius:			100%;
 }
-
-
-.XS ic-horizontal-swipe-list > button,
-.S  ic-horizontal-swipe-list > button,
-.XS [ic-horizontal-swipe-list] > button,
-.S  [ic-horizontal-swipe-list] > button{
-	display:				none;
-}
-
 
 ic-horizontal-swipe-list > button.left,
 [ic-horizontal-swipe-list] > button.left{
@@ -1053,6 +1062,12 @@ ic-overlays > .center li a {
 	display:				inline;
 }
 
+ic-overlays > .left:after,
+ic-overlays > .right:after {
+	content:				'';
+	display:				block;
+	height:					15rem;
+}
 
 
 ic-overlays > .left {
@@ -1196,10 +1211,13 @@ ic-overlays .qrcode > div {
 	width:					100%;
 }
 
-ic-main-menu h2 a {
+
+ic-overlaysic-main-menu h2 a {
 	box-shadow:				none !important;
 	border:					none !important;
 }
+
+
 
 ic-main-menu ic-search {
 	margin-bottom:			1rem;

@@ -60,7 +60,7 @@ body > #content {
 	background-color:		#fff;
 	white-space:			normal;
 	z-index:				1;
-	box-shadow:				0 0 1rem rgba(0,0,0,0.2);
+	box-shadow:				0 0 0.5rem rgba(0,0,0,0.3);
 	padding:				1rem;
 	box-sizing:				border-box;
 }
@@ -107,6 +107,7 @@ body > #content {
 	-webkit-overflow-scrolling: touch;
 }
 
+.M section.item, 
 .L section.item,
 .XL section.item{
 	overflow-y:				scroll !important;
@@ -114,7 +115,6 @@ body > #content {
 
 
 
-/*Layout page */
 
 #content section:nth-last-child(1){
 	z-index:				1;
@@ -144,12 +144,22 @@ body > #content {
 
 
 
+
+/*Layout page */
+
+
 #content section.page {
 	display:				block;
 	width:					auto;
 	overflow-y:				scroll; 
 
 }
+
+#content section.page:after {
+	content:				'';
+	display:				block;
+	height:					10rem;
+} 
 
 #content section.page > * {
 	box-sizing:				border-box;
@@ -220,8 +230,6 @@ body > #content {
 /*Layout filter */
 
 #content section.filter {
-	box-shadow:				none !important;
-	z-index:				99;
 	background-color:		#fafafa;
 }
 
@@ -297,34 +305,15 @@ body > #content {
 
 /* Layout item and list */
 
-.M.show-list.show-item #content section.list {
-	display:				inline-block;
-	width:					24rem;
-}
 
-.M.show-list.show-item #content section.list > * {
-	width:					22rem;
-}
-
-
-.M.show-list.show-item #content section.item {
-	display:				inline-block;
-	width:					40rem;
-}
-
-.M.show-list.show-item #content section.item > * {
-	width:					38rem;
-}
-
-
-
-
+ .M.show-list.show-item #content section.list,
  .L.show-list.show-item #content section.list,
 .XL.show-list.show-item	#content section.list {
 	display:				inline-block;
 	width:					24rem;
 }
 
+ .M.show-list.show-item #content section.list > *,
  .L.show-list.show-item	#content section.list > *,
 .XL.show-list.show-item	#content section.list > * {
 	width:					22rem;
@@ -346,15 +335,17 @@ body > #content {
 
 
 
+ .M.show-list.show-item	#content section.item,
  .L.show-list.show-item	#content section.item,
 .XL.show-list.show-item	#content section.item {
 	display:				inline-block;
 	width:					40rem;
 }
 
+ .M.show-list.show-item #content section.item > *,
  .L.show-list.show-item #content section.item > *,
 .XL.show-list.show-item #content section.item > * {
-	width:					28rem;
+	width:					32rem;
 }
 
 

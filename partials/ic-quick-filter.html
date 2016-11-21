@@ -1,6 +1,6 @@
 <a 
 		ng-repeat 	= "type in ::icConfigData.types"
-		ng-click 	= "icFilterConfig.toggleFilter('type', type)" 
+		ng-click 	= "icFilterConfig.addFilter('type', type)" 
 		ng-class 	= "{'active' : icFilterConfig.matchFilter('type', type)}"
 		class		= "border-{{::type | icColor}}"
 		style		= "background-image: url({{::type | icIcon : 'type' :'color'}});"

@@ -28,17 +28,15 @@
 
 <div class = "controls">	
 	<button
-		class 		= "sort"
-		ng-class	= "{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}"
+		ng-class	= "{'active': open == 'sort'}"
 		ic-click 	= "toggleSortPanel()" 
 		ic-touch-me
 	>
 		{{"INTERFACE.SORT" | translate}}
-	</button>
+	</button><!--
 
-	<button
-		class 		= "sort"
-		ng-class	= "{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}"<
+ --><button
+		ng-class	= "{'active': open == 'filter'}"
 		ic-click 	= "toggleFilterPanel()" 
 		ic-touch-me
 	>
@@ -90,6 +88,7 @@
 >
 
 	<a 
+		class		= "heavy"
 		ng-class	= "{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}" 
 		ic-click 	= "expand.topics = !expand.topics"
 		ic-touch-me
@@ -122,6 +121,7 @@
 
 
 	<a 
+		class		= "heavy"
 		ng-class	= "{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}" 
 		ic-click 	= "expand.targetGroups = !expand.targetGroups"
 		ic-touch-me
@@ -154,6 +154,7 @@
 
 
 	<a 
+		class		= "heavy"
 		ng-if		= "icUser.can('edit_items')"
 		ng-class	= "{'icon-interface-arrow-right': !expand.state, 'icon-interface-arrow-down': expand.state}" 
 		ng-click 	= "expand.state = !expand.state"
@@ -178,7 +179,7 @@
 			ng-class 	= "{'icon-interface-radio-selected' : icFilterConfig.filterBy.state == state, 'icon-interface-radio': icFilterConfig.filterBy.state != state}"
 			ic-touch-me			
 		>
-			{{'INTERFACE.ITEM_STATUS_%s' | fill : state |translate}}
+			{{'INTERFACE.ITEM_STATE_%s' | fill : state |translate}}
 		</a>
 	</div>
 

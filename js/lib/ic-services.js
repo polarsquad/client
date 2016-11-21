@@ -120,6 +120,12 @@ angular.module('icServices', [
 		// }
 
 
+		icFilterConfig.addFilter = function(key, value){
+			icFilterConfig.filterBy[key] = mergeParam(icFilterConfig.filterBy[key], value, 'add')
+
+			return icFilterConfig
+		}
+
 		icFilterConfig.toggleFilter = function(key, value){
 			icFilterConfig.filterBy[key] = mergeParam(icFilterConfig.filterBy[key], value, 'toggle')
 

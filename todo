@@ -311,7 +311,7 @@ Todo (Moritz):
 * type = women bzw. = filterred topic / http://213.187.84.22:3000/items?asc=1&limit=15&offset=0&order_by=start_date&target_groups%5B%5D=women&type=services
 
 
-TODO:
+Testing:
 
 * Walkthrough Presentation (jeden kleinen Schritt festhalten)
 * Übersetzer prüfen lassen
@@ -337,7 +337,18 @@ Todo (long term):
 * Jedes Feld in extra config.js beschrieben, samt validation
 
 
-Todo:
-
+Done:
 * blauer rahmen macOS
 * Button leiste zu eng vertical
+* M view mehr platz für full item
+* Buttons kriegen Rahmen -> skipped
+* Textfeld Rahmen auf ipad, wenn focused
+* Kachel unterschirft zu klein
+* Ende der Seite Platz machen
+
+Todo:
+
+* Mehr #platz scrollmenu
+* Sort/filter -> tabs
+* quickfilter to sackgasse
+* Überschriften bold bei filtern

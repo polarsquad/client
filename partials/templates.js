@@ -95,17 +95,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<div class = \"controls\">	\n" +
     "	<button\n" +
-    "		class 		= \"sort\"\n" +
-    "		ng-class	= \"{'icon-interface-arrow-down': open != 'sort', 'icon-interface-arrow-up': open == 'sort'}\"\n" +
+    "		ng-class	= \"{'active': open == 'sort'}\"\n" +
     "		ic-click 	= \"toggleSortPanel()\" \n" +
     "		ic-touch-me\n" +
     "	>\n" +
     "		{{\"INTERFACE.SORT\" | translate}}\n" +
-    "	</button>\n" +
+    "	</button><!--\n" +
     "\n" +
-    "	<button\n" +
-    "		class 		= \"sort\"\n" +
-    "		ng-class	= \"{'icon-interface-arrow-down': open != 'filter', 'icon-interface-arrow-up': open == 'filter'}\"<\n" +
+    " --><button\n" +
+    "		ng-class	= \"{'active': open == 'filter'}\"\n" +
     "		ic-click 	= \"toggleFilterPanel()\" \n" +
     "		ic-touch-me\n" +
     "	>\n" +
@@ -157,6 +155,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "\n" +
     "	<a \n" +
+    "		class		= \"heavy\"\n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.topics, 'icon-interface-arrow-down': expand.topics}\" \n" +
     "		ic-click 	= \"expand.topics = !expand.topics\"\n" +
     "		ic-touch-me\n" +
@@ -189,6 +188,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "	<a \n" +
+    "		class		= \"heavy\"\n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.targetGroups, 'icon-interface-arrow-down': expand.targetGroups}\" \n" +
     "		ic-click 	= \"expand.targetGroups = !expand.targetGroups\"\n" +
     "		ic-touch-me\n" +
@@ -221,6 +221,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "	<a \n" +
+    "		class		= \"heavy\"\n" +
     "		ng-if		= \"icUser.can('edit_items')\"\n" +
     "		ng-class	= \"{'icon-interface-arrow-right': !expand.state, 'icon-interface-arrow-down': expand.state}\" \n" +
     "		ng-click 	= \"expand.state = !expand.state\"\n" +
@@ -245,7 +246,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-class 	= \"{'icon-interface-radio-selected' : icFilterConfig.filterBy.state == state, 'icon-interface-radio': icFilterConfig.filterBy.state != state}\"\n" +
     "			ic-touch-me			\n" +
     "		>\n" +
-    "			{{'INTERFACE.ITEM_STATUS_%s' | fill : state |translate}}\n" +
+    "			{{'INTERFACE.ITEM_STATE_%s' | fill : state |translate}}\n" +
     "		</a>\n" +
     "	</div>\n" +
     "\n" +
@@ -1327,7 +1328,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-quick-filter.html',
     "<a \n" +
     "		ng-repeat 	= \"type in ::icConfigData.types\"\n" +
-    "		ng-click 	= \"icFilterConfig.toggleFilter('type', type)\" \n" +
+    "		ng-click 	= \"icFilterConfig.addFilter('type', type)\" \n" +
     "		ng-class 	= \"{'active' : icFilterConfig.matchFilter('type', type)}\"\n" +
     "		class		= \"border-{{::type | icColor}}\"\n" +
     "		style		= \"background-image: url({{::type | icIcon : 'type' :'color'}});\"\n" +
