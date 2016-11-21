@@ -20,10 +20,11 @@ angular.module('icInit', [
 	function(icApi, $q){
 
 		var icConfigData = 	{
-								types:				[],
-								topics:				[],
-								titles:				[],
-								availableLanguages: []
+								//must all be undefined
+								types:				undefined,
+								topics:				undefined,
+								titles:				undefined,
+								availableLanguages: undefined
 							}
 
 
