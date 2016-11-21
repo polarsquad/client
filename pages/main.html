@@ -1,9 +1,13 @@
-<div class = "logo">
-	<h1><ic-text-logo></ic-text-logo></h1>
-	<h2>{{'INTERFACE.CLAIM' | translate}}</h2>
-</div>
+<header>
+	<h1
+		class = "logo {{ smlLayout.mode.name != 'XS' ? 'shift' : ''}}"
+	>	<ic-text-logo></ic-text-logo>
+	</h1>
+	<div class = "claim">
+		{{'INTERFACE.CLAIM' | translate}}
+	</div>
 
-
+</header>
 
 <div
 	no-text-nodes 
@@ -30,18 +34,43 @@
 		ic-title	= "'Infopoints'"
 		ic-brief	= ""
 		ic-type		= "'places'"
-		ic-image	= "'/images/infopoint.jpg'"
+		ic-image	= "'/images/tile_infopoints.jpg'"
 	></a>
 
 
 	<a
-		ng-repeat	= "target_group in icConfigData.targetGroups"
-		ng-href 	= "#{{icSite.getNewPath({tg: target_group}, true)}}"
+		ng-href 	= "/tg/children"
 		ic-tile
-		ic-title	= "target_group | prepend : 'TARGET_GROUPS.' | uppercase | translate"
+		ic-title	= "'TARGET_GROUPS.CHILDREN' | translate"
 		ic-brief	= "'INTERFACE.TARGET_GROUP' |translate"
-		ic-type		= "::Mock.random(['events', 'services', 'places', 'information'], $index+1)"
+		ic-image	= "'/images/tile_children.jpg'"
 	></a>
+
+	<a
+		ng-href 	= "/t/events/tp/culture"
+		ic-tile
+		ic-title	= "('TYPES.EVENTS' | translate) + ','  + ('TOPICS.CULTURE' | translate)"
+		ic-brief	= "('INTERFACE.TYPE' |translate) +', '+ ('INTERFACE.TOPIC' |translate)"
+		ic-image	= "'/images/tile_events_culture.jpg'"
+	></a>
+
+	<a
+		ng-href 	= "/tg/women"
+		ic-tile
+		ic-title	= "'TARGET_GROUPS.WOMEN' | translate"
+		ic-brief	= "'INTERFACE.TARGET_GROUP' |translate"
+		ic-image	= "'/images/tile_women.jpg'"
+	></a>
+
+	<a
+		ng-href 	= "/tp/work"
+		ic-tile
+		ic-title	= "'TOPICS.WORK' | translate"
+		ic-brief	= "'INTERFACE.TOPIC' |translate"
+		ic-image	= "'/images/tile_work.jpg'"
+	></a>
+
+
 
 	<!-- <a 
 		href 		= "#{{::icSite.getNewPath({item: index})}}" 

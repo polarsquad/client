@@ -326,7 +326,7 @@ angular.module('icServices', [
 			scheduledPath = icSite.params2Path({}, 'replace')
 
 			scheduledUpdate = 	$timeout(function(){
-									$location.path(scheduledPath)
+									$location.path(scheduledPath).replace()
 								}, 100)
 
 			return this
@@ -401,7 +401,7 @@ angular.module('icServices', [
 			icFilterConfig.filterBy.topics			=	icSite.params.tp 	|| []
 			icFilterConfig.filterBy.targetGroups	=	icSite.params.tg 	|| []
 			icFilterConfig.filterBy.state			=	icSite.params.st 	|| undefined
-			icFilterConfig.orderBy					=	icSite.params.so	|| undefined
+			icFilterConfig.orderBy					=	icSite.params.so	|| ['events', 'services'].indexOf(icSite.params.t) == -1 ? 'title' : 'start_date' //TODO
 			icFilterConfig.reverse					=	!!icSite.params.r	|| false
 
 			icFilterConfig.searchTerm				=	decodeURIComponent(icSite.params.s) || ''

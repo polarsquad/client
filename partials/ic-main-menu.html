@@ -1,11 +1,10 @@
-<h2>
-	<a
-		ic-home
-		ic-toggle-overlay 
-	>
+<h1
+	ic-home
+	ic-toggle-overlay 
+	class	= "logo pointer"
+>
 	<ic-text-logo></ic-text-logo>
-	</a>
-</h2>
+</h1>
 
 <ic-search				
 	class 				= "white right"
@@ -21,26 +20,34 @@
 	Home
 </a>
 
-<a 
-	ng-repeat 	= "type in ::icConfigData.types"
-	ng-href		= "/t/{{::type}}"
-	ng-click 	= "icOverlays.toggle()" 
-	ic-touch-me
->
-	<span 
-		class 		= "icon"
-		style		= "background-image: url({{::type | icIcon : 'type' : 'color'}});"
-	>		
-	</span>
-	<div>
-		{{type | uppercase | prepend : "TYPES." | translate}}
-	</div>
-</a>
+<div>
+	<a 
+		ng-repeat 	= "type in ::icConfigData.types"
+		ng-href		= "/t/{{::type}}"
+		ng-click 	= "icOverlays.toggle()" 
+		ic-touch-me
+	>
+		<span 
+			class 		= "icon"
+			style		= "background-image: url({{::type | icIcon : 'type' : 'color'}});"
+		>		
+		</span><!--
+	 --><div>
+			{{type | uppercase | prepend : "TYPES." | translate}}
+		</div>
+	</a>
+</div>
+
+
+
+
+<!-- topics -->
+
 
 
 <a
 	ng-click 	= "expand.topics = !expand.topics"
-	ng-class	= "{'icon-interface-arrow-down': expand.topics, 'icon-interface-arrow-right': !expand.topics}"
+	ng-class	= "{'icon-interface-arrow-up': expand.topics, 'icon-interface-arrow-down': !expand.topics}"
 	class	 	= "expand "
 	ic-touch-me
 >
@@ -57,11 +64,15 @@
 		<span 
 			class 		= "icon"
 			style		= "background-image: url({{::topic | icIcon : 'topic' : 'black'}});"
-		>		
-		</span>
+		><!--
+	 --></span>
 		{{topic | uppercase | prepend : "TOPICS." | translate}}
 	</a>
 </div>
+
+
+
+
 
 
 

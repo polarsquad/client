@@ -17,6 +17,10 @@ a {
 	cursor:				pointer;
 }
 
+p {
+	line-height:		1.4em;
+}
+
 .ic-touched {
 	background-color:	rgba(0,0,0,0.1) !important;
 }
@@ -49,8 +53,13 @@ button::-moz-focus-inner {
 
 h1,h2,h3,h4,h5,h6 {
 	font-weight:			500;
+	line-height:			1.4em;
 }
 
+
+h1 {
+	font-size:				1.92rem;
+}
 
 
 hr {
@@ -92,6 +101,22 @@ input {
 	margin:					0.5rem 0;
 }
 
+
+input[type=text],
+input[type=password]{
+	width:					100%;
+	padding:				0.5rem 0.5rem 0.5rem 0.5rem;
+	box-sizing:				border-box;
+	border-radius:			0;
+	background:				#eee;
+	font-size:				1.2rem;
+	line-height:			1.5rem;
+	text-align:				left;
+}
+
+input:focus {
+	box-shadow:				0 0 0 1px #000 inset;
+} 
 
 
 
@@ -150,6 +175,10 @@ input {
 	font-size:				0.8em;
 	margin:					0.5rem 0;
 	color:					#888;
+}
+
+.pointer {
+	cursor:					pointer;
 }
 
 
@@ -294,6 +323,21 @@ input {
 .icon-interface-edit {
 	background-image:		url(/images/icon_interface_edit_black.svg);	
 }
+
+.icon-interface-delete {
+	background-image:		url(/images/icon_interface_delete_black.svg);	
+}
+
+.icon-interface-cancel {
+	background-image:		url(/images/icon_interface_cancel_black.svg);	
+}
+
+.icon-interface-save {
+	background-image:		url(/images/icon_interface_save_black.svg);	
+}
+
+
+
 
 
 

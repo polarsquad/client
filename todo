@@ -306,6 +306,9 @@ Todo (Moritz):
 * Inputcheck klappt noch nicht richtig
 * Dürfen Themen leer sein? Wenn nicht, dann auch Themenfehler schmeissen
 * PUT edits klappt nicht 404
+* Services GET schmeisst 500
+* Neue User anlegen
+* type = women bzw. = filterred topic / http://213.187.84.22:3000/items?asc=1&limit=15&offset=0&order_by=start_date&target_groups%5B%5D=women&type=services
 
 
 TODO:
@@ -323,6 +326,8 @@ TODO:
 * Eingeloggt
 * Guest
 * Item draft vs item published testen
+
+
 
 * Zukünftiges vorgehen: Jan sagt was er selber anpassen möchte, ich abstrahiere und schreibe passende Doku 
 

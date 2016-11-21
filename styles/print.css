@@ -33,6 +33,10 @@ body #content ic-full-item ic-spinner {
 	display:			none;
 }
 
+body #content ic-full-item .state {
+	display:			none;
+}
+
 
 
 
@@ -101,4 +105,9 @@ body #content ic-full-item  footer {
 
 body #content ic-full-item  footer * {
 	display:			none;
+}
+
+
+ic-header {
+	display:			none !important;
 }

@@ -2,7 +2,40 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   'use strict';
 
   $templateCache.put('partials/ic-about.html',
-    "{{'INTERFACE.ABOUT_CONTENT' | translate}}"
+    "<h2>{{'INTERFACE.ABOUT_HEADING' | translate}}</h2>\n" +
+    "\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_0_1' | translate}}</p>\n" +
+    "<img src = \"/images/infopoint-scharnweberstrasse_01.jpg\"/>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_0_2' | translate}}</p>\n" +
+    "<img src = \"/images/infopoint-scharnweberstrasse_03.jpg\">\n" +
+    "\n" +
+    "\n" +
+    "<h3>{{'INTERFACE.ABOUT_SUBHEADING_1' | translate}}</h3>\n" +
+    "\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_1_1' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_1_2' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_1_3' | translate}}</p>\n" +
+    "<img src = \"/images/infopoint-scharnweberstrasse_02.jpg\">\n" +
+    "\n" +
+    "\n" +
+    "<h3>{{'INTERFACE.ABOUT_SUBHEADING_2' | translate}}</h3>\n" +
+    "\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_2_1' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_2_2' | translate}}</p>\n" +
+    "\n" +
+    "\n" +
+    "<h3>{{'INTERFACE.ABOUT_SUBHEADING_3' | translate}}</h3>\n" +
+    "\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_3_1' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_3_2' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_3_3' | translate}}</p>\n" +
+    "<p>{{'INTERFACE.ABOUT_PARAGRAPH_3_4' | translate}}</p>\n" +
+    "\n" +
+    "<ul>\n" +
+    "	<li>Integrationsbeauftragte des <a class =\"highlight\" href=3D\"http://www.berlin.de/ba-reinickendorf/\">Bezirksamtes Reinickendorf</a></li>\n" +
+    "	<li><a class =\"highlight\" href=3D\"http://www.albatrosggmbh.de\">Albatros gGmbH</a></li>\n" +
+    "	<li>Designgruppe <a class =\"highlight\" href=3D\"http://place-making.org\">place/making (Konzept, Design und Umsetzung)</a></li>\n" +
+    "</ul>\n"
   );
 
 
@@ -246,7 +279,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		</span>\n" +
     "\n" +
     "		<span \n" +
-    "			class = \"iblock\"\n" +
+    "			class = \"state iblock\"\n" +
     "			ng-if = \"icUser.can('edit_items') && item.state\"\n" +
     "		>\n" +
     "			[ {{item.state | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate}} ]\n" +
@@ -419,6 +452,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<p \n" +
     "		ng-if 			= \"!editMode\"\n" +
     "		ng-bind-html 	= \"item.description[language]\"\n" +
+    "		class			= \"description\"\n" +
     "	>\n" +
     "	</p>\n" +
     "\n" +
@@ -617,6 +651,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click 	= \"print()\"\n" +
     "			ng-if		= \"!editMode\"\n" +
+    "			class		= \"icon-interface-print\"\n" +
     "			ic-touch-me\n" +
     "		>	\n" +
     "			{{'INTERFACE.PRINT' | translate}}		\n" +
@@ -625,6 +660,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-if				= \"!editMode\"\n" +
     "			ic-toggle-overlay	= \"sharingMenu\"\n" +
+    "			class				= \"icon-interface-share\"\n" +
     "			ic-touch-me\n" +
     "		>				\n" +
     "			{{'INTERFACE.SHARE'	| translate}}		\n" +
@@ -633,6 +669,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"cancelEdit()\"\n" +
     "			ng-if		= \"editMode\"\n" +
+    "			class		= \"icon-interface-edit\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.CANCEL' | translate}} </a>\n" +
     "\n" +
@@ -640,6 +677,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"edit()\"\n" +
     "			ng-show		= \"!editMode\"\n" +
+    "			class		= \"icon-interface-edit\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.EDIT' | translate}} </a>\n" +
     "\n" +
@@ -647,6 +685,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a\n" +
     "			ng-click	= \"delete()\"\n" +
     "			ng-show		= \"icUser.can('delete_items') && !editMode\"\n" +
+    "			class		= \"icon-interface-delete\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.DELETE' | translate }}</a>\n" +
     "\n" +
@@ -656,6 +695,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"submitItemEdits()\"\n" +
     "			ng-if		= \"item.state != 'new' && icUser.can('edit_items') && editMode\"\n" +
+    "			class		= \"icon-interface-save\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.SUBMIT_ITEM_EDITS' | translate}} </a>\n" +
     "\n" +
@@ -663,6 +703,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"submitNewItem()\"\n" +
     "			ng-if		= \"item.state == 'new' && icUser.can('add_new_items') && editMode\"\n" +
+    "			class		= \"icon-interface-save\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.SUBMIT_NEW_ITEM' | translate}} </a>\n" +
     "\n" +
@@ -674,12 +715,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"submitEditSuggestions()\"\n" +
     "			ng-if		= \"item.state != 'new' && icUser.can('suggest_item_edits') && editMode\"\n" +
+    "			class		= \"icon-interface-save\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.SUBMIT_EDIT_SUGGESTIONS' | translate}} </a>\n" +
     "\n" +
     "		<a \n" +
     "			ng-click	= \"submitItemSuggestion()\"\n" +
     "			ng-if		= \"item.state == 'new' && icUser.can('suggest_new_items') && editMode\"\n" +
+    "			class		= \"icon-interface-save\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.SUBMIT_ITEM_SUGGESTION' | translate}} </a>\n" +
     "\n" +
@@ -1040,14 +1083,13 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-main-menu.html',
-    "<h2>\n" +
-    "	<a\n" +
-    "		ic-home\n" +
-    "		ic-toggle-overlay \n" +
-    "	>\n" +
+    "<h1\n" +
+    "	ic-home\n" +
+    "	ic-toggle-overlay \n" +
+    "	class	= \"logo pointer\"\n" +
+    ">\n" +
     "	<ic-text-logo></ic-text-logo>\n" +
-    "	</a>\n" +
-    "</h2>\n" +
+    "</h1>\n" +
     "\n" +
     "<ic-search				\n" +
     "	class 				= \"white right\"\n" +
@@ -1063,26 +1105,34 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	Home\n" +
     "</a>\n" +
     "\n" +
-    "<a \n" +
-    "	ng-repeat 	= \"type in ::icConfigData.types\"\n" +
-    "	ng-href		= \"/t/{{::type}}\"\n" +
-    "	ng-click 	= \"icOverlays.toggle()\" \n" +
-    "	ic-touch-me\n" +
-    ">\n" +
-    "	<span \n" +
-    "		class 		= \"icon\"\n" +
-    "		style		= \"background-image: url({{::type | icIcon : 'type' : 'color'}});\"\n" +
-    "	>		\n" +
-    "	</span>\n" +
-    "	<div>\n" +
-    "		{{type | uppercase | prepend : \"TYPES.\" | translate}}\n" +
-    "	</div>\n" +
-    "</a>\n" +
+    "<div>\n" +
+    "	<a \n" +
+    "		ng-repeat 	= \"type in ::icConfigData.types\"\n" +
+    "		ng-href		= \"/t/{{::type}}\"\n" +
+    "		ng-click 	= \"icOverlays.toggle()\" \n" +
+    "		ic-touch-me\n" +
+    "	>\n" +
+    "		<span \n" +
+    "			class 		= \"icon\"\n" +
+    "			style		= \"background-image: url({{::type | icIcon : 'type' : 'color'}});\"\n" +
+    "		>		\n" +
+    "		</span><!--\n" +
+    "	 --><div>\n" +
+    "			{{type | uppercase | prepend : \"TYPES.\" | translate}}\n" +
+    "		</div>\n" +
+    "	</a>\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<!-- topics -->\n" +
+    "\n" +
     "\n" +
     "\n" +
     "<a\n" +
     "	ng-click 	= \"expand.topics = !expand.topics\"\n" +
-    "	ng-class	= \"{'icon-interface-arrow-down': expand.topics, 'icon-interface-arrow-right': !expand.topics}\"\n" +
+    "	ng-class	= \"{'icon-interface-arrow-up': expand.topics, 'icon-interface-arrow-down': !expand.topics}\"\n" +
     "	class	 	= \"expand \"\n" +
     "	ic-touch-me\n" +
     ">\n" +
@@ -1099,11 +1149,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<span \n" +
     "			class 		= \"icon\"\n" +
     "			style		= \"background-image: url({{::topic | icIcon : 'topic' : 'black'}});\"\n" +
-    "		>		\n" +
-    "		</span>\n" +
+    "		><!--\n" +
+    "	 --></span>\n" +
     "		{{topic | uppercase | prepend : \"TOPICS.\" | translate}}\n" +
     "	</a>\n" +
     "</div>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -1179,7 +1233,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ic-touch-me\n" +
     ">\n" +
     "	{{'INTERFACE.ARCHIVED_ITEMS' | translate}}\n" +
-    "</a>"
+    "</a>\n"
   );
 
 
@@ -1198,7 +1252,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<div \n" +
     "	ng-if		=	\"icOverlays.show.about\"\n" +
     "	ng-include 	= 	\"'partials/ic-about.html'\"\n" +
-    "	class		=	\"white center\"\n" +
+    "	class		=	\"white center greedy\"\n" +
     ">\n" +
     "</div>\n" +
     "\n" +
@@ -1425,12 +1479,16 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('pages/main.html',
-    "<div class = \"logo\">\n" +
-    "	<h1><ic-text-logo></ic-text-logo></h1>\n" +
-    "	<h2>{{'INTERFACE.CLAIM' | translate}}</h2>\n" +
-    "</div>\n" +
+    "<header>\n" +
+    "	<h1\n" +
+    "		class = \"logo {{ smlLayout.mode.name != 'XS' ? 'shift' : ''}}\"\n" +
+    "	>	<ic-text-logo></ic-text-logo>\n" +
+    "	</h1>\n" +
+    "	<div class = \"claim\">\n" +
+    "		{{'INTERFACE.CLAIM' | translate}}\n" +
+    "	</div>\n" +
     "\n" +
-    "\n" +
+    "</header>\n" +
     "\n" +
     "<div\n" +
     "	no-text-nodes \n" +
@@ -1457,18 +1515,43 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-title	= \"'Infopoints'\"\n" +
     "		ic-brief	= \"\"\n" +
     "		ic-type		= \"'places'\"\n" +
-    "		ic-image	= \"'/images/infopoint.jpg'\"\n" +
+    "		ic-image	= \"'/images/tile_infopoints.jpg'\"\n" +
     "	></a>\n" +
     "\n" +
     "\n" +
     "	<a\n" +
-    "		ng-repeat	= \"target_group in icConfigData.targetGroups\"\n" +
-    "		ng-href 	= \"#{{icSite.getNewPath({tg: target_group}, true)}}\"\n" +
+    "		ng-href 	= \"/tg/children\"\n" +
     "		ic-tile\n" +
-    "		ic-title	= \"target_group | prepend : 'TARGET_GROUPS.' | uppercase | translate\"\n" +
+    "		ic-title	= \"'TARGET_GROUPS.CHILDREN' | translate\"\n" +
     "		ic-brief	= \"'INTERFACE.TARGET_GROUP' |translate\"\n" +
-    "		ic-type		= \"::Mock.random(['events', 'services', 'places', 'information'], $index+1)\"\n" +
+    "		ic-image	= \"'/images/tile_children.jpg'\"\n" +
     "	></a>\n" +
+    "\n" +
+    "	<a\n" +
+    "		ng-href 	= \"/t/events/tp/culture\"\n" +
+    "		ic-tile\n" +
+    "		ic-title	= \"('TYPES.EVENTS' | translate) + ','  + ('TOPICS.CULTURE' | translate)\"\n" +
+    "		ic-brief	= \"('INTERFACE.TYPE' |translate) +', '+ ('INTERFACE.TOPIC' |translate)\"\n" +
+    "		ic-image	= \"'/images/tile_events_culture.jpg'\"\n" +
+    "	></a>\n" +
+    "\n" +
+    "	<a\n" +
+    "		ng-href 	= \"/tg/women\"\n" +
+    "		ic-tile\n" +
+    "		ic-title	= \"'TARGET_GROUPS.WOMEN' | translate\"\n" +
+    "		ic-brief	= \"'INTERFACE.TARGET_GROUP' |translate\"\n" +
+    "		ic-image	= \"'/images/tile_women.jpg'\"\n" +
+    "	></a>\n" +
+    "\n" +
+    "	<a\n" +
+    "		ng-href 	= \"/tp/work\"\n" +
+    "		ic-tile\n" +
+    "		ic-title	= \"'TOPICS.WORK' | translate\"\n" +
+    "		ic-brief	= \"'INTERFACE.TOPIC' |translate\"\n" +
+    "		ic-image	= \"'/images/tile_work.jpg'\"\n" +
+    "	></a>\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "	<!-- <a \n" +
     "		href 		= \"#{{::icSite.getNewPath({item: index})}}\" \n" +

@@ -20,7 +20,7 @@
 		</span>
 
 		<span 
-			class = "iblock"
+			class = "state iblock"
 			ng-if = "icUser.can('edit_items') && item.state"
 		>
 			[ {{item.state | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate}} ]
@@ -193,6 +193,7 @@
 	<p 
 		ng-if 			= "!editMode"
 		ng-bind-html 	= "item.description[language]"
+		class			= "description"
 	>
 	</p>
 
@@ -391,6 +392,7 @@
 		<a 
 			ng-click 	= "print()"
 			ng-if		= "!editMode"
+			class		= "icon-interface-print"
 			ic-touch-me
 		>	
 			{{'INTERFACE.PRINT' | translate}}		
@@ -399,6 +401,7 @@
 		<a 
 			ng-if				= "!editMode"
 			ic-toggle-overlay	= "sharingMenu"
+			class				= "icon-interface-share"
 			ic-touch-me
 		>				
 			{{'INTERFACE.SHARE'	| translate}}		
@@ -407,6 +410,7 @@
 		<a 
 			ng-click	= "cancelEdit()"
 			ng-if		= "editMode"
+			class		= "icon-interface-edit"
 			ic-touch-me
 		> {{'INTERFACE.CANCEL' | translate}} </a>
 
@@ -414,6 +418,7 @@
 		<a 
 			ng-click	= "edit()"
 			ng-show		= "!editMode"
+			class		= "icon-interface-edit"
 			ic-touch-me
 		> {{'INTERFACE.EDIT' | translate}} </a>
 
@@ -421,6 +426,7 @@
 		<a
 			ng-click	= "delete()"
 			ng-show		= "icUser.can('delete_items') && !editMode"
+			class		= "icon-interface-delete"
 			ic-touch-me
 		> {{'INTERFACE.DELETE' | translate }}</a>
 
@@ -430,6 +436,7 @@
 		<a 
 			ng-click	= "submitItemEdits()"
 			ng-if		= "item.state != 'new' && icUser.can('edit_items') && editMode"
+			class		= "icon-interface-save"
 			ic-touch-me
 		> {{'INTERFACE.SUBMIT_ITEM_EDITS' | translate}} </a>
 
@@ -437,6 +444,7 @@
 		<a 
 			ng-click	= "submitNewItem()"
 			ng-if		= "item.state == 'new' && icUser.can('add_new_items') && editMode"
+			class		= "icon-interface-save"
 			ic-touch-me
 		> {{'INTERFACE.SUBMIT_NEW_ITEM' | translate}} </a>
 
@@ -448,12 +456,14 @@
 		<a 
 			ng-click	= "submitEditSuggestions()"
 			ng-if		= "item.state != 'new' && icUser.can('suggest_item_edits') && editMode"
+			class		= "icon-interface-save"
 			ic-touch-me
 		> {{'INTERFACE.SUBMIT_EDIT_SUGGESTIONS' | translate}} </a>
 
 		<a 
 			ng-click	= "submitItemSuggestion()"
 			ng-if		= "item.state == 'new' && icUser.can('suggest_new_items') && editMode"
+			class		= "icon-interface-save"
 			ic-touch-me
 		> {{'INTERFACE.SUBMIT_ITEM_SUGGESTION' | translate}} </a>
 

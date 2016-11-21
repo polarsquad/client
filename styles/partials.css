@@ -37,12 +37,12 @@ ic-header button{
 ic-header button.text-right {
 	background-position:	left 0.25rem center;
 	padding-left:			2.5rem;
-	padding-right:			0.25rem;
+	padding-right:			0.5rem;
 }
 
 ic-header button.text-left {
 	background-position:	right 0.25rem center;
-	padding-left:			0.25rem;
+	padding-left:			0.5rem;
 	padding-right:			2.5rem;
 	text-align:				right;
 }
@@ -89,14 +89,7 @@ ic-search .search-term {
 }
 
 ic-search .search-term input {
-	width:					100%;
-	padding:				0.5rem 2rem 0.5rem 0;
-	box-sizing:				border-box;
-	border-radius:			0;
-	background:				#eee;
-	font-size:				1.2rem;
-	line-height:			1.5rem;
-	text-align:				center;
+	padding-right:			2rem 0.5rem
 }
 
 ic-search .search-term button {
@@ -110,28 +103,6 @@ ic-search .search-term button {
 	background-size:		contain;
 	background-color:		transparent;
 }
-
-ic-search input:focus {
-	box-shadow:				0 0 0 1px #000 inset;
-} 
-
-ic-search .auto-suggest {
-	margin-top:				1rem;
-}
-
-ic-search .auto-suggest a {
-	display:				block;
-	border-radius:			0;
-	text-align:				left;
-	line-height:			2rem;
-	margin:					0;
-	padding:				0 0.5rem;
-	white-space: 			nowrap;
-	text-overflow:			ellipsis;
-	overflow:				hidden;
-	font-size:				0.8rem;
-}
-
 
 
 
@@ -206,29 +177,41 @@ ic-search .auto-suggest a {
 
 
 .logo {
-	width:					16rem;
-	padding:				2.8rem 2.8rem;
-	font-size:				1.2rem;
+	width:					auto;
+	padding-top:			1.4em;
+	padding-left:			1.5625em;
 	background-image:		url(/images/logo.svg);
 	background-position:	0 0;
-	background-size:		3.5rem auto;
+	background-size:		2em auto;
 	background-repeat:		no-repeat;
+	margin-top:				0;
+	margin-bottom:			1em;
+}
+
+.logo.shift {
+	margin-left:			-1.5625em;
 }
 
 .logo h1 {
 	margin:					0;
-	margin-bottom:			1rem;
 }
 
 .logo h2 {
 	margin:					0;
 	white-space: 			normal;
 	font-weight:			300;
-	font-size: 				1rem;
+	font-size: 				0.8em;
 }
 
 
-
+.claim {
+	margin-top:				-1rem;
+	font-size:				1.3rem;
+	line-height:			1.4em;
+	max-width:				30rem;
+	font-weight:			300;
+	margin-bottom:			2rem;
+}
 
 
 /*  tags */
@@ -279,7 +262,7 @@ ic-search .auto-suggest a {
 	white-space: 			normal;
 	line-height:			10rem;
 	margin:					-0.5rem -0.5rem;
-	text-align:				center;
+	text-align:				left;
 }
 
 .tiles > * {
@@ -314,10 +297,15 @@ ic-search .auto-suggest a {
 	display:				inline-block;
 	margin:					0.5rem;
 	width:					21rem;
-	height:					10rem;
+	height:					14rem;
 	vertical-align:			top;
 	text-align:				left;
 	line-height:			initial;
+	font-size:				1.3rem;
+}
+
+[ic-tile]:hover{
+	opacity:				0.8;
 }
 
 [ic-tile] .background {
@@ -335,7 +323,7 @@ ic-search .auto-suggest a {
 
 [ic-tile] .background.icon {
 	background-size:		6rem auto;
-	background-position:	50% 1rem;
+	background-position:	50% 30%;
 }
 
 [ic-tile] .content {
@@ -608,10 +596,15 @@ ic-full-item footer .tools{
 
 ic-full-item footer .tools > a {
 	display:				inline-block;
-	text-align:				center;
+	line-height:			3rem;
+	height:					3rem;
+	text-align:				right;
 	padding:				0 1rem;
+	padding-left:			3rem;
+	background-position:	0.5rem 50%;
+	background-size:		2rem;
+	background-repeat:		no-repeat;
 	margin-right:			1rem;
-	line-height:			2rem;
 	box-shadow:				0 0 0 1px #666;
 }
 
@@ -1014,8 +1007,23 @@ ic-overlays > .center {
 	min-height:				0;
 }
 
+ic-overlays > .center.greedy {
+	width:					90%;
+	max-width:				40rem;
+}
+
+ic-overlays > .center.greedy > * {
+	display:				block;
+	width:					100%;
+}
+
+ic-overlays > .center.greedy h3 {
+	margin-top:				3rem;
+}
+
+
 ic-overlays > .center .message + form{
-	margin-top:			1rem;
+	margin-top:				1rem;
 }
 
 ic-overlays > .center .buttons {
@@ -1034,6 +1042,18 @@ ic-overlays > .center .buttons button {
 ic-overlays > .center .buttons button + button {
 	margin-left:			1rem;
 }
+
+ic-overlays > .center li {
+	height:					1.5rem;
+	line-height:			1.5rem;
+	width:					auto;
+}
+
+ic-overlays > .center li a {
+	display:				inline;
+}
+
+
 
 ic-overlays > .left {
 	left:					0;
@@ -1073,10 +1093,10 @@ ic-overlays .white {
 	background-color:		#fff;
 }
 
-ic-overlays .white  a {
+ic-overlays .white  > a {
 	display:				block;
 	line-height:			3rem;
-	border-bottom:			1px solid rgba(0,0,0,0.3);
+	border-top:			1px solid rgba(0, 0, 0, 0.3);
 }
 
 

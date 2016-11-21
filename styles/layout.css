@@ -116,6 +116,34 @@ body > #content {
 
 /*Layout page */
 
+#content section:nth-last-child(1){
+	z-index:				1;
+}
+
+
+#content section:nth-last-child(2){
+	z-index:				2;
+}
+
+#content section:nth-last-child(3){
+	z-index:				3;
+}
+
+#content section:nth-last-child(4){
+	z-index:				4;
+}
+
+#content section:nth-last-child(5){
+	z-index:				5;
+}
+
+#content section:nth-last-child(6){
+	z-index:				6;
+}
+
+
+
+
 #content section.page {
 	display:				block;
 	width:					auto;
@@ -123,20 +151,28 @@ body > #content {
 
 }
 
+#content section.page > * {
+	box-sizing:				border-box;
+}
+
 .S	#content section.page > * {
 	width:					46rem;
+	padding-left:			3rem;
 }
 
 .M	#content section.page > * {
 	width:					60rem;
+	padding-left:			3rem;
 }
 
 .L	#content section.page > * {
 	width:					72rem;
+	padding-left:			3rem;
 }
 
 .XL #content section.page > * {
 	width:					108rem;
+	padding-left:			3rem;
 }
 
 
