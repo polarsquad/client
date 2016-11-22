@@ -611,7 +611,7 @@ ic-full-item footer .tools > a {
 	background-size:		2rem;
 	background-repeat:		no-repeat;
 	margin-right:			1rem;
-	box-shadow:				0 0 0 1px #666;
+	box-shadow:				0 0 0 1px #666 inset;
 	white-space: 			nowrap;
 	overflow:				hidden;
 	text-overflow:			ellipsis;
