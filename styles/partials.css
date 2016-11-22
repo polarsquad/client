@@ -1052,14 +1052,20 @@ ic-overlays > .center .buttons button + button {
 	margin-left:			1rem;
 }
 
+ic-overlays > .center ul {
+	box-sizing:				border-box;
+	padding-left:			10%;
+}
+
 ic-overlays > .center li {
-	height:					1.5rem;
+	display:				block;
 	line-height:			1.5rem;
 	width:					auto;
 }
 
 ic-overlays > .center li a {
 	display:				inline;
+	white-space:			normal;
 }
 
 ic-overlays > .left:after,
