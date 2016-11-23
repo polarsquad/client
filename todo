@@ -345,10 +345,11 @@ Done:
 * Textfeld Rahmen auf ipad, wenn focused
 * Kachel unterschirft zu klein
 * Ende der Seite Platz machen
-
-Todo:
-
-* Mehr #platz scrollmenu
+* Mehr platz scrollmenu
 * Sort/filter -> tabs
 * quickfilter to sackgasse
 * Überschriften bold bei filtern
+
+Todo:
+
+* replace?

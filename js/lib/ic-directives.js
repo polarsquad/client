@@ -590,23 +590,27 @@ angular.module('icDirectives', [
 
 			link:		function(scope){
 
-				var abs_url 	= 	$location.absUrl(),
-					path		= 	$location.path(),
-					url			= 	abs_url.replace(path, '')
-									+'/item/'	+ icSite.params.item
-									+'/l/'		+ icSite.params.l
-			
+				scope.$watch(
+					function(){ return icSite.params },
+					function(){
+						
+						var abs_url 	= 	$location.absUrl(),
+							path		= 	$location.path(),
+							url			= 	abs_url.replace(path, '')
+											+'/item/'	+ icSite.params.item
+											+'/l/'		+ icSite.params.l
+					
+						scope.platforms = [
+							{name: 'email',		link: 'mailto:?&body='+url},
+							{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
+							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
+							{name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
+							{name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
+							{name: 'WhatsApp',	link: 'whatsapp://send?text='+url}
+						]
+					}
+				)
 
-				console.log(url)
-
-				scope.platforms = [
-					{name: 'email',		link: 'mailto:?&body='+url},
-					{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
-					{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
-					{name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
-					{name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-					{name: 'WhatsApp',	link: 'whatsapp://send?text='+url}
-				]
 			}
 		}
 	}
