@@ -325,14 +325,16 @@ angular.module('icServices', [
 		}
 
 
-		icSite.schedulePathUpdate = function(){
+		icSite.schedulePathUpdate = function(replace){
 
 			if(scheduledUpdate) $timeout.cancel(scheduledUpdate)
 
 			scheduledPath = icSite.params2Path({}, 'replace')
 
 			scheduledUpdate = 	$timeout(function(){
-									$location.path(scheduledPath).replace()
+									replace
+									?	$location.path(scheduledPath).replace()
+									:	$location.path(scheduledPath)
 								}, 100)
 
 			return this

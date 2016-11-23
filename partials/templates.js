@@ -423,13 +423,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-error	= \"fallback = true\" \n" +
     "	/>\n" +
     "\n" +
+    "	<!--\n" +
     "	<div\n" +
     "		ng-show = \"!editMode && item.imageUrl && fallback\" \n" +
     "		class 	= \"fallback\"\n" +
     "		title 	= \"{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}\"\n" +
     "	>\n" +
     "	</div>\n" +
-    "	\n" +
+    "	-->\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
     "		ng-if 					= \"editMode\"\n" +
@@ -780,6 +781,51 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			{{\"INTERFACE.LANGUAGES\" | translate }}\n" +
     "		</span>\n" +
     "	</button>"
+  );
+
+
+  $templateCache.put('partials/ic-impress.html',
+    "<h2>{{'INTERFACE.IMPRESS_HEADING' | translate}}</h2>\n" +
+    "\n" +
+    "<p>\n" +
+    "Verband für sozial-kulturelle Arbeit e.V. <br/>\n" +
+    "Tucholskystr. 11 <br/>\n" +
+    "10117 Berlin <br/>\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Tel. +49 / (0)30 / 28 09 61 03\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Vorsitzender: Prof. Stephan F. Wagner, Renate Wilkening (Stellv.)\n" +
+    "Geschäftsführerin: Barbara Rehbehn (ViSdP)\n" +
+    "Registernummer: VR 28242 B\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "	<a href =\"www.vska.de\">www.vska.de</a>\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Angaben gemäß § 5 TMG, § 10 MDStV </br>\n" +
+    "Haftungshinweis: </br>\n" +
+    "Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. </br>\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Verantwortlich Konzeption, Design, Entwicklung: <br/>\n" +
+    "place/making Stefan Göllner, Jan Lindenberg GbR\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Bei Fragen zum info-compass Projekt wenden Sie sich bitte an: <br/>\n" +
+    "E-Mail: kontakt@info-compass.net\n" +
+    "</p>\n" +
+    "\n" +
+    "<p>\n" +
+    "Projektwebsite (Deutsch): <a href = \"www.info-compass.berlin\">www.info-compass.berlin</a>\n" +
+    "</p>\n"
   );
 
 
@@ -1159,19 +1205,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "<a \n" +
-    "	ic-toggle-overlay	 = \"about\"\n" +
-    "	ic-touch-me\n" +
-    ">\n" +
-    "	{{'INTERFACE.ABOUT' | translate}}\n" +
-    "</a>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
     "<a \n" +
     "	ng-if 		= \"icUser.authToken\" \n" +
     "	class 		= \"xjust\"\n" +
@@ -1234,7 +1267,26 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ic-touch-me\n" +
     ">\n" +
     "	{{'INTERFACE.ARCHIVED_ITEMS' | translate}}\n" +
-    "</a>\n"
+    "</a>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<a \n" +
+    "	ic-toggle-overlay	 = \"about\"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.ABOUT' | translate}}\n" +
+    "</a>\n" +
+    "\n" +
+    "\n" +
+    "<a \n" +
+    "	ic-toggle-overlay	 = \"impress\"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.IMPRESS' | translate}}\n" +
+    "</a>\n" +
+    "\n"
   );
 
 
@@ -1253,6 +1305,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<div \n" +
     "	ng-if		=	\"icOverlays.show.about\"\n" +
     "	ng-include 	= 	\"'partials/ic-about.html'\"\n" +
+    "	class		=	\"white center greedy\"\n" +
+    ">\n" +
+    "</div>\n" +
+    "\n" +
+    "\n" +
+    "<div \n" +
+    "	ng-if		=	\"icOverlays.show.impress\"\n" +
+    "	ng-include 	= 	\"'partials/ic-impress.html'\"\n" +
     "	class		=	\"white center greedy\"\n" +
     ">\n" +
     "</div>\n" +
@@ -1454,6 +1514,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<a \n" +
     "	ng-repeat  	= \"platform in platforms\"\n" +
     "	ng-href		= \"{{::platform.link}}\" \n" +
+    "	ic-touc-me\n" +
     ">\n" +
     "		<span \n" +
     "			class 		= \"icon\"\n" +
@@ -1461,7 +1522,12 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		>		\n" +
     "		</span>\n" +
     "	{{platform.name | uppercase | prepend: \"INTERFACE.SHARE.\" | translate}}\n" +
-    "</a>"
+    "</a>\n" +
+    "\n" +
+    "<br/>\n" +
+    "<br/>\n" +
+    "\n" +
+    "<textarea readonly>{{url}}</textarea>"
   );
 
 

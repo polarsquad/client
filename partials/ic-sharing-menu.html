@@ -5,6 +5,7 @@
 <a 
 	ng-repeat  	= "platform in platforms"
 	ng-href		= "{{::platform.link}}" 
+	ic-touc-me
 >
 		<span 
 			class 		= "icon"
@@ -13,3 +14,8 @@
 		</span>
 	{{platform.name | uppercase | prepend: "INTERFACE.SHARE." | translate}}
 </a>
+
+<br/>
+<br/>
+
+<textarea readonly>{{url}}</textarea>

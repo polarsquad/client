@@ -601,7 +601,8 @@ angular.module('icDirectives', [
 											+'/l/'		+ icSite.params.l
 						return url
 					},
-					function(url){					
+					function(url){		
+						scope.url = url			
 						scope.platforms = [
 							{name: 'email',		link: 'mailto:?&body='+url},
 							{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
