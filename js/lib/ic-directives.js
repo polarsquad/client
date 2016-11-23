@@ -580,26 +580,28 @@ angular.module('icDirectives', [
 
 .directive('icSharingMenu', [
 
+	'$rootScope',
 	'$location', 
 	'icSite',
 
-	function($location, icSite){
+
+	function($rootScope, $location, icSite){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
 
-			link:		function(scope){
+			link: function(scope){
 
-				scope.$watch(
-					function(){ return icSite.params },
-					function(){
-						
+				$rootScope.$watch(
+					function(){ 
 						var abs_url 	= 	$location.absUrl(),
 							path		= 	$location.path(),
 							url			= 	abs_url.replace(path, '')
 											+'/item/'	+ icSite.params.item
 											+'/l/'		+ icSite.params.l
-					
+						return url
+					},
+					function(url){					
 						scope.platforms = [
 							{name: 'email',		link: 'mailto:?&body='+url},
 							{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
