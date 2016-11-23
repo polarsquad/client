@@ -3,6 +3,7 @@ body,
 html {
 	overflow:			auto;
 	font-size:			initial !important;
+	height:				100%;
 }
 
 
@@ -15,7 +16,10 @@ body ic-overlays {
 }
 
 
-
+ 
+body #content {
+	height:				100%;
+}
 
 body #content > * {
 	display:			none !important;
@@ -24,17 +28,6 @@ body #content > * {
 
 body #content > .item {
 	display:			block !important;
-}
-
-
-
-
-body #content ic-full-item ic-spinner {
-	display:			none;
-}
-
-body #content ic-full-item .state {
-	display:			none;
 }
 
 
@@ -52,6 +45,7 @@ body #content {
 body #content > section {
 	width:				auto !important;
 	overflow:			visible !important;
+	padding:			0;
 }
 
 body #content > section > * {
@@ -59,44 +53,151 @@ body #content > section > * {
 }
 
 
-body #content ic-full-item .hero {
-	width:				40%;
-	padding-right:		10%;
-	float:				left;
+
+body #content ic-full-item {
+	position:			absolute;
+	padding-top:		3rem;
+	top:				0;
+	bottom:				0;
+	left:				0;
+	right:				0;
 }
 
-body #content ic-full-item p {
-	width:				50%;
-	box-sizing:			border-box;
-	padding-left:		1rem;
-	float:				right;
+body #content ic-full-item > * {
+	height:				100%;
 }
+
+
+body #content ic-full-item h2,
+body #content ic-full-item h3,
+body #content ic-full-item .topics-and-target-groups,
+body #content ic-full-item .description {
+	width:				48% !important;
+}
+
+body #content ic-full-item .type {
+	width:				40% !important;
+}
+
+
+body #content ic-full-item ic-spinner,
+body #content ic-full-item .state,
+body #content ic-full-item .hero,
+body #content ic-full-item hr {
+	display:			none;
+}
+
+
+
+body #content ic-full-item .topics-and-target-groups{
+	display:			block;
+	position:			absolute;
+	top:				0;
+	left:				0;
+	line-height:		2em;
+	font-size:			1.1rem;
+	color:				#000 !important;
+	font-weight:		500 !important;
+	margin:				0;
+	border-top:			0.3rem solid #000;
+}
+
+body #content ic-full-item .topics-and-target-groups * {
+	color:				#000 !important;
+}
+
+
+
+
+body #content ic-full-item .type {
+	position:			absolute;
+	display:			block;
+	top:				0;
+	right:				0;
+	border-top:			0.3rem solid #000;
+	line-height:		2em;
+	font-size:			1.1rem;
+	color:				#000 !important;
+	font-weight:		500 !important;
+}
+
+body #content ic-full-item .type img{
+	display:			block;
+	margin:				0 auto;
+	width:				11rem;
+	height:				11rem;
+}
+
+
+body #content ic-full-item .description {
+	position:			absolute;
+}
+
 
 body #content ic-full-item ic-info-tag {
-	display:			inline-block;
-	width:				50%;
+	display:			block;
+	box-sizing:			border-box;
+	width:				100%;
+	margin:				1.5rem 0;
+	padding-left:		60%;
 }
 
 body #content ic-full-item ic-info-tag:nth-of-type(1){
-	clear:				both;
+	margin-top:			6rem;
 }
 
-body #content ic-full-item ic-info-tag:nth-of-type(even){
-	float:				left;
+body #content ic-full-item ic-info-tag .title{
+	padding-top:		0.5rem;
+	border-top:			1px solid #000;
+	margin-left:		0;
 }
 
-body #content ic-full-item ic-info-tag:nth-of-type(odd){
-	float:				right;
+body #content ic-full-item ic-info-tag .content {
+	margin-left:		0;
+	color:				#444 !important;
+	font-size:			0.85em;
+	font-weight:		300;
+	line-height:		1.4em;
 }
+body #content ic-full-item ic-info-tag .content a {
+	color:				#444 !important;
+}
+
+body #content ic-full-item ic-info-tag .icon {
+	margin-top:			0.5rem;
+	margin-left:		-3rem;
+}
+
 
 body #content ic-full-item  qrcode {
-	display:			inline-block;
-	width:				40%;
-	padding-left:		1rem;
-	float:				right;
-	margin:				0;
+	display:			block;
+	width:				20%;
+	margin-top:			3rem;
+	margin-bottom:		1rem;
+	margin-left:		70%;
+	margin-right:		10%;
 } 
 
+body #content ic-full-item .link-to-item {
+	position:			absolute;
+	display:			block;
+	width:				40%;
+	margin-top:			1rem;
+	margin-bottom:		0;
+	margin-left:		60%;
+	margin-right:		0%;
+	text-align:			left;
+}
+
+body #content ic-full-item .logo{
+	display:			block;
+	position:			absolute;
+	font-size:			1.4rem;
+	left:				0;
+	bottom:				0;
+	margin-right:		auto;
+	font-weight:		300;
+}
 
 body #content ic-full-item  footer {
 	float:				none;

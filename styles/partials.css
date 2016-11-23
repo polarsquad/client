@@ -186,6 +186,8 @@ ic-search .search-term button {
 	background-repeat:		no-repeat;
 	margin-top:				0;
 	margin-bottom:			1em;
+	
+	-webkit-print-color-adjust: exact; 
 }
 
 .logo.shift {
@@ -558,6 +560,10 @@ ic-full-item h3 {
 	line-height:			1em;
 }
 
+ic-full-item .type {
+	display:				none;
+}
+
 ic-full-item .topics-and-target-groups {
 	font-size:				0.875rem;
 }
@@ -576,6 +582,10 @@ ic-full-item img {
 	width:					100%;
 	height:					auto;
 	margin:					2rem 0;
+}
+
+ic-full-item .description {
+	font-weight:			300;
 }
 
 ic-full-item .fallback {
@@ -632,7 +642,13 @@ ic-full-item qrcode > *{
 }
 
 
+ic-full-item .link-to-item {
+	display:				none;
+}
 
+ic-full-item .logo {
+	display:				none;
+}
 
 /* full-item edit */
 

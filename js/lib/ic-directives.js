@@ -505,6 +505,7 @@ angular.module('icDirectives', [
 					
 					scope.editMode	= scope.item.state == 'new'
 
+
 					if(!scope.itemEdit.state || scope.itemEdit.state == 'new'){
 						scope.itemEdit.state =	icUser.can('add_new_items')
 												?	'draft'

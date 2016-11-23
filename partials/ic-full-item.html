@@ -79,6 +79,14 @@
 
 	<!-- start type -->
 
+	<div class 	= "type">
+		<div>{{"TYPES.%s" | fill : item.type | translate}}</div>
+		<img 
+			ng-src 		= "/images/icon_topic_{{item.primaryTopic}}_black.svg" 
+		/>
+	</div>
+	
+
 	<ic-item-edit-property
 		ng-if					= "editMode"
 		ic-type					= "string"
@@ -90,7 +98,6 @@
 	></ic-item-edit-property>
 
 	<!-- end type -->
-
 
 
 
@@ -149,7 +156,6 @@
 
 
 
-
 	<!-- end topic and targets groups -->
 
 
@@ -163,14 +169,12 @@
 		ic-error	= "fallback = true" 
 	/>
 
-	<!--
 	<div
-		ng-show = "!editMode && item.imageUrl && fallback" 
+		ng-show = "!editMode && icUser.can('edit_items')&& item.imageUrl && fallback" 
 		class 	= "fallback"
 		title 	= "{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}"
 	>
 	</div>
-	-->
 
 	<ic-item-edit-property
 		ng-if 					= "editMode"
@@ -367,6 +371,9 @@
 	>
 	</qrcode>
 
+	<div class ="link-to-item">
+		{{item.id | icItemLink}}
+	</div>
 
 	<hr/>
 
@@ -386,7 +393,15 @@
 		{{'INTERFACE.ITEM_COMMENT_REQUIREMENT' | translate}}
 	</div>
 
+	<div class = "logo shift">
+		<ic-text-logo></ic-text-logo> Berlin
+	</div>
 </article>
+
+
+
+
+
 
 <footer ng-if = "item">
 	<div class = "tools">

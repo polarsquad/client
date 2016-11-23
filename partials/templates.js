@@ -339,6 +339,14 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<!-- start type -->\n" +
     "\n" +
+    "	<div class 	= \"type\">\n" +
+    "		<div>{{\"TYPES.%s\" | fill : item.type | translate}}</div>\n" +
+    "		<img \n" +
+    "			ng-src 		= \"/images/icon_topic_{{item.primaryTopic}}_black.svg\" \n" +
+    "		/>\n" +
+    "	</div>\n" +
+    "	\n" +
+    "\n" +
     "	<ic-item-edit-property\n" +
     "		ng-if					= \"editMode\"\n" +
     "		ic-type					= \"string\"\n" +
@@ -350,7 +358,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end type -->\n" +
-    "\n" +
     "\n" +
     "\n" +
     "\n" +
@@ -409,7 +416,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
-    "\n" +
     "	<!-- end topic and targets groups -->\n" +
     "\n" +
     "\n" +
@@ -423,14 +429,12 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-error	= \"fallback = true\" \n" +
     "	/>\n" +
     "\n" +
-    "	<!--\n" +
     "	<div\n" +
-    "		ng-show = \"!editMode && item.imageUrl && fallback\" \n" +
+    "		ng-show = \"!editMode && icUser.can('edit_items')&& item.imageUrl && fallback\" \n" +
     "		class 	= \"fallback\"\n" +
     "		title 	= \"{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}\"\n" +
     "	>\n" +
     "	</div>\n" +
-    "	-->\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
     "		ng-if 					= \"editMode\"\n" +
@@ -627,6 +631,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	>\n" +
     "	</qrcode>\n" +
     "\n" +
+    "	<div class =\"link-to-item\">\n" +
+    "		{{item.id | icItemLink}}\n" +
+    "	</div>\n" +
     "\n" +
     "	<hr/>\n" +
     "\n" +
@@ -646,7 +653,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{'INTERFACE.ITEM_COMMENT_REQUIREMENT' | translate}}\n" +
     "	</div>\n" +
     "\n" +
+    "	<div class = \"logo shift\">\n" +
+    "		<ic-text-logo></ic-text-logo> Berlin\n" +
+    "	</div>\n" +
     "</article>\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
     "\n" +
     "<footer ng-if = \"item\">\n" +
     "	<div class = \"tools\">\n" +
@@ -1165,7 +1180,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		>		\n" +
     "		</span><!--\n" +
     "	 --><div>\n" +
-    "			{{type | uppercase | prepend : \"TYPES.\" | translate}}\n" +
+    "			{{\"TYPES.%s\" | fill : type | translate}}\n" +
     "		</div>\n" +
     "	</a>\n" +
     "</div>\n" +
