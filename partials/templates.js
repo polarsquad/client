@@ -653,7 +653,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{'INTERFACE.ITEM_COMMENT_REQUIREMENT' | translate}}\n" +
     "	</div>\n" +
     "\n" +
-    "	<div class = \"logo shift\">\n" +
+    "	<div class = \"logo\">\n" +
     "		<ic-text-logo></ic-text-logo> Berlin\n" +
     "	</div>\n" +
     "</article>\n" +
