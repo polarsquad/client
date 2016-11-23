@@ -581,15 +581,23 @@ angular.module('icDirectives', [
 .directive('icSharingMenu', [
 
 	'$location', 
+	'icSite',
 
-	function($location){
+	function($location, icSite){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
 
 			link:		function(scope){
 
-				var url = $location.absUrl()
+				var abs_url 	= 	$location.absUrl(),
+					path		= 	$location.path(),
+					url			= 	abs_url.replace(path, '')
+									+'/item/'	+ icSite.params.item
+									+'/l/'		+ icSite.params.l
+			
+
+				console.log(url)
 
 				scope.platforms = [
 					{name: 'email',		link: 'mailto:?&body='+url},
