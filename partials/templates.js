@@ -350,9 +350,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<div class 	= \"type\">\n" +
     "		<div>{{\"TYPES.%s\" | fill : item.type | translate}}</div>\n" +
-    "		<img \n" +
-    "			ng-src 		= \"/images/icon_topic_{{item.primaryTopic}}_black.svg\" \n" +
-    "		/>\n" +
     "	</div>\n" +
     "	\n" +
     "\n" +
@@ -387,6 +384,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			class		= \"highlight\"\n" +
     "			ng-href		= \"/#/tg/{{target_group}}\"\n" +
     "		>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
+    "\n" +
+    "		<img \n" +
+    "			ng-src 		= \"/images/icon_topic_{{item.primaryTopic}}_black.svg\" \n" +
+    "		/>\n" +
     "	</div>\n" +
     "\n" +
     "		\n" +

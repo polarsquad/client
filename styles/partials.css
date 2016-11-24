@@ -573,8 +573,12 @@ ic-full-item .topics-and-target-groups a:after{
 	content:				',';
 }
 
-ic-full-item .topics-and-target-groups a:last-child:after{
+ic-full-item .topics-and-target-groups a:last-of-type:after{
 	content:				'';
+}
+
+ic-full-item .topics-and-target-groups img{
+	display:				none;
 }
 
 ic-full-item img {

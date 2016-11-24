@@ -610,9 +610,9 @@ angular.module('icDirectives', [
 							{name: 'email',		link: 'mailto:?&body='+url},
 							{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
 							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
-							{name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
-							{name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-							{name: 'WhatsApp',	link: 'whatsapp://send?text='+url}
+							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
+							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+url}
 						]
 					}
 				)
@@ -784,7 +784,7 @@ angular.module('icDirectives', [
 				
 				case 'twitter':		return "/images/icon_"+p+"_twitter_"+c+".svg";		break;				
 				case 'facebook':	return "/images/icon_"+p+"_facebook_"+c+".svg";		break;				
-
+				case 'whatsapp':	return "/images/icon_"+p+"_whatsapp_"+c+".svg";		break;				
 				// default:			return "/images/icon_nav_close.svg";				break;
 				default:			return "/images/icon_topic_information_white.svg";	console.warn('icIcon: missing icon displayed as info!'); break;
 			}

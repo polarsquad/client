@@ -79,9 +79,6 @@
 
 	<div class 	= "type">
 		<div>{{"TYPES.%s" | fill : item.type | translate}}</div>
-		<img 
-			ng-src 		= "/images/icon_topic_{{item.primaryTopic}}_black.svg" 
-		/>
 	</div>
 	
 
@@ -116,6 +113,10 @@
 			class		= "highlight"
 			ng-href		= "/#/tg/{{target_group}}"
 		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
+
+		<img 
+			ng-src 		= "/images/icon_topic_{{item.primaryTopic}}_black.svg" 
+		/>
 	</div>
 
 		
