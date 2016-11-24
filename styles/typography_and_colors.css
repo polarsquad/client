@@ -88,6 +88,8 @@ form [contenteditable]{
 	resize: 				none;
 	overflow:				hidden;
 	font-family:			Roboto, sans-serif;
+	border-radius:			0;
+	font-size:				1rem;
 }
 
 input {
