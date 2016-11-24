@@ -1,6 +1,6 @@
 <div 
 	class = "tags"
-	ng-if = "icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length"
+	ng-if = "icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length || icFilterConfig.filterBy.state"
 >
 
 	<!--TOPICS -->
@@ -9,16 +9,27 @@
 		ng-click  = "icFilterConfig.toggleFilter('topics', topic)" 
 	>
 		<span class ="icon icon-nav-close"></span>
-		{{topic | uppercase | prepend: "TOPICS." |translate}}
+		{{"TOPICS.%s" | fill : topic |translate}}
 	</a>
 
 
 	<!--TARGET_GROUPS -->
-	<a ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroups"
+	<a 
+		ng-repeat = "targetGroup in icFilterConfig.filterBy.targetGroups"
 		ng-click  = "icFilterConfig.toggleFilter('targetGroups', targetGroup)" 
 	>
 		<span class ="icon icon-nav-close"></span>
-		{{targetGroup | uppercase | prepend: "TARGET_GROUPS." |translate}}
+		{{"TARGET_GROUPS.%s" | fill : targetGroup |translate}}
+	</a>
+
+
+	<!--TARGET_GROUPS -->
+	<a 
+		ng-if		= "icFilterConfig.filterBy.state"
+		ng-click  	= "icFilterConfig.filterBy.state = undefined" 
+	>
+		<span class ="icon icon-nav-close"></span>
+		{{"INTERFACE.ITEM_STATE_%s" | fill: icFilterConfig.filterBy.state | translate}}
 	</a>
 
 </div>

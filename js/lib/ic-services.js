@@ -45,7 +45,8 @@ angular.module('icServices', [
 						filterBy:	{
 										type:			undefined,
 										topics:			[],
-										targetGroups:	[]
+										targetGroups:	[],
+										state:			undefined,
 									},
 						orderBy:	"", // title, start_date
 						reverse:	false,

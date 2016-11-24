@@ -67,7 +67,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
   $templateCache.put('partials/ic-filter-interface.html',
     "<div \n" +
     "	class = \"tags\"\n" +
-    "	ng-if = \"icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length\"\n" +
+    "	ng-if = \"icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length || icFilterConfig.filterBy.state\"\n" +
     ">\n" +
     "\n" +
     "	<!--TOPICS -->\n" +
@@ -76,16 +76,27 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-click  = \"icFilterConfig.toggleFilter('topics', topic)\" \n" +
     "	>\n" +
     "		<span class =\"icon icon-nav-close\"></span>\n" +
-    "		{{topic | uppercase | prepend: \"TOPICS.\" |translate}}\n" +
+    "		{{\"TOPICS.%s\" | fill : topic |translate}}\n" +
     "	</a>\n" +
     "\n" +
     "\n" +
     "	<!--TARGET_GROUPS -->\n" +
-    "	<a ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroups\"\n" +
+    "	<a \n" +
+    "		ng-repeat = \"targetGroup in icFilterConfig.filterBy.targetGroups\"\n" +
     "		ng-click  = \"icFilterConfig.toggleFilter('targetGroups', targetGroup)\" \n" +
     "	>\n" +
     "		<span class =\"icon icon-nav-close\"></span>\n" +
-    "		{{targetGroup | uppercase | prepend: \"TARGET_GROUPS.\" |translate}}\n" +
+    "		{{\"TARGET_GROUPS.%s\" | fill : targetGroup |translate}}\n" +
+    "	</a>\n" +
+    "\n" +
+    "\n" +
+    "	<!--TARGET_GROUPS -->\n" +
+    "	<a \n" +
+    "		ng-if		= \"icFilterConfig.filterBy.state\"\n" +
+    "		ng-click  	= \"icFilterConfig.filterBy.state = undefined\" \n" +
+    "	>\n" +
+    "		<span class =\"icon icon-nav-close\"></span>\n" +
+    "		{{\"INTERFACE.ITEM_STATE_%s\" | fill: icFilterConfig.filterBy.state | translate}}\n" +
     "	</a>\n" +
     "\n" +
     "</div>\n" +
