@@ -229,13 +229,14 @@ angular.module('icServices', [
 	'$location',
 	'$translate',
 	'$timeout',
+	'icInit',
 	'icApi',
 	'smlLayout',
 	'icFilterConfig',
 	'icLanguages',
 	'icOverlays',
 
-	function($rootScope, $location, $translate, $timeout, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays){
+	function($rootScope, $location, $translate, $timeout, icInit, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays){
 		var icSite 		= 	{
 								fullItem:			false,
 								page:				'main',
@@ -403,27 +404,30 @@ angular.module('icServices', [
 
 			icSite.pageUrl 		= 	'pages/main.html'
 
-
 			//update icFilterconfig
 			icFilterConfig.filterBy.type			=	icSite.params.t 	|| undefined
 			icFilterConfig.filterBy.topics			=	icSite.params.tp 	|| []
 			icFilterConfig.filterBy.targetGroups	=	icSite.params.tg 	|| []
 			icFilterConfig.filterBy.state			=	icSite.params.st 	|| undefined
-			icFilterConfig.orderBy					=	icSite.params.so	|| ['events', 'services'].indexOf(icSite.params.t) == -1 ? 'title' : 'start_date' //TODO
+			icFilterConfig.orderBy					=	icSite.params.so	|| (['events', 'services'].indexOf(icSite.params.t) == -1 ? 'title' : 'start_date') //TODO
 			icFilterConfig.reverse					=	!!icSite.params.r	|| false
 
 			icFilterConfig.searchTerm				=	decodeURIComponent(icSite.params.s) || ''
 
 
 
+
 			//updateLanguage
 			if(!icLanguages.currentLanguage){
-				icLanguages.currentLanguage = icSite.params.ln
+				icLanguages.currentLanguage = icSite.params.l
 			}	
 
-			if(icSite.params.ln && icLanguages.currentLanguage != icSite.params.ln){
-				icLanguages.currentLanguage = icSite.params.ln
-				icOverlays.toggle('languageMenu', true)
+			if(icSite.params.l && icLanguages.currentLanguage != icSite.params.l){
+				icLanguages.currentLanguage = icSite.params.l
+				icInit.ready
+				.then(function(){
+					icOverlays.toggle('languageMenu', true)
+				})
 			}
 			
 
@@ -525,7 +529,7 @@ angular.module('icServices', [
 
 		$rootScope.$on('$locationChangeSuccess', 					icSite.updateFromPath)
 		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
-		$rootScope.$watch(function(){ return icLanguages }, 	icSite.addLanguageParamsToPath, true)
+		$rootScope.$watch(function(){ return icLanguages }, 		icSite.addLanguageParamsToPath, true)
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
@@ -759,23 +763,24 @@ angular.module('icServices', [
 				if(subkey){
 					data[e_key][e_subkey] = export_data[e_key][e_subkey]
 					return 	icApi.updateItem(icItem.id, data)
-							.then(function(){
-								return data.item
+							.then(function(item_data){
+								return item_data
 							})
 				}
 
 				if(key){
 					data[e_key] = export_data[e_key]
 					return 	icApi.updateItem(icItem.id, data)
-							.then(function(){
-								return data.item
+							.then(function(item_data){
+								return item_data
 							})
 				}
 
 				return 	icItem.new
 						?	icApi.updateItem(icItem.id, export_data)
-							.then(function(item_data){
+							.then(function(result){
 								icItem.new = false
+								console.log('result', result)
 								return item_data.item
 							})
 

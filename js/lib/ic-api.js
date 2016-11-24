@@ -191,6 +191,14 @@ angular.module('icApi', [])
 
 			icApi.updateItem = function(id, item_data){
 				return 	icApi.put('/items/'+id, item_data)
+						.then(
+							function(result){
+								return result.item
+							},
+							function(result){
+								return $q.reject(result)
+							}
+						)
 			}
 
 			icApi.newItem = function(item_data){

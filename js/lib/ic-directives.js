@@ -479,6 +479,7 @@ angular.module('icDirectives', [
 				}
 
 				scope.delete = function(){
+					beforeSubmission()
 					icOverlays.open('confirmationModal', 'INTERFACE.CONFIRM_DELETION')
 					.then(function(){
 						return 	scope.item.delete()
@@ -494,7 +495,7 @@ angular.module('icDirectives', [
 									}
 								)
 					})
-					
+					.finally(function(){afterSubmission})
 				}
 
 
@@ -954,9 +955,9 @@ angular.module('icDirectives', [
 
 				if(scope.expandFilter){
 					scope.open 					= 'filter'
-					scope.expand.topics 		= true
-					scope.expand.targetGroups 	= true
-					scope.expand.state			= true
+					scope.expand.topics 		= !!icFilterConfig.filterBy.topics.length
+					scope.expand.targetGroups 	= !!icFilterConfig.filterBy.targetGroups.length
+					scope.expand.state			= !!icFilterConfig.filterBy.state
 				}
 
 				scope.toggleSortPanel = function(){
@@ -2085,7 +2086,7 @@ angular.module('icDirectives', [
 			scope:			{
 								icKey:					"@",
 								icTitle: 				"<",
-								icItem:					"=",
+								icItem:					"<",
 								icType:					"@",
 								icOptions:				"<",
 								icOptionLabel:			"&",
@@ -2192,6 +2193,8 @@ angular.module('icDirectives', [
 						element.toggleClass('invalid', invalid)
 					}
 				)
+
+				console.log(scope.icItem)
 
 				scope.$watch('icItem[icKey]', refreshValues, true)
 

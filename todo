@@ -356,3 +356,7 @@ Todo:
 * about übersetzen
 * Sprach popup
 * print class einführen
+* STATE_NEW
+* Titel update nach change in der list
+* PUT
+* Fehler bei der Sortierung festgestellt:

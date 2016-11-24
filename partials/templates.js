@@ -293,7 +293,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"title\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<div\n" +
@@ -327,7 +326,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"definition\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"true\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end item definition -->\n" +
@@ -354,7 +352,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-option-label			= \"option | uppercase | prepend : 'TYPES.' | translate\"\n" +
     "		ic-key					= \"type\"\n" +
     "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end type -->\n" +
@@ -389,7 +386,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
     "		ic-key					= \"topics\"\n" +
     "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
@@ -400,7 +396,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-option-label			= \"option | uppercase | prepend : 'TOPICS.' | translate\"\n" +
     "		ic-key					= \"primaryTopic\"\n" +
     "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "	\n" +
     "\n" +
@@ -411,7 +406,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-option-label			= \"option | uppercase | prepend : 'TARGET_GROUPS.' | translate\"\n" +
     "		ic-key					= \"targetGroups\"\n" +
     "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
@@ -442,7 +436,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"imageUrl\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end image -->\n" +
@@ -469,7 +462,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"description\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"true\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end item description -->\n" +
@@ -499,7 +491,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"address\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
@@ -508,7 +499,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"zip\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
@@ -517,7 +507,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"location\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
@@ -551,7 +540,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"startDate\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "	<!-- end Start Date -->\n" +
@@ -577,7 +565,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-key					= \"{{key}}\"\n" +
     "		ic-item					= \"item\"\n" +
     "		ic-translatable			= \"false\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
@@ -607,7 +594,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-option-label			= \"'INTERFACE.ITEM_STATE_%s' | fill : option | translate\"\n" +
     "		ic-key					= \"state\"\n" +
     "		ic-item					= \"item\"\n" +
-    "		ic-allow-local-edit		= \"!item.state == 'new' && icUser.can('edit_items')\"\n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
@@ -617,7 +603,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
-    "	<hr/>\n" +
+    "	<hr ng-if = \"!editMode\"/>\n" +
     "\n" +
     "\n" +
     "	<qrcode \n" +
@@ -635,7 +621,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{item.id | icItemLink}}\n" +
     "	</div>\n" +
     "\n" +
-    "	<hr/>\n" +
+    "	<hr ng-if = \"!editMode\"/>\n" +
     "\n" +
     "	<!-- Suggestion comment -->\n" +
     "\n" +
@@ -1425,10 +1411,10 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "\n" +
     "	<ic-preview-item\n" +
-    "		ic-title 	= \"::item.title\"\n" +
+    "		ic-title 	= \"item.title\"\n" +
     "		ic-brief	= \"item.definition[language]\"\n" +
-    "		ic-topic	= \"::item.primaryTopic\"\n" +
-    "		ic-type		= \"::item.type\"\n" +
+    "		ic-topic	= \"item.primaryTopic\"\n" +
+    "		ic-type		= \"item.type\"\n" +
     "		ng-class	= \"{active: icActive({itemId: item.id})}\"\n" +
     "	>\n" +
     "	</ic-preview-item>\n" +

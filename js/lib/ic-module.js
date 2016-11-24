@@ -73,6 +73,7 @@ angular.module('InfoCompassModule',[
 		$scope.smlLayout		= smlLayout 		//Muss das wirklich?
 		$scope.icConfigData		= icConfigData 
 		$scope.icSearchResults	= icSearchResults
+		console.log($scope)
 	}
 
 ])
