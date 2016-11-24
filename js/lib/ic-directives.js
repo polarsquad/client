@@ -2194,8 +2194,6 @@ angular.module('icDirectives', [
 					}
 				)
 
-				console.log(scope.icItem)
-
 				scope.$watch('icItem[icKey]', refreshValues, true)
 
 				scope.$watch('value.new', function(){
