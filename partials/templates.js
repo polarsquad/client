@@ -1378,8 +1378,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-preview-item.html',
-    "<div class = \"icon bg-{{::icType | icColor}}\"\n" +
-    "	 style = \"background-image: url({{::icTopic|icIcon : 'topic' :'white'}})\"\n" +
+    "<div class = \"icon bg-{{icType | icColor}}\"\n" +
+    "	 style = \"background-image: url({{icTopic|icIcon : 'topic' :'white'}})\"\n" +
     ">\n" +
     "\n" +
     "</div>\n" +
@@ -1387,7 +1387,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<div class = \"content\">\n" +
     "\n" +
     "		<div class =\"title\">\n" +
-    "			{{::icTitle}}\n" +
+    "			{{icTitle}}\n" +
     "		</div>\n" +
     "\n" +
     "		<div class = \"brief\">\n" +

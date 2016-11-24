@@ -855,6 +855,15 @@ angular.module('icServices', [
 			return item
 		}
 
+		searchResults.removeItem = function(item){
+			var pos = searchResults.currentRun.indexOf(item)
+
+			if(pos != -1) searchResults.currentRun.splice(pos, 1)
+
+			searchResults.filterList()
+
+		}
+
 		searchResults.addNewItem = function(){
 			var id 		= "new_"+new Date().getTime(),
 				item 	= undefined 
@@ -927,7 +936,7 @@ angular.module('icServices', [
 						result.items = result.items || []
 
 						result.items.forEach(function(item_data){
-							searchResults.currentRun.push(searchResults.storeItem(item_data)) //ToDo: currentRun sollte vom Backend kommen oder so
+							searchResults.currentRun.push(searchResults.storeItem(item_data)) 
 						})
 						
 						//searchResults.lastAddedItem = searchResults.currentRun[searchResults.currentRun.length-1]

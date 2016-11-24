@@ -485,8 +485,9 @@ angular.module('icDirectives', [
 						return 	scope.item.delete()
 								.then(
 									function(){
+										icSearchResults.removeItem(scope.item)
 										return 	icOverlays.open('popup', 'INTERFACE.ITEM_DELETED')
-												.finally(function(){
+												.finally(function(){													
 													icSite.clearItem()										
 												})
 									},
