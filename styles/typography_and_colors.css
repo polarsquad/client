@@ -117,6 +117,7 @@ input[type=password]{
 	-webkit-appearance: 	none;
 }
 
+form button:focus, 
 input[type=text]:focus,
 input[type=password]:focus {
 	outline: 				none;

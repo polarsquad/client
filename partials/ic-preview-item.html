@@ -1,10 +1,16 @@
-<div class = "icon bg-{{icType | icColor}}"
+<div 
+	class = "icon bg-{{icType | icColor}}"
 	 style = "background-image: url({{icTopic|icIcon : 'topic' :'white'}})"
+	 title = "{{'TOPICS.%s' | fill : icTopic |translate }}"
 >
 
 </div>
 
-<div class = "content">
+<div 
+	class 	= "content"
+	title 	= "{{icTitle}}"
+
+>
 
 		<div class ="title">
 			{{icTitle}}

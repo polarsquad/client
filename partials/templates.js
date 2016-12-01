@@ -45,22 +45,26 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ng-repeat 	= \"message in icOverlays.messages.confirmationModal\">\n" +
     "	{{message | translate}}\n" +
     "</div>\n" +
+    "<form>\n" +
+    "	<div class = \"buttons\">\n" +
+    "		<button \n" +
+    "			type 		= \"button\"\n" +
+    "			ng-click 	= \"cancel()\"\n" +
+    "			tabindex	= \"2\"\n" +
+    "		>\n" +
+    "			{{'INTERFACE.CANCEL' | translate}}\n" +
+    "		</button>\n" +
     "\n" +
-    "<div class = \"buttons\">\n" +
-    "	<button \n" +
-    "		type 		= \"button\"\n" +
-    "		ng-click 	= \"cancel()\"\n" +
-    "	>\n" +
-    "		{{'INTERFACE.CANCEL' | translate}}\n" +
-    "	</button>\n" +
-    "\n" +
-    "	<button \n" +
-    "		type 		= \"button\"\n" +
-    "		ng-click 	= \"confirm()\"\n" +
-    "	>\n" +
-    "		{{ 'INTERFACE.CONFIRM' | translate}}\n" +
-    "	</button>\n" +
-    "</div>"
+    "		<button \n" +
+    "			type 		= \"button\"\n" +
+    "			ng-click 	= \"confirm()\"\n" +
+    "			tabindex	= \"1\"\n" +
+    "			ic-focus-me\n" +
+    "		>\n" +
+    "			{{ 'INTERFACE.CONFIRM' | translate}}\n" +
+    "		</button>\n" +
+    "	</div>\n" +
+    "</form>"
   );
 
 
@@ -914,7 +918,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-if 	= \"showCurrentValue\"\n" +
     "			class 	= \"current-value {{diff() ? 'diff' : ''}} \"\n" +
     "		>\n" +
-    "			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.MISSING' | translate) }}\n" +
+    "			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.EMPTY' | translate) }}\n" +
     "		</div>	\n" +
     "\n" +
     "		<div class = \"options\">\n" +
@@ -1000,8 +1004,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "	<button\n" +
-    "		ng-show	= \"allowLocalEdit\"\n" +
-    "		type 	= \"submit\"\n" +
+    "		ng-show		= \"allowLocalEdit\"\n" +
+    "		type 		= \"submit\"\n" +
+    "		ng-disabled	= \"updating\" \n" +
     "	>\n" +
     "		{{ \"INTERFACE.UPDATE\" | translate }}\n" +
     "	</buton>\n" +
@@ -1009,7 +1014,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<button\n" +
     "		ng-show		= \"allowLocalEdit\"\n" +
     "		ic-click	= \"revert()\" \n" +
-    "		ng-disabled	= \"value.new == value.current\"\n" +
+    "		ng-disabled	= \"updating || value.new == value.current\"\n" +
     "		type		= \"button\"\n" +
     "	>\n" +
     "		{{ \"INTERFACE.REVERT\" | translate }}\n" +
@@ -1115,14 +1120,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{'INTERFACE.USERNAME' | translate}}\n" +
     "		<input\n" +
     "			type 		= \"text\"\n" +
-    "			ng-model 	= \"username\"			 \n" +
+    "			ng-model 	= \"username\"	\n" +
+    "			tabindex	= \"1\"	\n" +
+    "			ic-focus-me		 \n" +
     "		></input>\n" +
     "	</label>\n" +
     "	<label>\n" +
     "		{{'INTERFACE.PASSWORD' | translate}}\n" +
     "		<input\n" +
     "			type 		= \"password\"\n" +
-    "			ng-model 	= \"password\"			 \n" +
+    "			ng-model 	= \"password\"	\n" +
+    "			tabindex	= \"2\"		 		 \n" +
     "		></input>\n" +
     "	</label>\n" +
     "\n" +
@@ -1130,11 +1138,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<button \n" +
     "			type 		= \"button\"\n" +
     "			ng-click 	= \"cancel()\"\n" +
+    "			tabindex	= \"4\"		 		 \n" +
     "		>\n" +
     "			{{ 'INTERFACE.CANCEL' | translate}}\n" +
     "		</button>\n" +
     "\n" +
-    "		<button type = \"submit\">\n" +
+    "		<button \n" +
+    "			type 		= \"submit\"\n" +
+    "			tabindex	= \"3\"		 \n" +
+    "		>\n" +
     "			{{'INTERFACE.LOGIN' | translate}}\n" +
     "		</button>\n" +
     "	</div>\n" +
@@ -1371,6 +1383,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<button \n" +
     "		type 		= \"button\"\n" +
     "		ng-click 	= \"okay()\"\n" +
+    "		ic-focus-me\n" +
     "	>\n" +
     "		{{ 'INTERFACE.OKAY' | translate}}\n" +
     "	</button>\n" +
@@ -1379,13 +1392,19 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
 
 
   $templateCache.put('partials/ic-preview-item.html',
-    "<div class = \"icon bg-{{icType | icColor}}\"\n" +
+    "<div \n" +
+    "	class = \"icon bg-{{icType | icColor}}\"\n" +
     "	 style = \"background-image: url({{icTopic|icIcon : 'topic' :'white'}})\"\n" +
+    "	 title = \"{{'TOPICS.%s' | fill : icTopic |translate }}\"\n" +
     ">\n" +
     "\n" +
     "</div>\n" +
     "\n" +
-    "<div class = \"content\">\n" +
+    "<div \n" +
+    "	class 	= \"content\"\n" +
+    "	title 	= \"{{icTitle}}\"\n" +
+    "\n" +
+    ">\n" +
     "\n" +
     "		<div class =\"title\">\n" +
     "			{{icTitle}}\n" +
@@ -1526,8 +1545,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<a \n" +
     "	ng-repeat  	= \"platform in platforms\"\n" +
-    "	ng-href		= \"{{::platform.link}}\" \n" +
-    "	ic-touc-me\n" +
+    "	ng-href		= \"{{platform.link}}\" \n" +
+    "	ic-touch-me\n" +
     ">\n" +
     "		<span \n" +
     "			class 		= \"icon\"\n" +

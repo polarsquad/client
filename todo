@@ -350,13 +350,43 @@ Done:
 * quickfilter to sackgasse
 * Überschriften bold bei filtern
 * replace?
-
-Todo:
+* PUT
 * impressum
 * about übersetzen
-* Sprach popup
-* print class einführen
 * STATE_NEW
+
 * Titel update nach change in der list
-* PUT
+* Sprach popup
+* whatsapp unsafe:??
+* touc-me
+* Dublicates in events liste -> geblockt
+* lokales speichern und abschickne irgendenwie feedbacken
+* Abstand zwischen zurück und speichern
+* ipad loader (min-height: auto, sollte jetzt gehen mit min-height:0)
+* edit per default auf draft (war timing problem)
+* focus on confirm
+* kaputte Bilder ausblenden (klemmt manchmal auf dem ipad, wirft den fehler nicht oder spät :( ))
+* geändertes bild anzeigen, wenn vorher kaputt -> klappt (wenn das backend die richtigen daten rausgibt)
+* item published ?? wenn nicht neu -> pseudo logout
+* Themen Icons mit tooltip
+* share mit title (facebook testen)
+
+Todo:
+* [x Rattenschwanz] share und print im edit mode?
+* [x Rattenschwanz] Startseite nicht länger default, sondern liste mit allen (15) einträgen 
+* print class einführen
 * Fehler bei der Sortierung festgestellt:
+* Auto logout ins interface
+* Autologout -> Änderungen werden als suggestion gespeichert
+* lokale Änderungen werden nicht im backend gespeichert!
+
+* Änderungen werden im backend nicht übernommen?
+* Item wird als neu behandelt? -> vermutlich pseudo logout
+* suche komisch erhrenabsbüro /ehrenamt / ehremamtlich
+* type:women?
+
+
+Moritz:
+
+* IP loswebos
+* Items doppelt (per id) in suchergebnissen

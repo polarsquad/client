@@ -1011,7 +1011,10 @@ angular.module('icServices', [
 			
 			searchResults.clearFilteredList()
 			
-			Array.prototype.push.apply(searchResults.filteredList, searchResults.currentRun)
+			searchResults.currentRun.forEach(function(item){
+				if(searchResults.filteredList.indexOf(item) == -1) searchResults.filteredList.push(item)
+			})
+
 
 			return searchResults
 

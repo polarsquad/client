@@ -10,14 +10,17 @@
 		{{'INTERFACE.USERNAME' | translate}}
 		<input
 			type 		= "text"
-			ng-model 	= "username"			 
+			ng-model 	= "username"	
+			tabindex	= "1"	
+			ic-focus-me		 
 		></input>
 	</label>
 	<label>
 		{{'INTERFACE.PASSWORD' | translate}}
 		<input
 			type 		= "password"
-			ng-model 	= "password"			 
+			ng-model 	= "password"	
+			tabindex	= "2"		 		 
 		></input>
 	</label>
 
@@ -25,11 +28,15 @@
 		<button 
 			type 		= "button"
 			ng-click 	= "cancel()"
+			tabindex	= "4"		 		 
 		>
 			{{ 'INTERFACE.CANCEL' | translate}}
 		</button>
 
-		<button type = "submit">
+		<button 
+			type 		= "submit"
+			tabindex	= "3"		 
+		>
 			{{'INTERFACE.LOGIN' | translate}}
 		</button>
 	</div>

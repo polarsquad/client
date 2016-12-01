@@ -710,7 +710,8 @@ ic-item-edit-property form .current-value.diff {
 	text-decoration:		line-through;
 }
 
-ic-item-edit-property form input {
+ic-item-edit-property form button + button {
+	margin-left:			0.5rem;
 }
 
 
@@ -1013,8 +1014,8 @@ ic-overlays > ic-spinner {
 	font-size:				3rem;
 	width:					1.5em;
 	height:					1.5em;
-	min-height:				auto;
-	max-height:				auto;
+	min-height:				0;
+	max-height:				100%;
 	top:					auto;
 	bottom:					20%;
 	left:					50%;

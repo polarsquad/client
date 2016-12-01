@@ -1,3 +1,9 @@
+.print-only {
+	display:			none;
+}
+
+
+
 html {
 	background-color:	#fff;
 }

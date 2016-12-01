@@ -15,8 +15,11 @@ angular.module('InfoCompassModule',[
 .config([
 	'icApiProvider',
 	'smlLayoutProvider',
+	'$compileProvider',
 
-	function(icApiProvider, smlLayoutProvider){
+	function(icApiProvider, smlLayoutProvider, $compileProvider){
+
+  		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto):/)
 
 		//$animateProvider.classNameFilter(/animate-me/)
 

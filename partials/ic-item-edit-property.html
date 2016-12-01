@@ -39,7 +39,7 @@
 			ng-if 	= "showCurrentValue"
 			class 	= "current-value {{diff() ? 'diff' : ''}} "
 		>
-			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.MISSING' | translate) }}
+			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.EMPTY' | translate) }}
 		</div>	
 
 		<div class = "options">
@@ -125,8 +125,9 @@
 
 
 	<button
-		ng-show	= "allowLocalEdit"
-		type 	= "submit"
+		ng-show		= "allowLocalEdit"
+		type 		= "submit"
+		ng-disabled	= "updating" 
 	>
 		{{ "INTERFACE.UPDATE" | translate }}
 	</buton>
@@ -134,7 +135,7 @@
 	<button
 		ng-show		= "allowLocalEdit"
 		ic-click	= "revert()" 
-		ng-disabled	= "value.new == value.current"
+		ng-disabled	= "updating || value.new == value.current"
 		type		= "button"
 	>
 		{{ "INTERFACE.REVERT" | translate }}

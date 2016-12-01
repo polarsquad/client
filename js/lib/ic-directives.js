@@ -362,7 +362,7 @@ angular.module('icDirectives', [
 							scope.item.id 		= item_data.id
 							scope.itemEdit.id 	= item_data.id
 
-							var message = "INTERFACE_ITEM_SUBMITTED"
+							var message = "INTERFACE.ITEM_SUBMITTED"
 
 							switch(scope.item.state){
 								case "published":	message = 'INTERFACE.ITEM_PUBLISHED'; 		break;
@@ -398,7 +398,7 @@ angular.module('icDirectives', [
 							scope.item.id 		= item_data.id
 							scope.itemEdit.id 	= item_data.id
 
-							var message = "INTERFACE_ITEM_SUBMITTED"
+							var message = "INTERFACE.ITEM_SUBMITTED"
 
 							switch(scope.item.state){
 								case "published":	message = 'INTERFACE.ITEM_PUBLISHED'; 		break;
@@ -507,8 +507,7 @@ angular.module('icDirectives', [
 					
 					scope.editMode	= scope.item.state == 'new'
 
-
-					if(!scope.itemEdit.state || scope.itemEdit.state == 'new'){
+					if(scope.itemEdit.state == 'new'){
 						scope.itemEdit.state =	icUser.can('add_new_items')
 												?	'draft'
 												:	'suggestion'
@@ -586,33 +585,39 @@ angular.module('icDirectives', [
 	'$rootScope',
 	'$location', 
 	'icSite',
+	'icSearchResults',
 
 
-	function($rootScope, $location, icSite){
+	function($rootScope, $location, icSite, icSearchResults){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
 
 			link: function(scope){
 
+				scope.item = icSearchResults.getItem(icSite.params.item)
+
 				$rootScope.$watch(
-					function(){ 
+					function(){
+						return scope.item.title
+					},
+					function(){
 						var abs_url 	= 	$location.absUrl(),
 							path		= 	$location.path(),
 							url			= 	abs_url.replace(path, '')
 											+'/item/'	+ icSite.params.item
-											+'/l/'		+ icSite.params.l
-						return url
-					},
-					function(url){		
-						scope.url = url			
+											+'/l/'		+ icSite.params.l,
+							title		=	scope.item.title
+
+						scope.url = url
+						
 						scope.platforms = [
-							{name: 'email',		link: 'mailto:?&body='+url},
-							{name: 'twitter', 	link: 'https://twitter.com/share?url='+url},
-							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url},
+							{name: 'email',		link: 'mailto:?subject=Infocompass: '+title+'&body='+url},
+							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+title+'&url='+url+'&hashtags=infocompass'},
+							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url+'&t='+title},
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-							{name: 'whatsapp',	link: 'whatsapp://send?text='+url}
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+title+': '+url}
 						]
 					}
 				)
@@ -697,6 +702,7 @@ angular.module('icDirectives', [
 			link: function(scope){
 
 				scope.icOverlays = icOverlays
+
 
 				scope.cancel = function(){
 					icOverlays.deferred.confirmationModal.reject()
@@ -2080,8 +2086,9 @@ angular.module('icDirectives', [
 	'icUser',
 	'icLanguages',
 	'icOverlays',
+	'$q',
 
-	function(icItemEdits, icUser, icLanguages, icOverlays){
+	function(icItemEdits, icUser, icLanguages, icOverlays, $q){
 		return {
 			restrict:		'AE',
 			scope:			{
@@ -2100,14 +2107,14 @@ angular.module('icDirectives', [
 				var itemEdit = icItemEdits.open(scope.icItem.id)
 
 				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
-				scope.icLanguages	= 	icLanguages
+				scope.icLanguages		= 	icLanguages
 				scope.value				=	{}
 				scope.expand			=	undefined
-				scope.allowLocalEdit	= 	scope.icItem.state != 'new' && icUser.can('edit_items')
 				scope.showCurrentValue	=	scope.icItem.state != 'new'
 
 
 				scope.update = function(){
+					scope.updating = true
 					itemEdit
 					.update(scope.icKey, scope.icTranslatable ? icLanguages.currentLanguage : undefined)
 					.then(
@@ -2115,10 +2122,14 @@ angular.module('icDirectives', [
 							scope.icItem.importData(item_data)
 							refreshValues()
 						},
-						function(){
+						function(reason){
 							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDITS')
+							return $q.reject(reason)
 						}
 					)
+					.finally(function(){
+						scope.updating = false
+					})
 				}
 
 				scope.revert = function(){
@@ -2187,6 +2198,16 @@ angular.module('icDirectives', [
 
 
 				scope.$watch(function(){ return icLanguages.currentLanguage }, refreshValues)
+
+				
+				scope.$watch(
+					function(){ 
+						return scope.icItem.state != 'new' && icUser.can('edit_items')
+					},
+					function(allowLocalEdit){
+						scope.allowLocalEdit = 	allowLocalEdit
+					}
+				)
 
 				scope.$watch(
 					function(){ return itemEdit.isInvalidKey(scope.icKey)},
@@ -2416,6 +2437,23 @@ angular.module('icDirectives', [
 					icOverlays.toggle('login', false)
 				}
 
+			}
+		}
+	}
+])
+
+
+
+.directive('icFocusMe', [
+
+	function(){
+		return {
+			restrict:	'A',
+			priority:	0,
+
+			link: function(scope, element){
+				element[0].focus()
+				console.log('focus!')
 			}
 		}
 	}
