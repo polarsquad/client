@@ -615,19 +615,20 @@ angular.module('icDirectives', [
 
 			link: function(scope){
 
-				scope.item = icSearchResults.getItem(icSite.params.item)
 
-				$rootScope.$watch(
+				scope.$watch(
 					function(){
+						scope.item = icSearchResults.getItem(icSite.params.item)
 						return scope.item && scope.item.title
 					},
-					function(){
+					function(title){
+						if(!title) return null
+
 						var abs_url 	= 	$location.absUrl(),
 							path		= 	$location.path(),
 							url			= 	abs_url.replace(path, '')
 											+'/item/'	+ icSite.params.item
-											+'/l/'		+ icSite.params.l,
-							title		=	scope.item.title
+											+'/l/'		+ icSite.params.l
 
 						scope.url = url
 
