@@ -507,14 +507,11 @@ angular.module('icDirectives', [
 					
 					scope.editMode	= scope.item.state == 'new'
 
-					if(scope.itemEdit.state == 'new'){
+					if(scope.item.state == 'new'){
 						scope.itemEdit.state =	icUser.can('add_new_items')
 												?	'draft'
 												:	'suggestion'
-					}
-
-
-					if(scope.item.state != 'new'){
+					}else{
 						icSearchResults.downloadItem(id)
 						.then(
 							null,
@@ -525,6 +522,28 @@ angular.module('icDirectives', [
 					}
 					
 				})
+
+				scope.$watch(
+					function(){
+						return 	scope.item.logitude && scope.item.latitude
+								?	'https://www.openstreetmap.org/?mlat='+scope.item.longitude +'&mlon=' + scope.item.latitude + '#map=16/'+scope.item.longitude+'/'+scope.item.latitude
+								:	'https://www.openstreetmap.org/search?query='+scope.item.address + ', ' + scope.item.zip + ', ' + scope.item.location
+					},
+					function(OSMlink){
+						scope.OSMLink = OSMlink
+					}
+				)
+
+				scope.$watch(
+					function(){
+						return	scope.item.logitude && scope.item.latitude
+								?	'https://www.google.de/maps/place/@'+scope.item.longitude + ',' +scope.item.latitude
+								:	'https://www.google.de/maps/place/'+scope.item.address+', '+scope.item.zip+', '+scope.item.location
+					},
+					function(GMLink){
+						scope.GMLink = GMLink
+					}
+				)
 
 				scope.$watch(
 					function(){
@@ -563,6 +582,7 @@ angular.module('icDirectives', [
 								icTitle:		"<",
 								icContent:		"<",
 								icExtraLines:	"<",
+								icExtraLinks:	"<",
 								icIcon:			"<",
 								icLink:			"<",
 							},
@@ -599,7 +619,7 @@ angular.module('icDirectives', [
 
 				$rootScope.$watch(
 					function(){
-						return scope.item.title
+						return scope.item && scope.item.title
 					},
 					function(){
 						var abs_url 	= 	$location.absUrl(),
@@ -610,7 +630,7 @@ angular.module('icDirectives', [
 							title		=	scope.item.title
 
 						scope.url = url
-						
+
 						scope.platforms = [
 							{name: 'email',		link: 'mailto:?subject=Infocompass: '+title+'&body='+url},
 							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+title+'&url='+url+'&hashtags=infocompass'},
@@ -2453,8 +2473,28 @@ angular.module('icDirectives', [
 
 			link: function(scope, element){
 				element[0].focus()
-				console.log('focus!')
 			}
 		}
+	}
+])
+
+
+.directive('icScrollTop', [
+	function(){
+		return {
+			restrict:	'A',
+			priority:	0,
+
+			link: function(scope, element, attrs){
+				scope.$watch(
+					function(){
+						return attrs.icScrollTop
+					}, 
+					function(){
+						element[0].scrollTop = 0
+					}
+				)
+			}
+		}		
 	}
 ])

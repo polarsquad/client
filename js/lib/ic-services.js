@@ -394,10 +394,6 @@ angular.module('icServices', [
 			//todo: is this neccesary?
 			$timeout.cancel(scheduledUpdate)
 
-			//We set the path ourselves, or for some random reason the path already matches our params
-			if(scheduledPath == $location.path()) return null
-
-			
 			icSite.getParamsFromPath()
 
 
@@ -720,7 +716,7 @@ angular.module('icServices', [
 
 				//special properties:
 				
-				if(data.coordinates && data.coordinates == 2){
+				if(data.coordinates && data.coordinates.length == 2){
 					icItem.latitude = data.coordinates[0]
 					icItem.logitude = data.coordinates[1]
 				}
@@ -738,6 +734,8 @@ angular.module('icServices', [
 
 			icItem.exportData = function(){
 				var export_data = {}
+
+				export_data.coordinates = [icItem.latitude, icItem.logitude]
 
 				for(var key in rawStringProperties)	{ export_data[rawStringProperties[key]] = icItem[key] }
 				for(var key in rawHashes)			{ export_data[rawHashes[key]] 			= icItem[key] }							

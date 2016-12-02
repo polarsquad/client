@@ -36,8 +36,9 @@
 		ic-on-turn  = "icSite.addItemToPath(icModel)"
 	>
 --><section 
-		class   = "item" 
-		ng-if   = "icSite.show('item')"
+		class   		= "item" 
+		ng-if   		= "icSite.show('item')"
+		ic-scroll-top 	= "{{icSite.params.item}}" 
 	>                   
 		<ic-header
 			ng-if 			= "icSite.useLocalHeader('item')"

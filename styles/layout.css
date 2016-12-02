@@ -1,5 +1,7 @@
-.print-only {
-	display:			none;
+@media not print {
+	.print-only {
+		display:			none;
+	}
 }
 
 

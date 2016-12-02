@@ -2,7 +2,7 @@
 	ic-click 	= "expand = !expand"
 	ng-class	= "{'icon-interface-arrow-right': !expand, 'icon-interface-arrow-down': expand}"
 	ic-touch-me
-> {{::'INTERFACE.ITEM_%s' | fill : icKey | translate}} {{ icTranslatable ? '('+icLanguages.currentLanguage+')' : ''}}</h4>
+> {{'INTERFACE.ITEM_%s' | fill : icKey | translate}} {{ icTranslatable ? '('+icLanguages.currentLanguage+')' : ''}}</h4>
 <div 
 	ng-if	= "expand"
 	class 	= "requirement"
@@ -127,7 +127,7 @@
 	<button
 		ng-show		= "allowLocalEdit"
 		type 		= "submit"
-		ng-disabled	= "updating" 
+		ng-disabled	= "updating || value.new == value.current" 
 	>
 		{{ "INTERFACE.UPDATE" | translate }}
 	</buton>

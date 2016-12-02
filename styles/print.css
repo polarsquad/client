@@ -3,7 +3,6 @@
 }
 
 
-
 body, 
 html {
 	overflow:			auto;
@@ -80,7 +79,8 @@ body #content ic-full-item .description {
 	width:				48% !important;
 }
 
-body #content ic-full-item .topics-and-target-groups{
+body #content ic-full-item .topics-and-target-groups,
+body #content ic-full-item .url{
 	width:				40% !important;
 }
 
@@ -200,8 +200,15 @@ body #content ic-full-item .logo{
 	font-size:			1.4rem;
 	left:				0;
 	bottom:				0;
+	margin-bottom:		0 !important;
 	margin-right:		auto;
 	font-weight:		300;
+}
+
+body #content ic-full-item .url{
+	position:			absolute;
+	bottom:				0;
+	right:				0;
 }
 
 body #content ic-full-item  footer {

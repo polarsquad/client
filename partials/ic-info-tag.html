@@ -21,6 +21,13 @@
 	>
 		{{line}}
 	</div>
+
+		<div 
+		ng-repeat 	= "(name, href) in icExtraLinks"
+		ng-if		= "name | trim"
+	>
+		<a class ="highlight" ng-href = "{{href}}">{{name}}</a>
+	</div>
 </div>
 
 

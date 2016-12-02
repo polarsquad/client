@@ -150,6 +150,8 @@ angular.module('icInit', [
 			$translate.use(icLanguages.currentLanguage)
 		})
 
+		var $_body = document.getElementsByTagName('body')[0]
+
 		$rootScope.$watch(
 			function(){ return icLanguages.currentLanguage }, 
 			function(){

@@ -372,9 +372,10 @@ Done:
 * share mit title (facebook testen)
 
 Todo:
+* rechtsbündig bei...
 * [x Rattenschwanz] share und print im edit mode?
 * [x Rattenschwanz] Startseite nicht länger default, sondern liste mit allen (15) einträgen 
-* print class einführen
+* [später] print class einführen
 * Fehler bei der Sortierung festgestellt:
 * Auto logout ins interface
 * Autologout -> Änderungen werden als suggestion gespeichert

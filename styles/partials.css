@@ -568,6 +568,15 @@ ic-full-item .topics-and-target-groups {
 	font-size:				0.875rem;
 }
 
+ic-full-item .topics-and-target-groups a{
+	display:				inline-block;
+	margin-right:			0.25rem;
+}
+
+ic-full-item .topics-and-target-groups a.primary{
+	font-weight:			600;
+}
+
 
 ic-full-item .topics-and-target-groups a:after{
 	content:				',';
@@ -591,6 +600,14 @@ ic-full-item img {
 ic-full-item .description {
 	font-weight:			300;
 }
+
+
+[lang = "ar"] ic-full-item .description,
+[lang = "fa"] ic-full-item .description,
+[lang = "ur"] ic-full-item .description {
+	direction:				rtl;
+}
+
 
 ic-full-item .fallback {
 	display:				block;
@@ -678,7 +695,8 @@ ic-item-edit-property h4 {
 ic-item-edit-property .requirement {
 	font-size:				0.8em;
 	margin:					0.5rem 0;
-	color:					#888;
+	color:					#000;
+	font-weight:			300;
 }
 
 ic-item-edit-property h4 + .requirement {
