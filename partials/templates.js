@@ -686,7 +686,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			ng-show		= \"!editMode\"\n" +
     "			class		= \"icon-interface-edit\"\n" +
     "			ic-touch-me\n" +
-    "		> {{'INTERFACE.EDIT' | translate}} </a>\n" +
+    "		> {{ (icUser.can('edit_items') ? 'INTERFACE.EDIT' : 'INTERFACE.SUGGEST_EDIT') | translate}} </a>\n" +
     "\n" +
     "\n" +
     "		<a\n" +

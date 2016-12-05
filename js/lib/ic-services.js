@@ -745,7 +745,7 @@ angular.module('icServices', [
 			}
 
 
-			icItem.update = function(key, subkey, comment){
+			function getData(key, subkey, comment){
 				var export_data = icItem.exportData(),
 					data		= {},
 					e_key		= rawStringProperties[key] || rawHashes[key] || rawArrays[key],
@@ -761,7 +761,9 @@ angular.module('icServices', [
 
 				if(subkey){
 					data[e_key][e_subkey] = export_data[e_key][e_subkey]
-					return 	icApi.updateItem(icItem.id, data)
+					return 	data
+
+							icApi.updateItem(icItem.id, data)
 							.then(function(item_data){
 								return item_data
 							})
@@ -769,22 +771,30 @@ angular.module('icServices', [
 
 				if(key){
 					data[e_key] = export_data[e_key]
-					return 	icApi.updateItem(icItem.id, data)
+					return 	data
+
+							icApi.updateItem(icItem.id, data)
 							.then(function(item_data){
 								return item_data
 							})
 				}
 
-				return 	icItem.new
-						?	icApi.updateItem(icItem.id, export_data)
-							.then(function(result){
-								icItem.new = false
-								console.log('result', result)
-								return item_data.item
-							})
-
-						:	icApi.newItem(export_data)
+				return export_data
 			}
+
+			icItem.update = function(key, subkey, comment){
+
+				return 	icApi.updateItem(icItem.id, getData(key, subkey, comment))
+						.then(function(item_data){
+							return item_data
+						})
+			}
+
+
+			icItem.submitAsNew = function(comment){
+				return icApi.newItem(getData(null, null, comment))
+			}
+
 
 			icItem.delete = function(){
 				return icApi.deleteItem(icItem.id)

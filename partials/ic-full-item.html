@@ -411,7 +411,7 @@
 			ng-show		= "!editMode"
 			class		= "icon-interface-edit"
 			ic-touch-me
-		> {{'INTERFACE.EDIT' | translate}} </a>
+		> {{ (icUser.can('edit_items') ? 'INTERFACE.EDIT' : 'INTERFACE.SUGGEST_EDIT') | translate}} </a>
 
 
 		<a

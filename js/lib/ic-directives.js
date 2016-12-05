@@ -350,9 +350,12 @@ angular.module('icDirectives', [
 				function afterSubmission(){
 					icOverlays.toggle(null)
 				}
+				
+
 
 				scope.submitItemEdits = function(){
 					beforeSubmission()
+
 					scope.itemEdit.update()
 					.then(
 						function(item_data){
@@ -362,13 +365,8 @@ angular.module('icDirectives', [
 							scope.item.id 		= item_data.id
 							scope.itemEdit.id 	= item_data.id
 
-							var message = "INTERFACE.ITEM_SUBMITTED"
-
-							switch(scope.item.state){
-								case "published":	message = 'INTERFACE.ITEM_PUBLISHED'; 		break;
-								case "draft":		message = 'INTERFACE.ITEM_SAVED_AS_DRAFT'; 	break;
-							}
-
+							var message = "INTERFACE.ITEM_EDITS_APPLIED"
+							
 							return	icOverlays.open('popup', message)
 									.then(
 										null,
@@ -389,7 +387,7 @@ angular.module('icDirectives', [
 				scope.submitNewItem = function(){
 					beforeSubmission()
 					
-					scope.itemEdit.update()
+					scope.itemEdit.submitAsNew()
 					.then(
 						function(item_data){
 							scope.item.importData(item_data)
@@ -454,7 +452,7 @@ angular.module('icDirectives', [
 				scope.submitItemSuggestion = function(){
 					beforeSubmission()
 					
-					scope.itemEdit.update(null, null, scope.data.comment)
+					scope.itemEdit.submitAsNew(null, null, scope.data.comment)
 					.then(
 						function(){
 							return	icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
@@ -525,6 +523,8 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){
+						if(!scope.item) return ''
+
 						return 	scope.item.logitude && scope.item.latitude
 								?	'https://www.openstreetmap.org/?mlat='+scope.item.longitude +'&mlon=' + scope.item.latitude + '#map=16/'+scope.item.longitude+'/'+scope.item.latitude
 								:	'https://www.openstreetmap.org/search?query='+scope.item.address + ', ' + scope.item.zip + ', ' + scope.item.location
@@ -536,6 +536,8 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){
+						if(!scope.item) return ''
+
 						return	scope.item.logitude && scope.item.latitude
 								?	'https://www.google.de/maps/place/@'+scope.item.longitude + ',' +scope.item.latitude
 								:	'https://www.google.de/maps/place/'+scope.item.address+', '+scope.item.zip+', '+scope.item.location
