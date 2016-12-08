@@ -586,7 +586,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- address, zip, location, country, startDate -->\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
-    "		ng-repeat				= \"key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate']\"\n" +
+    "		ng-repeat				= \"key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate', 'hours']\"\n" +
     "		ic-type 				= \"string\"\n" +
     "		ic-key					= \"{{key}}\"\n" +
     "		ic-item					= \"item\"\n" +

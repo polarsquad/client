@@ -388,6 +388,7 @@ Todo:
 * type:women?
 * check comment
 * startDate/ end date in landesformat
+* maplinks
 
 Moritz:
 
@@ -397,8 +398,10 @@ Moritz:
 
 Todo:
 * autologout
-* items anlegen -> mein fehler
+* items anlegen -> mein fehler -> logoutbug
 * PUT sol litem zurückgeben -> tuts logoutbug
 * events archiviert? sind public -> logout bug
 * Neuen Eintrag als draft amlegen triggert tests! -> logoutbug
 * satus suggestion zurück trotz login -> logoubbug
+* kann interface nicht neuladen
+* put ignoriert date changes
