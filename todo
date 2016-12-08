@@ -370,6 +370,7 @@ Done:
 * item published ?? wenn nicht neu -> pseudo logout
 * Themen Icons mit tooltip
 * share mit title (facebook testen)
+* lat long coords
 
 Todo:
 * rechtsbündig bei...
@@ -386,8 +387,18 @@ Todo:
 * suche komisch erhrenabsbüro /ehrenamt / ehremamtlich
 * type:women?
 * check comment
+* startDate/ end date in landesformat
 
 Moritz:
 
 * IP loswebos
 * Items doppelt (per id) in suchergebnissen
+
+
+Todo:
+* autologout
+* items anlegen -> mein fehler
+* PUT sol litem zurückgeben -> tuts logoutbug
+* events archiviert? sind public -> logout bug
+* Neuen Eintrag als draft amlegen triggert tests! -> logoutbug
+* satus suggestion zurück trotz login -> logoubbug

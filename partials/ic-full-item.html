@@ -79,7 +79,7 @@
 	/>
 
 	<div
-		ng-show = "icUser.can('edit_items')&& item.imageUrl && fallback" 
+		ng-if 	= "icUser.can('edit_items')&& item.imageUrl && fallback" 
 		class 	= "fallback"
 		title 	= "{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}"
 	>
@@ -105,7 +105,7 @@
 		ng-if			= "item.address"
 		ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
 		ic-content		= "item.address"
-		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||''), item.country]"
+		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||''), item.country, (item.longitude && item.latitude) ? item.latitude + ', ' +item.longitude : undefined]"
 		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 		ic-icon			= "'address'| icIcon : 'item' : 'black'"
 	>
@@ -116,9 +116,9 @@
 	<!-- geo coordinates -->
 
 	<ic-info-tag
-		ng-if			= "item.longitude && item.latitude"
+		ng-if			= "item.longitude && item.latitude && !item.address"
 		ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
-		ic-content		= "item.longitude + '/' +item.latitude"
+		ic-content		= "item.latitude + ', ' +item.longitude"
 		ic-icon			= "'geo_coordinates'| icIcon : 'item' : 'black'"
 		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 	>
@@ -129,12 +129,30 @@
 	<!-- misc -->
 
 	<ic-info-tag
-		ng-repeat	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'startDate', 'price', 'maxParticipants']"
+		ng-repeat	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'price', 'maxParticipants']"
 		ng-if		= "item[key]"
-		ic-title 	= "key | uppercase | prepend: 'INTERFACE.ITEM_' | translate"
+		ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
 		ic-content	= "item[key]"
 		ic-icon		= "key | icIcon : 'item' : 'black'"
 		ic-link		= "::key | icLinkPrefix"
+	>
+	</ic-info-tag>
+
+	<!-- start and end dates -->
+
+	<ic-info-tag
+		ng-if		= "item.startDate"
+		ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
+		ic-content	= "item.startDate | icDate"
+		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
+	>
+	</ic-info-tag>
+
+	<ic-info-tag
+		ng-if		= "item.endDate"
+		ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
+		ic-content	= "item.endDate | icDate"
+		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -143,9 +161,9 @@
 	<!-- hours -->
 
 	<ic-info-tag
-		ng-if			= "item.hours.length > 0"
-		ic-title 		= "'INTERFACE.ITEM_INFO_HOURS' | translate"
-		ic-extra-lines	= "item.hours |icHours"
+		ng-if			= "item.hours"
+		ic-title 		= "'INTERFACE.ITEM_HOURS' | translate"
+		ic-extra-lines	= "item.hours | icSplit : ','"
 		ic-icon			= "'hours'| icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
@@ -293,7 +311,7 @@
 	<!-- address, zip, location, country, startDate -->
 
 	<ic-item-edit-property
-		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'startDate']"
+		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate']"
 		ic-type 				= "string"
 		ic-key					= "{{key}}"
 		ic-item					= "item"

@@ -525,8 +525,8 @@ angular.module('icDirectives', [
 					function(){
 						if(!scope.item) return ''
 
-						return 	scope.item.logitude && scope.item.latitude
-								?	'https://www.openstreetmap.org/?mlat='+scope.item.longitude +'&mlon=' + scope.item.latitude + '#map=16/'+scope.item.longitude+'/'+scope.item.latitude
+						return 	scope.item.longitude && scope.item.latitude
+								?	'https://www.openstreetmap.org/?mlat='+scope.item.latitude +'&mlon=' + scope.item.longitude + '#map=17/'+scope.item.latitude+'/'+scope.item.longitude
 								:	'https://www.openstreetmap.org/search?query='+scope.item.address + ', ' + scope.item.zip + ', ' + scope.item.location
 					},
 					function(OSMlink){
@@ -538,8 +538,8 @@ angular.module('icDirectives', [
 					function(){
 						if(!scope.item) return ''
 
-						return	scope.item.logitude && scope.item.latitude
-								?	'https://www.google.de/maps/place/@'+scope.item.longitude + ',' +scope.item.latitude
+						return	scope.item.longitude && scope.item.latitude
+								?	'https://www.google.de/maps/place/'+scope.item.latitude+'+' + scope.item.longitude + '/@'+scope.item.latitude + ',' + scope.item.longitude +',17z'
 								:	'https://www.google.de/maps/place/'+scope.item.address+', '+scope.item.zip+', '+scope.item.location
 					},
 					function(GMLink){
@@ -2300,21 +2300,55 @@ angular.module('icDirectives', [
 ])
 
 
-.filter('icHours', function(){
+.filter('icSplit', function(){
 
-	var cache = {}
+	var cache = {} // we need this to prevent angular from throwing infdig
 
-	return function(hours){
-		cache[hours.toString()] = cache[hours.toString()] || []
-		while(cache[hours.toString()].length) cache[hours.toString()].pop()
+	return function(str, splitter){
+		var a = str.split(splitter)
 
-		hours.forEach(function(obj){
-			cache[hours.toString()].push( obj.days + (obj.hours ? ': ' + obj.hours : '') )
+		cache[str] = cache[str] || []
+		while(cache[str].length) cache[str].pop()
+
+		a.forEach(function(entry){
+			cache[str].push(entry)
 		})
 
-		return cache[hours.toString()]
+		return cache[str]
 	}
 })
+
+.filter('icDate', [
+
+	'icLanguages',
+
+	function(icLanguages){
+
+		var toLocaleDateStringSupportsLocales 	= false
+
+		try {
+			new Date().toLocaleString('i')
+		} catch (e) {
+			toLocaleDateStringSupportsLocales =  e instanceof RangeError
+		}
+
+		function icDateFilter(date_str){
+			var d = new Date(date_str)
+
+			if(toLocaleDateStringSupportsLocales){
+				return d.toLocaleDateString(icLanguages.currentLanguage)
+			} else {
+				return date_str
+			}
+
+		}
+
+		icDateFilter.$stateful = true
+
+		return icDateFilter
+
+	}
+])
 
 .filter('trim',[
 
@@ -2324,17 +2358,6 @@ angular.module('icDirectives', [
 		}
 	}
 ])
-
-
-.filter('icDate', function(){
-	return function(timestamp){
-		if(!timestamp) return "INTERFACE.UNKNOWN"
-
-		var date = new Date(timestamp)
-
-		return String(date)
-	}
-})
 
 
 

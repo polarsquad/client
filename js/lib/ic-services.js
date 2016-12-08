@@ -663,10 +663,14 @@ angular.module('icServices', [
 												email:			'email',
 												price:			'price',
 												maxParticipants:'max_participants',
-												hours:			'hours',
+												hours:			'times',
 												state:			'status',
 												lastEdit:		'last_edit',
-												startDate:		'start_date'
+												startDate:		'start_date',
+												dateComment:	'date_comment',
+												endDate:		'end_date',
+												latitude:		'latitude',
+												longitude:		'longitude',
 											},
 
 				rawHashes				=	{
@@ -686,8 +690,6 @@ angular.module('icServices', [
 
 			//special properties:
 
-			icItem.longitude 	= 	''
-			icItem.latitude		= 	''
 			icItem.queries 		= 	[]
 
 
@@ -716,12 +718,12 @@ angular.module('icServices', [
 
 				//special properties:
 				
-				if(data.coordinates && data.coordinates.length == 2){
-					icItem.latitude = data.coordinates[0]
-					icItem.logitude = data.coordinates[1]
-				}
+				// if(data.coordinates && data.coordinates.length == 2){
+				// 	icItem.latitude = data.coordinates[0]
+				// 	icItem.logitude = data.coordinates[1]
+				// }
 
-				if(data.query) angular.merge(icItem.queries, [data.query])
+				// if(data.query) angular.merge(icItem.queries, [data.query])
 
 				return icItem
 			}
@@ -734,8 +736,6 @@ angular.module('icServices', [
 
 			icItem.exportData = function(){
 				var export_data = {}
-
-				export_data.coordinates = [icItem.latitude, icItem.logitude]
 
 				for(var key in rawStringProperties)	{ export_data[rawStringProperties[key]] = icItem[key] }
 				for(var key in rawHashes)			{ export_data[rawHashes[key]] 			= icItem[key] }							

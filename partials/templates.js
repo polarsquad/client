@@ -354,7 +354,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	/>\n" +
     "\n" +
     "	<div\n" +
-    "		ng-show = \"icUser.can('edit_items')&& item.imageUrl && fallback\" \n" +
+    "		ng-if 	= \"icUser.can('edit_items')&& item.imageUrl && fallback\" \n" +
     "		class 	= \"fallback\"\n" +
     "		title 	= \"{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}\"\n" +
     "	>\n" +
@@ -380,7 +380,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if			= \"item.address\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_ADDRESS' | translate\"\n" +
     "		ic-content		= \"item.address\"\n" +
-    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||''), item.country]\"\n" +
+    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||''), item.country, (item.longitude && item.latitude) ? item.latitude + ', ' +item.longitude : undefined]\"\n" +
     "		ic-extra-links	= \"{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}\"\n" +
     "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
@@ -391,9 +391,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- geo coordinates -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-if			= \"item.longitude && item.latitude\"\n" +
+    "		ng-if			= \"item.longitude && item.latitude && !item.address\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_GEO_COORDINATES' | translate\"\n" +
-    "		ic-content		= \"item.longitude + '/' +item.latitude\"\n" +
+    "		ic-content		= \"item.latitude + ', ' +item.longitude\"\n" +
     "		ic-icon			= \"'geo_coordinates'| icIcon : 'item' : 'black'\"\n" +
     "		ic-extra-links	= \"{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}\"\n" +
     "	>\n" +
@@ -404,12 +404,30 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- misc -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-repeat	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'startDate', 'price', 'maxParticipants']\"\n" +
+    "		ng-repeat	= \"key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'price', 'maxParticipants']\"\n" +
     "		ng-if		= \"item[key]\"\n" +
-    "		ic-title 	= \"key | uppercase | prepend: 'INTERFACE.ITEM_' | translate\"\n" +
+    "		ic-title 	= \"'INTERFACE.ITEM_%s' | fill : key | translate\"\n" +
     "		ic-content	= \"item[key]\"\n" +
     "		ic-icon		= \"key | icIcon : 'item' : 'black'\"\n" +
     "		ic-link		= \"::key | icLinkPrefix\"\n" +
+    "	>\n" +
+    "	</ic-info-tag>\n" +
+    "\n" +
+    "	<!-- start and end dates -->\n" +
+    "\n" +
+    "	<ic-info-tag\n" +
+    "		ng-if		= \"item.startDate\"\n" +
+    "		ic-title 	= \"'INTERFACE.ITEM_START_DATE' | translate\"\n" +
+    "		ic-content	= \"item.startDate | icDate\"\n" +
+    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
+    "	>\n" +
+    "	</ic-info-tag>\n" +
+    "\n" +
+    "	<ic-info-tag\n" +
+    "		ng-if		= \"item.endDate\"\n" +
+    "		ic-title 	= \"'INTERFACE.ITEM_END_DATE' | translate\"\n" +
+    "		ic-content	= \"item.endDate | icDate\"\n" +
+    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -418,9 +436,9 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- hours -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-if			= \"item.hours.length > 0\"\n" +
-    "		ic-title 		= \"'INTERFACE.ITEM_INFO_HOURS' | translate\"\n" +
-    "		ic-extra-lines	= \"item.hours |icHours\"\n" +
+    "		ng-if			= \"item.hours\"\n" +
+    "		ic-title 		= \"'INTERFACE.ITEM_HOURS' | translate\"\n" +
+    "		ic-extra-lines	= \"item.hours | icSplit : ','\"\n" +
     "		ic-icon			= \"'hours'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
@@ -568,7 +586,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- address, zip, location, country, startDate -->\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
-    "		ng-repeat				= \"key in ['address', 'zip', 'location', 'country', 'startDate']\"\n" +
+    "		ng-repeat				= \"key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate']\"\n" +
     "		ic-type 				= \"string\"\n" +
     "		ic-key					= \"{{key}}\"\n" +
     "		ic-item					= \"item\"\n" +
@@ -839,8 +857,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<div class = \"title\"> {{icTitle}} </div>\n" +
     "<div class = \"content\">		\n" +
     "	<a \n" +
-    "		class = \"highlight\"\n" +
-    "		ng-if	=	\"link\"\n" +
+    "		class 	= \"highlight\"\n" +
+    "		ng-if	= \"link\"\n" +
     "		ng-href = \"{{link}}\"\n" +
     "	>\n" +
     "		{{icContent}}	\n" +
@@ -855,13 +873,15 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<div \n" +
     "		ng-repeat 	= \"line in icExtraLines\"\n" +
     "		ng-if		= \"line | trim\"\n" +
+    "		class		= \"extra-line\"\n" +
     "	>\n" +
     "		{{line}}\n" +
     "	</div>\n" +
     "\n" +
-    "		<div \n" +
+    "	<div \n" +
     "		ng-repeat 	= \"(name, href) in icExtraLinks\"\n" +
     "		ng-if		= \"name | trim\"\n" +
+    "		class		= \"extra-link screen-only\"\n" +
     "	>\n" +
     "		<a class =\"highlight\" ng-href = \"{{href}}\">{{name}}</a>\n" +
     "	</div>\n" +
