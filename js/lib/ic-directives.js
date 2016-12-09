@@ -2429,7 +2429,7 @@ angular.module('icDirectives', [
 					scope.displayable = check()
 
 					if(scope.displayable !== last){
-						
+
 						scope.displayable
 						?	scope.icImageGood()
 						:	scope.icImageBad()
@@ -2499,18 +2499,18 @@ angular.module('icDirectives', [
 
 						},
 						function(reason){
-							return icOverlays.open('login', reason, null, true)
+							return icOverlays.open('login', reason, icOverlays.deferred.login, true)
 						}
 					)
 					.finally(function(){
-						if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
+						if(deferred) deferred.resolve()
 						$rootScope.$digest()
 					})
 				}
 
 				scope.cancel = function(){
 					scope.username = ''
-					scope.password = ''
+					scope.password = ''					
 					if(icOverlays.deferred.login) icOverlays.deferred.login.reject()
 					icOverlays.toggle('login', false)
 				}

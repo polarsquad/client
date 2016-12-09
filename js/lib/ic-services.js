@@ -240,8 +240,9 @@ angular.module('icServices', [
 	'icFilterConfig',
 	'icLanguages',
 	'icOverlays',
+	'icUser',
 
-	function($rootScope, $location, $translate, $timeout, icInit, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays){
+	function($rootScope, $location, $translate, $timeout, icInit, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays, icUser){
 		var icSite 		= 	{
 								//fullItem:			false,
 								page:				'main',
@@ -596,9 +597,15 @@ angular.module('icServices', [
 			return this
 		}
 
-		icOverlays.open = function(overlay_name, message, deferred, clear_messages){
-			icOverlays.messages[overlay_name] = clear_messages ? [] : (icOverlays.messages[overlay_name] || [])
-			icOverlays.deferred[overlay_name] = deferred || $q.defer()
+		icOverlays.open = function(overlay_name, message, deferred, overwrite){
+			icOverlays.messages[overlay_name] = overwrite 
+												? [] 
+												: (icOverlays.messages[overlay_name] || [])
+
+
+			icOverlays.deferred[overlay_name] = overwrite 
+												? deferred || $q.defer()
+												: icOverlays.deferred[overlay_name] || deferred || $q.defer()
 			
 			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
 

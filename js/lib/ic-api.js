@@ -124,7 +124,7 @@ angular.module('icApi', [])
 										}, 
 										function(result){
 											if([401, 403].indexOf(result.status) != -1){
-												//$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
+												$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
 											}
 											return $q.reject(result)
 										}
