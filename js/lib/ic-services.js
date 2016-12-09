@@ -145,6 +145,9 @@ angular.module('icServices', [
 				for(key in icFilterConfig.filterBy){
 					icFilterConfig.clearFilter(key)
 				}
+				cFilterConfig.orderBy 		= ''
+				cFilterConfig.searchTerm 	= ''
+				cFilterConfig.reverse 		= false
 			}else{
 
 				var item = icFilterConfig.filterBy[key]
@@ -165,7 +168,8 @@ angular.module('icServices', [
 				cleared = cleared && (!icFilterConfig.filterBy[key] || !icFilterConfig.filterBy[key].length)
 			}			
 
-			cleared = cleared && !icFilterConfig.searchTerm
+			cleared = 		cleared 
+						&& 	!icFilterConfig.searchTerm
 
 			return cleared
 		}
@@ -239,9 +243,9 @@ angular.module('icServices', [
 
 	function($rootScope, $location, $translate, $timeout, icInit, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays){
 		var icSite 		= 	{
-								fullItem:			false,
+								//fullItem:			false,
 								page:				'main',
-								showFilter:			false,
+								//showFilter:			false,
 								params:				{
 														item:	'',			// item for full view
 														t:		'',			// type filter
@@ -318,7 +322,6 @@ angular.module('icServices', [
 
 		icSite.getParamsFromPath = function(){
 			icSite.params = icSite.path2Params($location.path())
-			return icSite
 		}
 
 		
@@ -375,6 +378,10 @@ angular.module('icServices', [
 			icSite.addItemToPath(undefined)
 		}
 
+		icSite.clearParams = function(){
+			$location.path('/')
+		}
+
 
 		//rename to 'sections'
 		icSite.updateCompontents = function(){
@@ -382,7 +389,7 @@ angular.module('icServices', [
 
 			if(icSite.params.item)			icSite.activeComponents.item 	= true
 			if(icFilterConfig.active())		icSite.activeComponents.list 	= true
-			if(icSite.showFilter)			icSite.activeComponents.filter 	= true
+			//if(icSite.showFilter)			icSite.activeComponents.filter 	= true
 			if(icSite.pageUrl)				icSite.activeComponents.page 	= true
 			//map
 			
@@ -397,7 +404,7 @@ angular.module('icServices', [
 			icSite.getParamsFromPath()
 
 
-			icSite.fullItem 	= 	!!icSite.params.item
+			//icSite.fullItem 	= 	!!icSite.params.item
 
 			icSite.pageUrl 		= 	'pages/main.html'
 
@@ -448,7 +455,7 @@ angular.module('icServices', [
 				case "XS":
 
 					if('item'	in icSite.activeComponents) return str == 'item'
-					if('filter'	in icSite.activeComponents) return str == 'filter'
+					//if('filter'	in icSite.activeComponents) return str == 'filter'
 					if('list'	in icSite.activeComponents) return str == 'list'
 					if('page'	in icSite.activeComponents) return str == 'page'
 

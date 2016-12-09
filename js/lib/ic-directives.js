@@ -697,8 +697,14 @@ angular.module('icDirectives', [
 
 				scope.expand 	= {}
 
-				scope.logout 			= icApi.logout
 				scope.icApi 			= icApi //TODO: not nice
+
+				scope.logout = function(){
+					icApi.logout()
+					icSite.clearParams()
+					icOverlays.open('popup', 'INTERFACE.LOGOUT_COMPLETE')
+
+				}
 
 				scope.addNewItem = function(){
 					var item = icSearchResults.addNewItem()
@@ -2402,15 +2408,39 @@ angular.module('icDirectives', [
 
 
 
-.directive('icError', [
+.directive('icTrackImageState', [
 	function(){
 		return {
 			restrict:	"A",
+			scope:		{
+							icImageBad: 	'&?',
+							icImageGood:	'&?'
+						},
 
 			link: function(scope, element, attrs){
-				element.on('error', function(){
-					scope.$eval(attrs.icError)
-				})
+
+				function check(){
+					return element[0].complete && (element[0].naturalWidth == "undefined" || element[0].naturalWidth !== 0)
+				}
+
+				function update(digest){
+					var last = scope.displayable
+
+					scope.displayable = check()
+
+					if(scope.displayable !== last){
+						
+						scope.displayable
+						?	scope.icImageGood()
+						:	scope.icImageBad()
+
+						if(digest) scope.$parent.$digest()
+					}					
+				}
+
+				element.on('error load', 	function(){ update(true) })
+				scope.$parent.$watch(		function(){ update(false) })
+
 			}
 		}
 	}
@@ -2474,6 +2504,7 @@ angular.module('icDirectives', [
 					)
 					.finally(function(){
 						if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
+						$rootScope.$digest()
 					})
 				}
 

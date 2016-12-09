@@ -2,7 +2,7 @@
 	class		= "message" 
 	ng-repeat 	= "message in icOverlays.messages.login"
 >
-	{{'INTERFACE.LOGIN_%s' | fill : message | translate}}
+	{{message | translate}}
 </div>
 
 <form ng-submit = "login()">

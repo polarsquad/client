@@ -347,14 +347,16 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- image -->\n" +
     "\n" +
     "	<img\n" +
-    "		class		= \"hero\" \n" +
-    "		ng-show		= \"item.imageUrl && !fallback\" \n" +
-    "		ng-src 		= \"{{ item.imageUrl }}\"\n" +
-    "		ic-error	= \"fallback = true\" \n" +
+    "		class			= \"hero\" \n" +
+    "		ng-show			= \"item.imageUrl && !fallback\" \n" +
+    "		ng-src 			= \"{{ item.imageUrl }}\"\n" +
+    "		ic-image-bad	= \"fallback = true\" \n" +
+    "		ic-image-good	= \"fallback = false\"\n" +
+    "		ic-track-image-state\n" +
     "	/>\n" +
     "\n" +
     "	<div\n" +
-    "		ng-if 	= \"icUser.can('edit_items')&& item.imageUrl && fallback\" \n" +
+    "		ng-if 	= \"icUser.can('edit_items') && item.imageUrl && fallback\" \n" +
     "		class 	= \"fallback\"\n" +
     "		title 	= \"{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}\"\n" +
     "	>\n" +
@@ -1128,7 +1130,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	class		= \"message\" \n" +
     "	ng-repeat 	= \"message in icOverlays.messages.login\"\n" +
     ">\n" +
-    "	{{'INTERFACE.LOGIN_%s' | fill : message | translate}}\n" +
+    "	{{message | translate}}\n" +
     "</div>\n" +
     "\n" +
     "<form ng-submit = \"login()\">\n" +

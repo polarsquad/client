@@ -72,14 +72,16 @@
 	<!-- image -->
 
 	<img
-		class		= "hero" 
-		ng-show		= "item.imageUrl && !fallback" 
-		ng-src 		= "{{ item.imageUrl }}"
-		ic-error	= "fallback = true" 
+		class			= "hero" 
+		ng-show			= "item.imageUrl && !fallback" 
+		ng-src 			= "{{ item.imageUrl }}"
+		ic-image-bad	= "fallback = true" 
+		ic-image-good	= "fallback = false"
+		ic-track-image-state
 	/>
 
 	<div
-		ng-if 	= "icUser.can('edit_items')&& item.imageUrl && fallback" 
+		ng-if 	= "icUser.can('edit_items') && item.imageUrl && fallback" 
 		class 	= "fallback"
 		title 	= "{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}"
 	>

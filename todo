@@ -389,19 +389,13 @@ Todo:
 * check comment
 * startDate/ end date in landesformat
 * maplinks
+* IMAGEs
+* manual logout
+* autologout !
 
-Moritz:
-
-* IP loswebos
-* Items doppelt (per id) in suchergebnissen
 
 
 Todo:
-* autologout
-* items anlegen -> mein fehler -> logoutbug
-* PUT sol litem zurückgeben -> tuts logoutbug
-* events archiviert? sind public -> logout bug
-* Neuen Eintrag als draft amlegen triggert tests! -> logoutbug
-* satus suggestion zurück trotz login -> logoubbug
-* kann interface nicht neuladen
 * put ignoriert date changes
+* @Moritz: DELETE session doch lieber 200 wenn authtoken nich mehr echt
+* @Moritz: Reicht für ein lgout den authtoken lokal wegzuwerfen?

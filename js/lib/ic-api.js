@@ -105,7 +105,7 @@ angular.module('icApi', [])
 
 			icApi.call = function(method, path, data){
 
-				var cancel_call =	 $q.defer(),
+				var cancel_call =	$q.defer(),
 					call		=	$http({
 										method: 			method,
 										url:				base.replace(/\/$/g, '')+'/'+(path.replace(/^\//g,'')),
@@ -113,7 +113,7 @@ angular.module('icApi', [])
 										data:				method == 'GET' ? undefined : data,
 										headers:			{
 																'Accept':			'application/json',
-																'Auth-Token':		icUser.authToken
+																'X-Auth-Token':		icUser.authToken
 															},
 										paramSerializer: 	'$httpParamSerializerJQLike',
 										timeout: 			cancel_call.promise,
@@ -123,8 +123,8 @@ angular.module('icApi', [])
 											return result.data
 										}, 
 										function(result){
-											if(result.status == 305){
-												$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
+											if([401, 403].indexOf(result.status) != -1){
+												//$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
 											}
 											return $q.reject(result)
 										}
@@ -162,9 +162,11 @@ angular.module('icApi', [])
 			}
 
 			icApi.logout = function(){
+				icUser.clear()
+
 				return 	icApi.delete('/users/sessions')
-						.then(function(){
-							icUser.clear()
+						.finally(function(){
+							return true
 						})
 
 			}
