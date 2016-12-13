@@ -103,7 +103,7 @@ angular.module('icApi', [])
 			var icApi = {}
 
 
-			icApi.call = function(method, path, data){
+			icApi.call = function(method, path, data, ignore_errors){
 
 				var cancel_call =	$q.defer(),
 					call		=	$http({
@@ -123,6 +123,8 @@ angular.module('icApi', [])
 											return result.data
 										}, 
 										function(result){
+											if(ignore_errors) return $q.reject(result)
+
 											if([401, 403].indexOf(result.status) != -1){
 												icUser.clear()
 												$rootScope.$broadcast('loginRequired', 'INTERFACE.ACCESS_DENIED')
@@ -139,10 +141,10 @@ angular.module('icApi', [])
 
 			}
 
-			icApi.get 		= function(path, data){ return icApi.call('GET', 	path, data)}
-			icApi.put 		= function(path, data){ return icApi.call('PUT', 	path, data)}
-			icApi.post 		= function(path, data){ return icApi.call('POST',	path, data)}
-			icApi.delete 	= function(path, data){ return icApi.call('DELETE',	path, data)}
+			icApi.get 		= function(path, data, ie){ return icApi.call('GET', 	path, data, ie)}
+			icApi.put 		= function(path, data, ie){ return icApi.call('PUT', 	path, data, ie)}
+			icApi.post 		= function(path, data, ie){ return icApi.call('POST',	path, data, ie)}
+			icApi.delete 	= function(path, data, ie){ return icApi.call('DELETE',	path, data, ie)}
 
 
 			icApi.getConfigData = function(){
@@ -151,7 +153,7 @@ angular.module('icApi', [])
 
 
 			icApi.login = function(username, password){
-				return 	icApi.post('/users/sessions', {username: username, password: password})
+				return 	icApi.post('/users/sessions', {username: username, password: password}, true)
 						.then(
 							function(result){
 								return icUser.set(result.user)
@@ -163,12 +165,11 @@ angular.module('icApi', [])
 			}
 
 			icApi.logout = function(){
+				var call = icApi.delete('/users/sessions', undefined, true) 
+
 				icUser.clear()
 
-				return 	icApi.delete('/users/sessions')
-						.finally(function(){
-							return true
-						})
+				return 	call
 
 			}
 

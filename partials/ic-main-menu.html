@@ -7,8 +7,8 @@
 </h1>
 
 <ic-search				
-	class 				= "white right"
-	ic-on-update		= "icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');"
+	class 			= "white right"
+	ic-on-update	= "icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');"
 ></ic-search>
 
 
@@ -16,6 +16,7 @@
 	ic-home
 	ic-toggle-overlay 
 	ic-touch-me
+	class			= "heavy"
 >
 	Home
 </a>
@@ -48,7 +49,7 @@
 <a
 	ng-click 	= "expand.topics = !expand.topics"
 	ng-class	= "{'icon-interface-arrow-up': expand.topics, 'icon-interface-arrow-down': !expand.topics}"
-	class	 	= "expand "
+	class	 	= "expand heavy"
 	ic-touch-me
 >
 	{{"INTERFACE.TOPICS" | translate}}
@@ -83,21 +84,6 @@
 
 
 
-<a 
-	ng-if 				= "!icUser.authToken"
-	ic-toggle-overlay 	= "login"
-	ic-touch-me
->
-	{{'INTERFACE.LOGIN' | translate}}
-</a>
-
-
-
-
-
-
-
-
 
 <a 
 	ng-click 		= "addNewItem(); icSite.addItemToPath(newItemId)"
@@ -109,6 +95,16 @@
 </a>
 
 
+
+
+
+<a 
+	ng-if 				= "!icUser.authToken"
+	ic-toggle-overlay 	= "login"
+	ic-touch-me
+>
+	{{'INTERFACE.LOGIN' | translate}}
+</a>
 
 <a
 	ng-if	= "icUser.can('edit_items')"

@@ -93,7 +93,7 @@
 	<!-- description -->
 
 	<p 
-		ng-bind-html 	= "item.description[language]"
+		ng-bind-html 	= "item.description[language] | trustAsHtml"
 		class			= "description"
 	>
 	</p>
@@ -107,7 +107,7 @@
 		ng-if			= "item.address"
 		ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
 		ic-content		= "item.address"
-		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||''), item.country, (item.longitude && item.latitude) ? item.latitude + ', ' +item.longitude : undefined]"
+		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||''), item.country]"
 		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 		ic-icon			= "'address'| icIcon : 'item' : 'black'"
 	>
@@ -143,7 +143,16 @@
 	<!-- start and end dates -->
 
 	<ic-info-tag
-		ng-if		= "item.startDate"
+		ng-if		= "item.startDate && item.endDate"
+		ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
+		ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
+		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
+	>
+	</ic-info-tag>
+
+
+	<ic-info-tag
+		ng-if		= "item.startDate && !item.endDate"
 		ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
 		ic-content	= "item.startDate | icDate"
 		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
@@ -151,7 +160,7 @@
 	</ic-info-tag>
 
 	<ic-info-tag
-		ng-if		= "item.endDate"
+		ng-if		= "item.endDate && !item.startDate"
 		ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
 		ic-content	= "item.endDate | icDate"
 		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
@@ -310,7 +319,7 @@
 
 	<hr />
 
-	<!-- address, zip, location, country, startDate -->
+	<!-- address, zip, location, country, startDate ... -->
 
 	<ic-item-edit-property
 		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate', 'hours']"
@@ -421,7 +430,7 @@
 		<a 
 			ng-click	= "cancelEdit()"
 			ng-if		= "editMode"
-			class		= "icon-interface-edit"
+			class		= "icon-interface-cancel"
 			ic-touch-me
 		> {{'INTERFACE.CANCEL' | translate}} </a>
 

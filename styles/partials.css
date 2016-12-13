@@ -460,6 +460,10 @@ ic-search-result-list ic-preview-item .content .brief{
 	overflow:				hidden;
 } 
 
+ic-search-result-list ic-preview-item .content .date {
+	color:					#000;
+}
+
 ic-search-result-list ic-preview-item .icon {
 	position:				absolute;
 	display:				block;
@@ -570,7 +574,7 @@ ic-full-item .topics-and-target-groups {
 
 ic-full-item .topics-and-target-groups a{
 	display:				inline-block;
-	margin-right:			0.25rem;
+	margin-right:			0.5rem;
 }
 
 ic-full-item .topics-and-target-groups a.primary{
@@ -578,13 +582,14 @@ ic-full-item .topics-and-target-groups a.primary{
 }
 
 
-ic-full-item .topics-and-target-groups a:after{
+/*ic-full-item .topics-and-target-groups a:after{
 	content:				',';
 }
 
 ic-full-item .topics-and-target-groups a:last-of-type:after{
 	content:				'';
 }
+*/
 
 ic-full-item .topics-and-target-groups img{
 	display:				none;

@@ -266,7 +266,8 @@ angular.module('icDirectives', [
 								icTitle:	"<",
 								icBrief: 	"<",
 								icType:		"<",
-								icTopic:	"<"
+								icTopic:	"<",
+								icStartDate:"<"
 							},
 
 			link: function(scope, element, attrs){
@@ -337,9 +338,12 @@ angular.module('icDirectives', [
 						console.warn('icFullItem: invalid data:', error.data)
 						scope.itemEdit.setInvalidKeys(error.data)
 						return icOverlays.open('popup', 'INTERFACE.PLEASE_CORRECT_INPUT')
-					} else {
-						return icOverlays.open('popup', 'INTERFACE.SERVER_FAULT')
 					}
+
+					if([401, 403].indexOf(error.status) != -1)
+						return icOverlays.open('popup', 'INTERFACE.ACCESS_DENIED')					
+					
+					return icOverlays.open('popup', 'INTERFACE.SERVER_FAULT')					
 				}
 
 				function beforeSubmission() {
@@ -1054,6 +1058,18 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+
+.filter('trustAsHtml', [
+	'$sce', 
+
+	function ($sce) { 
+		return function (text) {
+			return $sce.trustAsHtml(text)
+		}
+	}
+])
+
 
 .filter('fill', [
 	function(){
@@ -2495,17 +2511,17 @@ angular.module('icDirectives', [
 						function(){
 							scope.username = ''
 							scope.password = ''
-							return icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
+							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
+									.finally(function(){
+										console.dir(icOverlays.deferred.login)
+										icOverlays.deferred.login.resolve()
+									})
 
 						},
 						function(reason){
 							return icOverlays.open('login', reason, icOverlays.deferred.login, true)
 						}
 					)
-					.finally(function(){
-						if(deferred) deferred.resolve()
-						$rootScope.$digest()
-					})
 				}
 
 				scope.cancel = function(){

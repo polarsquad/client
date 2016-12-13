@@ -538,6 +538,9 @@ angular.module('icServices', [
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
+			.then(function(){
+				//window.location.reload()
+			})
 		})
 
 		return icSite
@@ -583,31 +586,36 @@ angular.module('icServices', [
 				//close all other overlays
 				if(key != overlay_name) 	delete icOverlays.show[key]
 
-				//reset all closed Overlays
 				if(!icOverlays.show[key]){
 					delete icOverlays.messages[key]
+				}
+			}
 
-					if(icOverlays.deferred[key]){
-						icOverlays.deferred[key].reject()
-						delete icOverlays.deferred[key]
-					}
+			if(icOverlays.active()) return this
+
+			//reject all promises 
+			for(var key in icOverlays.show){
+				if(icOverlays.deferred[key]){
+					icOverlays.deferred[key].reject()
+					delete icOverlays.deferred[key]
 				}
 			}
 
 			return this
 		}
 
-		icOverlays.open = function(overlay_name, message, deferred, overwrite){
-			icOverlays.messages[overlay_name] = overwrite 
-												? [] 
-												: (icOverlays.messages[overlay_name] || [])
+		icOverlays.open = function(overlay_name, message, deferred, overwrite_messages){
+			icOverlays.messages[overlay_name] = overwrite_messages
+												? 	[]
+												:	(icOverlays.messages[overlay_name] || [])
 
-
-			icOverlays.deferred[overlay_name] = overwrite 
-												? deferred || $q.defer()
-												: icOverlays.deferred[overlay_name] || deferred || $q.defer()
-			
 			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
+
+			if(icOverlays.deferred[overlay_name] && icOverlays.deferred[overlay_name] != deferred) 
+				icOverlays.deferred[overlay_name].reject()
+
+			icOverlays.deferred[overlay_name] = deferred || $q.defer()
+			
 
 
 			icOverlays.toggle(overlay_name, true)

@@ -368,7 +368,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- description -->\n" +
     "\n" +
     "	<p \n" +
-    "		ng-bind-html 	= \"item.description[language]\"\n" +
+    "		ng-bind-html 	= \"item.description[language] | trustAsHtml\"\n" +
     "		class			= \"description\"\n" +
     "	>\n" +
     "	</p>\n" +
@@ -382,7 +382,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if			= \"item.address\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_ADDRESS' | translate\"\n" +
     "		ic-content		= \"item.address\"\n" +
-    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||''), item.country, (item.longitude && item.latitude) ? item.latitude + ', ' +item.longitude : undefined]\"\n" +
+    "		ic-extra-lines	= \"[(item.zip||'') + ' ' + (item.location||''), item.country]\"\n" +
     "		ic-extra-links	= \"{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}\"\n" +
     "		ic-icon			= \"'address'| icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
@@ -418,7 +418,16 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- start and end dates -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-if		= \"item.startDate\"\n" +
+    "		ng-if		= \"item.startDate && item.endDate\"\n" +
+    "		ic-title 	= \"'INTERFACE.ITEM_DATES' | translate\"\n" +
+    "		ic-content	= \"(item.startDate | icDate) +' – '+ (item.endDate | icDate)\"\n" +
+    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
+    "	>\n" +
+    "	</ic-info-tag>\n" +
+    "\n" +
+    "\n" +
+    "	<ic-info-tag\n" +
+    "		ng-if		= \"item.startDate && !item.endDate\"\n" +
     "		ic-title 	= \"'INTERFACE.ITEM_START_DATE' | translate\"\n" +
     "		ic-content	= \"item.startDate | icDate\"\n" +
     "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
@@ -426,7 +435,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</ic-info-tag>\n" +
     "\n" +
     "	<ic-info-tag\n" +
-    "		ng-if		= \"item.endDate\"\n" +
+    "		ng-if		= \"item.endDate && !item.startDate\"\n" +
     "		ic-title 	= \"'INTERFACE.ITEM_END_DATE' | translate\"\n" +
     "		ic-content	= \"item.endDate | icDate\"\n" +
     "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
@@ -585,7 +594,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "	<hr />\n" +
     "\n" +
-    "	<!-- address, zip, location, country, startDate -->\n" +
+    "	<!-- address, zip, location, country, startDate ... -->\n" +
     "\n" +
     "	<ic-item-edit-property\n" +
     "		ng-repeat				= \"key in ['address', 'zip', 'location', 'country', 'latitude', 'longitude', 'startDate', 'endDate', 'hours']\"\n" +
@@ -696,7 +705,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		<a \n" +
     "			ng-click	= \"cancelEdit()\"\n" +
     "			ng-if		= \"editMode\"\n" +
-    "			class		= \"icon-interface-edit\"\n" +
+    "			class		= \"icon-interface-cancel\"\n" +
     "			ic-touch-me\n" +
     "		> {{'INTERFACE.CANCEL' | translate}} </a>\n" +
     "\n" +
@@ -1182,8 +1191,8 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "</h1>\n" +
     "\n" +
     "<ic-search				\n" +
-    "	class 				= \"white right\"\n" +
-    "	ic-on-update		= \"icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');\"\n" +
+    "	class 			= \"white right\"\n" +
+    "	ic-on-update	= \"icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');\"\n" +
     "></ic-search>\n" +
     "\n" +
     "\n" +
@@ -1191,6 +1200,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	ic-home\n" +
     "	ic-toggle-overlay \n" +
     "	ic-touch-me\n" +
+    "	class			= \"heavy\"\n" +
     ">\n" +
     "	Home\n" +
     "</a>\n" +
@@ -1223,7 +1233,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "<a\n" +
     "	ng-click 	= \"expand.topics = !expand.topics\"\n" +
     "	ng-class	= \"{'icon-interface-arrow-up': expand.topics, 'icon-interface-arrow-down': !expand.topics}\"\n" +
-    "	class	 	= \"expand \"\n" +
+    "	class	 	= \"expand heavy\"\n" +
     "	ic-touch-me\n" +
     ">\n" +
     "	{{\"INTERFACE.TOPICS\" | translate}}\n" +
@@ -1258,21 +1268,6 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "\n" +
-    "<a \n" +
-    "	ng-if 				= \"!icUser.authToken\"\n" +
-    "	ic-toggle-overlay 	= \"login\"\n" +
-    "	ic-touch-me\n" +
-    ">\n" +
-    "	{{'INTERFACE.LOGIN' | translate}}\n" +
-    "</a>\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
-    "\n" +
     "\n" +
     "<a \n" +
     "	ng-click 		= \"addNewItem(); icSite.addItemToPath(newItemId)\"\n" +
@@ -1284,6 +1279,16 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "</a>\n" +
     "\n" +
     "\n" +
+    "\n" +
+    "\n" +
+    "\n" +
+    "<a \n" +
+    "	ng-if 				= \"!icUser.authToken\"\n" +
+    "	ic-toggle-overlay 	= \"login\"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.LOGIN' | translate}}\n" +
+    "</a>\n" +
     "\n" +
     "<a\n" +
     "	ng-if	= \"icUser.can('edit_items')\"\n" +
@@ -1429,7 +1434,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		</div>\n" +
     "\n" +
     "		<div class = \"brief\">\n" +
-    "			{{icBrief}}\n" +
+    "			<span class = \"date\" ng-if = \"icStartDate\">{{icStartDate | icDate}}</span> {{icBrief}}\n" +
     "		</div>\n" +
     "</div>"
   );
@@ -1460,11 +1465,12 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "\n" +
     "	<ic-preview-item\n" +
-    "		ic-title 	= \"item.title\"\n" +
-    "		ic-brief	= \"item.definition[language]\"\n" +
-    "		ic-topic	= \"item.primaryTopic\"\n" +
-    "		ic-type		= \"item.type\"\n" +
-    "		ng-class	= \"{active: icActive({itemId: item.id})}\"\n" +
+    "		ic-title 		= \"item.title\"\n" +
+    "		ic-brief		= \"item.definition[language]\"\n" +
+    "		ic-topic		= \"item.primaryTopic\"\n" +
+    "		ic-type			= \"item.type\"\n" +
+    "		ic-start-date 	= \"item.startDate\" \n" +
+    "		ng-class		= \"{active: icActive({itemId: item.id})}\"\n" +
     "	>\n" +
     "	</ic-preview-item>\n" +
     "</a>\n" +
