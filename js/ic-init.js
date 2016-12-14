@@ -96,13 +96,17 @@ angular.module('icInit', [
 
 		var icLanguages 			= 	{
 											availableLanuages:	undefined,
-											currentLanguages:	undefined									
+											currentLanguages:	undefined,
+											fallbackLanguage:	undefined,									
 										}
 
 
 		icConfigData.ready
 		.then(function(){
-			icLanguages.availableLanguages = icConfigData.availableLanguages
+			icLanguages.availableLanguages 	= 	icConfigData.availableLanguages
+			icLanguages.fallbackLanguage	= 	icLanguages.availableLanguages.indexOf('en') != -1
+												?	'en'
+												:	icLanguages.availableLanguages[0]
 		})
 
 		icLanguages.ready = 	icApi.getInterfaceTranslations()
@@ -146,15 +150,18 @@ angular.module('icInit', [
 		}
 
 		guessLanguage()
-		$rootScope.$evalAsync(function(){
-			$translate.use(icLanguages.currentLanguage)
-		})
 
 		var $_body = document.getElementsByTagName('body')[0]
 
 		$rootScope.$watch(
-			function(){ return icLanguages.currentLanguage }, 
-			function(){
+			function(){ return icLanguages.availableLanguages && icLanguages.currentLanguage }, 
+			function(cl){
+
+				if(!icLanguages.availableLanguages) return null
+
+				if(icLanguages.availableLanguages.indexOf(icLanguages.currentLanguage) == -1) 
+					icLanguages.currentLanguage = icLanguages.fallbackLanguage
+
 				$translate.use(icLanguages.currentLanguage)
 				$window.localStorage.setItem('language',icLanguages.currentLanguage)
 			}

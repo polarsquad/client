@@ -1434,7 +1434,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		</div>\n" +
     "\n" +
     "		<div class = \"brief\">\n" +
-    "			<span class = \"date\" ng-if = \"icStartDate\">{{icStartDate | icDate}}</span> {{icBrief}}\n" +
+    "			<span class = \"date heavy\" ng-if = \"icStartDate\">{{icStartDate | icDate}}</span> {{icBrief}}\n" +
     "		</div>\n" +
     "</div>"
   );

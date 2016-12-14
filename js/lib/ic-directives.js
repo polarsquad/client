@@ -612,41 +612,55 @@ angular.module('icDirectives', [
 	'$location', 
 	'icSite',
 	'icSearchResults',
+	'icLanguages',
 
 
-	function($rootScope, $location, icSite, icSearchResults){
+	function($rootScope, $location, icSite, icSearchResults, icLanguages){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
 
 			link: function(scope){
 
+				scope.vars = {}
+
+				function getVars(){
+					scope.item = icSearchResults.getItem(icSite.params.item)
+					if(!scope.item)				return null
+					if(!scope.item.title) 		return null
+					if(!scope.item.id)			return null
+
+					var abs_url 	= 	$location.absUrl(),
+						path		= 	$location.path(),
+						title		=	scope.item.title,
+						url			= 	abs_url.replace(path, '')
+										+'/item/'	+ scope.item.id
+										+'/l/'		+ icLanguages.currentLanguage
+
+					scope.vars.url 		= url
+					scope.vars.title	= title
+
+					return scope.vars
+				}
 
 				scope.$watch(
-					function(){
-						scope.item = icSearchResults.getItem(icSite.params.item)
-						return scope.item && scope.item.title
-					},
-					function(title){
-						if(!title) return null
-
-						var abs_url 	= 	$location.absUrl(),
-							path		= 	$location.path(),
-							url			= 	abs_url.replace(path, '')
-											+'/item/'	+ icSite.params.item
-											+'/l/'		+ icSite.params.l
-
-						scope.url = url
+					getVars,
+					function(v){
+						if(!v){
+							scope.platforms = []
+							return null
+						}
 
 						scope.platforms = [
-							{name: 'email',		link: 'mailto:?subject=Infocompass: '+title+'&body='+url},
-							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+title+'&url='+url+'&hashtags=infocompass'},
-							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+url+'&t='+title},
+							{name: 'email',		link: 'mailto:?subject=Infocompass: '+v.title+'&body='+v.url},
+							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags=infocompass'},
+							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-							{name: 'whatsapp',	link: 'whatsapp://send?text='+title+': '+url}
-						]
-					}
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
+						]						
+					},
+					true
 				)
 
 			}
@@ -2519,7 +2533,12 @@ angular.module('icDirectives', [
 
 						},
 						function(reason){
-							return icOverlays.open('login', reason, icOverlays.deferred.login, true)
+							var messages = 	{
+												'unknown user': 	'INTERFACE.UNKNOWN_USERNAME',
+												'invalid password':	'INTERFACE.INVALID_PASSWORD',
+											}
+
+							return icOverlays.open('login', messages[reason], icOverlays.deferred.login, true)
 						}
 					)
 				}
