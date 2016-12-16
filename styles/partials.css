@@ -607,6 +607,10 @@ ic-full-item .description {
 	font-weight:			300;
 }
 
+ic-full-item .description a {
+	color:					#f27020;
+}
+
 
 [lang = "ar"] ic-full-item .description,
 [lang = "fa"] ic-full-item .description,

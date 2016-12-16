@@ -394,10 +394,3 @@ Todo:
 * autologout !
 * yellow background autofill
 * ungültige Sprache durch en ersetzten
-
-
-
-Todo:
-* put ignoriert date changes
-* @Moritz: DELETE session doch lieber 200 wenn authtoken nich mehr echt
-* @Moritz: Reicht für ein lgout den authtoken lokal wegzuwerfen?

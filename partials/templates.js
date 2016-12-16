@@ -719,7 +719,17 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "\n" +
     "		<a\n" +
+    "			ng-click	= \"archive()\"\n" +
+    "			ng-if		= \"item.state != 'archived'\"\n" +
+    "			ng-show		= \"icUser.can('delete_items') && !editMode\"\n" +
+    "			class		= \"icon-interface-delete\"\n" +
+    "			ic-touch-me\n" +
+    "		> {{'INTERFACE.ARCHIVE' | translate }}</a>\n" +
+    "\n" +
+    "\n" +
+    "		<a\n" +
     "			ng-click	= \"delete()\"\n" +
+    "			ng-if		= \"item.state == 'archived'\"\n" +
     "			ng-show		= \"icUser.can('delete_items') && !editMode\"\n" +
     "			class		= \"icon-interface-delete\"\n" +
     "			ic-touch-me\n" +

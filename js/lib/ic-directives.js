@@ -480,6 +480,26 @@ angular.module('icDirectives', [
 					window.print()
 				}
 
+				scope.archive = function(){
+					beforeSubmission()
+					icOverlays.open('confirmationModal', 'INTERFACE.CONFIRM_ARCHIVE')
+					.then(function(){
+						return 	scope.item.delete()
+								.then(
+									function(){
+										icSearchResults.removeItem(scope.item)
+										scope.item.state = 'archived'
+										return 	icOverlays.open('popup', 'INTERFACE.ITEM_ARCHIVED')
+									},
+									function(){
+										return 	icOverlays.open('popup', 'INTERFACE.UNABLE_TO_ARCHIVE_ITEM')
+									}
+								)
+					})
+					.finally(function(){afterSubmission})
+				}
+
+
 				scope.delete = function(){
 					beforeSubmission()
 					icOverlays.open('confirmationModal', 'INTERFACE.CONFIRM_DELETION')
@@ -500,7 +520,6 @@ angular.module('icDirectives', [
 					})
 					.finally(function(){afterSubmission})
 				}
-
 
 
 				scope.$watch('icId', function(id){

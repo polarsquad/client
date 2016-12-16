@@ -444,7 +444,17 @@
 
 
 		<a
+			ng-click	= "archive()"
+			ng-if		= "item.state != 'archived'"
+			ng-show		= "icUser.can('delete_items') && !editMode"
+			class		= "icon-interface-delete"
+			ic-touch-me
+		> {{'INTERFACE.ARCHIVE' | translate }}</a>
+
+
+		<a
 			ng-click	= "delete()"
+			ng-if		= "item.state == 'archived'"
 			ng-show		= "icUser.can('delete_items') && !editMode"
 			class		= "icon-interface-delete"
 			ic-touch-me
