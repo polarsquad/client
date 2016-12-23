@@ -147,6 +147,11 @@ input:-webkit-autofill:focus{
 }
 
 
+.nondescript {
+	opacity:				0.5;
+	font-size:				0.8rem;
+}
+
 .iblock {
 	display:				inline-block;
 }

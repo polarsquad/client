@@ -151,3 +151,21 @@
 	{{'INTERFACE.IMPRESS' | translate}}
 </a>
 
+<a
+	ng-if				= "icUser.can('recreateUsers')"
+	class 				= "nondescript"
+	ng-click			= "recreateUsers()"
+	ic-touch-me
+>
+	{{'INTERFACE.RECREATE_USERS' | translate}}
+</a>
+
+
+<a
+	ng-if				= "icUser.can('parseFrontEndMessages')"
+	class 				= "nondescript"
+	ng-click			= "parseFrontendMessages()"
+	ic-touch-me
+>
+	{{'INTERFACE.PARSE_FRONTEND_MESSAGES' | translate}}
+</a>

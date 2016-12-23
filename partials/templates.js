@@ -1345,7 +1345,25 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     ">\n" +
     "	{{'INTERFACE.IMPRESS' | translate}}\n" +
     "</a>\n" +
-    "\n"
+    "\n" +
+    "<a\n" +
+    "	ng-if				= \"icUser.can('recreateUsers')\"\n" +
+    "	class 				= \"nondescript\"\n" +
+    "	ng-click			= \"recreateUsers()\"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.RECREATE_USERS' | translate}}\n" +
+    "</a>\n" +
+    "\n" +
+    "\n" +
+    "<a\n" +
+    "	ng-if				= \"icUser.can('parseFrontEndMessages')\"\n" +
+    "	class 				= \"nondescript\"\n" +
+    "	ng-click			= \"parseFrontendMessages()\"\n" +
+    "	ic-touch-me\n" +
+    ">\n" +
+    "	{{'INTERFACE.PARSE_FRONTEND_MESSAGES' | translate}}\n" +
+    "</a>\n"
   );
 
 

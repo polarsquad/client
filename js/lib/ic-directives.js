@@ -748,6 +748,32 @@ angular.module('icDirectives', [
 					
 					scope.newItemId = item.id
 				}
+
+				scope.recreateUsers = function(){
+					return	icApi.recreateUsers()
+							.then(
+								function(){
+									icOverlays.open('popup', 'INTERFACE.USERS_RECREATED')
+								},
+
+								function(){
+									icOverlays.open('popup', 'INTERFACE.UNABLE_TO_RECREATE_USERS')
+								}
+							)
+				}
+
+				scope.parseFrontendMessages = function(){
+					return 	icApi.parseFrontendMessages()
+							.then(
+								function(){
+									icOverlays.open('popup', 'INTERFACE.FRONTEND_MESSAGES_PARSED')
+								},
+
+								function(){
+									icOverlays.open('popup', 'INTERFACE.UNABLE_TO_PARSE_FRONTEND_MESSAGES')
+								}
+							)
+				}
 			}
 		}
 	}

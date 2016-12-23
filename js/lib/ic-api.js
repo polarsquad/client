@@ -63,7 +63,7 @@ angular.module('icApi', [])
 
 		var rights = 	{
 							undefined:	['suggest_new_items', 'suggest_item_edits'],
-							'editor':	['add_new_items', 'edit_items', 'delete_items']
+							'editor':	['add_new_items', 'edit_items', 'delete_items', 'parseFrontEndMessages', 'recreateUsers']
 						}
 
 		icUser.can = function(task){
@@ -219,6 +219,15 @@ angular.module('icApi', [])
 
 			icApi.deleteItem = function(id){
 				return 	icApi.delete('/items/'+id)
+			}
+
+
+			icApi.recreateUsers = function(){
+				return icApi.get('/users/recreate')
+			}
+
+			icApi.parseFrontendMessages = function(){
+				return icApi.get('/frontend/messages')
 			}
 
 
