@@ -2413,11 +2413,11 @@ angular.module('icDirectives', [
 			toLocaleDateStringSupportsLocales =  e instanceof RangeError
 		}
 
-		function icDateFilter(date_str){
+		function icDateFilter(date_str, use_time){
 			var d = new Date(date_str)
 
 			if(toLocaleDateStringSupportsLocales){
-				return d.toLocaleDateString(icLanguages.currentLanguage)
+				return 	d.toLocaleDateString(icLanguages.currentLanguage) + (use_time ? ' ' + d.toLocaleTimeString(icLanguages.currentLanguage) : '')
 			} else {
 				return date_str
 			}

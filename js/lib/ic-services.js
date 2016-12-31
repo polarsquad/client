@@ -697,7 +697,8 @@ angular.module('icServices', [
 
 				rawHashes				=	{
 												definition:		'definitions',
-												description:	'descriptions_full'
+												description:	'descriptions_full',
+												meta:			'meta'
 											},
 
 				rawArrays				=	{
