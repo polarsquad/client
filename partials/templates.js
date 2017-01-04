@@ -158,6 +158,25 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		{{'INTERFACE.SORT_DATE' | translate}}\n" +
     "	</a>\n" +
     "\n" +
+    "	<a \n" +
+    "		ng-show		= \"icUser.can('edit_items')\"\n" +
+    "		ng-click	= \"icFilterConfig.orderBy = 'created_on'\"\n" +
+    "		ng-class 	= \"{'icon-interface-radio-selected' : icFilterConfig.orderBy == 'created_on', 'icon-interface-radio': icFilterConfig.orderBy != 'created_on'}\"\n" +
+    "		ic-touch-me\n" +
+    "	> \n" +
+    "		{{'INTERFACE.SORT_CREATION_DATE' | translate}}\n" +
+    "	</a>\n" +
+    "\n" +
+    "		<a \n" +
+    "		ng-show		= \"icUser.can('edit_items')\"\n" +
+    "		ng-click	= \"icFilterConfig.orderBy = 'last_edit_on'\"\n" +
+    "		ng-class 	= \"{'icon-interface-radio-selected' : icFilterConfig.orderBy == 'last_edit_on', 'icon-interface-radio': icFilterConfig.orderBy != 'last_edit_on'}\"\n" +
+    "		ic-touch-me\n" +
+    "	> \n" +
+    "		{{'INTERFACE.SORT_LAST_EDIT' | translate}}\n" +
+    "	</a>\n" +
+    "\n" +
+    "\n" +
     "</div>\n" +
     "\n" +
     "\n" +
@@ -264,6 +283,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "			{{'INTERFACE.ITEM_STATE_%s' | fill : state |translate}}\n" +
     "		</a>\n" +
     "	</div>\n" +
+    "\n" +
     "\n" +
     "\n" +
     "\n" +
