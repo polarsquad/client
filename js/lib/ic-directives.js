@@ -307,9 +307,6 @@ angular.module('icDirectives', [
 				scope.icUser			= icUser
 
 				scope.editMode			= false
-				scope.data				= 	{
-												comment:''
-											}
 
 				scope.edit = function() {
 					scope.editMode = true
@@ -429,7 +426,7 @@ angular.module('icDirectives', [
 				scope.submitEditSuggestions = function(){
 					beforeSubmission()
 					
-					scope.itemEdit.update(null,  null, scope.data.comment)
+					scope.itemEdit.update(null,  null)
 					.then(
 						function(item_data){
 							return	icOverlays.open('popup', 'INTERFACE.EDIT_SUGGESTION_SUBMITTED')
@@ -456,7 +453,7 @@ angular.module('icDirectives', [
 				scope.submitItemSuggestion = function(){
 					beforeSubmission()
 					
-					scope.itemEdit.submitAsNew(null, null, scope.data.comment)
+					scope.itemEdit.submitAsNew(null, null)
 					.then(
 						function(){
 							return	icOverlays.open('popup', 'INTERFACE.ITEM_SUGGESTION_SUBMITTED')
