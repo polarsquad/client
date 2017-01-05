@@ -2205,6 +2205,7 @@ angular.module('icDirectives', [
 								icType:					"@",
 								icOptions:				"<",
 								icOptionLabel:			"&",
+								icIgnoreCurrentValue:	"<"
 							},
 
 			templateUrl: 	"partials/ic-item-edit-property.html",
@@ -2218,7 +2219,6 @@ angular.module('icDirectives', [
 				scope.value				=	{}
 				scope.expand			=	undefined
 				scope.showCurrentValue	=	scope.icItem.state != 'new'
-
 
 				scope.update = function(){
 					scope.updating = true
@@ -2294,8 +2294,13 @@ angular.module('icDirectives', [
 													?	scope.icItem[scope.icKey][icLanguages.currentLanguage] 
 													:	scope.icItem[scope.icKey]
 												)
-
-					if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
+					//workaround, actualy the backend should never hand out this value if it is to be ignored:
+					if(scope.icIgnoreCurrentValue){
+						scope.value.current = ''
+					}else{
+						//keep this, when workaround is no longer neccessary:
+						if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
+					}
 
 					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
 				}

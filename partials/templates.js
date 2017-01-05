@@ -709,6 +709,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ic-type					= \"text\"\n" +
     "		ic-key					= \"comment\"\n" +
     "		ic-item					= \"item\"\n" +
+    "		ic-ignore-current-value	= \"!icUser.can('edit_items')\" \n" +
     "	></ic-item-edit-property>\n" +
     "\n" +
     "\n" +
