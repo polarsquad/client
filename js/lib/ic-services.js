@@ -145,9 +145,9 @@ angular.module('icServices', [
 				for(key in icFilterConfig.filterBy){
 					icFilterConfig.clearFilter(key)
 				}
-				cFilterConfig.orderBy 		= ''
-				cFilterConfig.searchTerm 	= ''
-				cFilterConfig.reverse 		= false
+				icFilterConfig.orderBy 		= ''
+				icFilterConfig.searchTerm 	= ''
+				icFilterConfig.reverse 		= false
 			}else{
 
 				var item = icFilterConfig.filterBy[key]

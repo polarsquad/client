@@ -1393,10 +1393,10 @@ angular.module('icDirectives', [
 					if(scope.icOnSubmit) scope.icOnSubmit()
 
 					if(scope.searchTerm){
-						icFilterConfig.searchTerm = scope.searchTerm.replace(/[\/?#]+/g,' ')
 						if(scope.icOnUpdate){
 							scope.icOnUpdate()
 						}
+						icFilterConfig.searchTerm = scope.searchTerm.replace(/[\/?#]+/g,' ')
 					}
 
 					scope.searchTerm = undefined
