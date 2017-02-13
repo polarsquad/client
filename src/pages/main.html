@@ -1,0 +1,87 @@
+<header>
+	<h1
+		class = "logo {{ smlLayout.mode.name != 'XS' ? 'shift' : ''}}"
+	>	<ic-text-logo></ic-text-logo>
+	</h1>
+	<div class = "claim">
+		{{'INTERFACE.CLAIM' | translate}}
+	</div>
+
+</header>
+
+<div
+	no-text-nodes 
+	class = "tiles"
+>
+
+	
+
+	
+	
+	<a
+		ng-repeat	= "type in icConfigData.types"
+		ng-href 	= "{{icSite.getNewPath({t: type}, true)}}"
+		ic-tile
+		ic-title	= "'TYPES.'+type | uppercase | translate"
+		ic-brief	= ""
+		ic-icon		= "type | icIcon : 'type' : 'white'"
+		ic-type		= "type"
+	></a>
+
+	<a
+		ng-href 	= "/s/infopoint"
+		ic-tile
+		ic-title	= "'Infopoints'"
+		ic-brief	= ""
+		ic-type		= "'places'"
+		ic-image	= "'/images/tile_infopoints.jpg'"
+	></a>
+
+
+	<a
+		ng-href 	= "/tg/children"
+		ic-tile
+		ic-title	= "'TARGET_GROUPS.CHILDREN' | translate"
+		ic-brief	= "'INTERFACE.TARGET_GROUP' |translate"
+		ic-image	= "'/images/tile_children.jpg'"
+	></a>
+
+	<a
+		ng-href 	= "/t/events/tp/culture"
+		ic-tile
+		ic-title	= "('TYPES.EVENTS' | translate) + ','  + ('TOPICS.CULTURE' | translate)"
+		ic-brief	= "('INTERFACE.TYPE' |translate) +', '+ ('INTERFACE.TOPIC' |translate)"
+		ic-image	= "'/images/tile_events_culture.jpg'"
+	></a>
+
+	<a
+		ng-href 	= "/tg/women"
+		ic-tile
+		ic-title	= "'TARGET_GROUPS.WOMEN' | translate"
+		ic-brief	= "'INTERFACE.TARGET_GROUP' |translate"
+		ic-image	= "'/images/tile_women.jpg'"
+	></a>
+
+	<a
+		ng-href 	= "/tp/work"
+		ic-tile
+		ic-title	= "'TOPICS.WORK' | translate"
+		ic-brief	= "'INTERFACE.TOPIC' |translate"
+		ic-image	= "'/images/tile_work.jpg'"
+	></a>
+
+
+
+	<!-- <a 
+		href 		= "#{{::icSite.getNewPath({item: index})}}" 
+		ic-tile
+		ic-title	= "::Mock.random(['Kurs', 'Angebot', 'Projekt', 'Termine'], index+5)"
+		ic-brief	= "::Mock.random(['von Beispielinitiative', 'für Beispieltext', 'mit Blindtext', 'im Beispielamt'], index+3)"
+		ic-image	= "::Mock.image(index+2)"
+		ic-type		= "::Mock.random(['events', 'services', 'places', 'information'], index+1)"
+
+		ng-repeat 	= "index in ::Mock.arr(16)"
+	></a> -->
+
+</div>
+

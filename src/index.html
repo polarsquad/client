@@ -1,0 +1,110 @@
+<!doctype html>
+<html 
+	lang			=	"{{icLanguages.currentLanguage}}" 
+	ng-controller 	= 	"InfoCompassCtrl"
+	ng-class		=	"{'show-page': icSite.show('page'), 'show-list': icSite.show('list'), 'show-item': icSite.show('item')}"
+>
+
+
+
+
+
+	<head>
+
+		<title>InfoCompass</title>
+
+		<base href = "/">
+		<meta charset ="utf-8">		
+		<meta name ="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
+
+		<!--Grunt head-->
+		
+
+	</head>
+
+
+
+	<body>
+
+
+		<!-- loading screen -->
+		<ic-loading-screen 			
+			ic-ready		= "::icInit.ready"
+			ic-min-duration	= "1000"
+		>
+
+			<div class ="spinner">
+				<ic-spinner 
+					class 	= "active" 
+					active 	= "!error"
+				>
+					<div class = "foreground"></div><div class = "background"></div>
+				</ic-spinner>
+			</div>
+
+			<h1><ic-text-logo><span>Info</span><span>Compass</span></ic-text-logo></h1>
+			
+			<div class = "progress">
+				<span ng-class = "{'done': icInit.progress > 0}"></span>
+				<span ng-class = "{'done': icInit.progress > 1}"></span>
+				<span ng-class = "{'done': icInit.progress > 2}"></span>
+				<span ng-class = "{'done': icInit.progress > 3}"></span>
+				<span ng-class = "{'done': icInit.progress > 4}"></span>
+			</div>
+			
+			<br/>
+			
+			<div class = "error">
+				<noscript>
+					Please enable Javascript.
+				</noscript>
+				<div ng-show = "error" class ="ng-hide">
+					{{error}}
+				</div>
+			</div>
+
+		</ic-loading-screen>
+
+
+
+
+
+
+		<!-- header -->
+		<header ng-if = "::icInit.ready">
+			<ic-header
+				ic-menu 		= "!icSite.params.item 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
+				ic-close-item	= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-print		= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-share		= "icSite.params.item 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-large		= "!icSite.params.item 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
+				ic-languages 	= "true"
+			></ic-header>
+		</header>
+
+
+
+		<!-- content -->
+		<section 
+			id      	= "content"
+			ng-if   	= "::icInit.ready"
+			ng-include 	= "'partials/ic-layout.html'"
+		></section>
+
+
+
+
+		<!-- overlays -->
+		<ic-overlays 
+			ng-if       = "::icInit.ready"
+			class		= "ic-hide"
+			ng-class    = "{'ic-hide' :!icOverlays.active()}"
+		></ic-overlays>
+
+
+	</body>
+
+
+
+
+</html>

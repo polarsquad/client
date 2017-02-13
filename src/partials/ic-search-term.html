@@ -1,0 +1,10 @@
+<div ng-if	= "icFilterConfig.searchTerm">
+		» <span>{{icFilterConfig.searchTerm | uppercase}}</span> «
+		<span>({{icSearchResults.meta['total']}})</span>
+		<button 
+			class 		= "icon-nav-close"
+			ng-click 	= "icFilterConfig.searchTerm = ''" 
+		></button>
+</div>
+
+<hr ng-if	= "icFilterConfig.searchTerm"/>

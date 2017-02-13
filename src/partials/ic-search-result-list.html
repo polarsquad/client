@@ -1,0 +1,26 @@
+<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+
+<a
+	ng-repeat		= "item in icSearchResults.filteredList"
+	ng-href			= "{{icHref({itemId:item.id})}}"
+	ic-last-added 	= "{{item == icSearchResults.lastAddedItem}}" 
+>
+
+	<ic-preview-item
+		ic-title 		= "item.title"
+		ic-brief		= "item.definition[language]"
+		ic-topic		= "item.primaryTopic"
+		ic-type			= "item.type"
+		ic-start-date 	= "item.startDate" 
+		ng-class		= "{active: icActive({itemId: item.id})}"
+	>
+	</ic-preview-item>
+</a>
+
+<ic-spinner 
+	ng-if 	= "!icSearchResults.noMoreItems"
+	active 	= "icSearchResults.listLoading()"
+></ic-spinner>
+
+<div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">{{'INTERFACE.NO_MORE_ITEMS' | translate}}</div>
+

@@ -1,4 +1,6 @@
 todo
 /node_modules
 /bower_components
+/dev
+/dist
 /site
