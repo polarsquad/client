@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg 
+	width   =   "86px" 
+	height  =   "86px" 
+	viewBox =   "0 0 86 86" 
+	version =   "1.1" 
+	xmlns   =   "http://www.w3.org/2000/svg" 
+	xmlns:xlink="http://www.w3.org/1999/xlink" 
+>
+	<circle id="Oval" fill="#000000" opacity="0.2" cx="43" cy="43" r="43"></circle>
+	<polygon id="Fill-1" fill="#FFFFFF" transform="translate(18.867371, 42.144098) rotate(-270.000000) translate(-18.867371, -42.144098) " points="16.0137122 56.4123902 21.7210293 56.4123902 21.7210293 27.8758049 16.0137122 27.8758049"></polygon>
+	<polygon id="Fill-2" fill="#FFFFFF" transform="translate(29.971146, 48.197278) rotate(-270.000000) translate(-29.971146, -48.197278) " points="19.8825122 42.1437171 36.0247073 58.2859122 40.0597805 54.250839 23.9175854 38.1086439"></polygon>
+	<polygon id="Fill-3" fill="#FFFFFF" transform="translate(29.971337, 36.089585) rotate(-270.000000) translate(-29.971337, -36.089585) " points="19.8817512 42.1431463 23.9168244 46.1782195 40.060922 30.0360244 36.0239463 26.0009512"></polygon>
+	<polygon id="Fill-4" fill="#FFFFFF" transform="translate(67.731517, 42.144098) rotate(-270.000000) translate(-67.731517, -42.144098) " points="64.8778585 56.4123902 70.5851756 56.4123902 70.5851756 27.8758049 64.8778585 27.8758049"></polygon>
+	<polygon id="Fill-5" fill="#FFFFFF" transform="translate(55.390395, 36.089585) rotate(-270.000000) translate(-55.390395, -36.089585) " points="45.3008098 30.0360244 61.4430049 46.1782195 65.4799805 42.1431463 49.3358829 26.0009512"></polygon>
+	<polygon id="Fill-6" fill="#FFFFFF" transform="translate(55.390585, 48.197278) rotate(-270.000000) translate(-55.390585, -48.197278) " points="45.3019512 54.250839 49.3370244 58.2859122 65.4792195 42.1437171 61.4441463 38.1086439"></polygon>
+</svg>
