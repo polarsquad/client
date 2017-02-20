@@ -898,6 +898,7 @@ angular.module('icDirectives', [
 				case 'law':			return "/images/icon_"+p+"_law_"+c+".svg";			break;
 				case 'culture':		return "/images/icon_"+p+"_culture_"+c+".svg";		break;
 
+				case 'name':		return "/images/icon_"+p+"_name_"+c+".svg";		break;
 				case 'email':		return "/images/icon_"+p+"_email_"+c+".svg";		break;
 				case 'address':		return "/images/icon_"+p+"_place_"+c+".svg";		break;
 				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
@@ -2363,7 +2364,7 @@ angular.module('icDirectives', [
 
 				scope.$watch('value.new', function(){
 
-					if(scope.icForceNumber){	//Workaround
+					if(scope.icForceNumber && scope.value.new){	//Workaround
 						if(!scope.value.new.match(/^\d*\.?\d{0,2}$/)){
 							scope.value.new = 	scope.value.new
 												.replace(/[^\d,.]/, '')
@@ -2376,7 +2377,7 @@ angular.module('icDirectives', [
 					if(scope.icTranslatable){
 						itemEdit[scope.icKey][icLanguages.currentLanguage] = scope.value.new
 					} else {
-						itemEdit[scope.icKey] = scope.icForceNumber		//Workaround
+						itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
 												?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
 												:	scope.value.new
 					}
