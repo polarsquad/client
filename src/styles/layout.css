@@ -116,9 +116,8 @@ body > #content {
 	-webkit-overflow-scrolling: touch;
 }
 
-.M section.item, 
-.L section.item,
-.XL section.item{
+
+section.item,
 	overflow-y:				scroll !important;
 }
 
@@ -179,15 +178,7 @@ body > #content {
 	padding-left:			3rem;
 }
 
-.M	#content section.page > * {
-	width:					60rem;
-	padding-left:			3rem;
-}
 
-.L	#content section.page > * {
-	width:					72rem;
-	padding-left:			3rem;
-}
 
 .XL #content section.page > * {
 	width:					108rem;
@@ -214,12 +205,6 @@ body > #content {
 	width:					24rem;
 }
 
-.M 	#content section.list,
-.L 	#content section.list,
-.XL	#content section.list {
-	display:				inline-block;
-	width:					26rem;
-}
 
 
 
@@ -227,11 +212,6 @@ body > #content {
 	width:					22rem;
 }
 
-.M 	#content section.list > *,
-.L 	#content section.list > *,
-.XL	#content section.list > * {
-	width:					24rem;
-}
 
 
 
@@ -253,8 +233,6 @@ body > #content {
 	width:					24rem;
 }
 
-.M 	#content section.filter,
-.L 	#content section.filter,
 .XL	#content section.filter {
 	width:					16rem;
 }
@@ -265,8 +243,6 @@ body > #content {
 	width:					22rem;
 }
 
-.M 	#content section.filter > *,
-.L 	#content section.filter > *,
 .XL	#content section.filter > * {
 	width:					14rem;
 }
@@ -289,8 +265,7 @@ body > #content {
 	overflow-y:				scroll;
 }
 
-.M 	#content section.item,
-.L 	#content section.item,
+
 .XL	#content section.item {
 	display:				inline-block;
 	width:					40rem;
@@ -303,8 +278,6 @@ body > #content {
 
 
 .S 	#content section.item > *,
-.M 	#content section.item > *,
-.L 	#content section.item > *,
 .XL	#content section.item > * {
 	width:					38rem;
 }
@@ -315,15 +288,11 @@ body > #content {
 /* Layout item and list */
 
 
- .M.show-list.show-item #content section.list,
- .L.show-list.show-item #content section.list,
 .XL.show-list.show-item	#content section.list {
 	display:				inline-block;
 	width:					24rem;
 }
 
- .M.show-list.show-item #content section.list > *,
- .L.show-list.show-item	#content section.list > *,
 .XL.show-list.show-item	#content section.list > * {
 	width:					22rem;
 }
@@ -344,14 +313,12 @@ body > #content {
 
 
 
- .M.show-list.show-item	#content section.item,
  .L.show-list.show-item	#content section.item,
 .XL.show-list.show-item	#content section.item {
 	display:				inline-block;
 	width:					40rem;
 }
 
- .M.show-list.show-item #content section.item > *,
  .L.show-list.show-item #content section.item > *,
 .XL.show-list.show-item #content section.item > * {
 	width:					32rem;
@@ -369,13 +336,16 @@ ic-section-map {
 
 
 
-/* Layout map */
+
+
+
+
+/* All sizes */
 
 /* left is set by js */
 
-section.map {
-	background-color:		#46af54 !important; 
 
+section.map {
 	position:				absolute !important;
 	right:					0;
 	left:					0;
@@ -383,6 +353,138 @@ section.map {
 	padding:				0 !important;
 }
 
+
+
+
+
+
+
+/* M */
+
+
+.M	#content section.page > * {
+	width:					60rem;
+	padding-left:			3rem;
+}
+
+.M 	#content section.list{
+	width:					26rem;
+}
+
+.M 	#content section.list > *{
+	width:					24rem;
+}
+
+
+.M.show-list.show-item #content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+.M.show-list.show-item #content section.list > *{
+	width:					22rem;
+}
+
+
+
+
+.M 	#content section.filter {
+	width:					16rem;
+}
+
+.M 	#content section.filter > * {
+	width:					14rem;
+}
+
+
+.M.expand-map #content section.filter {
+	width:					22rem;
+}
+
+.M.expand-map #content section.filter > * {
+	width:					20rem;
+}
+
+
+
+.M 	#content section.item {
+	width:					40rem;
+
+}
+
+.M 	#content section.item > *{
+	width:					38rem;
+}
+
+
+.M.show-list.show-item #content section.item{
+	width:					40rem;
+}
+
+.M.show-list.show-item #content section.item > *{
+	width:					32rem;
+}
+
+
+
+/* L */
+
+
+.L	#content section.page > * {
+	width:					72rem;
+	padding-left:			3rem;
+}
+
+
+
+.L 	#content section.list {
+	width:					26rem;
+}
+
+
+.L 	#content section.list > *{
+	width:					24rem;
+}
+
+
+.L.show-list.show-item #content section.list {
+	width:					24rem;
+}
+
+
+.L.show-list.show-item #content section.list > *{
+	width:					22rem;
+}
+
+
+
+.L 	#content section.filter{
+	width:					16rem;
+}
+
+
+.L 	#content section.filter > *{
+	width:					14rem;
+}
+
+
+.L.expand-map #content section.filter {
+	width:					22rem;
+}
+
+.L.expand-map #content section.filter > * {
+	width:					20rem;
+}
+
+
+
+.L 	#content section.item{
+	width:					40rem;
+}
+
+.L 	#content section.item > *{
+	width:					38rem;
+}
 
 
 

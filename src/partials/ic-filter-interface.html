@@ -1,3 +1,8 @@
+<ic-quick-filter
+	ng-if = "showQuickFilter"
+>
+</ic-quick-filter>
+
 <div 
 	class = "tags"
 	ng-if = "icFilterConfig.filterBy.topics.length || icFilterConfig.filterBy.targetGroups.length || icFilterConfig.filterBy.state"
@@ -37,7 +42,10 @@
 
 
 
-<div class = "controls">	
+<div 
+	class = "controls"
+	ng-if = "!showSortOnly && !showFilterOnly"
+>	
 	<button
 		ng-class	= "{'active': open == 'sort'}"
 		ic-click 	= "toggleSortPanel()" 

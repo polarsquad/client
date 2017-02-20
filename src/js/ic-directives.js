@@ -13,11 +13,17 @@ angular.module('icDirectives', [
 
 .directive('icSectionFilter',[
 
-	function(){
+	'icSite',
+
+	function(icSite){
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-section-filter.html",
 			scope:			{},
+
+			link: function(scope){
+				scope.icSite = icSite
+			}
 		}
 	}
 ])
@@ -64,6 +70,10 @@ angular.module('icDirectives', [
 		return {
 			restrict: 		"AE",
 			templateUrl:	"partials/ic-section-map.html",
+
+			link: function(scope){
+				scope.icSite = icSite
+			}
 		}
 	}
 ])
@@ -603,186 +613,6 @@ angular.module('icDirectives', [
 ])
 
 
-.service('icItemMarker',[
-
-	'$compile',
-
-	function($compile){
-
-		var icItemMarker = function(item, parentScope){
-
-			var scope 	=  	parentScope.$new()
-
-			scope.item 	= 	item
-			
-			var element = 	$compile('<ic-item-marker ic-item = "item"></ic-item-marker')(scope),
-				shadow	=	angular.element('<div class = "ic-marker-shadow"></div>')
-
-			this.createIcon = function(){
-				return element[0]
-			}
-
-			this.createShadow = function(){
-				return shadow[0]
-			}
-
-		}
-
-		return icItemMarker
-	}
-])
-
-
-.service('icClusterMarker',[
-
-	'$compile',
-
-	function($compile){
-
-		var icClusterMarker = function(cluster, parentScope){
-
-			var scope 	=  	parentScope.$new()
-
-			scope.cluster =	cluster
-
-
-			var element = 	$compile('<ic-cluster-marker ic-cluster = "cluster"></ic-cluster-marker')(scope),
-				shadow	=	angular.element('<div class = "ic-marker-shadow"></div>')
-				
-
-			this.createIcon = function(){
-				return element[0]
-			}
-
-			this.createShadow = function(){
-				return shadow[0]
-			}
-
-		}
-
-		return icClusterMarker
-	}
-])
-
-
-.directive('icItemMarker',[
-
-	'icLanguages',
-
-	function(icLanguages){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-item-marker.html',
-			scope:			{
-								icItem:	"<"
-							},
-
-			link: function(scope){
-				scope.icLanguages = icLanguages
-			}
-
-		}
-	}
-
-])
-
-
-.directive('icClusterMarker',[
-
-
-	function(){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-cluster-marker.html',
-			scope:			{
-								icCluster:	"<"
-							},
-
-			link: function(scope){
-				scope.$watch('icCluster', function(){
-					scope.items = 	scope.icCluster.getAllChildMarkers()
-									.map(function(marker){
-										return marker.options.item
-									})
-				})
-			}
-
-		}
-	}
-
-])
-
-
-.directive('icMap',[
-
-	'$rootScope',
-	'$timeout',
-	'$compile',
-	'icSearchResults',
-	'icItemMarker',
-	'icClusterMarker',
-
-	function($rootScope, $timeout, $compile, icSearchResults, icItemMarker, icClusterMarker){
-		return {
-
-			restrict: 'AE',
-
-			link: function(scope, element, attrs){
-
-
-				
-
-				var markers = 	L.markerClusterGroup({
-									maxClusterRadius: 50,
-									iconCreateFunction: function(cluster) {										
-										return 	new icClusterMarker(cluster, scope)
-									}
-								} ),
-					map 	= 	L.map(element[0], {
-									center: [52.508, 13.401],
-									zoom: 11
-								})
-
-
-				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-				}).addTo(map);
-
-				map.addLayer(markers)
-
-
-				$rootScope.$watch(
-					function(){ return icSearchResults.filteredList },
-					function(list){
-						markers.clearLayers()
-						markers.addLayers(
-							list
-							.filter(function(item){
-								return item.latitude && item.latitude
-							})
-							.map(function(item){
-
-								var marker = new L.marker(
-												[item.latitude, item.longitude], 
-												{
-													icon: new icItemMarker(item, scope),
-													item: item
-												})
-
-								return marker
-							})
-						)
-
-						markers.refreshClusters()
-					
-					},
-					true
-				)
-			}
-		}
-	}
-])
-
 
 
 .directive('icInfoTag', [
@@ -816,14 +646,13 @@ angular.module('icDirectives', [
 
 .directive('icSharingMenu', [
 
-	'$rootScope',
 	'$location', 
 	'icSite',
 	'icSearchResults',
 	'icLanguages',
 
 
-	function($rootScope, $location, icSite, icSearchResults, icLanguages){
+	function($location, icSite, icSearchResults, icLanguages){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
@@ -1236,23 +1065,31 @@ angular.module('icDirectives', [
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-filter-interface.html',
 			scope:			{
-								expandFilter:	'<'
+								expandFilter:		'<',
+								showQuickFilter: 	'<',
+								showFilterOnly:		'<',
+								showSortOnly:		'<'
 							},
 
 			link: function(scope, element,attrs){
-				scope.open 				= false
-				scope.icFilterConfig 	= icFilterConfig
-				scope.icConfigData 		= icConfigData
-				scope.icUser			= icUser
-				scope.expand			= {}
+				scope.open 				= 	false
+				scope.icFilterConfig 	= 	icFilterConfig
+				scope.icConfigData 		= 	icConfigData
+				scope.icUser			= 	icUser
+				scope.expand			= 	{}
+				scope.open 				= 	scope.showSortOnly
+											?	'sort'
+											:	'filter'
 
 
 				if(scope.expandFilter){
-					scope.open 					= 'filter'
-					scope.expand.topics 		= !!icFilterConfig.filterBy.topics.length
-					scope.expand.targetGroups 	= !!icFilterConfig.filterBy.targetGroups.length
-					scope.expand.state			= !!icFilterConfig.filterBy.state
+					scope.expand.topics 		= true
+					scope.expand.targetGroups 	= true
+					scope.expand.state			= true
 				}
+
+
+
 
 				scope.toggleSortPanel = function(){
 					scope.open = 	scope.open != 'sort'
@@ -2764,11 +2601,10 @@ angular.module('icDirectives', [
 
 .directive('icLogin',[
 
-	'$rootScope',
 	'icApi',
 	'icOverlays',
 
-	function($rootScope, icApi, icOverlays){
+	function(icApi, icOverlays){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-login.html',
@@ -2857,7 +2693,10 @@ angular.module('icDirectives', [
 
 .directive('icJoinLeft', [
 
-	function(){
+	'$rootScope',
+	'icSite',
+
+	function($rootScope, icSite){
 		return {
 			restrict:	'A',
 
@@ -2872,6 +2711,14 @@ angular.module('icDirectives', [
 
 				reposition()
 				angular.element(window).on('resize', reposition)
+
+				var stop_watching_displayedComponents	=	$rootScope.$watch(
+																function(){ return icSite.displayedComponents },
+																function(){ $rootScope.$evalAsync(reposition) },
+																true
+															)
+
+				scope.$on('$destroy', stop_watching_displayedComponents)
 			}
 		}
 	}

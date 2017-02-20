@@ -8,6 +8,7 @@ angular.module('InfoCompassModule',[
 	"icInit",
 	"icServices",
 	"icDirectives",
+	"icMap",
 	"monospaced.qrcode",
 ])
 

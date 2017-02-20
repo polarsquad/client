@@ -6,7 +6,7 @@
 
  --><section 
 		class   = "page"
-		ng-if   = "icSite.show('page')"
+		ng-if   = "icSite.displayedComponents.page"
 	>
 		<div ng-include = "icSite.pageUrl"></div>
 	</section><!--
@@ -14,7 +14,7 @@
 
  --><section 
 		class	= "filter"    
-		ng-if	= "icSite.show('filter')"
+		ng-if	= "icSite.displayedComponents.filter"
 	>
 		<ic-section-filter></ic-section-filter>
 	</section><!--
@@ -24,7 +24,7 @@
 
 --><section 
 		class   = "list"  
-		ng-if   = "icSite.show('list')"
+		ng-if   = "icSite.displayedComponents.list"
 		fake-scroll-bump
 	>
 		<ic-section-list
@@ -37,7 +37,7 @@
 
 --><section 
 		class   		= "item" 
-		ng-if   		= "icSite.show('item')"
+		ng-if   		= "icSite.displayedComponents.item"
 		ic-scroll-top 	= "{{icSite.params.item}}" 
 	>                   
 		<ic-header
@@ -54,7 +54,7 @@
 
 --><section 
 		class   		= "map" 
-		ng-if   		= "icSite.show('map')"
+		ng-if   		= "icSite.displayedComponents.map"
 		ic-join-left
 	>                   
 		<ic-section-map></ic-section-map>

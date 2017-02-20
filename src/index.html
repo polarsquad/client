@@ -2,7 +2,13 @@
 <html 
 	lang			=	"{{icLanguages.currentLanguage}}" 
 	ng-controller 	= 	"InfoCompassCtrl"
-	ng-class		=	"{'show-page': icSite.show('page'), 'show-list': icSite.show('list'), 'show-item': icSite.show('item')}"
+	ng-class		=	"{
+							'show-page': 	icSite.displayedComponents.page, 
+							'show-list': 	icSite.displayedComponents.list, 
+							'show-item':	icSite.displayedComponents.item, 
+							'show-map':		icSite.displayedComponents.map, 
+							'expand-map':	icSite.expandMap
+						}"
 >
 
 
@@ -25,7 +31,6 @@
 
 
 	<body>
-
 
 		<!-- loading screen -->
 		<ic-loading-screen 			

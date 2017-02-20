@@ -244,24 +244,31 @@ angular.module('icServices', [
 
 	function($rootScope, $location, $translate, $timeout, icInit, icApi, smlLayout, icFilterConfig, icLanguages, icOverlays, icUser){
 		var icSite 		= 	{
-								//fullItem:			false,
-								page:				'main',
+								//fullItem:				false,
+								page:					'main',
 								//showFilter:			false,
-								params:				{
-														item:	'',			// item for full view
-														t:		'',			// type filter
-														s:		'',			// search term
-														l:		'',			// language
-														so:		'',			// sorting
-														d:		'',			// direction
-														st:		'',			// state, "public", "draft"...
-														tp:		[],			// topics
-														tg:		[],			// target groups
-													},
+								expandMap:				false,
+								params:					{
+															item:	'',			// item for full view
+															t:		'',			// type filter
+															s:		'',			// search term
+															l:		'',			// language
+															so:		'',			// sorting
+															d:		'',			// direction
+															st:		'',			// state, "public", "draft"...
+															tp:		[],			// topics
+															tg:		[],			// target groups
+														},
 
-								activeComponents:	{
-														page:	true
-													}
+								availableComponents:	['page', 'filter', 'list', 'map', 'item'],
+
+								activeComponents:		{
+															page:	true
+														},
+
+								displayedComponents:	{
+															page:	true
+														}
 							},
 			scheduledUpdate,
 			scheduledPath
@@ -357,7 +364,7 @@ angular.module('icServices', [
 			icSite.params.r		= icFilterConfig.reverse ? 1 : 0
 
 			icSite
-			.updateCompontents()
+			.updateActiveCompontents()
 			.schedulePathUpdate()
 		}
 
@@ -371,7 +378,7 @@ angular.module('icServices', [
 			icSite.params.item 	= id
 			
 			icSite
-			.updateCompontents()
+			.updateActiveCompontents()
 			.schedulePathUpdate()
 		}
 
@@ -385,17 +392,33 @@ angular.module('icServices', [
 
 
 		//rename to 'sections'
-		icSite.updateCompontents = function(){
-			icSite.activeComponents = {}
+		icSite.updateActiveCompontents = function(){
+			icSite.availableComponents.forEach(function(key){ delete icSite.activeComponents[key]})
 
 			if(icSite.params.item)			icSite.activeComponents.item 	= true
 			if(icFilterConfig.active())		icSite.activeComponents.list 	= true
-			//if(icSite.showFilter)			icSite.activeComponents.filter 	= true
+			if(icFilterConfig.active())		icSite.activeComponents.filter 	= true
 			if(icSite.pageUrl)				icSite.activeComponents.page 	= true
-			//map
+			if(icFilterConfig.active())		icSite.activeComponents.map 	= true
 			
+			icSite.updateDisplayedComponents()
+
 			return icSite
 		}
+
+		icSite.updateDisplayedComponents = function(){
+			icSite.availableComponents.forEach(function(key){ 
+				console.log(key, icSite.show(key))
+				if(icSite.show(key)){
+					icSite.displayedComponents[key] = true
+				} else {
+					delete icSite.displayedComponents[key]
+				}
+			})
+
+			return icSite
+		}
+
 
 		icSite.updateFromPath = function(){
 
@@ -436,7 +459,8 @@ angular.module('icServices', [
 			}
 			
 
-			icSite.updateCompontents()
+			icSite.updateActiveCompontents()
+
 
 			return this
 		}
@@ -451,10 +475,8 @@ angular.module('icServices', [
 			}			
 		}
 
-		icSite.show = function(str){
 
-			//temporary:
-			if(str == 'map') return true
+		icSite.show = function(str){
 
 			switch(smlLayout.mode.name){
 				case "XS":
@@ -476,35 +498,80 @@ angular.module('icServices', [
 				break;
 				
 				
-				case "M":			
+				case "M":	
 
-					if(
-							'item'	in icSite.activeComponents
-						&&	'list'	in icSite.activeComponents
-					){
-						return str == 'item'|| str == 'list'
-					}
+					switch(str){
+						case "page":	return		 'page' 	in icSite.activeComponents	
+												&&	!('item' 	in icSite.activeComponents)
+												&&	!('list' 	in icSite.activeComponents)
+												&&  !('map'		in icSite.activeComponents)
+						break;
 
-					if('item'	in icSite.activeComponents) return str == 'item'
-					if('list'	in icSite.activeComponents) return str == 'list' || str == 'filter'
-					if('page' 	in icSite.activeComponents) return str == 'page'
+						case "list":	return		'list'	in icSite.activeComponents
+												&&	!icSite.expandMap
+						break;
+
+						case "filter":	return		'filter'in icSite.activeComponents
+						break;
+
+						case "item":	return		'item'	in icSite.activeComponents
+						break;
+						
+						case "map":		return		'map'	in icSite.activeComponents
+						break;
+					}		
+
+					// if(
+					// 		'item'	in icSite.activeComponents
+					// 	&&	'list'	in icSite.activeComponents
+					// ){
+					// 	return str == 'item'|| str == 'list'
+					// }
+
+					// if('item'	in icSite.activeComponents) return str == 'item'
+					// if('list'	in icSite.activeComponents) return str == 'list' || str == 'filter'
+					// if('page' 	in icSite.activeComponents) return str == 'page'
 
 				break;
 				
 				
 				case "L":
 
-					if(
-							'item'	in icSite.activeComponents
-						&&	'list'	in icSite.activeComponents
-					){
 
-						return str == 'item'|| str == 'list' || str == 'filter'
+					switch(str){
+						case "page":	return		  'page' 	in icSite.activeComponents	
+												&&	!('item' 	in icSite.activeComponents)
+												&&	!('list' 	in icSite.activeComponents)
+												&&  !('map'		in icSite.activeComponents)
+						break;
+
+						case "list":	return		'list'	in icSite.activeComponents
+												&&	!icSite.expandMap
+						break;
+
+						case "filter":	return		'filter'in icSite.activeComponents
+						break;
+
+						case "item":	return		'item'	in icSite.activeComponents
+						break;
+
+						case "map":		return		'map'	in icSite.activeComponents
+						break;
 					}
 
-					if('item'	in icSite.activeComponents) return str == 'item'
-					if('list'	in icSite.activeComponents) return str == 'list' || str == 'filter'
-					if('page' 	in icSite.activeComponents) return str == 'page'
+
+
+					// if(
+					// 		'item'	in icSite.activeComponents
+					// 	&&	'list'	in icSite.activeComponents
+					// ){
+
+					// 	return str == 'item'|| (str == 'list' && !icSite.expandMap) || str == 'filter'
+					// }
+
+					// if('item'	in icSite.activeComponents) return str == 'item'
+					// if('list'	in icSite.activeComponents) return str == 'list' || str == 'filter'
+					// if('page' 	in icSite.activeComponents) return str == 'page'
 
 				break;
 				
@@ -539,6 +606,9 @@ angular.module('icServices', [
 		$rootScope.$on('$locationChangeSuccess', 					icSite.updateFromPath)
 		$rootScope.$watch(function(){ return icFilterConfig }, 		icSite.addFilterParamsToPath, true)
 		$rootScope.$watch(function(){ return icLanguages }, 		icSite.addLanguageParamsToPath, true)
+		$rootScope.$watch(function(){ return smlLayout.mode.name },	icSite.updateDisplayedComponents)
+		$rootScope.$watch(function(){ return icSite.expandMap },	icSite.updateDisplayedComponents)
+
 
 		$rootScope.$on('loginRequired', function(event, message){ 
 			icOverlays.open('login', message)
@@ -864,7 +934,7 @@ angular.module('icServices', [
 
 		searchResults.data 				= []
 		searchResults.offset			= 0
-		searchResults.limit				= 15
+		searchResults.limit				= 10000 //todo
 		searchResults.itemCalls 		= []
 		searchResults.filteredList		= []
 		searchResults.noMoreItems		= false

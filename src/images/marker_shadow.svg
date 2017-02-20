@@ -8,8 +8,10 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink"
 >
 	<defs>
-		<filter id="blur" x="0" y="0">
-			<feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+		<filter id="shadow" x="0" y="0">
+			<feOffset 		result="offOut" 	in="SourceAlpha" 	dx="0" dy="2" />
+			<feGaussianBlur result="blurOut" 	in="offOut" 		stdDeviation="3" />
+			<feBlend 		in="SourceGraphic" 	in2="blurOut" 		mode="normal" />
 		</filter>
 	</defs>
 

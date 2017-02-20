@@ -236,6 +236,11 @@ input:-webkit-autofill:focus{
 	background-image:		url(/images/marker_type_places.svg);
 }
 
+.marker-type-information{
+	background-image:		url(/images/marker_type_information.svg);
+}
+
+
 
 
 /* icons */
@@ -409,6 +414,16 @@ input:-webkit-autofill:focus{
 	background-image:		url(/images/icon_interface_edit_orange.svg);	
 }
 
+
+
+
+.icon-map-expand {
+	background-image:		url(/images/icon_map_expand.svg);
+}
+
+.icon-map-reduce {
+	background-image:		url(/images/icon_map_reduce.svg);
+}
 
 
 

@@ -1,5 +1,8 @@
-print css @ media
+* print css @ media
+* wann map anzeigen?
 
-icInit?
-
-noscript in loading screen integrieren
+Done:
+* Kartengröße dynamisch anpassen
+* map expanden
+* limit entfernen
+* shatten animieren? (-> ins bild integriert)

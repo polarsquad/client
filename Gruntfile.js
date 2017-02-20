@@ -10,6 +10,7 @@ module.exports = function(grunt) {
 	grunt.loadTasks('grunt_tasks')
 
 	grunt.loadNpmTasks('grunt-contrib-copy')
+	grunt.loadNpmTasks('grunt-svgmin')
 	grunt.loadNpmTasks('grunt-contrib-uglify')
 	grunt.loadNpmTasks('grunt-contrib-cssmin')
 	grunt.loadNpmTasks('grunt-contrib-watch')
@@ -53,6 +54,7 @@ module.exports = function(grunt) {
 			'**/pl-images.js',
 			'**/ic-init.js',
 			'**/ic-directives.js',
+			'**/ic-map-module.js',
 			'**/ic-services.js',
 			'**/smlLayout.js',
 			'**/ic-module.js',
@@ -66,6 +68,7 @@ module.exports = function(grunt) {
 			'**/typography_and_colors.css',
 			'**/layout.css',
 			'**/partials.css',
+			'**/map.css',
 			// '**/print.css',          
 		],
 
@@ -80,14 +83,14 @@ module.exports = function(grunt) {
 			
 			dev: {
 				files: [
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= scripts %>',          dest: '<%= paths.dev %>/js'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= styles %>',           dest: '<%= paths.dev %>/styles'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: ['**/Roboto/*'],           dest: '<%= paths.dev %>/fonts/Roboto'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= initial_styles %>',   dest: '<%= paths.dev %>/styles'},
-					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: ['images/**/*'],           dest: '<%= paths.dev %>/images'},
-					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= scripts %>',          dest: '<%= paths.dev %>/js'},
-					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= styles %>',           dest: '<%= paths.dev %>/styles'},
-					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= initial_styles %>',   dest: '<%= paths.dev %>/styles'},
+					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
+					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= styles %>',          			 	dest: '<%= paths.dev %>/styles'},
+					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '**/Roboto/*', 	          			dest: '<%= paths.dev %>/fonts/Roboto'},
+					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= initial_styles %>',   			dest: '<%= paths.dev %>/styles'},
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: ['images/**/*', '!images/**/*.svg'],	dest: '<%= paths.dev %>/images'},
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= styles %>',           			dest: '<%= paths.dev %>/styles'},
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= initial_styles %>',   			dest: '<%= paths.dev %>/styles'},
 				]
 			},
 
@@ -98,6 +101,29 @@ module.exports = function(grunt) {
 				]
 			},
 		},
+
+
+		'svgmin': {
+			options: {
+				plugins: [
+					{
+						removeTitle: true,
+
+						removeAttrs: {
+							attrs: ['xmlns']
+						}
+					}, 
+				]
+			},
+
+			dev: {
+				files: [
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',	src: 'images/**/*.svg',	dest: '<%= paths.dev %>/images'},
+				]
+			}
+		},
+
+
 
 
 		'ngtemplates': {
@@ -255,21 +281,21 @@ module.exports = function(grunt) {
 		},
 
 		
-		svg_sprite: {
+		// svg_sprite: {
 
-				icons: {
-						src:    ['<%= paths.dist %>images/icon*.svg'],
-						dest:   '<%= paths.dist %>/images',
-						options:    {
-							mode: {
-								stack: {
-									dest: '',
-									sprite: 'icons.svg',
-								}
-							}               
-						},
-				},
-		},
+		// 		icons: {
+		// 				src:    ['<%= paths.dist %>images/icon*.svg'],
+		// 				dest:   '<%= paths.dist %>/images',
+		// 				options:    {
+		// 					mode: {
+		// 						stack: {
+		// 							dest: '',
+		// 							sprite: 'icons.svg',
+		// 						}
+		// 					}               
+		// 				},
+		// 		},
+		// },
 
 
 
@@ -300,6 +326,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('dev',[
 		'copy:dev',
+		'svgmin:dev',
 		'preload_images:dev',
 		'ngtemplates:dev',
 		'string-replace:dev'
