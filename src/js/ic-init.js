@@ -279,18 +279,19 @@ angular.module('icInit', [
 	function($q, $timeout){
 		return {
 			restrict:	'AE',
-			// transclude:	true,
+			scope:		true,
 
 			link: function(scope, element, attrs, ctrl, transclude){
 
 
-				var childScope 	= undefined,
-					unwatch		= undefined
+				var unwatch		= undefined
 
 
 
 				function clear(){
+					console.log('CLEAR')
 					element.remove()
+					scope.$destroy()
 					unwatch()
 				}
 
