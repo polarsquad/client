@@ -408,7 +408,6 @@ angular.module('icServices', [
 
 		icSite.updateDisplayedComponents = function(){
 			icSite.availableComponents.forEach(function(key){ 
-				console.log(key, icSite.show(key))
 				if(icSite.show(key)){
 					icSite.displayedComponents[key] = true
 				} else {
@@ -477,6 +476,7 @@ angular.module('icServices', [
 
 
 		icSite.show = function(str){
+
 
 			switch(smlLayout.mode.name){
 				case "XS":
@@ -553,6 +553,7 @@ angular.module('icServices', [
 						break;
 
 						case "item":	return		'item'	in icSite.activeComponents
+												&&	!icSite.expandMap
 						break;
 
 						case "map":		return		'map'	in icSite.activeComponents

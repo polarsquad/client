@@ -2,9 +2,17 @@
 * wann map anzeigen?
 * Mini-Karte
 * SearchBug
+* focus on element
 
 Done:
 * Kartengröße dynamisch anpassen
 * map expanden
 * limit entfernen
 * shatten animieren? (-> ins bild integriert)
+
+
+
+Fragen:
+* kein limit? -> cluster begrenzen?
+* was anzeigen, wenn Nur das item da ist -> leer Karte?
+* karte schließen/ liste schließen

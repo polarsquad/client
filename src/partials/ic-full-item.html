@@ -135,6 +135,12 @@
 
 	<!-- geo coordinates -->
 
+	<ic-mini-map
+		ng-if			= "item.longitude && item.latitude"
+		ic-item			= "item"
+	>
+	</ic-mini-map>
+
 	<ic-info-tag
 		class			= "screen-only"
 		ng-if			= "item.longitude && item.latitude && !item.address"
@@ -144,6 +150,7 @@
 		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 	>
 	</ic-info-tag>
+
 
 
 

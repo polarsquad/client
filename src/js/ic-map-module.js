@@ -42,7 +42,9 @@ angular.module('icMap', [
 
 	function($compile){
 
+
 		var icClusterMarker = function(cluster, parentScope){
+
 
 			var scope 	=  	parentScope.$new()
 
@@ -60,6 +62,7 @@ angular.module('icMap', [
 			this.createShadow = function(){
 				return null //shadow[0]
 			}
+
 
 		}
 
@@ -181,11 +184,55 @@ angular.module('icMap', [
 ])
 
 
+.service('icMapSwitchControl', [
+
+	'$compile',
+
+	function($compile){
+
+		var element = undefined
+
+		L.Control.icMapSwitchControl = L.Control.extend({
+			onAdd: function(map) {
+				return element && element[0]
+			},
+
+			onRemove: function(map) {
+			}
+		})
+
+		this.setScope = function(scope){
+			element = 	$compile('<ic-map-switch-control ic-item = "icItem"></ic-map-switch-control>')(scope)
+		}
+	}
+])
+
+.directive('icMapSwitchControl',[
+
+	'icSite',
+
+	function(icSite){
+		return {
+			restrict : 		'E',
+			scope:			true,
+			templateUrl: 	'partials/ic-map-switch-control.html',
+			scope:			{
+								icItem: '<'
+							},
+
+			link: function(scope){
+				scope.icSite = icSite
+			}
+		}
+	}
+])
+
+
+
 .directive('icMap',[
 
 	'$rootScope',
 	'$timeout',
-	'$compile',
 	'icSearchResults',
 	'icMapItemMarker',
 	'icMapClusterMarker',
@@ -193,15 +240,13 @@ angular.module('icMap', [
 	'icMapSpinnerControl',
 	'icSite',
 
-	function($rootScope, $timeout, $compile, icSearchResults, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icSite){
+	function($rootScope, $timeout, icSearchResults, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icSite){
 		return {
 
 			restrict: 'AE',
 
 			link: function(scope, element, attrs){
 
-
-				
 
 				var markers = 	L.markerClusterGroup({
 									maxClusterRadius: 50,
@@ -210,16 +255,36 @@ angular.module('icMap', [
 									}
 								} ),
 					map 	= 	L.map(element[0], {
-									center: 		[52.508, 13.401],
+									center: 		[52.500, 13.400],
 									zoom: 			11,
-									zoomControl: 	false
+									minZoom:		11,
+									zoomControl: 	false,
+									trackSize:		false,
+									maxBounds:		[
+														[52.80, 13.80], 
+														[52.20, 13.00]
+													]
 								})
+
+
+				//Todo: solve this more generically, hooks?
+				icSite.focusItemOnMap = function(item){
+					if(!item ||  !item.latitude || !item.longitude){
+						console.warn('icMap: icSite.focusItemOnMap: missing coordinates.')
+						return null
+					}
+					icSite.expandMap = true
+
+					map.setView([item.latitude, item.longitude], 18)
+				}
+
+
 
 				scope.icSearchResults = icSearchResults
 
 				new L.Control.Zoom({
-						position: 'topright' 	
-					}).addTo(map)
+					position: 'topright' 	
+				}).addTo(map)
 
 				icMapExpandControl.setScope(scope)
 
@@ -283,7 +348,8 @@ angular.module('icMap', [
 																							[item.latitude, item.longitude], 
 																							{
 																								icon: new icMapItemMarker(item, scope),
-																								item: item
+																								item: item,
+																								riseOnHover: true
 																							})
 
 																			return marker
@@ -312,4 +378,60 @@ angular.module('icMap', [
 			}
 		}
 	}
+])
+
+
+
+.directive('icMiniMap',[
+
+	'icMapItemMarker',
+	'icMapSwitchControl',
+
+
+	function(icMapItemMarker, icMapSwitchControl){
+		return {
+			restrict: 	'AE',
+			scope:		{
+							icItem: 	'<',
+						},
+
+			link: function(scope, element){
+
+
+				var	map 	= 	L.map(element[0], {
+									center: 		[scope.icItem.latitude, scope.icItem.longitude],
+									zoom: 			16,
+									minZoom:		16,
+									maxZoom:		16,
+									zoomControl: 	false,
+									boxZoom:		false,
+									doubleClickZoom:false,
+									dragging:		false,
+								})
+
+				L.marker(
+					[scope.icItem.latitude, scope.icItem.longitude], 
+					{
+						icon: new icMapItemMarker(scope.icItem, scope),
+						item: scope.icItem,
+					}
+				).addTo(map)
+
+				icMapSwitchControl.setScope(scope)
+
+				new L.Control.icMapSwitchControl({ 
+					position: 	'topright',
+				}).addTo(map)
+
+
+				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+				}).addTo(map);
+
+
+
+			}
+		}
+	}
+
 ])

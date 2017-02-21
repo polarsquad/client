@@ -117,7 +117,7 @@ body > #content {
 }
 
 
-section.item,
+section.item{
 	overflow-y:				scroll !important;
 }
 
