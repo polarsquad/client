@@ -321,7 +321,8 @@ angular.module('icInit', [
 					})
 					.then(
 						function(){
-							return $timeout(parseInt(attrs.icMinDuration), false)
+							console.log('durch')
+							return $timeout(parseInt(attrs.icMinDuration)||0)
 						},
 						function(reason){
 							scope.error = reason	
