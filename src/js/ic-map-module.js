@@ -46,17 +46,28 @@ angular.module('icMap', [
 		var icClusterMarker = function(cluster, parentScope){
 
 
-			var scope 	=  	parentScope.$new()
+			if(!cluster.scope) {
+				var scope 	=  	parentScope.$new()
 
-			scope.cluster =	cluster
+				scope.cluster =	cluster
+				cluster.scope = scope
+
+				cluster.on('remove', function(){
+					scope.$destroy()
+				})
+
+				var element = 	$compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(scope)
+					//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')	
+			} 
 
 
-			var element = 	$compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(scope)
-				//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')
-				
+
+			console.log('has cluster:', !!cluster.scope)
+
+
 
 			this.createIcon = function(){
-				return element[0]
+				return cluster._icon || element[0]
 			}
 
 			this.createShadow = function(){
