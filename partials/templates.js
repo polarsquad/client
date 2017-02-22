@@ -365,13 +365,13 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<div class 	= \"topics-and-target-groups highlight\">\n" +
     "		<a \n" +
     "			ng-repeat 	= \"topic in item.topics\"\n" +
-    "			ng-class	= \"{'primary' : item.primaryTopic == topic}\"\n" +
+    "			ng-class	= \"{'primary' : item.primaryTopic == topic, 'screen-only': item.primaryTopic != topic}\"\n" +
     "			class		= \"highlight\"\n" +
     "			ng-href		= \"/#/tp/{{topic}}\"\n" +
     "		>{{topic | uppercase | prepend : \"TOPICS.\" | translate }}</a><!--\n" +
     "	--><a \n" +
     "			ng-repeat 	= \"target_group in item.targetGroups\"\n" +
-    "			class		= \"highlight\"\n" +
+    "			class		= \"highlight screen-only\"\n" +
     "			ng-href		= \"/#/tg/{{target_group}}\"\n" +
     "		>{{target_group | uppercase | prepend : \"TARGET_GROUPS.\" | translate }}</a>\n" +
     "\n" +
@@ -431,6 +431,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	<!-- geo coordinates -->\n" +
     "\n" +
     "	<ic-info-tag\n" +
+    "		class			= \"screen-only\"\n" +
     "		ng-if			= \"item.longitude && item.latitude && !item.address\"\n" +
     "		ic-title 		= \"'INTERFACE.ITEM_GEO_COORDINATES' | translate\"\n" +
     "		ic-content		= \"item.latitude + ', ' +item.longitude\"\n" +
@@ -459,7 +460,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if		= \"item.startDate && item.endDate\"\n" +
     "		ic-title 	= \"'INTERFACE.ITEM_DATES' | translate\"\n" +
     "		ic-content	= \"(item.startDate | icDate) +' – '+ (item.endDate | icDate)\"\n" +
-    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
+    "		ic-icon		= \"'dates' | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -468,7 +469,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if		= \"item.startDate && !item.endDate\"\n" +
     "		ic-title 	= \"'INTERFACE.ITEM_START_DATE' | translate\"\n" +
     "		ic-content	= \"item.startDate | icDate\"\n" +
-    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
+    "		ic-icon		= \"'dates' | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -476,7 +477,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "		ng-if		= \"item.endDate && !item.startDate\"\n" +
     "		ic-title 	= \"'INTERFACE.ITEM_END_DATE' | translate\"\n" +
     "		ic-content	= \"item.endDate | icDate\"\n" +
-    "		ic-icon		= \"'startDate' | icIcon : 'item' : 'black'\"\n" +
+    "		ic-icon		= \"'dates' | icIcon : 'item' : 'black'\"\n" +
     "	>\n" +
     "	</ic-info-tag>\n" +
     "\n" +
@@ -525,7 +526,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "	</div>\n" +
     "\n" +
     "	<div class = \"url print-only\">\n" +
-    "		www.info-compass.eu\n" +
+    "		www.info-compass.net\n" +
     "	</div>\n" +
     "\n" +
     "\n" +
@@ -1250,7 +1251,7 @@ angular.module('InfoCompass').run(['$templateCache', function($templateCache) {
     "\n" +
     "<ic-search				\n" +
     "	class 			= \"white right\"\n" +
-    "	ic-on-update	= \"icSite.clearItem(); icFilterConfig.clearFilter();icOverlays.toggle('mainMenu');\"\n" +
+    "	ic-on-update	= \"icSite.clearItem(); icFilterConfig.clearFilter(); icOverlays.toggle('mainMenu');\"\n" +
     "></ic-search>\n" +
     "\n" +
     "\n" +

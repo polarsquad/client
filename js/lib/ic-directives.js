@@ -883,6 +883,7 @@ angular.module('icDirectives', [
 				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
 				case 'hours':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
 				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;	
+				case 'dates':		return "/images/icon_"+p+"_dates_"+c+".svg";		break;	
 				
 				case 'twitter':		return "/images/icon_"+p+"_twitter_"+c+".svg";		break;				
 				case 'facebook':	return "/images/icon_"+p+"_facebook_"+c+".svg";		break;				
