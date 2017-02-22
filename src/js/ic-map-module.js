@@ -62,10 +62,6 @@ angular.module('icMap', [
 
 
 
-			console.log('has cluster:', !!cluster.scope)
-
-
-
 			this.createIcon = function(){
 				return cluster._icon || element[0]
 			}
