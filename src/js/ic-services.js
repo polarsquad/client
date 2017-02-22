@@ -579,17 +579,28 @@ angular.module('icServices', [
 				
 				case "XL":
 
-					if(
-							'item'	in icSite.activeComponents
-						&&	'list'	in icSite.activeComponents
-					){
+					switch(str){
+						case "page":	return		  'page' 	in icSite.activeComponents	
+												&&	!('item' 	in icSite.activeComponents)
+												&&	!('list' 	in icSite.activeComponents)
+												&&  !('map'		in icSite.activeComponents)
+						break;
 
-						return str == 'item'|| str == 'list' || str == 'filter'
+						case "list":	return		'list'	in icSite.activeComponents
+												&&	!icSite.expandMap
+						break;
+
+						case "filter":	return		'filter'in icSite.activeComponents
+						break;
+
+						case "item":	return		'item'	in icSite.activeComponents
+												&&	!icSite.expandMap
+						break;
+
+						case "map":		return		'map'	in icSite.activeComponents
+						break;
 					}
 
-					if('item'	in icSite.activeComponents) return str == 'item'
-					if('list'	in icSite.activeComponents) return str == 'list' || str == 'filter'
-					if('page' 	in icSite.activeComponents) return str == 'page'
 
 				break;
 

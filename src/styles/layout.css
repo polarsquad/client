@@ -180,10 +180,7 @@ section.item{
 
 
 
-.XL #content section.page > * {
-	width:					108rem;
-	padding-left:			3rem;
-}
+
 
 
 
@@ -233,20 +230,12 @@ section.item{
 	width:					24rem;
 }
 
-.XL	#content section.filter {
-	width:					16rem;
-}
 
 
 
 .S 	#content section.filter > *{
 	width:					22rem;
 }
-
-.XL	#content section.filter > * {
-	width:					14rem;
-}
-
 
 
 
@@ -266,10 +255,7 @@ section.item{
 }
 
 
-.XL	#content section.item {
-	display:				inline-block;
-	width:					40rem;
-}
+
 
 
 .XS #content section.item > *{
@@ -277,8 +263,7 @@ section.item{
 }
 
 
-.S 	#content section.item > *,
-.XL	#content section.item > * {
+.S 	#content section.item > *{
 	width:					38rem;
 }
 
@@ -288,41 +273,13 @@ section.item{
 /* Layout item and list */
 
 
-.XL.show-list.show-item	#content section.list {
-	display:				inline-block;
-	width:					24rem;
-}
 
-.XL.show-list.show-item	#content section.list > * {
-	width:					22rem;
-}
-
-
-
- .L.show-list.show-item	#content section.filter,
-.XL.show-list.show-item	#content section.filter {
-	display:				inline-block;
-	width:					16rem;
-}
-
- .L.show-list.show-item	#content section.filter > *,
-.XL.show-list.show-item	#content section.filter > * {
+.show-item	#content section.filter > * {
 	width:					14rem;
 }
 
 
 
-
- .L.show-list.show-item	#content section.item,
-.XL.show-list.show-item	#content section.item {
-	display:				inline-block;
-	width:					40rem;
-}
-
- .L.show-list.show-item #content section.item > *,
-.XL.show-list.show-item #content section.item > * {
-	width:					32rem;
-}
 
 
 
@@ -457,10 +414,17 @@ section.map {
 }
 
 
-
 .L 	#content section.filter{
 	width:					16rem;
 }
+
+.L.show-list.show-item #content section.filter{
+	display:				inline-block;
+	width:					16rem;
+}
+
+
+
 
 
 .L 	#content section.filter > *{
@@ -487,5 +451,94 @@ section.map {
 }
 
 
+.L.show-list.show-item	#content section.item{
+	display:				inline-block;
+	width:					40rem;
+}
 
 
+ .L.show-list.show-item #content section.item > *{
+	width:					32rem;
+}
+
+
+
+/* XL */
+
+.XL #content section.page > * {
+	width:					108rem;
+	padding-left:			3rem;
+}
+
+
+
+
+.XL	#content section.filter {
+	width:					16rem;
+}
+
+
+.XL	#content section.filter > * {
+	width:					14rem;
+}
+
+
+.XL.expand-map	#content section.filter {
+	width:					22rem;
+}
+
+
+.XL.expand-map	#content section.filter > * {
+	width:					20rem;
+}
+
+
+.XL #content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+.XL #content section.list > * {
+	width:					22rem;
+}
+
+
+
+
+.XL.show-list.show-item	#content section.filter {
+	display:				inline-block;
+	width:					16rem;
+}
+
+.XL.show-list.show-item	#content section.filter {
+	display:				inline-block;
+	width:					16rem;
+}
+
+
+.XL.show-list.show-item	#content section.filter > * {
+	width:					14rem;
+
+
+}
+
+
+
+.XL	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+.XL	#content section.item > * {
+	width:					38rem;
+}
+
+
+.XL.show-list.show-item	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+.XL.show-list.show-item #content section.item > * {
+	width:					32rem;
+}
