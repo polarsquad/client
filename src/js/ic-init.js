@@ -289,7 +289,6 @@ angular.module('icInit', [
 
 
 				function clear(){
-					console.log('CLEAR')
 					element.remove()
 					scope.$destroy()
 					unwatch()
@@ -322,7 +321,6 @@ angular.module('icInit', [
 					})
 					.then(
 						function(){
-							console.log('durch')
 							return $timeout(parseInt(attrs.icMinDuration)||0)
 						},
 						function(reason){

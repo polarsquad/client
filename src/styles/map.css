@@ -26,6 +26,7 @@ ic-map-item-marker {
 
 
 ic-map-item-marker .content {
+	display:				block;
 	position:				relative;
 	box-sizing:				border-box;
 	top:					0;
@@ -37,6 +38,7 @@ ic-map-item-marker .content {
 	width:					0;
 	overflow:				hidden;
 	transition:				all 150ms ease-in;
+	color:					#444;
 }
 
 ic-map-item-marker .outer-icon {

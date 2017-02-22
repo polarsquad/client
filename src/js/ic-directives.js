@@ -2705,8 +2705,12 @@ angular.module('icDirectives', [
 
 				function reposition(){
 					window.requestAnimationFrame(function(){
-						var ps = element[0].previousElementSibling
-						element.css({left: ps.offsetLeft+ps.offsetWidth+'px'})
+						var ps 		= 	element[0].previousElementSibling,
+							left	=	ps
+										?	ps.offsetLeft+ps.offsetWidth
+										:	0
+
+						element.css({left: left+'px'})
 					})
 				}
 

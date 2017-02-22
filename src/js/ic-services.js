@@ -399,7 +399,7 @@ angular.module('icServices', [
 			if(icFilterConfig.active())		icSite.activeComponents.list 	= true
 			if(icFilterConfig.active())		icSite.activeComponents.filter 	= true
 			if(icSite.pageUrl)				icSite.activeComponents.page 	= true
-			if(icFilterConfig.active())		icSite.activeComponents.map 	= true
+			if(icFilterConfig.active() || icSite.activeComponents.item)		icSite.activeComponents.map 	= true
 			
 			icSite.updateDisplayedComponents()
 

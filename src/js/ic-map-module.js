@@ -74,8 +74,9 @@ angular.module('icMap', [
 .directive('icMapItemMarker',[
 
 	'icLanguages',
+	'icSite',
 
-	function(icLanguages){
+	function(icLanguages, icSite){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-map-item-marker.html',
@@ -84,7 +85,8 @@ angular.module('icMap', [
 							},
 
 			link: function(scope){
-				scope.icLanguages = icLanguages
+				scope.icLanguages 	= icLanguages
+				scope.icSite		= icSite
 			}
 
 		}
@@ -311,6 +313,7 @@ angular.module('icMap', [
 					scheduled_adjustment	= undefined
 
 				function adjustSize(delay){
+
 					delay = parseInt(delay) || 50
 					
 					if(delay > 400) return null
@@ -334,8 +337,17 @@ angular.module('icMap', [
 				angular.element(window).on('resize', adjustSize)
 
 				var stop_watching_filteredList 			= 	$rootScope.$watch(
-																function(){ return icSearchResults.filteredList },
-																function(list){
+																function(){ 																	
+																	return [icSearchResults.filteredList, icSearchResults.getItem(icSite.params.item)]
+																},
+																function(obj){
+
+																	var list = 	obj[1] && obj[0].indexOf(obj[1]) == -1
+																				?	obj[0].concat([obj[1]])
+																				:	obj[0]
+
+
+
 																	markers.clearLayers()
 																	markers.addLayers(
 																		list
@@ -362,6 +374,7 @@ angular.module('icMap', [
 																},
 																true
 															),
+
 					stop_watching_displayedCompontents	=	$rootScope.$watch(
 																function(){ return icSite.displayedComponents},
 																adjustSize,
@@ -397,9 +410,7 @@ angular.module('icMap', [
 
 			link: function(scope, element){
 
-
 				var	map 	= 	L.map(element[0], {
-									center: 		[scope.icItem.latitude, scope.icItem.longitude],
 									zoom: 			16,
 									minZoom:		16,
 									maxZoom:		16,
@@ -407,15 +418,10 @@ angular.module('icMap', [
 									boxZoom:		false,
 									doubleClickZoom:false,
 									dragging:		false,
-								})
+								}),
+					marker	=	undefined
 
-				L.marker(
-					[scope.icItem.latitude, scope.icItem.longitude], 
-					{
-						icon: new icMapItemMarker(scope.icItem, scope),
-						item: scope.icItem,
-					}
-				).addTo(map)
+				
 
 				icMapSwitchControl.setScope(scope)
 
@@ -428,6 +434,20 @@ angular.module('icMap', [
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				}).addTo(map);
 
+				scope.$watch('icItem', function(icItem){
+					if(marker) marker.remove()
+
+					marker = L.marker(
+						[scope.icItem.latitude, scope.icItem.longitude], 
+						{
+							icon: new icMapItemMarker(icItem, scope),
+							item: icItem,
+						}
+					)
+					.addTo(map)
+
+					map.setView([icItem.latitude, icItem.longitude])
+				})
 
 
 			}
