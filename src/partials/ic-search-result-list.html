@@ -1,7 +1,7 @@
 <ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
 
 <a
-	ng-repeat		= "item in icSearchResults.filteredList"
+	ng-repeat		= "item in icSearchResults.filteredList | limitTo: displayLimit"
 	ng-href			= "{{icHref({itemId:item.id})}}"
 	ic-last-added 	= "{{item == icSearchResults.lastAddedItem}}" 
 >
@@ -21,6 +21,5 @@
 	ng-if 	= "!icSearchResults.noMoreItems"
 	active 	= "icSearchResults.listLoading()"
 ></ic-spinner>
-
-<div ng-if = "icSearchResults.noMoreItems" class ="no-more-items">{{'INTERFACE.NO_MORE_ITEMS' | translate}}</div>
+<div ng-if = "icSearchResults.noMoreItems && (displayLimit >= icSearchResults.filteredList.length)" class ="no-more-items">{{'INTERFACE.NO_MORE_ITEMS' | translate}}</div>
 

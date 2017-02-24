@@ -134,12 +134,35 @@ angular.module('icDirectives', [
 							},
 
 			link: function(scope, element, attrs){
+
 				scope.icSearchResults 	= icSearchResults 
 				scope.icFilterConfig	= icFilterConfig
 
+				scope.displayLimit		= 10
+
 				scope.$on('icScrollBump', function(){
+					scope.displayLimit		+= 10
+
+					scope.displayLimit = Math.max(Math.min(icSearchResults.filteredList.length, scope.displayLimit), 10)
+					
+					scope.$digest()
+
+
+					if(icSearchResults.listLoading()) 	return null
+					if(icSearchResults.noMoreItems) 	return null
+					
 					icSearchResults.download()
 				})
+
+				scope.$watch(
+					function(){
+						return icSearchResults.filteredList.length
+					},
+					function(l){
+						scope.displayLimit = Math.max(Math.min(l, scope.displayLimit),10)
+
+					}
+				)
 
 
 				scope.$watch(
@@ -161,115 +184,117 @@ angular.module('icDirectives', [
 
 
 //TDOD Bump stört wenn nachgeladen wird: anders lösen, bump weglassen
-.directive('icScrollBump', [
+// .directive('icScrollBump', [
 
-	'$timeout',
-	'$window',
+// 	'$timeout',
+// 	'$window',
 
-	function($timeout, $window){
+// 	function($timeout, $window){
 
-		return {
-			restrict: 	'A',
-			transclude: true,
-			scope:		true,
-			template:	'<div class = "shuttle" ng-transclude></div>',
+// 		return {
+// 			restrict: 	'A',
+// 			transclude: true,
+// 			scope:		true,
+// 			template:	'<div class = "shuttle" ng-transclude></div>',
 
-			link: function(scope, element, attrs, controller){
+// 			link: function(scope, element, attrs, controller){
 
-				var shuttle		= element.find('div').eq(0),
-					bumper 		= angular.element('<div class = "bumper"></div>'),
-					bumping		= false,
-					scroll_stop = null,
-					ignore_next_scroll = false
+// 				var shuttle		= element.find('div').eq(0),
+// 					bumper 		= angular.element('<div class = "bumper"></div>'),
+// 					bumping		= false,
+// 					scroll_stop = null,
+// 					ignore_next_scroll = false
 
-				element.append(bumper)
+// 				element.append(bumper)
 			
 
-				if($window.getComputedStyle(element[0]).position == 'static') 
-					element.css('position', 'relative')
+// 				if($window.getComputedStyle(element[0]).position == 'static') 
+// 					element.css('position', 'relative')
 
-				shuttle.css({
-					'min-height':			'100%',
-					'transform': 			'translateY(0px)',
-					'transition-property':	'transform',
-				})
+// 				shuttle.css({
+// 					'min-height':			'100%',
+// 					'transform': 			'translateY(0px)',
+// 					'transition-property':	'transform',
+// 				})
 
-				bumper.css({
-					'padding':				'0',
-					'height': 				'50%',
-					'width':				'auto',
-				})
+// 				bumper.css({
+// 					'padding':				'0',
+// 					'height': 				'50%',
+// 					'width':				'auto',
+// 				})
 
-				function reset(){
-					bumping = false
+// 				function reset(){
+// 					bumping = false
 
-					var client_height	= element[0].clientHeight,
-						scroll_top		= element[0].scrollTop,
-						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
-						overflow		= bottom - scroll_top - client_height,
-						duration 		= 800
-
-
-					function swap(){
-
-						shuttle.css({
-							'transform': 			'translateY(0px)',
-							'transition-duration':	'0ms'
-						})
-
-						element[0].scrollTop += overflow
-						ignore_next_scroll = true
+// 					var client_height	= element[0].clientHeight,
+// 						scroll_top		= element[0].scrollTop,
+// 						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
+// 						overflow		= bottom - scroll_top - client_height,
+// 						duration 		= 800
 
 
-					}
+// 					function swap(){
 
-					if(overflow < 0){
+// 						shuttle.css({
+// 							'transform': 			'translateY(0px)',
+// 							'transition-duration':	'0ms'
+// 						})
+
+// 						element[0].scrollTop += overflow
+// 						ignore_next_scroll = true
+
+
+// 					}
+
+// 					if(overflow < 0){
 
 
 
-						window.requestAnimationFrame(function(){
-							$timeout(swap, duration, false)
-							shuttle.css({
-								'transition-duration':	duration+'ms',
-								'transform':			'translateY('+(-overflow)+'px)'
-							})
-						})
-					}
+// 						window.requestAnimationFrame(function(){
+// 							$timeout(swap, duration, false)
+// 							shuttle.css({
+// 								'transition-duration':	duration+'ms',
+// 								'transform':			'translateY('+(-overflow)+'px)'
+// 							})
+// 						})
+// 					}
 					
-				}
+// 				}
 
-				function bump(){
+// 				function bump(){
 
-					var client_height	= element[0].clientHeight,
-						scroll_top		= element[0].scrollTop,
-						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
-						overflow		= bottom - scroll_top - client_height
+// 					console.log('EWFWEFEWFEWFEW')
 
-					if(overflow > client_height) return null
+// 					var client_height	= element[0].clientHeight,
+// 						scroll_top		= element[0].scrollTop,
+// 						bottom			= shuttle[0].offsetTop + shuttle[0].offsetHeight,
+// 						overflow		= bottom - scroll_top - client_height
 
-					if(!bumping) scope.$broadcast('icScrollBump')
-					bumping = true
+// 					if(overflow > client_height) return null
+
+// 					if(!bumping) scope.$broadcast('icScrollBump')
+// 					bumping = true
 				
-				}
+// 				}
 
 
-				element.on('scroll', function(event){
-					if(ignore_next_scroll){
-						ignore_next_scroll = false
-						return null
-					}
+// 				element.on('scroll', function(event){
+// 					if(ignore_next_scroll){
+// 						ignore_next_scroll = false
+// 						return null
+// 					}
 
-					$window.requestAnimationFrame(bump)
+// 					$window.requestAnimationFrame(bump)
 
 
-					if(scroll_stop) $timeout.cancel(scroll_stop)
-					scroll_stop = $timeout(reset, 200, false)
+// 					if(scroll_stop) $timeout.cancel(scroll_stop)
+// 					scroll_stop = $timeout(reset, 200, false)
 
-				})
-			},
-		}
-	}
-])
+// 				})
+// 			},
+// 		}
+// 	}
+// ])
 
 
 
@@ -493,10 +518,6 @@ angular.module('icDirectives', [
 					.finally(function(){afterSubmission})
 				}
 
-
-				scope.print = function(){
-					window.print()
-				}
 
 				scope.archive = function(){
 					beforeSubmission()
@@ -898,11 +919,12 @@ angular.module('icDirectives', [
 				case 'law':			return "/images/icon_"+p+"_law_"+c+".svg";			break;
 				case 'culture':		return "/images/icon_"+p+"_culture_"+c+".svg";		break;
 
-				case 'name':		return "/images/icon_"+p+"_name_"+c+".svg";		break;
+				case 'name':		return "/images/icon_"+p+"_name_"+c+".svg";			break;
 				case 'email':		return "/images/icon_"+p+"_email_"+c+".svg";		break;
 				case 'address':		return "/images/icon_"+p+"_place_"+c+".svg";		break;
 				case 'phone':		return "/images/icon_"+p+"_phone_"+c+".svg";		break;
 				case 'hours':		return "/images/icon_"+p+"_time_"+c+".svg";			break;				
+				case 'dates':		return "/images/icon_"+p+"_dates_"+c+".svg";		break;				
 				case 'website':		return "/images/icon_"+p+"_link_"+c+".svg";			break;	
 				
 				case 'twitter':		return "/images/icon_"+p+"_twitter_"+c+".svg";		break;				
@@ -1457,612 +1479,612 @@ angular.module('icDirectives', [
 
 
 
-.directive('icHorizontalSwipeListX', [
+// .directive('icHorizontalSwipeListX', [
 
-	'$timeout',
-	'$compile',
-	'icSite',
-	'icSearchResults',
+// 	'$timeout',
+// 	'$compile',
+// 	'icSite',
+// 	'icSearchResults',
 
-	function($timeout, $compile, icSite, icSearchResults){
-		return {
-			restrict:	"AE",
-			scope:		{
-							icModelAs:	"@",
-							icPrevious:	"&",
-							icCurrent:	"<",
-							icNext:		"&",
-							icOnTurn:	"&"
-						},
-			priority:	0,
-			transclude:	true,
-			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
-						'<div class ="wrapper">'+
-						'	<div class ="shuttle"></div>'+
-						'</div>'+
-						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
+// 	function($timeout, $compile, icSite, icSearchResults){
+// 		return {
+// 			restrict:	"AE",
+// 			scope:		{
+// 							icModelAs:	"@",
+// 							icPrevious:	"&",
+// 							icCurrent:	"<",
+// 							icNext:		"&",
+// 							icOnTurn:	"&"
+// 						},
+// 			priority:	0,
+// 			transclude:	true,
+// 			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
+// 						'<div class ="wrapper">'+
+// 						'	<div class ="shuttle"></div>'+
+// 						'</div>'+
+// 						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
 
-			link: function(scope, element, attrs, ctrl, transclude){
+// 			link: function(scope, element, attrs, ctrl, transclude){
 
-				var width,
-					wrapper = element.find('div').eq(0),
-					shuttle = wrapper.find('div').eq(0)
+// 				var width,
+// 					wrapper = element.find('div').eq(0),
+// 					shuttle = wrapper.find('div').eq(0)
 
 
 
-				var previous_scope	= scope.$parent.$new(),
-					current_scope 	= scope.$parent.$new(),
-					next_scope		= scope.$parent.$new()
+// 				var previous_scope	= scope.$parent.$new(),
+// 					current_scope 	= scope.$parent.$new(),
+// 					next_scope		= scope.$parent.$new()
 					
-				scope.previousModel	= undefined
-				scope.currentModel	= undefined
-				scope.nextModel		= undefined
+// 				scope.previousModel	= undefined
+// 				scope.currentModel	= undefined
+// 				scope.nextModel		= undefined
 
 
 
-				function updateScopes(newCurrentModel, digest){
-					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
-					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
-					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
+// 				function updateScopes(newCurrentModel, digest){
+// 					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
+// 					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
+// 					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
 
 
 
 
-					if(digest){
-						current_scope.$digest()
-						previous_scope.$digest()
-						next_scope.$digest()
+// 					if(digest){
+// 						current_scope.$digest()
+// 						previous_scope.$digest()
+// 						next_scope.$digest()
 
-						var items = shuttle.children()
+// 						var items = shuttle.children()
 
-						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
-						items[1].focus()
+// 						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
+// 						items[1].focus()
 
-					}
+// 					}
 
-				}
+// 				}
 
-				scope.$watch('icCurrent', function(id){ updateScopes(id) })
+// 				scope.$watch('icCurrent', function(id){ updateScopes(id) })
 
-				scope.$watch(
-					function(){ return icSearchResults.filteredList.length} ,
-					function(){ updateScopes(scope.icCurrent) }
-				)
+// 				scope.$watch(
+// 					function(){ return icSearchResults.filteredList.length} ,
+// 					function(){ updateScopes(scope.icCurrent) }
+// 				)
 
 
-				element.css({
-					display:			'inline-block',
-					height:				'100%'
-				})
+// 				element.css({
+// 					display:			'inline-block',
+// 					height:				'100%'
+// 				})
 
-				wrapper.css({
-					display:			'inline-block',
-					height:				'100%'
+// 				wrapper.css({
+// 					display:			'inline-block',
+// 					height:				'100%'
 
-				})
+// 				})
 
-				// width 	= element[0].clientWidth
+// 				// width 	= element[0].clientWidth
 
-				wrapper.css({
-					overflowX:			'scroll',
-					overflowY:			'hidden'
-				})
+// 				wrapper.css({
+// 					overflowX:			'scroll',
+// 					overflowY:			'hidden'
+// 				})
 
-				shuttle.css({
-					display:			'inline-block',
-					height:				'100%',					
-					whiteSpace:			'nowrap',
-					transition:			'transform 0 ease-in',
-					'will-change':		'scroll-position transform', 
-					overflow:			'hidden',
-				})
+// 				shuttle.css({
+// 					display:			'inline-block',
+// 					height:				'100%',					
+// 					whiteSpace:			'nowrap',
+// 					transition:			'transform 0 ease-in',
+// 					'will-change':		'scroll-position transform', 
+// 					overflow:			'hidden',
+// 				})
 
 				
 
-				transclude(previous_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(previous_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
-				transclude(current_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(current_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
-				transclude(next_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(next_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
 
-				shuttle.children()
-				.css({
-					display:			'inline-block',
-					verticalAlign:		'top',
-					whiteSpace:			'normal',
-					transitionProperty: 'transform'
-				})	
+// 				shuttle.children()
+// 				.css({
+// 					display:			'inline-block',
+// 					verticalAlign:		'top',
+// 					whiteSpace:			'normal',
+// 					transitionProperty: 'transform'
+// 				})	
 
-				//remove text nodes:
+// 				//remove text nodes:
 				
-				var nodes 		= shuttle[0].childNodes,
-					text_nodes 	= []
+// 				var nodes 		= shuttle[0].childNodes,
+// 					text_nodes 	= []
 
-				for (var i = 0; i < nodes.length; i++) {
-						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
-				} 
+// 				for (var i = 0; i < nodes.length; i++) {
+// 						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
+// 				} 
 
-				text_nodes.forEach(function(node){
-					shuttle[0].removeChild(node)
-				})
+// 				text_nodes.forEach(function(node){
+// 					shuttle[0].removeChild(node)
+// 				})
 
 
-				//handle Resize:
-				function handleResize(){
-					window.requestAnimationFrame(function(){
-						width = shuttle.children()[0].offsetWidth
-						wrapper.css({width: width+'px'})				
-						wrapper[0].scrollLeft = width	
-					})
-				}
+// 				//handle Resize:
+// 				function handleResize(){
+// 					window.requestAnimationFrame(function(){
+// 						width = shuttle.children()[0].offsetWidth
+// 						wrapper.css({width: width+'px'})				
+// 						wrapper[0].scrollLeft = width	
+// 					})
+// 				}
 				
-				handleResize()
+// 				handleResize()
 
-				angular.element(window).on('resize', handleResize)
+// 				angular.element(window).on('resize', handleResize)
 				
-				scope.$on('$destroy', function(){
-					angular.element(window).off('resize', handleResize)
-				})
+// 				scope.$on('$destroy', function(){
+// 					angular.element(window).off('resize', handleResize)
+// 				})
 
 
 
 
 
-				var scroll_stop 		= undefined,
-					ignore_next_scroll 	= true,
-					slide_off			= false
+// 				var scroll_stop 		= undefined,
+// 					ignore_next_scroll 	= true,
+// 					slide_off			= false
 
 
 
 
-				function swap(){
+// 				function swap(){
 
 
-					ignore_next_scroll = true
+// 					ignore_next_scroll = true
 
-					shuttle.css({
-						'transform':			'translateX(0px)',
-						'transition-duration':	'0ms'
-					})	
+// 					shuttle.css({
+// 						'transform':			'translateX(0px)',
+// 						'transition-duration':	'0ms'
+// 					})	
 
 
-					if(scope.snapTo == 'next'){
-						updateScopes(scope.nextModel, true)
-					}
+// 					if(scope.snapTo == 'next'){
+// 						updateScopes(scope.nextModel, true)
+// 					}
 
-					if(scope.snapTo == 'previous'){
-						updateScopes(scope.previousModel, true)
-					}
+// 					if(scope.snapTo == 'previous'){
+// 						updateScopes(scope.previousModel, true)
+// 					}
 					
 
-					ignore_next_scroll		= true
-					wrapper[0].scrollLeft 	= width
+// 					ignore_next_scroll		= true
+// 					wrapper[0].scrollLeft 	= width
 
-					if(scope.snapTo != 'current'){
-						$timeout(function(){ 
-							scope.icOnTurn({icModel: scope.currentModel})
-							slide_off = false
-						} , 30, false)
-					}
+// 					if(scope.snapTo != 'current'){
+// 						$timeout(function(){ 
+// 							scope.icOnTurn({icModel: scope.currentModel})
+// 							slide_off = false
+// 						} , 30, false)
+// 					}
 
-				}
+// 				}
 
-				function snap() {	
+// 				function snap() {	
 
-					// console.log(snap)
+// 					// console.log(snap)
 
 
-					var scroll_left 	= wrapper[0].scrollLeft,
-						scroll_width	= shuttle[0].scrollWidth
+// 					var scroll_left 	= wrapper[0].scrollLeft,
+// 						scroll_width	= shuttle[0].scrollWidth
 						
-					scope.snapTo = 'current'
+// 					scope.snapTo = 'current'
 
 
 
-					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
-					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
+// 					if(scroll_left < 0.4*scroll_width/3) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
+// 					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
 
-					var scroll_to 	= 	{
-											previous:	0,
-											current:	width,
-											next:		2*width
-										}[scope.snapTo],		
+// 					var scroll_to 	= 	{
+// 											previous:	0,
+// 											current:	width,
+// 											next:		2*width
+// 										}[scope.snapTo],		
 
-						distance 	= 	scroll_left - scroll_to,
-						duration	=	Math.abs(distance/width) * 400
-
-
-					shuttle.css({
-						'transform':			'translateX('+distance+'px)',
-						'transition-duration':	duration+'ms'
-					})
-
-					shuttle.children().css({
-						transform:				'translateX(0px)',
-						'transition-duration':	duration+'ms'
-					})
+// 						distance 	= 	scroll_left - scroll_to,
+// 						duration	=	Math.abs(distance/width) * 400
 
 
-					$timeout(swap, duration, false)
-				}
+// 					shuttle.css({
+// 						'transform':			'translateX('+distance+'px)',
+// 						'transition-duration':	duration+'ms'
+// 					})
+
+// 					shuttle.children().css({
+// 						transform:				'translateX(0px)',
+// 						'transition-duration':	duration+'ms'
+// 					})
 
 
-				scope.previous = function(){
-					scope.snapTo = 'previous'
-					$timeout(swap, 0, false)
-				}
+// 					$timeout(swap, duration, false)
+// 				}
 
-				scope.next = function(){
-					scope.snapTo = 'next'
-					$timeout(swap, 0, false)
-				}
 
-				wrapper.on('scroll', function(e){
-					e.stopPropagation()
+// 				scope.previous = function(){
+// 					scope.snapTo = 'previous'
+// 					$timeout(swap, 0, false)
+// 				}
 
-					//console.log('scroll')
+// 				scope.next = function(){
+// 					scope.snapTo = 'next'
+// 					$timeout(swap, 0, false)
+// 				}
+
+// 				wrapper.on('scroll', function(e){
+// 					e.stopPropagation()
+
+// 					//console.log('scroll')
 					
-					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+// 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
 
-					window.requestAnimationFrame(function(){
-						var left = wrapper[0].scrollLeft
-
-
-						shuttle.children().eq(0)
-						.css({
-							transform:				'translateX('+(left < width ? left/2 : 0)+'px)',
-							'transition-duration':	'0ms'
-						})
-
-						shuttle.children().eq(1)
-						.css({
-							transform:				'translateX('+(left > width ? (left-width)/2 : 0)+'px)',
-							'transition-duration':	'0ms'
-						})
-
-					})
-
-					if(scroll_stop) $timeout.cancel(scroll_stop)
-
-					if(slide_off) return null
-
-					scroll_stop = 	$timeout(snap, 100, false)
-				})
-
-			}
-		}
-	}
-])
+// 					window.requestAnimationFrame(function(){
+// 						var left = wrapper[0].scrollLeft
 
 
+// 						shuttle.children().eq(0)
+// 						.css({
+// 							transform:				'translateX('+(left < width ? left/2 : 0)+'px)',
+// 							'transition-duration':	'0ms'
+// 						})
+
+// 						shuttle.children().eq(1)
+// 						.css({
+// 							transform:				'translateX('+(left > width ? (left-width)/2 : 0)+'px)',
+// 							'transition-duration':	'0ms'
+// 						})
+
+// 					})
+
+// 					if(scroll_stop) $timeout.cancel(scroll_stop)
+
+// 					if(slide_off) return null
+
+// 					scroll_stop = 	$timeout(snap, 100, false)
+// 				})
+
+// 			}
+// 		}
+// 	}
+// ])
 
 
 
 
 
 
-.directive('icHorizontalSwipeList', [
-
-	'$timeout',
-	'$compile',
-	'icSite',
-	'icSearchResults',
-
-	function($timeout, $compile, icSite, icSearchResults){
-		return {
-			restrict:	"AE",
-			scope:		{
-							icModelAs:	"@",
-							icPrevious:	"&",
-							icCurrent:	"<",
-							icNext:		"&",
-							icOnTurn:	"&"
-						},
-			priority:	0,
-			transclude:	true,
-			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
-						'<div class ="wrapper">'+
-						'	<div class ="shuttle"></div>'+
-						'</div>'+
-						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
-
-			link: function(scope, element, attrs, ctrl, transclude){
-
-				var width,
-					wrapper = element.find('div').eq(0),
-					shuttle = wrapper.find('div').eq(0)
 
 
+// .directive('icHorizontalSwipeList', [
 
-				var previous_scope	= scope.$parent.$new(),
-					current_scope 	= scope.$parent.$new(),
-					next_scope		= scope.$parent.$new()
+// 	'$timeout',
+// 	'$compile',
+// 	'icSite',
+// 	'icSearchResults',
+
+// 	function($timeout, $compile, icSite, icSearchResults){
+// 		return {
+// 			restrict:	"AE",
+// 			scope:		{
+// 							icModelAs:	"@",
+// 							icPrevious:	"&",
+// 							icCurrent:	"<",
+// 							icNext:		"&",
+// 							icOnTurn:	"&"
+// 						},
+// 			priority:	0,
+// 			transclude:	true,
+// 			template:	'<button ng-if = "previousModel" ng-click = "previous()" class ="left"></button>'+
+// 						'<div class ="wrapper">'+
+// 						'	<div class ="shuttle"></div>'+
+// 						'</div>'+
+// 						'<button ng-if = "nextModel" ng-click = "next()" class ="right"></button>',	
+
+// 			link: function(scope, element, attrs, ctrl, transclude){
+
+// 				var width,
+// 					wrapper = element.find('div').eq(0),
+// 					shuttle = wrapper.find('div').eq(0)
+
+
+
+// 				var previous_scope	= scope.$parent.$new(),
+// 					current_scope 	= scope.$parent.$new(),
+// 					next_scope		= scope.$parent.$new()
 					
-				scope.previousModel	= undefined
-				scope.currentModel	= undefined
-				scope.nextModel		= undefined
+// 				scope.previousModel	= undefined
+// 				scope.currentModel	= undefined
+// 				scope.nextModel		= undefined
 
 
 
-				function updateScopes(newCurrentModel, digest){
-					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
-					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
-					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
+// 				function updateScopes(newCurrentModel, digest){
+// 					current_scope[scope.icModelAs]	= scope.currentModel		= newCurrentModel
+// 					previous_scope[scope.icModelAs]	= scope.previousModel		= scope.icPrevious({'icModel': newCurrentModel})
+// 					next_scope[scope.icModelAs]		= scope.nextModel			= scope.icNext({'icModel': newCurrentModel})
 
 
 
 
-					if(digest){
-						current_scope.$digest()
-						previous_scope.$digest()
-						next_scope.$digest()
+// 					if(digest){
+// 						current_scope.$digest()
+// 						previous_scope.$digest()
+// 						next_scope.$digest()
 
-						var items = shuttle.children()
+// 						var items = shuttle.children()
 
-						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
-						items[1].focus()
+// 						items[0].scrollTop = items[1].scrollTop = items[2].scrollTop = 0
+// 						items[1].focus()
 
-					}
+// 					}
 
-				}
+// 				}
 
-				scope.$watch('icCurrent', function(id){ updateScopes(id) })
+// 				scope.$watch('icCurrent', function(id){ updateScopes(id) })
 
-				scope.$watch(
-					function(){ return icSearchResults.filteredList.length} ,
-					function(){ updateScopes(scope.icCurrent) }
-				)
+// 				scope.$watch(
+// 					function(){ return icSearchResults.filteredList.length} ,
+// 					function(){ updateScopes(scope.icCurrent) }
+// 				)
 
 
-				element.css({
-					display:			'inline-block',
-					height:				'100%'
-				})
+// 				element.css({
+// 					display:			'inline-block',
+// 					height:				'100%'
+// 				})
 
-				wrapper.css({
-					display:			'inline-block',
-					height:				'100%',
-					//willChange:			'scroll-position',
-					overflowX:			'scroll',
-					overflowY:			'hidden'
-				})
+// 				wrapper.css({
+// 					display:			'inline-block',
+// 					height:				'100%',
+// 					//willChange:			'scroll-position',
+// 					overflowX:			'scroll',
+// 					overflowY:			'hidden'
+// 				})
 
-				shuttle.css({
-					display:			'inline-block',
-					height:				'100%',					
-					whiteSpace:			'nowrap',
-					transition:			'transform 0 ease-in',
-					overflow:			'hidden',
-				})
+// 				shuttle.css({
+// 					display:			'inline-block',
+// 					height:				'100%',					
+// 					whiteSpace:			'nowrap',
+// 					transition:			'transform 0 ease-in',
+// 					overflow:			'hidden',
+// 				})
 
 				
 
-				transclude(previous_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(previous_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
-				transclude(current_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(current_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
-				transclude(next_scope, function(clone, scope){
-					shuttle.append(clone)
-				})
+// 				transclude(next_scope, function(clone, scope){
+// 					shuttle.append(clone)
+// 				})
 
 
-				shuttle.children()
-				.css({
-					display:			'inline-block',
-					verticalAlign:		'top',
-					whiteSpace:			'normal'
-				})	
+// 				shuttle.children()
+// 				.css({
+// 					display:			'inline-block',
+// 					verticalAlign:		'top',
+// 					whiteSpace:			'normal'
+// 				})	
 
-				//remove text nodes:
+// 				//remove text nodes:
 				
-				var nodes 		= shuttle[0].childNodes,
-					text_nodes 	= []
+// 				var nodes 		= shuttle[0].childNodes,
+// 					text_nodes 	= []
 
-				for (var i = 0; i < nodes.length; i++) {
-						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
-				} 
+// 				for (var i = 0; i < nodes.length; i++) {
+// 						if(nodes[i].nodeType == 3) text_nodes.push(nodes[i])
+// 				} 
 
-				text_nodes.forEach(function(node){
-					shuttle[0].removeChild(node)
-				})
+// 				text_nodes.forEach(function(node){
+// 					shuttle[0].removeChild(node)
+// 				})
 
 
-				//handle Resize:
-				function handleResize(){
-					window.requestAnimationFrame(function(){
-						width = shuttle.children()[0].offsetWidth
-						wrapper.css({width: width+'px'})				
-						wrapper[0].scrollLeft = width	
-					})
-				}
+// 				//handle Resize:
+// 				function handleResize(){
+// 					window.requestAnimationFrame(function(){
+// 						width = shuttle.children()[0].offsetWidth
+// 						wrapper.css({width: width+'px'})				
+// 						wrapper[0].scrollLeft = width	
+// 					})
+// 				}
 				
-				handleResize()
+// 				handleResize()
 
-				angular.element(window).on('resize', handleResize)
+// 				angular.element(window).on('resize', handleResize)
 				
-				scope.$on('$destroy', function(){
-					angular.element(window).off('resize', handleResize)
-				})
+// 				scope.$on('$destroy', function(){
+// 					angular.element(window).off('resize', handleResize)
+// 				})
 
 
 
 
 
-				var scroll_stop 		= undefined,
-					ignore_next_scroll 	= true,
-					slide_off			= false
+// 				var scroll_stop 		= undefined,
+// 					ignore_next_scroll 	= true,
+// 					slide_off			= false
 
 
 
-				function swap(){
+// 				function swap(){
 
 
-					shuttle.css({
-						'transform':			'translateX(0px)',
-						'transition-duration':	'0ms'
-					})	
+// 					shuttle.css({
+// 						'transform':			'translateX(0px)',
+// 						'transition-duration':	'0ms'
+// 					})	
 
 
-					if(scope.snapTo == 'next'){
-						updateScopes(scope.nextModel, true)
-					}
+// 					if(scope.snapTo == 'next'){
+// 						updateScopes(scope.nextModel, true)
+// 					}
 
-					if(scope.snapTo == 'previous'){
-						updateScopes(scope.previousModel, true)
-					}
+// 					if(scope.snapTo == 'previous'){
+// 						updateScopes(scope.previousModel, true)
+// 					}
 					
 
-					ignore_next_scroll		= true
-					wrapper[0].scrollLeft 	= width
+// 					ignore_next_scroll		= true
+// 					wrapper[0].scrollLeft 	= width
 
-					if(scope.snapTo != 'current'){
-						$timeout(function(){ 
-							scope.icOnTurn({icModel: scope.currentModel})
-							slide_off = false
-						} , 30, false)
-					}
+// 					if(scope.snapTo != 'current'){
+// 						$timeout(function(){ 
+// 							scope.icOnTurn({icModel: scope.currentModel})
+// 							slide_off = false
+// 						} , 30, false)
+// 					}
 
-				}
+// 				}
 
-				function snap() {	
+// 				function snap() {	
 
-					// console.log(snap)
+// 					// console.log(snap)
 
 
-					var scroll_left 	= wrapper[0].scrollLeft
+// 					var scroll_left 	= wrapper[0].scrollLeft
 						
-					scope.snapTo = 'current'
+// 					scope.snapTo = 'current'
 
 
 
-					if(scroll_left < previous_boundry) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
-					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
+// 					if(scroll_left < previous_boundry) scope.snapTo = scope.previousModel 	? 'previous' 	: 'current'
+// 					if(scroll_left > 1.6*scroll_width/3) scope.snapTo = scope.nextModel			? 'next'		: 'current'
 
-					var scroll_to 	= 	{
-											previous:	0,
-											current:	width,
-											next:		2*width
-										}[scope.snapTo],		
+// 					var scroll_to 	= 	{
+// 											previous:	0,
+// 											current:	width,
+// 											next:		2*width
+// 										}[scope.snapTo],		
 
-						distance 	= 	scroll_left - scroll_to,
-						duration	=	Math.abs(distance/width) * 400
-
-
-					shuttle.css({
-						'transform':			'translateX('+distance+'px)',
-						'transition-duration':	duration+'ms'
-					})
-
-					shuttle.children().css({
-						transform:				'translateX(0px)',
-						'transition-duration':	duration+'ms'
-					})
+// 						distance 	= 	scroll_left - scroll_to,
+// 						duration	=	Math.abs(distance/width) * 400
 
 
-					$timeout(swap, duration, false)
-				}
+// 					shuttle.css({
+// 						'transform':			'translateX('+distance+'px)',
+// 						'transition-duration':	duration+'ms'
+// 					})
+
+// 					shuttle.children().css({
+// 						transform:				'translateX(0px)',
+// 						'transition-duration':	duration+'ms'
+// 					})
 
 
-				scope.previous = function(){
-					scope.snapTo = 'previous'
-					$timeout(swap, 0, false)
-				}
-
-				scope.next = function(){
-					scope.snapTo = 'next'
-					$timeout(swap, 0, false)
-				}
+// 					$timeout(swap, duration, false)
+// 				}
 
 
+// 				scope.previous = function(){
+// 					scope.snapTo = 'previous'
+// 					$timeout(swap, 0, false)
+// 				}
 
-				var last_scroll_left 	= undefined,
-					scroll_left			= undefined,
-					scroll_width		= undefined,
-					count				= 0,
-					watch				= false
+// 				scope.next = function(){
+// 					scope.snapTo = 'next'
+// 					$timeout(swap, 0, false)
+// 				}
 
 
 
-				function watchScroll(){
-					if(!watch) count = 0
+// 				var last_scroll_left 	= undefined,
+// 					scroll_left			= undefined,
+// 					scroll_width		= undefined,
+// 					count				= 0,
+// 					watch				= false
 
-					scroll_left 	= wrapper[0].scrollLeft
-					scroll_width	= shuttle[0].scrollWidth
 
-					if(scroll_left != last_scroll_left){
-						shuttle.children().eq(0)
-						.css({
-							transform:				'translateX('+(scroll_left < width ? Math.floor(scroll_left/2) : 0)+'px)',
-						})
 
-						shuttle.children().eq(1)
-						.css({
-							transform:				'translateX('+(scroll_left > width ? Math.floor((scroll_left-width)/2) : 0) +'px)',
-						})
-					}
+// 				function watchScroll(){
+// 					if(!watch) count = 0
 
-					count = 	scroll_left == last_scroll_left 
-								?	count + 1 
-								:	0
+// 					scroll_left 	= wrapper[0].scrollLeft
+// 					scroll_width	= shuttle[0].scrollWidth
+
+// 					if(scroll_left != last_scroll_left){
+// 						shuttle.children().eq(0)
+// 						.css({
+// 							transform:				'translateX('+(scroll_left < width ? Math.floor(scroll_left/2) : 0)+'px)',
+// 						})
+
+// 						shuttle.children().eq(1)
+// 						.css({
+// 							transform:				'translateX('+(scroll_left > width ? Math.floor((scroll_left-width)/2) : 0) +'px)',
+// 						})
+// 					}
+
+// 					count = 	scroll_left == last_scroll_left 
+// 								?	count + 1 
+// 								:	0
 					
-					if(count > 5){
-						//console.log(scroll_left, width)
-						if(scroll_left < 0.4*width) 	wrapper[0].scrollLeft -= width/50
-						if(scroll_left > 1.6*width) 	wrapper[0].scrollLeft += width/50
+// 					if(count > 5){
+// 						//console.log(scroll_left, width)
+// 						if(scroll_left < 0.4*width) 	wrapper[0].scrollLeft -= width/50
+// 						if(scroll_left > 1.6*width) 	wrapper[0].scrollLeft += width/50
 
-						if(scroll_left >= 0.4*width && scroll_left <= 1.6*width && scroll_left != width){
-							wrapper[0].scrollLeft	= 	scroll_left > width
-													?	Math.min(width, wrapper[0].scrollLeft-width/50)
-													:	Math.max(width, wrapper[0].scrollLeft+width/50)
-						}
-					}
+// 						if(scroll_left >= 0.4*width && scroll_left <= 1.6*width && scroll_left != width){
+// 							wrapper[0].scrollLeft	= 	scroll_left > width
+// 													?	Math.min(width, wrapper[0].scrollLeft-width/50)
+// 													:	Math.max(width, wrapper[0].scrollLeft+width/50)
+// 						}
+// 					}
 
-					if(count < 10 ){						
-						watch = true
-						window.requestAnimationFrame(watchScroll)
-					} else {
-						watch = false
-					}
+// 					if(count < 10 ){						
+// 						watch = true
+// 						window.requestAnimationFrame(watchScroll)
+// 					} else {
+// 						watch = false
+// 					}
 
-					last_scroll_left = scroll_left
-				}
+// 					last_scroll_left = scroll_left
+// 				}
 
-				wrapper.on('scroll', function(e){
-					e.stopPropagation()
+// 				wrapper.on('scroll', function(e){
+// 					e.stopPropagation()
 
-					if(slide_off) 	return null
-					if(watch) 		return null
-					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
+// 					if(slide_off) 	return null
+// 					if(watch) 		return null
+// 					if(ignore_next_scroll){ ignore_next_scroll = false; return null }
 					
-					watchScroll()
+// 					watchScroll()
 
-					// console.log('scroll')
-					
-
+// 					// console.log('scroll')
 					
 
-					// if(scroll_stop) $timeout.cancel(scroll_stop)
+					
 
-					// if(slide_off) return null
+// 					// if(scroll_stop) $timeout.cancel(scroll_stop)
 
-					// scroll_stop = 	$timeout(snap, 100, false)
-				})
+// 					// if(slide_off) return null
 
-			}
-		}
-	}
-])
+// 					// scroll_stop = 	$timeout(snap, 100, false)
+// 				})
+
+// 			}
+// 		}
+// 	}
+// ])
 
 
 
@@ -2507,23 +2529,37 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 
+				var triggered = false
+
+
 				function trigger(){
+
 					requestAnimationFrame(function(){
 
-						if(icSearchResults.listLoading()) 	return null
-						if(icSearchResults.noMoreItems) 	return null
+						// if(icSearchResults.listLoading()) 	return null
+						// if(icSearchResults.noMoreItems) 	return null
+						if(triggered) return null
 
 						var boundry 	= element[0].scrollHeight
 
-						if(element[0].scrollTop + 2*element[0].clientHeight <= boundry) return null
 
-						if(!icSearchResults.listLoading()){
-							icSearchResults
-							.download()
-							.then(function(){
-								trigger()
-							})
-						}
+						if(element[0].scrollTop + 2*element[0].clientHeight <= boundry) return null
+						triggered = true
+
+
+						window.setTimeout(function(){
+							triggered = false
+						}, 250)
+
+						scope.$broadcast('icScrollBump')
+
+
+						// icSearchResults
+						// .download()
+						// .then(function(){
+						// 	trigger()
+						// })
+					
 
 					})
 				}

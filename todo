@@ -9,10 +9,24 @@ Done:
 * map expanden
 * limit entfernen
 * shatten animieren? (-> ins bild integriert)
+* chache control
+* pendingrequests ($hhtp)
+* params.item karte nicht neu machen
 
 
 
 Fragen:
 * kein limit? -> cluster begrenzen?
-* was anzeigen, wenn Nur das item da ist -> leer Karte?
+* was anzeigen, wenn Nur das item da ist -> leere Karte?
 * karte schließen/ liste schließen
+
+
+
+TODO:
+
+* SUCHE:
+	* THF Welcome
+	* Ergebnisse
+*Minimap soll item scrollen
+* Custom tools
+* awstats

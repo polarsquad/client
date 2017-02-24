@@ -70,7 +70,7 @@
 	<div class 	= "topics-and-target-groups highlight">
 		<a 
 			ng-repeat 	= "topic in item.topics"
-			ng-class	= "{'primary' : item.primaryTopic == topic}"
+			ng-class	= "{'primary' : item.primaryTopic == topic, 'screen-only': item.primaryTopic != topic}"
 			class		= "highlight"
 			ng-href		= "/#/tp/{{topic}}"
 		>{{topic | uppercase | prepend : "TOPICS." | translate }}</a><!--
@@ -136,6 +136,7 @@
 	<!-- geo coordinates -->
 
 	<ic-mini-map
+		class			= "screen-only"
 		ng-if			= "item.longitude && item.latitude"
 		ic-item			= "item"
 	>
@@ -172,7 +173,7 @@
 		ng-if		= "item.startDate && item.endDate"
 		ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
 		ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
-		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
+		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -181,7 +182,7 @@
 		ng-if		= "item.startDate && !item.endDate"
 		ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
 		ic-content	= "item.startDate | icDate"
-		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
+		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 
@@ -189,7 +190,7 @@
 		ng-if		= "item.endDate && !item.startDate"
 		ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
 		ic-content	= "item.endDate | icDate"
-		ic-icon		= "'startDate' | icIcon : 'item' : 'black'"
+		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
 	>
 	</ic-info-tag>
 

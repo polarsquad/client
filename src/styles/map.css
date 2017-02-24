@@ -187,7 +187,15 @@ ic-map-expand-control button:active {
 
 
 ic-map ic-spinner {
+	display:				none;
 	font-size:				3rem;
+	background-color:		#fff;
+	border-radius:			100 !important%;
+	padding:				0.25rem;
+}
+
+.expand-map ic-map ic-spinner{
+	display:				block;
 }
 
 

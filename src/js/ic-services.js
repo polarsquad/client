@@ -348,7 +348,7 @@ angular.module('icServices', [
 									replace
 									?	$location.path(scheduledPath).replace()
 									:	$location.path(scheduledPath)
-								}, 100)
+								}, 100, false)
 
 			return this
 		}

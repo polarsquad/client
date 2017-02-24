@@ -56,14 +56,12 @@ angular.module('icMap', [
 					scope.$destroy()
 				})
 
-				var element = 	$compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(scope)
-					//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')	
 			} 
 
 
 
 			this.createIcon = function(){
-				return cluster._icon || element[0]
+				return cluster._icon || $compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(cluster.scope)[0]
 			}
 
 			this.createShadow = function(){
@@ -146,7 +144,7 @@ angular.module('icMap', [
 		})
 
 		this.setScope = function(scope){
-			element = 	$compile('<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>')(scope)
+			element = 	$compile('<ic-spinner class = "leaflet-bar" active = "icSearchResults.listLoading()"></ic-spinner>')(scope)
 		}
 	}
 ])
@@ -343,50 +341,56 @@ angular.module('icMap', [
 
 				angular.element(window).on('resize', adjustSize)
 
-				var stop_watching_filteredList 			= 	$rootScope.$watch(
-																function(){ 																	
-																	return [icSearchResults.filteredList, icSearchResults.getItem(icSite.params.item)]
-																},
-																function(obj){
-
-																	var list = 	obj[1] && obj[0].indexOf(obj[1]) == -1
-																				?	obj[0].concat([obj[1]])
-																				:	obj[0]
 
 
+				var	stop_watching_filteredList = $rootScope.$watch(
+						function(){ 												
+							return icSearchResults.filteredList
+						},
+						function(list){
 
-																	markers.clearLayers()
-																	markers.addLayers(
-																		list
-																		.filter(function(item){
-																			return item.latitude && item.latitude
-																		})
-																		.map(function(item){
+							var items_to_be_left_alone = 	markers.getLayers().filter(function(marker){ 
+																if(list.indexOf(marker.options.item) == -1){
+																	marker.remove()
+																	return null
+																} else {
+																	marker.options.item
+																}
+															})
 
-																			var marker = new L.marker(
-																							[item.latitude, item.longitude], 
-																							{
-																								icon: new icMapItemMarker(item, scope),
-																								item: item,
-																								riseOnHover: true
-																							})
 
-																			return marker
-																		})
-																	)
+							markers.addLayers(
+								list
+								.filter(function(item){
+									return 		item.latitude && item.latitude
+											&&	items_to_be_left_alone.indexOf(item) == -1
+								})
+								.map(function(item){
 
-																	markers.refreshClusters()
-																
+									var marker = new L.marker(
+													[item.latitude, item.longitude], 
+													{
+														icon: new icMapItemMarker(item, scope),
+														item: item,
+														riseOnHover: true
+													})
 
-																},
-																true
-															),
+									return marker
+								})
+							)
 
-					stop_watching_displayedCompontents	=	$rootScope.$watch(
-																function(){ return icSite.displayedComponents},
-																adjustSize,
-																true
-															)
+							markers.refreshClusters()
+						
+
+						},
+						true
+					),
+
+					stop_watching_displayedCompontents = $rootScope.$watch(
+						function(){ return icSite.displayedComponents},
+						adjustSize,
+						true
+					)
 
 				scope.$on('$destroy', function(){
 					stop_watching_filteredList()

@@ -69,7 +69,7 @@ module.exports = function(grunt) {
 			'**/layout.css',
 			'**/partials.css',
 			'**/map.css',
-			// '**/print.css',          
+			'**/print.css',          
 		],
 
 		initial_styles: [
