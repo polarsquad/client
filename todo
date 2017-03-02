@@ -1,8 +1,4 @@
-* print css @ media
-* wann map anzeigen?
-* Mini-Karte
-* SearchBug
-* focus on element
+
 
 Done:
 * Kartengröße dynamisch anpassen
@@ -27,6 +23,20 @@ TODO:
 * SUCHE:
 	* THF Welcome
 	* Ergebnisse
-*Minimap soll item scrollen
 * Custom tools
-* awstats
+* wann map anzeigen?
+* SearchBug
+* check component widths
+* Prüfen, ob von extern icSite.* aufgerufen wird
+* M, S, XS
+* Tab bug cluster
+
+Done
+* Goaccess
+* Minimap soll item scrollen
+* print css @ media
+* Mini-Karte
+* Sync von Url und params neu machen
+* focus on element
+* params -> activeItem
+* sections flexbox

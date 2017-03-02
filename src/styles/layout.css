@@ -47,7 +47,7 @@ body > header {
 
 body > #content {
 	position:				absolute;
-	display:				block;
+	display:				flex;
 	top:					3rem;
 	bottom:					0;
 	left:					0;
@@ -71,9 +71,13 @@ body > #content {
 	box-shadow:				0 0 0.5rem rgba(0,0,0,0.3);
 	padding:				1rem;
 	box-sizing:				border-box;
+	flex:					0 0 auto;
 }
 
 
+#content section:last-child {
+	flex:					1 0 auto !important;
+}
 
 #content section > * {
 	position:				relative;
@@ -303,9 +307,6 @@ ic-section-map {
 
 
 section.map {
-	position:				absolute !important;
-	right:					0;
-	left:					0;
 	z-index:				0 !important;
 	padding:				0 !important;
 }
@@ -365,12 +366,12 @@ section.map {
 
 
 .M 	#content section.item {
-	width:					40rem;
+	width:					auto;
 
 }
 
 .M 	#content section.item > *{
-	width:					38rem;
+	width:					36rem;
 }
 
 

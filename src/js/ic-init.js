@@ -291,7 +291,7 @@ angular.module('icInit', [
 				function clear(){
 					element.remove()
 					scope.$destroy()
-					unwatch()
+					//unwatch()
 				}
 
 				unwatch = scope.$watch(attrs.icReady , function(ready){ 

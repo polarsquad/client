@@ -45,23 +45,19 @@ angular.module('icMap', [
 
 		var icClusterMarker = function(cluster, parentScope){
 
-
-			if(!cluster.scope) {
-				var scope 	=  	parentScope.$new()
-
-				scope.cluster =	cluster
-				cluster.scope = scope
-
-				cluster.on('remove', function(){
-					scope.$destroy()
-				})
-
-			} 
+			if(cluster._marker) return cluster._marker
 
 
+			var scope 	=  	parentScope.$new(),
+				element =	$compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(scope)
 
+			scope.cluster 			=	cluster
+			cluster.scope 			= 	scope
+			cluster._marker 		= 	this
+
+			
 			this.createIcon = function(){
-				return cluster._icon || $compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(cluster.scope)[0]
+				return cluster._icon || element[0]
 			}
 
 			this.createShadow = function(){
@@ -144,7 +140,7 @@ angular.module('icMap', [
 		})
 
 		this.setScope = function(scope){
-			element = 	$compile('<ic-spinner class = "leaflet-bar" active = "icSearchResults.listLoading()"></ic-spinner>')(scope)
+			element = 	$compile('<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>')(scope)
 		}
 	}
 ])
@@ -342,59 +338,89 @@ angular.module('icMap', [
 				angular.element(window).on('resize', adjustSize)
 
 
+				function getMarker(item){
+					return 	new L.marker(
+								[item.latitude, item.longitude], 
+								{
+									icon: new icMapItemMarker(item, scope),
+									item: item,
+									riseOnHover: true
+								}
+							)
+				}
 
-				var	stop_watching_filteredList = $rootScope.$watch(
-						function(){ 												
-							return icSearchResults.filteredList
-						},
-						function(list){
+				function updateListMarkers(list){
 
-							var items_to_be_left_alone = 	markers.getLayers().filter(function(marker){ 
-																if(list.indexOf(marker.options.item) == -1){
-																	marker.remove()
-																	return null
+							var items_to_be_left_alone = 	markers.getLayers()
+															.filter(function(marker){ 
+																if(
+																		// in searchresults:
+																		list.indexOf(marker.options.item) != -1
+																		// current item:
+																	||	marker.options.item.id == icSite.activeItem.id
+																){
+																	return true
 																} else {
-																	marker.options.item
+																	markers.removeLayer(marker)
+																	return false
 																}
 															})
+															.map(function(marker){
+																return marker.options.item
+															})
+															,
+								additional_items		=	list
+															.filter(function(item){
+																return 		item.latitude 
+																		&&	item.longitude
+																		&&	items_to_be_left_alone.indexOf(item) == -1
+															})
 
-
-							markers.addLayers(
-								list
-								.filter(function(item){
-									return 		item.latitude && item.latitude
-											&&	items_to_be_left_alone.indexOf(item) == -1
-								})
-								.map(function(item){
-
-									var marker = new L.marker(
-													[item.latitude, item.longitude], 
-													{
-														icon: new icMapItemMarker(item, scope),
-														item: item,
-														riseOnHover: true
-													})
-
-									return marker
-								})
-							)
-
+							markers.addLayers(additional_items.map(getMarker))
 							markers.refreshClusters()
-						
+				}
 
-						},
-						true
+				function updateCurrentItemMarker(previous, current){
+					var previous_item	= previous 	&& icSearchResults.getItem(previous),
+						item			= current 	&& icSearchResults.getItem(current)
+
+					//remove previous item marker:
+					if(previous_item && icSearchResults.filteredList.indexOf(previous_item) == -1){
+						markers.getLayers(function(marker){
+							if(marker.options.item.id == previous_item.id) markers.removeLayer(marker)
+						})
+					}
+
+					//add current item marker:
+					if(item && icSearchResults.filteredList.indexOf(item) == -1){
+						markers.addLayer(getMarker(item))
+					}
+
+					markers.refreshClusters()
+				}
+
+
+
+				var	stop_watching_filteredList = $rootScope.$watchCollection(
+						function(){ return icSearchResults.filteredList	},
+						updateListMarkers
 					),
 
-					stop_watching_displayedCompontents = $rootScope.$watch(
-						function(){ return icSite.displayedComponents},
+					stop_watching_currentItem = $rootScope.$watch(
+						function(){ return icSite.activeItem }, 
+						updateCurrentItemMarker
+					),
+
+					stop_watching_displayedSections = $rootScope.$watch(
+						function(){ return icSite.displayedSections },
 						adjustSize,
 						true
 					)
 
 				scope.$on('$destroy', function(){
 					stop_watching_filteredList()
-					stop_watching_displayedCompontents()
+					stop_watching_displayedSections()
+					stop_watching_currentItem()
 					angular.element(window).off('resize', adjustSize)
 				})
 
@@ -426,13 +452,19 @@ angular.module('icMap', [
 									minZoom:		16,
 									maxZoom:		16,
 									zoomControl: 	false,
-									boxZoom:		false,
 									doubleClickZoom:false,
+									scrollWheelZoom:false,
+									boxZoom:		false,
 									dragging:		false,
+									touchZoom:		false
 								}),
 					marker	=	undefined
 
 				
+				if (map.tap) {
+				  map.tap.disable();
+				}
+
 
 				icMapSwitchControl.setScope(scope)
 

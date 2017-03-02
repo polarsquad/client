@@ -669,11 +669,10 @@ angular.module('icDirectives', [
 
 	'$location', 
 	'icSite',
-	'icSearchResults',
 	'icLanguages',
 
 
-	function($location, icSite, icSearchResults, icLanguages){
+	function($location, icSite, icLanguages){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
@@ -683,7 +682,7 @@ angular.module('icDirectives', [
 				scope.vars = {}
 
 				function getVars(){
-					scope.item = icSearchResults.getItem(icSite.params.item)
+					scope.item = icSite.activeItem
 					if(!scope.item)				return null
 					if(!scope.item.title) 		return null
 					if(!scope.item.id)			return null
