@@ -245,7 +245,7 @@ angular.module('icInit', [
 		.then(function(){ self.progress++ })		
 		
 		icLanguages.ready
-		.then(function(){ self.progress++;})		
+		.then(function(){ self.progress++ })		
 
 		plImages.ready
 		.then(function(){ self.progress++ })

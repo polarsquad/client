@@ -193,57 +193,96 @@ angular.module('icMap', [
 
 	function($compile){
 
-		var element = undefined
-
 		L.Control.icMapSwitchControl = L.Control.extend({
 			onAdd: function(map) {
-				return element && element[0]
+				this._container = this._container || $compile('<ic-map-switch-control ic-item = "'+this.options.key+'"></ic-map-switch-control>')(this.options.scope)[0]
+				return this._container
 			},
 
 			onRemove: function(map) {
 			}
 		})
-
-		this.setScope = function(scope){
-			element = 	$compile('<ic-map-switch-control ic-item = "icItem"></ic-map-switch-control>')(scope)
-		}
 	}
 ])
 
 .directive('icMapSwitchControl',[
 
 	'icSite',
+	'icMainMap',
 
-	function(icSite){
+	function(icSite, icMainMap){
 		return {
 			restrict : 		'E',
-			scope:			true,
-			templateUrl: 	'partials/ic-map-switch-control.html',
 			scope:			{
-								icItem: '<'
+								icItem:	'<',
 							},
 
+			templateUrl: 	'partials/ic-map-switch-control.html',
+
 			link: function(scope){
-				scope.icSite = icSite
+				scope.focusItem = function(){
+					if(!scope.icItem ||  !scope.icItem.latitude || !scope.icItem.longitude){
+						console.warn('icMiniMap: focusItemOnMap: missing coordinates.')
+						return null
+					}
+					icSite.expandMap = true
+
+					icMainMap.ready
+					.then(function(map){
+						map.setView([scope.icItem.latitude, scope.icItem.longitude], 18)						
+					})
+				}
 			}
 		}
 	}
 ])
 
 
+.service('icMainMap', [
+
+	'$q',
+
+	function($q){
+
+		var mapReady = $q.defer(),
+			icMainMap = 	{
+							ready:		mapReady.promise,
+							default:	{
+											center:	[52.500, 13.400],
+											zoom:	11
+										},
+							mapObject: 	undefined
+						}
+
+		icMainMap.setMapObject = function(obj){
+			if(icMainMap.mapObject) console.warn('icMainMap: mapObject already set!')
+			icMainMap.mapObject = obj
+			mapReady.resolve(icMainMap.mapObject)
+		}
+		icMainMap.clearMapObject = function(){
+			mapReady.reject('map object cleared')
+			mapReady = $q.defer()
+			icMainMap.mapObject = undefined
+			icMainMap.ready	= mapReady.promise
+		}
+
+		return icMainMap
+	}
+])
 
 .directive('icMap',[
 
 	'$rootScope',
 	'$timeout',
 	'icSearchResults',
+	'icMainMap',
 	'icMapItemMarker',
 	'icMapClusterMarker',
 	'icMapExpandControl',
 	'icMapSpinnerControl',
 	'icSite',
 
-	function($rootScope, $timeout, icSearchResults, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icSite){
+	function($rootScope, $timeout, icSearchResults, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icSite){
 		return {
 
 			restrict: 'AE',
@@ -252,15 +291,15 @@ angular.module('icMap', [
 
 
 				var markers = 	L.markerClusterGroup({
-									maxClusterRadius: 50,
+									maxClusterRadius: 40,
 									iconCreateFunction: function(cluster) {										
 										return 	new icMapClusterMarker(cluster, scope)
 									}
 								} ),
 					map 	= 	L.map(element[0], {
-									center: 		[52.500, 13.400],
-									zoom: 			11,
-									minZoom:		11,
+									center: 		icMainMap.default.center,
+									zoom: 			icMainMap.default.zoom,
+									minZoom:		icMainMap.default.zoom,
 									zoomControl: 	false,
 									trackSize:		false,
 									maxBounds:		[
@@ -269,19 +308,7 @@ angular.module('icMap', [
 													]
 								})
 
-
-				//Todo: solve this more generically, hooks?
-				icSite.focusItemOnMap = function(item){
-					if(!item ||  !item.latitude || !item.longitude){
-						console.warn('icMap: icSite.focusItemOnMap: missing coordinates.')
-						return null
-					}
-					icSite.expandMap = true
-
-					map.setView([item.latitude, item.longitude], 18)
-				}
-
-
+				icMainMap.setMapObject(map)
 
 				scope.icSearchResults = icSearchResults
 
@@ -377,7 +404,7 @@ angular.module('icMap', [
 															})
 
 							markers.addLayers(additional_items.map(getMarker))
-							markers.refreshClusters()
+							//markers.refreshClusters()
 				}
 
 				function updateCurrentItemMarker(previous, current){
@@ -396,7 +423,7 @@ angular.module('icMap', [
 						markers.addLayer(getMarker(item))
 					}
 
-					markers.refreshClusters()
+					//markers.refreshClusters()
 				}
 
 
@@ -417,7 +444,10 @@ angular.module('icMap', [
 						true
 					)
 
+
+
 				scope.$on('$destroy', function(){
+					icMainMap.clearMapObject()
 					stop_watching_filteredList()
 					stop_watching_displayedSections()
 					stop_watching_currentItem()
@@ -436,9 +466,10 @@ angular.module('icMap', [
 
 	'icMapItemMarker',
 	'icMapSwitchControl',
+	'icSite',
 
 
-	function(icMapItemMarker, icMapSwitchControl){
+	function(icMapItemMarker, icMapSwitchControl, icSite){
 		return {
 			restrict: 	'AE',
 			scope:		{
@@ -466,10 +497,11 @@ angular.module('icMap', [
 				}
 
 
-				icMapSwitchControl.setScope(scope)
 
 				new L.Control.icMapSwitchControl({ 
 					position: 	'topright',
+					scope:		scope,
+					key:		'icItem'
 				}).addTo(map)
 
 

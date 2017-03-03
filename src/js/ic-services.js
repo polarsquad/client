@@ -460,10 +460,34 @@ angular.module('icServices', [
 			switch(smlLayout.mode.name){
 				case "XS":
 
-					if('item'	in icSite.activeSections) return str == 'item'
-					//if('filter'	in icSite.activeSections) return str == 'filter'
-					if('list'	in icSite.activeSections) return str == 'list'
-					if('page'	in icSite.activeSections) return str == 'page'
+					switch(str){
+						case "page":	return		  'page' 	in icSite.activeSections	
+												&&	!('item' 	in icSite.activeSections)
+												&&	!('list' 	in icSite.activeSections)
+												&&  !('map'		in icSite.activeSections)
+						break;
+
+						case "list":	return		'list'	in icSite.activeSections
+												&&	!('item'	in icSite.activeSections)
+												&&	!icSite.expandMap
+						break;
+
+						case "filter":	return		false
+						break;
+
+						case "item":	return		'item'	in icSite.activeSections
+												&&	!icSite.expandMap
+						break;
+
+						case "map":		return		icSite.expandMap
+												||	'map'	in icSite.activeSections
+												&&	!('item'	in icSite.activeSections)
+						break;
+					}
+
+					// if('item'	in icSite.activeSections) return str == 'item'
+					// if('list'	in icSite.activeSections) return str == 'list'
+					// if('page'	in icSite.activeSections) return str == 'page'
 
 				break;
 				
@@ -490,14 +514,11 @@ angular.module('icServices', [
 												&&	!icSite.expandMap
 						break;
 
-						case "map":		return		'map'	in icSite.activeSections
+						case "map":		return		icSite.expandMap
+												||	'map'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
 						break;
 					}
-
-					// if('item'	in icSite.activeSections) return str == 'item'
-					// if('list'	in icSite.activeSections) return str == 'list' || str == 'filter'
-					// if('page'	in icSite.activeSections) return str == 'page'
 
 				break;
 				

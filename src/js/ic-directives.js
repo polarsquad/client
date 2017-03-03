@@ -1088,7 +1088,6 @@ angular.module('icDirectives', [
 			templateUrl:	'partials/ic-filter-interface.html',
 			scope:			{
 								expandFilter:		'<',
-								showQuickFilter: 	'<',
 								showFilterOnly:		'<',
 								showSortOnly:		'<'
 							},

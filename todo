@@ -24,12 +24,11 @@ TODO:
 	* THF Welcome
 	* Ergebnisse
 * Custom tools
-* wann map anzeigen?
 * SearchBug
-* check component widths
 * Prüfen, ob von extern icSite.* aufgerufen wird
 * M, S, XS
 * Tab bug cluster
+* [base64 für switches]
 
 Done
 * Goaccess
@@ -40,3 +39,5 @@ Done
 * focus on element
 * params -> activeItem
 * sections flexbox
+* Suchfeld wenn map expand
+* check component widths
