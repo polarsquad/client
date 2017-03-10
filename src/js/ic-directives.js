@@ -1098,15 +1098,17 @@ angular.module('icDirectives', [
 				scope.icConfigData 		= 	icConfigData
 				scope.icUser			= 	icUser
 				scope.expand			= 	{}
-				scope.open 				= 	scope.showSortOnly
-											?	'sort'
-											:	'filter'
+				scope.open 				= 	{}
 
 
 				if(scope.expandFilter){
 					scope.expand.topics 		= true
 					scope.expand.targetGroups 	= true
 					scope.expand.state			= true
+
+					scope.open					=	scope.showSortOnly
+												?	'sort'
+												:	'filter'
 				}
 
 

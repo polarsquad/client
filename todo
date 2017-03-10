@@ -29,6 +29,8 @@ TODO:
 * M, S, XS
 * Tab bug cluster
 * [base64 für switches]
+* z-index cluster und marker
+* MAp key into config js
 
 Done
 * Goaccess
@@ -41,3 +43,30 @@ Done
 * sections flexbox
 * Suchfeld wenn map expand
 * check component widths
+
+
+Todo:
+* Cluster reduzieren
+* Preload previews
+* hover item android
+
+Fragen:
+* Cluster nach 6 neubilden -> geht nicht, was wnen 10 an einem Ort? -> Engine Clustered nach Entfernung
+
+
+Check:
+* Marker nach typechange ändern (funktioniert lokal)
+* Daten doch wieder zwischenspeichern
+* MiniKarte gibt es nur wenn Geokoordinaten angegeben sind
+* Single marker hover weg für icon?
+* Minimap switch auf smartphone?
+* Nach Minimap und zurück wieder auf minimap switchen? (backbutotn für switches?)
+* Safari kann Seite nicht öffnen?
+* googletranslate ans ende des textes (nicht im frontend machbar)
+
+
+Done:
+
+* print share removed for small screens
+* Sort Filter getaushct und eingeklappt
+* Aktive MArker nach vorne geholt

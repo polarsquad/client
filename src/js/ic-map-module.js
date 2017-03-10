@@ -82,12 +82,14 @@ angular.module('icMap', [
 			restrict:		'AE',
 			templateUrl:	'partials/ic-map-item-marker.html',
 			scope:			{
-								icItem:	"<"
+								icItem:		"<",
+								icContent: 	"@"
 							},
 
-			link: function(scope){
+			link: function(scope, element){
 				scope.icLanguages 	= icLanguages
 				scope.icSite		= icSite
+
 			}
 
 		}
@@ -225,12 +227,14 @@ angular.module('icMap', [
 						console.warn('icMiniMap: focusItemOnMap: missing coordinates.')
 						return null
 					}
-					icSite.expandMap = true
+
+					icSite.switches.expandMap = true
 
 					icMainMap.ready
 					.then(function(map){
-						map.setView([scope.icItem.latitude, scope.icItem.longitude], 18)						
+						map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.default.maxZoom)						
 					})
+
 				}
 			}
 		}
@@ -248,8 +252,10 @@ angular.module('icMap', [
 			icMainMap = 	{
 							ready:		mapReady.promise,
 							default:	{
-											center:	[52.500, 13.400],
-											zoom:	11
+											center:		[52.500, 13.400],
+											zoom:		11,
+											minZoom:	11,
+											maxZoom:	18
 										},
 							mapObject: 	undefined
 						}
@@ -284,14 +290,14 @@ angular.module('icMap', [
 
 	function($rootScope, $timeout, icSearchResults, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icSite){
 		return {
-
 			restrict: 'AE',
 
 			link: function(scope, element, attrs){
 
 
 				var markers = 	L.markerClusterGroup({
-									maxClusterRadius: 40,
+									maxClusterRadius: 			40,
+									spiderfyOnMaxZoom:			false,
 									iconCreateFunction: function(cluster) {										
 										return 	new icMapClusterMarker(cluster, scope)
 									}
@@ -299,7 +305,8 @@ angular.module('icMap', [
 					map 	= 	L.map(element[0], {
 									center: 		icMainMap.default.center,
 									zoom: 			icMainMap.default.zoom,
-									minZoom:		icMainMap.default.zoom,
+									minZoom:		icMainMap.default.minZoom,
+									maxZoom:		icMainMap.default.maxZoom,
 									zoomControl: 	false,
 									trackSize:		false,
 									maxBounds:		[
@@ -313,7 +320,7 @@ angular.module('icMap', [
 				scope.icSearchResults = icSearchResults
 
 				new L.Control.Zoom({
-					position: 'topright' 	
+					position: 	'topright' 	
 				}).addTo(map)
 
 				icMapExpandControl.setScope(scope)
@@ -329,8 +336,7 @@ angular.module('icMap', [
 					position: 	'bottomleft',
 				}).addTo(map)
 
-
-				L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				new L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 					attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 				}).addTo(map);
 
@@ -384,7 +390,7 @@ angular.module('icMap', [
 																		// in searchresults:
 																		list.indexOf(marker.options.item) != -1
 																		// current item:
-																	||	marker.options.item.id == icSite.activeItem.id
+																	||	(icSite.activeItem && marker.options.item.id == icSite.activeItem.id)
 																){
 																	return true
 																} else {

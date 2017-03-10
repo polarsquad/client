@@ -234,7 +234,7 @@ angular.module('icServices', [
 								//fullItem:				false,
 								page:					'main',
 								//showFilter:			false,
-								expandMap:				false,
+								//expandMap:				false,
 								activeItem:				null,
 								params:					{
 															item:	'',			// item for full view
@@ -247,7 +247,7 @@ angular.module('icServices', [
 															tp:		[],			// topics
 															tg:		[],			// target groups
 														},
-								switch:					{
+								switches:				{
 															expandMap:	false
 														},
 
@@ -369,13 +369,28 @@ angular.module('icServices', [
 		}
 
 
+		icSite.openItem = function(i){
+			var id = i.id || i 
+
+			icSite.params.item = id
+			return icSite
+		}
+
 		icSite.clearItem = function(){
 			icSite.params.item 	= undefined
-			console.log('clearItem')
+			return icSite
 		}
 
 		icSite.clearParams = function(){
 			$location.path('/')
+			return icSite
+		}
+
+		icSite.toggleSwitch = function(switch_name, state){
+			icSite.switches[switch_name]	=	state == undefined
+											?	!icSite.switches[switch_name]
+											:	state
+			return icSite
 		}
 
 
@@ -469,17 +484,17 @@ angular.module('icServices', [
 
 						case "list":	return		'list'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "filter":	return		false
 						break;
 
 						case "item":	return		'item'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
-						case "map":		return		icSite.expandMap
+						case "map":		return		icSite.switches.expandMap
 												||	'map'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
 						break;
@@ -503,7 +518,7 @@ angular.module('icServices', [
 
 						case "list":	return		'list'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "filter":	return		'filter'in icSite.activeSections
@@ -511,10 +526,10 @@ angular.module('icServices', [
 						break;
 
 						case "item":	return		'item'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
-						case "map":		return		icSite.expandMap
+						case "map":		return		icSite.switches.expandMap
 												||	'map'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
 						break;
@@ -533,7 +548,7 @@ angular.module('icServices', [
 						break;
 
 						case "list":	return		'list'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "filter":	return		'filter'in icSite.activeSections
@@ -541,10 +556,10 @@ angular.module('icServices', [
 						break;
 
 						case "item":	return		'item'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 						
-						case "map":		return		icSite.expandMap
+						case "map":		return		icSite.switches.expandMap
 												||	'map'	in icSite.activeSections
 												&&	!('item'	in icSite.activeSections)
 						break;
@@ -564,14 +579,14 @@ angular.module('icServices', [
 						break;
 
 						case "list":	return		'list'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "filter":	return		'filter'in icSite.activeSections
 						break;
 
 						case "item":	return		'item'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "map":		return		'map'	in icSite.activeSections
@@ -585,7 +600,7 @@ angular.module('icServices', [
 					// 	&&	'list'	in icSite.activeSections
 					// ){
 
-					// 	return str == 'item'|| (str == 'list' && !icSite.expandMap) || str == 'filter'
+					// 	return str == 'item'|| (str == 'list' && !icSite.switches.expandMap) || str == 'filter'
 					// }
 
 					// if('item'	in icSite.activeSections) return str == 'item'
@@ -605,14 +620,14 @@ angular.module('icServices', [
 						break;
 
 						case "list":	return		'list'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "filter":	return		'filter'in icSite.activeSections
 						break;
 
 						case "item":	return		'item'	in icSite.activeSections
-												&&	!icSite.expandMap
+												&&	!icSite.switches.expandMap
 						break;
 
 						case "map":		return		'map'	in icSite.activeSections
@@ -635,7 +650,7 @@ angular.module('icServices', [
 		$rootScope.$watch(function(){ return icFilterConfig }, 				updateFilterParams, true)
 		$rootScope.$watch(function(){ return icLanguages.currentLanguage },	updateLanguageParams)
 		$rootScope.$watch(function(){ return smlLayout.mode.name },			updateSections)
-		$rootScope.$watch(function(){ return icSite.expandMap },			updateSections)
+		$rootScope.$watch(function(){ return icSite.switches.expandMap },			updateSections)
 
 		$rootScope.$watch(
 			function(){ return icSite.params},				

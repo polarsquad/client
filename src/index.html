@@ -7,7 +7,7 @@
 							'show-list': 	icSite.displayedComponents.list, 
 							'show-item':	icSite.displayedComponents.item, 
 							'show-map':		icSite.displayedComponents.map, 
-							'expand-map':	icSite.expandMap
+							'expand-map':	icSite.switches.expandMap
 						}"
 >
 
@@ -80,8 +80,8 @@
 			<ic-header
 				ic-menu 		= "!icSite.activeItem 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
 				ic-close-item	= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
-				ic-print		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
-				ic-share		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
+				ic-print		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1) && !icSite.switches.expandMap"
+				ic-share		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1) && !icSite.switches.expandMap"
 				ic-large		= "!icSite.activeItem 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
 				ic-languages 	= "true"
 			></ic-header>

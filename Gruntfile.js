@@ -17,14 +17,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-string-replace')
 	grunt.loadNpmTasks('grunt-angular-templates')
 	grunt.loadNpmTasks('grunt-svg-sprite')
-	grunt.loadNpmTasks('grunt-bower')
 
 
 	grunt.initConfig({
 
 
 		paths:{
-			bower:  'bower_components',
+			vendor: 'node_modules',
 			src:    'src',
 			dist:   'dist',
 			dev:    'dev',
@@ -50,6 +49,9 @@ module.exports = function(grunt) {
 			'**/angular-qrcode.js',
 			'**/leaflet.js',
 			'**/leaflet.markercluster.js',
+			'**/Leaflet.VectorGrid.bundled.js',
+			// '**/ol.js',
+			// '**/olms.js',
 			'**/ic-api.js',
 			'**/pl-images.js',
 			'**/ic-init.js',
@@ -64,6 +66,7 @@ module.exports = function(grunt) {
 
 		styles: [
 			'**/leaflet.css',
+			// '**/ol.css',
 			'**/MarkerCluster.css',
 			'**/typography_and_colors.css',
 			'**/layout.css',
@@ -80,13 +83,17 @@ module.exports = function(grunt) {
 
 
 		'copy': {
-			
+
+			vendor:{
+				files: [
+					{expand: true, flatten: true, cwd: '<%= paths.vendor %>',	src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
+					{expand: true, flatten: true, cwd: '<%= paths.vendor %>',	src: '<%= styles %>',          				dest: '<%= paths.dev %>/styles'},
+					{expand: true, flatten: true, cwd: '<%= paths.vendor %>',	src: '**/Roboto/*', 	          			dest: '<%= paths.dev %>/fonts/Roboto'},
+					{expand: true, flatten: true, cwd: '<%= paths.vendor %>',  	src: '<%= initial_styles %>',   			dest: '<%= paths.dev %>/styles'},
+				]
+			},
 			dev: {
 				files: [
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= styles %>',          			 	dest: '<%= paths.dev %>/styles'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '**/Roboto/*', 	          			dest: '<%= paths.dev %>/fonts/Roboto'},
-					{expand: true, flatten: true, cwd: '<%= paths.bower %>',    src: '<%= initial_styles %>',   			dest: '<%= paths.dev %>/styles'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: ['images/**/*', '!images/**/*.svg'],	dest: '<%= paths.dev %>/images'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= styles %>',           			dest: '<%= paths.dev %>/styles'},
@@ -304,7 +311,7 @@ module.exports = function(grunt) {
 
 		watch:{
 			dev: {
-				files:	['<%= paths.src %>/**/*','<%= paths.bower %>/**/*'],
+				files:	['<%= paths.src %>/**/*'],
 				tasks:	['dev']
 			},
 			
@@ -324,6 +331,11 @@ module.exports = function(grunt) {
 	grunt.registerTask('ic_images',         ['preload_images'])
 	grunt.registerTask('infocompass',       ['ic_icons', 'ic_images', 'ic_index'])
 
+
+	grunt.registerTask('vendor',[
+		'copy:vendor'
+	])
+
 	grunt.registerTask('dev',[
 		'copy:dev',
 		'svgmin:dev',
@@ -342,7 +354,7 @@ module.exports = function(grunt) {
 	])
 
 	grunt.registerTask('install', [
-		'bower', 
+		'vendor', 
 		'dist'
 	])
 

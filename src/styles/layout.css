@@ -100,7 +100,7 @@ body > #content {
 
 #content section {
 	overflow-y:				scroll;
-	will-change:			scroll-position;
+	/*will-change:			scroll-position;*/
 	-webkit-overflow-scrolling: touch;
 }
 
@@ -193,7 +193,7 @@ section.item{
 /*Layout list */
 
 #content section.list {
-	will-change:			scroll-position;
+	/*will-change:			scroll-position;*/
 }
 
 .XS	#content section.list  {

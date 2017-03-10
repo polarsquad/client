@@ -42,21 +42,21 @@
 	class = "controls"
 	ng-show = "!showSortOnly && !showFilterOnly"
 >	
-	<button
-		ng-class	= "{'active': open == 'sort'}"
-		ng-click 	= "toggleSortPanel()" 
-		ic-touch-me
-	>
-		{{"INTERFACE.SORT" | translate}}
-	</button><!--
-
- --><button
+ 	<button
 		ng-class	= "{'active': open == 'filter'}"
 		ic-click 	= "toggleFilterPanel()" 
 		ic-touch-me
 	>
 		{{"INTERFACE.FILTER" | translate}}
+	</button><!--
+ --><button
+		ng-class	= "{'active': open == 'sort'}"
+		ng-click 	= "toggleSortPanel()" 
+		ic-touch-me
+	>
+		{{"INTERFACE.SORT" | translate}}
 	</button>
+
 </div>
 
 

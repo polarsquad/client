@@ -9,7 +9,7 @@
   "homepage": "https://github.com/InfoCompass/client",
   "dependencies": {
     "leaflet": "^1.0.3",
-    "leaflet.markercluster": "^1.0.3", 
+    "leaflet.markercluster": "^1.0.3",
     "angular": "^1.6.1",
     "angular-qrcode": "^6.2.1",
     "angular-translate": "^2.13.1",

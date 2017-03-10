@@ -1,10 +1,15 @@
-<div class = "outer-icon marker-type-{{icItem.type}}">
+<div 
+	class 		= "outer-icon marker-type-{{icItem.type || 'places'}}"
+>
 	<div class = "inner-icon" style = "background-image:url({{icItem.primaryTopic|icIcon : 'topic' : 'white'}})"></div>
 </div>
+
 <a
-	class 	= "content"
-	ng-href	= "{{icSite.getNewPath({item:icItem.id})}}"
+	class 		= "content"
+	ng-click	= "icSite.openItem(icItem).toggleSwitch('expandMap', false)"
+	ng-if		= "icItem || icContent"
 >
-	<div class = "title">	{{icItem.title}}		</div>
-	<div class = "details">	{{icItem.definition[icLanguages.currentLanguage]}}	</div>
+	<div ng-if = "icContent"> {{icContent}}</div>
+	<div ng-if = "icItem"	class = "title">	{{icItem.title}}		</div>
+	<div ng-if = "icItem"	class = "details">	{{icItem.definition[icLanguages.currentLanguage]}}	</div>
 </a>

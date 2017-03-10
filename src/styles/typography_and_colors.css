@@ -223,27 +223,6 @@ input:-webkit-autofill:focus{
 
 
 
-/* marker */
-
-.marker-type-events{
-	background-image:		url(/images/marker_type_events.svg);
-}
-
-.marker-type-services{
-	background-image:		url(/images/marker_type_services.svg);
-}
-
-.marker-type-places{
-	background-image:		url(/images/marker_type_places.svg);
-}
-
-.marker-type-information{
-	background-image:		url(/images/marker_type_information.svg);
-}
-
-
-
-
 /* icons */
 
 

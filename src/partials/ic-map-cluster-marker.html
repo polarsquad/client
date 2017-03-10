@@ -1,7 +1,13 @@
 <div class = "wrapper">
 	<ic-map-item-marker
-		ng-repeat 	= "item in items"
+		ng-if		= "items.length > 5"
+		ic-content	= "{{items.length-5}} weitere..."
+	>
+	</ic-map-item-marker>
+	
+	<ic-map-item-marker
+		ng-repeat 	= "item in items | limitTo : 5"
 		ic-item		= "item"
 	>
-	</ic-mapitem-marker>
+	</ic-map-item-marker>
 </div>

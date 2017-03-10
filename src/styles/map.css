@@ -50,7 +50,7 @@ ic-map-item-marker .outer-icon {
 	line-height:			2rem;
 	background-position:	50% 50%;
 	background-size:		2rem auto;
-	background-repeat:		none;
+	background-repeat:		no-repeat;
 }
 
 ic-map-item-marker .outer-icon .inner-icon {
@@ -87,6 +87,13 @@ ic-map-item-marker .content .details  {
 	overflow:				hidden;
 }
 
+ic-map-item-marker:active,
+ic-map-item-marker:hover {
+	z-index:				9999999999;
+}
+
+
+ic-map-item-marker:active .content,
 ic-map-item-marker:hover .content {
 	width:					14rem;
 	padding-left:			0.25rem;
@@ -120,9 +127,15 @@ ic-map-cluster-marker {
 	text-align:				center;
 }
 
+ic-map-cluster-marker:active,
 ic-map-cluster-marker:hover {
-	z-index:				9999 !important;
+	z-index:				9999999 !important;
 }
+
+ic-map-cluster-marker:active	ic-map-item-marker,
+ic-map-cluster-marker:hover		ic-map-item-marker {
+	z-index:				0;
+}	
 
 ic-map-cluster-marker .wrapper {
 	position:				absolute;
@@ -149,6 +162,7 @@ ic-map-cluster-marker ic-map-item-marker + ic-map-item-marker {
 }
 
 
+ic-map-cluster-marker:active ic-map-item-marker + ic-map-item-marker,
 ic-map-cluster-marker:hover ic-map-item-marker + ic-map-item-marker {
 	margin-top:			-0.6rem
 
@@ -190,7 +204,7 @@ ic-map ic-spinner {
 	display:				none;
 	font-size:				3rem;
 	background-color:		#fff;
-	border-radius:			100 !important%;
+	border-radius:			100% !important;
 	padding:				0.25rem;
 }
 
@@ -207,6 +221,29 @@ ic-mini-map {
 	display:				block;
 	height:					12rem;
 }
+
+
+
+
+
+
+/* marker */
+.marker-type-events{
+	background-image:		url(/images/marker_type_events.svg);
+}
+
+.marker-type-services{
+	background-image:		url(/images/marker_type_services.svg);
+}
+
+.marker-type-places{
+	background-image:		url(/images/marker_type_places.svg);
+}
+
+.marker-type-information{
+	background-image:		url(/images/marker_type_information.svg);
+}
+
 
 
 
