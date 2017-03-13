@@ -40,7 +40,7 @@ angular.module('icMap', [
 
 	'$compile',
 
-	function($compile){
+	function($compile, icSite){
 
 
 		var icClusterMarker = function(cluster, parentScope){
@@ -83,13 +83,22 @@ angular.module('icMap', [
 			templateUrl:	'partials/ic-map-item-marker.html',
 			scope:			{
 								icItem:		"<",
-								icContent: 	"@"
+								icTitle: 	"<",
+								icDetails:	"<"
 							},
 
 			link: function(scope, element){
 				scope.icLanguages 	= icLanguages
 				scope.icSite		= icSite
 
+				scope.$watch(
+					function(){
+						return  icSite.activeItem && icSite.activeItem.id
+					},
+					function(id){
+						element.toggleClass('active', !!(scope.icItem && id == scope.icItem.id))
+					}
+				)
 			}
 
 		}
@@ -100,8 +109,9 @@ angular.module('icMap', [
 
 .directive('icMapClusterMarker',[
 
+	'icSite',
 
-	function(){
+	function(icSite){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-map-cluster-marker.html',
@@ -116,6 +126,12 @@ angular.module('icMap', [
 										return marker.options.item
 									})
 				})
+
+				scope.isActive = function(item){
+					return 	item == icSite.activeItem
+							?	0
+							:	1
+				}
 			}
 
 		}
@@ -436,17 +452,29 @@ angular.module('icMap', [
 
 				var	stop_watching_filteredList = $rootScope.$watchCollection(
 						function(){ return icSearchResults.filteredList	},
-						updateListMarkers
+						function(list){
+							window.requestAnimationFrame(function(){
+								updateListMarkers(list)								
+							})
+						}
 					),
 
 					stop_watching_currentItem = $rootScope.$watch(
 						function(){ return icSite.activeItem }, 
-						updateCurrentItemMarker
+						function(p,c){
+							window.requestAnimationFrame(function(){
+								updateCurrentItemMarker(p,c)								
+							})
+						}
 					),
 
 					stop_watching_displayedSections = $rootScope.$watch(
 						function(){ return icSite.displayedSections },
-						adjustSize,
+						function(){
+							window.requestAnimationFrame(function(){
+								adjustSize()
+							})
+						},
 						true
 					)
 

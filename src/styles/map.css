@@ -27,15 +27,15 @@ ic-map-item-marker {
 
 ic-map-item-marker .content {
 	display:				block;
-	position:				relative;
+	position:				absolute;
 	box-sizing:				border-box;
 	top:					0;
+	left:					2rem;
 	padding:				0.25rem 0;
-	margin-left:			2rem;
 	background-color:		#fff;
 	height:					2rem;
 	text-align:				left;
-	width:					0;
+	max-width:				0;
 	overflow:				hidden;
 	transition:				all 150ms ease-in;
 	color:					#444;
@@ -89,15 +89,16 @@ ic-map-item-marker .content .details  {
 
 ic-map-item-marker:active,
 ic-map-item-marker:hover {
-	z-index:				9999999999;
+	z-index:				9999999999 !important;
 }
 
 
-ic-map-item-marker:active .content,
-ic-map-item-marker:hover .content {
-	width:					14rem;
+ic-map-item-marker.active	.content,
+ic-map-item-marker:active 	.content,
+ic-map-item-marker:hover 	.content {
+	max-width:				14rem;
 	padding-left:			0.25rem;
-	padding-right:			0.25rem;
+	padding-right:			0.5rem;
 }
 
 

@@ -1,12 +1,13 @@
 <div class = "wrapper">
 	<ic-map-item-marker
 		ng-if		= "items.length > 5"
-		ic-content	= "{{items.length-5}} weitere..."
+		ic-title	= "'INTERFACE.MAP_CLUSTER_MORE_ITEMS'|translate"
+		ic-details  = "items.length-4"
 	>
 	</ic-map-item-marker>
-	
+
 	<ic-map-item-marker
-		ng-repeat 	= "item in items | limitTo : 5"
+		ng-repeat 	= "item in items | orderBy: isActive | limitTo : (items.length == 5 ? 5: 4) | orderBy: isActive : true"
 		ic-item		= "item"
 	>
 	</ic-map-item-marker>

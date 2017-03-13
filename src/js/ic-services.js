@@ -76,49 +76,49 @@ angular.module('icServices', [
 			 		})
 		}
 
-		// function deepSearch(haystack, needle, prio){
+		function deepSearch(haystack, needle, prio){
 
 
-		// 	if(!needle) 	return true
-		// 	if(!haystack)	return false
+			if(!needle) 	return true
+			if(!haystack)	return false
 
-		// 	needle 	= 	typeof needle == 'string' 
-		// 				?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
-		// 				:	needle
+			needle 	= 	typeof needle == 'string' 
+						?	new RegExp(needle.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'gi')
+						:	needle
 
 
-		// 	switch(typeof haystack){
-		// 		case 'function':
-		// 			return false
-		// 		break;
+			switch(typeof haystack){
+				case 'function':
+					return false
+				break;
 
-		// 		case 'object':
-		// 			if( prio && (prio in haystack) && deepSearch(haystack[prio], needle, prio) ) return true
-		// 			for(var key in haystack){
-		// 				if(key != prio && deepSearch(haystack[key], needle, prio)) return true
-		// 			}
-		// 		break;
+				case 'object':
+					if( prio && (prio in haystack) && deepSearch(haystack[prio], needle, prio) ) return true
+					for(var key in haystack){
+						if(key != prio && deepSearch(haystack[key], needle, prio)) return true
+					}
+				break;
 
-		// 		default:
-		// 			return String(haystack).match(needle) != null
-		// 		break;
-		// 	}
+				default:
+					return String(haystack).match(needle) != null
+				break;
+			}
 	
-		// 	return false
-		// }
+			return false
+		}
 
 
-		// icFilterConfig.matchItem = function(item){
+		icFilterConfig.matchItem = function(item, ignore_key){
 
+			for(var key in icFilterConfig.filterBy){
+				if(key == ignore_key) continue
+				if(!icFilterConfig.matchFilter(key, item[key], true)) return false
+			}
 
-		// 	for(var key in icFilterConfig.filterBy){
-		// 		if(!icFilterConfig.matchFilter(key, item[key], true)) return false
-		// 	}
+			var ds = deepSearch(item, icFilterConfig.searchTerm, 'queries')
 
-		// 	var ds = deepSearch(item, icFilterConfig.searchTerm, 'queries')
-
-		// 	return	ds
-		// }
+			return	ds
+		}
 
 
 		icFilterConfig.addFilter = function(key, value){
@@ -814,7 +814,8 @@ angular.module('icServices', [
 												maxParticipants:'max_participants',
 												hours:			'times',
 												state:			'status',
-												lastEdit:		'last_edit',
+												lastEdit:		'last_edit_on',
+												creationDate:	'created_on',
 												startDate:		'start_date',
 												dateComment:	'date_comment',
 												endDate:		'end_date',
@@ -874,7 +875,7 @@ angular.module('icServices', [
 				// 	icItem.logitude = data.coordinates[1]
 				// }
 
-				// if(data.query) angular.merge(icItem.queries, [data.query])
+				if(data.query) angular.merge(icItem.queries, [data.query])
 
 				return icItem
 			}
@@ -978,9 +979,10 @@ angular.module('icServices', [
 	'icApi',
 	'icFilterConfig',
 	'icConfigData',
+	'icLanguages',
 	'icItem',
 
-	function($q, $rootScope, $timeout, icApi, icFilterConfig, icConfigData, icItem){
+	function($q, $rootScope, $timeout, icApi, icFilterConfig, icConfigData, icLanguages, icItem){
 
 		var searchResults 				= {}
 
@@ -993,7 +995,8 @@ angular.module('icServices', [
 		searchResults.meta				= {}
 		searchResults.currentRun		= []
 		searchResults.fullItemDownloads = {}
-		searchResults.currentListCall		= undefined
+		searchResults.currentListCall	= undefined
+		searchResults.ready				= true
 		
 
 		searchResults.storeItem = function(new_item_data){
@@ -1067,21 +1070,27 @@ angular.module('icServices', [
 		}
 
 
-		searchResults.download = function(){
-			if( icFilterConfig.cleared() ) console.warn('icSearchResults: download without paramters.')
 
-			var parameters = {}
+		searchResults.download = function(all){
 
-			if(icFilterConfig.filterBy.type) 						parameters.type 			= icFilterConfig.filterBy.type
-			if(icFilterConfig.filterBy.topics.length != 0)			parameters.topics 			= icFilterConfig.filterBy.topics
-			if(icFilterConfig.filterBy.state)						parameters.status			= icFilterConfig.filterBy.state
-			if(icFilterConfig.filterBy.targetGroups.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroups
-			if(icFilterConfig.orderBy)								parameters.order_by			= icFilterConfig.orderBy
-			if(icFilterConfig.searchTerm)							parameters.query			= icFilterConfig.searchTerm
-			
-			parameters.asc = icFilterConfig.reverse ? 0 : 1
+			if(!all){
+				if( icFilterConfig.cleared() ) console.warn('icSearchResults: download without paramters.')
+
+				var parameters = {}
+
+				if(icFilterConfig.filterBy.type) 						parameters.type 			= icFilterConfig.filterBy.type
+				if(icFilterConfig.filterBy.topics.length != 0)			parameters.topics 			= icFilterConfig.filterBy.topics
+				if(icFilterConfig.filterBy.state)						parameters.status			= icFilterConfig.filterBy.state
+				if(icFilterConfig.filterBy.targetGroups.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroups
+				if(icFilterConfig.orderBy)								parameters.order_by			= icFilterConfig.orderBy
+				if(icFilterConfig.searchTerm)							parameters.query			= icFilterConfig.searchTerm
+				
+				parameters.asc = icFilterConfig.reverse ? 0 : 1
+
+			}
 
 			var call = 	icConfigData.ready
+						.then(function(){ return  all || searchResults.ready })
 						.then(function(){
 							if(searchResults.currentListCall) searchResults.currentListCall.cancel()
 
@@ -1106,7 +1115,7 @@ angular.module('icServices', [
 						//searchResults.lastAddedItem = searchResults.currentRun[searchResults.currentRun.length-1]
 
 						searchResults.offset 		+= 	result.items.length
-						searchResults.meta 			= 	result.meta		//TODO: dont rely on backend
+						//searchResults.meta 			= 	result.meta		//TODO: dont rely on backend
 						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
 
 						if(searchResults.noMoreItems) return result
@@ -1173,97 +1182,123 @@ angular.module('icServices', [
 		searchResults.filterList = function(){
 			//Workaround until sorting and local cahed issues are sorted out:
 			
-			searchResults.clearFilteredList()
+			// searchResults.clearFilteredList()
 			
-			searchResults.currentRun.forEach(function(item){
-				if(searchResults.filteredList.indexOf(item) == -1) searchResults.filteredList.push(item)
+			// searchResults.currentRun.forEach(function(item){
+			// 	if(searchResults.filteredList.indexOf(item) == -1) searchResults.filteredList.push(item)
+			// })
+
+
+			// return searchResults
+
+			var searchTerm = icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,'')	
+
+
+			icConfigData.ready
+			.then(function(){
+				searchResults.clearFilteredList()
+
+				
+
+				var	results_by_type	=	{}
+					
+				results_by_type.any = 	searchResults.data
+										.filter(function(item){
+											return item.meta.state != 'new' && icFilterConfig.matchItem(item, 'type') //ignore type
+										})
+
+				searchResults.meta.total = results_by_type.any.length		
+
+				icConfigData.types.forEach(function(type){
+					results_by_type[type] 	= 	results_by_type.any
+												.filter(function(item){
+													return item.type == type
+												})
+					searchResults.meta[type]	=	results_by_type[type].length
+				})
+
+				Array.prototype.push.apply(
+					searchResults.filteredList, 
+					results_by_type[icFilterConfig.filterBy.type || 'any']
+				)
+
+				searchResults.sortFilteredList()
 			})
 
+			return searchResults
+		}
+
+		searchResults.sortFilteredList = function(){
+
+			icConfigData.ready
+			.then(function(){
+				function sortingFunction(){
+
+					if(icFilterConfig.orderBy == 'created_on'){
+						return function(a,b){ return (parseInt(a.lastEdit)||0) < (parseInt(b.lastEdit) ||0) }
+					}
+
+					if(icFilterConfig.orderBy == 'last_edit_on'){
+						return function(a,b){ return (parseInt(a.creationDate)||0) < (parseInt(b.creationDate)||0) }
+					}
+
+					if(icFilterConfig.orderBy == 'title'){
+						return function(a,b){ return a.title.localeCompare(b.title, icLanguages.currentLanguage, {'ignore­Punctua­tion' : true }) }
+					}
+
+					if(icFilterConfig.orderBy == 'start_date'){
+						return function(a,b){ return (parseInt(a.startDate)||0) < (parseInt(b.startDate)||0) }
+					}
+					return function(){}
+
+
+				}
+
+				searchResults.filteredList.sort(sortingFunction())
+				if(icFilterConfig.reverse) searchResults.filteredList.reverse()
+			})
 
 			return searchResults
-
-			// var searchTerm = icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,'')	
-
-			// searchResults.clearFilteredList()
-
-			// function sortingFunction(){
-
-			// 	if(icFilterConfig.orderBy == 'title'){
-			// 		if(icFilterConfig.direction == 'asc'){
-			// 			return function(a,b){ return a.title.toLowerCase() > b.title.toLowerCase() }
-			// 		}
-
-			// 		if(icFilterConfig.direction == 'dsc'){
-			// 			return function(a,b){ return a.title.toLowerCase() < b.title.toLowerCase() }
-			// 		}
-			// 	}
-
-			// 	if(icFilterConfig.orderBy == 'start'){
-			// 		if(icFilterConfig.direction == 'asc'){
-			// 			return function(a,b){ return a.start > b.start }
-			// 		}
-
-			// 		if(icFilterConfig.direction == 'dsc'){
-			// 			return function(a,b){ return a.start < b.start }
-			// 		}
-			// 	}
-
-
-			// 	return function(){}
-
-			// }
-
-			// Array.prototype.push.apply(
-			// 	searchResults.filteredList, 
-			// 	searchResults.data
-			// 	.filter(function(item){
-			// 		return item.meta.state != 'new' && icFilterConfig.matchItem(item)
-			// 	})
-			// 	.sort(sortingFunction())
-			// )
-
 		}
 
-		searchResults.getPreviousId = function(id){
-			var pos = false,
-				i	= 0
+		// searchResults.getPreviousId = function(id){
+		// 	var pos = false,
+		// 		i	= 0
 
-			while(pos === false && i < searchResults.filteredList.length){
-				pos = (searchResults.filteredList[i].id == id) && i
-				i++
-			}
-
-
-			return 	pos !== false && searchResults.filteredList[pos-1] && searchResults.filteredList[pos-1].id
-		}
-
-		searchResults.getNextId = function(id){
-			var pos = false,
-				i	= 0
+		// 	while(pos === false && i < searchResults.filteredList.length){
+		// 		pos = (searchResults.filteredList[i].id == id) && i
+		// 		i++
+		// 	}
 
 
-			while(pos === false && i < searchResults.filteredList.length){
-				pos = (searchResults.filteredList[i].id == id) && i
-				i++
-			}
+		// 	return 	pos !== false && searchResults.filteredList[pos-1] && searchResults.filteredList[pos-1].id
+		// }
+
+		// searchResults.getNextId = function(id){
+		// 	var pos = false,
+		// 		i	= 0
+
+
+		// 	while(pos === false && i < searchResults.filteredList.length){
+		// 		pos = (searchResults.filteredList[i].id == id) && i
+		// 		i++
+		// 	}
 
 
 
-			if(pos == searchResults.filteredList.length-1){
-				searchResults.download()
-			}
+		// 	if(pos == searchResults.filteredList.length-1){
+		// 		searchResults.download()
+		// 	}
 
-			return 	pos !== false && searchResults.filteredList[pos+1] && searchResults.filteredList[pos+1].id
-		}
+		// 	return 	pos !== false && searchResults.filteredList[pos+1] && searchResults.filteredList[pos+1].id
+		// }
 
 
+		searchResults.ready = searchResults.download('ALL')
 
 		$rootScope.$watch(
-			function(){ return icFilterConfig }, 
+			function(){ return [icFilterConfig.filterBy, icFilterConfig.searchTerm] }, 
 			function(){ 
-				//searchResults
-				//.clearFilteredList()
-
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
 					window.requestAnimationFrame(function(){
@@ -1276,6 +1311,22 @@ angular.module('icServices', [
 			},
 			true
 		)
+
+		$rootScope.$watch(
+			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icLanguages.currentLanguage] }, 
+			function(){ 
+				if(!icFilterConfig.cleared()){
+					//with this the interface feels snappier:
+					window.requestAnimationFrame(function(){
+						searchResults
+						.sortFilteredList()
+					})
+				}
+			},
+			true
+		)
+
+	
 
 
 		return searchResults

@@ -903,6 +903,8 @@ angular.module('icDirectives', [
 
 
 			switch(str){
+				case 'more':		return "/images/icon_misc_more_white.svg"; 	break;
+
 				case 'information': return "/images/icon_"+p+"_information_"+c+".svg"; 	break;
 				case 'events':		return "/images/icon_"+p+"_events_"+c+".svg";		break;
 				case 'places':		return "/images/icon_"+p+"_places_"+c+".svg";		break;

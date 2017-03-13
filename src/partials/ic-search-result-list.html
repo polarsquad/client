@@ -3,7 +3,6 @@
 <a
 	ng-repeat		= "item in icSearchResults.filteredList | limitTo: displayLimit"
 	ng-href			= "{{icHref({itemId:item.id})}}"
-	ic-last-added 	= "{{item == icSearchResults.lastAddedItem}}" 
 >
 
 	<ic-preview-item

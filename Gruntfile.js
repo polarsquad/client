@@ -207,7 +207,7 @@ module.exports = function(grunt) {
 
 		'preload_images': {
 			dev: {
-				src: 		['<%= paths.dev %>/images/**/*'],
+				src: 	['<%= paths.dev %>/images/**/*'],
 				dest: 	'<%= paths.dev %>/js/<%= filenames.preload_images %>'
 			}
 		},

@@ -46,9 +46,9 @@ Done
 
 
 Todo:
-* Cluster reduzieren
 * Preload previews
 * hover item android
+* ipad label überlappen
 
 Fragen:
 * Cluster nach 6 neubilden -> geht nicht, was wnen 10 an einem Ort? -> Engine Clustered nach Entfernung
@@ -67,6 +67,13 @@ Check:
 
 Done:
 
+* Cluster reduzieren
 * print share removed for small screens
 * Sort Filter getaushct und eingeklappt
-* Aktive MArker nach vorne geholt
+* Aktive Marker nach vorne geholt
+
+* Kurze Labels
+* Iphine bug hauptseite, kacheln -> vielleicht?
+* >5 bei größter zoomstufe
+* Mehr Einträge ...
+* Item nach minimap mit ausgeklappten label
