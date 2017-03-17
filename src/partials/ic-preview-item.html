@@ -17,6 +17,8 @@
 		</div>
 
 		<div class = "brief">
-			<span class = "date heavy" ng-if = "icStartDate">{{icStartDate | icDate}}</span> {{icBrief}}
+			<span class = "date heavy" ng-if = "icStartDate">{{icStartDate | icDate}}</span>
+			<span class = "date heavy" ng-if = "icStartDate && icEndDate"> – {{icEndDate | icDate}}</span> 
+			{{icBrief}}
 		</div>
 </div>

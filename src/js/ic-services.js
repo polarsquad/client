@@ -1301,7 +1301,7 @@ angular.module('icServices', [
 			function(){ 
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
-					window.requestAnimationFrame(function(){
+					$rootScope.$evalAsync(function(){
 						searchResults
 						.resetStats()
 						.filterList()

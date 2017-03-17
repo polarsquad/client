@@ -246,6 +246,12 @@ ic-mini-map {
 }
 
 
+.marker-type-unknown{
+	background-image:		url(/images/marker_type_unknown.svg);
+}
+
+
+
 
 
 

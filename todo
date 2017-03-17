@@ -46,9 +46,9 @@ Done
 
 
 Todo:
-* Preload previews
 * hover item android
 * ipad label überlappen
+* karte ganz am anfang nicht alle einträge anzeigen lassen
 
 Fragen:
 * Cluster nach 6 neubilden -> geht nicht, was wnen 10 an einem Ort? -> Engine Clustered nach Entfernung
@@ -73,6 +73,7 @@ Done:
 * Aktive Marker nach vorne geholt
 
 * Kurze Labels
+* Preload previews
 * Iphine bug hauptseite, kacheln -> vielleicht?
 * >5 bei größter zoomstufe
 * Mehr Einträge ...
