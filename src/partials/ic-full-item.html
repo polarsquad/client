@@ -72,12 +72,12 @@
 			ng-repeat 	= "topic in item.topics"
 			ng-class	= "{'primary' : item.primaryTopic == topic, 'screen-only': item.primaryTopic != topic}"
 			class		= "highlight"
-			ng-href		= "/#/tp/{{topic}}"
+			ng-href		= "/tp/{{topic}}"
 		>{{topic | uppercase | prepend : "TOPICS." | translate }}</a><!--
 	--><a 
 			ng-repeat 	= "target_group in item.targetGroups"
 			class		= "highlight"
-			ng-href		= "/#/tg/{{target_group}}"
+			ng-href		= "/tg/{{target_group}}"
 		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
 
 		<img 

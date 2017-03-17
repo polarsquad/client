@@ -357,7 +357,7 @@ angular.module('icMap', [
 					{
 						attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 					}
-				).addTo(map);
+				).addTo(map)
 
 				map.addLayer(markers)
 
@@ -542,12 +542,13 @@ angular.module('icMap', [
 				}).addTo(map)
 
 				L.tileLayer(
-					'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}@2x.png?accessToken=pk.eyJ1IjoicmhvdGVwIiwiYSI6ImNqMGRib2dmYTAwMGEzMnBkNDBuZ2dqMHMifQ.LNUbADugC76iQ91I73xFwg', 
+					'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoicmhvdGVwIiwiYSI6ImNqMGRib2dmYTAwMGEzMnBkNDBuZ2dqMHMifQ.LNUbADugC76iQ91I73xFwg', 
 					{
-						attribution: '&copy; <href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+						attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 					}
-				).addTo(map);
+				).addTo(map)
 
+		
 				scope.$watch('icItem', function(icItem){
 					if(marker) marker.remove()
 
