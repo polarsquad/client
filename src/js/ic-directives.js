@@ -313,7 +313,8 @@ angular.module('icDirectives', [
 								icBrief: 	"<",
 								icType:		"<",
 								icTopic:	"<",
-								icStartDate:"<"
+								icStartDate:"<",
+								icEndDate:"<"
 							},
 
 			link: function(scope, element, attrs){
