@@ -354,8 +354,9 @@ module.exports = function(grunt) {
 		'string-replace:dist'
 	])
 
-	grunt.registerTask('install', [
+	grunt.registerTask('build', [
 		'vendor', 
+		'dev',
 		'dist'
 	])
 

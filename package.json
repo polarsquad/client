@@ -21,11 +21,7 @@
     "install": "^0.8.7",
     "leaflet": "^1.0.3",
     "leaflet.markercluster": "^1.0.3",
-    "leaflet.vectorgrid": "^1.2.0",
-    "mapbox-gl": "^0.33.1",
-    "mapbox-gl-leaflet": "0.0.1",
     "npm": "^4.3.0",
-    "ol-mapbox-style": "^2.1.1",
     "roboto-fontface": "^0.7.0"
   },
   "scripts": {
