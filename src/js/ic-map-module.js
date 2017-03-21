@@ -314,6 +314,7 @@ angular.module('icMap', [
 				var markers = 	L.markerClusterGroup({
 									maxClusterRadius: 			40,
 									spiderfyOnMaxZoom:			false,
+									chunkedLoading:				true,
 									iconCreateFunction: function(cluster) {										
 										return 	new icMapClusterMarker(cluster, scope)
 									}

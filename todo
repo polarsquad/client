@@ -45,10 +45,6 @@ Done
 * check component widths
 
 
-Todo:
-* hover item android
-* ipad label überlappen
-* karte ganz am anfang nicht alle einträge anzeigen lassen
 
 Fragen:
 * Cluster nach 6 neubilden -> geht nicht, was wnen 10 an einem Ort? -> Engine Clustered nach Entfernung
@@ -78,3 +74,13 @@ Done:
 * >5 bei größter zoomstufe
 * Mehr Einträge ...
 * Item nach minimap mit ausgeklappten label
+
+
+Todo:
+* hover item android
+* ipad label überlappen
+* karte ganz am anfang nicht alle einträge anzeigen lassen
+* Fehlermeldung neu
+* Impressum?
+* IcInit nochmal angucken
+* Vorher alles einzeln Filtern

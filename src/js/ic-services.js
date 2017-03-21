@@ -59,7 +59,6 @@ angular.module('icServices', [
 		icFilterConfig.matchFilter = function(key, haystack, empty_matches_all){
 			
 			//called to often
-
 			var needles = 	typeof icFilterConfig.filterBy[key] == 'string'
 	 						?	[icFilterConfig.filterBy[key]]
 	 						:	icFilterConfig.filterBy[key]
@@ -348,7 +347,7 @@ angular.module('icServices', [
 									?	$location.path(setPath).replace()
 									:	$location.path(setPath)
 
-								}, 100, true)
+								}, 500, true)
 
 			return this
 		}
@@ -495,8 +494,8 @@ angular.module('icServices', [
 						break;
 
 						case "map":		return		icSite.switches.expandMap
-												||	'map'	in icSite.activeSections
-												&&	!('item'	in icSite.activeSections)
+												// ||	'map'	in icSite.activeSections
+												// &&	!('item'	in icSite.activeSections)
 						break;
 					}
 
@@ -530,8 +529,8 @@ angular.module('icServices', [
 						break;
 
 						case "map":		return		icSite.switches.expandMap
-												||	'map'	in icSite.activeSections
-												&&	!('item'	in icSite.activeSections)
+												// ||	'map'	in icSite.activeSections
+												// &&	!('item'	in icSite.activeSections)
 						break;
 					}
 
@@ -863,9 +862,9 @@ angular.module('icServices', [
 
 
 				//Strings:			
-				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] 	=== undefined ? icItem[key]	: data[rawStringProperties[key]] }
+				for( key in rawStringProperties)	{ icItem[key] = data[rawStringProperties[key]] 	=== undefined ? icItem[key]	: (data[rawStringProperties[key]] || "") }
+				for( key in rawArrays)				{ icItem[key] = data[rawArrays[key]] 			=== undefined ? icItem[key] : (data[rawArrays[key]] || []) }
 				for( key in rawHashes)				{ angular.merge(icItem[key], data[rawHashes[key]]) }
-				for( key in rawArrays)				{ icItem[key] = data[rawArrays[key]] 			=== undefined ? icItem[key] 	: (data[rawArrays[key]] || []) }
 
 
 				//special properties:
@@ -993,8 +992,9 @@ angular.module('icServices', [
 		searchResults.filteredList		= []
 		searchResults.noMoreItems		= false
 		searchResults.meta				= {}
-		searchResults.currentRun		= []
+		// searchResults.currentRun		= []
 		searchResults.fullItemDownloads = {}
+		searchResults.sorting			= false
 		searchResults.currentListCall	= undefined
 		searchResults.ready				= true
 		
@@ -1012,24 +1012,17 @@ angular.module('icServices', [
 
 			item.importData(new_item_data)
 
-			// if(
-			// 		searchResults.filteredList.indexOf(item) == -1
-			// 	&&	icFilterConfig.matchItem(item)
-			// ){
-			// 	searchResults.filteredList.push(item)
-			// }
-
 			return item
 		}
 
-		searchResults.removeItem = function(item){
-			var pos = searchResults.currentRun.indexOf(item)
+		// searchResults.removeItem = function(item){
+		// 	var pos = searchResults.currentRun.indexOf(item)
 
-			if(pos != -1) searchResults.currentRun.splice(pos, 1)
+		// 	if(pos != -1) searchResults.currentRun.splice(pos, 1)
 
-			searchResults.filterList()
+		// 	searchResults.filterList()
 
-		}
+		// }
 
 		searchResults.addNewItem = function(){
 			var id 		= "new_"+new Date().getTime(),
@@ -1061,12 +1054,12 @@ angular.module('icServices', [
 		searchResults.resetStats = function(){
 			// searchResults.meta 		= {}
 			searchResults.offset 		= 0
-			searchResults.currentRun	= [] 
+			//searchResults.currentRun	= [] 
 			return searchResults
 		}
 
 		searchResults.listLoading = function(){
-			return searchResults.currentListCall && searchResults.currentListCall.$$state.status == 0
+			return searchResults.sorting || (searchResults.currentListCall && searchResults.currentListCall.$$state.status == 0)
 		}
 
 
@@ -1078,16 +1071,17 @@ angular.module('icServices', [
 
 				var parameters = {}
 
-				if(icFilterConfig.filterBy.type) 						parameters.type 			= icFilterConfig.filterBy.type
-				if(icFilterConfig.filterBy.topics.length != 0)			parameters.topics 			= icFilterConfig.filterBy.topics
-				if(icFilterConfig.filterBy.state)						parameters.status			= icFilterConfig.filterBy.state
-				if(icFilterConfig.filterBy.targetGroups.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroups
-				if(icFilterConfig.orderBy)								parameters.order_by			= icFilterConfig.orderBy
+				// if(icFilterConfig.filterBy.type) 						parameters.type 			= icFilterConfig.filterBy.type
+				// if(icFilterConfig.filterBy.topics.length != 0)			parameters.topics 			= icFilterConfig.filterBy.topics
+				// if(icFilterConfig.filterBy.state)						parameters.status			= icFilterConfig.filterBy.state
+				// if(icFilterConfig.filterBy.targetGroups.length != 0)	parameters.target_groups 	= icFilterConfig.filterBy.targetGroups
+				// if(icFilterConfig.orderBy)								parameters.order_by			= icFilterConfig.orderBy
 				if(icFilterConfig.searchTerm)							parameters.query			= icFilterConfig.searchTerm
 				
-				parameters.asc = icFilterConfig.reverse ? 0 : 1
+				// parameters.asc = icFilterConfig.reverse ? 0 : 1
 
 			}
+
 
 			var call = 	icConfigData.ready
 						.then(function(){ return  all || searchResults.ready })
@@ -1106,19 +1100,20 @@ angular.module('icServices', [
 
 			return 	call
 					.then(function(result){
+
 						result.items = result.items || []
 
 						result.items.forEach(function(item_data){
-							searchResults.currentRun.push(searchResults.storeItem(item_data)) 
+							//searchResults.currentRun.push(
+								searchResults.storeItem(item_data)
+							//) 
 						})
 						
-						//searchResults.lastAddedItem = searchResults.currentRun[searchResults.currentRun.length-1]
 
-						searchResults.offset 		+= 	result.items.length
-						//searchResults.meta 			= 	result.meta		//TODO: dont rely on backend
-						searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
+						// searchResults.offset 		+= 	result.items.length
+						// searchResults.noMoreItems 	= 	result.items 	&& result.items.length == 0 //TODO!! < limit, aber gefiltere suche noch komisch
 
-						if(searchResults.noMoreItems) return result
+						// if(searchResults.noMoreItems) return result
 							
 
 						searchResults.filterList()
@@ -1180,25 +1175,13 @@ angular.module('icServices', [
 		}
 
 		searchResults.filterList = function(){
-			//Workaround until sorting and local cahed issues are sorted out:
-			
-			// searchResults.clearFilteredList()
-			
-			// searchResults.currentRun.forEach(function(item){
-			// 	if(searchResults.filteredList.indexOf(item) == -1) searchResults.filteredList.push(item)
-			// })
 
-
-			// return searchResults
 
 			var searchTerm = icFilterConfig.searchTerm && icFilterConfig.searchTerm.replace(/(^\s*|\s*$)/,'')	
 
 
 			icConfigData.ready
-			.then(function(){
-				searchResults.clearFilteredList()
-
-				
+			.then(function FilterListWhenReady(){
 
 				var	results_by_type	=	{}
 					
@@ -1217,45 +1200,83 @@ angular.module('icServices', [
 					searchResults.meta[type]	=	results_by_type[type].length
 				})
 
-				Array.prototype.push.apply(
-					searchResults.filteredList, 
-					results_by_type[icFilterConfig.filterBy.type || 'any']
-				)
-
-				searchResults.sortFilteredList()
+				searchResults.sortFilteredList(results_by_type[icFilterConfig.filterBy.type || 'any'])
 			})
 
 			return searchResults
 		}
 
-		searchResults.sortFilteredList = function(){
+
+		//nochmal überlegen und abstrahieren!:
+		searchResults.sortingWorker = {
+			worker:		undefined,
+			deferred:	undefined,
+			run:		function(config){
+							var self = this
+
+							if(self.worker) 	self.worker.terminate()
+							if(self.deferred)	self.deferred.reject()
+
+							self.worker 	= new Worker("/workers/sorting_worker.js")
+							self.deferred	= $q.defer()
+
+
+							config.list = 	config.list.map(function(item){
+												var mini_item = {}
+
+												mini_item.id 				= item.id 
+												mini_item[config.orderBy] 	= item[config.orderBy]
+
+												return mini_item
+											})
+
+							self.worker.postMessage(config)
+							self.worker.onmessage = function(e){
+								self.deferred.resolve(e.data)
+								self.worker 	= undefined
+								self.deferred 	= undefined
+							}
+
+							return self.deferred.promise
+						}
+		}
+
+
+		searchResults.sortFilteredList = function(list){
+
 
 			icConfigData.ready
 			.then(function(){
-				function sortingFunction(){
 
-					if(icFilterConfig.orderBy == 'created_on'){
-						return function(a,b){ return (parseInt(a.lastEdit)||0) < (parseInt(b.lastEdit) ||0) }
+				searchResults.sorting = true
+
+				var keyMap = {
+						'created_on':		'creationDate',
+						'last_edit_on': 	'lastEdit',
+						'title':			'title',
+						'start_date':		'startDate' 
 					}
 
-					if(icFilterConfig.orderBy == 'last_edit_on'){
-						return function(a,b){ return (parseInt(a.creationDate)||0) < (parseInt(b.creationDate)||0) }
-					}
 
-					if(icFilterConfig.orderBy == 'title'){
-						return function(a,b){ return a.title.localeCompare(b.title, icLanguages.currentLanguage, {'ignore­Punctua­tion' : true }) }
-					}
+				searchResults.sortingWorker.run({
+					orderBy:	keyMap[icFilterConfig.orderBy],
+					filterBy:	null,
+					reverse:	icFilterConfig.reverse,
+					language:	icLanguages.currentLanguage,
+					list: 		list || searchResults.filteredList || []
+				})
+				.then(function applySort(map){	
+				 	searchResults.clearFilteredList()
 
-					if(icFilterConfig.orderBy == 'start_date'){
-						return function(a,b){ return (parseInt(a.startDate)||0) < (parseInt(b.startDate)||0) }
-					}
-					return function(){}
+				 	searchResults.data.forEach(function(item){
+				 		if(item.id in map) searchResults.filteredList[map[item.id]] = item
+				 	})
 
-
-				}
-
-				searchResults.filteredList.sort(sortingFunction())
-				if(icFilterConfig.reverse) searchResults.filteredList.reverse()
+				})
+				.finally(function(){
+					searchResults.sorting = false
+				})
+				
 			})
 
 			return searchResults
@@ -1297,15 +1318,22 @@ angular.module('icServices', [
 		searchResults.ready = searchResults.download('ALL')
 
 		$rootScope.$watch(
-			function(){ return [icFilterConfig.filterBy, icFilterConfig.searchTerm] }, 
-			function(){ 
+			function(){ return 	[
+									icFilterConfig.filterBy, 
+									icFilterConfig.searchTerm
+								] }, 
+			function(previous, current){ 
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
-					$rootScope.$evalAsync(function(){
+					window.requestAnimationFrame(function (){
 						searchResults
 						.resetStats()
 						.filterList()
-						.download()
+
+						if(previous[1] != current[1])
+						searchResults.download()
+						
+						$rootScope.$apply()
 					})
 				}
 			},
@@ -1314,13 +1342,13 @@ angular.module('icServices', [
 
 		$rootScope.$watch(
 			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icLanguages.currentLanguage] }, 
-			function(){ 
+			function WatchSortFilteredList(p){ 
 				if(!icFilterConfig.cleared()){
 					//with this the interface feels snappier:
-					window.requestAnimationFrame(function(){
+					//$rootScope.$evalAsync(function(){
 						searchResults
 						.sortFilteredList()
-					})
+					//})
 				}
 			},
 			true

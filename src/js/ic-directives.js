@@ -151,7 +151,7 @@ angular.module('icDirectives', [
 					if(icSearchResults.listLoading()) 	return null
 					if(icSearchResults.noMoreItems) 	return null
 					
-					icSearchResults.download()
+					//icSearchResults.download()
 				})
 
 				scope.$watch(
@@ -2483,7 +2483,8 @@ angular.module('icDirectives', [
 
 	function(icLanguages){
 
-		var toLocaleDateStringSupportsLocales 	= false
+		var toLocaleDateStringSupportsLocales 	= false,
+			dates								= {}
 
 		try {
 			new Date().toLocaleString('i')
@@ -2492,13 +2493,28 @@ angular.module('icDirectives', [
 		}
 
 		function icDateFilter(date_str, use_time){
-			var d = new Date(date_str)
+			dates[date_str] 								= dates[date_str] || {}
+			dates[date_str][icLanguages.currentLanguage]	= dates[date_str][icLanguages.currentLanguage] || {}
 
-			if(toLocaleDateStringSupportsLocales){
-				return 	d.toLocaleDateString(icLanguages.currentLanguage) + (use_time ? ' ' + d.toLocaleTimeString(icLanguages.currentLanguage) : '')
-			} else {
-				return date_str
+
+			if(!dates[date_str][icLanguages.currentLanguage].withoutTime){
+				dates[date_str][icLanguages.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
+																			?	new Date(date_str).toLocaleDateString(icLanguages.currentLanguage)
+																			:	date_str
+			} 
+
+			if(!dates[date_str][icLanguages.currentLanguage].withTime && use_time){
+				dates[date_str][icLanguages.currentLanguage].withTime	= 	dates[date_str][icLanguages.currentLanguage].withoutTime +
+																			(
+																				toLocaleDateStringSupportsLocales
+																				?	new Date(date_str).toLocaleTimeString(icLanguages.currentLanguage)
+																				:	''
+																			)
 			}
+
+			return 	use_time
+					?	dates[date_str][icLanguages.currentLanguage].withTime
+					:	dates[date_str][icLanguages.currentLanguage].withoutTime
 
 		}
 

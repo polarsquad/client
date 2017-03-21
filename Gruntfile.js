@@ -96,6 +96,7 @@ module.exports = function(grunt) {
 			dev: {
 				files: [
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: ['images/**/*', '!images/**/*.svg'],	dest: '<%= paths.dev %>/images'},
+					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: 'workers/**/*',          				dest: '<%= paths.dev %>/workers'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= scripts %>',          			dest: '<%= paths.dev %>/js'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= styles %>',           			dest: '<%= paths.dev %>/styles'},
 					{expand: true, flatten: true, cwd: '<%= paths.src %>',      src: '<%= initial_styles %>',   			dest: '<%= paths.dev %>/styles'},
@@ -104,6 +105,7 @@ module.exports = function(grunt) {
 
 			dist: {
 				files: [
+					{expand: true, cwd: '<%= paths.dev %>/workers',     src: ['**/*'],  dest: '<%= paths.dist %>/workers'},
 					{expand: true, cwd: '<%= paths.dev %>/fonts',       src: ['**/*'],  dest: '<%= paths.dist %>/fonts'},
 					{expand: true, cwd: '<%= paths.dev %>/images',      src: ['**/*'],  dest: '<%= paths.dist %>/images'},
 				]
@@ -160,7 +162,7 @@ module.exports = function(grunt) {
 
 		'uglify': {
 
-			scripts: {
+			dist: {
 
 				options: {
 					preserveComments: false,
@@ -288,6 +290,16 @@ module.exports = function(grunt) {
 			},
 		},
 
+
+		'manifest': {
+			dist: {
+				src:	['**/*'],
+				cwd: 	'<%= paths.dist %>', 
+				filter:	'isFile',
+				dest: 	'<%= paths.dist %>/infocompass.appcache',
+			}
+		},
+
 		
 		// svg_sprite: {
 
@@ -310,7 +322,7 @@ module.exports = function(grunt) {
 
 		
 
-		watch:{
+		'watch':{
 			dev: {
 				files:	['<%= paths.src %>/**/*'],
 				tasks:	['dev']
@@ -349,9 +361,10 @@ module.exports = function(grunt) {
 	grunt.registerTask('dist',[
 		'dev',
 		'copy:dist',
-		'uglify:scripts',
+		'uglify:dist',
 		'cssmin:styles',
-		'string-replace:dist'
+		'string-replace:dist',
+		'manifest:dist'
 	])
 
 	grunt.registerTask('build', [

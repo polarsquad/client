@@ -302,23 +302,23 @@ angular.module('icInit', [
 
 					
 					ready
-					.then(function(){
-						var deferred 			= $q.defer(),
-							has_transition 		= undefined,
-							no_transition_timer = $timeout(2000, false) 
+					// .then(function(){
+					// 	var deferred 			= $q.defer(),
+					// 		has_transition 		= undefined,
+					// 		no_transition_timer = $timeout(2000, false) 
 
 						
-						no_transition_timer
-						.then(function(){
-							deferred.resolve()
-						})
+					// 	no_transition_timer
+					// 	.then(function(){
+					// 		deferred.resolve()
+					// 	})
 
-						element.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function(){
-							deferred.resolve()
-						})
+					// 	element.one('transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd', function(){
+					// 		deferred.resolve()
+					// 	})
 
-						return deferred.promise
-					})
+					// 	return deferred.promise
+					// })
 					.then(
 						function(){
 							return $timeout(parseInt(attrs.icMinDuration)||0)
