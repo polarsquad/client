@@ -48,7 +48,8 @@ ic-loading-screen .ng-hide {
 ic-loading-screen .error {
 	text-align:				center;
 	color:					red;
-	width:					50%;
+	width:					95%;
+	max-width:				40rem;
 	margin:					1rem auto;
 }
 

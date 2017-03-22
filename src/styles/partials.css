@@ -1108,10 +1108,6 @@ ic-overlays > .center li {
 	width:					auto;
 }
 
-ic-overlays > .center li a {
-	display:				inline;
-	white-space:			normal;
-}
 
 ic-overlays > .left:after,
 ic-overlays > .right:after {
@@ -1229,7 +1225,14 @@ ic-language-menu  a.active  .native {
 	width:					100%;
 }
 
+ic-overlays  p {
+	white-space:			pre-wrap !important;
+}
 
+ic-overlays  p a {
+	display:				inline !important;
+	white-space:			normal !important;
+}
 
 
 

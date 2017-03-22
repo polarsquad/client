@@ -2417,8 +2417,8 @@ angular.module('icDirectives', [
 
 .filter('icItemLink',[
 	function(){
-		return function(id){
-			return location.origin+'/item/'+id
+		return function(item){
+			return location.origin+'/item/'+item.id
 		}
 	}
 ])
