@@ -69,7 +69,7 @@
 
 	<div class 	= "topics-and-target-groups highlight">
 		<a 
-			ng-repeat 	= "topic in item.topics"
+			ng-repeat 	= "topic in item.topics | orderBy : primaryTopicFirst"
 			ng-class	= "{'primary' : item.primaryTopic == topic, 'screen-only': item.primaryTopic != topic}"
 			class		= "highlight"
 			ng-href		= "/tp/{{topic}}"

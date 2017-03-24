@@ -380,6 +380,11 @@ angular.module('icServices', [
 			return icSite
 		}
 
+		icSite.setItem = function(i){
+			icSite.params.item = i.id || i
+			return icSite
+		}
+
 		icSite.clearParams = function(){
 			$location.path('/')
 			return icSite
@@ -1029,8 +1034,8 @@ angular.module('icServices', [
 				item 	= undefined 
 
 
-			item 			= searchResults.storeItem({id:id})
-			item.state = 'new'
+			item 		= searchResults.storeItem({id:id})
+			item.state	= 'new'
 
 			return item
 		}

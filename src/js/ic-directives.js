@@ -376,6 +376,10 @@ angular.module('icDirectives', [
 					
 				}
 
+				scope.primaryTopicFirst = function(topic){
+					return scope.item.primaryTopic == topic ? 0 :1 
+				}
+
 
 				function handleError(error){
 					if(error.status == 422){
@@ -785,7 +789,7 @@ angular.module('icDirectives', [
 				scope.addNewItem = function(){
 					var item = icSearchResults.addNewItem()
 					
-					scope.newItemId = item.id
+					icSite.setItem(item.id)
 				}
 
 				scope.recreateUsers = function(){
@@ -2659,8 +2663,9 @@ angular.module('icDirectives', [
 
 	'icApi',
 	'icOverlays',
+	'icSearchResults',
 
-	function(icApi, icOverlays){
+	function(icApi, icOverlays, icSearchResults){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-login.html',
@@ -2677,9 +2682,11 @@ angular.module('icDirectives', [
 						function(){
 							scope.username = ''
 							scope.password = ''
+
+							icSearchResults.download()
+
 							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
 									.finally(function(){
-										console.dir(icOverlays.deferred.login)
 										icOverlays.deferred.login.resolve()
 									})
 

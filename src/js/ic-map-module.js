@@ -76,8 +76,9 @@ angular.module('icMap', [
 
 	'icLanguages',
 	'icSite',
+	'$timeout',
 
-	function(icLanguages, icSite){
+	function(icLanguages, icSite, $timeout){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-map-item-marker.html',
@@ -91,14 +92,15 @@ angular.module('icMap', [
 				scope.icLanguages 	= icLanguages
 				scope.icSite		= icSite
 
-				scope.$watch(
-					function(){
-						return  icSite.activeItem && icSite.activeItem.id
-					},
-					function(id){
-						element.toggleClass('active', !!(scope.icItem && id == scope.icItem.id))
-					}
-				)
+				// scope.$watch(
+				// 	function(){
+				// 		return  icSite.activeItem && icSite.activeItem.id
+				// 	},
+				// 	function(id){
+				// 		element.toggleClass('active', !!(scope.icItem && id == scope.icItem.id))
+						
+				// 	}
+				// )
 			}
 
 		}
@@ -248,7 +250,8 @@ angular.module('icMap', [
 
 					icMainMap.ready
 					.then(function(map){
-						map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.default.maxZoom)						
+						map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.default.maxZoom)	
+
 					})
 
 				}
@@ -331,6 +334,8 @@ angular.module('icMap', [
 														[52.20, 13.00]
 													]
 								})
+
+
 
 				icMainMap.setMapObject(map)
 
@@ -490,6 +495,7 @@ angular.module('icMap', [
 					stop_watching_displayedSections()
 					stop_watching_currentItem()
 					angular.element(window).off('resize', adjustSize)
+
 				})
 
 

@@ -79,9 +79,18 @@ Done:
 Todo:
 * hover item android
 * ipad label überlappen
-* karte ganz am anfang nicht alle einträge anzeigen lassen
-* Fehlermeldung neu
-* Impressum?
 * IcInit nochmal angucken
 * Vorher alles einzeln Filtern
 * firefox manifest =/
+* google unable to load config data... meh
+* karte ganz am anfang nicht alle einträge anzeigen lassen
+
+Done:
+* links, impressum, about
+* Fehlermeldung neu
+* Impressum?
+* Nach dem login nochmal alles holen
+* Zeilen abstand Header (DEfinition) ein bisschen größer
+* Primaray Topic an den Anfang, (Afghan ev)
+* about unten komma nacheinander weg
+* aktives item nach Interaktion mit der Karte schließen -> wird gar nicht mehr ausgeklappt
