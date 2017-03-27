@@ -439,18 +439,18 @@ angular.module('icMap', [
 				}
 
 				function updateCurrentItemMarker(previous, current){
-					var previous_item	= previous 	&& icSearchResults.getItem(previous),
-						item			= current 	&& icSearchResults.getItem(current)
+					var previous_item	= previous,
+						item			= current
 
 					//remove previous item marker:
-					if(previous_item && icSearchResults.filteredList.indexOf(previous_item) == -1){
+					if(previous_item){
 						markers.getLayers(function(marker){
 							if(marker.options.item.id == previous_item.id) markers.removeLayer(marker)
 						})
 					}
 
 					//add current item marker:
-					if(item && icSearchResults.filteredList.indexOf(item) == -1){
+					if(item){
 						markers.addLayer(getMarker(item))
 					}
 
@@ -469,12 +469,13 @@ angular.module('icMap', [
 					),
 
 					stop_watching_currentItem = $rootScope.$watch(
-						function(){ return icSite.activeItem }, 
+						function(){ return [icSite.activeItem, icSite.activeItem && icSite.activeItem.longitude, icSite.activeItem && icSite.activeItem.latitude] }, 
 						function(p,c){
 							window.requestAnimationFrame(function(){
-								updateCurrentItemMarker(p,c)								
+								updateCurrentItemMarker(p[0],c[0])								
 							})
-						}
+						}, 
+						true
 					),
 
 					stop_watching_displayedSections = $rootScope.$watch(

@@ -851,6 +851,7 @@ angular.module('icServices', [
 
 			icItem.importData = function(item_data){
 
+
 				var data = item_data
 
 				if(!data) return icItem
@@ -1020,14 +1021,14 @@ angular.module('icServices', [
 			return item
 		}
 
-		// searchResults.removeItem = function(item){
-		// 	var pos = searchResults.currentRun.indexOf(item)
+		searchResults.removeItem = function(item){
+			var pos = searchResults.data.indexOf(item)
 
-		// 	if(pos != -1) searchResults.currentRun.splice(pos, 1)
+			if(pos != -1) searchResults.data.splice(pos, 1)
 
-		// 	searchResults.filterList()
+			searchResults.filterList()
 
-		// }
+		}
 
 		searchResults.addNewItem = function(){
 			var id 		= "new_"+new Date().getTime(),
@@ -1167,6 +1168,7 @@ angular.module('icServices', [
 							var item_data 	= result.item,
 								item		= searchResults.storeItem(item_data)
 
+
 							delete item.preliminary
 
 							searchResults.fullItemDownloads[item_data.id] = true
@@ -1189,11 +1191,15 @@ angular.module('icServices', [
 			.then(function FilterListWhenReady(){
 
 				var	results_by_type	=	{}
+
+				
 					
-				results_by_type.any = 	searchResults.data
-										.filter(function(item){
-											return item.meta.state != 'new' && icFilterConfig.matchItem(item, 'type') //ignore type
-										})
+				results_by_type.any = 	icFilterConfig.cleared()
+										?	[]
+										:	searchResults.data
+											.filter(function(item){
+												return item.meta.state != 'new' && icFilterConfig.matchItem(item, 'type') //ignore type
+											})
 
 				searchResults.meta.total = results_by_type.any.length		
 
@@ -1226,14 +1232,18 @@ angular.module('icServices', [
 							self.deferred	= $q.defer()
 
 
+
+
 							config.list = 	config.list.map(function(item){
 												var mini_item = {}
 
 												mini_item.id 				= item.id 
 												mini_item[config.orderBy] 	= item[config.orderBy]
 
+
 												return mini_item
 											})
+
 
 							self.worker.postMessage(config)
 							self.worker.onmessage = function(e){
@@ -1261,7 +1271,6 @@ angular.module('icServices', [
 						'title':			'title',
 						'start_date':		'startDate' 
 					}
-
 
 				searchResults.sortingWorker.run({
 					orderBy:	keyMap[icFilterConfig.orderBy],

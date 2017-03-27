@@ -531,7 +531,7 @@ angular.module('icDirectives', [
 						return 	scope.item.delete()
 								.then(
 									function(){
-										icSearchResults.removeItem(scope.item)
+										//icSearchResults.removeItem(scope.item)
 										scope.item.state = 'archived'
 										return 	icOverlays.open('popup', 'INTERFACE.ITEM_ARCHIVED')
 									},
@@ -2687,7 +2687,7 @@ angular.module('icDirectives', [
 
 							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
 									.finally(function(){
-										icOverlays.deferred.login.resolve()
+										if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
 									})
 
 						},

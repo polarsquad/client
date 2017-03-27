@@ -84,6 +84,7 @@ Todo:
 * firefox manifest =/
 * google unable to load config data... meh
 * karte ganz am anfang nicht alle einträge anzeigen lassen
+* deleted items nicht anzeigen
 
 Done:
 * links, impressum, about
@@ -94,3 +95,5 @@ Done:
 * Primaray Topic an den Anfang, (Afghan ev)
 * about unten komma nacheinander weg
 * aktives item nach Interaktion mit der Karte schließen -> wird gar nicht mehr ausgeklappt
+* longitude latidtude (-> war beispiel in der übersetzung falsch, reihen folge im edit mode)
+
