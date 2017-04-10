@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="86px" height="86px" viewBox="0 0 86 86" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <circle id="Oval" fill="#000000" opacity="0.2" cx="43" cy="43" r="43"></circle>
+    <polyline id="Fill-1" fill="#FFFFFF" points="28.7226515 44.9020859 28.7226515 39.516959 73.5987093 39.516959 73.5987093 44.9020859"></polyline>
+    <polyline id="Fill-2" fill="#FFFFFF" points="61.9014956 57.441354 77.1324296 42.21042 73.3251449 38.4013402 58.0942109 53.6340692"></polyline>
+    <polyline id="Fill-3" fill="#FFFFFF" points="73.3249654 46.0162687 77.1322501 42.2089839 61.9013161 26.9780499 58.0940313 30.7853346"></polyline>
+    <polyline id="Fill-4" fill="#FFFFFF" points="55.5904858 44.9011884 55.5904858 39.5160614 10.7144281 39.5160614 10.7144281 44.9011884"></polyline>
+    <polyline id="Fill-5" fill="#FFFFFF" points="7.17998974 42.2084454 10.9872745 46.0157301 26.2200035 30.7847961 22.4109238 26.9775114"></polyline>
+    <polyline id="Fill-6" fill="#FFFFFF" points="7.17998974 42.2100609 22.4109238 57.440995 26.2200035 53.6337102 10.9872745 38.4027762"></polyline>
+</svg>

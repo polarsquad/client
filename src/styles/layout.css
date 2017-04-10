@@ -1,0 +1,549 @@
+@media not print {
+	.print-only {
+		display:			none;
+	}
+}
+
+
+
+html {
+	background-color:	#fff;
+}
+
+html,
+body {
+	padding:			0;
+	margin:				0;
+	height:				100%;
+	overflow:			hidden;
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Mock*/
+html.initial-rem {
+	background-image:		url(/images/background.svg);
+	background-size: 		16rem;
+	background-repeat:		repeat;
+}
+
+
+body {
+	display:				block;
+}
+
+
+
+body > header {
+	position:				relative;
+	left:					0;
+	right:					0;
+	top:					0;
+	z-index:				100;
+	background:				#fff;
+}
+
+
+
+
+body > #content {
+	position:				absolute;
+	display: 				-webkit-flex;
+	display:				flex;
+	top:					3rem;
+	bottom:					0;
+	left:					0;
+	right:					0;
+	white-space: 			nowrap;
+	overflow:				hidden;
+}
+
+
+
+
+#content section {
+	position:				relative;
+	height:					100%;
+	max-width:				100%;
+	display:				inline-block;
+	vertical-align:			top;
+	overflow-x:				hidden;
+	background-color:		#fff;
+	white-space:			normal;
+	z-index:				1;
+	box-shadow:				0 0 0.5rem rgba(0,0,0,0.3);
+	padding:				1rem;
+	box-sizing:				border-box;
+	-webkit-flex:			0 0 auto;
+	flex:					0 0 auto;
+}
+
+
+#content section:last-child {
+	-webkit-flex:			0 0 auto !important;
+	flex:					1 0 auto !important;
+}
+
+#content section > * {
+	position:				relative;
+	margin:					0 auto;
+	min-height:				100%;
+}
+
+#content section > ic-header {
+	min-width:				100% !important;
+	box-shadow:				none;
+	height:					3rem;
+	min-height:				0;
+}
+
+
+
+/*scrollbars issues */
+
+
+
+#content section {
+	overflow-y:				scroll;
+	/*will-change:			scroll-position;*/
+	-webkit-overflow-scrolling: touch;
+}
+
+.scrollbar-takes-space #content > section {
+	overflow-y:				hidden;
+}
+
+.scrollbar-takes-space #content > section:hover {
+	overflow-y:				auto;
+
+	-webkit-overflow-scrolling: touch;
+}
+
+.XS #content  section {
+	overflow-y:				auto;
+	
+	-webkit-overflow-scrolling: touch;
+}
+
+
+section.item{
+	overflow-y:				scroll !important;
+}
+
+
+
+
+#content section:nth-last-child(1){
+	z-index:				1;
+}
+
+
+#content section:nth-last-child(2){
+	z-index:				2;
+}
+
+#content section:nth-last-child(3){
+	z-index:				3;
+}
+
+#content section:nth-last-child(4){
+	z-index:				4;
+}
+
+#content section:nth-last-child(5){
+	z-index:				5;
+}
+
+#content section:nth-last-child(6){
+	z-index:				6;
+}
+
+
+
+
+
+/*Layout page */
+
+
+#content section.page {
+	display:				block;
+	width:					auto;
+	overflow-y:				scroll; 
+
+}
+
+#content section.page:after {
+	content:				'';
+	display:				block;
+	height:					10rem;
+} 
+
+#content section.page > * {
+	box-sizing:				border-box;
+}
+
+.S	#content section.page > * {
+	width:					46rem;
+	padding-left:			3rem;
+}
+
+
+
+
+
+
+
+
+
+/*Layout list */
+
+#content section.list {
+	/*will-change:			scroll-position;*/
+}
+
+.XS	#content section.list  {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.list {
+	width:					24rem;
+}
+
+
+
+
+.S 	#content section.list > * {
+	width:					22rem;
+}
+
+
+
+
+
+/*Layout filter */
+
+#content section.filter {
+	background-color:		#fafafa;
+}
+
+
+.XS	#content section.filter {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.filter {
+	width:					24rem;
+}
+
+
+
+
+.S 	#content section.filter > *{
+	width:					22rem;
+}
+
+
+
+
+
+/*Layout item*/
+
+.XS	#content section.item {
+	width:					23rem;
+	overflow-y:				scroll;
+}
+
+
+.S 	#content section.item {
+	width:					48rem;
+	overflow-y:				scroll;
+}
+
+
+
+
+
+.XS #content section.item > *{
+	width:					21rem;
+}
+
+
+.S 	#content section.item > *{
+	width:					38rem;
+}
+
+
+
+
+/* Layout item and list */
+
+
+
+.show-item	#content section.filter > * {
+	width:					14rem;
+}
+
+
+
+
+
+
+
+ic-section-filter,
+ic-section-list,
+ic-section-item,
+ic-section-map {
+	display:				block;
+}
+
+
+
+
+
+
+
+/* All sizes */
+
+/* left is set by js */
+
+
+section.map {
+	z-index:				0 !important;
+	padding:				0 !important;
+}
+
+
+
+
+
+
+
+/* M */
+
+
+.M	#content section.page > * {
+	width:					60rem;
+	padding-left:			3rem;
+}
+
+.M 	#content section.list{
+	width:					26rem;
+}
+
+.M 	#content section.list > *{
+	width:					24rem;
+}
+
+
+.M.show-list.show-item #content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+.M.show-list.show-item #content section.list > *{
+	width:					22rem;
+}
+
+
+
+
+.M 	#content section.filter {
+	width:					16rem;
+}
+
+.M 	#content section.filter > * {
+	width:					14rem;
+}
+
+
+.M.expand-map #content section.filter {
+	width:					22rem;
+}
+
+.M.expand-map #content section.filter > * {
+	width:					20rem;
+}
+
+
+
+.M 	#content section.item {
+	width:					auto;
+
+}
+
+.M 	#content section.item > *{
+	width:					36rem;
+}
+
+
+.M.show-list.show-item #content section.item{
+	width:					40rem;
+}
+
+.M.show-list.show-item #content section.item > *{
+	width:					32rem;
+}
+
+
+
+/* L */
+
+
+.L	#content section.page > * {
+	width:					72rem;
+	padding-left:			3rem;
+}
+
+
+
+.L 	#content section.list {
+	width:					26rem;
+}
+
+
+.L 	#content section.list > *{
+	width:					24rem;
+}
+
+
+.L.show-list.show-item #content section.list {
+	width:					24rem;
+}
+
+
+.L.show-list.show-item #content section.list > *{
+	width:					22rem;
+}
+
+
+.L 	#content section.filter{
+	width:					16rem;
+}
+
+.L.show-list.show-item #content section.filter{
+	display:				inline-block;
+	width:					16rem;
+}
+
+
+
+
+
+.L 	#content section.filter > *{
+	width:					14rem;
+}
+
+
+.L.expand-map #content section.filter {
+	width:					22rem;
+}
+
+.L.expand-map #content section.filter > * {
+	width:					20rem;
+}
+
+
+
+.L 	#content section.item{
+	width:					40rem;
+}
+
+.L 	#content section.item > *{
+	width:					38rem;
+}
+
+
+.L.show-list.show-item	#content section.item{
+	display:				inline-block;
+	width:					40rem;
+}
+
+
+ .L.show-list.show-item #content section.item > *{
+	width:					32rem;
+}
+
+
+
+/* XL */
+
+.XL #content section.page > * {
+	width:					108rem;
+	padding-left:			3rem;
+}
+
+
+
+
+.XL	#content section.filter {
+	width:					16rem;
+}
+
+
+.XL	#content section.filter > * {
+	width:					14rem;
+}
+
+
+.XL.expand-map	#content section.filter {
+	width:					22rem;
+}
+
+
+.XL.expand-map	#content section.filter > * {
+	width:					20rem;
+}
+
+
+.XL #content section.list {
+	display:				inline-block;
+	width:					24rem;
+}
+
+.XL #content section.list > * {
+	width:					22rem;
+}
+
+
+
+
+.XL.show-list.show-item	#content section.filter {
+	display:				inline-block;
+	width:					16rem;
+}
+
+.XL.show-list.show-item	#content section.filter {
+	display:				inline-block;
+	width:					16rem;
+}
+
+
+.XL.show-list.show-item	#content section.filter > * {
+	width:					14rem;
+
+
+}
+
+
+
+.XL	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+.XL	#content section.item > * {
+	width:					38rem;
+}
+
+
+.XL.show-list.show-item	#content section.item {
+	display:				inline-block;
+	width:					40rem;
+}
+
+.XL.show-list.show-item #content section.item > * {
+	width:					32rem;
+}

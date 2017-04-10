@@ -1,1 +1,100 @@
-Kosten 0.0
+
+
+Done:
+* Kartengröße dynamisch anpassen
+* map expanden
+* limit entfernen
+* shatten animieren? (-> ins bild integriert)
+* chache control
+* pendingrequests ($hhtp)
+* params.item karte nicht neu machen
+
+
+
+Fragen:
+* kein limit? -> cluster begrenzen?
+* was anzeigen, wenn Nur das item da ist -> leere Karte?
+* karte schließen/ liste schließen
+
+
+
+TODO:
+
+* SUCHE:
+	* THF Welcome
+	* Ergebnisse
+* Custom tools
+* SearchBug
+* Prüfen, ob von extern icSite.* aufgerufen wird
+* M, S, XS
+* Tab bug cluster
+* [base64 für switches]
+* z-index cluster und marker
+* MAp key into config js
+
+Done
+* Goaccess
+* Minimap soll item scrollen
+* print css @ media
+* Mini-Karte
+* Sync von Url und params neu machen
+* focus on element
+* params -> activeItem
+* sections flexbox
+* Suchfeld wenn map expand
+* check component widths
+
+
+
+Fragen:
+* Cluster nach 6 neubilden -> geht nicht, was wnen 10 an einem Ort? -> Engine Clustered nach Entfernung
+
+
+Check:
+* Marker nach typechange ändern (funktioniert lokal)
+* Daten doch wieder zwischenspeichern
+* MiniKarte gibt es nur wenn Geokoordinaten angegeben sind
+* Single marker hover weg für icon?
+* Minimap switch auf smartphone?
+* Nach Minimap und zurück wieder auf minimap switchen? (backbutotn für switches?)
+* Safari kann Seite nicht öffnen?
+* googletranslate ans ende des textes (nicht im frontend machbar)
+
+
+Done:
+
+* Cluster reduzieren
+* print share removed for small screens
+* Sort Filter getaushct und eingeklappt
+* Aktive Marker nach vorne geholt
+
+* Kurze Labels
+* Preload previews
+* Iphine bug hauptseite, kacheln -> vielleicht?
+* >5 bei größter zoomstufe
+* Mehr Einträge ...
+* Item nach minimap mit ausgeklappten label
+
+
+Todo:
+* hover item android
+* ipad label überlappen
+* IcInit nochmal angucken
+* Vorher alles einzeln Filtern
+* firefox manifest =/
+* google unable to load config data... meh
+* karte ganz am anfang nicht alle einträge anzeigen lassen
+* deleted items nicht anzeigen
+
+
+Done:
+* links, impressum, about
+* Fehlermeldung neu
+* Impressum?
+* Nach dem login nochmal alles holen
+* Zeilen abstand Header (DEfinition) ein bisschen größer
+* Primaray Topic an den Anfang, (Afghan ev)
+* about unten komma nacheinander weg
+* aktives item nach Interaktion mit der Karte schließen -> wird gar nicht mehr ausgeklappt
+* longitude latidtude (-> war beispiel in der übersetzung falsch, reihen folge im edit mode)
+

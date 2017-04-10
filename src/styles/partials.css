@@ -1,0 +1,1284 @@
+
+
+
+/* header */
+
+
+
+
+ic-header {
+	display:				block;
+	text-align:				left;
+	box-sizing:				border-box;
+	box-shadow:				0 1px 0 0 #666;
+	margin:					0 1rem;
+	line-height:			2.5rem;
+	height:					3rem;
+	padding:				0.25rem 0;
+	text-align:				right;
+}
+
+ic-header button{
+	display:				inline-block;
+	height:					2.5rem;
+	margin:					0 -0.25rem;
+	background-size:		2rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-color:		transparent;
+	cursor:					pointer;
+	vertical-align:			top;
+	border-radius:			2.5rem;
+	padding:				0 1.25rem;
+	text-align:				left;
+	font-size:				1rem;
+}
+
+ic-header button.text-right {
+	background-position:	left 0.25rem center;
+	padding-left:			2.5rem;
+	padding-right:			0.5rem;
+}
+
+ic-header button.text-left {
+	background-position:	right 0.25rem center;
+	padding-left:			0.5rem;
+	padding-right:			2.5rem;
+	text-align:				right;
+}
+
+
+ic-header button + button {
+	margin-left:			0.5rem;
+}
+
+
+
+
+
+/* Workaround, TODO , scroll bump*/
+
+ic-section-list {
+	box-shadow:				0 0 0 1rem #fff;
+	background-color:		#fff;
+	text-align:				left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ic-search {
+	display:				inline-block;
+	position:				relative;
+}
+
+ic-search .search-term {
+	position:				relative;
+	width:					18rem;
+}
+
+ic-search .search-term input {
+	padding-right:			2rem 0.5rem
+}
+
+ic-search .search-term button {
+	position:				absolute;
+	top:					0;
+	right:					0;
+	bottom:					0;
+	width:					2rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		contain;
+	background-color:		transparent;
+}
+
+
+
+
+
+
+
+/* hzScroll */
+
+[hz-scroll]{
+	position:				relative;
+}
+
+[hz-scroll] .wrapper{
+	overflow-x:				scroll;
+}
+
+[hz-scroll] .shuttle{
+	padding:				0 2rem;
+}
+
+
+
+[hz-scroll] button{
+	display:				block;
+	position:				absolute;
+
+	top:					50%;
+	margin-top:				-1.5rem;
+	width:					3rem;
+	height:					3rem;
+
+	border-radius:			3rem;
+
+	background-color:		rgba(0,0,0,0.2);
+
+	z-index:				100;
+}
+
+[hz-scroll] button:first-child{
+	left:					1rem;
+
+}
+
+[hz-scroll].max-left button:first-child{
+	display:				none;
+}
+
+
+
+[hz-scroll] button:last-child{
+	right:					1rem;
+}
+
+[hz-scroll].max-right button:last-child{
+	display:				none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* logo */
+
+
+.logo {
+	width:					auto;
+	padding-top:			1.4em;
+	padding-left:			1.5625em;
+	background-image:		url(/images/logo.svg);
+	background-position:	0 0;
+	background-size:		2em auto;
+	background-repeat:		no-repeat;
+	margin-top:				0;
+	margin-bottom:			1em;
+	
+	-webkit-print-color-adjust: exact; 
+}
+
+.logo.shift {
+	margin-left:			-1.5625em;
+}
+
+.logo h1 {
+	margin:					0;
+}
+
+.logo h2 {
+	margin:					0;
+	white-space: 			normal;
+	font-weight:			300;
+	font-size: 				0.8em;
+}
+
+
+.claim {
+	margin-top:				-1rem;
+	font-size:				1.3rem;
+	line-height:			1.4em;
+	max-width:				30rem;
+	font-weight:			300;
+	margin-bottom:			2rem;
+}
+
+
+/*  tags */
+
+.tags {
+	margin:					1rem -0.2rem;
+	display:				block;
+	display:				flex;
+	white-space: 			normal !important;
+	flex-wrap:				wrap;
+}
+
+
+.tags > a {
+	position:				relative;
+	display:				inline-block !important;
+	font-size:				0.9rem;
+	margin:					0.2em;
+	padding:				0 0.4em;
+	border-radius:			0.2em;
+	border-width:			0 !important;
+	background:				#ddd;
+	line-height:			1.6em !important;
+	padding-left:			1.6em;
+	border:					none;
+	white-space:			nowrap;
+	text-overflow:			ellipsis;
+}
+
+.tags > a > .icon {
+	position:				absolute;
+	top:					0.3em;
+	bottom:					0.3em;
+	left:					0.2em;
+	width:					1em !important;
+	height:					auto !important;
+	background-size:		1em !important;
+}
+
+
+
+
+/* tiles */
+
+
+.tiles {
+	display:				block;
+	white-space: 			normal;
+	line-height:			10rem;
+	margin:					-0.5rem -0.5rem;
+	text-align:				left;
+}
+
+.tiles > * {
+
+}
+
+.tiles > .large	{
+	float:					left;
+	width:					22rem;
+	height:					28rem;
+	max-height:				28rem;
+}
+
+.tiles > .large.right	{
+	float:					right;
+	width:					22rem;
+	height:					28rem;
+	max-height:				28rem;
+}
+
+
+.tiles *.active,
+.tiles *.clicked {
+	/*background-color:		rgba(20, 20, 180, 0.6);*/
+}
+
+
+
+
+[ic-tile] {
+	position:				relative;
+	display:				inline-block;
+	margin:					0.5rem;
+	width:					21rem;
+	height:					14rem;
+	vertical-align:			top;
+	text-align:				left;
+	line-height:			initial;
+	font-size:				1.3rem;
+}
+
+[ic-tile]:hover{
+	opacity:				0.8;
+}
+
+[ic-tile] .background {
+	background-repeat: 		no-repeat;
+	height:					100%;
+	width:					100%;
+}
+
+[ic-tile] .background.image {
+	background-size:		cover;
+	background-position:	50% 50%;
+	/*opacity:				0.5;
+	filter: 				grayscale(100%);*/
+}
+
+[ic-tile] .background.icon {
+	background-size:		6rem auto;
+	background-position:	50% 30%;
+}
+
+[ic-tile] .content {
+	position:				absolute;
+	left:					0;
+	right:					0;
+	height:					auto;
+	bottom:					0;
+	background-color:		rgba(0,0,0,0);
+	padding:				0.5rem;
+}
+
+[ic-tile] .content .title {
+	font-weight:			500;
+	line-height:			1.2rem;
+	height:					1.3rem;
+	color:					#fff;
+	white-space: 			nowrap;
+	overflow:				hidden;
+	text-overflow:			ellipsis;
+}
+
+[ic-tile] .content .brief {
+	font-size:				0.7em;
+	line-height:			1.2rem;
+	height:					1.2rem;
+	color:					#fff;
+	overflow:				hidden;
+
+	white-space: 			nowrap;
+	text-overflow:			ellipsis;
+}
+
+
+
+
+
+
+
+
+
+
+/* ic-result-list */
+
+ic-search-result-list {
+	display:				block;
+	background:				#fff;
+	padding-top:			0.5rem;
+	padding-bottom:			100%;
+}
+
+
+ic-search-result-list  button {
+	display:				block;
+	min-height:				4rem;
+	padding:				0;
+	margin:					0;
+	background-color:		transparent;
+	border:					0;
+	border-radius:			0;
+	overflow: 				hidden;
+	
+}
+
+ic-search-result-list ic-spinner {
+	font-size:				3rem;
+}
+
+ic-search-result-list ic-spinner + ic-spinner {
+	display:				none;
+}
+
+ic-search-result-list .result-group {
+	line-height:			3rem;
+	margin:					0;
+	box-shadow:				0 0.2em 0 0 rgba(0,0,0,0.3) inset;
+	cursor:					pointer;
+}
+
+
+ic-search-result-list .no-more-items {
+	display:				block;
+	display:				flex;
+	text-align:				center;
+	line-height:			5rem;
+	align-items:			center;
+}
+
+ic-search-result-list .no-more-items:before,
+ic-search-result-list .no-more-items:after {
+	content:				'';
+	display:				inline-block;
+	height:					1px;
+	width:					4rem;
+	vertical-align:			middle;
+	background-color:		#000;
+	margin:					1rem;
+	flex:					1 0 0;
+}
+
+ic-search-result-list ic-preview-item {
+	position:				relative;
+	display:				block;
+	min-height:				5rem;
+	margin:					0rem -1rem;
+	padding:				0.5rem 1rem;
+}
+
+ic-search-result-list ic-preview-item:active,
+ic-search-result-list ic-preview-item.active {
+	background-color:		rgba(0,0,0,0.1);
+}
+
+ic-search-result-list ic-preview-item .content {
+	display:				block;
+	margin-left:			4rem;
+	padding:				0;
+	white-space: 			normal;
+}
+
+ic-search-result-list ic-preview-item .content .title{
+	line-height:			1.2rem;
+	max-height:				2.4rem;
+	overflow:				hidden;
+} 
+
+ic-search-result-list ic-preview-item .content .brief{
+	font-size:				0.85rem;
+	line-height:			1.25rem;
+	max-height:				2.5rem;
+	color:					#666;
+	overflow:				hidden;
+} 
+
+ic-search-result-list ic-preview-item .content .date {
+	color:					#000;
+	padding-right:			0.25rem;
+}
+
+ic-search-result-list ic-preview-item .icon {
+	position:				absolute;
+	display:				block;
+	top:					0.5rem;
+	left:					1rem;
+	margin-top:				0.25rem;
+	height:					3rem;
+	width:					3rem;
+	border-radius:			3rem;
+	background-size:		2.5rem;
+	background-position: 	50% 50%;
+	background-repeat:		no-repeat;	
+}
+
+ic-search-result-list [ic-last-added=true]{
+	background-color:		green !important;
+}
+
+
+
+/* ic-search-term */
+
+ic-search-term {
+	position:				relative;
+	display:				block;
+}
+
+
+ic-search-term > div {
+	position:				relative;
+	line-height:			2rem;
+	height:					2rem;
+	font-size:				1rem;
+	color:					#3C3C3C;
+	font-weight:			500;
+	text-align:				center;
+}
+
+ic-search-term  span {
+	display:				inline-block;
+}
+
+ic-search-term button {
+	display:				inline-block;
+	position:				absolute;
+	top:					0;
+	top:					50%;
+	right:					0;
+	width:					2rem;
+	height:					2rem;
+	margin-top:				-1rem;
+	background-position:	50% 50%;
+	box-shadow:				none;
+	background-color:		transparent;
+	border-radius:			100%;
+	background-repeat:		no-repeat;
+	background-size:		2em;
+	background-position:	50% 50%;
+}
+
+
+
+
+/* ic-full-item */
+
+ic-full-item {
+	display:				block;
+	background:				#fff;
+}
+
+
+
+
+ic-full-item ic-spinner {
+	font-size:				3rem;
+}
+
+ic-full-item .meta {
+	margin-bottom:			1rem;
+}
+
+ic-full-item h2 {
+	font-weight:			500;
+	font-size:				1.5rem;
+	margin:					0.5rem 0;
+	line-height:			1em;
+}
+
+
+ic-full-item h3 {
+	font-size:				1.5rem;
+	font-weight:			300;
+	margin:					0.5rem 0;
+	line-height:			1.2em;
+}
+
+ic-full-item .type {
+	display:				none;
+}
+
+ic-full-item .topics-and-target-groups {
+	font-size:				0.875rem;
+}
+
+ic-full-item .topics-and-target-groups a{
+	display:				inline-block;
+	margin-right:			0.5rem;
+}
+
+ic-full-item .topics-and-target-groups a.primary{
+	font-weight:			600;
+}
+
+
+/*ic-full-item .topics-and-target-groups a:after{
+	content:				',';
+}
+
+ic-full-item .topics-and-target-groups a:last-of-type:after{
+	content:				'';
+}
+*/
+
+ic-full-item .topics-and-target-groups img{
+	display:				none;
+}
+
+ic-full-item img {
+	display:				block;
+	width:					100%;
+	height:					auto;
+	margin:					2rem 0;
+}
+
+ic-full-item .description {
+	font-weight:			300;
+}
+
+ic-full-item .description a {
+	color:					#f27020;
+}
+
+
+[lang = "ar"] ic-full-item .description,
+[lang = "fa"] ic-full-item .description,
+[lang = "ur"] ic-full-item .description {
+	direction:				rtl;
+}
+
+
+ic-full-item .fallback {
+	display:				block;
+	width:					4rem;
+	height:					4rem;
+	margin:					2rem auto;
+	background-image:		url(/images/icon_interface_unavailable.svg);
+	background-repeat:		no-repeat;
+	background-size:		contain;
+}
+
+ic-full-item footer .tools{
+	display:				block;
+	display:				flex;
+	flex-wrap:				wrap;
+	margin-top:				5rem;
+	margin-bottom:			2rem;
+	margin-left:			-0.5rem;
+	margin-right:			-0.5rem;
+}
+
+ic-full-item footer .tools > a {
+	display:				inline-block;
+	flex:					1 0 auto;
+	margin:					0.5rem;
+	line-height:			3rem;
+	height:					3rem;
+	text-align:				right;
+	padding:				0 1rem;
+	padding-left:			3rem;
+	background-position:	0.5rem 50%;
+	background-size:		2rem;
+	background-repeat:		no-repeat;
+	margin-right:			1rem;
+	box-shadow:				0 0 0 1px #666 inset;
+	white-space: 			nowrap;
+	overflow:				hidden;
+	text-overflow:			ellipsis;
+}
+
+
+ic-full-item qrcode {
+	display:				block;
+	margin:					5rem auto;
+	width:					10rem;
+	cursor:					pointer;
+}
+
+ic-full-item qrcode > *{
+	display:				block;
+	width:					100%;
+	margin:					auto;
+}
+
+
+ic-full-item .link-to-item {
+	display:				none;
+}
+
+ic-full-item .logo {
+	display:				none;
+}
+
+/* full-item edit */
+
+ic-item-edit-property {
+	display:				block;
+}
+
+
+ic-item-edit-property h4 {
+	font-size:				1.1rem !important;
+	font-weight:			400 !important;
+	line-height:			2em;
+	padding-right:			3rem;
+	margin:					0;
+	margin-bottom:			0.5rem;
+	background-position: 	100% 50%;
+	background-size:		2rem;
+	background-repeat:		no-repeat;
+	cursor:					pointer;
+}
+
+
+ic-item-edit-property .requirement {
+	font-size:				0.8em;
+	margin:					0.5rem 0;
+	color:					#000;
+	font-weight:			300;
+}
+
+ic-item-edit-property h4 + .requirement {
+	margin-top:				-0.5rem;
+	margin-bottom:			0.5rem;
+}
+
+ic-item-edit-property.invalid h4 {
+	background-color:		rgba(255,0,0,0.1);
+}
+
+ic-item-edit-property form {
+	display:				block;
+	margin-bottom:			2rem;
+}
+
+ic-item-edit-property form .current-value {
+	display:				block;
+	font-size:				0.9rem;
+	opacity:				0.5;
+	padding-left:			1rem;
+	margin:					0.5rem 0;
+	white-space: 			nowrap;
+	text-overflow:			ellipsis;
+	overflow:				hidden;
+}
+
+ic-item-edit-property form .current-value.diff {
+	text-decoration:		line-through;
+}
+
+ic-item-edit-property form button + button {
+	margin-left:			0.5rem;
+}
+
+
+
+ic-item-edit-property form .options a{
+	display:				inline-block;
+	box-sizing:				border-box;
+	width:					50%;
+	padding:				0.5rem 0;
+	padding-left:			2.5rem;
+	padding-right:			0.5rem;
+	background-position:	0 50%;
+	background-repeat:		no-repeat;
+	background-size:		2rem;
+	vertical-align:			middle;
+}
+
+
+
+
+
+
+/* ic-unavailable */
+ic-unavailable {
+	display:				block;
+	background-image:		url('/images/icon_interface_unavailable.svg');
+	background-repeat:		no-repeat;
+	background-position:	50% 50%;
+	background-size:		50% auto;
+	padding-top:			100%;
+}
+
+
+
+
+/* ic-info-tag */
+
+ic-info-tag {
+	display:				block;
+	position:				relative;
+	margin:					2rem 0;
+}
+
+ic-info-tag .icon {
+	position:				absolute;
+	background-color:		transparent;
+	height:					2rem;
+	width:					2rem;
+	margin:					0 0.5rem;
+}
+
+ic-info-tag .icon img{
+	max-height:				100%;
+	max-width:				100%;
+	display:				block;
+	margin:					0;
+	width:					100%;
+}
+
+ic-info-tag .title {
+	font-weight:			700;
+	margin-left:			4rem;
+	line-height:			1.5rem;
+} 
+
+ic-info-tag .content {
+	margin-left:			4rem;
+	line-height:			1.5rem;
+}
+
+ic-info-tag .content a {
+	display:				inline-block;
+	word-break: 			break-all;
+	word-break: 			break-word;
+}
+
+
+
+/* scrollbump */
+
+[ic-scroll-bump] .bumper {
+	background-color:				#888;
+	box-shadow:						0 2px 0 -1px #000 inset;
+}
+
+
+
+ic-filter-interface {
+	display:				block;
+	margin-bottom:			1rem;
+	background-color:		#fafafa;
+}
+
+
+
+ic-filter-interface .controls {
+	display:				block;
+	display:				flex;
+	justify-content:		space-between;
+}
+
+
+ic-filter-interface .controls button{
+
+	display:				inline-block;
+	width:					50%;
+	height:					3rem;
+	line-height:			3rem;
+	flex:					1 0 1rem;
+	border-bottom:			0.3rem solid transparent;
+	cursor:					pointer;
+	text-align:				center;
+	padding:				0;
+	background-color:		transparent;
+	box-sizing:				content-box;
+	overflow:				hidden;
+}
+
+ic-filter-interface .controls button:active,
+ic-filter-interface .controls button.ic-touched {
+	background-color:		transparent !important;
+	border-color:			#ccc;
+}
+
+ic-filter-interface .controls button.active {
+	border-color:			#888;
+}
+
+
+ic-filter-interface .panel {
+	display:				block;
+	padding:				1rem 0;
+	margin-top:				0.5rem;
+}
+
+ic-filter-interface .panel > div {
+	display:				block;
+}
+
+ic-filter-interface .panel a {
+	display:				block;
+	line-height:			1.2rem;
+	padding-top:			0.4rem;
+	padding-bottom:			0.4rem;
+	cursor:					pointer;
+	
+	padding-left:			3rem;
+	background-position:	0 50%;
+	background-size:		2rem auto !important;
+	background-repeat:		no-repeat;
+
+	-webkit-user-select:	none;
+	-moz-user-select: 		none;
+	-ms-user-select: 		none;
+	user-select: 			none;
+}
+
+ic-filter-interface .panel {
+	margin-top:				1rem;
+}
+
+
+ic-filter-interface .panel a.disabled {
+	text-decoration: 		line-through !important;
+}
+
+
+
+
+
+
+
+ic-quick-filter {
+	display:				flex;
+}
+
+ic-quick-filter a {
+	height:					3rem;
+	line-height:			3rem;
+	flex:					1 0 1rem;
+	border-bottom:			0.3rem solid transparent;
+	background-position:	0% 50%;
+	background-size:		3rem;
+	padding-left:			2rem;
+	background-repeat:		no-repeat;
+	cursor:					pointer;
+	text-align:				center;
+}
+
+
+ic-quick-filter a:not(.active) {
+	border-color:			transparent !important;	
+}
+
+ic-quick-filter a:active,
+ic-quick-filter a.ic-touched{
+	border-color:			#ccc !important;	
+	background-color:		transparent !important;
+}
+
+
+
+
+
+
+ic-horizontal-swipe-list,
+[ic-horizontal-swipe-list] {
+	position:				relative;
+}
+
+
+
+ic-horizontal-swipe-list > button,
+[ic-horizontal-swipe-list] > button {
+	position:				absolute;
+	display:				block;
+	top:					50%;
+	height:					2rem;
+	width:					2rem;
+	background-repeat:		no-repeat;
+	background-position:	50% 50%;
+	background-size:		1rem;
+	margin-top:				-2rem;
+	z-index:				99;
+	background-color:		transparent;
+	border-radius:			100%;
+}
+
+ic-horizontal-swipe-list > button.left,
+[ic-horizontal-swipe-list] > button.left{
+	left:					0;
+	background-image: 		url(/images/icon_interface_previous.svg);
+}
+
+ic-horizontal-swipe-list > button.right,
+[ic-horizontal-swipe-list] > button.right{
+	right:				0;
+	background-image: 		url(/images/icon_interface_next.svg);
+}
+
+
+
+/* overlays  */
+
+ic-overlays {
+	position:				fixed;
+	display:				block;
+	top:					0;
+	left:					0;
+	right:					0;
+	bottom:					0;
+	overflow-x:				hidden;
+	overflow-y:				auto;
+	z-index:				99999;
+	background:				rgba(0,0,0,0.5);	
+	transition-property:	background-color;
+	transition-duration:	400ms;
+}
+
+ic-overlays.ic-hide {
+	background:				rgba(0,0,0,0);		
+	transform:				translateX(-100%);
+}
+
+ic-overlays > * {
+	position:				absolute;
+	transform:				translateX(0) translateY(0);
+	top:					0;
+	display:				block;
+	min-height:				100%;
+	width:					20rem;
+	padding:				1rem;
+	height:					100%;
+	overflow-x:				hidden;
+	overflow-y:				auto;
+	box-sizing:				border-box;
+	transition-property:	transform;
+	transition-duration:	400ms;
+}
+
+ic-overlays > * > * {
+	display:				block;
+	width:					18rem;
+}
+
+ic-overlays > .full {
+	position:				fixed;
+	top:					0;
+	left:					0;
+	right:					0;
+	bottom:					0;
+	width:					auto !important;
+	height:					auto !important;
+}
+
+ic-overlays > ic-spinner {
+	display:				block;
+	position:				fixed;
+	background-color:		#fff;
+	font-size:				3rem;
+	width:					1.5em;
+	height:					1.5em;
+	min-height:				0;
+	max-height:				100%;
+	top:					auto;
+	bottom:					20%;
+	left:					50%;
+	margin-top:				-1em;
+	margin-left:			-1em;
+	border-radius:			100%;
+	overflow:				hidden;
+	box-shadow:				0 0 0.5em 0 rgba(0,0,0,0.4);
+	transition:				opacity 800ms;
+}
+
+ic-overlays > .center {
+	position:				relative;
+	display:				block;
+	margin:					5rem auto;
+	width:					21rem;
+	padding:				2rem;
+	height:					auto !important;
+	min-height:				0;
+}
+
+ic-overlays > .center.greedy {
+	width:					90%;
+	max-width:				40rem;
+}
+
+ic-overlays > .center.greedy > * {
+	display:				block;
+	width:					100%;
+}
+
+ic-overlays > .center.greedy h3 {
+	margin-top:				3rem;
+}
+
+
+ic-overlays > .center .message + form{
+	margin-top:				1rem;
+}
+
+ic-overlays > .center .buttons {
+	margin-top:				2rem;
+	display:				flex;
+	text-align:				center;
+}
+
+ic-overlays > .center .buttons button {
+	display:				inline-block;
+	padding:				0 1rem;
+	flex:					1 0 0;
+	line-height:			2rem;
+}
+
+ic-overlays > .center .buttons button + button {
+	margin-left:			1rem;
+}
+
+ic-overlays > .center ul {
+	box-sizing:				border-box;
+	padding-left:			10%;
+}
+
+ic-overlays > .center li {
+	display:				block;
+	line-height:			1.5rem;
+	width:					auto;
+}
+
+
+ic-overlays > .left:after,
+ic-overlays > .right:after {
+	content:				'';
+	display:				block;
+	height:					15rem;
+}
+
+
+ic-overlays > .left {
+	left:					0;
+}
+
+ic-overlays > .right {
+	right:					0;
+}
+
+ic-overlays > .ic-hide {
+	opacity:				0;
+}
+
+ic-overlays > .ic-hide.left {
+	transform:				translateX(-100%);
+}
+
+ic-overlays > .ic-hide.right {
+	transform:				translateX(100%);
+}
+
+ic-overlays > .ic-hide.center {
+	transform:				translateY(-100%);
+}
+
+
+ic-overlays.ic-hide .ic-hide {
+	display:				block !important;
+}
+
+
+ic-overlays .black {
+	background-color:		rgba(0,0,0,0.5);	
+}
+
+ic-overlays .white {
+	background-color:		#fff;
+}
+
+ic-overlays .white  > a {
+	display:				block;
+	line-height:			3rem;
+	border-top:				1px solid rgba(0, 0, 0, 0.3);
+}
+
+
+ic-overlays .white  > a:last-of-type {
+	border-bottom:			1px solid rgba(0, 0, 0, 0.3);
+}
+
+
+
+ic-overlays .white >  header {
+	padding:				0 1rem;
+}
+
+ic-overlays .white  a {
+	white-space:			nowrap;
+	display:				block;
+}
+
+ic-overlays .white  a > * {
+	display:				inline-block;
+	vertical-align:			top;
+}
+
+ic-overlays .white  a > .icon {
+	display:				inline-block;
+	height:					3rem;
+	width:					3rem;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		2rem;
+	vertical-align:			middle;
+}
+
+ic-overlays .white  a > .icon + * {
+	display:				inline-block;
+	vertical-align:			middle;
+	line-height:			1.5;
+}
+
+
+ic-overlays .expand {
+	background-position:	100% 50%;
+	background-repeat:		no-repeat;
+}
+
+ic-language-menu  a {
+	clear:					both;
+}
+
+
+ic-language-menu  a  .translation {
+	display:				inline-block;
+	width:					50%;
+}
+
+ic-language-menu  a  .native {
+	display:				inline-block;
+	width:					50%;
+	/*transition:				width 300ms ease-out;*/
+}
+
+ic-language-menu  a.active  .native {
+	display:				inline-block;
+	width:					100%;
+}
+
+ic-overlays  p {
+	white-space:			pre-wrap !important;
+}
+
+ic-overlays  p a {
+	display:				inline !important;
+	white-space:			normal !important;
+}
+
+
+
+
+
+
+
+
+ic-overlays .qrcode {
+	display:				block;
+	position:				absolute;
+	padding:				0;
+	color:					#fff;
+}
+
+ic-overlays .qrcode > qrcode > * {
+	position:				absolute;
+	display:				block;
+	width:					20rem;
+	height:					20rem;
+	top:					50%;
+	margin-top:				-11rem;
+	left:					50%;
+	margin-left:			-11rem;
+	border:					1rem solid #fff;
+}
+
+ic-overlays .qrcode > div {
+	position:				absolute;
+	display:				block;
+	top:					50%;
+	margin-top:				12rem;
+	text-align:				center;
+	left:					0;
+	right:					0;
+	width:					100%;
+}
+
+
+ic-overlaysic-main-menu h2 a {
+	box-shadow:				none !important;
+	border:					none !important;
+}
+
+
+
+ic-main-menu ic-search {
+	margin-bottom:			1rem;
+}

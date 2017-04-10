@@ -1,0 +1,65 @@
+<!--
+
+
+
+
+
+ --><section 
+		class   = "page"
+		ng-if   = "icSite.displayedSections.page"
+	>
+		<div ng-include = "icSite.pageUrl"></div>
+	</section><!--
+
+
+ --><section 
+		class	= "filter"    
+		ng-if	= "icSite.displayedSections.filter"
+	>
+		<ic-section-filter></ic-section-filter>
+	</section><!--
+
+
+
+
+--><section 
+		class   = "list"  
+		ng-if   = "icSite.displayedSections.list"
+		fake-scroll-bump
+	>
+		<ic-section-list
+			ic-show-filter  		=   "smlLayout.mode.name == 'XS' || (smlLayout.mode.name == 'M' && icSite.displayedSections.item)" 
+		></ic-section-list>
+	</section><!--
+
+
+
+
+--><section 
+		class   		= "item" 
+		ng-if   		= "icSite.displayedSections.item"
+		ic-scroll-top 	= "{{icSite.activeItem}}" 
+	>                   
+		<ic-header
+			ng-if 			= "icSite.useLocalHeader('item')"
+			ic-close-item	= "true"
+			ic-share		= "true"
+			ic-print		= "true"
+		>
+		</ic-header>
+		<ic-section-item></ic-section-item>
+	</section><!--
+
+
+
+--><section 
+		class   		= "map" 
+		ng-if   		= "icSite.displayedSections.map"
+	>                   
+		<ic-section-map></ic-section-map>
+	</section><!--
+
+
+
+
+-->
