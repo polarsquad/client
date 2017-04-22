@@ -1,25 +1,20 @@
-<ic-spinner active = "icSearchResults.listLoading()"></ic-spinner>
+loading : {{ic.itemStorage.ready.$$state.status === 0}}
 
-<a
-	ng-repeat		= "item in icSearchResults.filteredList | limitTo: displayLimit"
-	ng-href			= "{{icHref({itemId:item.id})}}"
+<div
+	ic-scroll-repeat-limit-container
 >
-
-	<ic-preview-item
-		ic-title 		= "item.title"
-		ic-brief		= "item.definition[language]"
-		ic-topic		= "item.primaryTopic"
-		ic-type			= "item.type"
-		ic-start-date 	= "item.startDate" 
-		ic-end-date 	= "item.endDate" 
-		ng-class		= "{active: icActive({itemId: item.id})}"
+	<div
+		ic-scroll-repeat-limit 		= "ic.itemStorage.filteredList.length"
+		ic-scroll-repeat-limit-as 	= "displayLimit"
 	>
-	</ic-preview-item>
-</a>
+		displayLimit: {{displayLimit}}
+		<a
+			ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
+		>
 
-<ic-spinner 
-	ng-if 	= "!icSearchResults.noMoreItems"
-	active 	= "icSearchResults.listLoading()"
-></ic-spinner>
-<div ng-if = "icSearchResults.noMoreItems && (displayLimit >= icSearchResults.filteredList.length)" class ="no-more-items">{{'INTERFACE.NO_MORE_ITEMS' | translate}}</div>
+			<div>{{item.title}}</div>
+			<div>{{item.brief.de}}</div>
 
+		</a>
+	</div>
+</div>

@@ -1,47 +1,21 @@
-<ic-unavailable ng-if ="!loading && !item"></ic-unavailable>
-
-<div class = "meta screen-only">
-	<div  
-		ng-if	= "icUser.can('add_new_items') && (item.meta.created_on || item.created_by)"
-		class 	= "nondescript"
-	>
-		{{'INTERFACE.CREATED_BY' | translate}} {{item.meta.created_by || ('INTERFACE.UNKNOWN' | translate) }}, {{ (item.meta.created_on | icDate : true) || ('INTERFACE.UNKNOWN' | translate)}}
-	</div>
-
-	<div 
-		ng-if	= "icUser.can('edit_items')  && (item.meta.last_edit_on || item.last_edit_by)"
-		class 	= "nondescript"
-	>
-		{{'INTERFACE.LAST_EDIT_BY' | translate}} {{item.meta.last_edit_by || ('INTERFACE.UNKNOWN' | translate) }}, {{ (item.meta.last_edit_on| icDate : true) || ('INTERFACE.UNKNOWN' | translate)}}
-	</div>
-</div>
-
-<article 
-	ng-if = "item && !editMode"
->
+<article ng-if = "ic.site.activeItem">
 
 
-	<h2 ng-if = "item.state == 'new' && icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM'		| translate }}</h2>
-	<h2 ng-if = "item.state == 'new' && icUser.can('suggest_new_items')"> 	{{ 'INTERFACE.SUGGEST_NEW_ITEM'	| translate }}</h2>
+	<h2 ng-if = "ic.site.activeItem.state == 'new' && icUser.can('add_new_items')"> 		{{ 'INTERFACE.ADD_NEW_ITEM'		| translate }}</h2>
+	<h2 ng-if = "ic.site.activeItem.state == 'new' && icUser.can('suggest_new_items')"> 	{{ 'INTERFACE.SUGGEST_NEW_ITEM'	| translate }}</h2>
 
-	<div ng-if = "icUser.can(edit_items)" class = "last-edit"> {{'INTERFACE.LAST_EDIT' | translate}}: {{item.lastEdit | icDate}}</div>
+	<div ng-if = "icUser.can(edit_items)" class = "last-edit"> {{'INTERFACE.LAST_EDIT' | translate}}: {{ic.site.activeItem.lastEdit | icDate}}</div>
 
-	<ic-spinner active = "loading"></ic-spinner>
+	<ic-spinner active = "ic.site.activeItem.downloading"></ic-spinner>
 
 
 	<!-- start item title -->
 
 	<h2 class 	= "title" >
 		<span class = "iblock">
-			{{ item.title }}
+			{{ ic.site.activeItem.title }}
 		</span>
 
-		<span 
-			class = "state iblock"
-			ng-if = "icUser.can('edit_items') && item.state"
-		>
-			[ {{item.state | uppercase | prepend : 'INTERFACE.ITEM_STATE_' | translate}} ]
-		</span>
 	</h2>
 
 	<!-- end item title -->
@@ -51,16 +25,7 @@
 
 	<!-- definition -->
 
-	<h3 class 	= "definition"> {{ item.definition[language] }}</h3>
-
-
-
-	<!-- type -->
-
-	<div class 	= "type">
-		<div>{{"TYPES.%s" | fill : item.type | translate}}</div>
-	</div>
-	
+	<h3 class 	= "definition"> {{ ic.site.activeItem.brief[ic.languages.currentLanguage || 'en'] }}</h3>
 
 
 
@@ -69,170 +34,23 @@
 
 	<div class 	= "topics-and-target-groups highlight">
 		<a 
-			ng-repeat 	= "topic in item.topics | orderBy : primaryTopicFirst"
-			ng-class	= "{'primary' : item.primaryTopic == topic, 'screen-only': item.primaryTopic != topic}"
+			ng-repeat 	= "tag in ic.site.activeItem.tags"
 			class		= "highlight"
-			ng-href		= "/tp/{{topic}}"
-		>{{topic | uppercase | prepend : "TOPICS." | translate }}</a><!--
-	--><a 
-			ng-repeat 	= "target_group in item.targetGroups"
-			class		= "highlight"
-			ng-href		= "/tg/{{target_group}}"
-		>{{target_group | uppercase | prepend : "TARGET_GROUPS." | translate }}</a>
+			ng-href		= "/tp/{{tag}}"
+		>{{tag | uppercase }}</a>
 
 		<img 
 			class		= "print-only"
-			ng-src 		= "/images/icon_topic_{{item.primaryTopic}}_black.svg" 
+			ng-src 		= "/images/icon_tag_{{ic.site.activeItem.tags[0]}}_black.svg" 
 		/>
-	</div>
-
-
-	<!-- image -->
-
-	<img
-		class			= "hero" 
-		ng-show			= "item.imageUrl && !fallback" 
-		ng-src 			= "{{ item.imageUrl }}"
-		ic-image-bad	= "fallback = true" 
-		ic-image-good	= "fallback = false"
-		ic-track-image-state
-	/>
-
-	<div
-		ng-if 	= "icUser.can('edit_items') && item.imageUrl && fallback" 
-		class 	= "fallback"
-		title 	= "{{'INTERFACE.UNABLE_TO_LOAD_IMAGE' | translate }}"
-	>
-	</div>
-
-
-
-
-	<!-- description -->
-
-	<p 
-		ng-bind-html 	= "item.description[language] | trustAsHtml"
-		class			= "description"
-	>
-	</p>
-
-
-	<hr/>
-
-	<!-- address -->
-
-	<ic-info-tag
-		ng-if			= "item.address"
-		ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
-		ic-content		= "item.address"
-		ic-extra-lines	= "[(item.zip||'') + ' ' + (item.location||''), item.country]"
-		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
-		ic-icon			= "'address'| icIcon : 'item' : 'black'"
-	>
-	</ic-info-tag>
-
-
-
-	<!-- geo coordinates -->
-
-	<ic-mini-map
-		class			= "screen-only"
-		ng-if			= "item.longitude && item.latitude"
-		ic-item			= "item"
-	>
-	</ic-mini-map>
-
-	<ic-info-tag
-		class			= "screen-only"
-		ng-if			= "item.longitude && item.latitude && !item.address"
-		ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
-		ic-content		= "item.latitude + ', ' +item.longitude"
-		ic-icon			= "'geo_coordinates'| icIcon : 'item' : 'black'"
-		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
-	>
-	</ic-info-tag>
-
-
-
-
-	<!-- misc -->
-
-	<ic-info-tag
-		ng-repeat	= "key in ['name', 'website', 'email', 'phone', 'facebook', 'twitter', 'price', 'maxParticipants']"
-		ng-if		= "item[key]"
-		ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
-		ic-content	= "item[key]"
-		ic-icon		= "key | icIcon : 'item' : 'black'"
-		ic-link		= "::key | icLinkPrefix"
-	>
-	</ic-info-tag>
-
-	<!-- start and end dates -->
-
-	<ic-info-tag
-		ng-if		= "item.startDate && item.endDate"
-		ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
-		ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
-		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
-	>
-	</ic-info-tag>
-
-
-	<ic-info-tag
-		ng-if		= "item.startDate && !item.endDate"
-		ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
-		ic-content	= "item.startDate | icDate"
-		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
-	>
-	</ic-info-tag>
-
-	<ic-info-tag
-		ng-if		= "item.endDate && !item.startDate"
-		ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
-		ic-content	= "item.endDate | icDate"
-		ic-icon		= "'dates' | icIcon : 'item' : 'black'"
-	>
-	</ic-info-tag>
-
-
-
-	<!-- hours -->
-
-	<ic-info-tag
-		ng-if			= "item.hours"
-		ic-title 		= "'INTERFACE.ITEM_HOURS' | translate"
-		ic-extra-lines	= "item.hours | icSplit : ','"
-		ic-icon			= "'hours'| icIcon : 'item' : 'black'"
-	>
-	</ic-info-tag>
-
-
-
-
-
-	<hr/>
-
-
-	<qrcode 
-		version					=	"3" 
-		error-correction-level	=	"M" 
-		size					=	"200" 
-		data					=	"{{item.id | icItemLink}}"
-		ng-if					=	"item"
-		ic-toggle-overlay		=	"qrcode"
-	>
-	</qrcode>
-
-	<div class ="link-to-item print-only">
-		{{item.id | icItemLink}}
 	</div>
 
 	<hr />
 
 	<div 
-		ng-if = "icUser.can('edit_items') && item.comment"
+		ng-if = "icUser.can('edit_items') && ic.site.activeItem.comment"
 		class = "nondescript screen-only wsp"
-	>{{item.comment}}</div> <!-- dont insert linebreaks here -->
+	>{{ic.site.activeItem.comment}}</div> <!-- dont insert linebreaks here -->
 
 	<div class = "logo print-only">
 		<ic-text-logo></ic-text-logo> Berlin
@@ -245,295 +63,3 @@
 
 </article>
 
-
-<!-- EDIT MODE -->
-
-
-<article ng-if = "item && editMode">
-
-	<!-- title -->
-
-	<ic-item-edit-property
-		ic-type 				= "string"
-		ic-key					= "title"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-	<div
-		ng-if = "editMode && itemEdit.title"
-	>
-		<div
-			ng-repeat 	= "title in icConfigData.titles"
-			ng-if		= "(item.title | stripSpecialChars) != (itemEdit.title | stripSpecialChars) && (title | stripSpecialChars) == (itemEdit.title | stripSpecialChars)"
-			
-		>
-			{{'INTERFACE.POSSIBLE_ITEM_DUPLICATE' | translate}}: {{title}}
-		</div>
-	</div>
-
-
-	<!-- definition -->
-
-	<ic-item-edit-property
-		ic-type 				= "string"
-		ic-key					= "definition"
-		ic-item					= "item"
-		ic-translatable			= "true"
-	></ic-item-edit-property>
-
-	<!-- description -->
-
-	<ic-item-edit-property
-		ic-type 				= "text"
-		ic-key					= "description"
-		ic-item					= "item"
-		ic-translatable			= "true"
-	></ic-item-edit-property>
-	
-	<!-- image -->
-
-	<ic-item-edit-property
-		ic-type 				= "string"
-		ic-key					= "imageUrl"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-
-	<hr/>
-
-
-
-	<!-- type -->
-
-	<ic-item-edit-property
-		ic-type					= "string"
-		ic-options				= "::icConfigData['types']"
-		ic-option-label			= "option | uppercase | prepend : 'TYPES.' | translate"
-		ic-key					= "type"
-		ic-item					= "item"
-	></ic-item-edit-property>
-
-
-	<!-- topics -->
-
-	<ic-item-edit-property
-		ic-type					= "array"
-		ic-options				= "::icConfigData['topics']"
-		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
-		ic-key					= "topics"
-		ic-item					= "item"
-	></ic-item-edit-property>
-
-
-	<!-- primary topic -->
-
-	<ic-item-edit-property
-		ic-type					= "string"
-		ic-options				= "itemEdit.topics"
-		ic-option-label			= "option | uppercase | prepend : 'TOPICS.' | translate"
-		ic-key					= "primaryTopic"
-		ic-item					= "item"
-	></ic-item-edit-property>
-	
-
-	<!-- target groups -->
-
-	<ic-item-edit-property
-		ic-type					= "array"
-		ic-options				= "::icConfigData['targetGroups']"
-		ic-option-label			= "option | uppercase | prepend : 'TARGET_GROUPS.' | translate"
-		ic-key					= "targetGroups"
-		ic-item					= "item"
-	></ic-item-edit-property>
-
-
-	<hr />
-
-	<!-- address, zip, location, country, startDate ... -->
-
-	<ic-item-edit-property
-		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'startDate', 'endDate', 'hours']"
-		ic-type 				= "string"
-		ic-key					= "{{key}}"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-
-	<hr />
-
-	<!--social media -->
-
-	<ic-item-edit-property
-		ng-repeat				= "key in ['website', 'facebook', 'twitter']"
-		ic-type 				= "string"
-		ic-key					= "{{key}}"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-
-	<hr />
-
-	<!--contat details -->
-
-	<ic-item-edit-property
-		ng-repeat				= "key in ['name', 'email', 'phone']"
-		ic-type 				= "string"
-		ic-key					= "{{key}}"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-
-	<hr />
-
-	<!-- misc -->
-
-	<ic-item-edit-property
-		ng-repeat				= "key in ['maxParticipants', 'latitude', 'longitude']"
-		ic-type 				= "string"
-		ic-key					= "{{key}}"
-		ic-item					= "item"
-		ic-translatable			= "false"
-	></ic-item-edit-property>
-
-	<ic-item-edit-property
-		ng-repeat				= "key in ['price']"
-		ic-type 				= "string"
-		ic-key					= "{{key}}"
-		ic-item					= "item"
-		ic-translatable			= "false"
-		ic-force-number			= "true"
-	></ic-item-edit-property>
-
-
-	<hr />
-
-	<!-- state -->
-
-	<ic-item-edit-property
-		ng-if					= "icUser.can('edit_items')"
-		ic-type					= "string"
-		ic-options				= "::['draft', 'published', 'suggestion', 'archived']"
-		ic-option-label			= "'INTERFACE.ITEM_STATE_%s' | fill : option | translate"
-		ic-key					= "state"
-		ic-item					= "item"
-	></ic-item-edit-property>
-
-
-
-	<!-- Suggestion comment -->
-
-	<ic-item-edit-property
-		ng-if					= "icUser.can('edit_items') || icUser.can('add_new_items') || icUser.can('suggest_item_edits') || icUser.can('suggest_new_items')"
-		ic-type					= "text"
-		ic-key					= "comment"
-		ic-item					= "item"
-		ic-ignore-current-value	= "!icUser.can('edit_items')" 
-	></ic-item-edit-property>
-
-
-</article>
-
-
-
-
-
-
-<footer ng-if = "item">
-	<div class = "tools">
-		<a 
-			ng-click 	= "print()"
-			ng-if		= "!editMode"
-			class		= "icon-interface-print"
-			ic-touch-me
-		>	
-			{{'INTERFACE.PRINT' | translate}}		
-		</a>
-
-		<a 
-			ng-if				= "!editMode"
-			ic-toggle-overlay	= "sharingMenu"
-			class				= "icon-interface-share"
-			ic-touch-me
-		>				
-			{{'INTERFACE.SHARE'	| translate}}		
-		</a>
-
-		<a 
-			ng-click	= "cancelEdit()"
-			ng-if		= "editMode"
-			class		= "icon-interface-cancel"
-			ic-touch-me
-		> {{'INTERFACE.CANCEL' | translate}} </a>
-
-
-		<a 
-			ng-click	= "edit()"
-			ng-show		= "!editMode"
-			class		= "icon-interface-edit"
-			ic-touch-me
-		> {{ (icUser.can('edit_items') ? 'INTERFACE.EDIT' : 'INTERFACE.SUGGEST_EDIT') | translate}} </a>
-
-
-		<a
-			ng-click	= "archive()"
-			ng-if		= "item.state != 'archived'"
-			ng-show		= "icUser.can('delete_items') && !editMode"
-			class		= "icon-interface-delete"
-			ic-touch-me
-		> {{'INTERFACE.ARCHIVE' | translate }}</a>
-
-
-		<a
-			ng-click	= "delete()"
-			ng-if		= "item.state == 'archived'"
-			ng-show		= "icUser.can('delete_items') && !editMode"
-			class		= "icon-interface-delete"
-			ic-touch-me
-		> {{'INTERFACE.DELETE' | translate }}</a>
-
-
-		<!-- submit -->
-
-		<a 
-			ng-click	= "submitItemEdits()"
-			ng-if		= "item.state != 'new' && icUser.can('edit_items') && editMode"
-			class		= "icon-interface-save"
-			ic-touch-me
-		> {{'INTERFACE.SUBMIT_ITEM_EDITS' | translate}} </a>
-
-
-		<a 
-			ng-click	= "submitNewItem()"
-			ng-if		= "item.state == 'new' && icUser.can('add_new_items') && editMode"
-			class		= "icon-interface-save"
-			ic-touch-me
-		> {{'INTERFACE.SUBMIT_NEW_ITEM' | translate}} </a>
-
-
-
-		<!-- Suggestion -->
-
-
-		<a 
-			ng-click	= "submitEditSuggestions()"
-			ng-if		= "item.state != 'new' && icUser.can('suggest_item_edits') && editMode"
-			class		= "icon-interface-save"
-			ic-touch-me
-		> {{'INTERFACE.SUBMIT_EDIT_SUGGESTIONS' | translate}} </a>
-
-		<a 
-			ng-click	= "submitItemSuggestion()"
-			ng-if		= "item.state == 'new' && icUser.can('suggest_new_items') && editMode"
-			class		= "icon-interface-save"
-			ic-touch-me
-		> {{'INTERFACE.SUBMIT_ITEM_SUGGESTION' | translate}} </a>
-
-
-
-	</div>
-</footer>

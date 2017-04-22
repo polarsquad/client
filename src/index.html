@@ -1,14 +1,13 @@
 <!doctype html>
 <html 
-	manifest		=	"/infocompass.appcache"
-	lang			=	"{{icLanguages.currentLanguage}}" 
-	ng-controller 	= 	"InfoCompassCtrl"
+	lang			=	"{{ic.languages.currentLanguage}}" 
+	ng-app			=	"InfoCompass"
 	ng-class		=	"{
-							'show-page': 	icSite.displayedComponents.page, 
-							'show-list': 	icSite.displayedComponents.list, 
-							'show-item':	icSite.displayedComponents.item, 
-							'show-map':		icSite.displayedComponents.map, 
-							'expand-map':	icSite.switches.expandMap
+							'show-page': 	ic.site.displayedComponents.page, 
+							'show-list': 	ic.site.displayedComponents.list, 
+							'show-item':	ic.site.displayedComponents.item, 
+							'show-map':		ic.site.displayedComponents.map, 
+							'expand-map':	ic.site.switches.expandMap
 						}"
 >
 
@@ -23,10 +22,16 @@
 		<base href = "/">
 		<meta charset ="utf-8">		
 		<meta name ="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no">
-		<meta name="mobile-web-app-capable"content="yes">
+		<meta name ="mobile-web-app-capable"content="yes">
 
-		<link rel="icon" href="images/favicon.png">
-		<!--Grunt head-->
+
+
+		<script src="CONFIG.BACKEND_LOCATION/dpd.js">			</script>
+		<script src="CONFIG.BACKEND_LOCATION/item_config.js">	</script>
+
+
+
+		<!--BUILD HEAD-->
 		
 
 	</head>
@@ -34,87 +39,28 @@
 
 
 	<body>
-
-		<!-- loading screen -->
-		<ic-loading-screen 			
-			ic-ready		= "::icInit.ready"
-			ic-min-duration	= "1000"
-		>
-
-			<div class ="spinner">
-				<ic-spinner 
-					class 	= "active" 
-					active 	= "!error"
-				>
-					<div class = "foreground"></div><div class = "background"></div>
-				</ic-spinner>
-			</div>
-
-			<h1><ic-text-logo><span>Info</span><span>Compass</span></ic-text-logo></h1>
-			
-			<div class = "progress">
-				<span ng-class = "{'done': icInit.progress > 0}"></span>
-				<span ng-class = "{'done': icInit.progress > 1}"></span>
-				<span ng-class = "{'done': icInit.progress > 2}"></span>
-				<span ng-class = "{'done': icInit.progress > 3}"></span>
-				<span ng-class = "{'done': icInit.progress > 4}"></span>
-			</div>
-			
-			<br/>
-			
-			<div class = "error">
-				<noscript>
-					Please enable Javascript.
-				</noscript>
-				<div ng-show = "error" class ="ng-hide">
-					{{error}}
-
-					<p>
-						InfoCompass is currently not available for technical maintenance reasons. It will back to service in only a few minutes. Please accept our sincere apologies – we will take care for fixing this problem immediately!<br/>
-						If the problem continuous, please contact our Service-Team: <a href = "mailto:service@info-compass.net">service@info-compass.net</a>
-					</p>
-
-					<p>
-						InfoCompass ist aus Wartungsgründen aktuell nicht erreichbar. Bitte entschuldigen Sie dies und versuchen Sie den Seitenaufruf in einigen Minuten erneut. Wir werden das Problem schnellstmöglich beheben! <br/>
-						Bei länger andauernden Störungen kontaktieren Sie unser Serviceteam: <a href = "mailto:service@info-compass.net">service@info-compass.net</a>
-					</p>
-				</div>
-			</div>
-
-		</ic-loading-screen>
-
-
-
-
-
-
 		<!-- header -->
-		<header ng-if = "::icInit.ready">
-			<ic-header
-				ic-menu 		= "!icSite.activeItem 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
-				ic-close-item	= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1)"
-				ic-print		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1) && !icSite.switches.expandMap"
-				ic-share		= "icSite.activeItem 	&& (['XS', 'S'].indexOf(smlLayout.mode.name) != -1) && !icSite.switches.expandMap"
-				ic-large		= "!icSite.activeItem 	|| (['XS', 'S'].indexOf(smlLayout.mode.name) == -1)"
-				ic-languages 	= "true"
-			></ic-header>
-		</header>
-
+		<ic-header 
+			ng-if 		= "::ic.init.ready"
+		></ic-header>
 
 
 		<!-- content -->
-		<section 
-			id      	= "content"
-			ng-if   	= "::icInit.ready"
-			ng-include 	= "'partials/ic-layout.html'"
-		></section>
+		<ic-main 
+			ng-if   	= "::ic.init.ready"
+		></ic-main>
 
+
+		<!-- footer -->
+		<ic-footer
+			ng-if 		= "::ic.init.ready"
+		></ic-footer>
 
 
 
 		<!-- overlays -->
 		<ic-overlays 
-			ng-if       = "::icInit.ready"
+			ng-if       = "::ic.init.ready"
 			class		= "ic-hide"
 			ng-class    = "{'ic-hide' :!icOverlays.active()}"
 		></ic-overlays>
