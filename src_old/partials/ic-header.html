@@ -1,0 +1,45 @@
+	<button
+		type				= "button"	
+		class 				= "icon-nav-menu fleft text-right"
+		ic-toggle-overlay 	= "mainMenu" 
+		ng-if				= "icMenu"
+		ic-touch-me	
+	>{{"INTERFACE.MENU" | translate }}</button>
+
+	<button
+		type				= "button"
+		class				= "icon-interface-close fleft"
+		ng-if				= "icCloseItem"
+		ng-click			= "icSite.clearItem()"
+		ic-touch-me	
+	></button>
+
+
+
+	<button 
+		type				= "button"
+		class 				= "icon-interface-share highlight"
+		ng-if				= "icShare"
+		ic-toggle-overlay	= "sharingMenu"
+		ic-touch-me	
+	></button>
+	
+	<button 
+		type				= "button"
+		class 				= "icon-interface-print highlight"
+		ng-if				= "icPrint"
+		ng-click			= "print()"
+		ic-touch-me	
+	></button>
+
+	<button 
+		type				= "button"
+		class 				= "icon-nav-language text-left"
+		ng-if				= "icLanguages"
+		ic-toggle-overlay 	= "languageMenu" 
+		ic-touch-me	
+	>
+		<span ng-if = "icLarge">
+			{{"INTERFACE.LANGUAGES" | translate }}
+		</span>
+	</button>
