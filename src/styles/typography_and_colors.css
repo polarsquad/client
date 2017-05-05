@@ -33,7 +33,7 @@ button:active,
 button:hover {
 	display:			inline-block;
 	border:				none;	
-	background-color:	#eeeeee;
+	background-color:	#fff;
 	font-size:			1rem;
 }
 
@@ -165,6 +165,12 @@ input:-webkit-autofill:focus{
 
 
 
+/* flex */
+
+
+.flex-grow {
+	flex:					1 0 0;
+}
 
 /* aligns */
 

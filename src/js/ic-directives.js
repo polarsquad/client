@@ -25,46 +25,40 @@ angular.module('icDirectives', [
 ])
 
 
-.directive('icMain',[
+.directive('icContent',[
 
 	'ic',
 
 	function(ic){
 		return {
 			restrict: 		"AE",
-			templateUrl:	"partials/ic-main.html",
+			templateUrl:	"partials/ic-content.html",
 			scope:			{},
 
 			link: 			function(scope){ scope.ic = ic }
 		}
 	}
 ])
-
-.directive('icFooter',[
-
-	'ic',
-
-	function(ic){
-		return {
-			restrict: 		"AE",
-			templateUrl:	"partials/ic-footer.html",
-			scope:			{},
-
-			link: 			function(scope){ scope.ic = ic }
-		}
-	}
-])
-
-
-
-
-
-
 
 
 // Section directives:
 
 
+.directive('icPage', [
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'E',
+			scope:			{},
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+
+])
 // Start with just the view, edit can be a different directive, maybe utilize switch
 
 .directive('icFullItem',[
@@ -86,7 +80,6 @@ angular.module('icDirectives', [
 ])
 
 
-//Todo ScrollBump
 //Todo Filter für item links bauen ?
 .directive('icSearchResultList', [
 
@@ -94,7 +87,7 @@ angular.module('icDirectives', [
 
 	function(ic){
 		return 	{
-			restrict:		'AE',
+			restrict:		'E',
 			templateUrl:	'partials/ic-search-result-list.html',
 			scope:			{},
 
@@ -104,6 +97,107 @@ angular.module('icDirectives', [
 		}
 	}	
 ])
+
+
+.directive('icItemPreview',[
+
+	'ic',
+
+	function(){
+		return {
+
+			restrict: 		'AE',
+			templateUrl: 	'partials/ic-item-preview.html',
+			scope:			{
+								icItem:	"<",
+							},
+
+			link: function(scope, element, attrs){
+				scope.ic = ic
+			}
+		}
+	}
+])
+
+
+.directive('icTextLogo',[
+	function(){
+		return {
+			templateUrl:	'partials/ic-text-logo.html'
+		}
+	}
+])
+
+.directive('icFullLogo',[
+	function(){
+		return {
+			templateUrl:	'partials/ic-full-logo.html'
+		}
+	}
+])
+
+.directive('icMainMenu', [
+	function(){
+		return {
+			templateUrl:	'partials/ic-main-menu.html'
+		}
+	}
+])
+
+.directive('icBreadcrumbs',[
+	'ic',
+
+	function(){
+		return {
+			templateUrl:	'partials/ic-breadcrumb.html'
+		}
+	}
+])
+
+.directive('icSearch',[
+
+	'ic',
+	'icSite',
+
+	function(ic, icSite){
+		return {
+			restrict: 		'E',
+			templateUrl:	'partials/ic-search.html',
+			scope:			{
+								icOnSubmit: 	'&',
+								icOnUpdate: 	'&'
+							},
+
+			link: function(scope, element, attrs){
+
+				scope.ic		= ic
+
+				scope.update = function(search_term){
+					var input = element[0].querySelector('#search-term')
+					
+					search_term = search_term.replace(/[\/?#]+/g,' ')
+
+					input.focus()
+					input.blur()
+
+					if(scope.icOnSubmit) scope.icOnSubmit()
+
+
+					if(search_term.replace(/s+/,'')){
+
+						if(scope.icOnUpdate) scope.icOnUpdate()
+						icSite.searchTerm = search_term
+					}
+
+					scope.searchTerm = undefined
+				}
+
+			}
+		}
+	}
+])
+
+
 
 
 

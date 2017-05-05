@@ -1,1 +1,49 @@
-Header
+<!-- tools -->
+
+<div class 	= "tools">
+
+	<ic-text-logo></ic-text-logo>
+
+	<button 
+		class 		= "icon-interface-search"
+		ic-click 	= "toggle_search = !toggle_search"
+	>
+		<span>{{'search' | translate}}</span>
+	</button>
+	
+	<ic-search ng-show = "toggle_search"></ic-search>
+
+	<button 
+		class	= "icon-interface-favourites"
+	>
+		<span>{{'favourites' | translate}}</span>
+	</button>
+	<button
+		class	= "icon-interface-help"
+	>
+		<span>{{'help' | translate }}</span>
+	</button>
+
+	<button
+		class	= "icon-interface-languages"
+	>
+		<span>{{'language' | translate}}</span>
+	</button>
+
+</div>
+
+
+
+<!-- logo -->
+<div 
+	class 					= "logo"
+>
+	<ic-full-logo></ic-full-logo>
+</div>
+
+
+
+
+<!-- menu -->
+
+<ic-main-menu></ic-main-menu>

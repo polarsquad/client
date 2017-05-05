@@ -1,20 +1,25 @@
-loading : {{ic.itemStorage.ready.$$state.status === 0}}
+<ic-spinner active = "ic.itemStorage.ready.$$state.status === 0">
+</ic-spinner>
 
 <div
 	ic-scroll-repeat-limit-container
 >
 	<div
-		ic-scroll-repeat-limit 		= "ic.itemStorage.filteredList.length"
-		ic-scroll-repeat-limit-as 	= "displayLimit"
+		ic-scroll-repeat-limit 				= "ic.itemStorage.filteredList.length"
+		ic-scroll-repeat-limit-as 			= "displayLimit"
+		ic-scroll-repeat-limit-step-size 	= "5"
 	>
-		displayLimit: {{displayLimit}}
+		displayLimit: 	{{displayLimit}} <br/>
+		noMoreItems:	{{noMoreItems}} <br/>
+		noScroll:		{{noScroll}} <br/>
 		<a
 			ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
 		>
 
-			<div>{{item.title}}</div>
-			<div>{{item.brief.de}}</div>
-
+			<ic-item-preview
+				ic-item = "item"
+			></ic-item-preview>
 		</a>
+		<button ng-if= "noScroll" ng-click = "icScrollRepeatLimitIncrease()">more</button>
 	</div>
 </div>

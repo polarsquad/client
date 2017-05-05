@@ -3,9 +3,36 @@ Todo:
 * Build ohne grunt
 * manifest
 * icItem new state einführen?
-* Startseite anlegen
-* Header anlegen
 * Footer anlegen
 * ItemView anlegen
 * favicon
 * loading screen
+
+
+Done:
+
+
+Fragen:
+* Header sticky: was wenn großer screen, scrollbars?
+* senioren netz mit Lerrzeichen?
+* Logo alignment mit Text
+* ohne fixe breite gibt simmer stress mit der scrollbar
+ 
+
+Todo:
+ * s.o.
+ * Suche
+ * ic Storage update items
+ * preview items
+ * Themen/Tags
+ * Farben und klassen auslagern
+ * ic-touched
+ * alte typography rauswerfen
+ * svgmin
+
+Done:
+* Header anlegen
+* Startseite anlegen
+* scrolsnap
+* Scrolling / Header
+

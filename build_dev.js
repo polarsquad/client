@@ -1,6 +1,6 @@
 var copyfiles	= require('copyfiles'),
 	fs 			= require('fs'),
-	config		= JSON.parse(fs.readFileSync('config.json', 'utf8')),
+	config		= JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
 	CleanCSS	= require('clean-css')
 
 if(!fs.existsSync('dev')) fs.mkdir('dev')
@@ -10,9 +10,10 @@ if(!fs.existsSync('dev')) fs.mkdir('dev')
 copyfiles(["src/js/**/*.js", 			"dev/js"], 		 	2, function(){})
 copyfiles(["src/pages/**/*.html", 		"dev/pages"], 		2, function(){})
 copyfiles(["src/partials/**/*.html", 	"dev/partials"],	2, function(){})
+copyfiles(["src/images/**/*.*", 		"dev/images"],		2, function(){})
 
 copyfiles(["vendor.js", 				"dev/js"], 			0, function(){})
-copyfiles(["config.json", 				"dev"], 			0, function(){})
+copyfiles(["config/config.json", 		"dev"], 			0, function(){})
 
 // Fonts:
 copyfiles(["node_modules/roboto-fontface/fonts/Roboto/*", 					"dev/fonts/Roboto"],	4, function(){})

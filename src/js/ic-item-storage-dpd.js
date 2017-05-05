@@ -29,7 +29,7 @@
 			:	icItemStorage.data.push(item = new ic.Item(item_data))
 
 			item.internal 				= item.internal || {}
-			item.internal.tags 			= item.internal.tags || {}
+			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
 
 			return item
@@ -54,15 +54,17 @@
 		//Todo item changes
 		icItemStorage.registerFilter = function(filter_name, match_fn){
 
-			if(filter_name.match(/[^a-zA-Z]/))		console.error('icItemStorage: filter names must contain only letters, A-Z, a-z: '+filter_name+'.')
+			filter_name = String(filter_name)
+
+			if(filter_name.match(/[^a-zA-Z0-9]/))			console.error('icItemStorage: filter names must contain only letters or numbers, A-Z, a-z, 0-9: '+filter_name+'.')
 			if(icItemStorage.filters[filter_name]) 			console.error('icItemStorage: filter already registered: '+filter_name+'.')
 			ic.itemConfig.tags.forEach(function(tag){ 
-				if(tag == filter_name) 				console.error('icItemStorage: filter names must be different from tags: "'+filter_name+'"')
+				if(tag == filter_name) 						console.error('icItemStorage: filter names must be different from tags: "'+filter_name+'"')
 			})
 			
 			icItemStorage.filters[filter_name] = match_fn
 			icItemStorage.data.forEach(function(item){
-				if(match_fn(item)) item.internalTags.push(filter_name)
+				if(match_fn(item)) item.internal.tags.push(filter_name)
 			})
 
 			return this
@@ -104,7 +106,8 @@
 
 			icItemStorage.data.forEach(function(item){
 
-				item.internal.tags = item.internal.tags || []
+				item.internal.tags 	= item.internal.tags || []
+			
 
 				// check if item does NOT match the filter:
 				if(cod_tags.some(function(disjunction){
@@ -177,6 +180,51 @@
 							return Promise.reject(reason)
 						}
 					)
+		}
+
+		var searchTerms = []
+
+		icItemStorage.search = function(search_term){
+
+
+			search_term = search_term.replace(/\s+/,'&')
+
+			console.log('search!!', search_term)
+
+			var index = searchTerms.indexOf(search_term)
+
+			if(index == -1){
+
+				searchTerms.push(search_term)
+				index = searchTerms.length-1
+
+				var regex 					= 	new RegExp(search_term),
+					searchable_properties 	= 	ic.itemConfig.properties.filter(function(property){
+													return property.searchable
+												})
+
+				icItemStorage.registerFilter('search'+index, function(item){
+					return	searchable_properties.some(function(property){
+								switch(property.type){
+									case "array": 
+										return item[property.name].some(function(sub){ return sub.match(regex)})
+									break 
+
+									case "object": 
+										return Object.keys(item[property.name]).some(function(key){ return item[property.name][key].match(regex) })
+									break 
+
+									default:
+										return String(item[property.name]).match(regex)
+									break
+								}
+							})
+				}) 			
+			}
+
+			icItemStorage.updateFilteredList('search'+index)
+
+			return icItemStorage
 		}
 
 	}

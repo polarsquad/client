@@ -41,28 +41,22 @@
 	<body>
 		<!-- header -->
 		<ic-header 
-			ng-if 		= "::ic.init.ready"
+			ng-show 				= "::ic.init.ready"
+			ic-scroll-snap-target 	= "header"
 		></ic-header>
 
 
 		<!-- content -->
-		<ic-main 
-			ng-if   	= "::ic.init.ready"
-		></ic-main>
-
-
-		<!-- footer -->
-		<ic-footer
-			ng-if 		= "::ic.init.ready"
-		></ic-footer>
-
+		<ic-content 
+			ng-show   	= "::ic.init.ready"
+		></ic-content>
 
 
 		<!-- overlays -->
 		<ic-overlays 
-			ng-if       = "::ic.init.ready"
+			ng-show		= "::ic.init.ready"
 			class		= "ic-hide"
-			ng-class    = "{'ic-hide' :!icOverlays.active()}"
+			ng-class	= "{'ic-hide' :!icOverlays.active()}"
 		></ic-overlays>
 
 

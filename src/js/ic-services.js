@@ -7,22 +7,6 @@ angular.module('icServices', [
 ])
 
 
-.run([
-	'ic',
-	'icInit',
-	'icSite',
-	'icItemStorage',
-
-	function(ic, icInit, icSite, icItemStorage){
-		ic.init			= icInit
-		ic.site			= icSite
-		ic.itemStorage 	= icItemStorage
-
-		ic.site.setup()
-	}
-])
-
-
 .service('ic',[
 
 	function(){
@@ -68,7 +52,7 @@ angular.module('icServices', [
 			parameter = 	{
 								name:  	the key used to exposed value on icSite e.g. ic.site.%name
 								encode:	function(value, ic)	to encode value into url string
-								decode: function(url, ic) 	to decode value from url string	
+								decode: function(path, ic) 	to decode value from url string	
 								defaultValue: ...
 							}
 		 */
@@ -91,11 +75,11 @@ angular.module('icServices', [
 		/*
 			section = 		{
 								name:  		the key used to exposed value on icSite e.g. ic.site.activeSection.%name resp. ic.site.displaySection.%name
-								active: 	function(icSite)
-								show: 		function(icSite, mode) mode in ['XS, S, M, L, XL']
+								active: 	function(ic)
+								show: 		function(ic)
 							}
 		 */
-		config.sections.push(section)
+		config.sections.push(new_section)
 		return provider
 	}
 
@@ -103,22 +87,35 @@ angular.module('icServices', [
 
 	provider.$get = [
 
-		'ic',
 		'$location',
 		'$q',
+		'$rootScope',
+		'$timeout',
+		'ic',
 
-		function(ic, $location, $q){
-			var icSite = 	{
-								config: 			config,
-								registerSection:	provider.registerSection,
-								registerParameter:	provider.registerParameter,
-								registerSwitch:		provider.registerSwitch,
-							}
+		function($location, $q, $rootScope, $timeout, ic){
+			var icSite 				= 	{
+											config: 			config,
+											registerSection:	provider.registerSection,
+											registerParameter:	provider.registerParameter,
+											registerSwitch:		provider.registerSwitch,
+											activeSections:		{},
+											visibleSections:	{}
+										},
+				scheduledPathUpdate	= undefined
 
-			function path2Params(str){
+			function decodeParam(path, param){
+				var value = param.decode(path, ic)
+
+				return	!param.options || param.options.indexOf(value) != -1
+						?	value
+						:	param.defaultValue
+			}
+
+			function path2Params(path){
 				icSite.config.params.forEach(function(param){
 					try {
-						$q.when(param.decode(str, ic))
+						$q.when(decodeParam(path, param))
 						.then(function(value){ icSite[param.name] = value })
 					} catch(e) {
 						console.error('icSite path2Params', param.name ,e)
@@ -127,12 +124,20 @@ angular.module('icServices', [
 
 			}
 
+			function encodeParam(value, param){
+				if(param.options && param.options.indexOf(value) == -1)	value = null
+				if(value ==  param.defaultValue) 						value = null
+
+				return param.encode(value, ic)
+			}
+
 			function params2Path(){
-				var path = '/'
+				var path = ''
 
 				icSite.config.params.forEach(function(param){
 					try {
-						path += param.encode(icSite[param.name], ic)
+						var section = encodeParam(icSite[param.name], param)
+						if(section)	path += '/' + param.encode(icSite[param.name], ic)
 					} catch(e) {
 						console.error('icSite params2Path', param.name,e)
 					}
@@ -141,7 +146,7 @@ angular.module('icServices', [
 				return path
 			}
 
-			icSite.updateFromPath = function(){
+			icSite.updateFromPath = function(e,n,o){
 				path2Params($location.path())
 
 				return icSite
@@ -154,11 +159,51 @@ angular.module('icServices', [
 				return icSite
 			}
 
-			icSite.setup = function(){
-				icSite.updateFromPath()
+			icSite.schedulePathUpdate = function(){
+				if(scheduledPathUpdate) $timeout.cancel(scheduledPathUpdate)
+				scheduledPathUpdate = $timeout(icSite.updatePath, 150)
 
 				return icSite
 			}
+
+
+			icSite.updateActiveSections = function(){
+				icSite.config.sections.forEach(function(section){
+					icSite.activeSections[section.name] = section.active(ic)
+				})
+
+				return icSite
+			}
+
+			icSite.updateVisibleSections = function(){
+				icSite.config.sections.forEach(function(section){
+					icSite.visibleSections[section.name] = section.show(ic)
+				})
+
+				return icSite				
+			}
+
+			icSite.updateSections = function(){
+				return	icSite
+						.updateActiveSections()
+						.updateVisibleSections()
+			}
+
+
+			$rootScope.$watch(
+				function(){
+					return icSite.config.params.map(function(param){ return icSite[param.name] })
+				},
+				function(){
+
+					icSite
+					.updateSections()
+					.schedulePathUpdate()					
+				},	
+				true
+			)
+
+			$rootScope.$on('$locationChangeSuccess', icSite.updateFromPath)
 
 
 			return icSite
@@ -170,28 +215,63 @@ angular.module('icServices', [
 
 
 
-.service('icItemStorage',[
+.provider('icItemStorage', function(){
 
-	'$q',
-	'$rootScope',
+	var itemStorage = undefined
 
-	function($q, $rootScope){
-		if(!(window.ic && window.ic.itemStorage)) 
-			console.error('Service icItemStorage:  missing ic.itemStorage. Please load ic-item-storage-dpd.js.')
+	this.config = function(is){ itemStorage = is}
 
-		var icItemStorage = window.ic.itemStorage
+	this.$get = [
 
-		icItemStorage.ready 	= 	$q.when(icItemStorage.downloadAll())
-									.then(function(){
-										icItemStorage.updateFilteredList()
-									})
-								
-										
+		'$q',
+		'$rootScope',
+		'icSite',
 
-		return icItemStorage
+		function($q, $rootScope, icSite){
+			if(!itemStorage) console.error('Service icItemStorage:  itemStorage. You should probably load ic-item-storage-dpd.js.')
+
+			var icItemStorage = itemStorage
+
+			icItemStorage.ready 	= 	$q.when(icItemStorage.downloadAll())
+										.then(function(){
+											icItemStorage.updateFilteredList()
+										})
+				
+
+			icItemStorage.ready
+			.then(function(){
+				$rootScope.$watch(
+					function(){ return icSite.searchTerm },
+					function(){
+						if(icSite.searchTerm && icSite.searchTerm.replace(/\s+/,'')) 
+							icItemStorage.search(icSite.searchTerm)
+					}
+				)
+			})
+
+
+			return icItemStorage
+		}
+	]
+})
+
+//updating core Service
+
+
+.run([
+	'ic',
+	'icInit',
+	'icSite',
+	'icItemStorage',
+	'icLayout',
+
+	function(ic, icInit, icSite, icItemStorage, icLayout){
+		ic.init			= icInit
+		ic.site			= icSite
+		ic.itemStorage 	= icItemStorage
+		ic.layout		= icLayout
 	}
 ])
-
 
 
 
