@@ -1,0 +1,23 @@
+
+html {
+	height:						100%;
+	overflow:					hidden;
+}
+
+body {
+	display:					flex;
+	flex-direction:				column;
+	margin:						0;
+	height:						100%;
+}
+
+ic-header {
+	display:					block;
+	flex:						none;
+	width:						100%;
+}
+
+ic-content {
+	flex-grow:					1;
+}
+

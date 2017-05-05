@@ -1,0 +1,160 @@
+/* ic header */
+
+
+ic-header {
+	color:							#fff;
+	font-size:						1rem;
+	background-color:				#802651;
+}
+
+
+ic-header .tools {
+	display:						flex;
+	box-sizing:						border-box;
+	flex-direction:					row;
+	align-items:					center;
+	height:							3rem;
+	width:							100%;
+	line-height:					3rem;
+	padding:						0 0.5rem;
+}
+
+ic-header .tools > * {
+	margin:							0 0.5rem;
+	flex:							none;
+}
+
+
+ic-header .tools ic-text-logo {
+	transition:						all 400ms ease-in;
+	overflow:						hidden;
+	width:							0;
+	margin:							0;
+	font-size:						1.5rem;
+}
+
+
+ic-header .tools > button {
+	display:						inline-block;
+	background-color:				transparent;
+	color:							#fff;
+	background-size:				contain;
+	background-position:			0 50%;
+	background-repeat:				no-repeat;
+	padding-left:					2em;
+	line-height:					2em;
+	height:							2em;
+}
+
+ic-header .tools button:hover {
+	background-color:				transparent;
+}
+
+
+ic-header .tools button span {
+	display:						block;
+	max-width:						100%;
+	transition:						max-width 400ms linear;
+	overflow:						hidden;
+}
+
+
+ic-header .tools ic-search {
+	display:						inline-block;
+}
+
+
+ic-header .logo {
+	display:						flex;
+	box-sizing:						border-box;
+	background-color:				#802651;
+	flex-direction:					row;
+	justify-content:				flex-end;
+	align-items:					center;
+	height:							10rem;
+	padding-right:					10%;
+	transition-properties:			height opacity;
+	transition-duration:			200ms;
+	transition-timing-function:		linear;
+	opacity:						1;
+}
+
+
+ic-header ic-main-menu {
+	display:						block;
+	background-color:				rgba(0,0,0,0.2);
+	width:							100%;
+	line-height:					3rem;
+	color:							#fff;
+}
+
+ic-header ic-main-menu ul {
+	list-style: 					none;
+	display:						flex;
+	justify-content:				flex-start;
+	margin:							0;
+	padding:						0;
+}
+
+ic-header ic-main-menu ul > li {
+	display:						inline-block;
+	padding:						0 1rem;
+}
+
+
+ic-header ic-main-menu ul > li > ul {
+	display:						block;
+	margin-left:					-1rem;
+	max-height:						0;
+	opacity:						0;
+	position:						absolute;
+	overflow:						hidden;
+	transition:						all 300ms ease-in-out;
+}
+
+ic-header ic-main-menu ul > li:hover > ul{
+	max-height:						20rem;
+	opacity:						1;
+}
+
+ic-header ic-main-menu ul > li > ul > li {
+	display:						block;
+	background-color:				#fff;
+	color:							#802651;
+	line-height:					2rem;
+	padding:						0 1rem;
+	border-bottom:					1px solid #666;
+}
+
+ic-header ic-main-menu ul > li > ul > li:last-child {
+	border-bottom:					0px;
+}
+
+
+
+
+
+
+
+
+/* ic-snapped */
+
+
+
+
+ic-header.ic-scroll-snapped .logo {
+	position:						relative;
+	height:							0;
+	opacity:						0;
+	z-index:						-1;
+}
+
+ic-header.ic-scroll-snapped .tools ic-text-logo{
+	flex-grow:						1;
+	z-index:						0;
+}
+
+ic-header.ic-scroll-snapped .tools button span{
+	max-width:						0;
+	z.index:						0;
+}

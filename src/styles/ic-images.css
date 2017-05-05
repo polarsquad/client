@@ -1,0 +1,10 @@
+
+.image-hero {
+	background-position:		50% 50%;
+	background-size:			cover;
+	background-repeat:			no-repeat;
+}
+
+.image-home {
+	background-image: url('/images/large/home.jpg');
+}

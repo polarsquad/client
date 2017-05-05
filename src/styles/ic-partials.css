@@ -1,0 +1,89 @@
+/* ic-text-logo */
+
+ic-text-logo {
+	display:						inline-block;
+	white-space:					nowrap;
+}
+
+
+
+
+
+/* ic-full-logo */
+
+ic-full-logo {
+	display:						inline-block;
+}
+
+ic-full-logo > div{
+	display:						block;
+	padding-left:					3.5em;
+	background-position:			0 50%;
+	background-size:				contain;
+	background-repeat:				no-repeat;
+}
+
+ic-full-logo ic-text-logo {
+	font-size:						2em;
+	font-weight:					400;
+	line-height:					1em;
+}
+
+ic-full-logo .sub {
+	display:						flex;
+	justify-content:				space-between;
+	font-size:						1.5em;
+	font-weight:					300;
+	line-height:					1em;
+}
+
+
+
+
+
+/* ic-search */
+
+ic-search {
+	display:						inline-block;
+	margin:							0;
+	height:							2em;
+}
+
+ic-search form {
+	position:						relative;
+	background:						#fff;
+	height:							2em;
+}
+
+
+ic-search form input[type=text]{
+	display:						block;
+	box-sizing:						border-box;
+	border:							none;
+	padding:						0;
+	padding-right:					2.5em;
+	padding-left:					0.5em;
+	margin:							0;
+	flex:							1 0 auto;
+	font-size:						1em;
+	line-height:					2em;
+	height:							2em;
+	background:						#fff;
+}
+
+ic-search form button {
+	position:						absolute;
+	display:						inline-block;
+	right:							0;
+	top:							0;
+	height:							100%;
+	width:							2em;
+	background-color:				transparent !important;
+}
+
+
+/*ic-tag */
+
+ic-tag {
+	display:						inline-block;
+}

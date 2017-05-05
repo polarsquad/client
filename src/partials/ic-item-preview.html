@@ -1,0 +1,21 @@
+<div 
+	class = "icon icon-logo top large round"
+>
+</div>
+
+<div 
+	class 	= "content"
+	title 	= "{{icItem.title}}"
+
+>
+
+		<div class ="title">
+			{{icItem.title}}
+		</div>
+
+		<div class = "brief">
+			<span class = "date heavy" ng-if = "icItem.startDate">{{icItem.startDate | icDate}}</span><!--
+		 --><span class = "date heavy" ng-if = "icItem.startDate && icItem.endDate"> – {{icItem.startDate | icDate}}</span> 
+			{{icItem.brief.de}}
+		</div>
+</div>

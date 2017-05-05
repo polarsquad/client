@@ -1,0 +1,103 @@
+.bg-0 {
+	background-color:			#fff;
+	color:						#666;
+}
+
+.bg-0.hover:hover{
+	background-color:			#fff;
+}
+
+
+
+.bg-1 {
+	background-color:			#e6e6e6;
+	color:						#666;
+}
+
+.bg-1.hover:hover{
+	background-color:			#fff;
+}
+
+
+
+
+.bg-2 {
+	background-color:			hsla(99,48%,60%,1);
+	color:						#fff;
+}
+
+.bg-2.hover:hover{
+	background-color:			hsla(99,28%,38%,1);
+}
+
+
+
+
+.bg-3 {
+	background-color:			hsla(40,48%,60%,1);
+	color:						#fff;
+}
+
+.bg-3.hover:hover{
+	background-color:			hsla(40,28%,38%,1);
+}
+
+
+
+
+.bg-4 {
+	background-color:			hsla(0,48%,60%,1);
+	color:						#fff;
+}
+
+.bg-4.hover:hover{
+	background-color:			hsla(0,28%,38%,1);
+}
+
+
+
+
+
+
+
+.col-0 {
+	color:						#000;
+}
+
+.col-1 {
+	color:						#666;
+}
+
+.col-2 {
+	color:						hsla(99,48%,60%,1);
+}
+
+.col-3 {
+	color:						hsla(40,48%,60%,1);
+}
+
+.col-4 {
+	color:						hsla(0,48%,60%,1);
+}
+
+
+
+
+.round {
+	broder-radius:				100%;
+}
+
+.large {
+	font-size:					1.5rem;
+}
+
+.shade-light {
+	background-color:			rgba(0,0,0,0.2);
+	color:						#fff;
+}
+
+
+.shade-dark {
+	background-color:			rgba(0,0,0,0.5);
+	color:						#fff;
+}

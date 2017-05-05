@@ -1,0 +1,11 @@
+ic-category {
+	display:						flex;
+}
+
+ic-category .icon {
+	flex:							0 0 auto;
+}
+
+ic-category .content {
+	flex:							1 0 grow;
+}
