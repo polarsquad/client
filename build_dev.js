@@ -166,6 +166,11 @@ function compileIndex(){
 }
 
 
+function cleanUp(){
+	return when(rimraf,['tmp'])
+}
+
+
 setup()
 
 .then(function(){ console.log('\nCompiling taxonomy templates /tmp...')})
@@ -185,6 +190,9 @@ setup()
 .then(compileIndex)
 .then(function(){ console.log('Done.')})
 
+.then(function(){ console.log('\nCleaninng up...')})
+.then(cleanUp)
+.then(function(){ console.log('Done.')})
 
 
 .then(
@@ -202,7 +210,3 @@ setup()
 
 
 
-
-// //clean up:
-
-// //rimraf('tmp')

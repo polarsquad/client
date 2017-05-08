@@ -1,6 +1,7 @@
 todo
 npm-debug.log
 /node_modules
-/bower_components/
-/dev/
+/bower_components
+/dev
 /dist
+/tmp

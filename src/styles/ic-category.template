@@ -1,0 +1,15 @@
+.ic-bg-cat-{{name}}{
+	background-color:		{{color[0]}};
+}
+
+.ic-bg-cat-{{name}}.hover:hover {
+	background-color:		{{color[1]}};
+}
+
+.ic-col-cat-{{name}}{
+	color:					{{color[0]}};
+}
+
+.ic-col-cat-{{name}}.hover:hover {
+	color:					{{color[1]}};
+}
