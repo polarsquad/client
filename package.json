@@ -14,9 +14,8 @@
     "roboto-fontface": "^0.7.0"
   },
   "scripts": {
-    "clean:dev": "rimraf dev",
     "build:dev": "node build_dev.js",
-    "prebuild:dev": "npm run clean:dev && browserify index_vendor.js > vendor.js"
+    "prebuild:dev": "browserify index_vendor.js > vendor.js"
   },
   "repository": {
     "type": "git",

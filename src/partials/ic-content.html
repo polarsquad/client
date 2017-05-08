@@ -3,15 +3,18 @@
 		ng-if					= "ic.site.visibleSections.page" 
 		ng-include 				= "'/pages/'+ic.site.page+'.html'"
 		ic-scroll-snap-anchor 	= "header"
+		ic-settle-scrollbar		= "true"
 	></ic-page>
 
 
 	<ic-search-result-list
 		ng-if = "ic.site.visibleSections.list"
+		ic-settle-scrollbar		= "true"
 	></ic-search-result-list>
 
 
 
 	<ic-full-item
 		ng-if = "ic.site.activeItem"
+		ic-settle-scrollbar		= "true"
 	></ic-full-item>

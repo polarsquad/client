@@ -59,7 +59,6 @@ angular.module("InfoCompass",[
 			name: 			'page',
 			encode:			function(value, ic){
 								if(!value) return ''
-								console.log('encode', value)
 								return 'p/'+value 
 							},
 			decode:			function(path, ic){
@@ -115,11 +114,29 @@ angular.module("InfoCompass",[
 
 	function(icItemStorageProvider){
 		if(!(window.ic && window.ic.itemStorage)) 
-				console.error('Service icItemStorage:  missing ic.itemStorage. Please load ic-item-storage-dpd.js.')
+				console.error('icItemStorageProvider:  missing ic.itemStorage. Please load ic-item-storage-dpd.js.')
 
-		icItemStorageProvider.config(window.ic.itemStorage)
+		icItemStorageProvider.setItemStorage(window.ic.itemStorage)
 	}
 ])
+
+.config([
+
+	'icTaxonomyProvider',
+
+	function(icTaxonomyProvider){
+
+		if(!(window.ic && window.ic.itemConfig)) 
+			console.error('icTaxonomyProvider:  missing ic.itemConfig. Please load ic-item-config.js.')
+		if(!(window.ic && window.ic.taxonomy)) 
+			console.error('icTaxonomyProvider:  missing ic.taxonomy. Please load taxonomy.js.')
+
+		icTaxonomyProvider
+		.setItemConfig(window.ic.itemConfig)
+		.setTaxonomy(window.ic.taxonomy)
+	}
+])
+
 
 
 

@@ -1,1 +1,19 @@
-<ic-category></ic-category>
+<article>
+
+	<ic-category
+		ng-repeat = "category in ic.taxonomy.categories"
+	>
+		<div class = "icon top large icon-logo ic-bg-cat-{{category.name}} round"></div>
+		<div class = "content">
+			<h2>{{category.name}}</h2>
+			<div>
+				<ic-tag 
+					ng-repeat 	= "tag in category.tags"
+					class		= "ic-bg-cat-{{category.name}} col-2 hover"
+					name		= "tag"
+				></ic-tag>
+			</div>
+		</div>
+	</ic-category>
+
+</article>

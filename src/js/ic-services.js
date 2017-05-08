@@ -219,7 +219,7 @@ angular.module('icServices', [
 
 	var itemStorage = undefined
 
-	this.config = function(is){ itemStorage = is}
+	this.setItemStorage = function(is){ itemStorage = is}
 
 	this.$get = [
 
@@ -228,7 +228,7 @@ angular.module('icServices', [
 		'icSite',
 
 		function($q, $rootScope, icSite){
-			if(!itemStorage) console.error('Service icItemStorage:  itemStorage. You should probably load ic-item-storage-dpd.js.')
+			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing. You should probably load ic-item-storage-dpd.js.')
 
 			var icItemStorage = itemStorage
 
@@ -255,6 +255,68 @@ angular.module('icServices', [
 	]
 })
 
+
+.provider('icTaxonomy',
+	function(){
+		var itemConfig 	= undefined,
+			taxonomy	= undefined
+
+		function IcCategory(config){
+			this.name 	= config.name
+			//make sure no tags appear twice
+			this.tags	= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
+		}
+
+		this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
+		this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
+
+
+		this.$get = [
+			function(){
+				var icTaxonomy = this
+
+				icTaxonomy.categories = []
+
+				if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
+				if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load ic-item-config-dpd.js.')
+
+				taxonomy.categories.forEach(function(cat_config){
+					icTaxonomy.categories.push(new IcCategory(cat_config))
+				})
+
+
+				//Todo: move this into build script:
+				//check if all tags are accounted for in categories:
+				function checkTagsInCategories(){
+					var tag_in_cat = {}
+
+					icTaxonomy.categories.forEach(function(category){
+						category.tags.forEach(function(tag){
+							if(tag_in_cat[tag]) console.warn('icTaxonomy: tag in multiple categories:'+ tag + ' in '+ category.name + ' and ' + tag_in_cat[tag])
+							tag_in_cat[tag] = category.name
+						})
+					})
+
+					itemConfig.tags.forEach(function(tag){
+						if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not account for in Catgories:', tag)
+					})
+				}
+
+				checkTagsInCategories()
+				
+
+				icTaxonomy.getCategory = function(catgeory_name){
+					return icTaxonomy.categories.filter(function(category){
+						return catgeory_name == category.name
+					})[0]
+				}
+
+				return icTaxonomy
+			}
+		]
+	}
+)
+
 //updating core Service
 
 
@@ -264,12 +326,14 @@ angular.module('icServices', [
 	'icSite',
 	'icItemStorage',
 	'icLayout',
+	'icTaxonomy',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
 		ic.layout		= icLayout
+		ic.taxonomy		= icTaxonomy
 	}
 ])
 

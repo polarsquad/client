@@ -7,6 +7,7 @@ ic-page {
 
 ic-page  header {
 	height:						20rem;
+	padding-top:				1rem;
 }
 
 ic-page  article,
@@ -37,7 +38,7 @@ ic-page .tiles {
 	flex-wrap:					wrap;
 	padding:					0;
 	margin:						-0.5rem;
-	margin-bottom:				1rem;
+	margin-bottom:				0.5rem;
 }
 
 
@@ -73,4 +74,8 @@ ic-page footer a {
 	border-radius:				0;
 	color:						#802651;
 	margin-right:				1rem;
+}
+
+ic-page ic-category {
+	margin-bottom:				2rem;
 }

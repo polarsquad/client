@@ -119,7 +119,6 @@ angular.module('icDirectives', [
 	}
 ])
 
-
 .directive('icTextLogo',[
 	function(){
 		return {
@@ -198,6 +197,27 @@ angular.module('icDirectives', [
 ])
 
 
+.directive('icTag', [
+
+	'icItemStorage',
+
+	function(icItemStorage){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-tag.html',
+			scope:			{
+								name:	"<",
+							},
+
+			link: function(scope, element, attrs){
+				scope.$watch(
+					function(){ return icItemStorage.subMatches[scope.name] },
+					function(count){ scope.count = count || 0}
+				)
+			}
+		}
+	}
+])
 
 
 

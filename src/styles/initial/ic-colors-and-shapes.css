@@ -58,41 +58,35 @@
 
 
 
-
-
 .col-0 {
-	color:						#000;
+	color:						#000 !important;
 }
 
 .col-1 {
-	color:						#666;
+	color:						#666 !important;
 }
 
 .col-2 {
-	color:						hsla(99,48%,60%,1);
+	color:						#fff;
 }
 
-.col-3 {
-	color:						hsla(40,48%,60%,1);
-}
 
-.col-4 {
-	color:						hsla(0,48%,60%,1);
-}
+
 
 
 
 
 .round {
-	broder-radius:				100%;
+	border-radius:				999rem;
 }
+
 
 .large {
 	font-size:					1.5rem;
 }
 
 .shade-light {
-	background-color:			rgba(0,0,0,0.2);
+	background-color:			rgba(0,0,0,0.1);
 	color:						#fff;
 }
 

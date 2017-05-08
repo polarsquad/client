@@ -1,11 +1,17 @@
 ic-category {
 	display:						flex;
+	align-items:					flex-start;
 }
 
 ic-category .icon {
 	flex:							0 0 auto;
+	margin:							0 2rem;
 }
 
 ic-category .content {
 	flex:							1 0 grow;
+}
+
+ic-category .content h2 {
+	margin:							0;
 }

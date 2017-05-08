@@ -161,20 +161,26 @@ angular.module('icUiDirectives', [
 					anchor				= icScrollSnapAnchors.getAnchorElement(target),
 					to					= undefined,
 					expect_scroll		= false,
-					stop_snapping		= false
+					stop_snapping		= false,
+					threshold			= 0.15
 
 				function onScroll(){
 					window.requestAnimationFrame(function(){
-						element.toggleClass('ic-scroll-snapped', anchor.scrollTop > 0)						
+						element.toggleClass(
+							'ic-scroll-snapped', 
+
+								anchor.scrollTop > 0 
+							&& 	element[0].offsetHeight + anchor.clientHeight < anchor.scrollHeight
+						)						
 					})
 
 				}
 
 				function snap(steps){
 
+
 					steps = steps || 0
 
-					if(stop_snapping) 	return null
 					if(steps > 10000){
 						console.warn('icScrollSnapTarget: too many snap steps: aborting.')
 						return null
@@ -183,6 +189,8 @@ angular.module('icUiDirectives', [
 
 					window.requestAnimationFrame(function(){
 
+						if(anchor.scrollTop > anchor.scrollHeight - anchor.clientHeight * (1+threshold) ) return null
+						if(anchor.scrollTop > anchor.clientHeight * threshold) return null
 						if(stop_snapping) return null
 
 
@@ -195,7 +203,7 @@ angular.module('icUiDirectives', [
 
 				function afterScroll(){
 					stop_snapping = false
-					if(anchor.scrollTop < anchor.clientHeight * 0.15) snap()
+					snap()
 				}
 
 
@@ -251,39 +259,6 @@ angular.module('icUiDirectives', [
 ])
 
 
-.directive('icCategory',[
-
-	'ic',
-	
-	function(){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-category.html',
-
-			link: function(scope, element, attrs){
-				scope.ic = ic
-			}
-		}
-	}
-])
-
-.directive('icTag', [
-
-	function(){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-tag.html',
-			scope:			{
-								name:	"<",
-								count:	"<"
-							},
-
-			link: function(scope, element, attrs){
-
-			}
-		}
-	}
-])
 
 
 .filter('fill', [
@@ -298,4 +273,47 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+
+.directive('icSettleScrollbar',[
+	
+	function(){
+
+		var scrollbar_width = undefined
+			
+		console.log('pre directive')
+
+		return {
+			restrict:	'A',
+
+			link: function(scope, element){
+
+				console.log(scrollbar_width)
+
+				if(scrollbar_width !== undefined) return null
+				console.log('adfdsf')
+
+				var style_element = document.createElement('style')
+  
+		  		document.head.appendChild(style_element)
+
+
+				var div	= 	angular.element('<div></div>')
+								.css({
+								'width': 		'100px',
+								'height':		'100px',
+								'position':		'absolute',
+								'overflow-y':	'scroll'
+							})
+
+				angular.element(document.getElementsByTagName('body')[0]).append(div)
+
+				scrollbar_width	=	(100-div[0].clientWidth)
+
+				div.remove()
+
+		  		style_element.sheet.insertRule('[ic-settle-scrollbar] > * {margin-right: -'+scrollbar_width+'px}', 0)
+			}
+		}
+	}
+])
 

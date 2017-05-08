@@ -2,7 +2,7 @@
 
 (function(){
 	if(!window.dpd) 							console.error('icItemStorage: missing dpd. Please load dpd.js.')
-	if(!(window.ic && window.ic.itemConfig)) 	console.error('icItemStorage: missing ic.itemConfig. Please load item_config.js.')
+	if(!(window.ic && window.ic.itemConfig)) 	console.error('icItemStorage: missing ic.itemConfig. Please load ic-item-config.js.')
 	if(!(window.ic && window.ic.Item)) 			console.error('icItemStorage: missing ic.Item. Please load ic-item-dpd.js.')
 
 

@@ -1,7 +1,7 @@
 "use strict";
 
 
-var cdL = angular.module('icLayout', [])
+angular.module('icLayout', [])
 
 
 
@@ -86,11 +86,11 @@ var cdL = angular.module('icLayout', [])
 
 							$_body.append(div)
 
-							var scrollbar_width	=	(100-div[0].clientWidth)
+							icLayout.scrollbarWidth	=	(100-div[0].clientWidth)
 
 							div.remove()
 
-							return scrollbar_width
+							return icLayout.scrollbarWidth
 						}
 
 
@@ -156,7 +156,8 @@ var cdL = angular.module('icLayout', [])
 							$rootScope.$digest() //Todo ist das nötig?
 						}
 
-						if(icLayout.getScrollbarWidth() != 0) $_html.addClass('scrollbar-takes-space')
+						icLayout.getScrollbarWidth() 
+						if(icLayout.scrollbarWidth != 0) $_html.addClass('scrollbar-takes-space')
 
 
 						$_window.on('resize', function(){ 

@@ -7,6 +7,7 @@ ic-content {
 
 ic-content > * {
 	padding:					1rem;
+	box-sizing:					border-box;
 	overflow-y:					scroll;
 	overflow-x:					hidden;
 	flex-grow:					1;

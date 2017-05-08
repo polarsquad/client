@@ -85,5 +85,27 @@ ic-search form button {
 /*ic-tag */
 
 ic-tag {
+	display:						inline-flex;
+	align-items:					center;
+	line-height:					1.5em;
+	margin:							0.25em 0.3em;
+	border-radius:					0.175em;
+}
+
+ic-tag .title {
 	display:						inline-block;
+	flex:							1 0 auto;
+	margin:							0 0.5em;
+}
+
+ic-tag .count {
+	display:						inline-block;
+	box-sizing:						border-box;
+	font-size:						0.8em;
+	line-height:					1.5em;
+	min-width:						1.5em;
+	margin-right:					0.5em;
+	flex:							0 0 auto;
+	text-align:						center;
+	padding:						0 0.5em;
 }
