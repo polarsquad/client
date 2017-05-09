@@ -86,6 +86,7 @@ angular.module("InfoCompass",[
 
 		.registerSection({
 			name:			'page',
+			template:		'partials/ic-section-page.html',
 			active:			function(ic){
 								return ic.site.page
 							},
@@ -97,6 +98,7 @@ angular.module("InfoCompass",[
 
 		.registerSection({
 			name:			'list',
+			template:		'partials/ic-section-list.html',
 			active:			function(ic){
 								return ic.site.searchTerm
 							},

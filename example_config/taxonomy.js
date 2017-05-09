@@ -73,6 +73,25 @@
 			colors:		['hsla(66,48%,60%,1)', 'hsla(66,28%,38%,1)']
 		}
 	]
+
+	exports.types = [
+		{
+			name:		'location',
+			colors:		['rgba(200,240,200,1)', 'rgba(220,240,220,1)'],
+		},
+		{
+			name:		'event',
+			colors:		['rgba(200,240,240,1)', 'rgba(220,240,240,1)'],
+		},
+		{
+			name:		'service',
+			colors:		['rgba(240,200,200,1)', 'rgba(240,220,220,1)'],
+		},
+		{
+			name:		'information',
+			colors:		['rgba(240,240,200,1)', 'rgba(240,240,220,1)'],
+		}
+	]
 }(
 	('undefined' !== typeof exports) 
 	? exports

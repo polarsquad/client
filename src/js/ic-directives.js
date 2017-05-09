@@ -102,8 +102,9 @@ angular.module('icDirectives', [
 .directive('icItemPreview',[
 
 	'ic',
+	'icTaxonomy',
 
-	function(){
+	function(ic, icTaxonomy){
 		return {
 
 			restrict: 		'AE',
@@ -114,6 +115,12 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				scope.ic = ic
+
+				scope.$watch(
+					function(){ return scope.icItem.tags},
+					function(){ scope.icCategory = 	scope.icItem && icTaxonomy.getCategory(scope.icItem.tags)[0] },
+					true
+				)
 			}
 		}
 	}
@@ -219,7 +226,22 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icTaxonomyFilter',[
 
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy) {
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-taxonomy-filter.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])
 
 
 

@@ -27,6 +27,41 @@ angular.module('icUiDirectives', [
 ])
 
 
+.directive('icTouchMe', [
+	function(){
+		return {
+			restrict:		'A',
+			link: function(scope, element, attrs){
+
+				var fading_time = attrs.icTouchMe || 400
+
+				function add(){
+					angular.element(document.body).one('touchend mouseup', remove)									
+					element.addClass('ic-touched')	
+				}
+				function remove(){
+					element.addClass('ic-touch-fade')
+					window.requestAnimationFrame(function(){
+						element.removeClass('ic-touched')					
+						window.setTimeout(function(){
+							element.removeClass('ic-touch-fade')
+						}, fading_time)
+					})
+				}
+
+				element.on('touchstart mousedown', add)
+
+				scope.$on('$destroy', function(){
+					element.off('touchstart mousedown', add)
+					angular.element(document.body).off('touchend mouseup', remove)
+				})
+
+			}
+		}
+	}
+])
+
+
 
 .directive('icScrollRepeatLimit',[
 
@@ -44,7 +79,10 @@ angular.module('icUiDirectives', [
 
 				while( (container = container.parentElement) && !container.hasAttribute('ic-scroll-repeat-limit-container')){}
 
-				if(!container) return null
+				if(!container){
+					console.warn('icScrollRepeatLimit: missing container.', element[0])
+					return null
+				}
 				container = angular.element(container)
 
 
@@ -95,10 +133,6 @@ angular.module('icUiDirectives', [
 				)
 
 				container.on('scroll', onScroll)
-
-				// TODO ensure container doesnt change size!
-				// 
-				//bad: onScroll()
 			
 			}
 		}
@@ -114,7 +148,7 @@ angular.module('icUiDirectives', [
 
 		this.registerAnchor = function(anchor_name, element){
 			element = element[0] || element
-			if(anchors[anchor_name]) consone.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
+			if(anchors[anchor_name]) console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
 			anchors[anchor_name] = element
 			return this
 		}
@@ -273,6 +307,15 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.filter('toConsole', [
+	function(){
+		return function(x){
+			console.log(x)
+			return x
+		}
+	}
+])
+
 
 .directive('icSettleScrollbar',[
 	
@@ -280,17 +323,12 @@ angular.module('icUiDirectives', [
 
 		var scrollbar_width = undefined
 			
-		console.log('pre directive')
-
 		return {
 			restrict:	'A',
 
 			link: function(scope, element){
 
-				console.log(scrollbar_width)
-
 				if(scrollbar_width !== undefined) return null
-				console.log('adfdsf')
 
 				var style_element = document.createElement('style')
   

@@ -1,0 +1,15 @@
+.ic-bg-type-{{name}}{
+	background-color:		{{color[0]}};
+}
+
+.ic-bg-type-{{name}}.hover:hover {
+	background-color:		{{color[1]}};
+}
+
+.ic-col-type-{{name}}{
+	color:					{{color[0]}};
+}
+
+.ic-col-type-{{name}}.hover:hover {
+	color:					{{color[1]}};
+}

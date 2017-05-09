@@ -1,0 +1,27 @@
+<section class = "types">
+	<article class = "bg-0">
+		<a
+			class = "icon-checkbox"
+		>
+			{{'all'|translate}}
+		</a>
+		<a
+			ng-repeat 	= "type in ic.taxonomy.types"
+			class		= "icon-checkbox bg-0"
+		>
+			{{type.name}}
+		</a>
+	</article>
+</section>
+
+<section class = "categories">
+	<h2 class = "bg-0 icon-interface-down">{{'categories' | translate}}</h2>
+	<article class = "bg-0">
+		<a
+			ng-repeat 	= "category in ic.taxonomy.categories"
+			class		= "icon-checkbox bg-0"
+		>
+			{{category.name}}
+		</a>
+	</article>
+</section>

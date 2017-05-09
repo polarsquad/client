@@ -1,0 +1,32 @@
+ic-taxonomy-filter {
+	display:					block;
+}
+
+ic-taxonomy-filter section {
+	margin-bottom:				1rem;
+}
+
+
+ic-taxonomy-filter section h2 {
+	margin:						0;
+	margin-bottom:				1px;
+	font-weight:				400;
+	font-size:					1.2em;
+	padding-top:				0.25rem;
+}
+
+ic-taxonomy-filter section article {
+	padding-top:				0.5rem;
+	padding-bottom:				0.5rem;
+}
+
+ic-taxonomy-filter section h2, 
+ic-taxonomy-filter section a {
+	display:					block;
+	line-height:				2rem;
+	padding-left:				3rem;
+	padding-right:				0.5rem;
+	background-size:			1.5rem;
+	background-position:		1rem 50%;
+	background-repeat:			no-repeat;
+}

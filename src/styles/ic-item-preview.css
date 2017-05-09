@@ -5,7 +5,6 @@ ic-item-preview {
 	position:				relative;
 	display:				block;
 	min-height:				5rem;
-	margin:					0rem -1rem;
 	padding:				0.5rem 1rem;
 }
 
@@ -25,6 +24,7 @@ ic-item-preview .content .title{
 	line-height:			1.2rem;
 	max-height:				2.4rem;
 	overflow:				hidden;
+	font-weight:			600;
 } 
 
 ic-item-preview .content .brief{
@@ -33,13 +33,14 @@ ic-item-preview .content .brief{
 	max-height:				2.5rem;
 	color:					#666;
 	overflow:				hidden;
+	font-weight:			400;
 } 
 
 ic-item-preview .content .date {
 	color:					#000;
 	padding-right:			0.25rem;
 }
-/*
+
 ic-item-preview .icon {
 	position:				absolute;
 	display:				block;
@@ -49,8 +50,4 @@ ic-item-preview .icon {
 	height:					3rem;
 	width:					3rem;
 	border-radius:			3rem;
-	background-size:		2.5rem;
-	background-position: 	50% 50%;
-	background-repeat:		no-repeat;	
-	background-color:		#802651;
-}*/
+}

@@ -29,6 +29,11 @@ Todo:
  * ic-touched
  * alte typography rauswerfen
  * svgmin
+ * scrolllimit previews zu kurz
+ * filter
+ * preview mit type ergänzen
+ * serachterm should ignore case
+ * unsorted tags
 
 Done:
 * Header anlegen

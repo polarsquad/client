@@ -1,0 +1,18 @@
+ic-search-result-list {
+	display:					block;
+}
+
+ic-search-result-list header {
+	display:					flex;
+
+}
+
+ic-search-result-list header ic-spinner {
+	font-size:					2rem;
+	flex:						0 0 auto;
+}
+
+
+ic-search-result-list ic-item-preview {
+	margin:						1px 0;
+}

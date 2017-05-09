@@ -60,19 +60,18 @@ function setup(){
 }
 
 
-function compileTaxonomyTemplatesToTmp() {
-	return	Promise.all([
-				when(fs.readFile, ['src/styles/ic-category.template', 'utf8'] )
-				.then(function(category_template){
-					return	taxonomy.categories.map(function(category){
-								if(!category.name) 					console.error('Taxonomy templates: Missing categoriy name:', category)
-								if(category.name.match(/[^a-z]/)) 	console.error('Taxonomy templates: Only lower case names allowed for categories:', category.name)
-								return	category_template
-										.replace(/{{name}}/g, 			category.name)
+function compileTaxonomyTemplate(key, template){
+	return 		when(fs.readFile, [template, 'utf8'] )
+				.then(function(template){
+					return	taxonomy[key].map(function(item){
+								if(!item.name) 					console.error('Taxonomy templates: Missing name:',key , item)
+								if(item.name.match(/[^a-z]/)) 	console.error('Taxonomy templates: Only lower case names allowed:',key , item.name)
+								return	template
+										.replace(/{{name}}/g, 			item.name)
 										.replace(/{{color\[([0-9]+)\]}}/g, 
 											function(match, p1){
-												var color = category.colors && category.colors[parseInt(p1)]
-												if(!color) console.error('Taxonomy templates: missing color: {{color['+p1+']}}', category.name)
+												var color = item.colors && item.colors[parseInt(p1)]
+												if(!color) console.error('Taxonomy templates: missing color: {{color['+p1+']}}', item.name)
 
 												return color
 											}
@@ -80,6 +79,12 @@ function compileTaxonomyTemplatesToTmp() {
 							})
 							.join('\n\n')
 				})
+}
+
+function compileTaxonomyTemplatesToTmp() {
+	return	Promise.all([
+				compileTaxonomyTemplate('categories', 	'src/styles/ic-categories.template'),
+				compileTaxonomyTemplate('types', 		'src/styles/ic-types.template')
 			])
 			.then(function(results){			 
 				return 	ascDir('tmp/styles')

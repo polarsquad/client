@@ -1,20 +1,14 @@
-
-	<ic-page
-		ng-if					= "ic.site.visibleSections.page" 
-		ng-include 				= "'/pages/'+ic.site.page+'.html'"
-		ic-scroll-snap-anchor 	= "header"
-		ic-settle-scrollbar		= "true"
-	></ic-page>
-
-
-	<ic-search-result-list
-		ng-if = "ic.site.visibleSections.list"
-		ic-settle-scrollbar		= "true"
-	></ic-search-result-list>
-
-
-
-	<ic-full-item
-		ng-if = "ic.site.activeItem"
-		ic-settle-scrollbar		= "true"
-	></ic-full-item>
+<section
+	ng-repeat 				= "section in ic.site.config.sections"
+	ng-if					= "ic.site.visibleSections[section.name]"
+	ic-settle-scrollbar		= "true"
+	ic-scroll-snap-anchor 	= "header"
+	ic-scroll-repeat-limit-container = "true"
+>
+	<div
+		id			= "section-{{section.name}}"
+		ng-include 	= "section.template" 
+	>
+	</div>
+</section>
+	

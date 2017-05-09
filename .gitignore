@@ -1,5 +1,6 @@
 todo
 npm-debug.log
+/config
 /node_modules
 /bower_components
 /dev

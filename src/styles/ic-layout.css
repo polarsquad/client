@@ -21,3 +21,37 @@ ic-content {
 	flex-grow:					1;
 }
 
+
+ic-content {
+	display:					flex;
+	flex-direction:				row;
+	background-color:			#e6e6e6;
+	overflow:					hidden !important;
+}
+
+ic-content > * {
+	padding:					1rem;
+	box-sizing:					border-box;
+	overflow-y:					scroll;
+	overflow-x:					hidden;
+	flex-grow:					1;
+	height:						100%;
+}
+
+
+
+
+#section-list {
+	display:					flex;
+	align-items:				stretch;
+}
+
+
+#section-list ic-taxonomy-filter {
+	margin-right:				0.5rem;
+	flex:						0 0 15rem;
+}
+
+#section-list ic-search-result-list {
+	flex:						1 0 0;
+}

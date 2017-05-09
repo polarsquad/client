@@ -1,5 +1,5 @@
 <div 
-	class = "icon icon-logo top large round"
+	class = "icon icon-logo large round ic-bg-cat-{{::icCategory.name}}"
 >
 </div>
 
@@ -8,7 +8,6 @@
 	title 	= "{{icItem.title}}"
 
 >
-
 		<div class ="title">
 			{{icItem.title}}
 		</div>
@@ -17,5 +16,8 @@
 			<span class = "date heavy" ng-if = "icItem.startDate">{{icItem.startDate | icDate}}</span><!--
 		 --><span class = "date heavy" ng-if = "icItem.startDate && icItem.endDate"> – {{icItem.startDate | icDate}}</span> 
 			{{icItem.brief.de}}
+		</div>
+		<div class ="category ic-col-cat-{{::icCategory.name}}">
+			{{icCategory.name |translate}}
 		</div>
 </div>

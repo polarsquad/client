@@ -52,3 +52,11 @@
 .icon-interface-down {
 	background-image: url('/images/icons/interface_down.svg');
 }
+
+.icon-checkbox {
+	background-image: url('/images/icons/interface_checkbox.svg');
+}
+
+.icon-checkbox-selected {
+	background-image: url('/images/icons/interface_checkbox_selected.svg');
+}

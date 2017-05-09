@@ -38,8 +38,7 @@ angular.module('icServices', [
 
 .provider('icSite', function(){
 
-	var provider	= 	this,
-		config 		= 	{
+	this.config = 	{
 							params: 	[],
 							switches: 	[],
 							sections:	[],
@@ -47,7 +46,7 @@ angular.module('icServices', [
 
 
 
-	provider.registerParameter = function(new_parameter){
+	this.registerParameter = function(new_parameter){
 		/*
 			parameter = 	{
 								name:  	the key used to exposed value on icSite e.g. ic.site.%name
@@ -56,36 +55,37 @@ angular.module('icServices', [
 								defaultValue: ...
 							}
 		 */
-		config.params.push(new_parameter)
-		return provider
+		this.config.params.push(new_parameter)
+		return this
 	}
 
-	provider.registerSwitch = function(new_switch){
+	this.registerSwitch = function(new_switch){
 		/*
 			switch =		{
 								name: the key used to exposed value on icSite e.g. ic.site.switch.%name
 								defaultValue: ...
 							}
 		 */
-		config.switches.push(new_switch)
-		return provider
+		this.config.switches.push(new_switch)
+		return this
 	}
 
-	provider.registerSection = function(new_section){
+	this.registerSection = function(new_section){
 		/*
 			section = 		{
-								name:  		the key used to exposed value on icSite e.g. ic.site.activeSection.%name resp. ic.site.displaySection.%name
-								active: 	function(ic)
-								show: 		function(ic)
+								name:  		the key used to exposed value on icSite e.g. ic.site.activeSection.%name resp. ic.site.displaySection.%name,
+								template:	url,
+								active: 	function(ic),
+								show: 		function(ic),
 							}
 		 */
-		config.sections.push(new_section)
-		return provider
+		this.config.sections.push(new_section)
+		return this
 	}
 
 
 
-	provider.$get = [
+	this.$get = [
 
 		'$location',
 		'$q',
@@ -94,15 +94,11 @@ angular.module('icServices', [
 		'ic',
 
 		function($location, $q, $rootScope, $timeout, ic){
-			var icSite 				= 	{
-											config: 			config,
-											registerSection:	provider.registerSection,
-											registerParameter:	provider.registerParameter,
-											registerSwitch:		provider.registerSwitch,
-											activeSections:		{},
-											visibleSections:	{}
-										},
+			var icSite 	= 	this,
 				scheduledPathUpdate	= undefined
+
+			icSite.activeSections 	=	{}
+			icSite.visibleSections 	= 	{}
 
 			function decodeParam(path, param){
 				var value = param.decode(path, ic)
@@ -267,6 +263,10 @@ angular.module('icServices', [
 			this.tags	= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
 		}
 
+		function IcType(config){
+			this.name	= config.name
+		}
+
 		this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
 		this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
 
@@ -275,13 +275,18 @@ angular.module('icServices', [
 			function(){
 				var icTaxonomy = this
 
-				icTaxonomy.categories = []
+				icTaxonomy.categories 	= []
+				icTaxonomy.types		= []
 
 				if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
 				if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load ic-item-config-dpd.js.')
 
 				taxonomy.categories.forEach(function(cat_config){
 					icTaxonomy.categories.push(new IcCategory(cat_config))
+				})
+
+				taxonomy.types.forEach(function(type_config){
+					icTaxonomy.types.push(new IcType(type_config))
 				})
 
 
@@ -305,10 +310,18 @@ angular.module('icServices', [
 				checkTagsInCategories()
 				
 
-				icTaxonomy.getCategory = function(catgeory_name){
-					return icTaxonomy.categories.filter(function(category){
-						return catgeory_name == category.name
-					})[0]
+				icTaxonomy.getCategory = function(category_names){
+					console.log(category_names)
+					var single = (typeof category_name == 'string')
+					
+					if(single) category_names = [category_names]
+
+					var result = 	icTaxonomy.categories.filter(function(category){
+										return category_names.indexOf(category.name) != -1
+									})
+					return	single
+							? result[0]
+							: result
 				}
 
 				return icTaxonomy
@@ -334,6 +347,9 @@ angular.module('icServices', [
 		ic.itemStorage 	= icItemStorage
 		ic.layout		= icLayout
 		ic.taxonomy		= icTaxonomy
+
+		console.log('dsf')
+		console.log(icTaxonomy)
 	}
 ])
 

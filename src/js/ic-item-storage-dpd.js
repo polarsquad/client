@@ -189,8 +189,6 @@
 
 			search_term = search_term.replace(/\s+/,'&')
 
-			console.log('search!!', search_term)
-
 			var index = searchTerms.indexOf(search_term)
 
 			if(index == -1){
