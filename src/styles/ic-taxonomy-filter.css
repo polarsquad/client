@@ -30,3 +30,6 @@ ic-taxonomy-filter section a {
 	background-position:		1rem 50%;
 	background-repeat:			no-repeat;
 }
+ic-taxonomy-filter section ic-tag{
+	padding-left:				0;
+}

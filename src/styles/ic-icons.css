@@ -1,7 +1,7 @@
 .icon {
 	box-sizing:				border-box;
 	background-position:	50% 50%;
-	background-size:		contain;
+	background-size:		1.5em;
 	background-repeat:		no-repeat;
 	min-width:				2em;
 	min-height:				2em;
@@ -27,36 +27,3 @@
 	padding-top:			2em;
 }
 
-
-
-.icon-logo {
-	background-image: url('/images/icons/logo.svg');
-}
-
-.icon-interface-favourites {
-	background-image: url('/images/icons/interface_favourites.svg');
-}
-
-.icon-interface-help {
-	background-image: url('/images/icons/interface_help.svg');
-}
-
-.icon-interface-languages {
-	background-image: url('/images/icons/interface_languages.svg');
-}
-
-.icon-interface-search {
-	background-image: url('/images/icons/interface_search.svg');
-}
-
-.icon-interface-down {
-	background-image: url('/images/icons/interface_down.svg');
-}
-
-.icon-checkbox {
-	background-image: url('/images/icons/interface_checkbox.svg');
-}
-
-.icon-checkbox-selected {
-	background-image: url('/images/icons/interface_checkbox_selected.svg');
-}

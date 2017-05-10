@@ -95,3 +95,7 @@
 	background-color:			rgba(0,0,0,0.5);
 	color:						#fff;
 }
+
+.active {
+	color:						#802651;
+}

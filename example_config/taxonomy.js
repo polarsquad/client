@@ -46,7 +46,7 @@
 			colors:		['hsla(50,48%,60%,1)', 'hsla(50,28%,38%,1)']
 		},
 		{
-			name:		'leisure',
+			name:		'culture_leisure',
 			tags:		[
 							"support",
 							"health",
@@ -59,19 +59,6 @@
 						],
 			colors:		['hsla(10,48%,60%,1)', 'hsla(10,28%,38%,1)']
 		},
-		{
-			name:		'quaters',
-			tags:		[
-							"places",
-							"support",
-							"health",
-							"education",
-							"culture",
-							"city",
-							"events"
-						],
-			colors:		['hsla(66,48%,60%,1)', 'hsla(66,28%,38%,1)']
-		}
 	]
 
 	exports.types = [
@@ -92,6 +79,9 @@
 			colors:		['rgba(240,240,200,1)', 'rgba(240,240,220,1)'],
 		}
 	]
+
+	exports.unsortedTags = ['work', 'city', 'free', 'accessible']
+
 }(
 	('undefined' !== typeof exports) 
 	? exports

@@ -32,7 +32,7 @@ ic-spinner .foreground{
 	margin-top:				-0.5em;
 	margin-left:			-0.5em;
 
-	background-image:		url('/images/icons/logo.svg');
+	/*background-image:		url('/images/icons/logo.svg');*/
 	background-size:		1em;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
@@ -72,9 +72,6 @@ ic-spinner .background:before {
 	z-index:				0;
 }
 
-ic-spinner .background:after {
-	transform:				rotate(135deg);
-}
 
 @keyframes spin {
 

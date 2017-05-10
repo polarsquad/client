@@ -15,3 +15,7 @@ ic-category .content {
 ic-category .content h2 {
 	margin:							0;
 }
+
+ic-category .content ic-tag {
+	margin:							0.25em 0.3em;
+}

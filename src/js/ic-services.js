@@ -277,6 +277,7 @@ angular.module('icServices', [
 
 				icTaxonomy.categories 	= []
 				icTaxonomy.types		= []
+				icTaxonomy.unsortedTags = taxonomy.unsortedTags
 
 				if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
 				if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load ic-item-config-dpd.js.')

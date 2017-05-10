@@ -1,15 +1,21 @@
 <section class = "types">
 	<article class = "bg-0">
 		<a
-			class = "icon-checkbox"
+			ng-if		= "true"
+			class 		= "icon-type-all"
+			ng-class	= "{active:checked}"
+			ng-click	= "checked = !checked" 
 		>
 			{{'all'|translate}}
 		</a>
 		<a
 			ng-repeat 	= "type in ic.taxonomy.types"
-			class		= "icon-checkbox bg-0"
+			ng-if		= "true"
+			class		= "icon-type-{{::type.name}} bg-0"
+			ng-class	= "{active: checked}"
+			ic-click	= "checked = !checked"
 		>
-			{{type.name}}
+			<ic-tag name ="type.name"></ic-tag>
 		</a>
 	</article>
 </section>
@@ -19,9 +25,27 @@
 	<article class = "bg-0">
 		<a
 			ng-repeat 	= "category in ic.taxonomy.categories"
-			class		= "icon-checkbox bg-0"
+			ng-if		= "true"
+			class		= "icon-category-{{::category.name}} bg-0"
+			ng-class	= "{active:checked}"
+			ic-click	= "checked = !checked"
 		>
-			{{category.name}}
+			<ic-tag name ="category.name"></ic-tag>
+		</a>
+	</article>
+</section>
+
+<section class = "unsorted">
+	<h2 class = "bg-0 icon-interface-down">{{'unsorted' | translate}}</h2>
+	<article class = "bg-0">
+		<a
+			ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
+			ng-if		= "true"
+			class		= "icon-interface-checkbox bg-0"
+			ng-class	= "{checked:checked, active:checked}"
+			ic-click	= "checked = !checked"
+		>
+			<ic-tag name ="tag"></ic-tag>
 		</a>
 	</article>
 </section>

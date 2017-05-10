@@ -94,27 +94,27 @@ angular.module('icUiDirectives', [
 				}
 
 				function updateLimit(){
-					var surplus = element[0].getBoundingClientRect().bottom-container[0].getBoundingClientRect().bottom
-
+					var surplus 	= element[0].getBoundingClientRect().bottom-container[0].getBoundingClientRect().bottom,
+						last_limit 	= scope[l]
 
 					if(surplus < container[0].clientHeight)		scope[l] += step_size
 					if(surplus > 2*container[0].clientHeight)	scope[l] -= step_size
 					
-					
-					scope.$apply()
-					
-					return true
+					return last_limit != scope[l]
 				}
 
 
 				function onScroll(){
 					container.off('scroll', onScroll)
 					window.requestAnimationFrame(function(){
-						updateLimit()
-						window.setTimeout(function(){
-							onScroll()
-							container.on('scroll', onScroll)
-						}, 250)	
+						if(updateLimit()){
+							window.setTimeout(function(){
+								onScroll()
+							}, 250)	
+							scope.$apply()
+						} else {
+							container.on('scroll', onScroll)							
+						}
 					})
 				}
 
@@ -128,7 +128,8 @@ angular.module('icUiDirectives', [
 						scope[l] 			= Math.max(Math.min(max, scope[l]), step_size)
 						scope.noMoreItems 	= max == scope[l]
 						scope.noScroll 		= container[0].clientHeight == container[0].scrollHeight
-
+						console.log('watch!')
+						updateLimit()
 					}, true
 				)
 

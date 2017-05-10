@@ -17,7 +17,7 @@ ic-full-logo {
 
 ic-full-logo > div{
 	display:						block;
-	padding-left:					3.5em;
+	padding-left:					4em;
 	background-position:			0 50%;
 	background-size:				contain;
 	background-repeat:				no-repeat;
@@ -88,14 +88,14 @@ ic-tag {
 	display:						inline-flex;
 	align-items:					center;
 	line-height:					1.5em;
-	margin:							0.25em 0.3em;
 	border-radius:					0.175em;
+	padding-left:					0.5rem;
 }
 
 ic-tag .title {
 	display:						inline-block;
 	flex:							1 0 auto;
-	margin:							0 0.5em;
+	margin-right:					0.5em;
 }
 
 ic-tag .count {

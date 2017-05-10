@@ -1,5 +1,5 @@
 var copyfiles	= require('copyfiles'),
-	fs 			= require('fs'),
+	fs 			= require('fs-extra'),
 	rimraf		= require('rimraf'),
 	config		= JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
 	taxonomy	= require('./config/taxonomy.js'),
@@ -29,39 +29,17 @@ function when(fn_with_callback, params){
 }
 
 
-function ascDir(path){
-
-	var p 		= Promise.resolve(),
-		path	= path.split('/')
-
-
-	path.forEach(function(section, index){
-		var sub_path = path.slice(0,index+1).join('/')
-
-		p = p
-			.then(whenFn(fs.mkdir, [sub_path]))
-			.catch(function(e){
-				if(e.code == 'EEXIST') return Promise.resolve()
-			})
-	})	
-
-	return p
-}
-
-
-
-
 
 function setup(){
 	return 	Promise.all([
-				when(rimraf, 	['dev']).then(whenFn(fs.mkdir, 	['dev'])),
-				when(rimraf, 	['tmp']).then(whenFn(fs.mkdir, 	['tmp'])),
+				fs.emptyDir('dev'),
+				fs.emptyDir('tmp')
 			])
 }
 
 
 function compileTaxonomyTemplate(key, template){
-	return 		when(fs.readFile, [template, 'utf8'] )
+	return 		fs.readFile(template, 'utf8')
 				.then(function(template){
 					return	taxonomy[key].map(function(item){
 								if(!item.name) 					console.error('Taxonomy templates: Missing name:',key , item)
@@ -81,42 +59,77 @@ function compileTaxonomyTemplate(key, template){
 				})
 }
 
+
 function compileTaxonomyTemplatesToTmp() {
 	return	Promise.all([
-				compileTaxonomyTemplate('categories', 	'src/styles/ic-categories.template'),
+				compileTaxonomyTemplate('categories', 	'src/styles/ic-category.template'),
 				compileTaxonomyTemplate('types', 		'src/styles/ic-types.template')
 			])
 			.then(function(results){			 
-				return 	ascDir('tmp/styles')
-						.then(whenFn(fs.writeFile, ['tmp/styles/taxonomy.css', results.join('\n\n'), 'utf8']))
+				return 	fs.ensureDir('tmp/styles')
+						.then(() => fs.writeFile('tmp/styles/taxonomy.css', results.join('\n\n'), 'utf8'))
 			})
 }
+
+
+
+function compileIconsTemplatesToTmp(){
+	return	Promise.all([
+				fs.readFile('src/styles/ic-icon.template', 'utf8'),
+				fs.readdir('src/images/icons')
+			])
+			.then(result => {
+				var template	= result[0], 
+					filenames 	= result[1].filter( (filename) => fs.lstatSync('src/images/icons/'+filename).isFile())
+
+
+				return 	filenames.map(function(filename){
+
+							var parts = filename.replace(/\..*/g, '').split('-')
+
+							return 	template
+									.replace(/{{([^{}[]]*)name\[([0-9]+)\]}}/g, function(match, p1, p2){
+										var part = parts && parts[parseInt(p2)]
+
+										return 	part
+												?	p1+part
+												:	''
+									})
+									.replace(/{{name}}/g, '/images/icons/'+filename)
+						})
+						.join('\n\n')
+			})
+			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')))
+}
+
 
 
 
 
 function copyFilesToDev(){
 	return 	Promise.all([
-				when(copyfiles,[["src/js/**/*.js", 			"dev/js"], 		 	2]),
-				when(copyfiles,[["src/pages/**/*.html", 	"dev/pages"], 		2]),
-				when(copyfiles,[["src/partials/**/*.html", 	"dev/partials"],	2]),
-				when(copyfiles,[["src/images/**/*.*", 		"dev/images"],		2]),
 
-				when(copyfiles,[["vendor.js", 				"dev/js"], 			0]),
-				when(copyfiles,[["config/**/*", 			"dev/config"], 		1]),
+				fs.copy("src/js", 			"dev/js"),
+				fs.copy("src/pages",		"dev/pages"),
+				fs.copy("src/partials",		"dev/partials"),
+				fs.copy("src/images", 		"dev/images"),
+				fs.copy("vendor.js", 		"dev/js/vendor.js"),
+				
+				//todo?
+				fs.copy("config", 			"dev/config", {dereference: true}),
 
 				// Fonts:
-				when(copyfiles,[["node_modules/roboto-fontface/fonts/Roboto/*", 					"dev/fonts/Roboto"],	4]),
-				when(copyfiles,[["node_modules/roboto-fontface/css/roboto/roboto-fontface.css", 	"dev/styles/Roboto"],	4])
+				fs.copy("node_modules/roboto-fontface/fonts/Roboto",					"dev/fonts/Roboto"),
+				fs.copy("node_modules/roboto-fontface/css/roboto/roboto-fontface.css", 	"dev/styles/Roboto/roboto-fontface.css")
 			])
 }
 
 
 function bundleStyles(src_dir, target_dir, filename){
 
-	var	cleanCSS = new CleanCSS({rebaseTo: target_dir})
+	var	cleanCSS = new CleanCSS()
 
-	return	when(fs.readdir,[src_dir])
+	return	fs.readdir(src_dir)
 			.then(function(filenames){
 
 				var filenames	=	filenames
@@ -129,27 +142,27 @@ function bundleStyles(src_dir, target_dir, filename){
 
 					minify_result =	cleanCSS.minify(filenames)
 
+				if(filenames.length == 0) return Promise.reject('bundleStyles: files missing.')
+
 
 				return 	minify_result.errors.length
 						?	Promise.reject(minify_result.errors)
 						:	minify_result.styles
 			})
 			.then(function(css){
-				return	ascDir(target_dir)
-						.then(when(fs.writeFile, [target_dir+'/'+filename, css, 'utf8']))
+				return	fs.ensureDir(target_dir)
+						.then(() => fs.writeFile(target_dir+'/'+filename, css, 'utf8'))
 			})
 }
 
 
 function bundleStylesToDev(){
 
-	return 	when(copyfiles,[["src/styles/**/*.css", "tmp/styles"], 2])
-			.then(function(){
-				return	Promise.all([
-							bundleStyles('tmp/styles', 			'dev/styles', 'styles.css'),
-							bundleStyles('tmp/styles/initial', 	'dev/styles', 'initial.css')
-						])
-			})
+	return 	Promise.all([
+				fs.copy("src/styles", "tmp/styles")					.then(() => bundleStyles('tmp/styles', 			'dev/styles', 'styles.css')),
+				fs.copy("src/styles/initial", "tmp/styles/initial")	.then(() => bundleStyles('tmp/styles/initial', 	'dev/styles', 'initial.css'))
+				
+			])
 }
 
 
@@ -157,8 +170,8 @@ function bundleStylesToDev(){
 function compileIndex(){
 
 	return 	Promise.all([
-				when(fs.readFile,['src/index.html', 	'utf8']),
-				when(fs.readFile,['src/dev_head.html', 	'utf8'])
+				fs.readFile('src/index.html', 	'utf8'),
+				fs.readFile('src/dev_head.html', 	'utf8')
 			])
 			.then(function(result){
 				return	result[0]
@@ -166,47 +179,50 @@ function compileIndex(){
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 	'\n'+result[1])
 			})
 			.then(function(content){
-				return when(fs.writeFile,['dev/index.html', content, 'utf8'])				
+				return fs.writeFile('dev/index.html', content, 'utf8')				
 			})
 }
 
 
-function cleanUp(){
-	return when(rimraf,['tmp'])
-}
 
+
+function cleanUp(){
+	return fs.remove('tmp')
+}
 
 setup()
 
-.then(function(){ console.log('\nCompiling taxonomy templates /tmp...')})
+.then( () => console.log('\nCompiling taxonomy templates /tmp...'))
 .then(compileTaxonomyTemplatesToTmp)
-.then(function(){ console.log('Done.')})
+.then( () =>  console.log('Done.'))
 
-.then(function(){ console.log('\nCopying files copied to /dev...')})
+.then( () => console.log('\n Compiling Icon templates /tmp...'))
+.then(compileIconsTemplatesToTmp)
+.then( () =>  console.log('Done.'))
+
+.then( () => console.log('\nCopying files copied to /dev...'))
 .then(copyFilesToDev)
-.then(function(){ console.log('Done.')})
+.then( () => console.log('Done.'))
 
-.then(function(){ console.log('\nBudling styles into dev...')})
+.then( () => console.log('\nBudling styles into dev...'))
 .then(bundleStylesToDev)
-.then(function(){ console.log('Done.')})
+.then( () => console.log('Done.'))
 
 
-.then(function(){ console.log('\nCompiling Index into dev...')})
+.then( () => console.log('\nCompiling Index into dev...'))
 .then(compileIndex)
-.then(function(){ console.log('Done.')})
+.then( () =>  console.log('Done.'))
 
-.then(function(){ console.log('\nCleaninng up...')})
+
+
+.then( () => console.log('\nCleaninng up...'))
 .then(cleanUp)
-.then(function(){ console.log('Done.')})
+.then( () => console.log('Done.'))
 
 
 .then(
-	function(){
-		console.log('\nAll done. \n')
-	},
-	function(e){
-		console.trace(e)
-	}
+	()	=> console.log('\nAll done. \n'),
+	e	=> console.trace(e)
 )
 
 
