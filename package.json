@@ -11,7 +11,8 @@
     "browserify": "^14.1.0",
     "clean-css": "^4.0.12",
     "copyfiles": "^1.2.0",
-    "roboto-fontface": "^0.7.0"
+    "roboto-fontface": "^0.7.0",
+    "typeface-biryani": "0.0.22"
   },
   "scripts": {
     "build:dev": "node build_dev.js",

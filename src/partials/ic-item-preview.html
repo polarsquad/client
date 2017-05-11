@@ -17,7 +17,11 @@
 		 --><span class = "date heavy" ng-if = "icItem.startDate && icItem.endDate"> – {{icItem.startDate | icDate}}</span> 
 			{{icItem.brief.de}}
 		</div>
-		<div class ="category ic-col-cat-{{::icCategory.name}}">
+		<span class ="category ic-col-cat-{{::icCategory.name}}">
 			{{icCategory.name |translate}}
-		</div>
+		</span>
+
+		<span class ="type ic-col-cat-{{::icType.name}}">
+			{{icType.name |translate}}
+		</span>
 </div>

@@ -90,22 +90,40 @@ ic-tag {
 	line-height:					1.5em;
 	border-radius:					0.175em;
 	padding-left:					0.5rem;
+	padding-top:					1px;
+	padding-bottom:					1px;
+}
+ic-tag > * {
+	vertical-align:					middle;
 }
 
 ic-tag .title {
 	display:						inline-block;
 	flex:							1 0 auto;
 	margin-right:					0.5em;
+	line-height:					1em;
 }
 
-ic-tag .count {
+ic-tag .title:after {
+	content:						'';
+	display:						inline-block;
+	height:							1em;	
+}
+
+ic-tag .counter {
 	display:						inline-block;
 	box-sizing:						border-box;
 	font-size:						0.8em;
-	line-height:					1.5em;
-	min-width:						1.5em;
+	min-width:						1em;
+	padding:						0 0.5em;
+	line-height:					1em;
 	margin-right:					0.5em;
 	flex:							0 0 auto;
 	text-align:						center;
-	padding:						0 0.5em;
+}
+
+ic-tag .counter:after {
+	content:						'';
+	display:						inline-block;
+	height:							1em;
 }

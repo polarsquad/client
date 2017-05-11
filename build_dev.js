@@ -6,30 +6,6 @@ var copyfiles	= require('copyfiles'),
 	CleanCSS	= require('clean-css')
 
 
-function whenFn(fn_with_callback, params){
-
-	params = params || []
-
-	return function(){
-		return 	new Promise(function(resolve, reject){
-					params.push(function(e,result){
-						if(e){
-							reject(e)
-						} else {
-							resolve(result)
-						}
-					})
-					fn_with_callback.apply(null, params)
-				})
-	}
-}
-
-function when(fn_with_callback, params){
-	return whenFn(fn_with_callback, params)()
-}
-
-
-
 function setup(){
 	return 	Promise.all([
 				fs.emptyDir('dev'),
@@ -43,7 +19,7 @@ function compileTaxonomyTemplate(key, template){
 				.then(function(template){
 					return	taxonomy[key].map(function(item){
 								if(!item.name) 					console.error('Taxonomy templates: Missing name:',key , item)
-								if(item.name.match(/[^a-z]/)) 	console.error('Taxonomy templates: Only lower case names allowed:',key , item.name)
+								if(item.name.match(/[^a-z_]/)) 	console.error('Taxonomy templates: Only lower case letters and "_" allowed in names:',key , item.name)
 								return	template
 										.replace(/{{name}}/g, 			item.name)
 										.replace(/{{color\[([0-9]+)\]}}/g, 
@@ -79,8 +55,11 @@ function compileIconsTemplatesToTmp(){
 				fs.readdir('src/images/icons')
 			])
 			.then(result => {
-				var template	= result[0], 
-					filenames 	= result[1].filter( (filename) => fs.lstatSync('src/images/icons/'+filename).isFile())
+				var template	= 	result[0], 
+					filenames 	= 	result[1].filter( (filename) => fs.lstatSync('src/images/icons/'+filename).isFile())
+					preload		= 	'\n\nbody:before{\n display:none;\n content:'
+									+ filenames.map( (fn) => '\turl(/images/icons/' + fn + ')' ).join('')
+									+ ';\n}\n\n'
 
 
 				return 	filenames.map(function(filename){
@@ -98,8 +77,21 @@ function compileIconsTemplatesToTmp(){
 									.replace(/{{name}}/g, '/images/icons/'+filename)
 						})
 						.join('\n\n')
+						+ preload 
 			})
-			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')))
+			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
+}
+
+
+function prepareFonts(){
+
+	return 	Promise.all([
+				fs.readFile("node_modules/typeface-biryani/index.css",	"utf8"),
+				fs.copy("node_modules/typeface-biryani/files",			"dev/fonts/Biyarni"),
+				fs.ensureDir("dev/styles")
+			])
+			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
+			.then( css 		=> fs.writeFile('tmp/styles/typeface-biryani.css', css, 'utf8'))
 }
 
 
@@ -117,12 +109,9 @@ function copyFilesToDev(){
 				
 				//todo?
 				fs.copy("config", 			"dev/config", {dereference: true}),
-
-				// Fonts:
-				fs.copy("node_modules/roboto-fontface/fonts/Roboto",					"dev/fonts/Roboto"),
-				fs.copy("node_modules/roboto-fontface/css/roboto/roboto-fontface.css", 	"dev/styles/Roboto/roboto-fontface.css")
 			])
 }
+
 
 
 function bundleStyles(src_dir, target_dir, filename){
@@ -199,6 +188,11 @@ setup()
 .then( () => console.log('\n Compiling Icon templates /tmp...'))
 .then(compileIconsTemplatesToTmp)
 .then( () =>  console.log('Done.'))
+
+.then( () => console.log('\n Preparing Fonts...'))
+.then(prepareFonts)
+.then( () =>  console.log('Done.'))
+
 
 .then( () => console.log('\nCopying files copied to /dev...'))
 .then(copyFilesToDev)

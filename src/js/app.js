@@ -70,20 +70,6 @@ angular.module("InfoCompass",[
 			defaultValue:	'home'
 		})
 
-		.registerParameter({
-			name: 			'searchTerm',
-			encode:			function(value, ic){
-								if(!value) return ''
-								return 's/'+value 
-							},
-			decode:			function(path, ic){
-								var matches = path.match(/(^|\/)s\/([^\/]*)/)
-
-								return matches && matches[2]
-							}
-		})
-
-
 		.registerSection({
 			name:			'page',
 			template:		'partials/ic-section-page.html',
@@ -180,16 +166,12 @@ angular.module("InfoCompass",[
 
 .run([
 	'$rootScope',
-	'$q',
-	'$location',
 	'ic',
 
-	function($rootScope, $q, $location, ic){
+	function($rootScope, ic){
 
 		$rootScope.ic = ic
-		console.log(ic)
-		console.log($rootScope)
-		console.log($location)
+
 	}
 ])
 

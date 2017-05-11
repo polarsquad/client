@@ -2,18 +2,19 @@
 	<article class = "bg-0">
 		<a
 			ng-if		= "true"
-			class 		= "icon-type-all"
-			ng-class	= "{active:checked}"
-			ng-click	= "checked = !checked" 
+			class 		= "icon icon-type-all"
+			ng-class	= "{active:ic.filterConfig.typeCleared()}"
+			ng-click	= "ic.filterConfig.clearType()" 
 		>
-			{{'all'|translate}}
+			{{'any'|translate}}
 		</a>
 		<a
 			ng-repeat 	= "type in ic.taxonomy.types"
 			ng-if		= "true"
-			class		= "icon-type-{{::type.name}} bg-0"
-			ng-class	= "{active: checked}"
-			ic-click	= "checked = !checked"
+			class 		= "icon icon-type-{{::type.name}}"
+			ng-class	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.subMatches[type.name]}"
+			ng-click	= "ic.itemStorage.subMatches[type.name] && ic.filterConfig.toggleType(type.name)"
+			ic-touch	= "true"
 		>
 			<ic-tag name ="type.name"></ic-tag>
 		</a>
@@ -24,11 +25,20 @@
 	<h2 class = "bg-0 icon-interface-down">{{'categories' | translate}}</h2>
 	<article class = "bg-0">
 		<a
+			ng-if		= "true"
+			class 		= "icon icon-type-all"
+			ng-class	= "{active:ic.filterConfig.categoryCleared()}"
+			ng-click	= "ic.filterConfig.clearCategory()" 
+		>
+			{{'any'|translate}}
+		</a>
+		<a
 			ng-repeat 	= "category in ic.taxonomy.categories"
 			ng-if		= "true"
-			class		= "icon-category-{{::category.name}} bg-0"
-			ng-class	= "{active:checked}"
-			ic-click	= "checked = !checked"
+			class		= "icon icon-category-{{::category.name}} bg-0"
+			ng-class	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.subMatches[category.name]}"
+			ng-click	= "ic.itemStorage.subMatches[category.name] && ic.filterConfig.toggleCategory(category.name)"
+			ic-touch	= "true"
 		>
 			<ic-tag name ="category.name"></ic-tag>
 		</a>
@@ -39,11 +49,20 @@
 	<h2 class = "bg-0 icon-interface-down">{{'unsorted' | translate}}</h2>
 	<article class = "bg-0">
 		<a
+			ng-if		= "true"
+			class 		= "icon icon-type-all"
+			ng-class	= "{active:ic.filterConfig.unsortedTagCleared()}"
+			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
+		>
+			{{'any'|translate}}
+		</a>
+		<a
 			ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
 			ng-if		= "true"
-			class		= "icon-interface-checkbox bg-0"
-			ng-class	= "{checked:checked, active:checked}"
-			ic-click	= "checked = !checked"
+			class		= "icon icon-interface-checkbox"
+			ng-class	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.subMatches[tag]}"
+			ng-click	= "ic.itemStorage.subMatches[tag] && ic.filterConfig.toggleUnsortedTag(tag)"
+			ic-touch	= "true"
 		>
 			<ic-tag name ="tag"></ic-tag>
 		</a>

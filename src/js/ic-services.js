@@ -190,8 +190,7 @@ angular.module('icServices', [
 				function(){
 					return icSite.config.params.map(function(param){ return icSite[param.name] })
 				},
-				function(){
-
+				function(params){
 					icSite
 					.updateSections()
 					.schedulePathUpdate()					
@@ -312,7 +311,6 @@ angular.module('icServices', [
 				
 
 				icTaxonomy.getCategory = function(category_names){
-					console.log(category_names)
 					var single = (typeof category_name == 'string')
 					
 					if(single) category_names = [category_names]
@@ -325,11 +323,189 @@ angular.module('icServices', [
 							: result
 				}
 
+				icTaxonomy.getType = function(type_names){
+					var single = (typeof type_names == 'string')
+					
+					if(single) type_names = [type_names]
+
+					var result = 	icTaxonomy.types.filter(function(type){
+										return type_names.indexOf(type_names.name) != -1
+									})
+					return	single
+							? result[0]
+							: result
+				}
+
 				return icTaxonomy
 			}
 		]
 	}
 )
+
+.service('icFilterConfig',[
+
+	'$rootScope',
+	'icSite',
+	'icItemStorage',
+	
+	function($rootScope, icSite, icItemStorage){
+		var icFilterConfig = this
+
+		icSite
+		.registerParameter({
+			name: 			'searchTerm',
+			encode:			function(value, ic){
+								if(!value) return ''
+								return 's/'+value 
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)s\/([^\/]*)/)
+
+								return (matches && matches[2]) || null
+							}
+		})
+		.registerParameter({
+			name:			'filterByCategory',
+			encode:			function(value, ic){
+								var j = value && value.join && value.join('-')								
+
+								return j ? 'c/'+value.join('-')	: ''
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)c\/([^\/]*)/)
+
+								return (matches && matches[2].split('-')) || []
+							},
+		})
+		.registerParameter({
+			name:			'filterByType',
+			encode:			function(value, ic){
+								var j = value && value.join && value.join('-')								
+
+								return j ? 't/'+value.join('-')	: ''
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)t\/([^\/]*)/)
+
+								return (matches && matches[2].split('-')) || []
+							},
+		})		
+		.registerParameter({
+			name:			'filterByUnsortedTag',
+			encode:			function(value, ic){
+								var j = value && value.join && value.join('-')								
+
+								return j ? 'u/'+value.join('-')	: ''
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)u\/([^\/]*)/)
+
+								return (matches && matches[2].split('-')) || []
+							},
+		})
+
+		icFilterConfig.toggleType = function(type_name, toggle){
+
+			var pos 	= 	icSite.filterByType.indexOf(type_name),
+				toggle 	= 	toggle === undefined
+							?	pos == -1
+							:	!!toggle
+
+			if(pos == -1 &&  toggle) return !!icSite.filterByType.push(type_name)
+			if(pos != -1 && !toggle) return !!icSite.filterByType.splice(pos,1)
+
+		}
+
+		icFilterConfig.clearType = function(){
+			while(icSite.filterByType.pop());
+			return icFilterConfig
+		}
+
+		icFilterConfig.typeActive = function(type_name){
+			return icSite.filterByType.indexOf(type_name) != -1
+		}
+
+		icFilterConfig.typeCleared = function(){
+			return !icSite.filterByType.length
+		}
+
+
+
+
+
+		icFilterConfig.toggleCategory = function(category_name, toggle){
+
+			var pos 	= 	icSite.filterByCategory.indexOf(category_name),
+				toggle 	= 	toggle === undefined
+							?	pos == -1
+							:	!!toggle
+
+			if(pos == -1 &&  toggle) return !!icSite.filterByCategory.push(category_name)
+			if(pos != -1 && !toggle) return !!icSite.filterByCategory.splice(pos,1)
+
+		}
+
+		icFilterConfig.clearCategory = function(){
+			while(icSite.filterByCategory.pop());
+			return icFilterConfig
+		}
+
+		icFilterConfig.categoryActive = function(category_name){
+			return icSite.filterByCategory.indexOf(category_name) != -1
+		}
+
+		icFilterConfig.categoryCleared = function(){
+			return !icSite.filterByCategory.length
+		}
+
+
+
+
+
+
+
+		icFilterConfig.toggleUnsortedTag = function(tag, toggle){
+
+			var pos 	= 	icSite.filterByUnsortedTag.indexOf(tag),
+				toggle 	= 	toggle === undefined
+							?	pos == -1
+							:	!!toggle
+
+			if(pos == -1 &&  toggle) return !!icSite.filterByUnsortedTag.push(tag)
+			if(pos != -1 && !toggle) return !!icSite.filterByUnsortedTag.splice(pos,1)
+
+		}
+
+		icFilterConfig.clearUnsortedTag = function(){
+			while(icSite.filterByUnsortedTag.pop());
+			return icFilterConfig
+		}
+
+		icFilterConfig.unsortedTagActive = function(tag){
+			return icSite.filterByUnsortedTag.indexOf(tag) != -1
+		}
+
+		icFilterConfig.unsortedTagCleared = function(){
+			return !icSite.filterByUnsortedTag.length
+		}
+
+
+		$rootScope.$watch(
+			function(){
+				return 	[
+							icSite.filterByCategory,
+							icSite.filterByType,
+							icSite.filterByUnsortedTag
+						]
+			},
+			function(arr){
+				icItemStorage.updateFilteredList([].concat.apply([], arr))
+			},
+			true
+		)
+
+	}
+])
 
 //updating core Service
 
@@ -341,16 +517,17 @@ angular.module('icServices', [
 	'icItemStorage',
 	'icLayout',
 	'icTaxonomy',
+	'icFilterConfig',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
 		ic.layout		= icLayout
 		ic.taxonomy		= icTaxonomy
+		ic.filterConfig	= icFilterConfig
 
-		console.log('dsf')
-		console.log(icTaxonomy)
+		console.dir(ic)
 	}
 ])
 

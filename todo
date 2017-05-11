@@ -33,13 +33,20 @@ Todo:
  * filter
  * preview mit type ergänzen
  * serachterm should ignore case
- * unsorted tags
- * pull down z-index
+ * server für angular einrichten
+* Übersetzungtabelle
+* überlegen icon größen
+* smoth snppyscroll
 
 Done:
 * Header anlegen
 * Startseite anlegen
 * scrolsnap
 * Scrolling / Header
- * icons generieren _..._..._....
-
+* icons generieren _..._..._....
+* Font
+* Scrolling iPad
+* Bubble color auf grau
+* console.logs bei scroll listtraus
+* pull down z-index
+* unsorted tags

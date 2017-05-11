@@ -128,7 +128,6 @@ angular.module('icUiDirectives', [
 						scope[l] 			= Math.max(Math.min(max, scope[l]), step_size)
 						scope.noMoreItems 	= max == scope[l]
 						scope.noScroll 		= container[0].clientHeight == container[0].scrollHeight
-						console.log('watch!')
 						updateLimit()
 					}, true
 				)
@@ -155,7 +154,7 @@ angular.module('icUiDirectives', [
 		}
 
 		this.deRegisterAnchor = function(anchor_name){
-			if(!anchors[anchor_name]) consone.warn('icScrollSnapAnchors: no anchor with that name exists: '+ anchor_name)
+			if(!anchors[anchor_name]) console.warn('icScrollSnapAnchors: no anchor with that name exists: '+ anchor_name)
 			anchors[anchor_name] = undefined
 			return this
 		}
@@ -175,8 +174,10 @@ angular.module('icUiDirectives', [
 		return{
 			link:function(scope, element, attrs){
 				icScrollSnapAnchors.registerAnchor(attrs.icScrollSnapAnchor, element)
+				console.log('register:', attrs.icScrollSnapAnchor)
 
 				scope.$on('$destroy', function(){
+					console.log('destroy:', attrs.icScrollSnapAnchor)
 					icScrollSnapAnchors.deRegisterAnchor(attrs.icScrollSnapAnchor)
 				})
 			}
@@ -295,29 +296,6 @@ angular.module('icUiDirectives', [
 
 
 
-
-.filter('fill', [
-	function(){
-		return function(str, rep){
-			rep = 	rep || ''
-			rep = 	rep
-					.replace(/\s/, '_')
-					.replace(/([A-Z])/g, '_$1').toUpperCase()
-			return str.replace(/%s/, rep)
-		}
-	}
-])
-
-.filter('toConsole', [
-	function(){
-		return function(x){
-			console.log(x)
-			return x
-		}
-	}
-])
-
-
 .directive('icSettleScrollbar',[
 	
 	function(){
@@ -356,3 +334,33 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+
+
+.filter('fill', [
+	function(){
+		return function(str, rep){
+			rep = 	rep || ''
+			rep = 	rep
+					.replace(/\s/, '_')
+					.replace(/([A-Z])/g, '_$1').toUpperCase()
+			return str.replace(/%s/, rep)
+		}
+	}
+])
+
+.filter('toConsole', [
+	function(){
+		return function(x){
+			console.log(x)
+			return x
+		}
+	}
+])
+
+.filter('in',[
+	function(){
+		return function(x, a){
+			return a.indexOf(x) != -1
+		}
+	}
+])

@@ -9,6 +9,7 @@ body {
 	flex-direction:				column;
 	margin:						0;
 	height:						100%;
+	overflow:					hidden;
 }
 
 ic-header {
@@ -27,6 +28,7 @@ ic-content {
 	flex-direction:				row;
 	background-color:			#e6e6e6;
 	overflow:					hidden !important;
+	height:						100%;
 }
 
 ic-content > * {

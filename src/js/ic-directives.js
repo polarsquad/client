@@ -118,7 +118,10 @@ angular.module('icDirectives', [
 
 				scope.$watch(
 					function(){ return scope.icItem.tags},
-					function(){ scope.icCategory = 	scope.icItem && icTaxonomy.getCategory(scope.icItem.tags)[0] },
+					function(){ 
+						scope.icCategory 	= 	scope.icItem && icTaxonomy.getCategory(scope.icItem.tags)[0] 
+						scope.icType 		= 	scope.icItem && icTaxonomy.getType(scope.icItem.tags)[0] 
+					},
 					true
 				)
 			}

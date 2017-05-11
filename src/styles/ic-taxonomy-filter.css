@@ -23,12 +23,10 @@ ic-taxonomy-filter section article {
 ic-taxonomy-filter section h2, 
 ic-taxonomy-filter section a {
 	display:					block;
-	line-height:				2rem;
+	line-height:				3rem;
 	padding-left:				3rem;
 	padding-right:				0.5rem;
-	background-size:			1.5rem;
-	background-position:		1rem 50%;
-	background-repeat:			no-repeat;
+	background-position:		1rem 50% !important;
 }
 ic-taxonomy-filter section ic-tag{
 	padding-left:				0;

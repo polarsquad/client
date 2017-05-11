@@ -93,6 +93,8 @@
 
 		icItemStorage.updateFilteredList = function(cod_tags){ //conjunction of disjunctions of tags [[tag1, tag2], [tag3]]
 			
+			console.log(cod_tags)
+
 			if(!cod_tags) cod_tags = []
 
 			//normalize cod_tags
@@ -108,7 +110,6 @@
 
 				item.internal.tags 	= item.internal.tags || []
 			
-
 				// check if item does NOT match the filter:
 				if(cod_tags.some(function(disjunction){
 					return disjunction.every(function(tag){
