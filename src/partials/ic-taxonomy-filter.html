@@ -5,6 +5,7 @@
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.typeCleared()}"
 			ng-click	= "ic.filterConfig.clearType()" 
+			ic-touch-me	= "true"
 		>
 			{{'any'|translate}}
 		</a>
@@ -13,8 +14,8 @@
 			ng-if		= "true"
 			class 		= "icon icon-type-{{::type.name}}"
 			ng-class	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.subMatches[type.name]}"
-			ng-click	= "ic.itemStorage.subMatches[type.name] && ic.filterConfig.toggleType(type.name)"
-			ic-touch	= "true"
+			ng-click	= "(ic.filterConfig.typeActive(type.name) || ic.itemStorage.subMatches[type.name]) && ic.filterConfig.toggleType(type.name)"
+			ic-touch-me	= "!!ic.itemStorage.subMatches[type.name]"
 		>
 			<ic-tag name ="type.name"></ic-tag>
 		</a>
@@ -29,6 +30,7 @@
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.categoryCleared()}"
 			ng-click	= "ic.filterConfig.clearCategory()" 
+			ic-touch-me	= "true"
 		>
 			{{'any'|translate}}
 		</a>
@@ -37,8 +39,8 @@
 			ng-if		= "true"
 			class		= "icon icon-category-{{::category.name}} bg-0"
 			ng-class	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.subMatches[category.name]}"
-			ng-click	= "ic.itemStorage.subMatches[category.name] && ic.filterConfig.toggleCategory(category.name)"
-			ic-touch	= "true"
+			ng-click	= "(ic.filterConfig.categoryActive(category.name) || ic.itemStorage.subMatches[category.name]) && ic.filterConfig.toggleCategory(category.name)"
+			ic-touch-me	= "!!ic.itemStorage.subMatches[category.name]"
 		>
 			<ic-tag name ="category.name"></ic-tag>
 		</a>
@@ -53,6 +55,7 @@
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.unsortedTagCleared()}"
 			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
+			ic-touch-me	= "true"
 		>
 			{{'any'|translate}}
 		</a>
@@ -61,8 +64,8 @@
 			ng-if		= "true"
 			class		= "icon icon-interface-checkbox"
 			ng-class	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.subMatches[tag]}"
-			ng-click	= "ic.itemStorage.subMatches[tag] && ic.filterConfig.toggleUnsortedTag(tag)"
-			ic-touch	= "true"
+			ng-click	= "(ic.filterConfig.unsortedTagActive(tag) || ic.itemStorage.subMatches[tag]) && ic.filterConfig.toggleUnsortedTag(tag)"
+			ic-touch-me	= "!!ic.itemStorage.subMatches[tag]"
 		>
 			<ic-tag name ="tag"></ic-tag>
 		</a>

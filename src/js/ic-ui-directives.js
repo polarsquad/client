@@ -33,12 +33,14 @@ angular.module('icUiDirectives', [
 			restrict:		'A',
 			link: function(scope, element, attrs){
 
-				var fading_time = attrs.icTouchMe || 400
+				var fading_time = 400
+
 
 				function add(){
 					angular.element(document.body).one('touchend mouseup', remove)									
 					element.addClass('ic-touched')	
 				}
+
 				function remove(){
 					element.addClass('ic-touch-fade')
 					window.requestAnimationFrame(function(){
@@ -49,12 +51,27 @@ angular.module('icUiDirectives', [
 					})
 				}
 
-				element.on('touchstart mousedown', add)
-
-				scope.$on('$destroy', function(){
+				function stop(){
 					element.off('touchstart mousedown', add)
 					angular.element(document.body).off('touchend mouseup', remove)
-				})
+				}
+
+				scope.$watch(
+					function(){
+						return scope.$eval(attrs.icTouchMe)
+					},
+					function(attr){
+						console.log(attr)
+						stop()
+						if(typeof attr != 'boolean' || attr === true){
+							fading_time = parseInt(attr)  || 400
+							element.on('touchstart mousedown', add)							
+						}
+
+					}
+				)
+
+				scope.$on('$destroy', stop)
 
 			}
 		}
