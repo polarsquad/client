@@ -31,7 +31,7 @@ angular.module('icDirectives', [
 
 	function(ic){
 		return {
-			restrict: 		"AE",
+			restrict: 		"E",
 			templateUrl:	"partials/ic-content.html",
 			scope:			{},
 
