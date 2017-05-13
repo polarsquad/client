@@ -1,0 +1,21 @@
+	<ic-tag
+		ng-repeat 	= "category in ic.taxonomy.categories"
+		class		= "ic-bg-cat-{{::category.name}}"
+		ng-if		= "category.name | in : icTags"
+		name		= "category.name"
+	>
+	</ic-tag><!--
+ --><ic-tag
+		ng-repeat 	= "type in ic.taxonomy.types"
+		class		= "ic-bg-type-{{::type.name}}"
+		ng-if		= "type.name | in : icTags"
+		name		= "type.name"
+	>
+	</ic-tag><!--
+ --><ic-tag
+		ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
+		class		= "bg-1"
+		ng-if		= "tag | in: icTags"
+		name		= "tag"
+	>
+	</ic-tag>

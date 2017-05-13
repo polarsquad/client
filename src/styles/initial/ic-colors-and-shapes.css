@@ -101,9 +101,29 @@
 	font-weight:				600;
 }
 
+.drop-shadow {
+	box-shadow:					0 0 0.15em rgba(0,0,0,0.7);
+}
+
 
 [disabled],
 .disabled {
-	opacity:						0.5;
-	cursor:							auto;
+	opacity:					0.5;
+	cursor:						auto;
+}
+
+.bubble {
+	display:					inline-block;
+	box-sizing:						border-box;
+	font-size:						0.8em;
+	padding:						0 0.5em;
+	line-height:					1.6em;
+	height:							1.4em;
+	margin-right:					0.5em;
+	text-align:						center;
+	border-radius:					1em;
+}
+
+.iblock {
+	display:				inline-block;
 }

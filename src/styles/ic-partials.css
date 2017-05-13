@@ -82,6 +82,16 @@ ic-search form button {
 }
 
 
+/*ic-tag-list */
+
+ic-tag-list {
+	display:						block;
+}
+
+ic-tag-list > * + * {
+	margin-left:					0.5rem;
+}
+
 /*ic-tag */
 
 ic-tag {
@@ -110,20 +120,6 @@ ic-tag .title:after {
 	height:							1em;	
 }
 
-ic-tag .counter {
-	display:						inline-block;
-	box-sizing:						border-box;
-	font-size:						0.8em;
-	min-width:						1em;
-	padding:						0 0.5em;
-	line-height:					1em;
-	margin-right:					0.5em;
+ic-tag .bubble {
 	flex:							0 0 auto;
-	text-align:						center;
-}
-
-ic-tag .counter:after {
-	content:						'';
-	display:						inline-block;
-	height:							1em;
 }

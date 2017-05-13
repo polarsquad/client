@@ -7,7 +7,15 @@ ic-page {
 
 ic-page  header {
 	height:						20rem;
-	padding-top:				1rem;
+	padding:					1rem;
+	background-size:			cover;
+}
+
+ic-page  header h2 {
+	font-size:					3rem;
+	margin:						0;
+	font-weight:				700;
+	text-shadow:				0 0 3rem rgba(0,0,0,1);
 }
 
 ic-page  article,
@@ -25,7 +33,8 @@ ic-page h3 {
 	margin-bottom:				1rem;
 }
 
-ic-page a {
+
+ic-page a.boxed {
 	display:					inline-block;
 	line-height:				2.5em;
 	padding:					0 0.5em;
@@ -41,8 +50,6 @@ ic-page .tiles {
 	margin-bottom:				0.5rem;
 }
 
-
-/*TODO*/
 
 ic-page .tiles > * {
 	box-sizing:					border-box;

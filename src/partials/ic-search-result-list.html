@@ -10,6 +10,7 @@
 >
 	<a
 		ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
+		ng-href			= "/item/{{item.id}}"
 	>
 
 		<ic-item-preview

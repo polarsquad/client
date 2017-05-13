@@ -1,64 +1,182 @@
 (function(exports){
 
+
 	exports.categories = [
 		{
 			name:		'information',
 			tags:		[	
-							"health",
-							"education",
-							"leisure",
-							"abc",
-							"education",
-							"leisure",
-							"culture",
-							"services",
+							"helpdesk",
+							"visiting",
+							"counseling",
+							"care",
+							"provision",
+							"will",
 						],
-			colors:		['hsla(99,48%,60%,1)', 'hsla(99,28%,38%,1)']
+			colors:		['#a2c9e4', '#a2c9e4']
 		},
+
 		{
 			name:		'goods',
 			tags:		[
-							"information",
-							"law",
-							"work",
-							"education",
-							"social",
-							"leisure",
-							"city",
-							"services",
+							"chemist",
+							"store",
+							"delivery",
+							"market",
+							"health_food",
 						],
-			colors:		['hsla(40,48%,60%,1)', 'hsla(40,28%,38%,1)']
+			colors:		['#FF7878', '#FF7878']
 
 		},
+
 		{
 			name:		'health',
 			tags:		[
-							"law",
-							"places",
-							"support",
-							"health",
-							"education",
-							"leisure",
-							"culture",
-							"services",
-							"events"
+							"pharmacy",
+							"physician",
+							"doctors_office",
+							"nutrition_counseling",
+							"discussion_group",
+							"alternative_practitioner",
+							"hospital",
+							"health_food",
+							"rehabilitation",
+							"medical_service",
+							"self_help"
 						],
-			colors:		['hsla(50,48%,60%,1)', 'hsla(50,28%,38%,1)']
+			colors:		['#AAC79A', '#AAC79A']
 		},
+
 		{
 			name:		'culture_leisure',
 			tags:		[
-							"support",
-							"health",
-							"work",
-							"education",
-							"social",
-							"leisure",
-							"culture",
-							"city",
+							"handicraft",
+							"library",
+							"learning_opportunity",
+							"festival",
+							"commitment",
+							"needlework",
+							"mobile_cinema",
+							"music",
+							"travel",
+							"senior_leisure_center",
+							"games",
+							"language_course",
+							"city_culture",
+							"dancing",
 						],
-			colors:		['hsla(10,48%,60%,1)', 'hsla(10,28%,38%,1)']
+			colors:		['#c4accc', '#c4accc']
 		},
+
+		{
+			name:		'mv',
+			tags:		[
+							"mailbox",
+							"coffee shop",
+							"guest_apartment",
+							"atm",
+							"hotel",
+							"church",
+							"neighborhood_floor",
+							"break_point",
+							"post_office",
+							"restaurant",
+							"meeting_places",
+							"wifi_hotspot",
+						],
+			colors:		['#b0bed0', '#b0bed0']
+		},
+
+		{
+			name:		'mobility',
+			tags:		[
+							"accompanying_service",
+							"benches",
+							"resting_place",
+							"public_transport",
+							"taxi_stand",
+						],
+			colors:		['#F9D766', '#F9D766']
+		},
+
+		{
+			name:		'care',
+			tags:		[
+							"health_care",
+							"visiting_service",
+							"neighborhood_assistance",
+							"meals_on_wheels",
+							"therapists",
+							"utilities",
+							"medical_supplies",
+							"emergency_call"
+						],
+			colors:		['#DFA8B9', '#DFA8B9']
+		},
+
+		{
+			name:		'services',
+			tags:		[
+							"chiropody",
+							"cosmetics",
+							"pigeons",
+							"cleaning",
+							"computer",
+							"funeral",
+							"food_delivery",
+							"craftsperson",
+							"optician",
+							"sanitary",
+							"vet",
+							"dog_care",
+							"pets",
+							"animal_care",
+							"finances",
+							"locksmith",
+							"disposal",
+							"hairdresser",
+							"cabs",
+							"lavatory",
+							"memento_mori",
+							"burglary_protection",
+						],
+			colors:		['#CAB9A9', '#CAB9A9']
+		},
+
+		{
+			name:		'sports',
+			tags:		[
+							"indoor_swimming",
+							"sports_club",
+							"sports_course",
+							"public_toilets",
+							"nordic_walking", 
+							"chair_gymnastics",
+							"seniors_playground",
+							"rehabilitation",
+							"community_college",
+							"dancing",
+						],
+			colors:		['#71DDD7', '#71DDD7']
+		},
+
+		{
+			name:		'accommodation',
+			tags:		[
+							"craftsmen",
+							"relocation_assistance",
+							"burglary protection",
+							"gesobau",
+							"household_help",
+							"nursing home",
+							"guest_apartment",
+							"disposal",
+							"senior_accomodation",
+						],
+			colors:		['#F5A452', '#F5A452']
+		},
+
+
+
 	]
 
 	exports.types = [
@@ -81,6 +199,10 @@
 	]
 
 	exports.unsortedTags = ['work', 'city', 'free', 'accessible']
+
+
+
+
 
 }(
 	('undefined' !== typeof exports) 

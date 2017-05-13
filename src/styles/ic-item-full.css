@@ -1,0 +1,60 @@
+ic-item-full {
+	display:					block;
+	position:					relative;
+}
+
+ic-item-full header {
+	margin-bottom:				2rem;
+}
+
+ic-item-full header .tools{
+	height:						3rem;
+	line-height:				3rem;
+}
+
+ic-item-full header .tools .main {
+	top:						1.5rem;
+	position:					absolute;
+	right:						0;
+	padding-right:				0.5rem;
+}
+
+ic-item-full header .tools .main > *  {
+	margin-right:				0.5rem;
+}
+
+
+ic-item-full .hero {
+	padding-bottom:				62.5%;
+	background-size:			cover;
+	background-position:		50% 50%;
+	background-color:			rgba(0,0,0,0.1);
+	background-repeat:			no-repeat;
+}
+
+ic-item-full > article {
+	display:					flex;
+	margin-bottom:				1rem;
+}
+
+ic-item-full > article	> *:nth-child(1){
+	flex:						1 0 0;
+	text-align:					right;
+	padding-right:				2rem;
+}
+
+ic-item-full > article	> *:nth-child(2){
+	flex:						3 0 0;
+}
+
+ic-item-full h2 {
+	font-size:					1.4rem;
+	font-weight:				600;
+	margin:						0;
+}
+
+ic-item-full h3 {
+	font-size:					1.4rem;
+	font-weight:				400;
+	margin:						0;
+}

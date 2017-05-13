@@ -67,7 +67,7 @@ angular.module("InfoCompass",[
 								return matches && matches[2]
 							},
 			options:		['home', 'tags'],
-			defaultValue:	'home'
+			//defaultValue:	'home'
 		})
 
 		.registerSection({
@@ -78,7 +78,7 @@ angular.module("InfoCompass",[
 							},
 			show:			function(ic){
 								return 		 ic.site.page
-										&&	!ic.site.searchTerm
+										&&	!ic.site.activeSections['list']
 							}				
 		})
 
@@ -86,10 +86,37 @@ angular.module("InfoCompass",[
 			name:			'list',
 			template:		'partials/ic-section-list.html',
 			active:			function(ic){
-								return ic.site.searchTerm
+								return 	[
+												!ic.site.activeItem
+											&&	!ic.site.page,
+												ic.site.searchTerm, 
+												ic.site.filterByCategory.length, 
+												ic.site.filterByType.length, 
+												ic.site.filterByUnsortedTag.length
+										]
+										.some(function(x){ return !!x})
+							},
+			show:			function(ic){								
+								return 	[
+												!ic.site.activeItem
+											&&	!ic.site.page,
+												ic.site.searchTerm, 
+												ic.site.filterByCategory.length, 
+												ic.site.filterByType.length, 
+												ic.site.filterByUnsortedTag.length
+										]
+										.some(function(x){ return !!x})
+							}				
+		})
+
+		.registerSection({
+			name:			'item',
+			template:		'partials/ic-section-item.html',
+			active:			function(ic){
+								return 	ic.site.activeItem
 							},
 			show:			function(ic){
-								return ic.site.searchTerm
+								return ic.site.activeItem
 							}				
 		})
 	}

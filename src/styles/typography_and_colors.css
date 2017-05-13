@@ -34,7 +34,6 @@ button:hover {
 	display:			inline-block;
 	border:				none;	
 	background-color:	#fff;
-	font-size:			1rem;
 }
 
 
@@ -226,97 +225,6 @@ input:-webkit-autofill:focus{
 .pointer {
 	cursor:					pointer;
 }
-
-
-
-
-
-/* Colors */
-
-
-.highlight {
-	color:					#f27020;
-}
-
-
-
-.text-blue {
-	color:					#62a7d5;
-}
-
-.text-orange {
-	color:					#f27020;
-}
-
-.text-yellow {
-	color:					#fec300;
-}
-
-.text-purple {
-	color:					#7c51a2;
-}
-
-
-
-
-
-
-.bg-blue {
-	background-color:		#62a7d5;
-}
-
-.bg-orange {
-	background-color:		#f27020;
-}
-
-.bg-yellow {
-	background-color:		#fec300;
-}
-
-.bg-purple {
-	background-color:		#7c51a2;
-}
-
-
-
-
-
-.border-blue {
-	border-color:			#62a7d5;
-}
-
-.border-orange {
-	border-color:			#f27020;
-}
-
-.border-yellow {
-	border-color:			#fec300;
-}	
-
-.border-purple {
-	border-color:			#7c51a2;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* todo */
-
-
-.text-primary {
-	color:					#f80;
-}
-
-
 
 
 

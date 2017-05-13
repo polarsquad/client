@@ -1,0 +1,145 @@
+<header >
+	<div class = "tools">
+		<button class = "icon icon-interface-close">
+			x
+		</button>
+
+		<ic-spinner active = "item.downloading"></ic-spinner>	
+
+		<div class = "main">
+			<button class = "large round icon icon-interface-share drop-shadow">
+			</button>
+			<button class = "large round icon icon-interface-print drop-shadow">
+			</buton>			
+			<button class = "large round icon icon-interface-favourites drop-shadow">
+			</buton>
+		</div>
+	</div>
+	<div class = "hero" style = "background-image: url(/images/large/example_item.jpg)">
+	</div> 
+</header>
+
+
+
+<!-- tags -->
+
+
+<article>
+	<div><!-- spacer --></div>
+	<ic-tag-list ic-tags = "item.tags"></ic-tag-list>
+</article>
+
+
+
+<!-- start item title, brief description -->
+<article>
+	<div>
+		<div class = "icon white large round icon-category-{{icCategory.name}} ic-bg-cat-{{icCategory.name}} iblock"></div>
+	</div>
+	<div>
+		<h2 class 	= "title" >
+			{{ item.title }}
+		</h2>
+		<h3>
+			{{ item.brief[de] }}
+		</h3>
+		<div>
+			{{ item.description[de] }}
+		</div>
+	</div>
+</article>
+<!-- end item title -->
+
+
+
+
+
+<!-- address -->
+
+<ic-item-property
+	ng-if			= "item.address"
+	ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
+	ic-content		= "item.location"
+	ic-extra-lines	= "[item.adress, (item.zip||'') + ' ' + (item.location||''), item.country]"
+	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
+	ic-icon			= "/images/icon/property-location.svg"
+>
+</ic-item-property>
+
+
+
+<!-- geo coordinates -->
+
+<!-- <ic-mini-map
+	class			= "screen-only"
+	ng-if			= "item.longitude && item.latitude"
+	ic-item			= "item"
+>
+</ic-mini-map> -->
+
+<ic-item-property
+	class			= "screen-only"
+	ng-if			= "item.longitude && item.latitude && !item.address"
+	ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
+	ic-content		= "item.latitude + ', ' +item.longitude"
+	ic-icon			= "/images/icon/property-location.svg"
+	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
+>
+</ic-item-property>
+
+
+
+
+<!-- misc -->
+
+<ic-item-property
+	ng-repeat	= "key in ['contact', 'website', 'email', 'phone', 'facebook', 'twitter']"
+	ng-if		= "item[key]"
+	ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
+	ic-content	= "item[key]"
+	ic-icon		= "key | icIcon : 'item' : 'black'"
+	ic-link		= "/images/icon/property-{{key}}.svg"
+>
+</ic-item-property>
+
+<!-- start and end dates -->
+
+<ic-item-property
+	ng-if		= "item.startDate && item.endDate"
+	ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
+	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
+	ic-icon		= "/images/icon/property-time.svg"
+>
+</ic-item-property>
+
+
+<ic-item-property
+	ng-if		= "item.startDate && !item.endDate"
+	ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
+	ic-content	= "item.startDate | icDate"
+	ic-icon		= "/images/icon/property-time.svg"
+>
+</ic-item-property>
+
+<ic-item-property
+	ng-if		= "item.endDate && !item.startDate"
+	ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
+	ic-content	= "item.endDate | icDate"
+	ic-icon		= "/images/icon/property-time.svg"
+>
+</ic-item-property>
+
+
+
+<!-- hours -->
+
+<ic-item-property
+	ng-if			= "item.hours"
+	ic-title 		= "'INTERFACE.ITEM_HOURS' | translate"
+	ic-extra-lines	= "item.hours | icSplit : ','"
+	ic-icon			= "/images/icon/property-time.svg"
+>
+</ic-item-property>
+
+
+

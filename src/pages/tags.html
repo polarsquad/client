@@ -5,13 +5,17 @@
 	>
 		<div class = "icon large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
-			<h2>{{category.name}}</h2>
+			<h2><a ng-href = "/c/{{::category.name}}">{{category.name}}</a></h2>
 			<div>
-				<ic-tag 
+				<a
 					ng-repeat 	= "tag in category.tags"
-					class		= "ic-bg-cat-{{category.name}} col-2 hover"
-					name		= "tag"
-				></ic-tag>
+					href  		= "/c/{{tag}}"
+				>
+					<ic-tag 
+						class		= "ic-bg-cat-{{category.name}} col-2 hover"
+						name		= "tag"
+					></ic-tag>
+				</a>
 			</div>
 		</div>
 	</ic-category>

@@ -38,8 +38,8 @@ function compileTaxonomyTemplate(key, template){
 
 function compileTaxonomyTemplatesToTmp() {
 	return	Promise.all([
-				compileTaxonomyTemplate('categories', 	'src/styles/ic-category.template'),
-				compileTaxonomyTemplate('types', 		'src/styles/ic-types.template')
+				compileTaxonomyTemplate('categories', 	'src/styles/templates/ic-category.template'),
+				compileTaxonomyTemplate('types', 		'src/styles/templates/ic-types.template')
 			])
 			.then(function(results){			 
 				return 	fs.ensureDir('tmp/styles')
@@ -48,18 +48,20 @@ function compileTaxonomyTemplatesToTmp() {
 }
 
 
-
-function compileIconsTemplatesToTmp(){
+function images2Css(src_folder, dst_folder, template_file, preload){
 	return	Promise.all([
-				fs.readFile('src/styles/ic-icon.template', 'utf8'),
-				fs.readdir('src/images/icons')
+				fs.readFile(template_file, 'utf8'),
+				fs.readdir(src_folder)
 			])
 			.then(result => {
 				var template	= 	result[0], 
-					filenames 	= 	result[1].filter( (filename) => fs.lstatSync('src/images/icons/'+filename).isFile())
-					preload		= 	'\n\nbody:before{\n display:none;\n content:'
-									+ filenames.map( (fn) => '\turl(/images/icons/' + fn + ')' ).join('')
-									+ ';\n}\n\n'
+					filenames 	= 	result[1].filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
+					preload		= 	preload
+									?	'\n\nbody:before{\n display:none;\n content:'
+										+ filenames.map( (fn) => '\turl(dst_folder' + fn + ')' ).join('')
+										+ ';\n}\n\n'
+									: ''
+
 
 
 				return 	filenames.map(function(filename){
@@ -74,12 +76,21 @@ function compileIconsTemplatesToTmp(){
 												?	p1+part
 												:	''
 									})
-									.replace(/{{name}}/g, '/images/icons/'+filename)
+									.replace(/{{name}}/g, dst_folder+'/'+filename)
 						})
 						.join('\n\n')
 						+ preload 
 			})
+}
+
+function compileIconsTemplatesToTmp(){
+	return	images2Css('src/images/icons', '/images/icons/', 'src/styles/templates/ic-icon.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
+}
+
+function compileImageTemplatesToTmp(){
+	return	images2Css('src/images/large', '/images/large', 'src/styles/templates/ic-image.template')
+			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
 }
 
 
@@ -185,11 +196,16 @@ setup()
 .then(compileTaxonomyTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
-.then( () => console.log('\n Compiling Icon templates /tmp...'))
+.then( () => console.log('\nCompiling icon templates /tmp...'))
 .then(compileIconsTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
-.then( () => console.log('\n Preparing Fonts...'))
+.then( () => console.log('\nCompiling image templates /tmp...'))
+.then(compileImageTemplatesToTmp)
+.then( () =>  console.log('Done.'))
+
+
+.then( () => console.log('\nPreparing Fonts...'))
 .then(prepareFonts)
 .then( () =>  console.log('Done.'))
 

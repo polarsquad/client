@@ -44,7 +44,7 @@ angular.module('icServices', [
 							sections:	[],
 						}
 
-
+	this.onRegister = function(){}
 
 	this.registerParameter = function(new_parameter){
 		/*
@@ -56,6 +56,7 @@ angular.module('icServices', [
 							}
 		 */
 		this.config.params.push(new_parameter)
+		this.onRegister()
 		return this
 	}
 
@@ -67,6 +68,7 @@ angular.module('icServices', [
 							}
 		 */
 		this.config.switches.push(new_switch)
+		this.onRegister()
 		return this
 	}
 
@@ -80,6 +82,7 @@ angular.module('icServices', [
 							}
 		 */
 		this.config.sections.push(new_section)
+		this.onRegister()
 		return this
 	}
 
@@ -185,6 +188,7 @@ angular.module('icServices', [
 						.updateVisibleSections()
 			}
 
+			icSite.onRegister = function(){ $rootScope.$evalAsync(icSite.updateFromPath) }
 
 			$rootScope.$watch(
 				function(){
@@ -303,7 +307,7 @@ angular.module('icServices', [
 					})
 
 					itemConfig.tags.forEach(function(tag){
-						if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not account for in Catgories:', tag)
+						if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not accounted for in Catgories:', tag)
 					})
 				}
 

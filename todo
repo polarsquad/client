@@ -23,20 +23,22 @@ Todo:
  * s.o.
  * Suche
  * ic Storage update items
- * preview items
  * Themen/Tags
  * Farben und klassen auslagern
- * ic-touched
  * alte typography rauswerfen
  * svgmin
- * scrolllimit previews zu kurz
  * filter
  * preview mit type ergänzen
- * serachterm should ignore case
+ * searchterm should ignore case
  * server für angular einrichten
 * Übersetzungtabelle
 * überlegen icon größen
-* smoth snppyscroll
+* smooth snppyscroll
+* ictouch not scroll
+* breadcrumbs für liste
+* icons ergänzen
+
+Next: item full layout
 
 Done:
 * Header anlegen
@@ -50,3 +52,12 @@ Done:
 * console.logs bei scroll listtraus
 * pull down z-index
 * unsorted tags
+
+
+Brauche:
+
+* Icons als svg (nicht als png)
+* Taxonomy erklären:
+	- Was unterscheidet Themen von typen?
+	- Warum überschneiden sich Themen?
+	- Wo sollen die Unterthemen gefiltert werden?

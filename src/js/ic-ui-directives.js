@@ -61,7 +61,6 @@ angular.module('icUiDirectives', [
 						return scope.$eval(attrs.icTouchMe)
 					},
 					function(attr){
-						console.log(attr)
 						stop()
 						if(typeof attr != 'boolean' || attr === true){
 							fading_time = parseInt(attr)  || 400
@@ -110,14 +109,19 @@ angular.module('icUiDirectives', [
 					scope[l] += step_size
 				}
 
+				var surplus = undefined
+
 				function updateLimit(){
-					var surplus 	= element[0].getBoundingClientRect().bottom-container[0].getBoundingClientRect().bottom,
-						last_limit 	= scope[l]
+					var last_surplus = surplus
+
+					surplus = element[0].getBoundingClientRect().bottom-container[0].getBoundingClientRect().bottom
+
+					if(surplus == last_surplus) return false
 
 					if(surplus < container[0].clientHeight)		scope[l] += step_size
 					if(surplus > 2*container[0].clientHeight)	scope[l] -= step_size
-					
-					return last_limit != scope[l]
+
+					return true
 				}
 
 
@@ -161,23 +165,22 @@ angular.module('icUiDirectives', [
 .service('icScrollSnapAnchors',[
 
 	function(){
-		var anchors = {}
+		this.anchors = {}
 
 		this.registerAnchor = function(anchor_name, element){
 			element = element[0] || element
-			if(anchors[anchor_name]) console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
-			anchors[anchor_name] = element
+			if(this.anchors[anchor_name]) console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
+			this.anchors[anchor_name] = element
 			return this
 		}
 
-		this.deRegisterAnchor = function(anchor_name){
-			if(!anchors[anchor_name]) console.warn('icScrollSnapAnchors: no anchor with that name exists: '+ anchor_name)
-			anchors[anchor_name] = undefined
-			return this
-		}
+		this.deRegisterAnchor = function(anchor_name, element){
+			element = element[0] || element
+			if(!this.anchors[anchor_name]) console.warn('icScrollSnapAnchors: no anchor with that name exists: '+ anchor_name)
+			if(!this.anchors[anchor_name] && this.anchors[anchor_name] != element) console.warn('icScrollSnapAnchors: element is not registered with this name:', anchor_name, element)
 
-		this.getAnchorElement = function(anchor_name){
-			return anchors[anchor_name]
+			if(this.anchors[anchor_name] == element) this.anchors[anchor_name] = undefined
+			return this
 		}
 
 	}
@@ -191,11 +194,9 @@ angular.module('icUiDirectives', [
 		return{
 			link:function(scope, element, attrs){
 				icScrollSnapAnchors.registerAnchor(attrs.icScrollSnapAnchor, element)
-				console.log('register:', attrs.icScrollSnapAnchor)
 
 				scope.$on('$destroy', function(){
-					console.log('destroy:', attrs.icScrollSnapAnchor)
-					icScrollSnapAnchors.deRegisterAnchor(attrs.icScrollSnapAnchor)
+					icScrollSnapAnchors.deRegisterAnchor(attrs.icScrollSnapAnchor, element)
 				})
 			}
 		}
@@ -211,7 +212,7 @@ angular.module('icUiDirectives', [
 			link: function(scope, element, attrs){
 
 				var target				= attrs.icScrollSnapTarget,
-					anchor				= icScrollSnapAnchors.getAnchorElement(target),
+					anchors				= icScrollSnapAnchors.anchors,
 					to					= undefined,
 					expect_scroll		= false,
 					stop_snapping		= false,
@@ -222,8 +223,8 @@ angular.module('icUiDirectives', [
 						element.toggleClass(
 							'ic-scroll-snapped', 
 
-								anchor.scrollTop > 0 
-							&& 	element[0].offsetHeight + anchor.clientHeight < anchor.scrollHeight
+								anchors[target].scrollTop > 0 
+							&& 	element[0].offsetHeight + anchors[target].clientHeight < anchors[target].scrollHeight
 						)						
 					})
 
@@ -242,15 +243,15 @@ angular.module('icUiDirectives', [
 
 					window.requestAnimationFrame(function(){
 
-						if(anchor.scrollTop > anchor.scrollHeight - anchor.clientHeight * (1+threshold) ) return null
-						if(anchor.scrollTop > anchor.clientHeight * threshold) return null
+						if(anchors[target].scrollTop > anchors[target].scrollHeight - anchors[target].clientHeight * (1+threshold) ) return null
+						if(anchors[target].scrollTop > anchors[target].clientHeight * threshold) return null
 						if(stop_snapping) return null
 
 
 						expect_scroll 		= true
-						anchor.scrollTop 	= Math.max(anchor.scrollTop * 0.85 - 2*steps, 0)
+						anchors[target].scrollTop 	= Math.max(anchors[target].scrollTop * 0.85 - 2*steps, 0)
 
-						if(anchor.scrollTop != 0) snap(steps+1)
+						if(anchors[target].scrollTop != 0) snap(steps+1)
 					})
 				}
 
@@ -261,9 +262,7 @@ angular.module('icUiDirectives', [
 
 
 				window.addEventListener('scroll', function(event){
-					anchor = anchor || icScrollSnapAnchors.getAnchorElement(target)
-
-					if(event.target != anchor) return null
+					if(event.target != anchors[target]) return null
 
 					if(!expect_scroll) stop_snapping = true
 
@@ -351,6 +350,23 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.directive('icButton', [
+
+	function(){
+		return  {
+			restrict:	'A',
+			scope:		true,
+
+			link: function(scope, element, attrs){
+				scope.$watch(attrs.icButton, function(obj){
+					if(!obj) return null
+					scope.active 	= !!obj.active
+					scope.disabled 	= !!obj.disabled 
+				})
+			}
+		}
+	}
+])
 
 
 .filter('fill', [
@@ -365,6 +381,18 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+
+.filter('in',[
+	function(){
+		return function(x, a){
+			return a.indexOf(x) != -1
+		}
+	}
+])
+
+
+//debug
+
 .filter('toConsole', [
 	function(){
 		return function(x){
@@ -374,10 +402,25 @@ angular.module('icUiDirectives', [
 	}
 ])
 
-.filter('in',[
-	function(){
-		return function(x, a){
-			return a.indexOf(x) != -1
-		}
+
+.filter('onScreen', function(){
+	return function(x){
+		var element = angular.element(document.getElementById('on-screen-debug-window') || document.createElement('div'))
+			log		= angular.element('<pre>'+x+'</pre>'),
+			body	= angular.element(document.getElementsByTagName('body'))
+
+		ody.append(element)
+
+		element.css({
+			position:	'fixed',
+			bottom:		'0',
+			height:		'20%',
+			width:		'100%',
+			opacity:	'0.8',
+			overflowY:	'scroll'
+		})
+		element.append(log)
+
+		return x
 	}
-])
+})

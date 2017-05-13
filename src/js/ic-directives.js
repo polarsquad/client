@@ -61,24 +61,6 @@ angular.module('icDirectives', [
 ])
 // Start with just the view, edit can be a different directive, maybe utilize switch
 
-.directive('icFullItem',[
-
-	'ic',
-
-	function(ic){
-
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-full-item.html',
-			scope:			{},
-
-			link: function(scope, element, attrs){
-				scope.ic = ic
-			}
-		}
-	}
-])
-
 
 //Todo Filter für item links bauen ?
 .directive('icSearchResultList', [
@@ -128,6 +110,104 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+
+.directive('icItemFull',[
+
+	'ic',
+	'icSite',
+	'icTaxonomy',
+
+	function(ic, icSite,icTaxonomy){
+
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-full.html',
+			scope:			{},
+
+			link: function(scope, element, attrs){
+				scope.ic 	= ic
+				
+				scope.$watch(
+					function(){
+						return icSite.activeItem
+					},
+					function(item){
+						scope.item = item
+					}
+				) 
+
+				scope.$watch(
+					function(){ return icSite.activeItem.tags},
+					function(tags){ 
+						scope.icCategory 	= 	icSite.activeItem && icTaxonomy.getCategory(tags)[0] 
+						scope.icType 		= 	icSite.activeItem && icTaxonomy.getType(tags)[0] 
+					},
+					true
+				)
+
+				scope.$watch(
+					function(){
+						if(!scope.item) return ''
+
+						return 	scope.item.longitude && scope.item.latitude
+								?	'https://www.openstreetmap.org/?mlat='+scope.item.latitude +'&mlon=' + scope.item.longitude + '#map=17/'+scope.item.latitude+'/'+scope.item.longitude
+								:	'https://www.openstreetmap.org/search?query='+scope.item.address + ', ' + scope.item.zip + ', ' + scope.item.location
+					},
+					function(OSMlink){
+						scope.OSMLink = OSMlink
+					}
+				)
+
+				scope.$watch(
+					function(){
+						if(!scope.item) return ''
+
+						return	scope.item.longitude && scope.item.latitude
+								?	'https://www.google.de/maps/place/'+scope.item.latitude+'+' + scope.item.longitude + '/@'+scope.item.latitude + ',' + scope.item.longitude +',17z'
+								:	'https://www.google.de/maps/place/'+scope.item.address+', '+scope.item.zip+', '+scope.item.location
+					},
+					function(GMLink){
+						scope.GMLink = GMLink
+					}
+				)
+
+
+			}
+		}
+	}
+])
+
+
+.directive('icItemProperty', [
+
+	function(){
+
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-property.html',
+			scope:			{
+								icTitle:		"<",
+								icContent:		"<",
+								icExtraLines:	"<",
+								icExtraLinks:	"<",
+								icIcon:			"<",
+								icLink:			"<",
+							},
+
+			link: function(scope, element, attrs){
+				scope.$watch('icContent', function(){
+					if(typeof scope.icLink == "string"){
+						scope.link = scope.icLink + scope.icContent
+					}
+				})
+
+			}
+		}
+	}
+])
+
+
 
 .directive('icTextLogo',[
 	function(){
@@ -229,6 +309,26 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icTagList', [
+
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-tag-list.html',
+			scope:			{
+								icTags: "<"
+							},
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])
+	
 .directive('icTaxonomyFilter',[
 
 	'ic',

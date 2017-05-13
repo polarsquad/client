@@ -52,8 +52,10 @@ ic-content > * {
 #section-list ic-taxonomy-filter {
 	margin-right:				0.5rem;
 	flex:						0 0 15rem;
+	height:						100%;
 }
 
 #section-list ic-search-result-list {
 	flex:						1 0 0;
+	height:						100%;
 }
