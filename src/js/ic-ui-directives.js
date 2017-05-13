@@ -381,6 +381,16 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.filter('trim',[
+	function(){
+		return function(str){
+			str = str || ''
+			return str.replace(/^\s+|\s+$/g,'')
+		}
+	}
+])
+
+
 
 .filter('in',[
 	function(){
@@ -424,3 +434,4 @@ angular.module('icUiDirectives', [
 		return x
 	}
 })
+

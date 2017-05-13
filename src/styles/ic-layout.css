@@ -18,12 +18,12 @@ ic-header {
 	width:						100%;
 }
 
-ic-content {
+ic-main-content {
 	flex-grow:					1;
 }
 
 
-ic-content {
+ic-main-content {
 	display:					flex;
 	flex-direction:				row;
 	background-color:			#e6e6e6;
@@ -31,7 +31,7 @@ ic-content {
 	height:						100%;
 }
 
-ic-content > * {
+ic-main-content > * {
 	padding:					1rem;
 	box-sizing:					border-box;
 	overflow-y:					scroll;

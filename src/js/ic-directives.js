@@ -25,7 +25,7 @@ angular.module('icDirectives', [
 ])
 
 
-.directive('icContent',[
+.directive('icMainContent',[
 
 	'ic',
 

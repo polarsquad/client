@@ -41,10 +41,10 @@
 			{{ item.title }}
 		</h2>
 		<h3>
-			{{ item.brief[de] }}
+			{{ item.brief['de'] }}
 		</h3>
 		<div>
-			{{ item.description[de] }}
+			{{ item.description['de'] }}
 		</div>
 	</div>
 </article>
@@ -60,9 +60,9 @@
 	ng-if			= "item.address"
 	ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
 	ic-content		= "item.location"
-	ic-extra-lines	= "[item.adress, (item.zip||'') + ' ' + (item.location||''), item.country]"
+	ic-extra-lines	= "[item.adress|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
-	ic-icon			= "/images/icon/property-location.svg"
+	ic-icon			= "'/images/icons/property-location.svg'"
 >
 </ic-item-property>
 
@@ -82,7 +82,7 @@
 	ng-if			= "item.longitude && item.latitude && !item.address"
 	ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
 	ic-content		= "item.latitude + ', ' +item.longitude"
-	ic-icon			= "/images/icon/property-location.svg"
+	ic-icon			= "'/images/icons/property-location.svg'"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 >
 </ic-item-property>
@@ -97,8 +97,8 @@
 	ng-if		= "item[key]"
 	ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
 	ic-content	= "item[key]"
-	ic-icon		= "key | icIcon : 'item' : 'black'"
-	ic-link		= "/images/icon/property-{{key}}.svg"
+	ic-icon		= "'/images/icons/property-'+key+'.svg'"
+	ic-link		= "'LINK PREFIX MISSING'"
 >
 </ic-item-property>
 
@@ -108,7 +108,7 @@
 	ng-if		= "item.startDate && item.endDate"
 	ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
 	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
-	ic-icon		= "/images/icon/property-time.svg"
+	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
 
@@ -117,7 +117,7 @@
 	ng-if		= "item.startDate && !item.endDate"
 	ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
 	ic-content	= "item.startDate | icDate"
-	ic-icon		= "/images/icon/property-time.svg"
+	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
 
@@ -125,7 +125,7 @@
 	ng-if		= "item.endDate && !item.startDate"
 	ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
 	ic-content	= "item.endDate | icDate"
-	ic-icon		= "/images/icon/property-time.svg"
+	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
 
@@ -133,13 +133,13 @@
 
 <!-- hours -->
 
-<ic-item-property
+<!-- <ic-item-property
 	ng-if			= "item.hours"
 	ic-title 		= "'INTERFACE.ITEM_HOURS' | translate"
 	ic-extra-lines	= "item.hours | icSplit : ','"
-	ic-icon			= "/images/icon/property-time.svg"
+	ic-icon			= "'/images/icon/property-time.svg'"
 >
 </ic-item-property>
-
+ -->
 
 

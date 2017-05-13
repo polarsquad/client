@@ -32,29 +32,35 @@ ic-item-full .hero {
 	background-repeat:			no-repeat;
 }
 
-ic-item-full > article {
+ic-item-full > article,
+ic-item-full > ic-item-property {
 	display:					flex;
 	margin-bottom:				1rem;
 }
 
-ic-item-full > article	> *:nth-child(1){
+ic-item-full > article	> *:nth-child(1),
+ic-item-full > ic-item-property	> *:nth-child(1) {
 	flex:						1 0 0;
 	text-align:					right;
 	padding-right:				2rem;
 }
 
-ic-item-full > article	> *:nth-child(2){
+ic-item-full > article	> *:nth-child(2),
+ic-item-full > ic-item-property	> *:nth-child(2){
 	flex:						3 0 0;
 }
 
 ic-item-full h2 {
-	font-size:					1.4rem;
+	font-size:					1.3rem;
 	font-weight:				600;
 	margin:						0;
+	margin-bottom:				0.25rem;
+	color:						#000;
 }
 
 ic-item-full h3 {
-	font-size:					1.4rem;
+	font-size:					1.3rem;
 	font-weight:				400;
 	margin:						0;
+	margin-bottom:				1rem;
 }
