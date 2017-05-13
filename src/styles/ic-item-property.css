@@ -1,0 +1,30 @@
+ic-item-property {
+	display:				block;
+	position:				relative;
+	margin:					2rem 0;
+}
+
+ic-item-property .icon {
+}
+
+ic-item-property .icon img{
+	height:					2rem;
+	width:					2rem;
+	display:				inline-block;
+	margin:					0;
+}
+
+ic-item-property .title {
+	font-weight:			700;
+	line-height:			1.5rem;
+} 
+
+ic-item-property .content {
+	line-height:			1.5rem;
+}
+
+ic-item-property .content a {
+	display:				inline-block;
+	word-break: 			break-all;
+	word-break: 			break-word;
+}
