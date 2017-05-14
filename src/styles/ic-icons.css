@@ -1,29 +1,61 @@
 .icon {
 	box-sizing:				border-box;
 	background-position:	50% 50%;
-	background-size:		1.5em;
 	background-repeat:		no-repeat;
-	min-width:				2em;
-	min-height:				2em;
+	background-size:		1.5rem;
+	min-width:				1.5rem;
+	min-height:				1.5rem;
+}
+
+.icon-large {
+	box-sizing:				border-box;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	background-size:		2.25rem;
+	min-width:				2.25rem;
+	min-height:				2.25rem;
 }
 
 .icon.left {
 	background-position:	0 50%;
-	padding-left:			2em;
+	padding-left:			1.5rem;
+}
+
+.icon-large.left {
+	background-position:	0 50%;
+	padding-left:			2.25rem;
 }
 
 .icon.right {
 	background-position:	100% 50%;
-	padding-right:			2em;
+	padding-right:			1.5rem;
+}
+
+.icon-large.right {
+	background-position:	100% 50%;
+	padding-right:			2.25rem
 }
 
 .icon.top {
 	background-position:	50% 0%;
-	padding-top:			2em;
+	padding-top:			1.5rem;
+}
+
+.icon-large.top {
+	background-position:	50% 0%;
+	padding-top:			2.25rem;
 }
 
 .icon.bottom {
 	background-position:	50% 100%;
-	padding-top:			2em;
+	padding-top:			1.5rem;
 }
+
+.icon-large.bottom {
+	background-position:	50% 100%;
+	padding-bottom:			2.25rem;
+}
+
+
+
 

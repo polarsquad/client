@@ -15,7 +15,9 @@ ic-item-full header .tools{
 }
 
 ic-item-full header .tools > * {
+	display:					inline-block;
 	vertical-align:				top;
+	height:						3rem;
 }
 
 ic-item-full header .tools .main {
@@ -27,6 +29,8 @@ ic-item-full header .tools .main {
 
 ic-item-full header .tools .main > *  {
 	margin-right:				0.5rem;
+	width:						3.5rem;
+	height:						3.5rem;
 }
 
 
@@ -74,4 +78,12 @@ ic-item-full h3 {
 	font-weight:				400;
 	margin:						0;
 	margin-bottom:				1rem;
+}
+
+
+/*TODO*/
+
+ic-item-full article div .icon-large {
+	width:						3.5rem;
+	height:						3.5rem;
 }

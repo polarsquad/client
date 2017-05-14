@@ -224,10 +224,11 @@ setup()
 .then(compileImageTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
+//TODO
 
-.then( () => console.log('\nPreparing Biyarni...'))
-.then(prepareBiyarni)
-.then( () =>  console.log('Done.'))
+// .then( () => console.log('\nPreparing Biyarni...'))
+// .then(prepareBiyarni)
+// .then( () =>  console.log('Done.'))
 
 
 .then( () => console.log('\nPreparing Roboto...'))

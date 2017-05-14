@@ -39,17 +39,10 @@ Todo:
 * filter scroll nicht
 
 * HTMl title
-* mehr klein (per Hand)
-* Übersetzung
-* Themen seite -> alle
 * category icon disabled too dark
-* website links auf ic-page rot machen
 * ROBOTO
 * logo?
 * Title ng-
-* doppellogo
-* Icons in Kacheln auch edit
-* icons im header groß machen 3rem
 
 Next: item full layout
 
@@ -60,6 +53,7 @@ Done:
 * Scrolling / Header
 * icons generieren _..._..._....
 * Font
+* Themen seite -> alle
 * Scrolling iPad
 * Bubble color auf grau
 * console.logs bei scroll listtraus
@@ -71,6 +65,19 @@ Done:
 * submatches zurücksetzen
 * arrow down
 * LInkPREFIX
+* Partner
+* Mehr -> klein
+* Suche header padding
+* Vorschau-items : kreis 56px (3.5rem) icon dadrin 36px (2.25rem)
+* tags icons kleiner
+* Übersetzung
+* print unten im full item icon groß
+* Übersetzung: INTERFACE.ITEM_CONTACT 
+* type farbe -> grau
+* icons im header groß machen 3rem
+* Icons in Kacheln auch edit
+* doppellogo
+* website links auf ic-page rot machen
 
 
 

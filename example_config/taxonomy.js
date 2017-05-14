@@ -182,19 +182,19 @@
 	exports.types = [
 		{
 			name:		'location',
-			colors:		['rgba(200,240,200,1)', 'rgba(220,240,220,1)'],
+			colors:		['#777', '#777'],
 		},
 		{
 			name:		'event',
-			colors:		['rgba(200,240,240,1)', 'rgba(220,240,240,1)'],
+			colors:		['#777', '#777'],
 		},
 		{
 			name:		'offer',
-			colors:		['rgba(240,200,200,1)', 'rgba(240,220,220,1)'],
+			colors:		['#777', '#777'],
 		},
 		{
 			name:		'information',
-			colors:		['rgba(240,240,200,1)', 'rgba(240,240,220,1)'],
+			colors:		['#777', '#777'],
 		}
 	]
 

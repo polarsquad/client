@@ -1,19 +1,19 @@
 <header >
 	<div class = "tools">
-		<button 
-			class 		= "icon icon-interface-close"
+		<a 
+			class 		= "icon-large icon-interface-close"
 			ng-click 	= "ic.site.activeItem = null" 
 		>
-		</button>
+		</a>
 
 		<ic-spinner active = "item.downloading"></ic-spinner>	
 
 		<div class = "main">
-			<button class = "large round icon icon-interface-share drop-shadow">
+			<button class = "icon-large round icon-interface-share drop-shadow">
 			</button>
-			<button class = "large round icon icon-interface-print drop-shadow">
+			<button class = "icon-large round icon-interface-print drop-shadow">
 			</buton>			
-			<button class = "large round icon icon-interface-favourites drop-shadow">
+			<button class = "icon-large round icon-interface-favourites drop-shadow">
 			</buton>
 		</div>
 	</div>
@@ -36,7 +36,7 @@
 <!-- start item title, brief description -->
 <article>
 	<div>
-		<div class = "icon white large round icon-category-{{icCategory.name}} ic-bg-cat-{{icCategory.name}} iblock"></div>
+		<div class = "icon-large white large round icon-category-{{icCategory.name}} ic-bg-cat-{{icCategory.name}} iblock"></div>
 	</div>
 	<div>
 		<h2 class 	= "title" >
@@ -60,7 +60,7 @@
 
 <ic-item-property
 	ng-if			= "item.address"
-	ic-title 		= "'INTERFACE.ITEM_ADDRESS' | translate"
+	ic-title 		= "'INTERFACE.ADDRESS' | translate"
 	ic-content		= "item.location"
 	ic-extra-lines	= "[item.adress|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
@@ -82,7 +82,7 @@
 <ic-item-property
 	class			= "screen-only"
 	ng-if			= "item.longitude && item.latitude && !item.address"
-	ic-title 		= "'INTERFACE.ITEM_GEO_COORDINATES' | translate"
+	ic-title 		= "'GEO_COORDINATES' | translate"
 	ic-content		= "item.latitude + ', ' +item.longitude"
 	ic-icon			= "'/images/icons/property-location.svg'"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
@@ -97,7 +97,7 @@
 <ic-item-property
 	ng-repeat	= "key in ['contact', 'website', 'email', 'phone', 'facebook', 'twitter']"
 	ng-if		= "item[key]"
-	ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
+	ic-title 	= "'%s' | fill : key | translate"
 	ic-content	= "item[key]"
 	ic-icon		= "'/images/icons/property-'+key+'.svg'"
 	ic-link		= "::key | icLinkPrefix"
@@ -108,7 +108,7 @@
 
 <ic-item-property
 	ng-if		= "item.startDate && item.endDate"
-	ic-title 	= "'INTERFACE.ITEM_DATES' | translate"
+	ic-title 	= "'DATES' | translate"
 	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -117,7 +117,7 @@
 
 <ic-item-property
 	ng-if		= "item.startDate && !item.endDate"
-	ic-title 	= "'INTERFACE.ITEM_START_DATE' | translate"
+	ic-title 	= "'START_DATE' | translate"
 	ic-content	= "item.startDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -125,7 +125,7 @@
 
 <ic-item-property
 	ng-if		= "item.endDate && !item.startDate"
-	ic-title 	= "'INTERFACE.ITEM_END_DATE' | translate"
+	ic-title 	= "'END_DATE' | translate"
 	ic-content	= "item.endDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -137,7 +137,7 @@
 
 <!-- <ic-item-property
 	ng-if			= "item.hours"
-	ic-title 		= "'INTERFACE.ITEM_HOURS' | translate"
+	ic-title 		= "'INTERFACE.HOURS' | translate"
 	ic-extra-lines	= "item.hours | icSplit : ','"
 	ic-icon			= "'/images/icon/property-time.svg'"
 >

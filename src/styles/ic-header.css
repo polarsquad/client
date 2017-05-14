@@ -3,8 +3,7 @@
 
 ic-header {
 	color:							#fff;
-	font-size:						1rem;
-	font-family:					Biyarni;
+	font-family:					Biryani, sans-serif;
 	background-color:				#802651;
 	z-index:						100;
 }
@@ -14,27 +13,28 @@ ic-header .tools {
 	display:						flex;
 	box-sizing:						border-box;
 	flex-direction:					row;
+	font-size:						0.875rem;
 	align-items:					center;
-	font-size:						1rem;
 	height:							3rem;
-	line-height:					3em;
 	width:							100%;
 	padding:						0 1rem;
 }
 
 ic-header .tools > * {
+	display:						inline-block;
 	margin:							0;
 	flex:							none;
-	display:						inline-block;
+	line-height:					3rem;
+	height:							3rem;
 }
 
-ic-header .tools > a + a {
-	margin-left:					1rem;
+ic-header .tools > * + * {
+	margin-right:					1rem;
 }
 
 
-ic-header .tools .text-logo {
-	font-size:						2em;
+ic-header .tools ic-logo-text {
+	font-size:						3rem;
 }
 
 
@@ -42,12 +42,6 @@ ic-header .tools > a {
 	display:						inline-block;
 	background-color:				transparent;
 	color:							#fff;
-	background-size:				contain;
-	background-position:			0 50%;
-	background-repeat:				no-repeat;
-	padding-left:					2em;
-	line-height:					2em;
-	height:							2em;
 }
 
 ic-header .tools a:hover {
@@ -64,6 +58,10 @@ ic-header .tools a span {
 
 ic-header .tools ic-search {
 	display:						inline-block;
+}
+
+ic-header .tools .text-logo {
+	display:						none;
 }
 
 
@@ -86,6 +84,8 @@ ic-header .logo ic-logo-full {
 
 
 ic-header ic-main-menu {
+	font-family:					Biryani, sans-serif;
+	font-weight:					400;
 	display:						block;
 	background-color:				rgba(0,0,0,0.2);
 	width:							100%;
@@ -156,8 +156,8 @@ ic-header.ic-scroll-snapped .logo {
 }
 
 ic-header.ic-scroll-snapped .tools .text-logo{
+	display:						inline-block;
 	flex-grow:						1;
-	z-index:						0;
 }
 
 ic-header.ic-scroll-snapped .tools button span{
