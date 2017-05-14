@@ -28,7 +28,7 @@ ic-header .tools > * {
 	display:						inline-block;
 }
 
-ic-header .tools > button + button {
+ic-header .tools > a + a {
 	margin-left:					1rem;
 }
 
@@ -38,7 +38,7 @@ ic-header .tools .text-logo {
 }
 
 
-ic-header .tools > button {
+ic-header .tools > a {
 	display:						inline-block;
 	background-color:				transparent;
 	color:							#fff;
@@ -50,12 +50,12 @@ ic-header .tools > button {
 	height:							2em;
 }
 
-ic-header .tools button:hover {
+ic-header .tools a:hover {
 	background-color:				transparent;
 }
 
 
-ic-header .tools button span {
+ic-header .tools a span {
 	display:						block;
 	max-width:						100%;
 	overflow:						hidden;
