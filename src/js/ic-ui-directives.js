@@ -257,7 +257,7 @@ angular.module('icUiDirectives', [
 
 				function afterScroll(){
 					stop_snapping = false
-					snap()
+					//TODO : snap()
 				}
 
 				function beforeScroll(event){
