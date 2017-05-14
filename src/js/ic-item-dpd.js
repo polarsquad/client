@@ -24,7 +24,7 @@
 
 				icItem[property.name] = 	icItem[property.name] !== undefined
 											?	icItem[property.name]
-											:	property.defaultValue
+											:	angular.copy(property.defaultValue)
 
 				if(data[property.name] === undefined) return null
 

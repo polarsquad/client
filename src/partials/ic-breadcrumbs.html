@@ -1,18 +1,17 @@
 <span> Home </span>
-<span ng-if = "!ic.site.searchTerm">&gt; Item list</span>
-<span ng-if = "ic.site.searchTerm">&gt; Search for "{{ic.site.searchTerm}}"</span>
+<span ng-if = "!ic.site.searchTerm">&gt; Liste</span>
+<span ng-if = "ic.site.searchTerm">&gt; Suche nach "{{ic.site.searchTerm}}"</span>
 
 <span ng-if = "ic.site.filterByType.length"> 
-	&gt; types:
-	<span> {{ic.site.filterByType.join(', ')}} </span>
+	&gt; <span> {{ic.site.filterByType.join(', ')}} </span>
 </span>
 
 <span 	ng-if = "ic.site.filterByCategory.length">
-	&gt; categories:
+	&gt; {{'CATEGORIES' | transalte}}:
 	<span> {{ic.site.filterByCategory.join(', ')}} </span>
 </span>
 
 <span ng-if = "ic.site.filterByUnsortedTags.length">
-	&gt; unsorted tags:
+	&gt; {{'UNSORTED_TAGS' | translate }}:
 	<span> {{ic.site.filterByUnsortedTag.join(', ')}} </span>
 </span>

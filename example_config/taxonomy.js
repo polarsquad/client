@@ -182,19 +182,19 @@
 	exports.types = [
 		{
 			name:		'location',
-			colors:		['#777', '#777'],
+			colors:		['#999', '#999'],
 		},
 		{
 			name:		'event',
-			colors:		['#777', '#777'],
+			colors:		['#999', '#999'],
 		},
 		{
 			name:		'offer',
-			colors:		['#777', '#777'],
+			colors:		['#999', '#999'],
 		},
 		{
 			name:		'information',
-			colors:		['#777', '#777'],
+			colors:		['#999', '#999'],
 		}
 	]
 

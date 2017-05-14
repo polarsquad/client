@@ -9,7 +9,7 @@
 	ic-scroll-repeat-limit-step-size 	= "5"
 >
 	<a
-		ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
+		ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit | toConsole"
 		ng-href			= "/item/{{item.id}}"
 	>
 

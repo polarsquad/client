@@ -11,7 +11,7 @@
 					href  		= "/c/{{::category.name}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
-					{{'all' | translate}} 
+					{{'all' | uppercase | translate}} 
 					<span 
 						class = "bubble shade-light"
 					>
@@ -27,7 +27,7 @@
 					<span 
 						class = "bubble shade-light"
 					>
-						{{ic.itemStorage.subMatches[tag]}}
+						{{ic.itemStorage.subMatches[tag] | uppercase | translate}}
 					</span>
 				</a>
 			</div>
