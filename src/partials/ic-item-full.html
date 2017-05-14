@@ -1,7 +1,9 @@
 <header >
 	<div class = "tools">
-		<button class = "icon icon-interface-close">
-			x
+		<button 
+			class 		= "icon icon-interface-close"
+			ng-click 	= "ic.site.activeItem = null" 
+		>
 		</button>
 
 		<ic-spinner active = "item.downloading"></ic-spinner>	
@@ -98,7 +100,7 @@
 	ic-title 	= "'INTERFACE.ITEM_%s' | fill : key | translate"
 	ic-content	= "item[key]"
 	ic-icon		= "'/images/icons/property-'+key+'.svg'"
-	ic-link		= "'LINK PREFIX MISSING'"
+	ic-link		= "::key | icLinkPrefix"
 >
 </ic-item-property>
 
@@ -141,10 +143,4 @@
 >
 </ic-item-property>
  -->
-
- <pre>
- 	{{item|json}}
- </pre>
-
-
 

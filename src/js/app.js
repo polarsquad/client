@@ -77,6 +77,9 @@ angular.module("InfoCompass",[
 								return ic.site.page
 							},
 			show:			function(ic){
+								if(ic.site.activeItem) 	return false						
+								if(ic.site.list) 		return false						
+
 								return 		 ic.site.page
 										&&	!ic.site.activeSections['list']
 							}				

@@ -63,3 +63,23 @@ ic-main-content > * {
 #section-list ic-search-result-list {
 	flex:						1 0 0;
 }
+
+
+#section-item {
+	padding-bottom:				5rem;
+}
+
+#section-item > div {
+	font-size:					1.1rem;
+	font-weight:				500;
+	padding:					1rem 0;
+	margin:						0.5rem 0;
+	color:						#802651;
+}
+
+#section-item > div > * {
+	display:					block;
+	width:						14em;
+	margin:						auto;
+	line-height:				2em;
+}

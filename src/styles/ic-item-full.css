@@ -1,6 +1,7 @@
 ic-item-full {
 	display:					block;
 	position:					relative;
+	padding-bottom:				1rem;
 }
 
 ic-item-full header {
@@ -10,10 +11,15 @@ ic-item-full header {
 ic-item-full header .tools{
 	height:						3rem;
 	line-height:				3rem;
+	font-size:					1.5rem;
+}
+
+ic-item-full header .tools > * {
+	vertical-align:				top;
 }
 
 ic-item-full header .tools .main {
-	top:						1.5rem;
+	top:						1.25rem;
 	position:					absolute;
 	right:						0;
 	padding-right:				0.5rem;
@@ -37,6 +43,10 @@ ic-item-full > ic-item-property {
 	display:					flex;
 	margin-bottom:				1rem;
 	padding:					0 1rem;
+}
+
+ic-item-full > ic-item-property a {
+	color:						#802651;
 }
 
 ic-item-full > article	> *:nth-child(1),

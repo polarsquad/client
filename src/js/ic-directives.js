@@ -330,6 +330,20 @@ angular.module('icDirectives', [
 
 
 
+.filter('icLinkPrefix', function(){
+	return function(key){
+		return	{
+					'website':		'',
+					'twitter':		'',
+					'facebook':		'',
+					'linkedin':		'',
+					'instagram':	'',
+					'pinterest':	'',
+					'email':		'mailto:',
+					'phone':		'tel:'
+				}[key]
+	}
+})
 
 
 
