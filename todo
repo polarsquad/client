@@ -29,7 +29,6 @@ Todo:
  * svgmin
  * filter
  * preview mit type ergänzen
- * searchterm should ignore case
  * server für angular einrichten
 * Übersetzungtabelle
 * überlegen icon größen
@@ -37,6 +36,17 @@ Todo:
 * ictouch not scroll
 * breadcrumbs für liste
 * icons ergänzen
+* filter scroll nicht
+
+* HTMl title
+* mehr klein (per Hand)
+* Übersetzung
+* Themen seite -> alle
+* category icon disabled too dark
+* website links auf ic-page rot machen
+* ROBOTO
+* LInkPREFIX
+* logo?
 
 Next: item full layout
 
@@ -52,6 +62,12 @@ Done:
 * console.logs bei scroll listtraus
 * pull down z-index
 * unsorted tags
+* searchterm should ignore case
+* tags.html css von Jan
+* übrige icons /logo?
+* submatches zurücksetzen
+* arrow down
+
 
 
 Brauche:

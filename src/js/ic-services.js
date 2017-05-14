@@ -22,11 +22,13 @@ angular.module('icServices', [
 
 .service('icInit', [
 
-	function(){
+	'icItemStorage',
+
+	function(icItemStorage){
 
 		var icInit = {}
 
-		icInit.ready = true //Mock
+		icInit.ready = icItemStorage.ready //Mock
 
 		return icInit
 	}
@@ -511,6 +513,116 @@ angular.module('icServices', [
 	}
 ])
 
+.service('icConfigData', [
+
+	function(){
+		return window.config
+	}
+])
+
+
+.service('icLanguages', [
+
+	'$window',
+	'$rootScope',
+	'$q',
+	'$http',
+	'$translate',
+	'icConfigData',
+
+	function($window, $rootScope, $q, $http, $translate, icConfigData){
+
+		var icLanguages 			= 	{
+											availableLanuages:	undefined,
+											currentLanguages:	undefined,
+											fallbackLanguage:	undefined,									
+										}
+
+
+
+		icLanguages.availableLanguages 	= 	['de']
+		icLanguages.fallbackLanguage	= 	icLanguages.availableLanguages.indexOf('en') != -1
+											?	'en'
+											:	icLanguages.availableLanguages[0]
+
+		icLanguages.ready = 	$http.get(icConfigData.backendLocation+'/translation.json')
+								.then(
+									function(result){
+										return result.data
+									},
+									function(){
+										return $q.reject("Unable to load language data.")
+									}
+								)
+
+		function objectKeysToUpperCase(obj){
+			var up = {}
+
+				for(var key in obj){
+
+					up[key.toUpperCase()] = typeof obj[key] == 'object'
+											?	objectKeysToUpperCase(obj[key])
+											:	obj[key]
+				}
+
+			return up
+		}
+
+
+		icLanguages.getTranslationTable = function(lang){
+			return	icLanguages.ready
+					.then(function(translations){
+						return objectKeysToUpperCase(translations)[lang.toUpperCase()]
+					})
+		}
+
+
+
+		function guessLanguage(){
+			icLanguages.currentLanguage =	icLanguages.currentLanguage 
+											|| $window.localStorage.getItem('language') 
+											|| navigator.language.substr(0,2)
+											|| 'en'
+		}
+
+		guessLanguage()
+
+		$rootScope.$watch(
+			function(){ return icLanguages.availableLanguages && icLanguages.currentLanguage }, 
+			function(cl){
+
+				if(!icLanguages.availableLanguages) return null
+
+				if(icLanguages.availableLanguages.indexOf(icLanguages.currentLanguage) == -1) 
+					icLanguages.currentLanguage = icLanguages.fallbackLanguage
+
+				$translate.use(icLanguages.currentLanguage)
+				$window.localStorage.setItem('language',icLanguages.currentLanguage)
+			}
+		)
+
+
+		return	icLanguages
+	}
+])
+
+
+
+.factory('icInterfaceTranslationLoader', [
+
+	'icLanguages',
+
+	function(icLanguages){
+		return 	function(options){
+					if(!options || !options.key) throw new Error('Couldn\'t use icInterfaceTranslationLoader since no language key is given!');
+					return icLanguages.getTranslationTable(options.key)
+				}
+	}
+])
+
+
+
+
 //updating core Service
 
 
@@ -522,16 +634,21 @@ angular.module('icServices', [
 	'icLayout',
 	'icTaxonomy',
 	'icFilterConfig',
+	'icLanguages',
+	'translateFilter',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, $translate){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
 		ic.layout		= icLayout
 		ic.taxonomy		= icTaxonomy
 		ic.filterConfig	= icFilterConfig
+		ic.languages	= icLanguages
 
 		console.dir(ic)
+
+		window.$translate = $translate
 	}
 ])
 

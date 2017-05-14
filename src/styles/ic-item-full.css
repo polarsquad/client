@@ -36,6 +36,7 @@ ic-item-full > article,
 ic-item-full > ic-item-property {
 	display:					flex;
 	margin-bottom:				1rem;
+	padding:					0 1rem;
 }
 
 ic-item-full > article	> *:nth-child(1),

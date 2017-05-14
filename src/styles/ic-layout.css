@@ -45,17 +45,21 @@ ic-main-content > * {
 
 #section-list {
 	display:					flex;
-	align-items:				stretch;
+	align-items:				top;
+	flex-wrap:					wrap;
 }
 
 
+#section-list ic-breadcrumbs {
+	flex:						0 0 100%;
+	margin-bottom:				1rem;
+}
+
 #section-list ic-taxonomy-filter {
 	margin-right:				0.5rem;
-	flex:						0 0 15rem;
-	height:						100%;
+	flex:						0 0 20rem;
 }
 
 #section-list ic-search-result-list {
 	flex:						1 0 0;
-	height:						100%;
 }

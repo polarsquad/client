@@ -94,7 +94,7 @@ function compileImageTemplatesToTmp(){
 }
 
 
-function prepareFonts(){
+function prepareBiyarni(){
 
 	return 	Promise.all([
 				fs.readFile("node_modules/typeface-biryani/index.css",	"utf8"),
@@ -102,8 +102,21 @@ function prepareFonts(){
 				fs.ensureDir("dev/styles")
 			])
 			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
-			.then( css 		=> fs.writeFile('tmp/styles/typeface-biryani.css', css, 'utf8'))
+			.then( css 		=> fs.writeFile('tmp/styles/biryani.css', css, 'utf8'))
 }
+
+
+function prepareRoboto(){
+
+	return 	Promise.all([
+				fs.readFile("node_modules/roboto-fontface/css/roboto/roboto-fontface.css",	"utf8"),
+				fs.copy("node_modules/roboto-fontface/fonts/Roboto",		"dev/fonts/Roboto"),
+				fs.ensureDir("dev/styles")
+			])
+			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
+			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
+}
+
 
 
 
@@ -174,9 +187,14 @@ function compileIndex(){
 				fs.readFile('src/dev_head.html', 	'utf8')
 			])
 			.then(function(result){
-				return	result[0]
+				var index	= result[0],
+					head 	= result[1]
+
+				head = head.replace(/CONFIG/g, JSON.stringify(config))	
+
+				return	index
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 		config.backendLocation)
-						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 	'\n'+result[1])
+						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 	'\n'+head)
 			})
 			.then(function(content){
 				return fs.writeFile('dev/index.html', content, 'utf8')				
@@ -196,17 +214,24 @@ setup()
 .then(compileTaxonomyTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
+
 .then( () => console.log('\nCompiling icon templates /tmp...'))
 .then(compileIconsTemplatesToTmp)
 .then( () =>  console.log('Done.'))
+
 
 .then( () => console.log('\nCompiling image templates /tmp...'))
 .then(compileImageTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
 
-.then( () => console.log('\nPreparing Fonts...'))
-.then(prepareFonts)
+.then( () => console.log('\nPreparing Biyarni...'))
+.then(prepareBiyarni)
+.then( () =>  console.log('Done.'))
+
+
+.then( () => console.log('\nPreparing Roboto...'))
+.then(prepareRoboto)
 .then( () =>  console.log('Done.'))
 
 

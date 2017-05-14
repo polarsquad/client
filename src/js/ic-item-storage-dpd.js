@@ -38,16 +38,7 @@
 		icItemStorage.clearFilteredList = function(){
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
 
-			ic.itemConfig.tags
-			.forEach(function(tag){ 
-				icItemStorage.subMatches[tag] = 0
-			})
-
-			Object.keys(icItemStorage.filters)
-			.forEach(function(filter_name){ 
-				icItemStorage.subMatches[filter_name] = 0
-			})
-
+			Object.keys(icItemStorage.subMatches).forEach(function(key){delete icItemStorage.subMatches[key] })
 			return this
 		}
 
@@ -93,8 +84,6 @@
 
 		icItemStorage.updateFilteredList = function(cod_tags){ //conjunction of disjunctions of tags [[tag1, tag2], [tag3]]
 			
-			console.log(cod_tags)
-
 			if(!cod_tags) cod_tags = []
 
 			//normalize cod_tags
@@ -121,13 +110,13 @@
 				icItemStorage.filteredList.push(item)
 
 				//count submatches for tags:
-				ic.itemConfig.tags.forEach(function(tag){
-					if(item.tags.indexOf(tag) !=-1) icItemStorage.subMatches[tag] ++
+				item.tags.forEach(function(tag){
+					icItemStorage.subMatches[tag] =  (icItemStorage.subMatches[tag]||0)+1
 				})
 
 				//count submatches for internal tags:
-				Object.keys(icItemStorage.filters).forEach(function(tag){
-					if(item.internal.tags.indexOf(tag) !=-1) icItemStorage.subMatches[tag] ++
+				item.internal.tags.forEach(function(tag){
+					icItemStorage.subMatches[tag] =  (icItemStorage.subMatches[tag]||0)+1
 				})
 			})
 
@@ -197,7 +186,7 @@
 				searchTerms.push(search_term)
 				index = searchTerms.length-1
 
-				var regex 					= 	new RegExp(search_term),
+				var regex 					= 	new RegExp(search_term, 'i'),
 					searchable_properties 	= 	ic.itemConfig.properties.filter(function(property){
 													return property.searchable
 												})

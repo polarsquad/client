@@ -1,3 +1,18 @@
-<a>Startseite</a>
-&gt;
-<a>Kontakt</a>
+<span> Home </span>
+<span ng-if = "!ic.site.searchTerm">&gt; Item list</span>
+<span ng-if = "ic.site.searchTerm">&gt; Search for "{{ic.site.searchTerm}}"</span>
+
+<span ng-if = "ic.site.filterByType.length"> 
+	&gt; types:
+	<span> {{ic.site.filterByType.join(', ')}} </span>
+</span>
+
+<span 	ng-if = "ic.site.filterByCategory.length">
+	&gt; categories:
+	<span> {{ic.site.filterByCategory.join(', ')}} </span>
+</span>
+
+<span ng-if = "ic.site.filterByUnsortedTags.length">
+	&gt; unsorted tags:
+	<span> {{ic.site.filterByUnsortedTag.join(', ')}} </span>
+</span>

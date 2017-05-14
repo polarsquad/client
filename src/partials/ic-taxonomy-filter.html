@@ -1,15 +1,15 @@
 <section class = "types">
-	<article class = "bg-0">
-		<a
+	<ul class = "bg-0">
+		<li
 			ng-if		= "true"
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.typeCleared()}"
 			ng-click	= "ic.filterConfig.clearType()" 
 			ic-touch-me	= "true"
 		>
-			{{'any'|translate}}
-		</a>
-		<a
+			<a>{{'any' | uppercase | translate}}</a>
+		</li>
+		<li
 			ng-repeat 	= "type in ic.taxonomy.types"
 			class 		= "icon icon-type-{{::type.name}}"
 			ic-button	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.subMatches[type.name]}"
@@ -17,57 +17,89 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name)"
 			ic-touch-me	= "!disabled"
 		>
-			{{type.name}} <span class = "bubble shade-light col-1">{{ic.itemStorage.subMatches[type.name]}}</span>
-		</a>
-	</article>
+			<a>{{type.name | uppercase |translate}} <span class = "bubble shade-light col-1">{{ic.itemStorage.subMatches[type.name]}}</span></a>
+		</li>
+	</ul>
 </section>
 
 <section class = "categories">
-	<h2 class = "bg-0 icon-interface-down">{{'categories' | translate}}</h2>
-	<article class = "bg-0">
-		<a
+	<h2 
+		class 		= "bg-0 icon"
+		ng-class	= "{'icon-interface-down': expand.categories, 'icon-interface-right': !expand.categories}"
+		ng-click	= "expand.categories = !expand.categories"
+		ic-touch-me	= "true" 
+	>{{'categories' | uppercase  | translate}}</h2>
+	<ul 
+		class 		= "bg-0"
+		ng-show		= "expand.categories"
+	>
+		<li
 			ng-if		= "true"
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.categoryCleared()}"
 			ng-click	= "ic.filterConfig.clearCategory()" 
 			ic-touch-me	= "true"
 		>
-			{{'any'|translate}}
-		</a>
-		<a
+			<a>{{'any' | uppercase | translate}}</a>
+		</li>
+		<li
 			ng-repeat 	= "category in ic.taxonomy.categories"
 			ng-if		= "true"
 			class		= "icon icon-category-{{::category.name}} bg-0"
-			ng-class	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.subMatches[category.name]}"
-			ng-click	= "(ic.filterConfig.categoryActive(category.name) || ic.itemStorage.subMatches[category.name]) && ic.filterConfig.toggleCategory(category.name)"
-			ic-touch-me	= "!!ic.itemStorage.subMatches[category.name]"
+			ic-button	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.subMatches[category.name]}"
+			ng-class	= "{active:active, disabled: disabled}"
+			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name)"
+			ic-touch-me	= "!disabled"
 		>
-			<ic-tag name ="category.name"></ic-tag>
-		</a>
-	</article>
+			<a>
+				{{category.name | uppercase |translate}} 
+				<span 
+					class = "bubble shade-light col-1"
+					ng-if = "!disabled"
+				>
+					{{ic.itemStorage.subMatches[category.name]}}
+				</span>
+			</a>
+		</li>
+	</ul>
 </section>
 
 <section class = "unsorted">
-	<h2 class = "bg-0 icon-interface-down">{{'unsorted' | translate}}</h2>
-	<article class = "bg-0">
-		<a
+	<h2 
+		class 		= "bg-0 icon"
+		ng-class	= "{'icon-interface-down': expand.unsortedTags, 'icon-interface-right': !expand.unsortedTags}"
+		ng-click	= "expand.unsortedTags = !expand.unsortedTags"
+		ic-touch-me	= "true" 
+	>{{'unsorted' | uppercase  | translate}}</h2>
+	<ul 
+		class = "bg-0"
+		ng-show	= "expand.unsortedTags"
+	>
+		<li
 			ng-if		= "true"
 			class 		= "icon icon-type-all"
 			ng-class	= "{active:ic.filterConfig.unsortedTagCleared()}"
 			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
 			ic-touch-me	= "true"
 		>
-			{{'any'|translate}}
-		</a>
-		<a
+			<a>{{'any' | uppercase |translate}}</a>
+		</li>
+		<li
 			ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
 			ng-if		= "true"
 			class		= "icon icon-interface-checkbox"
-			ng-class	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.subMatches[tag]}"
-			ng-click	= "(ic.filterConfig.unsortedTagActive(tag) || ic.itemStorage.subMatches[tag]) && ic.filterConfig.toggleUnsortedTag(tag)"
-			ic-touch-me	= "!!ic.itemStorage.subMatches[tag]"
+			ic-button	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.subMatches[tag]}"
+			ng-class	= "{active:active, checked:active, disabled: disabled}"
+			ng-click	= "!disabled && ic.filterConfig.toggleUnsortedTag(tag)"
+			ic-touch-me	= "!disabled"
 		>
-			<ic-tag name ="tag"></ic-tag>
-		</a>
-	</article>
+			<a>
+				{{tag | uppercase | translate }} 
+				<span 
+					class = "bubble shade-light col-1"
+					ng-if = "!disabled"
+				>{{ic.itemStorage.subMatches[type.tag]}}</span>
+			</a>
+		</li>
+	</ul>
 </section>

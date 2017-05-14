@@ -105,22 +105,3 @@ ic-loading-screen .progress span:nth-child(5).done {
 }
 
 
-
-ic-text-logo{
-	font-family:			Biryani, sans-serif !important;
-	word-spacing: 			0 !important;
-}
-
-ic-text-logo :first-child{
-	font-weight:			500 !important;
-}
-
-ic-text-logo :last-child{
-	font-weight:			300 !important;
-}
-
-
-
-
-
-

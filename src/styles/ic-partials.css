@@ -1,40 +1,29 @@
 /* ic-text-logo */
 
-ic-text-logo {
+ic-logo-text {
 	display:						inline-block;
-	white-space:					nowrap;
-}
-
-
-
-
-
-/* ic-full-logo */
-
-ic-full-logo {
-	display:						inline-block;
-}
-
-ic-full-logo > div{
-	display:						block;
-	padding-left:					4em;
-	background-position:			0 50%;
+	height:							1em;
+	width:							6em;
+	position:						relative;
+	background-image:				url(/images/large/logo-text.svg);
 	background-size:				contain;
 	background-repeat:				no-repeat;
+	background-position:			0 50%;
 }
 
-ic-full-logo ic-text-logo {
-	font-size:						2em;
-	font-weight:					400;
-	line-height:					1em;
-}
 
-ic-full-logo .sub {
-	display:						flex;
-	justify-content:				space-between;
-	font-size:						1.5em;
-	font-weight:					300;
-	line-height:					1em;
+
+
+/* ic-logo-full */
+
+ic-logo-full {
+	height:							1em;
+	width:							6em;
+	display:						inline-block;
+	background-image:				url(/images/large/logo-full.svg);
+	background-size:				contain;
+	background-repeat:				no-repeat;
+	background-position:			0 50%;
 }
 
 
@@ -50,9 +39,10 @@ ic-search {
 }
 
 ic-search form {
+	display:						inline-block;
 	position:						relative;
 	background:						#fff;
-	height:							2em;
+	height:							1.75em;
 }
 
 
@@ -66,8 +56,8 @@ ic-search form input[type=text]{
 	margin:							0;
 	flex:							1 0 auto;
 	font-size:						1em;
-	line-height:					2em;
-	height:							2em;
+	line-height:					1.75em;
+	height:							1.75em;
 	background:						#fff;
 }
 
@@ -82,44 +72,11 @@ ic-search form button {
 }
 
 
-/*ic-tag-list */
+/* ic-breadcrumbs */
 
-ic-tag-list {
+ic-breadcrumbs {
 	display:						block;
-}
-
-ic-tag-list > * + * {
-	margin-left:					0.5rem;
-}
-
-/*ic-tag */
-
-ic-tag {
-	display:						inline-flex;
-	align-items:					center;
-	line-height:					1.5em;
-	border-radius:					0.175em;
-	padding-left:					0.5rem;
-	padding-top:					1px;
-	padding-bottom:					1px;
-}
-ic-tag > * {
-	vertical-align:					middle;
-}
-
-ic-tag .title {
-	display:						inline-block;
-	flex:							1 0 auto;
-	margin-right:					0.5em;
-	line-height:					1em;
-}
-
-ic-tag .title:after {
-	content:						'';
-	display:						inline-block;
-	height:							1em;	
-}
-
-ic-tag .bubble {
-	flex:							0 0 auto;
+	box-sizing:						border-box;
+	line-height:					2em;
+	padding-left:					1rem;
 }

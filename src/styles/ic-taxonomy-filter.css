@@ -1,5 +1,6 @@
 ic-taxonomy-filter {
 	display:					block;
+	padding-bottom:				10rem;
 }
 
 ic-taxonomy-filter section {
@@ -15,19 +16,29 @@ ic-taxonomy-filter section h2 {
 	padding-top:				0.25rem;
 }
 
-ic-taxonomy-filter section article {
+ic-taxonomy-filter section ul {
+	padding-left:				0;
+	padding-right:				0;
 	padding-top:				0.5rem;
 	padding-bottom:				0.5rem;
+	margin:						0;
 }
 
 ic-taxonomy-filter section h2, 
-ic-taxonomy-filter section a {
+ic-taxonomy-filter section li {
 	display:					block;
 	line-height:				3rem;
 	padding-left:				3rem;
 	padding-right:				0.5rem;
 	background-position:		1rem 50% !important;
 }
+
+ic-taxonomy-filter section li a {
+	display:					inline-block;
+	line-height:				1.2rem;
+	vertical-align:				middle;
+}
+
 ic-taxonomy-filter section ic-tag{
 	padding-left:				0;
 }

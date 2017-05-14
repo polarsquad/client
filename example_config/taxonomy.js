@@ -3,7 +3,7 @@
 
 	exports.categories = [
 		{
-			name:		'information',
+			name:		'counseling',
 			tags:		[	
 							"helpdesk",
 							"visiting",
@@ -16,7 +16,7 @@
 		},
 
 		{
-			name:		'goods',
+			name:		'shopping',
 			tags:		[
 							"chemist",
 							"store",
@@ -47,7 +47,7 @@
 		},
 
 		{
-			name:		'culture_leisure',
+			name:		'culture',
 			tags:		[
 							"handicraft",
 							"library",
@@ -114,7 +114,7 @@
 		},
 
 		{
-			name:		'services',
+			name:		'service',
 			tags:		[
 							"chiropody",
 							"cosmetics",
@@ -143,7 +143,7 @@
 		},
 
 		{
-			name:		'sports',
+			name:		'sport',
 			tags:		[
 							"indoor_swimming",
 							"sports_club",
@@ -160,7 +160,7 @@
 		},
 
 		{
-			name:		'accommodation',
+			name:		'housing',
 			tags:		[
 							"craftsmen",
 							"relocation_assistance",
@@ -189,7 +189,7 @@
 			colors:		['rgba(200,240,240,1)', 'rgba(220,240,240,1)'],
 		},
 		{
-			name:		'service',
+			name:		'offer',
 			colors:		['rgba(240,200,200,1)', 'rgba(240,220,220,1)'],
 		},
 		{
@@ -198,7 +198,12 @@
 		}
 	]
 
-	exports.unsortedTags = ['work', 'city', 'free', 'accessible']
+	exports.unsortedTags = [
+		'accessible',
+		'free',
+		'multi_language',
+		'public_toilet'
+	]
 
 
 

@@ -2,13 +2,13 @@
 
 <div class 	= "tools">
 
-	<a href = "/p/home" class = "text-logo"> <ic-text-logo></ic-text-logo></a>
+	<a href = "/p/home" class = "text-logo"> <ic-logo-text></ic-logo-text></a>
 
 	<button 
 		class 		= "icon-interface-search white"
 		ic-click 	= "toggle_search = !toggle_search"
 	>
-		<span>{{'search' | translate}}</span>
+		<span>{{'SEARCH' | translate}}</span>
 	</button>
 	
 	<ic-search ng-show = "toggle_search"></ic-search>
@@ -16,18 +16,18 @@
 	<button 
 		class	= "icon-interface-favourites white"
 	>
-		<span>{{'favourites' | translate}}</span>
+		<span>{{'FAVORITES' | translate}}</span>
 	</button>
 	<button
 		class	= "icon-interface-help white"
 	>
-		<span>{{'help' | translate }}</span>
+		<span>{{'HELP' | translate }}</span>
 	</button>
 
 	<button
 		class	= "icon-interface-languages white"
 	>
-		<span>{{'language' | translate}}</span>
+		<span>{{'LANGUAGE' | translate}}</span>
 	</button>
 
 </div>
@@ -38,7 +38,7 @@
 <div 
 	class 					= "logo"
 >
-	<a ng-href = "/p/home"><ic-full-logo></ic-full-logo></a>
+	<a ng-href = "/p/home"><ic-logo-full></ic-logo-fullsys></a>
 </div>
 
 

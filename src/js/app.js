@@ -96,7 +96,8 @@ angular.module("InfoCompass",[
 										]
 										.some(function(x){ return !!x})
 							},
-			show:			function(ic){								
+			show:			function(ic){		
+								if(ic.site.activeItem) return false						
 								return 	[
 												!ic.site.activeItem
 											&&	!ic.site.page,
@@ -125,6 +126,16 @@ angular.module("InfoCompass",[
 
 .config([
 
+	'$compileProvider',
+
+	function($compileProvider){
+  		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto):/)
+  	}
+])
+
+
+.config([
+
 	'icItemStorageProvider',
 
 	function(icItemStorageProvider){
@@ -134,6 +145,19 @@ angular.module("InfoCompass",[
 		icItemStorageProvider.setItemStorage(window.ic.itemStorage)
 	}
 ])
+
+
+.config([
+	'$translateProvider',
+
+	function($translateProvider,plImagesProvider){
+		$translateProvider.useLoader('icInterfaceTranslationLoader')
+		$translateProvider.useSanitizeValueStrategy('sanitizeParameters')
+		$translateProvider.preferredLanguage('de')
+	}
+])
+
+
 
 .config([
 

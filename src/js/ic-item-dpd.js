@@ -34,7 +34,17 @@
 					})						
 					return null
 				}
-				
+
+				if(property.type == 'array'){
+					// remove all duplicates:
+					icItem[property.name] = []
+
+					data[property.name].forEach(function(x){
+						if(icItem[property.name].indexOf(x) == -1) icItem[property.name].push(x)
+					})
+					return null
+				}
+
 				icItem[property.name] = data[property.name]
 			})
 

@@ -5,6 +5,7 @@ ic-header {
 	color:							#fff;
 	font-size:						1rem;
 	background-color:				#802651;
+	z-index:						100;
 }
 
 
@@ -13,28 +14,26 @@ ic-header .tools {
 	box-sizing:						border-box;
 	flex-direction:					row;
 	align-items:					center;
+	font-size:						1rem;
 	height:							3rem;
+	line-height:					3em;
 	width:							100%;
-	line-height:					3rem;
 	padding:						0 1rem;
 }
 
 ic-header .tools > * {
 	margin:							0;
 	flex:							none;
+	display:						inline-block;
 }
 
-ic-header .tools > * + * {
+ic-header .tools > button + button {
 	margin-left:					1rem;
 }
 
 
 ic-header .tools .text-logo {
-	transition:						all 400ms ease-in;
-	overflow:						hidden;
-	width:							0;
-	margin:							0;
-	font-size:						1.5rem;
+	font-size:						2em;
 }
 
 
@@ -58,7 +57,6 @@ ic-header .tools button:hover {
 ic-header .tools button span {
 	display:						block;
 	max-width:						100%;
-	transition:						max-width 400ms linear;
 	overflow:						hidden;
 }
 
@@ -77,10 +75,12 @@ ic-header .logo {
 	align-items:					center;
 	height:							10rem;
 	padding-right:					10%;
-	transition-properties:			height opacity;
-	transition-duration:			200ms;
-	transition-timing-function:		linear;
 	opacity:						1;
+	transition:						all 300ms linear;
+}
+
+ic-header .logo ic-logo-full {
+	font-size:						4rem;
 }
 
 
@@ -107,29 +107,29 @@ ic-header ic-main-menu ul > li {
 
 
 ic-header ic-main-menu ul > li > ul {
-	display:						block;
+	display:						none;
 	margin-left:					-1rem;
-	max-height:						0;
-	opacity:						0;
 	position:						absolute;
 	overflow:						hidden;
-	transition:						all 300ms ease-in-out;
+	z-index:						99;
+	box-shadow:						0 0 0.5em rgba(0,0,0,0.5);
 }
 
-ic-header ic-main-menu ul > li:hover > ul{
-	max-height:						20rem;
-	opacity:						1;
-	z-index:						101;
+ic-header ic-main-menu ul > li:hover > ul {
+	display:						block;
 }
+
 
 ic-header ic-main-menu ul > li > ul > li {
 	display:						block;
+	margin-top:						0;
 	background-color:				#fff;
 	color:							#802651;
-	line-height:					2rem;
-	padding:						0 1rem;
+	line-height:					2.5rem;
+	padding:						0 1.5rem;
 	border-bottom:					1px solid #666;
 }
+
 
 ic-header ic-main-menu ul > li > ul > li:last-child {
 	border-bottom:					0px;
@@ -161,5 +161,5 @@ ic-header.ic-scroll-snapped .tools .text-logo{
 
 ic-header.ic-scroll-snapped .tools button span{
 	max-width:						0;
-	z.index:						0;
+	z-index:						0;
 }

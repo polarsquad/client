@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-category-housing</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-category-housing" fill="#ffffff">
+            <g id="Page-1" transform="translate(1.000000, 3.000000)">
+                <g id="Group-12">
+                    <path d="M5,5 C7.761,5 10,7.239 10,10 C10,12.761 7.761,15 5,15 C2.239,15 0,12.761 0,10 C0,7.239 2.239,5 5,5 Z M5,6 C2.794,6 1,7.794 1,10 C1,12.206 2.794,14 5,14 C7.206,14 9,12.206 9,10 C9,7.794 7.206,6 5,6 Z" id="Fill-2"></path>
+                    <polygon id="Fill-4" points="4.5 19 5.5 19 5.5 14.5 4.5 14.5"></polygon>
+                    <polygon id="Fill-6" points="9 4 18 4 18 3 9 3"></polygon>
+                    <polygon id="Fill-7" points="9 16 18 16 18 15 9 15"></polygon>
+                    <path d="M7,0 L7,4.349 C7.349,4.472 7.684,4.626 8,4.809 L8,1 L19,1 L19,18 L8,18 L8,15.191 C7.684,15.374 7.349,15.528 7,15.651 L7,19 L20,19 L20,0 L7,0 Z" id="Fill-8"></path>
+                    <path d="M9.4632,6 C9.7382,6.307 9.9832,6.641 10.1912,7 L18.0002,7 L18.0002,6 L9.4632,6 Z" id="Fill-9"></path>
+                    <path d="M10.91,9 C10.965,9.326 11,9.659 11,10 L18,10 L18,9 L10.91,9 Z" id="Fill-10"></path>
+                    <path d="M10.6512,12 C10.5272,12.349 10.3742,12.684 10.1902,13 L18.0002,13 L18.0002,12 L10.6512,12 Z" id="Fill-11"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

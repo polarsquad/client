@@ -5,16 +5,30 @@
 	>
 		<div class = "icon large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
-			<h2><a ng-href = "/c/{{::category.name}}">{{category.name}}</a></h2>
+			<h2><a ng-href = "/c/{{::category.name}}">{{category.name | uppercase | translate}}</a></h2>
 			<div>
+				<a
+					href  		= "/c/{{::category.name}}"
+					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
+				>
+					{{'all' | translate}} 
+					<span 
+						class = "bubble shade-light"
+					>
+						{{ic.itemStorage.subMatches[category.name] | uppercase | translate}}
+					</span>
+				</a>
 				<a
 					ng-repeat 	= "tag in category.tags"
 					href  		= "/c/{{tag}}"
+					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
-					<ic-tag 
-						class		= "ic-bg-cat-{{category.name}} col-2 hover"
-						name		= "tag"
-					></ic-tag>
+					{{tag}} 
+					<span 
+						class = "bubble shade-light"
+					>
+						{{ic.itemStorage.subMatches[tag]}}
+					</span>
 				</a>
 			</div>
 		</div>

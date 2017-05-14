@@ -211,7 +211,7 @@ angular.module('icUiDirectives', [
 		return {
 			link: function(scope, element, attrs){
 
-				var target				= attrs.icScrollSnapTarget,
+				var target				= undefined,
 					anchors				= icScrollSnapAnchors.anchors,
 					to					= undefined,
 					expect_scroll		= false,
@@ -260,8 +260,7 @@ angular.module('icUiDirectives', [
 					snap()
 				}
 
-
-				window.addEventListener('scroll', function(event){
+				function beforeScroll(event){
 					if(event.target != anchors[target]) return null
 
 					if(!expect_scroll) stop_snapping = true
@@ -270,7 +269,26 @@ angular.module('icUiDirectives', [
 					to = window.setTimeout(afterScroll, 200)
 
 					onScroll()	
-				}, true)
+				}
+
+
+
+				scope.$watch(
+					function(){
+						return scope.$eval(attrs.icScrollSnapTarget)
+					},
+					function(result){
+						target	= result || undefined
+						console.log(target)
+
+						if(target){
+							window.addEventListener('scroll', beforeScroll, true)
+						} else {
+							element.addClass('ic-scroll-snapped')
+							window.removeEventListener('scroll', beforeScroll)
+						}
+					}
+				)
 
 				scope.$on('$destroy', function(){
 					window.removeEventListener('scroll', onScroll)

@@ -209,18 +209,18 @@ angular.module('icDirectives', [
 
 
 
-.directive('icTextLogo',[
+.directive('icLogoText',[
 	function(){
 		return {
-			templateUrl:	'partials/ic-text-logo.html'
+			templateUrl:	'partials/ic-logo-text.html'
 		}
 	}
 ])
 
-.directive('icFullLogo',[
+.directive('icLogoFull',[
 	function(){
 		return {
-			templateUrl:	'partials/ic-full-logo.html'
+			templateUrl:	'partials/ic-logo-full.html'
 		}
 	}
 ])
@@ -238,7 +238,7 @@ angular.module('icDirectives', [
 
 	function(){
 		return {
-			templateUrl:	'partials/ic-breadcrumb.html'
+			templateUrl:	'partials/ic-breadcrumbs.html'
 		}
 	}
 ])
@@ -287,28 +287,6 @@ angular.module('icDirectives', [
 ])
 
 
-.directive('icTag', [
-
-	'icItemStorage',
-
-	function(icItemStorage){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-tag.html',
-			scope:			{
-								name:	"<",
-							},
-
-			link: function(scope, element, attrs){
-				scope.$watch(
-					function(){ return icItemStorage.subMatches[scope.name] },
-					function(count){ scope.count = count || 0}
-				)
-			}
-		}
-	}
-])
-
 .directive('icTagList', [
 
 	'ic',
@@ -340,7 +318,11 @@ angular.module('icDirectives', [
 			templateUrl:	'partials/ic-taxonomy-filter.html',
 
 			link: function(scope, element){
-				scope.ic = ic
+				scope.ic 		= 	ic
+				scope.expand 	= 	{
+										categories: 	true,
+										unsortedTags: 	true
+									}
 			}
 		}
 	}

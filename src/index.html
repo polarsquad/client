@@ -17,7 +17,7 @@
 
 	<head>
 
-		<title>InfoCompass</title>
+		<title>{{'TITLE' | translate}}</title>
 
 		<base href = "/">
 		<meta charset ="utf-8">		
@@ -40,11 +40,12 @@
 
 	<body>
 		<noscript>Please enable javascript.</noscript>
+		<div ng-if = "!ic.init.ready"> loading ... </div>
 
 		<!-- header -->
 		<ic-header 
 			ng-show 				= "::ic.init.ready"
-			ic-scroll-snap-target 	= "header"
+			ic-scroll-snap-target 	= "ic.site.visibleSections.page ? 'header' : false" 
 		></ic-header>
 
 

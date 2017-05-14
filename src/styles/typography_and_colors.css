@@ -6,7 +6,7 @@
 
 
 html{
-	font-family:		Biryani, sans-serif;
+	font-family:		Roboto, sans-serif;
 	color:				#444;
 }
 
@@ -22,9 +22,6 @@ p {
 	line-height:		1.4em;
 }
 
-.ic-touched {
-	background-color:	rgba(0,0,0,0.1) !important;
-}
 
 
 input, 
@@ -34,6 +31,7 @@ button:hover {
 	display:			inline-block;
 	border:				none;	
 	background-color:	#fff;
+	font-size:			1em;
 }
 
 
