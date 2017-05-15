@@ -505,7 +505,9 @@ angular.module('icServices', [
 						]
 			},
 			function(arr){
-				icItemStorage.updateFilteredList([].concat.apply([], arr))
+				icItemStorage.ready.then(function(){
+					icItemStorage.updateFilteredList([].concat.apply([], arr))
+				})
 			},
 			true
 		)

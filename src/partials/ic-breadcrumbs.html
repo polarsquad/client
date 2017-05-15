@@ -3,15 +3,15 @@
 <span ng-if = "ic.site.searchTerm">&gt; Suche nach "{{ic.site.searchTerm}}"</span>
 
 <span ng-if = "ic.site.filterByType.length"> 
-	&gt; <span> {{ic.site.filterByType.join(', ')}} </span>
+	&gt; <span> {{ic.site.filterByType[0] | uppercase | translate}} </span>
 </span>
 
 <span 	ng-if = "ic.site.filterByCategory.length">
-	&gt; {{'CATEGORIES' | transalte}}:
-	<span> {{ic.site.filterByCategory.join(', ')}} </span>
+	&gt; {{'CATEGORIES' | translate}}:
+	<span ng-repeat = "category in ic.site.filterByCategory"> {{category.name | uppercase | translate}} </span>
 </span>
 
 <span ng-if = "ic.site.filterByUnsortedTags.length">
 	&gt; {{'UNSORTED_TAGS' | translate }}:
-	<span> {{ic.site.filterByUnsortedTag.join(', ')}} </span>
+	<span ng-repeat = "tag in ic.site.filterByUnsortedTag"> {{tag | uppercase | translate}} </span>
 </span>

@@ -17,7 +17,14 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name)"
 			ic-touch-me	= "!disabled"
 		>
-			<a>{{type.name | uppercase |translate}} <span class = "bubble shade-light col-1">{{ic.itemStorage.subMatches[type.name]}}</span></a>
+			<a>{{type.name | uppercase |translate}} 
+				<span 
+					class = "bubble shade-light col-1"
+					ng-if = "ic.itemStorage.subMatches[type.name]"
+				>
+					{{ic.itemStorage.subMatches[type.name]}}
+				</span>
+			</a>
 		</li>
 	</ul>
 </section>
