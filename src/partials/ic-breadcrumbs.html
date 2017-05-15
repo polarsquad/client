@@ -8,7 +8,7 @@
 
 <span 	ng-if = "ic.site.filterByCategory.length">
 	&gt; {{'CATEGORIES' | translate}}:
-	<span ng-repeat = "category in ic.site.filterByCategory"> {{category.name | uppercase | translate}} </span>
+	<span ng-repeat = "category in ic.site.filterByCategory"> {{category | uppercase | translate}} </span>
 </span>
 
 <span ng-if = "ic.site.filterByUnsortedTags.length">
