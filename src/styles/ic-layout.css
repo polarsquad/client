@@ -53,6 +53,7 @@ ic-main-content > * {
 #section-list ic-breadcrumbs {
 	flex:						0 0 100%;
 	margin-bottom:				1rem;
+	padding:					.5rem;
 }
 
 #section-list ic-taxonomy-filter {
