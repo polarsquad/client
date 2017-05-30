@@ -237,18 +237,6 @@ angular.module('icServices', [
 										.then(function(){
 											icItemStorage.updateFilteredList()
 										})
-				
-
-			icItemStorage.ready
-			.then(function(){
-				$rootScope.$watch(
-					function(){ return icSite.searchTerm },
-					function(){
-						if(icSite.searchTerm && icSite.searchTerm.replace(/\s+/,'')) 
-							icItemStorage.search(icSite.searchTerm)
-					}
-				)
-			})
 
 
 			return icItemStorage
@@ -353,8 +341,9 @@ angular.module('icServices', [
 	'$rootScope',
 	'icSite',
 	'icItemStorage',
+	'icTaxonomy',
 	
-	function($rootScope, icSite, icItemStorage){
+	function($rootScope, icSite, icItemStorage, icTaxonomy){
 		var icFilterConfig = this
 
 		icSite
@@ -410,15 +399,20 @@ angular.module('icServices', [
 							},
 		})
 
-		icFilterConfig.toggleType = function(type_name, toggle){
+		icFilterConfig.toggleType = function(type_name, toggle, replace){
+
+
 
 			var pos 	= 	icSite.filterByType.indexOf(type_name),
 				toggle 	= 	toggle === undefined
 							?	pos == -1
 							:	!!toggle
 
-			if(pos == -1 &&  toggle) return !!icSite.filterByType.push(type_name)
-			if(pos != -1 && !toggle) return !!icSite.filterByType.splice(pos,1)
+							
+			if(replace) icFilterConfig.clearType()
+
+			if(pos == -1 &&  toggle) 				return !!icSite.filterByType.push(type_name)
+			if(pos != -1 && !toggle && !replace) 	return !!icSite.filterByType.splice(pos,1)
 
 		}
 
@@ -436,19 +430,17 @@ angular.module('icServices', [
 		}
 
 
-
-
-
-		icFilterConfig.toggleCategory = function(category_name, toggle){
+		icFilterConfig.toggleCategory = function(category_name, toggle, replace){
 
 			var pos 	= 	icSite.filterByCategory.indexOf(category_name),
 				toggle 	= 	toggle === undefined
 							?	pos == -1
 							:	!!toggle
 
-			if(pos == -1 &&  toggle) return !!icSite.filterByCategory.push(category_name)
-			if(pos != -1 && !toggle) return !!icSite.filterByCategory.splice(pos,1)
+			if(replace) icFilterConfig.clearCategory()
 
+			if(pos == -1 &&  toggle) 				return !!icSite.filterByCategory.push(category_name)
+			if(pos != -1 && !toggle && !replace) 	return !!icSite.filterByCategory.splice(pos,1)
 		}
 
 		icFilterConfig.clearCategory = function(){
@@ -499,14 +491,20 @@ angular.module('icServices', [
 		$rootScope.$watch(
 			function(){
 				return 	[
-							icSite.filterByCategory,
+							icItemStorage.getSearchTag(icSite.searchTerm),
 							icSite.filterByType,
+							icSite.filterByCategory,
 							icSite.filterByUnsortedTag
 						]
 			},
 			function(arr){
 				icItemStorage.ready.then(function(){
-					icItemStorage.updateFilteredList([].concat.apply([], arr))
+					icItemStorage.updateFilteredList(arr, [
+						null, 
+						icTaxonomy.types.map(function(type){ return type.name }), 
+						icTaxonomy.categories.map(function(category){ return category.name }), 
+						null
+					])
 				})
 			},
 			true

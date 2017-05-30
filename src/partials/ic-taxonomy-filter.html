@@ -12,17 +12,17 @@
 		<li
 			ng-repeat 	= "type in ic.taxonomy.types"
 			class 		= "icon icon-type-{{::type.name}}"
-			ic-button	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.subMatches[type.name]}"
+			ic-button	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.altMatches[type.name]}"
 			ng-class	= "{active:active, disabled: disabled}"
-			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name)"
+			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name, undefined, true)"
 			ic-touch-me	= "!disabled"
 		>
 			<a>{{type.name | uppercase |translate}} 
 				<span 
 					class = "bubble shade-light col-1"
-					ng-if = "ic.itemStorage.subMatches[type.name]"
+					ng-if = "ic.itemStorage.altMatches[type.name]"
 				>
-					{{ic.itemStorage.subMatches[type.name]}}
+					{{ic.itemStorage.altMatches[type.name]}}
 				</span>
 			</a>
 		</li>
@@ -53,9 +53,9 @@
 			ng-repeat 	= "category in ic.taxonomy.categories"
 			ng-if		= "true"
 			class		= "icon icon-category-{{::category.name}} bg-0"
-			ic-button	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.subMatches[category.name]}"
+			ic-button	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.altMatches[category.name]}"
 			ng-class	= "{active:active, disabled: disabled}"
-			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name)"
+			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name, undefined, true)"
 			ic-touch-me	= "!disabled"
 		>
 			<a>
@@ -64,7 +64,7 @@
 					class = "bubble shade-light col-1"
 					ng-if = "!disabled"
 				>
-					{{ic.itemStorage.subMatches[category.name]}}
+					{{ic.itemStorage.altMatches[category.name]}}
 				</span>
 			</a>
 		</li>

@@ -17,8 +17,8 @@
 		icItemStorage.filters 			= {}
 		icItemStorage.sortingCriteria	= {}
 		icItemStorage.filteredList		= []
-		icItemStorage.subMatches			= {}
-
+		icItemStorage.subMatches		= {}
+		icItemStorage.altMatches		= {}
 
 		icItemStorage.storeItem = function(item_data){
 
@@ -39,6 +39,7 @@
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
 
 			Object.keys(icItemStorage.subMatches).forEach(function(key){delete icItemStorage.subMatches[key] })
+			Object.keys(icItemStorage.altMatches).forEach(function(key){delete icItemStorage.altMatches[key] })
 			return this
 		}
 
@@ -82,14 +83,19 @@
 		}
 
 
-		icItemStorage.updateFilteredList = function(cod_tags){ //conjunction of disjunctions of tags [[tag1, tag2], [tag3]]
+		icItemStorage.updateFilteredList = function(tag_groups, alt_groups){ //groups of tags of tags [[tag1, tag2], [tag3]]
 			
-			if(!cod_tags) cod_tags = []
+			if(!tag_groups) 	tag_groups 	= []
+			if(!alt_groups)		alt_groups 	= []
 
-			//normalize cod_tags
-			if(typeof cod_tags == 'string') cod_tags = [cod_tags]
-			cod_tags.forEach(function(disjunction, index){
-				if(typeof disjunction == 'string') cod_tags[index] = [disjunction]
+			//normalize tag_groups
+			if(typeof tag_groups == 'string') tag_groups = [tag_groups]
+
+			tag_groups.forEach(function(tag_group, index){
+				if(typeof tag_group 			== 'string') 	tag_groups[index] 	= [tag_group]
+				if(!tag_group)									tag_groups[index] 	= []
+				if(typeof alt_groups[index] 	== 'string')	alt_groups[index] 	= [alt_groups[index]]
+				if(!alt_groups[index])							alt_groups[index] 	= []
 			})
 			
 
@@ -97,27 +103,49 @@
 
 			icItemStorage.data.forEach(function(item){
 
+
 				item.internal.tags 	= item.internal.tags || []
-			
-				// check if item does NOT match the filter:
-				if(cod_tags.some(function(disjunction){
-					return disjunction.every(function(tag){
-						return item.tags.indexOf(tag) == -1 && item.internal.tags.indexOf(tag) == -1
+
+				var match 				= true,
+					tag_group_matches 	= [],
+					alt_group_matches 	= [],
+					combined_tags		= item.tags.concat(item.internal.tags)
+
+				tag_groups.forEach(function(tag_group, index){
+					tag_group_matches[index] = tag_group.every(function(tag){ 
+						return combined_tags.indexOf(tag) != -1
 					})
-				})) return null  
+				})
+
+
+				var failed_groups = []
+
+				tag_group_matches.forEach(function(tag_group_match, index){ if(!tag_group_match) failed_groups.push(index) })
+
+				if(failed_groups.length > 1) return null
+				//item failed at most one tag group:
+
+
+				//count alt_matches for tags:
+				combined_tags.forEach(function(tag){
+					if(failed_groups.length == 0 || alt_groups[failed_groups[0]].indexOf(tag) != -1)
+						icItemStorage.altMatches[tag] =  (icItemStorage.altMatches[tag]||0)+1
+				})
+
+
+				if(failed_groups.length > 0 ) return null
+				// item failed no tag group:
 
 				//add to filtered list:
 				icItemStorage.filteredList.push(item)
 
-				//count submatches for tags:
-				item.tags.forEach(function(tag){
+				//count submatches for tags
+				combined_tags.forEach(function(tag){
 					icItemStorage.subMatches[tag] =  (icItemStorage.subMatches[tag]||0)+1
 				})
 
-				//count submatches for internal tags:
-				item.internal.tags.forEach(function(tag){
-					icItemStorage.subMatches[tag] =  (icItemStorage.subMatches[tag]||0)+1
-				})
+
+
 			})
 
 			return icItemStorage
@@ -174,24 +202,27 @@
 
 		var searchTerms = []
 
-		icItemStorage.search = function(search_term){
+		icItemStorage.getSearchTag = function(search_term){
 
+			if(!search_term || typeof search_term != 'string') return null
 
 			search_term = search_term.replace(/\s+/,'&')
 
-			var index = searchTerms.indexOf(search_term)
+			var index 		= searchTerms.indexOf(search_term),
+				search_tag 	= 'search%1' 
 
 			if(index == -1){
 
 				searchTerms.push(search_term)
 				index = searchTerms.length-1
 
+
 				var regex 					= 	new RegExp(search_term, 'i'),
 					searchable_properties 	= 	ic.itemConfig.properties.filter(function(property){
 													return property.searchable
 												})
 
-				icItemStorage.registerFilter('search'+index, function(item){
+				icItemStorage.registerFilter(search_tag.replace(/%1/,index), function(item){
 					return	searchable_properties.some(function(property){
 								switch(property.type){
 									case "array": 
@@ -208,11 +239,10 @@
 								}
 							})
 				}) 			
-			}
+			} 
 
-			icItemStorage.updateFilteredList('search'+index)
 
-			return icItemStorage
+			return search_tag.replace(/%1/,index)
 		}
 
 	}
