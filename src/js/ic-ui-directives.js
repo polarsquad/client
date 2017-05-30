@@ -279,7 +279,6 @@ angular.module('icUiDirectives', [
 					},
 					function(result){
 						target	= result || undefined
-						console.log(target)
 
 						if(target){
 							window.addEventListener('scroll', beforeScroll, true)

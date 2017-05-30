@@ -64,7 +64,7 @@ angular.module('icServices', [
 
 	this.registerSwitch = function(new_switch){
 		/*
-			switch =		{
+			swt =		{
 								name: the key used to exposed value on icSite e.g. ic.site.switch.%name
 								defaultValue: ...
 							}
@@ -99,11 +99,15 @@ angular.module('icServices', [
 		'ic',
 
 		function($location, $q, $rootScope, $timeout, ic){
-			var icSite 	= 	this,
-				scheduledPathUpdate	= undefined
+			var icSite 					= 	this,
+				adjustment_scheduled	= 	false
 
 			icSite.activeSections 	=	{}
 			icSite.visibleSections 	= 	{}
+
+
+
+			//Params:
 
 			function decodeParam(path, param){
 				var value = param.decode(path, ic)
@@ -154,18 +158,71 @@ angular.module('icServices', [
 			}
 
 			icSite.updatePath = function(){
-				var path = params2Path()
-				$location.path(path)
+				var current_path 	= $location.path(),
+					new_path		= params2Path()
+				
+				if(current_path != new_path) $location.path(new_path)
 
 				return icSite
 			}
 
-			icSite.schedulePathUpdate = function(){
-				if(scheduledPathUpdate) $timeout.cancel(scheduledPathUpdate)
-				scheduledPathUpdate = $timeout(icSite.updatePath, 150)
+
+			icSite.updateUrl = function(){
+				icSite.updatePath()
+				icSite.updateSearch()
 
 				return icSite
 			}
+
+
+			//Switches:
+
+
+			function search2Switches(){
+				var binary_str = parseInt($location.search().s || 0, 36).toString(2)
+
+				icSite.config.switches.forEach(function(swt, index){
+					icSite[swt.name] = !!parseInt(binary_str[swt.index])
+
+					console.log(swt.name, icSite[swt.name])
+				})
+
+
+			}
+
+			function switches2Search(){
+				if(!icSite.config.switches.length) return null
+
+				var arr = Array(1 + icSite.config.switches.reduce(function(max, swt){ return Math.max(max, swt.index) },0 )).fill(0),
+					s	= '0'
+
+				icSite.config.switches.forEach(function(swt){
+					arr[swt.index] = icSite[swt.name] ? 1 : 0
+				})
+
+				s = parseInt(arr.join() , 2).toString(36)
+				return 	s == '0'
+						?	null
+						:	s
+			}
+
+
+			icSite.updateSearch = function(){
+				var current_s 	= $location.search().s,
+					new_s		= switches2Search()
+				
+				if(current_s != new_s) $location.search('s', new_s)
+
+				return icSite
+			}
+
+			icSite.updateFromSearch = function(){
+				search2Switches()
+				return icSite
+			}
+
+
+			//sections:
 
 
 			icSite.updateActiveSections = function(){
@@ -190,41 +247,52 @@ angular.module('icServices', [
 						.updateVisibleSections()
 			}
 
-			icSite.onRegister = function(){ $rootScope.$evalAsync(icSite.updateFromPath) }
+			icSite.onRegister = function(){ 
+				$rootScope.$evalAsync(icSite.updateFromPath) 
+				$rootScope.$evalAsync(icSite.updateFromSearch) 
+			}
+
+			icSite.adjust = function(){
+				console.log('adjust')
+				icSite.config.params.forEach(function(param){ icSite[param.name] 	= param.adjust 	? param.adjust(ic)	: icSite[param.name]	}),
+				icSite.config.switches.forEach(function(swt){ icSite[swt.name]		= swt.adjust	? swt.adjust(ic)	: icSite[swt.name]		})
+
+				$location.replace()
+
+				return icSite
+			}
 
 			$rootScope.$watch(
 				function(){
-					return icSite.config.params.map(function(param){ return icSite[param.name] })
+					return 	[
+								icSite.config.params.map(function(param){ return icSite[param.name] }),
+								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	})
+							]
 				},
 				function(params){
 					icSite
 					.updateSections()
-					.schedulePathUpdate()					
+					
+					icSite.updateUrl()	
+
+					if(!adjustment_scheduled){
+						adjustment_scheduled = true
+						$rootScope.$evalAsync(function(){
+							icSite.adjust()
+							adjustment_scheduled = false
+						})
+						
+					}
 				},	
 				true
 			)
-
-			$rootScope.$watch(
-				function(){
-					return icSite.config.switches.map(function(swtch){ return icSite[switch.name] })
-				},
-				function(params){
-					icSite
-					.updateSections()
-					.schedulePathUpdate()					
-				},	
-				true
-			)
-
 
 
 			$rootScope.$watch(
 				function(){ return $location.search().s},
 				function(s){
-					console.log(s)
-					icSite
-					.updateSections()
-					.schedulePathUpdate()	
+					console.log('upd', s)
+					icSite.updateFromSearch()
 				}
 			)
 
