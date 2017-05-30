@@ -204,8 +204,31 @@ angular.module('icServices', [
 				true
 			)
 
-			$rootScope.$on('$locationChangeSuccess', icSite.updateFromPath)
+			$rootScope.$watch(
+				function(){
+					return icSite.config.switches.map(function(swtch){ return icSite[switch.name] })
+				},
+				function(params){
+					icSite
+					.updateSections()
+					.schedulePathUpdate()					
+				},	
+				true
+			)
 
+
+
+			$rootScope.$watch(
+				function(){ return $location.search().s},
+				function(s){
+					console.log(s)
+					icSite
+					.updateSections()
+					.schedulePathUpdate()	
+				}
+			)
+
+			$rootScope.$on('$locationChangeSuccess', icSite.updateFromPath)
 
 			return icSite
 		}
@@ -647,8 +670,6 @@ angular.module('icServices', [
 		ic.languages	= icLanguages
 
 		console.dir(ic)
-
-		window.$translate = $translate
 	}
 ])
 

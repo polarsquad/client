@@ -123,6 +123,9 @@ angular.module("InfoCompass",[
 								return ic.site.activeItem
 							}				
 		})
+		.registerSwitch({
+			name: 			'forceList', 
+		})
 	}
 ])
 
