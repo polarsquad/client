@@ -158,6 +158,7 @@ angular.module('icServices', [
 			}
 
 			icSite.updatePath = function(){
+
 				var current_path 	= $location.path(),
 					new_path		= params2Path()
 				
@@ -184,7 +185,6 @@ angular.module('icServices', [
 				icSite.config.switches.forEach(function(swt, index){
 					icSite[swt.name] = !!parseInt(binary_str[swt.index])
 
-					console.log(swt.name, icSite[swt.name])
 				})
 
 
@@ -235,7 +235,7 @@ angular.module('icServices', [
 
 			icSite.updateVisibleSections = function(){
 				icSite.config.sections.forEach(function(section){
-					icSite.visibleSections[section.name] = section.show(ic)
+					icSite.visibleSections[section.name] = icSite.activeSections[section.name] && section.show(ic)
 				})
 
 				return icSite				
@@ -262,18 +262,17 @@ angular.module('icServices', [
 				return icSite
 			}
 
-			$rootScope.$watch(
+			$rootScope.$watchCollection(
 				function(){
-					return 	[
+					return 	[].concat(
 								icSite.config.params.map(function(param){ return icSite[param.name] }),
 								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	})
-							]
+							)
 				},
-				function(params){
+				function(obj, old){
 					icSite
 					.updateSections()
-					
-					icSite.updateUrl()	
+					.updateUrl()	
 
 					if(!adjustment_scheduled){
 						adjustment_scheduled = true
@@ -284,14 +283,13 @@ angular.module('icServices', [
 						
 					}
 				},	
-				true
+				//true
 			)
 
 
 			$rootScope.$watch(
 				function(){ return $location.search().s},
 				function(s){
-					console.log('upd', s)
 					icSite.updateFromSearch()
 				}
 			)
@@ -328,6 +326,27 @@ angular.module('icServices', [
 										.then(function(){
 											icItemStorage.updateFilteredList()
 										})
+
+			$rootScope.$watch(
+				function(){
+					return !icItemStorage.refreshScheduled && icItemStorage.refreshRequired
+				},
+				function(refresh){
+
+
+					if(!refresh) return null
+
+					icItemStorage.refreshScheduled = true
+
+
+					$rootScope.$evalAsync(function(){
+						icItemStorage.refreshFilteredList()
+						icItemStorage.refreshScheduled	=	false
+					})
+
+					return icItemStorage
+				}
+			)
 
 
 			return icItemStorage
@@ -366,13 +385,30 @@ angular.module('icServices', [
 				if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
 				if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load ic-item-config-dpd.js.')
 
-				taxonomy.categories.forEach(function(cat_config){
+
+				icTaxonomy.addCategory = function(cat_config){
 					icTaxonomy.categories.push(new IcCategory(cat_config))
+					return icTaxonomy
+				}
+
+
+				taxonomy.categories.forEach(function(cat_config){
+					icTaxonomy.addCategory(cat_config)
 				})
 
-				taxonomy.types.forEach(function(type_config){
+				icTaxonomy.addType = function(type_config){
 					icTaxonomy.types.push(new IcType(type_config))
+					return icTaxonomy
+				}
+
+				taxonomy.types.forEach(function(type_config){
+					icTaxonomy.addType(type_config)
 				})
+
+				icTaxonomy.addUnsortedTag = function(tag){
+					icTaxonomy.unsortedTags.push(tag)
+					return icTaxonomy
+				}
 
 
 				//Todo: move this into build script:
@@ -699,6 +735,74 @@ angular.module('icServices', [
 
 
 
+.service('icFavourites',[
+
+	'$rootScope',
+	'icItemStorage',
+	'icTaxonomy',
+
+	function($rootScope, icItemStorage, icTaxonomy){
+
+		var icFavourites = this,
+			items = JSON.parse(localStorage.getItem('icFavourites') || '[]')
+
+		icFavourites.contains = function(item_or_id){
+			if(!item_or_id) return false
+
+			var id 		= 	item_or_id.id || item_or_id
+				
+			return items.indexOf(id) != -1
+		}
+
+		icFavourites.toggleItem = function(item_or_id, toggle){
+			var id 		= 	item_or_id.id || item_or_id,
+				pos 	= 	items.indexOf(id)
+
+			toggle 	= 	toggle === undefined
+						?	pos == -1
+						:	!!toggle
+
+			var add 	= (pos == -1 &&  toggle),
+				remove 	= (pos != -1 && !toggle)
+
+			if(add) 	items.push(id)		
+			if(remove) 	items.splice(pos,1)
+
+			if(add || remove) icItemStorage.updateItemInternals(item_or_id)
+			return icFavourites
+		}
+
+		icFavourites.addItem = function(item_or_id){
+			icFavourites.toggleItem(item_or_id, true)
+		}
+
+		icFavourites.removeItem = function(item_or_id){
+			icFavourites.toggleItem(item_or_id, false)
+		}
+
+		icItemStorage.registerFilter('favourite', function(item){
+			return icFavourites.contains(item) 
+		})
+
+		icTaxonomy.addUnsortedTag('favourite')
+
+		$rootScope.$watch(
+			function(){
+				return items
+			},
+			function(){
+				localStorage.setItem('icFavourites', JSON.stringify(items))				
+			},
+			true
+		)
+
+		return icFavourites
+	}
+])
+
+
+
+
 .factory('icInterfaceTranslationLoader', [
 
 	'icLanguages',
@@ -726,9 +830,9 @@ angular.module('icServices', [
 	'icTaxonomy',
 	'icFilterConfig',
 	'icLanguages',
-	'translateFilter',
+	'icFavourites',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, $translate){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -736,6 +840,7 @@ angular.module('icServices', [
 		ic.taxonomy		= icTaxonomy
 		ic.filterConfig	= icFilterConfig
 		ic.languages	= icLanguages
+		ic.favourites	= icFavourites
 
 		console.dir(ic)
 	}

@@ -91,10 +91,14 @@ Brauche:
 
 
 Todo:
-* list bei leerem Filter (switches)
-* Übersetzung generien
 * Karte
+* Übersetzung generien
 * Merkliste
+* edit
+* print
+* check drive
 
 Done:
+* fix infocompass
 * Radio für Kategorienfilter
+* list bei leerem Filter (Paramter -> list)

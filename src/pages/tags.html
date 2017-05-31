@@ -5,10 +5,10 @@
 	>
 		<div class = "icon-large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
-			<h2><a ng-href = "/c/{{::category.name}}">{{category.name | uppercase | translate}}</a></h2>
+			<h2><a ng-href = "/list/c/{{::category.name}}">{{category.name | uppercase | translate}}</a></h2>
 			<div>
 				<a
-					href  		= "/c/{{::category.name}}"
+					href  		= "/list/c/{{::category.name}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
 					{{'all' | uppercase | translate}} 
@@ -20,7 +20,7 @@
 				</a>
 				<a
 					ng-repeat 	= "tag in category.tags"
-					href  		= "/c/{{tag}}"
+					href  		= "/list/c/{{tag}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
 					{{tag}} 

@@ -29,8 +29,9 @@ angular.module("InfoCompass",[
 		.registerParameter({
 			name: 			'list',
 			encode:			function(value, ic){
-								if(!value) return ''
-								return 'list' 
+								return 	value 
+										?	'list' 
+										:	''
 							},
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)list(\/|$)/)
@@ -48,6 +49,7 @@ angular.module("InfoCompass",[
 							},
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)item\/([^\/]*)/)
+
 
 								return	matches && matches[2]
 										?	ic.itemStorage.getItem(matches[2])
@@ -67,7 +69,7 @@ angular.module("InfoCompass",[
 								return matches && matches[2]
 							},
 			options:		['home', 'tags'],
-			// defaultValue:	'home'
+			defaultValue:	'home'
 		})
 
 
@@ -91,30 +93,12 @@ angular.module("InfoCompass",[
 			name:			'list',
 			template:		'partials/ic-section-list.html',
 			active:			function(ic){
-								return 	[
-												!ic.site.activeItem
-											&&	!ic.site.page,
-												ic.site.searchTerm, 
-												ic.site.filterByCategory.length, 
-												ic.site.filterByType.length, 
-												ic.site.filterByUnsortedTag.length,
-												ic.site.forceList
-										]
-										.some(function(x){ return !!x})
-
+								return 	ic.site.list
 							},
+
 			show:			function(ic){		
 								if(ic.site.activeItem) return false						
-								return 	[
-												!ic.site.activeItem
-											&&	!ic.site.page,
-												ic.site.searchTerm, 
-												ic.site.filterByCategory.length, 
-												ic.site.filterByType.length, 
-												ic.site.filterByUnsortedTag.length,
-												ic.site.forceList												
-										]
-										.some(function(x){ return !!x})
+								return 	true
 							}				
 		})
 
@@ -127,13 +111,6 @@ angular.module("InfoCompass",[
 			show:			function(ic){
 								return ic.site.activeItem
 							}				
-		})
-		.registerSwitch({
-			name: 			'forceList', 
-			index:			0,
-			adjust:			function(ic){
-								return ic.site.activeSection && !ic.site.activeSection.page
-							}
 		})
 	}
 ])

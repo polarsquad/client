@@ -13,7 +13,11 @@
 			</button>
 			<button class = "icon-large round icon-interface-print drop-shadow">
 			</buton>			
-			<button class = "icon-large round icon-interface-favourites drop-shadow">
+			<button 
+				class 		= "icon-large round icon-interface-favourites drop-shadow"
+				ng-class	= "{'bg-0': ic.favourites.contains(item), 'bg-1': !ic.favourites.contains(item)}"
+				ng-click 	= "ic.favourites.toggleItem(item)" 
+			>
 			</buton>
 		</div>
 	</div>

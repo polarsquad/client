@@ -138,7 +138,7 @@ angular.module('icDirectives', [
 				) 
 
 				scope.$watch(
-					function(){ return icSite.activeItem.tags},
+					function(){ return icSite.activeItem && icSite.activeItem.tags},
 					function(tags){ 
 						scope.icCategory 	= 	icSite.activeItem && icTaxonomy.getCategory(tags)[0] 
 						scope.icType 		= 	icSite.activeItem && icTaxonomy.getType(tags)[0] 
@@ -276,6 +276,7 @@ angular.module('icDirectives', [
 
 						if(scope.icOnUpdate) scope.icOnUpdate()
 						icSite.searchTerm = search_term
+						icSite.list = true
 					}
 
 					scope.searchTerm = undefined

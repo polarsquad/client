@@ -13,12 +13,18 @@
 
 		var icItemStorage = this
 
-		icItemStorage.data 				= []
-		icItemStorage.filters 			= {}
-		icItemStorage.sortingCriteria	= {}
-		icItemStorage.filteredList		= []
-		icItemStorage.subMatches		= {}
-		icItemStorage.altMatches		= {}
+		icItemStorage.data 				= 	[]
+		icItemStorage.filters 			= 	{}
+		icItemStorage.sortingCriteria	= 	{}
+		icItemStorage.filteredList		= 	[]
+		icItemStorage.currentStats		= 	{
+												'subMatches':	{},
+												'altMatches':	{},
+												'tagGroups':	[],
+												'altGroups':	[]
+											}
+		icItemStorage.refreshRequired	=	false 
+
 
 		icItemStorage.storeItem = function(item_data){
 
@@ -32,18 +38,32 @@
 			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
 
+			icItemStorage.updateItemInternals(item)
+
 			return item
+		}
+
+		icItemStorage.updateItemInternals = function(item_or_id){
+
+			var item = icItemStorage.getItem(item_or_id)
+
+			icItemStorage.itemCheckFilter(item)
+			icItemStorage.matchItem(item)
+
+			icItemStorage.refreshRequired = true
+
+
+			return icItemStorage
 		}
 
 		icItemStorage.clearFilteredList = function(){
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
-
-			Object.keys(icItemStorage.subMatches).forEach(function(key){delete icItemStorage.subMatches[key] })
-			Object.keys(icItemStorage.altMatches).forEach(function(key){delete icItemStorage.altMatches[key] })
-			return this
+			for(var tag in icItemStorage.currentStats.altMatches) delete icItemStorage.currentStats.altMatches[tag]
+			for(var tag in icItemStorage.currentStats.subMatches) delete icItemStorage.currentStats.subMatches[tag]
+			return icItemStorage
 		}
 
-		//Todo item changes
+		
 		icItemStorage.registerFilter = function(filter_name, match_fn){
 
 			filter_name = String(filter_name)
@@ -59,14 +79,43 @@
 				if(match_fn(item)) item.internal.tags.push(filter_name)
 			})
 
-			return this
+			return icItemStorage
+		}
+
+
+		icItemStorage.itemCheckFilter = function(item_or_id, filter_name){
+
+			var item 	= 	icItemStorage.getItem(item_or_id),
+				filters = 	{}
+
+			if(filter_name){
+				filters[filter_name] = icItemStorage.filters[filter_name] || function(){}
+				if(!icItemStorage.filters[filter_name]) console.warn('icItemStorage.itemCheckFilter, unknown filter: ',filter_name)
+			} else {
+				filters = icItemStorage.filters
+			}
+			
+
+			for(filter_name in filters){
+
+				var	pos		= item.internal.tags.indexOf(filter_name)
+
+				if(pos != -1) item.internal.tags.splice(pos,1)
+
+				if(icItemStorage.filters[filter_name](item)) item.internal.tags.push(filter_name)
+
+			}
+
+
+
+			return icItemStorage
 		}
 
 		//Todo item changes
 		icItemStorage.registerSortingCriterium = function(criterium_name, compare_fn){
 
 
-			if(criterium_name.match(/[^a-zA-Z]/))		console.error('icItemStorage: sort criteria names must contain only letters, A-Z, a-z: '+criterium_name+'.')
+			if(criterium_name.match(/[^a-zA-Z]/))				console.error('icItemStorage: sort criteria names must contain only letters, A-Z, a-z: '+criterium_name+'.')
 			if(icItemStorage.sortingCriteria[criterium_name]) 	console.error('icItemStorage: sort criterium name already registered: '+criterium_name+'.')
 
 			icItemStorage.sortingCriteria[criterium_name] =	compare_fn
@@ -82,6 +131,54 @@
 			return this
 		}
 
+		icItemStorage.matchItem = function(item){			
+
+				item.internal.subMatches 	= []
+				item.internal.altMatches 	= []
+				item.internal.match			= false
+
+				var tag_group_matches 	= [],
+					alt_group_matches 	= [],
+					combined_tags		= item.tags.concat(item.internal.tags)
+
+				icItemStorage.currentStats.tagGroups.forEach(function(tag_group, index){
+					tag_group_matches[index] = tag_group.every(function(tag){ 
+						return combined_tags.indexOf(tag) != -1
+					})
+				})
+
+
+				var failed_groups = []
+
+				tag_group_matches.forEach(function(tag_group_match, index){ if(!tag_group_match) failed_groups.push(index) })
+
+				if(failed_groups.length > 1) return null
+				//item failed no more then one tag group:
+
+
+				item.subMatch = true
+
+				//collect alt_matches for tags:
+				combined_tags.forEach(function(tag){
+					if(failed_groups.length == 0 || icItemStorage.currentStats.altGroups[failed_groups[0]].indexOf(tag) != -1)
+						item.internal.altMatches.push(tag)
+				})
+
+
+				if(failed_groups.length > 0 ) return null
+				// item failed no tag group:
+
+
+				item.internal.match = true
+
+				//collect submatches for tags
+				combined_tags.forEach(function(tag){
+					item.internal.subMatches.push(tag)
+				})
+
+				return icItemStorage
+
+		}
 
 		icItemStorage.updateFilteredList = function(tag_groups, alt_groups){ //groups of tags of tags [[tag1, tag2], [tag3]]
 			
@@ -99,57 +196,28 @@
 			})
 			
 
-			icItemStorage.clearFilteredList()
-
-			icItemStorage.data.forEach(function(item){
-
-
-				item.internal.tags 	= item.internal.tags || []
-
-				var match 				= true,
-					tag_group_matches 	= [],
-					alt_group_matches 	= [],
-					combined_tags		= item.tags.concat(item.internal.tags)
-
-				tag_groups.forEach(function(tag_group, index){
-					tag_group_matches[index] = tag_group.every(function(tag){ 
-						return combined_tags.indexOf(tag) != -1
-					})
-				})
+			icItemStorage.currentStats.tagGroups = tag_groups
+			icItemStorage.currentStats.altGroups = alt_groups 
 
 
-				var failed_groups = []
-
-				tag_group_matches.forEach(function(tag_group_match, index){ if(!tag_group_match) failed_groups.push(index) })
-
-				if(failed_groups.length > 1) return null
-				//item failed at most one tag group:
-
-
-				//count alt_matches for tags:
-				combined_tags.forEach(function(tag){
-					if(failed_groups.length == 0 || alt_groups[failed_groups[0]].indexOf(tag) != -1)
-						icItemStorage.altMatches[tag] =  (icItemStorage.altMatches[tag]||0)+1
-				})
-
-
-				if(failed_groups.length > 0 ) return null
-				// item failed no tag group:
-
-				//add to filtered list:
-				icItemStorage.filteredList.push(item)
-
-				//count submatches for tags
-				combined_tags.forEach(function(tag){
-					icItemStorage.subMatches[tag] =  (icItemStorage.subMatches[tag]||0)+1
-				})
-
-
-
-			})
+			icItemStorage.data.forEach(icItemStorage.matchItem)
+			icItemStorage.refreshFilteredList()
 
 			return icItemStorage
 		}
+
+		icItemStorage.refreshFilteredList = function(){
+			icItemStorage.clearFilteredList()
+			icItemStorage.data.forEach(function(item){
+				item.internal.altMatches.forEach(function(tag){ icItemStorage.currentStats.altMatches[tag] = (icItemStorage.currentStats.altMatches[tag] ||0) + 1 })
+				item.internal.subMatches.forEach(function(tag){ icItemStorage.currentStats.subMatches[tag] = (icItemStorage.currentStats.subMatches[tag] ||0) + 1 })
+				if(item.internal.match) icItemStorage.filteredList.push(item)
+			})
+
+			icItemStorage.refreshRequired = false
+		}
+
+
 
 		icItemStorage.sortFilteredList = function(criterium){
 			if(!icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
@@ -164,25 +232,28 @@
 			})
 		}
 
-		icItemStorage.getItem = function(id){
-			var item = icItemStorage.data.filter(function(item){ return item.id == id})[0] 
+		icItemStorage.getItem = function(item_or_id){
+			var id		= item_or_id.id || item_or_id,
+				item 	= icItemStorage.data.filter(function(item){ return item.id == id })[0] 
 
 			if(!item){
 				item = icItemStorage.storeItem({id: id})
 				item.preliminary = true
 			}
 
-			return 	item.download()
-					.then(
-						function(){
-							item.preliminary = false
-							return item
-						},
-						function(reason){
-							console.error('icItemStorage.getItem: update failed.', reason)
-							return Promise.reject(reason)
-						}
-					)
+			item.download()
+			.then(
+				function(){
+					item.preliminary = false
+					return item
+				},
+				function(reason){
+					console.error('icItemStorage.getItem: update failed.', reason)
+					return Promise.reject(reason)
+				}
+			)
+
+			return item
 		}
 
 		icItemStorage.downloadAll = function(){
