@@ -49,14 +49,14 @@ ic-main-content > * {
 	flex-wrap:					wrap;
 }
 
-
 #section-list ic-breadcrumbs {
 	flex:						0 0 100%;
 	margin-bottom:				1rem;
+	padding:					.5rem;
 }
 
 #section-list ic-taxonomy-filter {
-	margin-right:				0.5rem;
+	margin-right:				1rem;
 	flex:						0 0 20rem;
 }
 
@@ -64,16 +64,13 @@ ic-main-content > * {
 	flex:						1 0 0;
 }
 
-
 #section-item {
 	padding-bottom:				5rem;
 }
 
 #section-item > div {
-	font-weight:				500;
 	padding:					1rem 0;
 	margin:						0.5rem 0;
-	color:						#802651;
 }
 
 #section-item > div > * {
