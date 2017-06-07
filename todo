@@ -91,16 +91,30 @@ Brauche:
 
 
 Todo:
-* Karte (lokale db benutzen)
-* Übersetzung generien
+* Karte (lokale db benutzen) !!A
+* Sprache !!A  de en tr ar
+* Print !!A
+* Statische Seiten in Übersetzungs tabelle !!A
+* Biryani !!A
+* Kacheln !!A
+* Startseite updaten !!A
+* url: seniorennetz.berlin
+* Layout Responsive B
+* Footer scrollt nicht richtig home!
+* config js landet im git :(
 * edit
-* print
 * check google drive
 * Translations
 * Startseite mit Kacheln
+* Favourites extra Seite, kein Filter
+* Merliste-Button invertieren
+* Button click hellgrau
+* Nicht funktionierende Icons ausblenden
+* sharing erstmla raus
 
 Done:
 * fix infocompass
 * Radio für Kategorienfilter
 * list bei leerem Filter (Paramter -> list)
-* Merkliste
+* Translation
+* Übersetzung generien
