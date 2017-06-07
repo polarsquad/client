@@ -91,14 +91,16 @@ Brauche:
 
 
 Todo:
-* Karte
+* Karte (lokale db benutzen)
 * Übersetzung generien
-* Merkliste
 * edit
 * print
-* check drive
+* check google drive
+* Translations
+* Startseite mit Kacheln
 
 Done:
 * fix infocompass
 * Radio für Kategorienfilter
 * list bei leerem Filter (Paramter -> list)
+* Merkliste

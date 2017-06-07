@@ -2,7 +2,7 @@
 
 
 angular.module('icFilters', [
-	'icServices'
+	'icServices',
 ])
 
 
@@ -28,3 +28,72 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+
+
+.filter('icLinkPrefix', function(){
+	return function(key){
+		return	{
+					'website':		'',
+					'twitter':		'',
+					'facebook':		'',
+					'linkedin':		'',
+					'instagram':	'',
+					'pinterest':	'',
+					'email':		'mailto:',
+					'phone':		'tel:'
+				}[key]
+	}
+})
+
+
+
+
+.filter('icDate', [
+
+	'icLanguages',
+
+	function(icLanguages){
+
+		var toLocaleDateStringSupportsLocales 	= false,
+			dates								= {}
+
+		try {
+			new Date().toLocaleString('i')
+		} catch (e) {
+			toLocaleDateStringSupportsLocales =  e instanceof RangeError
+		}
+
+		function icDateFilter(date_str, use_time){
+			dates[date_str] 								= dates[date_str] || {}
+			dates[date_str][icLanguages.currentLanguage]	= dates[date_str][icLanguages.currentLanguage] || {}
+
+
+			if(!dates[date_str][icLanguages.currentLanguage].withoutTime){
+				dates[date_str][icLanguages.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
+																			?	new Date(date_str).toLocaleDateString(icLanguages.currentLanguage)
+																			:	date_str
+			} 
+
+			if(!dates[date_str][icLanguages.currentLanguage].withTime && use_time){
+				dates[date_str][icLanguages.currentLanguage].withTime	= 	dates[date_str][icLanguages.currentLanguage].withoutTime +
+																			(
+																				toLocaleDateStringSupportsLocales
+																				?	new Date(date_str).toLocaleTimeString(icLanguages.currentLanguage)
+																				:	''
+																			)
+			}
+
+			return 	use_time
+					?	dates[date_str][icLanguages.currentLanguage].withTime
+					:	dates[date_str][icLanguages.currentLanguage].withoutTime
+
+		}
+
+		icDateFilter.$stateful = true
+
+		return icDateFilter
+
+	}
+])
+

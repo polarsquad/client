@@ -779,13 +779,6 @@ angular.module('icServices', [
 
 
 
-
-
-
-
-
-
-
 //Todo: icItem should be able to download itself
 
 

@@ -1,17 +1,17 @@
 <span> Home </span>
-<span ng-if = "!ic.site.searchTerm">&gt; Liste</span>
-<span ng-if = "ic.site.searchTerm">&gt; Suche nach "{{ic.site.searchTerm}}"</span>
+<span ng-if = "!ic.site.searchTerm">&gt; {{'INTERFACE.LIST' | translate}</span>
+<span ng-if = "ic.site.searchTerm">&gt; {{'INTERFACE.SEARCH_FOR' | translate} "{{ic.site.searchTerm}}"</span>
 
 <span ng-if = "ic.site.filterByType.length"> 
 	&gt; <span> {{ic.site.filterByType[0] | uppercase | translate}} </span>
 </span>
 
 <span 	ng-if = "ic.site.filterByCategory.length">
-	&gt; {{'CATEGORIES' | translate}}:
-	<span ng-repeat = "category in ic.site.filterByCategory"> {{category | uppercase | translate}} </span>
+	&gt; {{'INTERFACE.CATEGORIES' | translate}}:
+	<span ng-repeat = "category in ic.site.filterByCategory"> {{'CATEGORIES.%s' | fill : category | translate}} </span>
 </span>
 
 <span ng-if = "ic.site.filterByUnsortedTags.length">
-	&gt; {{'UNSORTED_TAGS' | translate }}:
-	<span ng-repeat = "tag in ic.site.filterByUnsortedTag"> {{tag | uppercase | translate}} </span>
+	&gt; {{'INTERFACE.UNSORTED_TAGS' | translate }}:
+	<span ng-repeat = "tag in ic.site.filterByUnsortedTag"> {{'UNSORTED_TAGS.%s'| fill: tag | translate}} </span>
 </span>

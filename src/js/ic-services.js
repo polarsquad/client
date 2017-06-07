@@ -38,6 +38,7 @@ angular.module('icServices', [
 
 
 
+
 .provider('icSite', function(){
 
 	this.config = 	{
@@ -282,8 +283,7 @@ angular.module('icServices', [
 						})
 						
 					}
-				},	
-				//true
+				}
 			)
 
 
@@ -302,6 +302,47 @@ angular.module('icServices', [
 })
 
 
+.provider('icAdmin', function(){
+
+	var dpdActions = undefined
+
+	this.setActions = function(ac){ dpdActions = ac }
+
+	this.$get = [
+
+		'$q',
+		'icOverlays',
+
+		function($q, icOverlays){
+			var icAdmin = this
+
+			if(!dpdActions) console.error('Service icAdmin:  dpdActions missing.')
+			
+			icAdmin.updateTranslations = function(){
+
+				icOverlays.open('spinner')
+
+				return $q.when(dpdActions.updateTranslations())
+						.then(
+							function(){
+								return icOverlays.open('popup', 'INTERFACE.TRANSLATION_UPDATED')
+							},
+
+							function(){
+								return icOverlays.open('popup', 'INTERFACE.UNABLE_TO_UPDATE_TRANSLATIONS')
+							}
+						)
+			}		
+
+
+			return icAdmin
+		}
+	]
+})
+
+
+
+
 
 
 
@@ -318,7 +359,7 @@ angular.module('icServices', [
 		'icSite',
 
 		function($q, $rootScope, icSite){
-			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing. You should probably load ic-item-storage-dpd.js.')
+			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
 			var icItemStorage = itemStorage
 
@@ -355,113 +396,113 @@ angular.module('icServices', [
 })
 
 
-.provider('icTaxonomy',
-	function(){
-		var itemConfig 	= undefined,
-			taxonomy	= undefined
+.provider('icTaxonomy',function(){
 
-		function IcCategory(config){
-			this.name 	= config.name
-			//make sure no tags appear twice
-			this.tags	= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
-		}
+	var itemConfig 	= undefined,
+		taxonomy	= undefined
 
-		function IcType(config){
-			this.name	= config.name
-		}
+	function IcCategory(config){
+		this.name 	= config.name
+		//make sure no tags appear twice
+		this.tags	= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
+	}
 
-		this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
-		this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
+	function IcType(config){
+		this.name	= config.name
+	}
 
-
-		this.$get = [
-			function(){
-				var icTaxonomy = this
-
-				icTaxonomy.categories 	= []
-				icTaxonomy.types		= []
-				icTaxonomy.unsortedTags = taxonomy.unsortedTags
-
-				if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
-				if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load ic-item-config-dpd.js.')
+	this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
+	this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
 
 
-				icTaxonomy.addCategory = function(cat_config){
-					icTaxonomy.categories.push(new IcCategory(cat_config))
-					return icTaxonomy
-				}
+	this.$get = [
+		function(){
+			var icTaxonomy = this
+
+			icTaxonomy.categories 	= []
+			icTaxonomy.types		= []
+			icTaxonomy.unsortedTags = taxonomy.unsortedTags
+
+			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
+			if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load dpd-item-config.js.')
 
 
-				taxonomy.categories.forEach(function(cat_config){
-					icTaxonomy.addCategory(cat_config)
-				})
-
-				icTaxonomy.addType = function(type_config){
-					icTaxonomy.types.push(new IcType(type_config))
-					return icTaxonomy
-				}
-
-				taxonomy.types.forEach(function(type_config){
-					icTaxonomy.addType(type_config)
-				})
-
-				icTaxonomy.addUnsortedTag = function(tag){
-					icTaxonomy.unsortedTags.push(tag)
-					return icTaxonomy
-				}
-
-
-				//Todo: move this into build script:
-				//check if all tags are accounted for in categories:
-				function checkTagsInCategories(){
-					var tag_in_cat = {}
-
-					icTaxonomy.categories.forEach(function(category){
-						category.tags.forEach(function(tag){
-							if(tag_in_cat[tag]) console.warn('icTaxonomy: tag in multiple categories:'+ tag + ' in '+ category.name + ' and ' + tag_in_cat[tag])
-							tag_in_cat[tag] = category.name
-						})
-					})
-
-					itemConfig.tags.forEach(function(tag){
-						if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not accounted for in Catgories:', tag)
-					})
-				}
-
-				checkTagsInCategories()
-				
-
-				icTaxonomy.getCategory = function(category_names){
-					var single = (typeof category_name == 'string')
-					
-					if(single) category_names = [category_names]
-
-					var result = 	icTaxonomy.categories.filter(function(category){
-										return category_names.indexOf(category.name) != -1
-									})
-					return	single
-							? result[0]
-							: result
-				}
-
-				icTaxonomy.getType = function(type_names){
-					var single = (typeof type_names == 'string')
-					
-					if(single) type_names = [type_names]
-
-					var result = 	icTaxonomy.types.filter(function(type){
-										return type_names.indexOf(type_names.name) != -1
-									})
-					return	single
-							? result[0]
-							: result
-				}
-
+			icTaxonomy.addCategory = function(cat_config){
+				icTaxonomy.categories.push(new IcCategory(cat_config))
 				return icTaxonomy
 			}
-		]
-	}
-)
+
+
+			taxonomy.categories.forEach(function(cat_config){
+				icTaxonomy.addCategory(cat_config)
+			})
+
+			icTaxonomy.addType = function(type_config){
+				icTaxonomy.types.push(new IcType(type_config))
+				return icTaxonomy
+			}
+
+			taxonomy.types.forEach(function(type_config){
+				icTaxonomy.addType(type_config)
+			})
+
+			icTaxonomy.addUnsortedTag = function(tag){
+				icTaxonomy.unsortedTags.push(tag)
+				return icTaxonomy
+			}
+
+
+			//Todo: move this into build script:
+			//check if all tags are accounted for in categories:
+			function checkTagsInCategories(){
+				var tag_in_cat = {}
+
+				icTaxonomy.categories.forEach(function(category){
+					category.tags.forEach(function(tag){
+						if(tag_in_cat[tag]) console.warn('icTaxonomy: tag in multiple categories:'+ tag + ' in '+ category.name + ' and ' + tag_in_cat[tag])
+						tag_in_cat[tag] = category.name
+					})
+				})
+
+				itemConfig.tags.forEach(function(tag){
+					if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not accounted for in Catgories:', tag)
+				})
+			}
+
+			checkTagsInCategories()
+			
+
+			icTaxonomy.getCategory = function(category_names){
+				var single = (typeof category_name == 'string')
+				
+				if(single) category_names = [category_names]
+
+				var result = 	icTaxonomy.categories.filter(function(category){
+									return category_names.indexOf(category.name) != -1
+								})
+				return	single
+						? result[0]
+						: result
+			}
+
+			icTaxonomy.getType = function(type_names){
+				var single = (typeof type_names == 'string')
+				
+				if(single) type_names = [type_names]
+
+				var result = 	icTaxonomy.types.filter(function(type){
+									return type_names.indexOf(type_names.name) != -1
+								})
+				return	single
+						? result[0]
+						: result
+			}
+
+			return icTaxonomy
+		}
+	]
+})
+
 
 .service('icFilterConfig',[
 
@@ -672,7 +713,7 @@ angular.module('icServices', [
 											?	'en'
 											:	icLanguages.availableLanguages[0]
 
-		icLanguages.ready = 	$http.get(icConfigData.backendLocation+'/translation.json')
+		icLanguages.ready = 	$http.get(icConfigData.backendLocation+'/translations.json')
 								.then(
 									function(result){
 										return result.data
@@ -818,6 +859,101 @@ angular.module('icServices', [
 
 
 
+
+.service('icOverlays', [
+
+	'$q',
+
+	function($q){
+		var icOverlays 	= 	{
+								show:		{},
+								messages:	{},
+								deferred:	{},
+							},
+			scope 		=	undefined,
+			deferred	=	{}
+
+
+
+
+		icOverlays.toggle = function(overlay_name, open, leave_others_open){
+
+			if(overlay_name) {
+				icOverlays.show[overlay_name] = open !== undefined 
+												?	open 
+												:	!icOverlays.show[overlay_name]
+
+			}
+
+			if(leave_others_open) return this
+
+			for(var key in icOverlays.show){
+				//close all other overlays
+				if(key != overlay_name) 	delete icOverlays.show[key]
+
+				if(!icOverlays.show[key]){
+					delete icOverlays.messages[key]
+				}
+			}
+
+			if(icOverlays.active()) return this
+
+			//reject all promises 
+			for(var key in icOverlays.show){
+				if(icOverlays.deferred[key]){
+					icOverlays.deferred[key].reject()
+					delete icOverlays.deferred[key]
+				}
+			}
+
+			return this
+		}
+
+		icOverlays.open = function(overlay_name, message, deferred, overwrite_messages){
+			icOverlays.messages[overlay_name] = overwrite_messages
+												? 	[]
+												:	(icOverlays.messages[overlay_name] || [])
+
+			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
+
+			if(icOverlays.deferred[overlay_name] && icOverlays.deferred[overlay_name] != deferred) 
+				icOverlays.deferred[overlay_name].reject()
+
+			icOverlays.deferred[overlay_name] = deferred || $q.defer()
+			
+
+			icOverlays.toggle(overlay_name, true)
+
+			return icOverlays.deferred[overlay_name].promise
+		}
+
+	
+		icOverlays.active = function(){
+			for(var key in icOverlays.show){
+				if(icOverlays.show[key]) return true
+			}
+
+			return false
+		}
+
+		icOverlays.registerScope = function(s){
+			if(scope) console.warn('icOverlays.registerScope: scope already registered.')
+			scope = s
+		}
+
+		icOverlays.$digest = function(){
+			scope.$digest()
+		}
+
+
+		return icOverlays
+	}
+
+ ])
+
+
+
+
 //updating core Service
 
 
@@ -831,8 +967,10 @@ angular.module('icServices', [
 	'icFilterConfig',
 	'icLanguages',
 	'icFavourites',
+	'icOverlays',
+	'icAdmin',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -841,6 +979,8 @@ angular.module('icServices', [
 		ic.filterConfig	= icFilterConfig
 		ic.languages	= icLanguages
 		ic.favourites	= icFavourites
+		ic.overlays		= icOverlays
+		ic.admin		= icAdmin
 
 		console.dir(ic)
 	}
@@ -2397,102 +2537,6 @@ angular.module('icServices', [
 
 
 
-
-
-
-// .service('icOverlays', [
-
-// 	'$q',
-
-// 	function($q){
-// 		var icOverlays 	= 	{
-// 								show:		{},
-// 								messages:	{},
-// 								deferred:	{},
-// 							},
-// 			scope 		=	undefined,
-// 			deferred	=	{}
-
-
-
-
-// 		icOverlays.toggle = function(overlay_name, open, leave_others_open){
-
-// 			if(overlay_name) {
-// 				icOverlays.show[overlay_name] = open !== undefined 
-// 												?	open 
-// 												:	!icOverlays.show[overlay_name]
-
-// 				//if overlay gets closed, remove all messages
-
-// 			}
-
-// 			if(leave_others_open) return this
-
-// 			for(var key in icOverlays.show){
-// 				//close all other overlays
-// 				if(key != overlay_name) 	delete icOverlays.show[key]
-
-// 				if(!icOverlays.show[key]){
-// 					delete icOverlays.messages[key]
-// 				}
-// 			}
-
-// 			if(icOverlays.active()) return this
-
-// 			//reject all promises 
-// 			for(var key in icOverlays.show){
-// 				if(icOverlays.deferred[key]){
-// 					icOverlays.deferred[key].reject()
-// 					delete icOverlays.deferred[key]
-// 				}
-// 			}
-
-// 			return this
-// 		}
-
-// 		icOverlays.open = function(overlay_name, message, deferred, overwrite_messages){
-// 			icOverlays.messages[overlay_name] = overwrite_messages
-// 												? 	[]
-// 												:	(icOverlays.messages[overlay_name] || [])
-
-// 			if(icOverlays.messages[overlay_name].indexOf(message) == -1) icOverlays.messages[overlay_name].push(message)
-
-// 			if(icOverlays.deferred[overlay_name] && icOverlays.deferred[overlay_name] != deferred) 
-// 				icOverlays.deferred[overlay_name].reject()
-
-// 			icOverlays.deferred[overlay_name] = deferred || $q.defer()
-			
-
-
-// 			icOverlays.toggle(overlay_name, true)
-
-// 			return icOverlays.deferred[overlay_name].promise
-// 		}
-
-	
-// 		icOverlays.active = function(){
-// 			for(var key in icOverlays.show){
-// 				if(icOverlays.show[key]) return true
-// 			}
-
-// 			return false
-// 		}
-
-// 		icOverlays.registerScope = function(s){
-// 			if(scope) console.warn('icOverlays.registerScope: scope already registered.')
-// 			scope = s
-// 		}
-
-// 		icOverlays.$digest = function(){
-// 			scope.$digest()
-// 		}
-
-
-// 		return icOverlays
-// 	}
-
-//  ])
 
 
 

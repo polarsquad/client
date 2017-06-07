@@ -18,10 +18,10 @@
 			{{icItem.brief.de}}
 		</div>
 		<span class ="category ic-col-cat-{{::icCategory.name}}">
-			{{icCategory.name | uppercase | translate}}
+			{{'CATEGORIES.%s' | fill : icCategory.name | translate}}
 		</span>
 
 		<span class ="type ic-col-type-{{::icType.name}}">
-			{{icType.name | uppercase | translate}}
+			{{'TYPES.%s' | fill : icType.name | translate }}
 		</span>
 </div>

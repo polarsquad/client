@@ -1,16 +1,28 @@
 <ul>
-	<li><a href="/p/home">{{'HOME' | translate}} </a>				</li>
-	<li><a href="/p/tags">{{'CATEGORIES' | translate}}</a>	</li>
-	<li><a href="#">{{'MAP' | translate}}</a>				</li>
-	<li><a href="#">{{'CALENDAR' | translate}}</a>			</li>
+	<li><a href="/p/home">	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
+	<li><a href="/p/tags">	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
+	<li><a href="#">		{{'INTERFACE.MAP' 			| translate}}</a>	</li>
+	<li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li>
 	<li>
-		<a href="#" class = "icon right icon-interface-down white">{{'MORE' | translate}}</a>		
+		<a href="#" class = "icon right icon-interface-down white">{{'INTERFACE.MORE' | translate}}</a>		
 		<ul>
-			<li><a href="#">{{'PARTNER' 	| translate}}</a>	</li>
-			<li><a href="#">{{'NEWSLETTER' 	| translate}}</a>	</li>
-			<li><a href="#">{{'NETWORK' 	| translate}}</a>	</li>
-			<li><a href="#">{{'CONTACT' 	| translate}}</a>	</li>
-			<li><a href="#">{{'ABOUT' 		| translate}}</a>	</li>
+			<li><a href="#">{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
+			<li><a href="#">{{'INTERFACE.NEWSLETTER'	| translate}}</a>	</li>
+			<li><a href="#">{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li><a href="#">{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
+			<li><a href="#">{{'INTERFACE.ABOUT' 		| translate}}</a>	</li>
 		</ul>
 	</li>
+	<li>
+		<a href="#" class = "icon right icon-interface-down white">{{'INTERFACE.ADMIN' | translate}}</a>	
+		<ul>
+			<li>
+				<button
+					ng-click = "ic.admin.updateTranslations()"
+				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</button>	
+			</li>
+		</ul>
+	</li>
+
+
 </ul>

@@ -3,19 +3,19 @@
 		class		= "ic-tag ic-bg-cat-{{::category.name}}"
 		ng-if		= "category.name | in : icTags"
 	>
-		{{category.name | uppercase | translate}}
+		{{'CATEGORIES.%s' | fill : category.name | translate}}
 	</a><!--
  --><a
 		ng-repeat 	= "type in ic.taxonomy.types"
 		class		= "ic-tag ic-bg-type-{{::type.name}}"
 		ng-if		= "type.name | in : icTags"
 	>
-		{{type.name | uppercase | translate}}
+		{{'TYPES.%s' | fill : type.name | translate}}
 	</a><!--
  --><a
 		ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
 		class		= "ic-tag shade-dark"
 		ng-if		= "tag | in: icTags"
 	>
-		{{tag | uppercase | translate}}
+		{{'UNSORTED_TAGS.%s' | fill : tag | translate}}
 	</a>

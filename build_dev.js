@@ -1,7 +1,7 @@
 var copyfiles	= require('copyfiles'),
 	fs 			= require('fs-extra'),
 	rimraf		= require('rimraf'),
-	config		= JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
+	config		= require('./config/config.json')
 	taxonomy	= require('./config/taxonomy.js'),
 	CleanCSS	= require('clean-css')
 
@@ -58,7 +58,7 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 					filenames 	= 	result[1].filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
 					preload		= 	preload
 									?	'\n\nbody:before{\n display:none;\n content:'
-										+ filenames.map( (fn) => '\turl(dst_folder' + fn + ')' ).join('')
+										+ filenames.map( (fn) => '\turl('+dst_folder+'/'+ fn + ')' ).join('')
 										+ ';\n}\n\n'
 									: ''
 

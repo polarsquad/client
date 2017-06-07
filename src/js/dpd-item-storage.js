@@ -38,7 +38,8 @@
 			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
 
-			icItemStorage.updateItemInternals(item)
+			//TODO
+			//icItemStorage.updateItemInternals(item)
 
 			return item
 		}
@@ -318,6 +319,6 @@
 
 	}
 
-	ic.itemStorage = new IcItemStorage()
+	window.ic.itemStorage = new IcItemStorage()
 
 }())

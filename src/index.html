@@ -18,7 +18,7 @@
 	<head>
 
 		<title ng-if = "false">--- SeniorenNetz</title>
-		<title>{{'TITLE' | translate}}</title>
+		<title>{{'INTERFACE.TITLE' | translate}}</title>
 
 		<base href = "/">
 		<meta charset ="utf-8">		
@@ -49,7 +49,6 @@
 			ic-scroll-snap-target 	= "ic.site.visibleSections.page ? 'header' : false" 
 		></ic-header>
 
-
 		<!-- content -->
 		<ic-main-content 
 			ng-show   	= "::ic.init.ready"
@@ -62,7 +61,6 @@
 			class		= "ic-hide"
 			ng-class	= "{'ic-hide' :!icOverlays.active()}"
 		></ic-overlays>
-
 
 	</body>
 

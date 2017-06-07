@@ -132,9 +132,21 @@ angular.module("InfoCompass",[
 
 	function(icItemStorageProvider){
 		if(!(window.ic && window.ic.itemStorage)) 
-				console.error('icItemStorageProvider:  missing ic.itemStorage. Please load ic-item-storage-dpd.js.')
+				console.error('icItemStorageProvider:  missing ic.itemStorage. Please load dpd-item-storage.js.')
 
 		icItemStorageProvider.setItemStorage(window.ic.itemStorage)
+	}
+])
+
+.config([
+
+	'icAdminProvider',
+
+	function(icAdminProvider){
+		if(!(window.ic && window.ic.actions)) 
+				console.error('icAdminProvider:  missing ic.actions. Please load dpd-actions.js.')
+
+		icAdminProvider.setActions(window.ic.actions)
 	}
 ])
 

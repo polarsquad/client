@@ -64,7 +64,7 @@
 
 <ic-item-property
 	ng-if			= "item.address"
-	ic-title 		= "'INTERFACE.ADDRESS' | translate"
+	ic-title 		= "'ITEMS.ADDRESS' | translate"
 	ic-content		= "item.location"
 	ic-extra-lines	= "[item.adress|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
@@ -86,7 +86,7 @@
 <ic-item-property
 	class			= "screen-only"
 	ng-if			= "item.longitude && item.latitude && !item.address"
-	ic-title 		= "'GEO_COORDINATES' | translate"
+	ic-title 		= "'ITEMS.GEO_COORDINATES' | translate"
 	ic-content		= "item.latitude + ', ' +item.longitude"
 	ic-icon			= "'/images/icons/property-location.svg'"
 	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
@@ -101,7 +101,7 @@
 <ic-item-property
 	ng-repeat	= "key in ['contact', 'website', 'email', 'phone', 'facebook', 'twitter']"
 	ng-if		= "item[key]"
-	ic-title 	= "'%s' | fill : key | translate"
+	ic-title 	= "'ITEMS.%s' | fill : key | translate"
 	ic-content	= "item[key]"
 	ic-icon		= "'/images/icons/property-'+key+'.svg'"
 	ic-link		= "::key | icLinkPrefix"
@@ -112,7 +112,7 @@
 
 <ic-item-property
 	ng-if		= "item.startDate && item.endDate"
-	ic-title 	= "'DATES' | translate"
+	ic-title 	= "'ITEMS.DATES' | translate"
 	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -121,7 +121,7 @@
 
 <ic-item-property
 	ng-if		= "item.startDate && !item.endDate"
-	ic-title 	= "'START_DATE' | translate"
+	ic-title 	= "'ITEMS.START_DATE' | translate"
 	ic-content	= "item.startDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -129,7 +129,7 @@
 
 <ic-item-property
 	ng-if		= "item.endDate && !item.startDate"
-	ic-title 	= "'END_DATE' | translate"
+	ic-title 	= "'ITEMS.END_DATE' | translate"
 	ic-content	= "item.endDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
@@ -141,7 +141,7 @@
 
 <!-- <ic-item-property
 	ng-if			= "item.hours"
-	ic-title 		= "'INTERFACE.HOURS' | translate"
+	ic-title 		= "'ITEMS..HOURS' | translate"
 	ic-extra-lines	= "item.hours | icSplit : ','"
 	ic-icon			= "'/images/icon/property-time.svg'"
 >

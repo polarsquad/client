@@ -7,7 +7,7 @@
 			ng-click	= "ic.filterConfig.clearType()" 
 			ic-touch-me	= "true"
 		>
-			<a>{{'any' | uppercase | translate}}</a>
+			<a>{{'INTERFACE.FILTER_ANY' | translate}}</a>
 		</li>
 		<li
 			ng-repeat 	= "type in ic.taxonomy.types"
@@ -17,7 +17,7 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name, undefined, true)"
 			ic-touch-me	= "!disabled"
 		>
-			<a>{{type.name | uppercase |translate}} 
+			<a>{{'TYPES.%s' | fill : type.name |translate}} 
 				<span 
 					class = "bubble shade-light col-1"
 					ng-if = "!disabled"
@@ -35,7 +35,7 @@
 		ng-class	= "{'icon-interface-down': expand.categories, 'icon-interface-right': !expand.categories}"
 		ng-click	= "expand.categories = !expand.categories"
 		ic-touch-me	= "true" 
-	>{{'categories' | uppercase  | translate}}</h2>
+	>{{'INTERFACE.CATEGORIES' | translate}}</h2>
 	<ul 
 		class 		= "bg-0"
 		ng-show		= "expand.categories"
@@ -47,7 +47,7 @@
 			ng-click	= "ic.filterConfig.clearCategory()" 
 			ic-touch-me	= "true"
 		>
-			<a>{{'any' | uppercase | translate}}</a>
+			<a>{{'INTERFACE.FILTER_ANY' | translate}}</a>
 		</li>
 		<li
 			ng-repeat 	= "category in ic.taxonomy.categories"
@@ -59,7 +59,7 @@
 			ic-touch-me	= "!disabled"
 		>
 			<a>
-				{{category.name | uppercase |translate}} 
+				{{'CATEGORIES.%s' | fill : category.name | translate}} 
 				<span 
 					class = "bubble shade-light col-1"
 					ng-if = "!disabled"
@@ -77,7 +77,7 @@
 		ng-class	= "{'icon-interface-down': expand.unsortedTags, 'icon-interface-right': !expand.unsortedTags}"
 		ng-click	= "expand.unsortedTags = !expand.unsortedTags"
 		ic-touch-me	= "true" 
-	>{{'unsorted' | uppercase  | translate}}</h2>
+	>{{'INTERFACE.UNSORTED_TAGS' | translate}}</h2>
 	<ul 
 		class = "bg-0"
 		ng-show	= "expand.unsortedTags"
@@ -89,7 +89,7 @@
 			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
 			ic-touch-me	= "true"
 		>
-			<a>{{'any' | uppercase |translate}}</a>
+			<a>{{'INTERFACE.FILTER_ANY' |translate}}</a>
 		</li>
 		<li
 			ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
@@ -101,7 +101,7 @@
 			ic-touch-me	= "!disabled"
 		>
 			<a>
-				{{tag | uppercase | translate }} 
+				{{'UNSORTED_TAGS.%s' | fill : tag | translate }} 
 				<span 
 					class = "bubble shade-light col-1"
 					ng-if = "!disabled"

@@ -32,7 +32,7 @@ angular.module('icDirectives', [
 	function(ic){
 		return {
 			restrict: 		"E",
-			templateUrl:	"partials/ic-content.html",
+			templateUrl:	"partials/ic-main-content.html",
 			scope:			{},
 
 			link: 			function(scope){ scope.ic = ic }
@@ -331,71 +331,111 @@ angular.module('icDirectives', [
 
 
 
-.filter('icLinkPrefix', function(){
-	return function(key){
-		return	{
-					'website':		'',
-					'twitter':		'',
-					'facebook':		'',
-					'linkedin':		'',
-					'instagram':	'',
-					'pinterest':	'',
-					'email':		'mailto:',
-					'phone':		'tel:'
-				}[key]
-	}
-})
 
 
+.directive('icOverlays', [
+
+	'icOverlays',
+
+	function(icOverlays){
+
+		return {
+
+			restrict:	"AE",
+			templateUrl:"partials/ic-overlays.html",
+			scope:		true,
+
+			link: function(scope, element, attrs, ctrl, transclude){
+				icOverlays.registerScope(scope)
+				scope.icOverlays = icOverlays
+
+				var body = angular.element(document.getElementsByTagName('body'))
+
+				function close(){
+					icOverlays.toggle(null)
+					scope.$digest()
+				}
+
+				function elementClose(e){
+					if(element[0] == e.target) close()					
+				}
+
+				function bodyClose(e){
+					if(e.code == 'Escape') close()
+				}
 
 
-.filter('icDate', [
+				element.on('click',	elementClose)
 
-	'icLanguages',
+				body.on('keydown',	bodyClose)
 
-	function(icLanguages){
+				scope.$on('$destroy', function(){
+					body.off(bodyClose)
+				})
 
-		var toLocaleDateStringSupportsLocales 	= false,
-			dates								= {}
-
-		try {
-			new Date().toLocaleString('i')
-		} catch (e) {
-			toLocaleDateStringSupportsLocales =  e instanceof RangeError
-		}
-
-		function icDateFilter(date_str, use_time){
-			dates[date_str] 								= dates[date_str] || {}
-			dates[date_str][icLanguages.currentLanguage]	= dates[date_str][icLanguages.currentLanguage] || {}
-
-
-			if(!dates[date_str][icLanguages.currentLanguage].withoutTime){
-				dates[date_str][icLanguages.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
-																			?	new Date(date_str).toLocaleDateString(icLanguages.currentLanguage)
-																			:	date_str
-			} 
-
-			if(!dates[date_str][icLanguages.currentLanguage].withTime && use_time){
-				dates[date_str][icLanguages.currentLanguage].withTime	= 	dates[date_str][icLanguages.currentLanguage].withoutTime +
-																			(
-																				toLocaleDateStringSupportsLocales
-																				?	new Date(date_str).toLocaleTimeString(icLanguages.currentLanguage)
-																				:	''
-																			)
 			}
-
-			return 	use_time
-					?	dates[date_str][icLanguages.currentLanguage].withTime
-					:	dates[date_str][icLanguages.currentLanguage].withoutTime
-
+				
 		}
-
-		icDateFilter.$stateful = true
-
-		return icDateFilter
-
 	}
 ])
+
+
+
+.directive('icConfirmationModal', [
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:		'AE',
+			transclude:		true,
+			templateUrl:	'partials/ic-confirmation-modal.html',
+
+			link: function(scope){
+
+				scope.icOverlays = icOverlays
+
+
+				scope.cancel = function(){
+					icOverlays.deferred.confirmationModal.reject()
+					icOverlays.toggle('confirmationModal')
+				}
+
+				scope.confirm = function(){
+					icOverlays.deferred.confirmationModal.resolve()
+					icOverlays.toggle('confirmationModal')
+				}
+			}
+		}
+	}
+])
+
+
+.directive('icPopup', [
+
+	'icOverlays',
+
+	function(icOverlays){
+		return {
+			restrict:		'AE',
+			transclude:		true,
+			templateUrl:	'partials/ic-popup.html',
+
+			link: function(scope){
+
+				scope.icOverlays = icOverlays
+
+				scope.okay = function(){
+					icOverlays.toggle('popup')
+				}
+
+			}
+		}
+	}
+])
+
+
+
 
 
 
@@ -884,58 +924,6 @@ angular.module('icDirectives', [
 // ])
 
 
-// .directive('icConfirmationModal', [
-
-// 	'icOverlays',
-
-// 	function(icOverlays){
-// 		return {
-// 			restrict:		'AE',
-// 			transclude:		true,
-// 			templateUrl:	'partials/ic-confirmation-modal.html',
-
-// 			link: function(scope){
-
-// 				scope.icOverlays = icOverlays
-
-
-// 				scope.cancel = function(){
-// 					icOverlays.deferred.confirmationModal.reject()
-// 					icOverlays.toggle('confirmationModal')
-// 				}
-
-// 				scope.confirm = function(){
-// 					icOverlays.deferred.confirmationModal.resolve()
-// 					icOverlays.toggle('confirmationModal')
-// 				}
-// 			}
-// 		}
-// 	}
-// ])
-
-
-// .directive('icPopup', [
-
-// 	'icOverlays',
-
-// 	function(icOverlays){
-// 		return {
-// 			restrict:		'AE',
-// 			transclude:		true,
-// 			templateUrl:	'partials/ic-popup.html',
-
-// 			link: function(scope){
-
-// 				scope.icOverlays = icOverlays
-
-// 				scope.okay = function(){
-// 					icOverlays.toggle('popup')
-// 				}
-
-// 			}
-// 		}
-// 	}
-// ])
 
 
 
@@ -2181,53 +2169,6 @@ angular.module('icDirectives', [
 
 
 
-
-
-// .directive('icOverlays', [
-
-// 	'icOverlays',
-
-// 	function(icOverlays){
-
-// 		return {
-
-// 			restrict:	"AE",
-// 			templateUrl:"partials/ic-overlays.html",
-// 			scope:		true,
-
-// 			link: function(scope, element, attrs, ctrl, transclude){
-// 				icOverlays.registerScope(scope)
-// 				scope.icOverlays = icOverlays
-
-// 				var body = angular.element(document.getElementsByTagName('body'))
-
-// 				function close(){
-// 					icOverlays.toggle(null)
-// 					scope.$digest()
-// 				}
-
-// 				function elementClose(e){
-// 					if(element[0] == e.target) close()					
-// 				}
-
-// 				function bodyClose(e){
-// 					if(e.code == 'Escape') close()
-// 				}
-
-
-// 				element.on('click',	elementClose)
-
-// 				body.on('keydown',	bodyClose)
-
-// 				scope.$on('$destroy', function(){
-// 					body.off(bodyClose)
-// 				})
-
-// 			}
-				
-// 		}
-// 	}
-// ])
 
 
 // .directive('icHome', [
