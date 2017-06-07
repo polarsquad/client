@@ -1,8 +1,8 @@
 /todo
 /npm-debug.log
-/config
+/config/*
+!/config/.gitkeep
 /node_modules
-/bower_components
 /dev
 /dist
 /tmp
