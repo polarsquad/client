@@ -2,7 +2,7 @@ var copyfiles	= require('copyfiles'),
 	fs 			= require('fs-extra'),
 	rimraf		= require('rimraf'),
 	config		= require('./config/config.json')
-	taxonomy	= require('./config/taxonomy.js'),
+	taxonomy	= require('./src/js/config/taxonomy.js'),
 	CleanCSS	= require('clean-css')
 
 
