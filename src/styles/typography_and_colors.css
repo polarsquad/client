@@ -40,7 +40,6 @@ button {
 	outline:			none !important;
 }
 
-button:active,
 button.ic-touched {
 	background-color:	rgba(0,0,0,0.2) !important;
 }

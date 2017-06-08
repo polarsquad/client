@@ -145,7 +145,7 @@ ic-overlays > .right {
 }
 
 ic-overlays > .ic-hide {
-	opacity:				0;
+	opacity:				0 !important;
 }
 
 ic-overlays > .ic-hide.left {

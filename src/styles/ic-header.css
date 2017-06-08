@@ -37,18 +37,21 @@ ic-header .tools ic-logo-text {
 }
 
 
-ic-header .tools > a {
+ic-header .tools > a,
+ic-header .tools > button {
 	display:						inline-block;
 	background-color:				transparent;
 	color:							#fff;
 }
 
-ic-header .tools a:hover {
+ic-header .tools a:hover,
+ic-header .tools button:hover {
 	background-color:				transparent;
 }
 
 
-ic-header .tools a span {
+ic-header .tools a span,
+ic-header .tools button span {
 	display:						block;
 	max-width:						100%;
 	overflow:						hidden;

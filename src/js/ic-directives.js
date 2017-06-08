@@ -411,6 +411,26 @@ angular.module('icDirectives', [
 
 
 
+.directive('icLanguageMenu', [
+
+	'icLanguages',
+
+	function(icLanguages){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-language-menu.html',
+			scope:			{},
+
+			link: function(scope, element){				
+				scope.icLanguages = icLanguages
+			}
+		}
+	}
+
+])
+
+
+
 
 
 

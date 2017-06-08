@@ -180,6 +180,18 @@ angular.module("InfoCompass",[
 	}
 ])
 
+.config([
+	'icLanguagesProvider',
+
+	function(icLanguageProvider){
+
+		if(!window.config) console.log('Missing Config!') //TODO
+
+		icLanguageProvider
+		.setAvailableLanguages(['de', 'en', 'ru', 'tr'])
+		.setTranslationTableUrl(window.config.backendLocation+'/translations.json')
+	}
+])
 
 
 

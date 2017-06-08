@@ -15,7 +15,7 @@
 					<span 
 						class = "bubble shade-light"
 					>
-						{{ic.itemStorage.subMatches[category.name] | uppercase | translate}}
+						{{ic.itemStorage.currentStats.subMatches[category.name]}}
 					</span>
 				</a>
 				<a
@@ -23,11 +23,11 @@
 					href  		= "/list/c/{{tag}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
-					{{tag}} 
+					{{'CATEGORIES.%s' | fill : tag | translate}} 
 					<span 
 						class = "bubble shade-light"
 					>
-						{{ic.itemStorage.subMatches[tag] | uppercase | translate}}
+						{{ic.itemStorage.currentStats.subMatches[tag]}}
 					</span>
 				</a>
 			</div>
