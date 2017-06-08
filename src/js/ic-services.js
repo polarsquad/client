@@ -263,14 +263,14 @@ angular.module('icServices', [
 				return icSite
 			}
 
-			$rootScope.$watchCollection(
+			$rootScope.$watch(
 				function(){
 					return 	[].concat(
 								icSite.config.params.map(function(param){ return icSite[param.name] }),
 								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	})
 							)
 				},
-				function(obj, old){
+				function(a, old){
 					icSite
 					.updateSections()
 					.updateUrl()	
@@ -283,7 +283,8 @@ angular.module('icServices', [
 						})
 						
 					}
-				}
+				},
+				true
 			)
 
 
@@ -480,9 +481,7 @@ angular.module('icServices', [
 				var result = 	icTaxonomy.categories.filter(function(category){
 									return category_names.indexOf(category.name) != -1
 								})
-				return	single
-						? result[0]
-						: result
+				return	result[0]
 			}
 
 			icTaxonomy.getType = function(type_names){
@@ -491,11 +490,9 @@ angular.module('icServices', [
 				if(single) type_names = [type_names]
 
 				var result = 	icTaxonomy.types.filter(function(type){
-									return type_names.indexOf(type_names.name) != -1
+									return type_names.indexOf(type.name) != -1
 								})
-				return	single
-						? result[0]
-						: result
+				return	result[0]
 			}
 
 			return icTaxonomy

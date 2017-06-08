@@ -4,6 +4,7 @@ angular.module("InfoCompass",[
 	'icLayout',
 	'icServices',
 	'icDirectives',
+	'icFilters',
 	'icUiDirectives',	
 ])
 
