@@ -100,7 +100,7 @@ Todo:
 * Kacheln !!A
 * Startseite updaten !!A
 * sharing erstmla raus
-* Merkliste fixe
+* Unterverzeichnis
 
 * Layout Responsive B
 * Footer scrollt nicht richtig home!
@@ -113,6 +113,7 @@ Todo:
 * Merliste-Button invertieren
 * Button click hellgrau
 * Nicht funktionierende Icons ausblenden
+* Server: forever beim reboot starten
 
 Done:
 * fix infocompass
@@ -125,3 +126,4 @@ Done:
 * url: seniorennetz.berlin
 * bug merkliste
 * performance, download async
+* Fallback-seite
