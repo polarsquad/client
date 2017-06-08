@@ -51,7 +51,6 @@ angular.module("InfoCompass",[
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)item\/([^\/]*)/)
 
-
 								return	matches && matches[2]
 										?	ic.itemStorage.getItem(matches[2])
 										:	null

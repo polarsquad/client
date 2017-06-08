@@ -91,14 +91,17 @@ Brauche:
 
 
 Todo:
-* Karte (lokale db benutzen) !!A
+* Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen
 * Sprache !!A  de en tr ar
+* Karte (lokale db benutzen) !!A
 * Print !!A
 * Statische Seiten in Übersetzungs tabelle !!A
 * Biryani !!A
 * Kacheln !!A
 * Startseite updaten !!A
-* url: seniorennetz.berlin
+* sharing erstmla raus
+* Merkliste fixe
+
 * Layout Responsive B
 * Footer scrollt nicht richtig home!
 * config js landet im git :(
@@ -110,12 +113,15 @@ Todo:
 * Merliste-Button invertieren
 * Button click hellgrau
 * Nicht funktionierende Icons ausblenden
-* sharing erstmla raus
-* server html5 mode
 
 Done:
 * fix infocompass
 * Radio für Kategorienfilter
 * list bei leerem Filter (Paramter -> list)
 * Translation
+
 * Übersetzung generien
+* api.seniorennetz.berlin
+* url: seniorennetz.berlin
+* bug merkliste
+* performance, download async

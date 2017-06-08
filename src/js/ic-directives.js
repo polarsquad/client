@@ -140,39 +140,13 @@ angular.module('icDirectives', [
 				scope.$watch(
 					function(){ return icSite.activeItem && icSite.activeItem.tags},
 					function(tags){ 
-						scope.icCategory 	= 	icSite.activeItem && icTaxonomy.getCategory(tags)[0] 
-						scope.icType 		= 	icSite.activeItem && icTaxonomy.getType(tags)[0] 
+						scope.icCategory 	= 	icSite.activeItem && icTaxonomy.getCategory(tags)
+						scope.icType 		= 	icSite.activeItem && icTaxonomy.getType(tags)
 					},
 					true
 				)
 
-				scope.$watch(
-					function(){
-						if(!scope.item) return ''
-
-						return 	scope.item.longitude && scope.item.latitude
-								?	'https://www.openstreetmap.org/?mlat='+scope.item.latitude +'&mlon=' + scope.item.longitude + '#map=17/'+scope.item.latitude+'/'+scope.item.longitude
-								:	'https://www.openstreetmap.org/search?query='+scope.item.address + ', ' + scope.item.zip + ', ' + scope.item.location
-					},
-					function(OSMlink){
-						scope.OSMLink = OSMlink
-					}
-				)
-
-				scope.$watch(
-					function(){
-						if(!scope.item) return ''
-
-						return	scope.item.longitude && scope.item.latitude
-								?	'https://www.google.de/maps/place/'+scope.item.latitude+'+' + scope.item.longitude + '/@'+scope.item.latitude + ',' + scope.item.longitude +',17z'
-								:	'https://www.google.de/maps/place/'+scope.item.address+', '+scope.item.zip+', '+scope.item.location
-					},
-					function(GMLink){
-						scope.GMLink = GMLink
-					}
-				)
-
-
+				
 			}
 		}
 	}

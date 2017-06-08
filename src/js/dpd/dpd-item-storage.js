@@ -7,8 +7,6 @@
 
 
 	function IcItemStorage(){
-
-		//Todo: make all functione async?
 		
 
 		var icItemStorage = this
@@ -25,6 +23,32 @@
 											}
 		icItemStorage.refreshRequired	=	false 
 
+		icItemStorage.asyncTriggers 	=	[] 
+
+		icItemStorage.addAsyncTrigger = function(triggerFn){
+			if(typeof triggerFn != 'function') console.error('icItemStorage.addAsyncTrigger: triggerFn not a function.')
+			icItemStorage.asyncTriggers.push(triggerFn)
+
+			return icItemStorage
+		}
+
+		icItemStorage.removeAsyncTrigger = function(triggeFn){
+			var pos = icItemStorage.asyncTriggers.indexOf(triggeFn)
+
+			if(pos == -1) console.warn('icItemStorage.removeAsyncTrigger: triggerFn not a found.')
+
+			icItemStorage.asyncTriggers.splice(pos,1)
+
+			return icItemStorage
+		}
+
+		icItemStorage.runAsyncTriggers = function(){
+			icItemStorage.asyncTriggers.forEach(function(triggerFn){
+				triggerFn.call()
+			})
+
+			return icItemStorage
+		}
 
 		icItemStorage.storeItem = function(item_data){
 
@@ -207,6 +231,7 @@
 			return icItemStorage
 		}
 
+
 		icItemStorage.refreshFilteredList = function(){
 			icItemStorage.clearFilteredList()
 			icItemStorage.data.forEach(function(item){
@@ -242,17 +267,26 @@
 				item.preliminary = true
 			}
 
+			if(item.downloading) return item
+
 			item.download()
 			.then(
 				function(){
 					item.preliminary = false
+					
+					icItemStorage.runAsyncTriggers()
+					
 					return item
 				},
 				function(reason){
 					console.error('icItemStorage.getItem: update failed.', reason)
+					
+					icItemStorage.runAsyncTriggers()
+
 					return Promise.reject(reason)
 				}
 			)
+			item.downloading = true
 
 			return item
 		}
@@ -264,9 +298,13 @@
 							data.forEach(function(item_data){
 								icItemStorage.storeItem(item_data)
 							}) 
+							icItemStorage.runAsyncTriggers()
 						},
 						function(reason){
 							console.error('icItemStorage: unable to load items: '+reason)
+
+							icItemStorage.runAsyncTriggers()
+
 							return Promise.reject(reason)
 						}
 					)

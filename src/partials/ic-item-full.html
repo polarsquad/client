@@ -66,8 +66,8 @@
 	ng-if			= "item.address"
 	ic-title 		= "'ITEMS.ADDRESS' | translate"
 	ic-content		= "item.location"
-	ic-extra-lines	= "[item.adress|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
-	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
+	ic-extra-lines	= "[item.address|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
+	ic-extra-links	= "{'Google Maps' : (item | gmLink), 'OpenStreetMap' : (item | osmLink)}"
 	ic-icon			= "'/images/icons/property-location.svg'"
 >
 </ic-item-property>

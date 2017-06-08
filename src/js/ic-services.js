@@ -364,10 +364,15 @@ angular.module('icServices', [
 
 			var icItemStorage = itemStorage
 
-			icItemStorage.ready 	= 	$q.when(icItemStorage.downloadAll())
-										.then(function(){
-											icItemStorage.updateFilteredList()
-										})
+			icItemStorage.addAsyncTrigger(function(){
+				$rootScope.$apply()
+			})
+
+			icItemStorage.ready 		= 	$q.when(icItemStorage.downloadAll())
+											.then(function(){
+												icItemStorage.updateFilteredList()
+											})
+
 
 			$rootScope.$watch(
 				function(){
