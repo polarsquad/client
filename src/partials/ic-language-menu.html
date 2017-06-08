@@ -1,0 +1,18 @@
+<h2>
+	{{"INTERFACE.CHOOSE_LANGUAGE" | translate}}
+</h2>
+
+<a 
+	ng-repeat 	= "language in ::icLanguages.availableLanguages"
+	ng-click	= "icLanguages.currentLanguage = language"
+	ng-class 	= "{'highlight active': icLanguages.currentLanguage == language}"	
+	ic-touch-me	
+>
+	<span class = "native">{{"LANGUAGES.%s" | fill : language | translate : null : null : language}}</span>
+	<span 
+		ng-if = "icLanguages.currentLanguage != language"
+		class = "translation light"
+	>
+			{{"LANGUAGES.%s" | fill : language | translate}}
+	</span>
+</a>
