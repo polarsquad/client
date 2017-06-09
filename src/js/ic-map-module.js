@@ -80,7 +80,7 @@ angular.module('icMap', [
 	function(icLanguages, ic){
 		return {
 			restrict:		'AE',
-			templateUrl:	'partials/ic-map-item-marker.html',
+			templateUrl:	'partials/ic-map-marker-item.html',
 			scope:			{
 								icItem:		"<",
 								icTitle: 	"<",
@@ -88,8 +88,7 @@ angular.module('icMap', [
 							},
 
 			link: function(scope, element){
-				// scope.icLanguages 	= icLanguages
-				// scope.icSite		= icSite
+				scope.ic = ic
 			}
 
 		}
@@ -100,10 +99,12 @@ angular.module('icMap', [
 
 .directive('icMapClusterMarker',[
 
-	function(){
+	'icSite',
+
+	function(icSite){
 		return {
 			restrict:		'AE',
-			templateUrl:	'partials/ic-map-cluster-marker.html',
+			templateUrl:	'partials/ic-map-marker-cluster.html',
 			scope:			{
 								icCluster:	"<"
 							},
@@ -114,6 +115,10 @@ angular.module('icMap', [
 									.map(function(marker){
 										return marker.options.item
 									})
+
+					scope.isActive = function(){
+						return scope.item == icSite.activeItem
+					}
 				})
 			}
 
@@ -420,6 +425,7 @@ angular.module('icMap', [
 
 							markers.addLayers(additional_items.map(getMarker))
 							//markers.refreshClusters()
+
 				}
 
 				function updateCurrentItemMarker(previous, current){

@@ -254,9 +254,9 @@ angular.module('icServices', [
 			}
 
 			icSite.adjust = function(){
-				console.log('adjust')
 				icSite.config.params.forEach(function(param){ icSite[param.name] 	= param.adjust 	? param.adjust(ic)	: icSite[param.name]	}),
 				icSite.config.switches.forEach(function(swt){ icSite[swt.name]		= swt.adjust	? swt.adjust(ic)	: icSite[swt.name]		})
+
 
 				$location.replace()
 
@@ -265,21 +265,25 @@ angular.module('icServices', [
 
 			$rootScope.$watch(
 				function(){
-					return 	[].concat(
+					return 	Array.prototype.concat(
 								icSite.config.params.map(function(param){ return icSite[param.name] }),
 								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	})
 							)
 				},
 				function(a, old){
+
 					icSite
 					.updateSections()
 					.updateUrl()	
 
 					if(!adjustment_scheduled){
 						adjustment_scheduled = true
-						$rootScope.$evalAsync(function(){
-							icSite.adjust()
-							adjustment_scheduled = false
+
+						window.requestAnimationFrame(function(){
+							$rootScope.$apply(function(){
+								icSite.adjust()
+								adjustment_scheduled = false
+							})
 						})
 						
 					}
@@ -720,7 +724,6 @@ angular.module('icServices', [
 			var icLanguages 			= 	this
 
 			icLanguages.availableLanguages	=	availableLanguages
-			icLanguages.currentLanguages	= 	undefined
 			icLanguages.fallbackLanguage	=	undefined
 
 			icLanguages.fallbackLanguage	= 	icLanguages.availableLanguages.indexOf('en') != -1
@@ -730,12 +733,14 @@ angular.module('icServices', [
 			icLanguages.ready = 	$http.get(translationTableUrl)
 									.then(
 										function(result){
+											console.log(result)
 											return result.data
 										},
 										function(){
 											return $q.reject("Unable to load language data.")
 										}
 									)
+
 
 			function objectKeysToUpperCase(obj){
 				var up = {}
@@ -758,28 +763,46 @@ angular.module('icServices', [
 						})
 			}
 
+			icLanguages.getStoredLanguage = function(){
+				var l = $window.localStorage.getItem('language') 
 
-
-			function guessLanguage(){
-				icLanguages.currentLanguage =	icLanguages.currentLanguage 
-												|| $window.localStorage.getItem('language') 
-												|| navigator.language.substr(0,2)
-												|| 'en'
+				return	icLanguages.availableLanguages.indexOf(l) != -1
+						?	l
+						:	null
 			}
 
-			guessLanguage()
+			icSite.registerParameter({
+				name: 		'currentLanguage',
+				encode:		function(value,ic){
+								if(!value) return ''
+								return 'l/'+value 
+							},
+
+				decode:		function(path,ic){
+								var matches = path.match(/(^|\/)l\/([^\/]*)/)
+
+								return matches && matches[2]
+							},
+
+				adjust:		function(ic){
+								return		ic.site.currentLanguage 
+										|| 	icLanguages.getStoredLanguage()
+										|| 	navigator.language.substr(0,2)
+										|| 	icLanguages.fallbackLanguage
+										|| 	'en'
+							}	
+
+			})
+
 
 			$rootScope.$watch(
-				function(){ return icLanguages.availableLanguages && icLanguages.currentLanguage }, 
-				function(cl){
+				function(){ return icSite.currentLanguage }, 
+				function(){
 
-					if(!icLanguages.availableLanguages) return null
+					if(!icSite.currentLanguage) return null
 
-					if(icLanguages.availableLanguages.indexOf(icLanguages.currentLanguage) == -1) 
-						icLanguages.currentLanguage = icLanguages.fallbackLanguage
-
-					$translate.use(icLanguages.currentLanguage)
-					$window.localStorage.setItem('language',icLanguages.currentLanguage)
+					$translate.use(icSite.currentLanguage)
+					$window.localStorage.setItem('language',icSite.currentLanguage)
 				}
 			)
 
@@ -1306,7 +1329,7 @@ angular.module('icServices', [
 // 					orderBy:	keyMap[icFilterConfig.orderBy],
 // 					filterBy:	null,
 // 					reverse:	icFilterConfig.reverse,
-// 					language:	icLanguages.currentLanguage,
+// 					language:	icSite.currentLanguage,
 // 					list: 		list || searchResults.filteredList || []
 // 				})
 // 				.then(function applySort(map){	
@@ -1385,7 +1408,7 @@ angular.module('icServices', [
 // 		)
 
 // 		$rootScope.$watch(
-// 			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icLanguages.currentLanguage] }, 
+// 			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icSite.currentLanguage] }, 
 // 			function WatchSortFilteredList(p){ 
 // 				if(!icFilterConfig.cleared()){
 // 					//with this the interface feels snappier:
@@ -1566,7 +1589,7 @@ angular.module('icServices', [
 	// 	}
 
 	// 	function updateLanguageParams(){
-	// 		icSite.params.l	= icLanguages.currentLanguage
+	// 		icSite.params.l	= icSite.currentLanguage
 	// 	}
 
 
@@ -1644,12 +1667,12 @@ angular.module('icServices', [
 
 
 	// 		//updateLanguage
-	// 		if(!icLanguages.currentLanguage){
-	// 			icLanguages.currentLanguage = icSite.params.l
+	// 		if(!icSite.currentLanguage){
+	// 			icSite.currentLanguage = icSite.params.l
 	// 		}	
 
-	// 		if(icSite.params.l && icLanguages.currentLanguage != icSite.params.l){
-	// 			icLanguages.currentLanguage = icSite.params.l
+	// 		if(icSite.params.l && icSite.currentLanguage != icSite.params.l){
+	// 			icSite.currentLanguage = icSite.params.l
 	// 			icInit.ready
 	// 			.then(function(){
 	// 				icOverlays.toggle('languageMenu', true)
@@ -1854,7 +1877,7 @@ angular.module('icServices', [
 
 	// 	$rootScope.$on('$locationChangeSuccess', 							getParamsFromPath)
 	// 	$rootScope.$watch(function(){ return icFilterConfig }, 				updateFilterParams, true)
-	// 	$rootScope.$watch(function(){ return icLanguages.currentLanguage },	updateLanguageParams)
+	// 	$rootScope.$watch(function(){ return icSite.currentLanguage },	updateLanguageParams)
 	// 	$rootScope.$watch(function(){ return smlLayout.mode.name },			updateSections)
 	// 	$rootScope.$watch(function(){ return icSite.switches.expandMap },			updateSections)
 
@@ -2236,7 +2259,7 @@ angular.module('icServices', [
 // 		}
 
 // 		function updateLanguageParams(){
-// 			icSite.params.l	= icLanguages.currentLanguage
+// 			icSite.params.l	= icSite.currentLanguage
 // 		}
 
 
@@ -2314,12 +2337,12 @@ angular.module('icServices', [
 
 
 // 			//updateLanguage
-// 			if(!icLanguages.currentLanguage){
-// 				icLanguages.currentLanguage = icSite.params.l
+// 			if(!icSite.currentLanguage){
+// 				icSite.currentLanguage = icSite.params.l
 // 			}	
 
-// 			if(icSite.params.l && icLanguages.currentLanguage != icSite.params.l){
-// 				icLanguages.currentLanguage = icSite.params.l
+// 			if(icSite.params.l && icSite.currentLanguage != icSite.params.l){
+// 				icSite.currentLanguage = icSite.params.l
 // 				icInit.ready
 // 				.then(function(){
 // 					icOverlays.toggle('languageMenu', true)
@@ -2524,7 +2547,7 @@ angular.module('icServices', [
 
 // 		$rootScope.$on('$locationChangeSuccess', 							getParamsFromPath)
 // 		$rootScope.$watch(function(){ return icFilterConfig }, 				updateFilterParams, true)
-// 		$rootScope.$watch(function(){ return icLanguages.currentLanguage },	updateLanguageParams)
+// 		$rootScope.$watch(function(){ return icSite.currentLanguage },	updateLanguageParams)
 // 		$rootScope.$watch(function(){ return smlLayout.mode.name },			updateSections)
 // 		$rootScope.$watch(function(){ return icSite.switches.expandMap },			updateSections)
 
@@ -3052,7 +3075,7 @@ angular.module('icServices', [
 // 					orderBy:	keyMap[icFilterConfig.orderBy],
 // 					filterBy:	null,
 // 					reverse:	icFilterConfig.reverse,
-// 					language:	icLanguages.currentLanguage,
+// 					language:	icSite.currentLanguage,
 // 					list: 		list || searchResults.filteredList || []
 // 				})
 // 				.then(function applySort(map){	
@@ -3131,7 +3154,7 @@ angular.module('icServices', [
 // 		)
 
 // 		$rootScope.$watch(
-// 			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icLanguages.currentLanguage] }, 
+// 			function(){ return [icFilterConfig.orderBy, icFilterConfig.reverse, icSite.currentLanguage] }, 
 // 			function WatchSortFilteredList(p){ 
 // 				if(!icFilterConfig.cleared()){
 // 					//with this the interface feels snappier:

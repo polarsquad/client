@@ -91,7 +91,8 @@ Brauche:
 
 
 Todo:
-* Language param
+* Backbutton?
+* Icons
 * Karte (lokale db benutzen) !!A
 * Print !!A
 * Statische Seiten in Übersetzungs tabelle !!A
@@ -129,3 +130,7 @@ Done:
 * Fallback-seite
 * Sprache !!A  de en tr ar
 * Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen
+* Language param
+
+
+* Übersetzung unsorted Tags

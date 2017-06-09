@@ -12,7 +12,7 @@ ic-map-item-marker {
 	position:				absolute;
 	background:				#fff;
 	font-size:				1rem;
-	left:					-1rem;
+	left:					0;
 	top:					-2.6666667rem;
 	height:					2.6666667rem;
 	width:					0;
@@ -55,7 +55,7 @@ ic-map-item-marker .outer-icon .inner-icon {
 	height:					2rem;
 	width:					2rem;
 	background-repeat:		no-repeat;
-	background-size:		2rem;
+	background-size:		1.5rem;
 	background-position:	center;
 }
 
@@ -135,7 +135,7 @@ ic-map-cluster-marker:hover		ic-map-item-marker {
 
 ic-map-cluster-marker .wrapper {
 	position:				absolute;
-	left:					-1rem;
+	left:					0rem;
 	bottom:					0;
 }
 

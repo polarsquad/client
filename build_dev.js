@@ -47,8 +47,26 @@ function compileTaxonomyTemplatesToTmp() {
 			})
 }
 
+function svgColors(src_folder, dest_folder, config){
+	return	fs.ensureDir(dest_folder)
+			.then( () => fs.readdir(src_folder) )
+			.then( result => result.filter( (filename) => filename.match(/\.svg$/) && fs.lstatSync(src_folder+'/'+filename).isFile()) )
+			.then( (filenames) => Promise.all(
+				filenames.map( (filename) => {
+					return	fs.readFile(src_folder+'/'+filename, 'utf8')
+							.then( (content) => Promise.all( config.colors.map( color => {
+								var fn = 	color.name
+											?	filename.replace(/\.svg$/,'-'+color.name+'.svg')
+											:	filename
+
+									return fs.writeFile(dest_folder+'/'+fn, content.replace(config.replace, color.value), 'utf8')
+							})))
+				})				
+			))
+}
 
 function images2Css(src_folder, dst_folder, template_file, preload){
+
 	return	Promise.all([
 				fs.readFile(template_file, 'utf8'),
 				fs.readdir(src_folder)
@@ -61,8 +79,6 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 										+ filenames.map( (fn) => '\turl('+dst_folder+'/'+ fn + ')' ).join('')
 										+ ';\n}\n\n'
 									: ''
-
-
 
 				return 	filenames.map(function(filename){
 
@@ -83,12 +99,38 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 			})
 }
 
-function compileIconsTemplatesToTmp(){
-	return	images2Css('src/images/icons', '/images/icons/', 'src/styles/templates/ic-icon.template', true)
+
+///////////////////////
+
+
+function compileIconsSrc2Tmp(){
+	return 	svgColors('src/images/raw_icons', 'tmp/images/icons', {
+				replace: '#000000',
+				colors: [
+					{name: null,		value: '#000000'},
+					{name: 'active',	value: config.activeIconColor || '#802651'},
+					{name: 'white',		value: '#ffffff'}
+				]
+			})
+}
+
+function compileMarkersSrc2Tmp(){
+	return 	svgColors('src/images/raw_markers', 'tmp/images/icons', {
+				replace: '#7F7F7F',
+				colors: taxonomy.categories.map( category => { return {name: category.name, value: category.colors[0] } })
+						.concat([
+							{name: 'unknown', value: '#7F7F7F'}
+						])
+			})
+}
+
+
+function compileIconTemplatesTmp2Tmp(){
+	return	images2Css('tmp/images/icons', '/images/icons', 'src/styles/templates/ic-icon.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
 }
 
-function compileImageTemplatesToTmp(){
+function compileImageTemplatesSrc2Tmp(){
 	return	images2Css('src/images/large', '/images/large', 'src/styles/templates/ic-image.template')
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
 }
@@ -117,19 +159,27 @@ function prepareRoboto(){
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
 }
 
-
+function copyFilesToTmp(){
+	return 	Promise.all([
+				fs.copy("src/images/icons", 	"tmp/images/icons"),
+			])
+}
 
 
 
 function copyFilesToDev(){
 	return 	Promise.all([
 
-				fs.copy("src/js", 			"dev/js"),
-				fs.copy("src/pages",		"dev/pages"),
-				fs.copy("src/partials",		"dev/partials"),
-				fs.copy("src/images", 		"dev/images"),
-				fs.copy("vendor.js", 		"dev/js/vendor.js"),
+				fs.copy("src/js", 				"dev/js"),
+				fs.copy("src/pages",			"dev/pages"),
+				fs.copy("src/partials",			"dev/partials"),
+				fs.copy("src/images/large", 	"dev/images/large"),
+				fs.copy("vendor.js", 			"dev/js/vendor.js"),
 				
+				//tmp
+				fs.copy("tmp/images", 		"dev/images"),
+				
+
 				//todo?
 				fs.copy("config", 			"dev/config", {dereference: true}),
 			])
@@ -213,53 +263,73 @@ function cleanUp(){
 
 setup()
 
-.then( () => console.log('\nCompiling taxonomy templates /tmp...'))
+
+
+.then( () => process.stdout.write('\nCopying files from /src to /tmp for further processing ...'))
+.then(copyFilesToTmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
+
+.then( () => process.stdout.write('\nCompiling raw icons from /src to /tmp for further processing ...'))
+.then(compileIconsSrc2Tmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
+.then( () => process.stdout.write('\nCompiling raw markers from /src to /tmp for further processing ...'))
+.then(compileMarkersSrc2Tmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
+
+.then( () => process.stdout.write('\nCompiling icon templates for icons in /tmp into /tmp for further processing ...'))
+.then(compileIconTemplatesTmp2Tmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
+.then( () => process.stdout.write('\nCompiling taxonomy templates into /tmp for further processing ...'))
 .then(compileTaxonomyTemplatesToTmp)
-.then( () =>  console.log('Done.'))
+.then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => console.log('\nCompiling icon templates /tmp...'))
-.then(compileIconsTemplatesToTmp)
-.then( () =>  console.log('Done.'))
+
+.then( () => process.stdout.write('\nCompiling image templates for images in /src into /tmp for further processing ...'))
+.then(compileImageTemplatesSrc2Tmp)
+.then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => console.log('\nCompiling image templates /tmp...'))
-.then(compileImageTemplatesToTmp)
-.then( () =>  console.log('Done.'))
-
-
-.then( () => console.log('\nPreparing Biyarni...'))
+.then( () => process.stdout.write('\nPreparing Biyarni...'))
 .then(prepareBiyarni)
-.then( () =>  console.log('Done.'))
+.then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => console.log('\nPreparing Roboto...'))
+.then( () => process.stdout.write('\nPreparing Roboto...'))
 .then(prepareRoboto)
-.then( () =>  console.log('Done.'))
+.then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => console.log('\nCopying files copied to /dev...'))
+.then( () => process.stdout.write('\nCopying ready files to /dev...'))
 .then(copyFilesToDev)
-.then( () => console.log('Done.'))
+.then( () => process.stdout.write('Done.\n'))
 
-.then( () => console.log('\nBudling styles into dev...'))
+.then( () => process.stdout.write('\nBuidling styles into /dev...'))
 .then(bundleStylesToDev)
-.then( () => console.log('Done.'))
+.then( () => process.stdout.write('Done.\n'))
 
 
-.then( () => console.log('\nCompiling Index into dev...'))
+.then( () => process.stdout.write('\nCompiling Index into /dev...'))
 .then(compileIndex)
-.then( () =>  console.log('Done.'))
+.then( () =>  process.stdout.write('Done.\n'))
 
 
 
-.then( () => console.log('\nCleaninng up...'))
-.then(cleanUp)
-.then( () => console.log('Done.'))
+// .then( () => process.stdout.write('\nCleaninng up...'))
+// .then(cleanUp)
+// .then( () => process.stdout.write('Done.'))
 
 
 .then(
-	()	=> console.log('\nAll done. \n'),
+	()	=> process.stdout.write('\nAll done. \n'),
 	e	=> console.trace(e)
 )
 

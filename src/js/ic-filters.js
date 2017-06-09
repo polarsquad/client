@@ -5,6 +5,28 @@ angular.module('icFilters', [
 	'icServices',
 ])
 
+.filter('icType', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getType(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
+.filter('icCategory', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getCategory(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
 
 .filter('osmLink', [
 	function(){

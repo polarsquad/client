@@ -136,17 +136,7 @@ angular.module('icDirectives', [
 						scope.item = item
 					}
 				) 
-
-				scope.$watch(
-					function(){ return icSite.activeItem && icSite.activeItem.tags},
-					function(tags){ 
-						scope.icCategory 	= 	icSite.activeItem && icTaxonomy.getCategory(tags)
-						scope.icType 		= 	icSite.activeItem && icTaxonomy.getType(tags)
-					},
-					true
-				)
-
-				
+			
 			}
 		}
 	}
@@ -413,16 +403,16 @@ angular.module('icDirectives', [
 
 .directive('icLanguageMenu', [
 
-	'icLanguages',
+	'ic',
 
-	function(icLanguages){
+	function(ic){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-language-menu.html',
 			scope:			{},
 
 			link: function(scope, element){				
-				scope.icLanguages = icLanguages
+				scope.ic = ic
 			}
 		}
 	}
@@ -565,10 +555,10 @@ angular.module('icDirectives', [
 
 // 				scope.$watch(
 // 					function(){
-// 						return icLanguages.currentLanguage
+// 						return icSite.currentLanguage
 // 					},
 // 					function(){
-// 						scope.language = icLanguages.currentLanguage
+// 						scope.language = icSite.currentLanguage
 // 					}
 // 				)
 // 			}
@@ -785,7 +775,7 @@ angular.module('icDirectives', [
 // 						title		=	scope.item.title,
 // 						url			= 	abs_url.replace(path, '')
 // 										+'/item/'	+ scope.item.id
-// 										+'/l/'		+ icLanguages.currentLanguage
+// 										+'/l/'		+ icSite.currentLanguage
 
 // 					scope.vars.url 		= url
 // 					scope.vars.title	= title
@@ -2271,7 +2261,7 @@ angular.module('icDirectives', [
 // 				scope.update = function(){
 // 					scope.updating = true
 // 					itemEdit
-// 					.update(scope.icKey, scope.icTranslatable ? icLanguages.currentLanguage : undefined)
+// 					.update(scope.icKey, scope.icTranslatable ? icSite.currentLanguage : undefined)
 // 					.then(
 // 						function(item_data){
 // 							scope.icItem.importData(item_data)
@@ -2335,14 +2325,14 @@ angular.module('icDirectives', [
 
 // 					scope.value.new			= 	angular.copy(
 // 													scope.icTranslatable
-// 													?	itemEdit[scope.icKey][icLanguages.currentLanguage] 
+// 													?	itemEdit[scope.icKey][icSite.currentLanguage] 
 // 													:	itemEdit[scope.icKey]
 // 												)
 
 
 // 					scope.value.current		= 	angular.copy(
 // 													scope.icTranslatable
-// 													?	scope.icItem[scope.icKey][icLanguages.currentLanguage] 
+// 													?	scope.icItem[scope.icKey][icSite.currentLanguage] 
 // 													:	scope.icItem[scope.icKey]
 // 												)
 // 					//workaround, actually the backend should never hand out this value if it is to be ignored:
@@ -2360,7 +2350,7 @@ angular.module('icDirectives', [
 
 
 
-// 				scope.$watch(function(){ return icLanguages.currentLanguage }, refreshValues)
+// 				scope.$watch(function(){ return icSite.currentLanguage }, refreshValues)
 
 				
 // 				scope.$watch(
@@ -2394,7 +2384,7 @@ angular.module('icDirectives', [
 // 					}
 
 // 					if(scope.icTranslatable){
-// 						itemEdit[scope.icKey][icLanguages.currentLanguage] = scope.value.new
+// 						itemEdit[scope.icKey][icSite.currentLanguage] = scope.value.new
 // 					} else {
 // 						itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
 // 												?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
@@ -2488,27 +2478,27 @@ angular.module('icDirectives', [
 
 // 		function icDateFilter(date_str, use_time){
 // 			dates[date_str] 								= dates[date_str] || {}
-// 			dates[date_str][icLanguages.currentLanguage]	= dates[date_str][icLanguages.currentLanguage] || {}
+// 			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
 
 
-// 			if(!dates[date_str][icLanguages.currentLanguage].withoutTime){
-// 				dates[date_str][icLanguages.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
-// 																			?	new Date(date_str).toLocaleDateString(icLanguages.currentLanguage)
+// 			if(!dates[date_str][icSite.currentLanguage].withoutTime){
+// 				dates[date_str][icSite.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
+// 																			?	new Date(date_str).toLocaleDateString(icSite.currentLanguage)
 // 																			:	date_str
 // 			} 
 
-// 			if(!dates[date_str][icLanguages.currentLanguage].withTime && use_time){
-// 				dates[date_str][icLanguages.currentLanguage].withTime	= 	dates[date_str][icLanguages.currentLanguage].withoutTime +
+// 			if(!dates[date_str][icSite.currentLanguage].withTime && use_time){
+// 				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime +
 // 																			(
 // 																				toLocaleDateStringSupportsLocales
-// 																				?	new Date(date_str).toLocaleTimeString(icLanguages.currentLanguage)
+// 																				?	new Date(date_str).toLocaleTimeString(icSite.currentLanguage)
 // 																				:	''
 // 																			)
 // 			}
 
 // 			return 	use_time
-// 					?	dates[date_str][icLanguages.currentLanguage].withTime
-// 					:	dates[date_str][icLanguages.currentLanguage].withoutTime
+// 					?	dates[date_str][icSite.currentLanguage].withTime
+// 					:	dates[date_str][icSite.currentLanguage].withoutTime
 
 // 		}
 
