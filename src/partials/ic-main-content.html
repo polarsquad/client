@@ -4,11 +4,9 @@
 	ic-settle-scrollbar		= "true"
 	ic-scroll-snap-anchor 	= "header"
 	ic-scroll-repeat-limit-container = "true"
+	
+	id			= "section-{{section.name}}"
+	ng-include 	= "section.template" 
 >
-	<div
-		id			= "section-{{section.name}}"
-		ng-include 	= "section.template" 
-	>
-	</div>
 </section>
 	

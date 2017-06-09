@@ -32,6 +32,8 @@ ic-main-content {
 }
 
 ic-main-content > * {
+	flex:						1 0 0;
+	position:					relative;
 	padding:					1rem;
 	box-sizing:					border-box;
 	overflow-y:					scroll;
@@ -39,7 +41,6 @@ ic-main-content > * {
 	flex-grow:					1;
 	height:						100%;
 }
-
 
 
 
@@ -78,4 +79,13 @@ ic-main-content > * {
 	width:						14em;
 	margin:						auto;
 	line-height:				2em;
+}
+
+#section-map {
+	padding:					0;
+}
+
+#section-map > * {
+	width:						100%;
+	height:						100%;
 }

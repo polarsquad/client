@@ -713,8 +713,9 @@ angular.module('icServices', [
 		'$q',
 		'$http',
 		'$translate',
+		'icSite',
 
-		function($window, $rootScope, $q, $http, $translate){
+		function($window, $rootScope, $q, $http, $translate, icSite){
 
 			var icLanguages 			= 	this
 

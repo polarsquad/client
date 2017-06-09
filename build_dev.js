@@ -121,7 +121,6 @@ function prepareRoboto(){
 
 
 
-
 function copyFilesToDev(){
 	return 	Promise.all([
 
@@ -172,10 +171,14 @@ function bundleStyles(src_dir, target_dir, filename){
 function bundleStylesToDev(){
 
 	return 	Promise.all([
-				fs.copy("src/styles", "tmp/styles")					.then(() => bundleStyles('tmp/styles', 			'dev/styles', 'styles.css')),
-				fs.copy("src/styles/initial", "tmp/styles/initial")	.then(() => bundleStyles('tmp/styles/initial', 	'dev/styles', 'initial.css'))
-				
+				fs.copy("src/styles", 									"tmp/styles"),	
+				fs.copy("node_modules/leaflet/dist/leaflet.css", 		"tmp/styles/leaflet.css"),
+				fs.copy("src/styles/initial", 							"tmp/styles/initial")
 			])
+			.then(() => Promise.all([
+				bundleStyles('tmp/styles', 			'dev/styles', 'styles.css'),
+				bundleStyles('tmp/styles/initial', 	'dev/styles', 'initial.css')
+			]))
 }
 
 
@@ -183,7 +186,7 @@ function bundleStylesToDev(){
 function compileIndex(){
 
 	return 	Promise.all([
-				fs.readFile('src/index.html', 	'utf8'),
+				fs.readFile('src/index.html', 		'utf8'),
 				fs.readFile('src/dev_head.html', 	'utf8')
 			])
 			.then(function(result){
@@ -224,11 +227,10 @@ setup()
 .then(compileImageTemplatesToTmp)
 .then( () =>  console.log('Done.'))
 
-//TODO
 
-// .then( () => console.log('\nPreparing Biyarni...'))
-// .then(prepareBiyarni)
-// .then( () =>  console.log('Done.'))
+.then( () => console.log('\nPreparing Biyarni...'))
+.then(prepareBiyarni)
+.then( () =>  console.log('Done.'))
 
 
 .then( () => console.log('\nPreparing Roboto...'))

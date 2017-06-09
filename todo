@@ -91,8 +91,7 @@ Brauche:
 
 
 Todo:
-* Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen
-* Sprache !!A  de en tr ar
+* Language param
 * Karte (lokale db benutzen) !!A
 * Print !!A
 * Statische Seiten in Übersetzungs tabelle !!A
@@ -128,3 +127,5 @@ Done:
 * bug merkliste
 * performance, download async
 * Fallback-seite
+* Sprache !!A  de en tr ar
+* Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen

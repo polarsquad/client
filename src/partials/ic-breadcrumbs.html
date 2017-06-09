@@ -1,6 +1,6 @@
 <span> Home </span>
 <span ng-if = "!ic.site.searchTerm">&gt; {{'INTERFACE.LIST' | translate}}</span>
-<span ng-if = "ic.site.searchTerm">&gt; {{'INTERFACE.SEARCH_FOR' | translate} "{{ic.site.searchTerm}}"</span>
+<span ng-if = "ic.site.searchTerm">&gt; {{'INTERFACE.SEARCH_FOR' | translate}} "{{ic.site.searchTerm}}"</span>
 
 <span ng-if = "ic.site.filterByType.length"> 
 	&gt; <span> {{ic.site.filterByType[0] | uppercase | translate}} </span>

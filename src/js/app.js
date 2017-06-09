@@ -6,6 +6,7 @@ angular.module("InfoCompass",[
 	'icDirectives',
 	'icFilters',
 	'icUiDirectives',	
+	'icMap',
 ])
 
 .config([
@@ -110,6 +111,16 @@ angular.module("InfoCompass",[
 							},
 			show:			function(ic){
 								return ic.site.activeItem
+							}				
+		})
+		.registerSection({
+			name:			'map',
+			template:		'partials/ic-section-map.html',
+			active:			function(ic){
+								//return 	ic.site.list
+							},
+			show:			function(ic){
+								//return ic.site.list
 							}				
 		})
 	}

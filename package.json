@@ -12,7 +12,9 @@
     "clean-css": "^4.0.12",
     "copyfiles": "^1.2.0",
     "roboto-fontface": "^0.7.0",
-    "typeface-biryani": "0.0.22"
+    "typeface-biryani": "0.0.22",
+    "leaflet": "^1.0.3",
+    "leaflet.markercluster": "^1.0.3"
   },
   "scripts": {
     "build:dev": "node build_dev.js",
