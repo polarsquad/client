@@ -1,0 +1,24 @@
+<div 
+	class 		= "outer-icon marker-type-{{::icItem.type || 'unknown'}}"
+>
+	<div 
+		class = "inner-icon background-image-TODO" 
+		ng-if = "icItem"
+	></div>
+	<div 
+		class = "inner-icon ackground-image-TODO" 
+		ng-if = "!icItem"
+	></div>
+</div>
+
+<a
+	class 		= "content"
+	ng-click	= "icItem ? icSite.openItem(icItem).toggleSwitch('expandMap', false) : ''"
+	ng-if		= "icItem || icTitle || icDetails"
+>
+	<div ng-if = "icTitle"	class = "title"> 	{{icTitle}}			</div>
+	<div ng-if = "icDetails"class = "details">	{{icDetails}}		</div>
+
+	<div ng-if = "icItem"	class = "title">	{{::icItem.title}}	</div>
+	<div ng-if = "icItem"	class = "details">	{{icItem.definition[icLanguages.currentLanguage]}}	</div>
+</a>
