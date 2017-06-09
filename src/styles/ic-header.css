@@ -22,7 +22,7 @@ ic-header .tools {
 ic-header .tools > * {
 	display:						inline-block;
 	margin:							0;
-	flex:							none;
+	flex:							0 0 auto;
 	line-height:					3rem;
 	height:							3rem;
 }
