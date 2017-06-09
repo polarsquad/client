@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-category-sport</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-category-sport" stroke="#802651">
+            <circle id="Oval-5" cx="13.5" cy="5.5" r="2.5"></circle>
+            <path d="M10.5,14.5 L16,22" id="Path-6"></path>
+            <polyline id="Path-8" points="12 9 15 12 19 12"></polyline>
+            <polyline id="Path-5" points="12 9 9 18 4 19"></polyline>
+            <polyline id="Path-7" points="5 12 8 9 12.25 9"></polyline>
+        </g>
+    </g>
+</svg>

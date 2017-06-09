@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-category-shopping</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-category-shopping" fill="#000000">
+            <path d="M0,4 L3.86,4 L4.527,6 L22,6 L18.667,16 L7.86,16 L8.204,17.03 C8.302,17.018 8.398,17 8.5,17 C9.709,17 10.718,17.859 10.95,19 L14.55,19 C14.782,17.859 15.791,17 17,17 C18.381,17 19.5,18.119 19.5,19.5 C19.5,20.881 18.381,22 17,22 C15.791,22 14.782,21.141 14.55,20 L10.95,20 C10.718,21.141 9.709,22 8.5,22 C7.119,22 6,20.881 6,19.5 C6,18.575 6.508,17.777 7.255,17.344 L3.14,5 L0,5 L0,4 Z M4.86,7 L7.527,15 L17.947,15 L20.614,7 L4.86,7 Z M15.5,19.5 C15.5,20.327 16.173,21 17,21 C17.827,21 18.5,20.327 18.5,19.5 C18.5,18.673 17.827,18 17,18 C16.173,18 15.5,18.673 15.5,19.5 L15.5,19.5 Z M7,19.5 C7,20.327 7.673,21 8.5,21 C9.327,21 10,20.327 10,19.5 C10,18.673 9.327,18 8.5,18 C7.673,18 7,18.673 7,19.5 L7,19.5 Z" id="Fill-2"></path>
+        </g>
+    </g>
+</svg>

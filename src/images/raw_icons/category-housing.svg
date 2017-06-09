@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-category-housing</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-category-housing" fill="#000000">
+            <g id="Group-2" transform="translate(1.000000, 2.000000)">
+                <polygon id="Fill-2" points="10 16 13.001 16 13.001 15 10 15"></polygon>
+                <polygon id="Fill-3" points="15 16 18 16 18 15 15 15"></polygon>
+                <polygon id="Fill-4" points="15 13 18 13 18 12 15 12"></polygon>
+                <polygon id="Fill-5" points="15 10 18 10 18 9 15 9"></polygon>
+                <polygon id="Fill-6" points="10 7 13.001 7 13.001 6 10 6"></polygon>
+                <polygon id="Fill-7" points="15 7 18 7 18 6 15 6"></polygon>
+                <polygon id="Fill-8" points="10 4 13.001 4 13.001 3 10 3"></polygon>
+                <polygon id="Fill-9" points="15 4 18 4 18 3 15 3"></polygon>
+                <path d="M19,19 L9,19 L9,15.743 C9.849,15.042 10.476,14.088 10.784,13 L13,13 L13,12 L10.972,12 C10.987,11.835 11,11.669 11,11.5 C11,10.979 10.92,10.478 10.784,10 L13,10 L13,9 L10.394,9 C10.05,8.328 9.577,7.734 9,7.257 L9,1 L19,1 L19,19 Z M5.5,16 C3.019,16 1,13.981 1,11.5 C1,9.019 3.019,7 5.5,7 C7.981,7 10,9.019 10,11.5 C10,13.981 7.981,16 5.5,16 L5.5,16 Z M8,0 L8,6.605 C7.249,6.221 6.401,6 5.5,6 C2.462,6 0,8.462 0,11.5 C0,14.369 2.197,16.722 5,16.975 L5,20 L6,20 L6,16.975 C6.716,16.91 7.39,16.707 8,16.395 L8,20 L20,20 L20,0 L8,0 Z" id="Fill-10"></path>
+            </g>
+        </g>
+    </g>
+</svg>

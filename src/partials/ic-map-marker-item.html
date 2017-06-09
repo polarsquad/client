@@ -1,0 +1,24 @@
+<div 
+	class 		= "outer-icon icon-marker-{{(icItem|icCategory).name || 'unknown'}}"
+>
+	<div 
+		class = "inner-icon icon-category-{{(icItem|icCategory).name}} white" 
+		ng-if = "icItem"
+	></div>
+	<div 
+		class = "inner-icon icon-interface-ellipse white" 
+		ng-if = "!icItem"
+	></div>
+</div>
+
+<a
+	class 		= "content"
+	ng-click	= "icItem && (ic.site.activeItem = icItem) && (ic.site.expandMap = false)"
+	ng-if		= "icItem || icTitle || icDetails"
+>
+	<div ng-if = "icTitle"	class = "title"> 	{{icTitle}}			</div>
+	<div ng-if = "icDetails"class = "details">	{{icDetails}}		</div>
+
+	<div ng-if = "icItem"	class = "title">	{{icItem.title}}	</div>
+	<div ng-if = "icItem"	class = "details">	{{icItem.brief[ic.site.currentLanguage]}}	</div>
+</a>

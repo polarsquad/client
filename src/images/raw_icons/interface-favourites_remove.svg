@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-interface-favourites_remove</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-interface-favourites_remove" fill="#000000">
+            <g id="Group-8" transform="translate(6.000000, 3.000000)">
+                <path d="M11,16 L1,16 L1,11 L1,3 L2,3 L2,5 L10,5 L10,3 L11,3 L11,12 L11,16 Z M3,3 L5,3 L5,2 C5,1.449 5.449,1 6,1 C6.551,1 7,1.449 7,2 L7,3 L9,3 L9,4 L3,4 L3,3 Z M8,2 C8,0.895 7.105,0 6,0 C4.895,0 4,0.895 4,2 L0,2 L0,17 L12,17 L12,2 L8,2 Z" id="Fill-2"></path>
+                <polygon id="Fill-4" points="3.3535 13.8535 2.6465 13.1465 8.6465 7.1465 9.3535 7.8535"></polygon>
+                <polygon id="Fill-6" points="8.6465 13.8535 2.6465 7.8535 3.3535 7.1465 9.3535 13.1465"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
