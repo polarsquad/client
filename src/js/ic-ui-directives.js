@@ -361,7 +361,11 @@ angular.module('icUiDirectives', [
 
 				div.remove()
 
-		  		style_element.sheet.insertRule('[ic-settle-scrollbar] > * {margin-right: -'+scrollbar_width+'px}', 0)
+				if(scrollbar_width != 0){
+			  		style_element.sheet.insertRule('[ic-settle-scrollbar] 		{overflow-y: hidden;}', 0)
+			  	}
+			  	style_element.sheet.insertRule('[ic-settle-scrollbar]:hover		{overflow-y: scroll; -webkit-overflow-scrolling: touch;}', 0)
+		  		style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
 			}
 		}
 	}
@@ -380,6 +384,21 @@ angular.module('icUiDirectives', [
 					scope.active 	= !!obj.active
 					scope.disabled 	= !!obj.disabled 
 				})
+			}
+		}
+	}
+])
+
+
+
+.directive('focusMe', [
+	function(){
+		return {
+			restrict: 'A',
+
+			link: function(scope, element){
+				console.log('focus!')
+				element[0].focus()
 			}
 		}
 	}

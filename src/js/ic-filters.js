@@ -73,9 +73,9 @@ angular.module('icFilters', [
 
 .filter('icDate', [
 
-	'icLanguages',
+	'icSite',
 
-	function(icLanguages){
+	function(icSite){
 
 		var toLocaleDateStringSupportsLocales 	= false,
 			dates								= {}

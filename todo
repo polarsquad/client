@@ -91,6 +91,7 @@ Brauche:
 
 
 Todo:
+* events redner fehler
 * digest cylcles map (ist scrolling auf scroll container, wenn liste unter den filter klappt)
 * Items images
 * Backbutton?
@@ -136,3 +137,7 @@ Done:
 
 
 * Übersetzung unsorted Tags
+
+Bitte:
+
+* Alle sprechen durch gehen und nicht übersetzte strings finden

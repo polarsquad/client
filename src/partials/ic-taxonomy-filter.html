@@ -7,7 +7,7 @@
 			ng-click	= "ic.filterConfig.clearType()" 
 			ic-touch-me	= "true"
 		>
-			<a>{{'INTERFACE.FILTER_ANY' | translate}}</a>
+			<div>{{'INTERFACE.FILTER_ANY' | translate}}</div>
 		</li>
 		<li
 			ng-repeat 	= "type in ic.taxonomy.types"
@@ -17,14 +17,13 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name, undefined, true)"
 			ic-touch-me	= "!disabled"
 		>
-			<a>{{'TYPES.%s' | fill : type.name |translate}} 
-				<span 
-					class = "bubble shade-light col-1"
-					ng-if = "!disabled"
-				>
-					{{ic.itemStorage.currentStats.altMatches[type.name]}}
-				</span>
-			</a>
+			<div>{{'TYPES.%s' | fill : type.name |translate}} </div>
+			<span 
+				class = "bubble shade-light col-1"
+				ng-if = "!disabled"
+			>
+				{{ic.itemStorage.currentStats.altMatches[type.name]}}
+			</span>
 		</li>
 	</ul>
 </section>
@@ -47,7 +46,7 @@
 			ng-click	= "ic.filterConfig.clearCategory()" 
 			ic-touch-me	= "true"
 		>
-			<a>{{'INTERFACE.FILTER_ANY' | translate}}</a>
+			<div>{{'INTERFACE.FILTER_ANY' | translate}}</div>
 		</li>
 		<li
 			ng-repeat 	= "category in ic.taxonomy.categories"
@@ -58,15 +57,13 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name, undefined, true)"
 			ic-touch-me	= "!disabled"
 		>
-			<a>
-				{{'CATEGORIES.%s' | fill : category.name | translate}} 
-				<span 
-					class = "bubble shade-light col-1"
-					ng-if = "!disabled"
-				>
-					{{ic.itemStorage.currentStats.altMatches[category.name]}}
-				</span>
-			</a>
+			<div>{{'CATEGORIES.%s' | fill : category.name | translate}}</div>
+			<span 
+				class = "bubble shade-light col-1"
+				ng-if = "!disabled"
+			>
+				{{ic.itemStorage.currentStats.altMatches[category.name]}}
+			</span>
 		</li>
 	</ul>
 </section>
@@ -100,13 +97,11 @@
 			ng-click	= "!disabled && ic.filterConfig.toggleUnsortedTag(tag)"
 			ic-touch-me	= "!disabled"
 		>
-			<a>
-				{{'UNSORTED_TAGS.%s' | fill : tag | translate }} 
-				<span 
-					class = "bubble shade-light col-1"
-					ng-if = "!disabled"
-				>{{ic.itemStorage.currentStats.subMatches[tag]}}</span>
-			</a>
+			<div>{{'UNSORTED_TAGS.%s' | fill : tag | translate }}</div>
+			<span 
+				class = "bubble shade-light col-1"
+				ng-if = "!disabled"
+			>{{ic.itemStorage.currentStats.subMatches[tag]}}</span>
 		</li>
 	</ul>
 </section>

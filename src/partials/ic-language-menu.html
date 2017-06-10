@@ -3,7 +3,7 @@
 </h2>
 <a 
 	ng-repeat 	= "language in ic.languages.availableLanguages"
-	ng-click	= "ic.site.currentLanguage = language"
+	ng-click	= "ic.site.currentLanguage = language; ic.overlays.toggle('languageMenu')"
 	ng-class 	= "{'highlight active': ic.site.currentLanguage == language}"	
 	ic-touch-me	
 >

@@ -26,17 +26,28 @@ ic-taxonomy-filter section ul {
 
 ic-taxonomy-filter section h2, 
 ic-taxonomy-filter section li {
-	display:					block;
-	line-height:				3rem;
+	display:					flex;
+	align-items:				center;
+	justify-content:			stretch-start;
+	height:						3rem;
 	padding-left:				3rem;
 	padding-right:				0.5rem;
 	background-position:		1rem 50% !important;
 }
 
-ic-taxonomy-filter section li a {
+ic-taxonomy-filter section li.disabled {
+	display:					none;
+}
+
+ic-taxonomy-filter section li div {
+	flex:						1 1 auto;
 	display:					inline-block;
-	line-height:				1.2rem;
 	vertical-align:				middle;
+}
+
+ic-taxonomy-filter section li .bubble {
+	display:					inline-block;
+	flex:						0 0 auto;
 }
 
 ic-taxonomy-filter section ic-tag{

@@ -70,7 +70,7 @@ angular.module("InfoCompass",[
 
 								return matches && matches[2]
 							},
-			options:		['home', 'tags', 'about', 'imprint', 'contact'],
+			options:		['home', 'tags', 'about', 'imprint', 'contact', 'tiles'],
 			defaultValue:	'home'
 		})
 
@@ -88,6 +88,18 @@ angular.module("InfoCompass",[
 
 								return 		 ic.site.page
 										&&	!ic.site.activeSections['list']
+							}				
+		})
+		.registerSection({
+			name:			'filter',
+			template:		'partials/ic-section-filter.html',
+			active:			function(ic){
+								return 	ic.site.list
+							},
+
+			show:			function(ic){		
+								if(ic.site.activeItem) return false						
+								return 	true
 							}				
 		})
 
