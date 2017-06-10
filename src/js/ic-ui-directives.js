@@ -147,7 +147,7 @@ angular.module('icUiDirectives', [
 					function(obj){
 						var max = obj[0]
 						scope[l] 			= Math.max(Math.min(max, scope[l]), step_size)
-						scope.noMoreItems 	= max == scope[l]
+						scope.noMoreItems 	= max <= scope[l]
 						scope.noScroll 		= container[0].clientHeight == container[0].scrollHeight
 						updateLimit()
 					}, true
