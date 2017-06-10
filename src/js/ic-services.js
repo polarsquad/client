@@ -137,20 +137,24 @@ angular.module('icServices', [
 				return param.encode(value, ic)
 			}
 
-			function params2Path(){
+			icSite.getNewPath = function(config){
 				var path = ''
+
+				config = config || {}
 
 				icSite.config.params.forEach(function(param){
 					try {
-						var section = encodeParam(icSite[param.name], param)
-						if(section)	path += '/' + param.encode(icSite[param.name], ic)
+						var section = encodeParam(config[param.name] || icSite[param.name], param)
+						if(section)	path += '/' + section
 					} catch(e) {
-						console.error('icSite params2Path', param.name,e)
+						console.error('icSite params2Path', param.name, e)
 					}
 				})
 
 				return path
 			}
+
+
 
 			icSite.updateFromPath = function(e,n,o){
 				path2Params($location.path())
@@ -161,7 +165,7 @@ angular.module('icServices', [
 			icSite.updatePath = function(){
 
 				var current_path 	= $location.path(),
-					new_path		= params2Path()
+					new_path		= icSite.getNewPath()
 				
 				if(current_path != new_path) $location.path(new_path)
 

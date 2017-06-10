@@ -11,9 +11,8 @@
 >
 	<a
 		ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
-		ng-href			= "/item/{{item.id}}"
+		ng-href			= "{{ {activeItem: item} | icLink }}"
 	>
-
 		<ic-item-preview
 			class	= "bg-0"
 			ic-item = "item"

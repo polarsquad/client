@@ -59,7 +59,7 @@
 
 
 .col-0 {
-	color:						#000 !important;
+	color:						#222 !important;
 }
 
 .col-1 {
@@ -68,6 +68,10 @@
 
 .col-2 {
 	color:						#fff;
+}
+
+.col-3 {
+	color:						#802651;
 }
 
 

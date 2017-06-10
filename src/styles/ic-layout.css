@@ -79,12 +79,15 @@ ic-main-content > *:nth-child(5){
 }
 
 #section-filter{
-	flex:						1 1 18rem;
+	flex:						1 1 auto;
+	min-width:					18rem;
+	max-width:					20rem;
 }
 
 #section-list {
 	flex:						5 1 auto;
-	max-width:					30rem;
+	min-width:					30rem;
+	max-width:					32rem;
 }
 /*
 #section-list ic-breadcrumbs {
@@ -96,6 +99,7 @@ ic-main-content > *:nth-child(5){
 */
 
 #section-item {
+	flex:						10 0 20rem;
 	padding-bottom:				5rem;
 }
 

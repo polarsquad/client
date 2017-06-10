@@ -5,6 +5,19 @@ angular.module('icFilters', [
 	'icServices',
 ])
 
+
+.filter('icLink',[
+
+	'icSite',
+
+	function(icSite){
+		return function(config){
+			return icSite.getNewPath(config)
+		}
+	}
+	
+])
+
 .filter('icType', [
 
 	'icTaxonomy',

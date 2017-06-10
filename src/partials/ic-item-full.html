@@ -119,12 +119,24 @@
 <!-- misc -->
 
 <ic-item-property
-	ng-repeat	= "key in ['contact', 'website', 'email', 'phone', 'facebook', 'twitter']"
+	ng-repeat	= "key in ['contact', 'website', 'email', 'phone']"
 	ng-if		= "item[key]"
 	ic-title 	= "'ITEMS.%s' | fill : key | translate"
 	ic-content	= "item[key]"
 	ic-icon		= "'/images/icons/property-'+key+'.svg'"
 	ic-link		= "::key | icLinkPrefix"
+>
+</ic-item-property>
+
+
+<ic-item-property
+	ng-repeat	= "key in ['facebook', 'twitter', 'whatsapp']"
+	ng-if		= "item[key]"
+	ic-title 	= "'ITEMS.%s' | fill : key | translate"
+	ic-content	= "item[key]"
+	ic-icon		= "'/images/icons/property-'+key+'.svg'"
+	ic-link		= "::key | icLinkPrefix"
+	class		= "screen-only"
 >
 </ic-item-property>
 

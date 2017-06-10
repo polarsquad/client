@@ -116,7 +116,7 @@ angular.module('icUiDirectives', [
 
 					surplus = element[0].getBoundingClientRect().bottom-container[0].getBoundingClientRect().bottom
 
-					if(surplus == last_surplus) return false
+					if(surplus == last_surplus && !scope.noMoreItems) return false
 
 					if(surplus < container[0].clientHeight)		scope[l] += step_size
 					if(surplus > 2*container[0].clientHeight)	scope[l] -= step_size

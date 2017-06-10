@@ -130,7 +130,7 @@ angular.module("InfoCompass",[
 			name:			'map',
 			template:		'partials/ic-section-map.html',
 			active:			function(ic){
-								return 	ic.site.list
+								return 	ic.site.list && !ic.site.activeItem
 							},
 			show:			function(ic){
 								return ic.site.list
