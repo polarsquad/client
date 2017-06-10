@@ -15,7 +15,7 @@
 		<div class = "brief">
 			<span class = "date heavy" ng-if = "icItem.startDate">{{icItem.startDate | icDate}}</span><!--
 		 --><span class = "date heavy" ng-if = "icItem.startDate && icItem.endDate"> – {{icItem.startDate | icDate}}</span> 
-			{{icItem.brief[ic.languages.currentLanguage]}}
+			{{icItem.brief[ic.site.currentLanguage]}}
 		</div>
 		<span 
 			ng-if = "icCategory"

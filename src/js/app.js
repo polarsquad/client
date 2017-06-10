@@ -1,6 +1,7 @@
 "use strict";
 
 angular.module("InfoCompass",[
+	//'ngSanitize',
 	'icLayout',
 	'icServices',
 	'icDirectives',
@@ -69,7 +70,7 @@ angular.module("InfoCompass",[
 
 								return matches && matches[2]
 							},
-			options:		['home', 'tags'],
+			options:		['home', 'tags', 'about', 'imprint', 'contact'],
 			defaultValue:	'home'
 		})
 

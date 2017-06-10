@@ -1,12 +1,12 @@
 <div 
-	class 		= "outer-icon icon-marker-{{(icItem|icCategory).name || 'unknown'}}"
+	class 		= "outer-icon icon icon-marker-{{(icItem|icCategory).name || 'unknown'}}"
 >
 	<div 
-		class = "inner-icon icon-category-{{(icItem|icCategory).name}} white" 
+		class = "inner-icon icon icon-category-{{(icItem|icCategory).name}} white" 
 		ng-if = "icItem"
 	></div>
 	<div 
-		class = "inner-icon icon-interface-ellipse white" 
+		class = "inner-icon icon icon-interface-ellipse white" 
 		ng-if = "!icItem"
 	></div>
 </div>

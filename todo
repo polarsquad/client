@@ -91,11 +91,11 @@ Brauche:
 
 
 Todo:
+* digest cylcles map (ist scrolling auf scroll container, wenn liste unter den filter klappt)
 * Items images
 * Backbutton?
 * Icons
 * Karte (lokale db benutzen) !!A
-* Print !!A
 * Statische Seiten in Übersetzungs tabelle !!A
 * Biryani !!A
 * Kacheln !!A
@@ -132,6 +132,7 @@ Done:
 * Sprache !!A  de en tr ar
 * Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen
 * Language param
+* Print !!A
 
 
 * Übersetzung unsorted Tags

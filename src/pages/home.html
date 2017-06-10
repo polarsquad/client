@@ -2,21 +2,7 @@
 	<h2 class = "col-2">Digital mobil <br/> im Märkischen Viertel</h2>
 </header>	
 
-<article>
-	<h3>Herzlich willkommen im Seniorennetz</h3>
-
-	<p>
-		Das Seniorennetz ist eine digitale Plattform mit vielen nützlichen Informationen rund ums Älterwerden im Märkischen Viertel im Norden von Berlin.
-	</p>
-	<p>
-		Die Website bietet eine Übsicht zu unterschiedlichen Themen, zu Orten im Viertel und zu aktuellen Veranstaltungen an.
-	</p>
-
-	<br/>
-	<br/>
-
-	<a href ="#" class = "boxed"> mehr erfahren</a>
-
+<article ng-bind-html  = "('CONTENT.HOME' | translate | trustAsHtml)">
 </article>
 
 <section>
@@ -61,6 +47,5 @@
 	<a href = "#">Partner</a>
 	<a href = "#">Newsletter</a>
 	<a href = "#">NetworkMV</a>
-	<a href = "#">Impressum</a>
+	<a href = "/p/imprint">Impressum</a>
 </footer>
-
