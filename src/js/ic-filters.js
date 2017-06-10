@@ -88,27 +88,27 @@ angular.module('icFilters', [
 
 		function icDateFilter(date_str, use_time){
 			dates[date_str] 								= dates[date_str] || {}
-			dates[date_str][icLanguages.currentLanguage]	= dates[date_str][icLanguages.currentLanguage] || {}
+			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
 
 
-			if(!dates[date_str][icLanguages.currentLanguage].withoutTime){
-				dates[date_str][icLanguages.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
-																			?	new Date(date_str).toLocaleDateString(icLanguages.currentLanguage)
+			if(!dates[date_str][icSite.currentLanguage].withoutTime){
+				dates[date_str][icSite.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
+																			?	new Date(date_str).toLocaleDateString(icSite.currentLanguage)
 																			:	date_str
 			} 
 
-			if(!dates[date_str][icLanguages.currentLanguage].withTime && use_time){
-				dates[date_str][icLanguages.currentLanguage].withTime	= 	dates[date_str][icLanguages.currentLanguage].withoutTime +
+			if(!dates[date_str][icSite.currentLanguage].withTime && use_time){
+				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime +
 																			(
 																				toLocaleDateStringSupportsLocales
-																				?	new Date(date_str).toLocaleTimeString(icLanguages.currentLanguage)
+																				?	new Date(date_str).toLocaleTimeString(icSite.currentLanguage)
 																				:	''
 																			)
 			}
 
 			return 	use_time
-					?	dates[date_str][icLanguages.currentLanguage].withTime
-					:	dates[date_str][icLanguages.currentLanguage].withoutTime
+					?	dates[date_str][icSite.currentLanguage].withTime
+					:	dates[date_str][icSite.currentLanguage].withoutTime
 
 		}
 
@@ -119,3 +119,12 @@ angular.module('icFilters', [
 	}
 ])
 
+
+.filter('icItemLink',[
+	function(){
+		return function(item_or_id){
+			if(!item_or_id) return ''
+			return location.origin+'/item/'+(item_or_id.id || item_or_id) 
+		}
+	}
+])

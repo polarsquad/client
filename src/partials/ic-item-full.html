@@ -11,7 +11,11 @@
 		<div class = "main">
 			<button class = "icon-large round icon-interface-share drop-shadow">
 			</button>
-			<button class = "icon-large round icon-interface-print drop-shadow">
+			<button 
+				class 		= "icon-large round icon-interface-print drop-shadow"
+				ng-click 	= "ic.site.print()" 
+			>
+
 			</buton>			
 			<button 
 				class 		= "icon-large round icon-interface-favourites drop-shadow"
@@ -21,16 +25,32 @@
 			</buton>
 		</div>
 	</div>
-	<div class = "hero" style = "background-image: url(/images/large/example_item.jpg)">
-	</div> 
+	<div 
+		class	= "hero" 
+		style	= "background-image: url({{item.image}}})"
+		ng-if	= "item.image"
+	></div> 
 </header>
 
+
+
+<div class = "type print-only">
+	{{ 'TYPES.%s' | fill : (item | icType).name | translate }}
+</div>
+
+
+<div class = "category print-only">
+	{{ 'CATEGORIES.%s' | fill :  (item | icCategory).name | translate }}
+	<div 
+		class	= "img print-only icon-category-{{ (item | icCategory).name}}"
+	></div>
+</div>
 
 
 <!-- tags -->
 
 
-<article>
+<article class = "screen-only">
 	<div><!-- spacer --></div>
 	<ic-tag-list ic-tags = "item.tags"></ic-tag-list>
 </article>
@@ -38,7 +58,7 @@
 
 
 <!-- start item title, brief description -->
-<article>
+<article class = "main">
 	<div>
 		<div class = "icon-large white large round icon-category-{{(item|icCategory).name}} ic-bg-cat-{{(item|icCategory).name}} iblock"></div>
 	</div>
@@ -47,10 +67,10 @@
 			{{ item.title }}
 		</h2>
 		<h3>
-			{{ item.brief[ic.languages.currentLanguage] }}
+			{{ item.brief[ic.site.currentLanguage] }}
 		</h3>
 		<div>
-			{{ item.description[ic.languages.currentLanguage] }}
+			{{ item.description[ic.site.currentLanguage] }}
 		</div>
 	</div>
 </article>
@@ -148,3 +168,25 @@
 </ic-item-property>
  -->
 
+
+<qrcode 
+	version					=	"3" 
+	error-correction-level	=	"M" 
+	size					=	"200" 
+	data					=	"{{item.id | icItemLink}}"
+	ng-if					=	"item"
+	ic-toggle-overlay		=	"qrcode"
+>
+</qrcode>
+
+
+<footer class  ="print-only">
+	<div class = "logo print-only">
+		<img src = "/images/large/logo-text.svg" />
+	</div>
+
+	<div class ="link-to-item print-only">
+		{{item | icItemLink}}
+	</div>
+
+</footer>

@@ -4,6 +4,10 @@
 		display:			none !important;
 	}
 
+	.print-only {
+		display:			block;
+	}
+
 
 	body, 
 	html {
@@ -13,27 +17,31 @@
 	}
 
 
-	body header {
+	ic-header {
 		display:			none;
 	}
 
-	body ic-overlays {
+	ic-overlays {
 		display:			none;
 	}
 
 
 	 
-	body #content {
-		height:				100%;
+	ic-main-content {
+		height:				100%; 
 	}
 
-	body #content > * {
+	ic-main-content > * {
 		display:			none !important;
 		width:				auto;
 	}
 
-	body #content > .item {
+	ic-main-content > #section-item {
 		display:			block !important;
+		box-sizing:			border-box;
+		height:				100%;
+		padding:			0 !important;
+		overflow: 			visible !important;
 	}
 
 
@@ -41,63 +49,67 @@
 
 
 
-	body #content {
+	ic-main-content {
 		position:			relative;
 		display:			block;
 		top:				0;
 		left:				0;
+		height:				100%;
 	}
 
 
-	body #content > section {
+	ic-main-content > section {
 		width:				auto !important;
 		overflow:			visible !important;
 		padding:			0;
 	}
 
-	body #content > section > * {
-		width:				auto !important;
+	ic-main-content > section > * {
+		display:			none;
 	}
 
-
-
-	body #content ic-full-item {
-		position:			absolute;
+	ic-main-content > section > ic-item-full {
+		display:			block;
+		box-sizing:			border-box;
 		padding-top:		3rem;
-		top:				0;
-		bottom:				0;
-		left:				0;
-		right:				0;
-	}
-
-	body #content ic-full-item > * {
+		width:				100%;
 		height:				100%;
+		padding-bottom:		0;
 	}
 
 
-	body #content ic-full-item h2,
-	body #content ic-full-item h3,
-	body #content ic-full-item .type,
-	body #content ic-full-item .description {
+	ic-item-full .main,
+	ic-item-full .type {
 		width:				48% !important;
 	}
 
-	body #content ic-full-item .topics-and-target-groups,
-	body #content ic-full-item .url{
+	ic-item-full .category {
 		width:				40% !important;
 	}
 
 
-	body #content ic-full-item ic-spinner,
-	body #content ic-full-item .state,
-	body #content ic-full-item .hero,
-	body #content ic-full-item hr {
+	ic-item-full header{
 		display:			none;
 	}
 
+	ic-item-full article {
+		padding:			0;
+	}
+
+	ic-item-full .type {
+		position:			absolute;
+		display:			block;
+		top:				0;
+		left:				0;
+		border-top:			0.3rem solid #000;
+		line-height:		2rem;
+		font-size:			1.1rem;
+		color:				#000 !important;
+		font-weight:		500 !important;
+	}
 
 
-	body #content ic-full-item .topics-and-target-groups{
+	ic-item-full .category{
 		display:			block;
 		position:			absolute;
 		top:				0;
@@ -108,41 +120,71 @@
 		font-weight:		500 !important;
 		margin:				0;
 		border-top:			0.3rem solid #000;
-	}
-
-	body #content ic-full-item .topics-and-target-groups * {
 		color:				#000 !important;
 	}
 
-
-	body #content ic-full-item .topics-and-target-groups img{
-		display:			block;
-		margin:				0 auto;
-		width:				10rem;
-		height:				10rem;
+	ic-item-full .category .img:before{
+		display:			inline-block;
+		left:				50%;
+		width:				auto;
+		height:				0;
+		transform:			scale(5);
 	}
 
-
-	body #content ic-full-item .type {
+	ic-item-full .main {
 		position:			absolute;
-		display:			block;
-		top:				0;
+		line-height:		1.4;
+		font-weight:		300;
+	}
+
+	ic-item-full .main > *:first-child {
+		display:			none;
+	}
+
+	ic-item-full ic-item-property {
+		padding-right:		0;
+	}
+
+	ic-item-full ic-item-property > *:nth-child(1){
+		padding-top:		0.5rem;
+	}
+
+	ic-item-full ic-item-property > *:nth-child(2){
+		flex:				0 0 40%;
+	}
+
+	ic-item-full ic-item-property .title{
+		border-top:			1px solid #000;
+		padding-top:		0.5rem;
+	}
+
+	ic-item-full ic-item-property:nth-of-type(1){
+		margin-top:			8rem;
+	}
+
+	ic-item-full footer {
+		position:			absolute;
+		display:			flex !important;
+		align-items:		center;
+		bottom:				0;
 		left:				0;
-		border-top:			0.3rem solid #000;
-		line-height:		2rem;
-		font-size:			1.1rem;
-		color:				#000 !important;
-		font-weight:		500 !important;
+		right:				0;
+	}
+
+	ic-item-full footer .logo {
+		flex:				0 0 auto;
+	}
+
+	ic-item-full footer .link-to-item {
+		flex:				1 0 auto;
+		text-align:			right;
 	}
 
 
 
-	body #content ic-full-item .description {
-		position:			absolute;
-	}
+/*
 
-
-	body #content ic-full-item ic-info-tag {
+	ic-item-full ic-item-property {
 		display:			block;
 		box-sizing:			border-box;
 		width:				100%;
@@ -150,34 +192,54 @@
 		padding-left:		60%;
 	}
 
-	body #content ic-full-item ic-info-tag:nth-of-type(1){
-		margin-top:			5rem;
-	}
 
-	body #content ic-full-item ic-info-tag .title{
+
+	ic-item-full ic-item-property .title{
 		padding-top:		0.5rem;
 		border-top:			1px solid #000;
 		margin-left:		0;
 	}
 
-	body #content ic-full-item ic-info-tag .content {
+	ic-item-full ic-item-property .content {
 		margin-left:		0;
 		color:				#444 !important;
 		font-size:			0.85em;
 		font-weight:		300;
 		line-height:		1.4em;
 	}
-	body #content ic-full-item ic-info-tag .content a {
+	ic-item-full ic-item-property .content a {
 		color:				#444 !important;
 	}
 
-	body #content ic-full-item ic-info-tag .icon {
+	ic-item-full ic-item-property .icon {
 		margin-top:			0.5rem;
 		margin-left:		-3rem;
 	}
 
 
-	body #content ic-full-item  qrcode {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	ic-main-content ic-item-full .description {
+		position:			absolute;
+	}
+
+
+	
+
+
+	ic-main-content ic-item-full  qrcode {
 		display:			block;
 		width:				20%;
 		margin-top:			3rem;
@@ -186,7 +248,7 @@
 		margin-right:		10%;
 	} 
 
-	body #content ic-full-item .link-to-item {
+	ic-main-content ic-item-full .link-to-item {
 		position:			absolute;
 		display:			block;
 		width:				40%;
@@ -197,7 +259,7 @@
 		text-align:			center;
 	}
 
-	body #content ic-full-item .logo{
+	ic-main-content ic-item-full .logo{
 		display:			block;
 		position:			absolute;
 		font-size:			1.4rem;
@@ -208,18 +270,18 @@
 		font-weight:		300;
 	}
 
-	body #content ic-full-item .url{
+	ic-main-content ic-item-full .url{
 		position:			absolute;
 		bottom:				0;
 		right:				0;
 	}
 
-	body #content ic-full-item  footer {
+	ic-main-content ic-item-full  footer {
 		float:				none;
 		clear:				both;
 	} 
 
-	body #content ic-full-item  footer * {
+	ic-main-content ic-item-full  footer * {
 		display:			none;
 	}
 
@@ -227,4 +289,6 @@
 	ic-header {
 		display:			none !important;
 	}
+
+	*/
 }

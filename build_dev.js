@@ -258,7 +258,7 @@ function compileIndex(){
 
 
 function cleanUp(){
-	return fs.remove('tmp')
+	//return fs.remove('tmp')
 }
 
 setup()

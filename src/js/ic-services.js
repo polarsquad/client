@@ -263,6 +263,10 @@ angular.module('icServices', [
 				return icSite
 			}
 
+			icSite.print = function(){
+				window.print()
+			}
+
 			$rootScope.$watch(
 				function(){
 					return 	Array.prototype.concat(

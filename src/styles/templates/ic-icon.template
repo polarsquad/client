@@ -1,3 +1,8 @@
 .icon{{-name[0]}}{{-name[1]}}{{.name[2]}} {
-	background-image: url('{{name}}');
+	background-image: 	url('{{name}}');
 }
+
+.icon{{-name[0]}}{{-name[1]}}{{.name[2]}}:before {
+	content:			url('{{name}}')
+}
+

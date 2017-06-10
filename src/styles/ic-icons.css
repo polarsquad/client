@@ -7,6 +7,24 @@
 	min-height:				1.5rem;
 }
 
+.img {
+	position:				relative;
+	background-image:		none !important;
+}
+
+.img:before {
+	position:				absolute;
+	display:				block;
+	width:					1.5rem;
+	height:					1.5rem;
+}
+
+.icon-large:before,
+.icon:before{
+	display:				none;
+}
+
+
 .icon-large {
 	box-sizing:				border-box;
 	background-position:	50% 50%;
@@ -26,6 +44,12 @@
 	padding-left:			2.25rem;
 }
 
+.img.left {
+	left:					0;
+}
+
+
+
 .icon.right {
 	background-position:	100% 50%;
 	padding-right:			1.5rem;
@@ -35,6 +59,11 @@
 	background-position:	100% 50%;
 	padding-right:			2.25rem
 }
+
+.img{
+	right:					0;
+}
+
 
 .icon.top {
 	background-position:	50% 0%;
