@@ -39,7 +39,12 @@ button:active,
 button:hover {
 	display:			inline-block;
 	border:				none;	
-	font-size:			1em;
+	font-size:			inherit;
+}
+
+button::-moz-focus-inner {
+    padding:0;
+    border:0;
 }
 
 
@@ -131,7 +136,6 @@ input[type=password]{
 	-webkit-appearance: 	none;
 }
 
-form button:focus, 
 input[type=text]:focus,
 input[type=password]:focus {
 	outline: 				none;

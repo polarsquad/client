@@ -1,7 +1,7 @@
 <header >
 	<div class = "tools">
 		<a 
-			class 		= "icon-large icon-interface-close"
+			class 		= "icon icon-interface-close"
 			ng-click 	= "ic.site.activeItem = null" 
 		>
 		</a>
@@ -14,14 +14,14 @@
 			</button>
  -->
 			<button 
-				class 		= "icon-large round large icon-interface-print drop-shadow bg-0"
+				class 		= "icon round large icon-interface-print drop-shadow bg-0"
 				ng-click 	= "ic.site.print()" 
 				title		= "{{'INTERFACE.PRINT' | translate}}"
 			>
 
 			</buton>			
 			<button 
-				class 		= "icon-large round large drop-shadow"
+				class 		= "icon round large drop-shadow"
 				ng-class	= "{'bg-3 icon-interface-favourites_remove white': ic.favourites.contains(item), 'bg-0 icon-interface-favourites': !ic.favourites.contains(item)}"
 				ng-click 	= "ic.favourites.toggleItem(item)" 
 				title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
@@ -211,14 +211,13 @@
 <footer class = "screen-only bg-1">
 
 	<button 
-		class 		= "bg-0 col-3"
+		class 		= "bg-0"
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 		ng-click 	= "ic.favourites.toggleItem(item)" 
-		ng-class	= "{'bg-3': ic.favourites.contains(item), 'bg-0': !ic.favourites.contains(item)}"
 	> 
 		<span 
-			class 		="icon-large left icon-interface-favourites"
-			ng-class	= "{'icon-interface-favourites_remove white col-2': ic.favourites.contains(item), 'icon-interface-favourites active normal': !ic.favourites.contains(item)}"
+			class 		="icon-large left icon-interface-favourites col-3 active normal"
+			ng-class	= "{'icon-interface-favourites_remove': ic.favourites.contains(item), 'icon-interface-favourites': !ic.favourites.contains(item)}"
 		>
 			{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}
 		</span>

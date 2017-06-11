@@ -1,7 +1,8 @@
 <article>
 
 	<ic-category
-		ng-repeat = "category in ic.taxonomy.categories"
+		ng-repeat 	= "category in ic.taxonomy.categories"
+		ng-if		= "ic.itemStorage.currentStats.subMatches[category.name]"
 	>
 		<div class = "icon-large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
@@ -11,7 +12,7 @@
 					href  		= "/list/c/{{::category.name}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
-					{{'all' | uppercase | translate}} 
+					{{'INTERFACE.FILTER_ANY' | translate}} 
 					<span 
 						class = "bubble shade-light"
 					>

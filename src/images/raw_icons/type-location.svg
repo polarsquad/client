@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <!-- Generator: Sketch 44.1 (41455) - http://www.bohemiancoding.com/sketch -->
     <title>icon-type-location</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+    <g id="Symbole" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <g id="icon-type-location" stroke="#000000">
-            <path d="M17.5,8 C17.5,4.9629 15.0382,2.5 12,2.5 C8.9629,2.5 6.5,4.9629 6.5,8 C6.5,8.8404 6.7035,9.6269 7.0401,10.3375 L12.0011,21.31 L16.9665,10.3254 C17.2998,9.6181 17.5,8.8349 17.5,8" id="Stroke-2"></path>
+            <path d="M17.9385965,7.68859649 C17.9385965,4.40930351 15.2804807,1.75 12,1.75 C8.72070702,1.75 6.06140351,4.40930351 6.06140351,7.68859649 C6.06140351,8.59601404 6.28113158,9.44523333 6.64457368,10.2125 L12.0011877,22.06 L17.3625526,10.1994351 C17.7224316,9.43573158 17.9385965,8.59007544 17.9385965,7.68859649" id="Stroke-2"></path>
         </g>
     </g>
 </svg>

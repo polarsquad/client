@@ -120,6 +120,7 @@ ic-page .types > * {
 	flex:						1 0 auto;
 	text-align:					left;
 	line-height:				1.5em;
+	padding-left:				2rem !important;
 }
 
 
@@ -128,7 +129,7 @@ ic-page .types > * {
 ic-page .tiles {
 	display:					flex;
 	flex-wrap:					wrap;
-	justify-content:			center;
+	justify-content:			start;
 	padding:					0;
 	margin:						-0.5rem;
 	margin-bottom:				0.5rem;
