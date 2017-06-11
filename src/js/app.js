@@ -112,7 +112,8 @@ angular.module("InfoCompass",[
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeItem) return false						
+								if(ic.site.activeItem) return false		
+								if(ic.site.expandMap) return false				
 								return 	true
 							}				
 		})

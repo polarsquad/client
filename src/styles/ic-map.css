@@ -11,40 +11,24 @@ ic-map-item-marker {
 	display:				block;
 	position:				absolute;
 	background:				#fff;
-	font-size:				1rem;
+	font-size:				1.3rem;
 	left:					0;
-	top:					-2.6666667rem;
-	height:					2.6666667rem;
+	top:					-2.6666667em;
+	height:					2.6666667em;
 	width:					0;
 	transition:				transform 300ms ease-out;
 }
 
 
-ic-map-item-marker .content {
-	display:				block;
-	position:				absolute;
-	box-sizing:				border-box;
-	top:					0;
-	left:					2rem;
-	padding:				0.25rem 0;
-	background-color:		#fff;
-	height:					2rem;
-	text-align:				left;
-	max-width:				0;
-	overflow:				hidden;
-	transition:				all 150ms ease-in;
-	color:					#444;
-}
-
 ic-map-item-marker .outer-icon {
 	position:				absolute;
 	top:					0;
 	left:					0;
-	width:					2rem;
-	height:					2.666666666rem;
-	line-height:			2rem;
+	width:					2em;
+	height:					2.666666666em;
+	line-height:			2em;
 	background-position:	50% 50%;
-	background-size:		2rem auto;
+	background-size:		2em auto;
 	background-repeat:		no-repeat;
 }
 
@@ -52,11 +36,27 @@ ic-map-item-marker .outer-icon .inner-icon {
 	position:				absolute;
 	top:					0;
 	left:					0;
-	height:					2rem;
-	width:					2rem;
+	height:					2em;
+	width:					2em;
 	background-repeat:		no-repeat;
-	background-size:		1.5rem;
+	background-size:		1.5em;
 	background-position:	center;
+}
+
+ic-map-item-marker .content {
+	display:				block;
+	position:				absolute;
+	box-sizing:				border-box;
+	top:					0;
+	left:					2em;
+	padding:				0.25em 0;
+	background-color:		#fff;
+	height:					2em;
+	text-align:				left;
+	max-width:				0;
+	overflow:				hidden;
+	transition:				all 150ms ease-in;
+	color:					#444 !important;
 }
 
 
@@ -64,9 +64,8 @@ ic-map-item-marker .content .title  {
 	display: 				block;
 	white-space: 			nowrap;
 	text-overflow:			ellipsis;
-	font-size:				0.7rem;
-	line-height:			0.8rem;
-	height:					0.8rem;
+	font-size:				0.7em;
+	line-height:			1.2;
 	font-weight:			600;
 	overflow:				hidden;
 }
@@ -75,9 +74,8 @@ ic-map-item-marker .content .details  {
 	display: 				block;
 	white-space: 			nowrap;
 	text-overflow:			ellipsis;
-	font-size:				0.6rem;
-	line-height:			0.7rem;
-	height:					0.7rem;
+	font-size:				0.6em;
+	line-height:			1.2;
 	font-weight:			400;
 	overflow:				hidden;
 }
@@ -91,9 +89,9 @@ ic-map-item-marker:hover {
 ic-map-item-marker.active	.content,
 ic-map-item-marker:active 	.content,
 ic-map-item-marker:hover 	.content {
-	max-width:				14rem;
-	padding-left:			0.25rem;
-	padding-right:			0.5rem;
+	max-width:				14em;
+	padding-left:			0.25em;
+	padding-right:			0.5em;
 }
 
 
@@ -135,7 +133,7 @@ ic-map-cluster-marker:hover		ic-map-item-marker {
 
 ic-map-cluster-marker .wrapper {
 	position:				absolute;
-	left:					0rem;
+	left:					0em;
 	bottom:					0;
 }
 
@@ -144,7 +142,7 @@ ic-map-cluster-marker ic-map-item-marker {
 	display:				block;
 	top:					0;
 	left:					0;
-	height:					2.666667rem;
+	height:					2.666667em;
 	transition:				margin-top 100ms ease-in;
 }
 
@@ -154,13 +152,13 @@ ic-map-cluster-marker ic-map-item-marker:hover {
 
 
 ic-map-cluster-marker ic-map-item-marker + ic-map-item-marker {
-	margin-top:			-2.4rem;
+	margin-top:			-2.4em;
 }
 
 
 ic-map-cluster-marker:active ic-map-item-marker + ic-map-item-marker,
 ic-map-cluster-marker:hover ic-map-item-marker + ic-map-item-marker {
-	margin-top:			-0.6rem
+	margin-top:			-0.6em
 
 }
 
