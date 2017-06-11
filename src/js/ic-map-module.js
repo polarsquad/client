@@ -312,6 +312,7 @@ angular.module('icMap', [
 									maxClusterRadius: 			40,
 									spiderfyOnMaxZoom:			false,
 									chunkedLoading:				true,
+									zoomToBoundsOnClick:		false,
 									iconCreateFunction: function(cluster) {										
 										return 	new icMapClusterMarker(cluster, scope)
 									}
