@@ -1,7 +1,13 @@
 <ul>
 	<li><a href="/p/home">	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
 	<li><a href="/p/tags">	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
-	<li><a href="/list">	{{'INTERFACE.MAP' 			| translate}}</a>	</li>
+	<li>
+		<a 
+			ng-click = "ic.site.expandMap = true; ic.site.list = true"
+		>
+			{{'INTERFACE.MAP' | translate}}
+		</a>	
+	</li>
 	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
 	<li>
 		<a href="#" class = "icon right icon-interface-down white">{{'INTERFACE.MORE' | translate}}</a>		
