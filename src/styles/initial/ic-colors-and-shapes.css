@@ -149,9 +149,10 @@
 	border-radius: 				0.175em;
 	line-height: 				1;
 	margin-bottom: 				0.5em;
-	margin-right: 				0.25em;
-	font-weight: 				400;
+	margin-right: 				0.5rem;
+	font-weight: 				500;
 	text-shadow: 				0 0 0.2em rgba(0,0,0,0.25);
 	letter-spacing: 			0.02em;
 	box-shadow: 				0 0.1em 0.2em rgba(0,0,0,0.15);
 }
+

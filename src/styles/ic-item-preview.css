@@ -15,10 +15,11 @@ ic-item-preview.active {
 
 ic-item-preview .content {
 	display:				block;
-	margin-left:			4rem;
+	margin-left:			4.5rem;
 	padding:				0;
 	white-space: 			normal;
 }
+
 
 ic-item-preview .content .title{
 	line-height:			1.2rem;

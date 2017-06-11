@@ -40,6 +40,13 @@ ic-item-full .hero {
 	background-repeat:			no-repeat;
 }
 
+
+
+ic-item-full article .description{
+	color: #222;
+	line-height: 1.57;
+}
+
 ic-item-full > article,
 ic-item-full > ic-item-property {
 	display:					flex;
@@ -60,7 +67,14 @@ ic-item-full > ic-item-property	> *:nth-child(1) {
 
 ic-item-full > article	> *:nth-child(2),
 ic-item-full > ic-item-property	> *:nth-child(2){
-	flex:						3 0 0;
+	flex:						3 0 auto;
+	max-width: 					40rem;
+}
+
+ic-item-property:after,
+ic-item-full > article:after {
+	content:					'';
+	flex:						1 0 0;
 }
 
 ic-item-full h2 {
@@ -68,15 +82,19 @@ ic-item-full h2 {
 	font-weight:				600;
 	margin:						0;
 	margin-bottom:				0.25rem;
-	color:						#000;
+	color:						#222;
 }
+
+
 
 ic-item-full h3 {
 	font-size:					1.3rem;
-	font-weight:				400;
+	font-weight:				300;
 	margin:						0;
 	margin-bottom:				1rem;
+	color:						#222;
 }
+
 
 ic-item-full .qrcode {
 	margin:						3rem 0;
