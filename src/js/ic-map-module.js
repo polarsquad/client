@@ -218,8 +218,9 @@ angular.module('icMap', [
 
 	'icSite',
 	'icMainMap',
+	'ic',
 
-	function(icSite, icMainMap){
+	function(icSite, icMainMap, ic){
 		return {
 			restrict : 		'E',
 			scope:			{
@@ -229,18 +230,20 @@ angular.module('icMap', [
 			templateUrl: 	'partials/ic-map-switch-control.html',
 
 			link: function(scope){
+
+				scope.ic = ic
+
 				scope.focusItem = function(){
 					if(!scope.icItem ||  !scope.icItem.latitude || !scope.icItem.longitude){
 						console.warn('icMiniMap: focusItemOnMap: missing coordinates.')
 						return null
 					}
 
-					icSite.switches.expandMap = true //TODO!!
+					icSite.expandMap = true 
 
 					icMainMap.ready
 					.then(function(map){
 						map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.default.maxZoom)	
-
 					})
 
 				}
