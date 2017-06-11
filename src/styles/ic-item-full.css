@@ -85,6 +85,12 @@ ic-item-full .qrcode {
 
 ic-item-full .qrcode qrcode {
 	display:					inline-block;
+	position:					static;
+}
+
+ic-item-full .qrcode qrcode canvas{
+	display:					inline-block;
+	position:					static;
 }
 
 ic-item-full footer.screen-only {
