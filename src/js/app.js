@@ -125,7 +125,7 @@ angular.module("InfoCompass",[
 								return 	ic.site.activeItem
 							},
 			show:			function(ic){
-								return ic.site.activeItem
+								return true
 							}				
 		})
 		.registerSection({
