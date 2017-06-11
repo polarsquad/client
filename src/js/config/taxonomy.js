@@ -1,28 +1,31 @@
 (function(exports){
 
 
+
+
 	exports.categories = [
 		{
-			name:		'counseling',
+			name:		'information_counseling',
 			tags:		[	
-							"helpdesk",
-							"visiting",
-							"counseling",
-							"care",
-							"provision",
-							"will",
+							"counceling_services",
+							"visiting_services",
+							"care_health",
+							"patient_decree",
+							"testament"
 						],
 			colors:		['#a2c9e4', '#a2c9e4']
 		},
 
+
+
 		{
 			name:		'shopping',
 			tags:		[
-							"chemist",
-							"store",
+							"drugstore",
+							"shop",
 							"delivery",
 							"market",
-							"health_food",
+							"health_food_store",
 						],
 			colors:		['#FF7878', '#FF7878']
 
@@ -31,17 +34,19 @@
 		{
 			name:		'health',
 			tags:		[
+
+
 							"pharmacy",
-							"physician",
-							"doctors_office",
-							"nutrition_counseling",
+							"occupational_therapy",
+							"doctors",
+							"nutrition_counceling",
 							"discussion_group",
-							"alternative_practitioner",
+							"health_pedagogy",
+							"alternative_practioners",
 							"hospital",
-							"health_food",
 							"rehabilitation",
-							"medical_service",
-							"self_help"
+							"healthcare_supply_store",
+							"self_help_group"
 						],
 			colors:		['#AAC79A', '#AAC79A']
 		},
@@ -49,20 +54,17 @@
 		{
 			name:		'culture',
 			tags:		[
-							"handicraft",
-							"library",
-							"learning_opportunity",
-							"festival",
-							"commitment",
-							"needlework",
-							"mobile_cinema",
-							"music",
-							"travel",
-							"senior_leisure_center",
-							"games",
-							"language_course",
-							"city_culture",
-							"dancing",
+
+							"course_offers",
+							"leisure_groups",
+							"educational_offer",
+							"celebration",
+							"voluntary_commitment",
+							"playing_crafting",
+							"music_singing",
+							"traveling",
+							"leisure_facility",
+							"museum"
 						],
 			colors:		['#c4accc', '#c4accc']
 		},
@@ -70,18 +72,19 @@
 		{
 			name:		'mv',
 			tags:		[
-							"mailbox",
-							"coffee shop",
+							"postbox",
+							"cafe",
 							"guest_apartment",
 							"atm",
 							"hotel",
 							"church",
-							"neighborhood_floor",
-							"break_point",
-							"post_office",
+							"neighbourhood_support",
+							"break_room",
+							"post",
 							"restaurant",
-							"meeting_places",
-							"wifi_hotspot",
+							"meeting_point",
+							"hotspots",
+							"celebrations",
 						],
 			colors:		['#b0bed0', '#b0bed0']
 		},
@@ -90,10 +93,10 @@
 			name:		'mobility',
 			tags:		[
 							"accompanying_service",
-							"benches",
-							"resting_place",
-							"public_transport",
-							"taxi_stand",
+							"break_bench",
+							"oasis",
+							"bus_railway",
+							"taxi_stands"
 						],
 			colors:		['#F9D766', '#F9D766']
 		},
@@ -101,13 +104,13 @@
 		{
 			name:		'care',
 			tags:		[
-							"health_care",
+							"care_service",
 							"visiting_service",
-							"neighborhood_assistance",
+							"neighbourhood_help",
 							"meals_on_wheels",
 							"therapists",
-							"utilities",
-							"medical_supplies",
+							"tools",
+							"health_care_supply",
 							"emergency_call"
 						],
 			colors:		['#DFA8B9', '#DFA8B9']
@@ -116,28 +119,28 @@
 		{
 			name:		'service',
 			tags:		[
-							"chiropody",
-							"cosmetics",
-							"pigeons",
-							"cleaning",
-							"computer",
+							"footcare",
+							"cosmetic",
+							"cleaning_service",
+							"computer_service",
 							"funeral",
 							"food_delivery",
-							"craftsperson",
+							"craft_service",
 							"optician",
 							"sanitary",
-							"vet",
-							"dog_care",
-							"pets",
+							"veterinarian",
+							"pet_support",
+							"pet",
 							"animal_care",
-							"finances",
-							"locksmith",
-							"disposal",
-							"hairdresser",
-							"cabs",
-							"lavatory",
-							"memento_mori",
+							"finance",
+							"key_service",
+							"disposal_service",
+							"barber",
+							"taxi_service",
+							"toilet",
+							"mementomori",
 							"burglary_protection",
+							"city_administration"
 						],
 			colors:		['#CAB9A9', '#CAB9A9']
 		},
@@ -145,16 +148,12 @@
 		{
 			name:		'sport',
 			tags:		[
-							"indoor_swimming",
-							"sports_club",
-							"sports_course",
-							"public_toilets",
-							"nordic_walking", 
-							"chair_gymnastics",
-							"seniors_playground",
+							"indoor_pool",
+							"sport_club",
+							"sport_class",
+							"playground",
 							"rehabilitation",
-							"community_college",
-							"dancing",
+							"dancing"
 						],
 			colors:		['#71DDD7', '#71DDD7']
 		},
@@ -162,15 +161,15 @@
 		{
 			name:		'housing',
 			tags:		[
-							"craftsmen",
-							"relocation_assistance",
-							"burglary protection",
+							"craft_service",
+							"moving_service",
+							"burglary_protection",
 							"gesobau",
-							"household_help",
-							"nursing home",
-							"guest_apartment",
-							"disposal",
-							"senior_accomodation",
+							"home_help",
+							"nursing_home",
+							"guest_home",
+							"disposal_service",
+							"retirement_home"
 						],
 			colors:		['#F5A452', '#F5A452']
 		},
