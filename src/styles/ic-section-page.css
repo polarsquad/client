@@ -70,15 +70,56 @@ ic-page a.boxed:hover {
 
 ic-page ic-search {
 	display:					block;
-	font-size:					2rem;
+	font-size:					1.25rem;
+	height:						auto;
 }
 
 ic-page ic-search form {
-	display:					block;
+	display:					flex;
+	height:						auto;
 }
 
-ic-page ic-search button {
-	background-size:			contain!important;
+ic-page ic-search form input[type="text"] {
+	flex:						1 0 auto;
+	line-height:				2rem;
+	height:						3rem;
+	padding-top:				0.5rem;
+	padding-bottom:				0.5rem;
+	padding-right:				1rem;
+	padding-left:				1rem;
+	box-sizing:					border-box;
+	border:						1px solid #802651;
+	margin-right:				1rem;
+	width:						auto;
+
+}
+
+ic-page ic-search form button {
+	position:					relative;
+	flex:						0 0 auto;
+	box-sizing:					border-box;
+	font-size:					inherit;
+	background-size:			3rem !important;
+	background-position:		0 50% !important;
+	padding-left:				3rem;
+	padding-right:				1rem;
+	line-height:				3rem;
+	height:						3rem;
+	width:						auto;
+	min-width:					12rem !important;
+	text-align:					left;
+}
+
+ic-page .types {
+	display:					flex;
+	padding:					1rem 0;
+	margin:						0.5rem 0;
+}
+
+ic-page .types > * {
+	flex:						1 0 auto;
+	text-align:					left;
+	line-height:				1.5em;
 }
 
 
@@ -100,7 +141,7 @@ ic-page .tiles > * {
 	font-weight: 				600;
 	font-size: 					1.25rem;
 	padding: 					1rem;	
-	
+
 	width:						15rem;
 	height:						15rem;
 	margin:						0.5rem;

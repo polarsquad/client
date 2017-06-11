@@ -2,9 +2,9 @@
 	box-sizing:				border-box;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
-	background-size:		1.5rem;
-	min-width:				1.5rem;
-	min-height:				1.5rem;
+	background-size:		1.5em;
+	min-width:				1.5em;
+	min-height:				1.5em;
 }
 
 .img {
@@ -15,8 +15,8 @@
 .img:before {
 	position:				absolute;
 	display:				block;
-	width:					1.5rem;
-	height:					1.5rem;
+	width:					1.5em;
+	height:					1.5em;
 }
 
 .icon-large:before,
@@ -29,19 +29,19 @@
 	box-sizing:				border-box;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
-	background-size:		2.25rem;
-	min-width:				2.25rem;
-	min-height:				2.25rem;
+	background-size:		2.25em;
+	min-width:				2.25em;
+	min-height:				2.25em;
 }
 
 .icon.left {
 	background-position:	0 50%;
-	padding-left:			1.5rem;
+	padding-left:			1.5em;
 }
 
 .icon-large.left {
 	background-position:	0 50%;
-	padding-left:			2.25rem;
+	padding-left:			2.25em;
 }
 
 .img.left {
@@ -52,12 +52,12 @@
 
 .icon.right {
 	background-position:	100% 50%;
-	padding-right:			1.5rem;
+	padding-right:			1.5em;
 }
 
 .icon-large.right {
 	background-position:	100% 50%;
-	padding-right:			2.25rem
+	padding-right:			2.25em
 }
 
 .img{
@@ -67,22 +67,22 @@
 
 .icon.top {
 	background-position:	50% 0%;
-	padding-top:			1.5rem;
+	padding-top:			1.5em;
 }
 
 .icon-large.top {
 	background-position:	50% 0%;
-	padding-top:			2.25rem;
+	padding-top:			2.25em;
 }
 
 .icon.bottom {
 	background-position:	50% 100%;
-	padding-top:			1.5rem;
+	padding-top:			1.5em;
 }
 
 .icon-large.bottom {
 	background-position:	50% 100%;
-	padding-bottom:			2.25rem;
+	padding-bottom:			2.25em;
 }
 
 

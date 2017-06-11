@@ -3,7 +3,19 @@
 </header>	
 
 <article>
-	<ic-search></ic-search>
+	<ic-search 
+		ic-button-label = "'INTERFACE.SEARCH' | translate"
+	>
+	</ic-search>
+	<div class = "types">
+		<a 
+			ng-repeat 	= "type in ic.taxonomy.types"
+			ng-href		= "/list/t/{{type.name}}"
+			class 		= "icon left normal icon-type-{{type.name}} active"
+		>
+			{{'TYPES.%s' | fill : type.name | translate}}
+		</a>
+	</div>
 </article>
 
 <article ng-bind-html  = "('CONTENT.HOME' | translate | trustAsHtml)">

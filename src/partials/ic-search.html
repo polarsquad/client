@@ -10,8 +10,9 @@
 		focus-me
 	/>
 	<button 
-		class 	= "icon icon-interface-right"
+		class 	= "icon {{icButtonLabel ? 'icon-interface-search white bg-3' : 'icon-interface-right bg-t'}}"
 		type	= "submit"	 
 	>
+		{{icButtonLabel}}
 	</button>
 </form>

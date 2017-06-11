@@ -218,7 +218,8 @@ angular.module('icDirectives', [
 			templateUrl:	'partials/ic-search.html',
 			scope:			{
 								icOnSubmit: 	'&',
-								icOnUpdate: 	'&'
+								icOnUpdate: 	'&',
+								icButtonLabel:	'<'		
 							},
 
 			link: function(scope, element, attrs){
