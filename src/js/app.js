@@ -137,6 +137,10 @@ angular.module("InfoCompass",[
 								return ic.site.list
 							}				
 		})
+		.registerSwitch({
+			name:			'expandMap',
+			index:			0
+		})
 	}
 ])
 

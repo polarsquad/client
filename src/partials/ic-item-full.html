@@ -187,10 +187,10 @@
 
 <div class = "qrcode">
 	<qrcode 
-		version					=	"3" 
+		version					=	"4" 
 		error-correction-level	=	"M" 
 		size					=	"200" 
-		data					=	"item | icItemLink"
+		data					=	"{{item | icItemLink}}"
 		ng-if					=	"item"
 		ng-click				=	"ic.overlays.open('qrcode')"
 	>

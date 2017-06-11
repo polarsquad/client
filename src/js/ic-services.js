@@ -65,11 +65,14 @@ angular.module('icServices', [
 
 	this.registerSwitch = function(new_switch){
 		/*
-			swt =		{
+			swt =			{
 								name: the key used to exposed value on icSite e.g. ic.site.switch.%name
 								defaultValue: ...
+								index: pos to /encode/decode switch
 							}
 		 */
+		if(new_switch.index === undefined) console.error('icSite.registerSwitch: missing index.')
+			//TODO: check index duplicates
 		this.config.switches.push(new_switch)
 		this.onRegister()
 		return this

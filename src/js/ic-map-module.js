@@ -260,8 +260,8 @@ angular.module('icMap', [
 			icMainMap = 	{
 							ready:		mapReady.promise,
 							default:	{
-											center:		[52.500, 13.400],
-											zoom:		11,
+											center:		[52.600, 13.350],
+											zoom:		13,
 											minZoom:	11,
 											maxZoom:	18
 										},

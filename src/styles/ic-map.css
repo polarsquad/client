@@ -182,6 +182,7 @@ ic-map-expand-control button {
 	background-repeat:		no-repeat;
 	background-position:	50% 50%;
 	background-size:		2.5rem;
+	font-size:				2rem;
 }
 
 ic-map-switch-control button,
@@ -191,6 +192,7 @@ ic-map-expand-control button,
 ic-map-expand-control button:hover,
 ic-map-expand-control button:active {
 	background-color:		transparent !important;
+	font-size:				2rem;
 }
 
 

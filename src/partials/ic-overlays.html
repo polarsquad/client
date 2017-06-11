@@ -28,10 +28,10 @@
 	ng-if				=	"ic.overlays.show.qrcode"
 >
 	<qrcode 
-		version					=	"3" 
+		version					=	"4" 
 		error-correction-level	=	"M" 
 		size					=	"200" 
-		data					=	"ic.site.activeItem | icItemLink"
+		data					=	"{{ic.site.activeItem | icItemLink}}"
 	>
 	</qrcode>
 	<div>{{ic.site.activeItem | icItemLink}}</div>
