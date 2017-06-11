@@ -1,5 +1,9 @@
 @media print{
 
+	* {
+		color:	#000 !important;
+	}
+
 	.screen-only {
 		display:			none !important;
 	}
@@ -99,7 +103,7 @@
 	ic-item-full .type {
 		position:			absolute;
 		display:			block;
-		top:				0;
+		top:				3rem;
 		left:				0;
 		border-top:			0.3rem solid #000;
 		line-height:		2rem;
@@ -112,7 +116,7 @@
 	ic-item-full .category{
 		display:			block;
 		position:			absolute;
-		top:				0;
+		top:				3rem;
 		right:				0;
 		line-height:		2rem;
 		font-size:			1.1rem;
@@ -162,6 +166,14 @@
 		margin-top:			8rem;
 	}
 
+	ic-item-full .qrcode {
+		position:			absolute;
+		text-align:			right;
+		bottom:				2rem;
+		right:				0;
+		margin:				0;
+	}
+
 	ic-item-full footer {
 		position:			absolute;
 		display:			flex !important;
@@ -181,114 +193,4 @@
 	}
 
 
-
-/*
-
-	ic-item-full ic-item-property {
-		display:			block;
-		box-sizing:			border-box;
-		width:				100%;
-		margin:				1.5rem 0;
-		padding-left:		60%;
-	}
-
-
-
-	ic-item-full ic-item-property .title{
-		padding-top:		0.5rem;
-		border-top:			1px solid #000;
-		margin-left:		0;
-	}
-
-	ic-item-full ic-item-property .content {
-		margin-left:		0;
-		color:				#444 !important;
-		font-size:			0.85em;
-		font-weight:		300;
-		line-height:		1.4em;
-	}
-	ic-item-full ic-item-property .content a {
-		color:				#444 !important;
-	}
-
-	ic-item-full ic-item-property .icon {
-		margin-top:			0.5rem;
-		margin-left:		-3rem;
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	ic-main-content ic-item-full .description {
-		position:			absolute;
-	}
-
-
-	
-
-
-	ic-main-content ic-item-full  qrcode {
-		display:			block;
-		width:				20%;
-		margin-top:			3rem;
-		margin-bottom:		1rem;
-		margin-left:		70%;
-		margin-right:		10%;
-	} 
-
-	ic-main-content ic-item-full .link-to-item {
-		position:			absolute;
-		display:			block;
-		width:				40%;
-		margin-top:			1rem;
-		margin-bottom:		0;
-		margin-left:		60%;
-		margin-right:		0%;
-		text-align:			center;
-	}
-
-	ic-main-content ic-item-full .logo{
-		display:			block;
-		position:			absolute;
-		font-size:			1.4rem;
-		left:				0;
-		bottom:				0;
-		margin-bottom:		0 !important;
-		margin-right:		auto;
-		font-weight:		300;
-	}
-
-	ic-main-content ic-item-full .url{
-		position:			absolute;
-		bottom:				0;
-		right:				0;
-	}
-
-	ic-main-content ic-item-full  footer {
-		float:				none;
-		clear:				both;
-	} 
-
-	ic-main-content ic-item-full  footer * {
-		display:			none;
-	}
-
-
-	ic-header {
-		display:			none !important;
-	}
-
-	*/
 }
