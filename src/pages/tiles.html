@@ -1,2 +1,35 @@
-<ic-search-result-list>
-</ic-search-result-list>
+<h2>{{'INTERFACE.FAVOURITES' | translate}}</h2>
+
+<section>
+	<div ng-if = "ic.itemStorage.filteredList.length == 0">
+		{{'INTERFACE.NO_ITEMS' |translate}}
+	</div>
+
+	<div class = "tiles">
+		<a
+			ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
+			ng-href			= "{{ {activeItem: item} | icLink }}"
+			class			= "item-tile"
+		>
+			<button 
+				class 		= "icon-large round large icon icon-interface-favourites_remove bg-1"
+				ng-click 	= "ic.favourites.removeItem(item); $event.preventDefault()" 
+			>
+			</button>
+
+			<div 
+				class = "image"
+				style = "background-image: url({{item.image}})"
+			>
+			</div>
+
+			<div class = "body bg-0">
+				<ic-item-preview
+					class	= "bg-0"
+					ic-item = "item"
+				></ic-item-preview>
+			</div>
+		</a>
+		<button ng-if= "noScroll && !noMoreItems" ng-click = "icScrollRepeatLimitIncrease()">more</button>
+	</div>
+</section>

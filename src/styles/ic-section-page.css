@@ -73,6 +73,7 @@ ic-page a.boxed:hover {
 ic-page .tiles {
 	display:					flex;
 	flex-wrap:					wrap;
+	justify-content:			center;
 	padding:					0;
 	margin:						-0.5rem;
 	margin-bottom:				0.5rem;
@@ -115,6 +116,51 @@ ic-page .tiles > * > small {
 }
 
 
+.tiles > .item-tile {
+	position:					relative;
+	padding:					0;
+	flex:						0 0 auto;
+	width:						22.5rem;
+	height:						22.5rem;
+}
+
+.tiles > .item-tile	button {
+	position:					absolute;
+	right:						1rem;
+	top:						1rem;
+	z-index:					3;
+}
+
+.tiles > .item-tile .image {
+	position:					ansolute;
+	height:						62.5%;
+	top:						0;
+	left:						0;
+	right:						0;
+	background-repeat:			no-repeat;
+	background-position:		50% 50%;
+	background-size:			cover;
+	z-index:					1;
+	transition:					all 500ms ease-out;
+}
+
+.tiles > .item-tile:hover .image{
+	-webkit-filter: 			brightness(1.2);
+	filter: 					brightness(1.2);
+}
+
+
+.tiles > .item-tile .body {
+	position:					absolute;
+	box-sizing:					border-box;
+	bottom:						0;
+	left:						0;
+	right:						0;
+	height:						auto;
+	min-height:					37.5%;
+	font-size:					1rem;
+	padding-top:				1rem;
+}
 
 
 

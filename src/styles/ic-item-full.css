@@ -1,11 +1,11 @@
 ic-item-full {
 	display:					block;
 	position:					relative;
-	padding-bottom:				1rem;
 }
 
 ic-item-full header {
 	margin-bottom:				2rem;
+	min-height:					5rem;
 }
 
 ic-item-full header .tools{
@@ -28,9 +28,7 @@ ic-item-full header .tools .main {
 }
 
 ic-item-full header .tools .main > *  {
-	margin-right:				0.5rem;
-	width:						3.5rem;
-	height:						3.5rem;
+	margin-right:				1rem;
 }
 
 
@@ -86,4 +84,29 @@ ic-item-full h3 {
 ic-item-full article div .icon-large {
 	width:						3.5rem;
 	height:						3.5rem;
+}
+
+
+
+ic-item-full footer.screen-only {
+	padding:					1rem 0;
+}
+
+
+
+ic-item-full footer.screen-only button {
+	display:					block;
+	width:						100%;
+	text-align:					left;
+	box-sizing:					border-box;
+	margin-bottom:				1rem;
+}
+
+ic-item-full footer.screen-only button > * {
+	display:					block;
+	width:						16em;
+	margin:						auto;
+	line-height:				4rem;
+	white-space: 				nowrap;
+	overflow:					visible;
 }

@@ -103,17 +103,6 @@ ic-main-content > *:nth-child(5){
 	padding-bottom:				5rem;
 }
 
-#section-item > div {
-	padding:					1rem 0;
-	margin:						0.5rem 0;
-}
-
-#section-item > div > * {
-	display:					block;
-	width:						14em;
-	margin:						auto;
-	line-height:				2em;
-}
 
 #section-map {
 	flex:						10 0 0;

@@ -19,14 +19,14 @@
 		</div>
 		<span 
 			ng-if = "icCategory"
-			class = "category ic-col-cat-{{(item|icCategory).name}}"
+			class = "category ic-col-cat-{{(icItem|icCategory).name}}"
 		>
 			{{'CATEGORIES.%s' | fill : icCategory.name | translate}}
 		</span>
 
 		<span 
 			ng-if = "icType"
-			class ="type ic-col-type-{{(item|icType).name}}"
+			class ="type ic-col-type-{{(icItem|icType).name}}"
 		>
 			{{'TYPES.%s' | fill : icType.name | translate }}
 		</span>

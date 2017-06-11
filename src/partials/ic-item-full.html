@@ -9,18 +9,22 @@
 		<ic-spinner active = "item.downloading"></ic-spinner>	
 
 		<div class = "main">
-			<button class = "icon-large round icon-interface-share drop-shadow">
+<!-- 			
+			<button class = "icon-large round icon-interface-share drop-shadow bg-0">
 			</button>
+ -->
 			<button 
-				class 		= "icon-large round icon-interface-print drop-shadow"
+				class 		= "icon-large round large icon-interface-print drop-shadow bg-0"
 				ng-click 	= "ic.site.print()" 
+				title		= "{{'INTERFACE.PRINT' | translate}}"
 			>
 
 			</buton>			
 			<button 
-				class 		= "icon-large round icon-interface-favourites drop-shadow"
-				ng-class	= "{'bg-0': ic.favourites.contains(item), 'bg-1': !ic.favourites.contains(item)}"
+				class 		= "icon-large round large drop-shadow"
+				ng-class	= "{'bg-3 icon-interface-favourites_remove white': ic.favourites.contains(item), 'bg-0 icon-interface-favourites': !ic.favourites.contains(item)}"
 				ng-click 	= "ic.favourites.toggleItem(item)" 
+				title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 			>
 			</buton>
 		</div>
@@ -192,7 +196,7 @@
 </qrcode>
 
 
-<footer class  ="print-only">
+<footer class  = "print-only">
 	<div class = "logo print-only">
 		<img src = "/images/large/logo-text.svg" />
 	</div>
@@ -201,4 +205,35 @@
 		{{item | icItemLink}}
 	</div>
 
+</footer>
+
+
+<footer class = "screen-only bg-1">
+
+	<button 
+		class 		= "bg-0 col-3"
+		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
+		ng-click 	= "ic.favourites.toggleItem(item)" 
+		ng-class	= "{'bg-3': ic.favourites.contains(item), 'bg-0': !ic.favourites.contains(item)}"
+	> 
+		<span 
+			class 		="icon-large left icon-interface-favourites"
+			ng-class	= "{'icon-interface-favourites_remove white col-2': ic.favourites.contains(item), 'icon-interface-favourites active normal': !ic.favourites.contains(item)}"
+		>
+			{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}
+		</span>
+	</button>
+<!-- 
+	<div class ="bg-0 col-3"> <span class ="icon-large left icon-interface-share.active">mit anderen teilen</span></div>
+-->
+	<button 
+		class 		= "bg-0 col-3"
+		ng-click	= "ic.site.print()"
+	> 
+		<span class ="icon-large left icon-interface-print active normal">{{'INTERFACE.PRINT' | translate}}</span>
+	</button>
+
+<!-- 
+	<div class ="bg-0 col-3"> <span class ="icon-large left icon-interface-edit.active">Änderungen vorschlagen</span></div>
+	 -->
 </footer>

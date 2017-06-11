@@ -50,7 +50,7 @@
 			return icItemStorage
 		}
 
-		icItemStorage.storeItem = function(item_data){
+		icItemStorage.storeItem = function(item_data, skip_internals){
 
 			var item = icItemStorage.data.filter(function(item){ return item.id == item_data.id })[0]
 
@@ -63,7 +63,7 @@
 			item.internal.sortingValues = item.internal.sortingValues || {}
 
 			//TODO
-			//icItemStorage.updateItemInternals(item)
+			if(!skip_internals) icItemStorage.updateItemInternals(item)
 
 			return item
 		}
@@ -296,7 +296,7 @@
 					.then(
 						function(data){
 							data.forEach(function(item_data){
-								icItemStorage.storeItem(item_data)
+								icItemStorage.storeItem(item_data, true)
 							}) 
 							icItemStorage.runAsyncTriggers()
 						},

@@ -867,8 +867,11 @@ angular.module('icServices', [
 			icFavourites.toggleItem(item_or_id, false)
 		}
 
-		icItemStorage.registerFilter('favourite', function(item){
-			return icFavourites.contains(item) 
+		icItemStorage.ready
+		.then(function(){
+			icItemStorage.registerFilter('favourite', function(item){
+				return icFavourites.contains(item) 
+			})
 		})
 
 		icTaxonomy.addUnsortedTag('favourite')

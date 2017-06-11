@@ -70,7 +70,7 @@ angular.module("InfoCompass",[
 
 								return matches && matches[2]
 							},
-			options:		['home', 'tags', 'about', 'imprint', 'contact', 'tiles'],
+			options:		['home', 'tags', 'about', 'legal', 'contact', 'tiles'],
 			defaultValue:	'home'
 		})
 

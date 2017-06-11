@@ -9,6 +9,8 @@
 
 
 
+
+
 .bg-1 {
 	background-color:			#e6e6e6;
 	color:						#666;
@@ -34,24 +36,13 @@
 
 
 .bg-3 {
-	background-color:			hsla(40,48%,60%,1);
+	background-color:			#802651;
 	color:						#fff;
 }
 
 .bg-3.hover:hover{
-	background-color:			hsla(40,28%,38%,1);
-}
-
-
-
-
-.bg-4 {
-	background-color:			hsla(0,48%,60%,1);
-	color:						#fff;
-}
-
-.bg-4.hover:hover{
-	background-color:			hsla(0,28%,38%,1);
+	background-color:			#fff;
+	color:						##802651;
 }
 
 
@@ -67,11 +58,11 @@
 }
 
 .col-2 {
-	color:						#fff;
+	color:						#fff !important;
 }
 
 .col-3 {
-	color:						#802651;
+	color:						#802651 !important;
 }
 
 
@@ -86,6 +77,12 @@
 
 .large {
 	font-size:					1.5rem !important;
+}
+
+
+.round.large{
+	width: 						3.5rem;
+	height: 					3.5rem;		
 }
 
 .shade-light {

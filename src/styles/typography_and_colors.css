@@ -39,8 +39,8 @@ button:active,
 button:hover {
 	display:			inline-block;
 	border:				none;	
-	background-color:	#fff;
 	font-size:			1em;
+	padding:			0;
 }
 
 
@@ -203,20 +203,26 @@ input:-webkit-autofill:focus{
 	white-space:			pre;
 }
 
+/* size */
+
+.small {
+	font-size:				0.9em;
+}
+
+
+
 /* weight */
 
 .light {
 	font-weight:			300;
 }
 
-.heavy {
-	font-weight:			500;
+.normal {
+	font-weight:			normal !important;
 }
 
-/* size */
-
-.small {
-	font-size:				0.9em;
+.heavy {
+	font-weight:			500;
 }
 
 
