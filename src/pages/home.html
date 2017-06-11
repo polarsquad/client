@@ -2,34 +2,32 @@
 	<h2 class = "col-3 bg-0">Digital mobil <br/> im Märkischen Viertel</h2>
 </header>	
 
+<article>
+	<ic-search></ic-search>
+</article>
+
 <article ng-bind-html  = "('CONTENT.HOME' | translate | trustAsHtml)">
 </article>
 
 <section>
 	<div class = "tiles">
+
+
 		<a 
-			href	= "#"
-			class 	= "icon icon-interface-search white"
+			ng-repeat 	= "type in ic.taxonomy.types"
+			ng-href		= "/list/t/{{type.name}}"
+			class 		= "icon icon-type-{{type.name}} white"
 		>
-			Suche
-			<small>Per Volltextsuche Informationen finden.</small>
+			{{'TYPES.%s' | fill : type.name | translate}}
+			<small></small>
 		</a>
 
-
 		<a 
-			href	= "#"
+			href	= "/tiles/u/favourite"
 			class 	= "icon icon-interface-favourites white"
 		>
 			Merkliste
-			<small>Speichern sie Einträge in einer Merkliste</small>
-		</a>
-
-		<a 
-			href	= "#"
-			class 	= "icon icon-interface-languages white"
-		>
-			Sprachen
-			<small>Lesen sie Einträge in anderen Sprachen.</small>
+			<small></small>
 		</a>
 
 <!-- 

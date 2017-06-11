@@ -68,6 +68,20 @@ ic-page a.boxed:hover {
 
 
 
+ic-page ic-search {
+	display:					block;
+	font-size:					2rem;
+}
+
+ic-page ic-search form {
+	display:					block;
+}
+
+ic-page ic-search button {
+	background-size:			contain!important;
+}
+
+
 
 
 ic-page .tiles {
@@ -95,14 +109,14 @@ ic-page .tiles > * {
 	border-radius:				0;
 	color:						#fff;
 	background-color: 			hsl(331, 54%, 33%);
-	background-position:		100% 100%;
+	background-position:		right 1rem bottom 1rem;
 	background-size:			5rem 5rem;
 	background-repeat:			no-repeat;
 	line-height:				1.2em;
 	transition: 				background-color 0.5s ease;
 }
 
-.tiles > *:hover {
+ic-page .tiles > *:hover {
 	background-color: 			hsl(331, 54%, 43%);
 }
 
@@ -116,7 +130,7 @@ ic-page .tiles > * > small {
 }
 
 
-.tiles > .item-tile {
+ic-page .tiles > .item-tile {
 	position:					relative;
 	padding:					0;
 	flex:						0 0 auto;
@@ -124,14 +138,14 @@ ic-page .tiles > * > small {
 	height:						22.5rem;
 }
 
-.tiles > .item-tile	button {
+ic-page .tiles > .item-tile	button {
 	position:					absolute;
 	right:						1rem;
 	top:						1rem;
 	z-index:					3;
 }
 
-.tiles > .item-tile .image {
+ic-page .tiles > .item-tile .image {
 	position:					ansolute;
 	height:						62.5%;
 	top:						0;
@@ -144,13 +158,13 @@ ic-page .tiles > * > small {
 	transition:					all 500ms ease-out;
 }
 
-.tiles > .item-tile:hover .image{
+ic-page .tiles > .item-tile:hover .image{
 	-webkit-filter: 			brightness(1.2);
 	filter: 					brightness(1.2);
 }
 
 
-.tiles > .item-tile .body {
+ic-page .tiles > .item-tile .body {
 	position:					absolute;
 	box-sizing:					border-box;
 	bottom:						0;

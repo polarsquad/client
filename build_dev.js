@@ -59,7 +59,7 @@ function svgColors(src_folder, dest_folder, config){
 											?	filename.replace(/\.svg$/,'-'+color.name+'.svg')
 											:	filename
 
-									return fs.writeFile(dest_folder+'/'+fn, content.replace(config.replace, color.value), 'utf8')
+									return fs.writeFile(dest_folder+'/'+fn, content.replace(new RegExp(config.replace, "g"), color.value), 'utf8')
 							})))
 				})				
 			))

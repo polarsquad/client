@@ -91,19 +91,10 @@ Brauche:
 
 
 Todo:
-* events redner fehler
-* digest cylcles map (ist scrolling auf scroll container, wenn liste unter den filter klappt)
-* Items images
 * Backbutton?
-* Icons
-* Karte (lokale db benutzen) !!A
-* Statische Seiten in Übersetzungs tabelle !!A
-* Biryani !!A
 * Kacheln !!A
-* Startseite updaten !!A
-* sharing erstmla raus
+* Karte (lokale db benutzen) !!A
 * Unterverzeichnis
-* Bei Themen felen die Zahlen
 
 * Layout Responsive B
 * Footer scrollt nicht richtig home!
@@ -134,6 +125,15 @@ Done:
 * Neue Beispieldaten übernehmen, neu parsen mitr geodaten und sprachen
 * Language param
 * Print !!A
+* Statische Seiten in Übersetzungs tabelle !!A
+* Biryani !!A
+* Startseite updaten !!A
+* Icons
+* events redner fehler
+* digest cylcles map (ist scrolling auf scroll container, wenn liste unter den filter klappt)
+* Items images
+* sharing erstmla raus
+* Bei Themen fehlen die Zahlen
 
 
 * Übersetzung unsorted Tags
@@ -143,3 +143,5 @@ Bitte:
 * Alle sprechen durch gehen und nicht übersetzte strings finden
 * Back Button nicht benutzen
 * iPad ruckelt beim scrollen
+* Untertiotel tiles Startseite
+* Merkliste überschrift
