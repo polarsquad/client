@@ -148,6 +148,7 @@
 
 	ic-item-full ic-item-property {
 		padding-right:		0;
+		font-size:			9pt;
 	}
 
 	ic-item-full ic-item-property > *:nth-child(1){
@@ -177,7 +178,7 @@
 	ic-item-full .qrcode {
 		position:			absolute;
 		text-align:			right;
-		bottom:				4rem;
+		bottom:				0;
 		right:				0;
 		margin:				0;
 	}
@@ -196,8 +197,7 @@
 	}
 
 	ic-item-full footer .link-to-item {
-		flex:				1 0 auto;
-		text-align:			right;
+		display:			none;
 	}
 
 
