@@ -408,7 +408,7 @@ angular.module('icUiDirectives', [
 .filter('fill', [
 	function(){
 		return function(str, rep){
-			rep = 	rep || 'UNDEFINED'
+			rep = 	rep || 'undefined'
 			rep = 	rep
 					.replace(/\s/, '_')
 					.replace(/([A-Z])/g, '_$1').toUpperCase()
