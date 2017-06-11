@@ -193,8 +193,8 @@
 		width:				40%;
 	}
 	ic-item-full .qrcode canvas {
-		height:				10rem;
-		width:				10rem;
+		height:				4cm;
+		width:				4cm;
 	}
 
 	ic-item-full footer {
@@ -208,6 +208,10 @@
 
 	ic-item-full footer .logo {
 		flex:				0 0 auto;
+	}
+
+	ic-item-full footer .logo img {
+		width:				6cm;
 	}
 
 	ic-item-full footer .link-to-item {
