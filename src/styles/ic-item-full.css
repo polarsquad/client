@@ -33,7 +33,7 @@ ic-item-full header .tools .main > *  {
 
 
 ic-item-full .hero {
-	padding-bottom:				62.5%;
+	padding-bottom:				50%;
 	background-size:			cover;
 	background-position:		50% 50%;
 	background-color:			rgba(0,0,0,0.1);
@@ -78,15 +78,14 @@ ic-item-full h3 {
 	margin-bottom:				1rem;
 }
 
-
-/*TODO*/
-
-ic-item-full article div .icon-large {
-	width:						3.5rem;
-	height:						3.5rem;
+ic-item-full .qrcode {
+	margin:						3rem 0;
+	text-align:					center;
 }
 
-
+ic-item-full .qrcode qrcode {
+	display:					inline-block;
+}
 
 ic-item-full footer.screen-only {
 	padding:					1rem 0;

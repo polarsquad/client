@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module("InfoCompass",[
-	//'monospaced.qrcode',
+	'monospaced.qrcode',
 	'ngSanitize',
 	'icLayout',
 	'icServices',

@@ -14,15 +14,15 @@
 			</button>
  -->
 			<button 
-				class 		= "icon round large icon-interface-print drop-shadow bg-0"
+				class 		= "icon round large active icon-interface-print drop-shadow bg-0"
 				ng-click 	= "ic.site.print()" 
 				title		= "{{'INTERFACE.PRINT' | translate}}"
 			>
 
 			</buton>			
 			<button 
-				class 		= "icon round large drop-shadow"
-				ng-class	= "{'bg-3 icon-interface-favourites_remove white': ic.favourites.contains(item), 'bg-0 icon-interface-favourites': !ic.favourites.contains(item)}"
+				class 		= "icon round large icon-interface-favourites drop-shadow"
+				ng-class	= "{'bg-3 white': ic.favourites.contains(item), 'bg-0  active': !ic.favourites.contains(item)}"
 				ng-click 	= "ic.favourites.toggleItem(item)" 
 				title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 			>
@@ -185,15 +185,17 @@
  -->
 
 
-<qrcode 
-	version					=	"3" 
-	error-correction-level	=	"M" 
-	size					=	"200" 
-	data					=	"{{item.id | icItemLink}}"
-	ng-if					=	"item"
-	ic-toggle-overlay		=	"qrcode"
->
-</qrcode>
+<div class = "qrcode">
+	<qrcode 
+		version					=	"3" 
+		error-correction-level	=	"M" 
+		size					=	"200" 
+		data					=	"item | icItemLink"
+		ng-if					=	"item"
+		ng-click				=	"ic.overlays.open('qrcode')"
+	>
+	</qrcode>
+</div>
 
 
 <footer class  = "print-only">

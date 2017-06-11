@@ -58,12 +58,11 @@
 			ng-show   	= "::ic.init.ready"
 		></ic-main-content>
 
-
 		<!-- overlays -->
 		<ic-overlays 
 			ng-show		= "::ic.init.ready"
 			class		= "ic-hide"
-			ng-class	= "{'ic-hide' :!icOverlays.active()}"
+			ng-class	= "{'ic-hide' :!ic.overlays.active()}"
 		></ic-overlays>
 
 	</body>

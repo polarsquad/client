@@ -14,6 +14,15 @@ function setup(){
 }
 
 
+function copyQRCodeScriptsSrc2Dev(){
+	return 	fs.ensureDir('dev/js')
+			.then( () => Promise.all([
+				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	'dev/js/qrcode_UTF8.js'),
+				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		'dev/js/qrcode.js'),
+				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	'dev/js/angular-qrcode.js')
+			]))
+}
+
 function compileTaxonomyTemplate(key, template){
 	return 		fs.readFile(template, 'utf8')
 				.then(function(template){
@@ -258,10 +267,15 @@ function compileIndex(){
 
 
 function cleanUp(){
-	//return fs.remove('tmp')
+	return fs.remove('tmp')
 }
 
 setup()
+
+
+.then( () => process.stdout.write('\nCopying qr code scripts from /src to /dev ...'))
+.then(copyQRCodeScriptsSrc2Dev)
+.then( () =>  process.stdout.write('Done.\n'))
 
 
 

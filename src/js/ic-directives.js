@@ -242,6 +242,7 @@ angular.module('icDirectives', [
 						if(scope.icOnUpdate) scope.icOnUpdate()
 						icSite.searchTerm = search_term
 						icSite.list = true
+						icSite.activeItem = null //TODO
 					}
 
 					scope.searchTerm = undefined
@@ -301,8 +302,9 @@ angular.module('icDirectives', [
 .directive('icOverlays', [
 
 	'icOverlays',
+	'ic',
 
-	function(icOverlays){
+	function(icOverlays, ic){
 
 		return {
 
@@ -312,7 +314,7 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs, ctrl, transclude){
 				icOverlays.registerScope(scope)
-				scope.icOverlays = icOverlays
+				scope.ic = ic
 
 				var body = angular.element(document.getElementsByTagName('body'))
 
