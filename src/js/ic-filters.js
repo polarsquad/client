@@ -100,6 +100,7 @@ angular.module('icFilters', [
 		}
 
 		function icDateFilter(date_str, use_time){
+			
 			dates[date_str] 								= dates[date_str] || {}
 			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
 

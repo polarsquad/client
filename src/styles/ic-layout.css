@@ -47,6 +47,7 @@ ic-main-content > * {
 	height:						100%;
 	-webkit-overflow-scrolling:	touch;
 }
+
 ic-main-content > *:first-child{
 	padding-left:				1rem;
 }
