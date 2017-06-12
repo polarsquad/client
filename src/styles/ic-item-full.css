@@ -67,7 +67,7 @@ ic-item-full > ic-item-property	> *:nth-child(1) {
 
 ic-item-full > article	> *:nth-child(2),
 ic-item-full > ic-item-property	> *:nth-child(2){
-	flex:						3 0 auto;
+	flex:						10 0 0;
 	max-width: 					40rem;
 }
 

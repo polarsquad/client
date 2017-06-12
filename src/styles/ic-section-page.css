@@ -66,6 +66,10 @@ ic-page a.boxed:hover {
 	background-color: 			#802651;
 }
 
+ic-page .search > * {
+	max-width:					50rem;
+	margin:						auto;
+}
 
 
 ic-page ic-search {
@@ -113,7 +117,7 @@ ic-page ic-search form button {
 ic-page .types {
 	display:					flex;
 	padding:					1rem 0;
-	margin:						0.5rem 0;
+	margin:						0.5rem auto;
 }
 
 ic-page .types > * {
