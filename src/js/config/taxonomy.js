@@ -98,7 +98,7 @@
 							"bus_railway",
 							"taxi_stands"
 						],
-			colors:		['#F9D766', '#F9D766']
+			colors:		['#ebbf2e', '#ebbf2e']
 		},
 
 		{

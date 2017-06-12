@@ -12,12 +12,13 @@ ic-header .tools {
 	display:						flex;
 	box-sizing:						border-box;
 	flex-direction:					row;
-	font-size:						0.875rem;
+	font-size:						1rem;
 	align-items:					center;
 	height:							3rem;
 	width:							100%;
 	padding:						0 1rem;
 }
+
 
 ic-header .tools > * {
 	display:						inline-block;
@@ -75,10 +76,11 @@ ic-header .logo {
 	justify-content:				flex-end;
 	align-items:					center;
 	height:							10rem;
-	padding-right:					10%;
+	padding-right:					0;
 	opacity:						1;
 	transition:						all 300ms linear;
 }
+
 
 ic-header .logo ic-logo-full {
 	font-size:						4rem;
