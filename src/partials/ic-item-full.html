@@ -152,7 +152,7 @@
 <ic-item-property
 	ng-if		= "item.startDate && item.endDate"
 	ic-title 	= "'ITEMS.DATES' | translate"
-	ic-content	= "item.startDate +' – '+ item.endDate" <! TODO: icDate!! -->
+	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
@@ -161,7 +161,7 @@
 <ic-item-property
 	ng-if		= "item.startDate && !item.endDate"
 	ic-title 	= "'ITEMS.START_DATE' | translate"
-	ic-content	= "item.startDate"						<! TODO: icDate!! -->
+	ic-content	= "item.startDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
@@ -169,7 +169,7 @@
 <ic-item-property
 	ng-if		= "item.endDate && !item.startDate"
 	ic-title 	= "'ITEMS.END_DATE' | translate"
-	ic-content	= "item.endDate"						<! TODO: icDate!! -->
+	ic-content	= "item.endDate | icDate"
 	ic-icon		= "'/images/icons/property-time.svg'"
 >
 </ic-item-property>
