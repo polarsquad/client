@@ -113,7 +113,7 @@ ic-header ic-main-menu ul > li {
 
 
 ic-header ic-main-menu ul > li > ul {
-	display:						none;
+	display:						block;
 	margin-left:					-1rem;
 	position:						absolute;
 	overflow:						hidden;
@@ -121,10 +121,11 @@ ic-header ic-main-menu ul > li > ul {
 	box-shadow:						0 0 0.5em rgba(0,0,0,0.5);
 }
 
+/*
 ic-header ic-main-menu ul > li:hover > ul {
 	display:						block;
 }
-
+*/
 
 ic-header ic-main-menu ul > li > ul > li {
 	display:						block;

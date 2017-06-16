@@ -11,7 +11,10 @@
 		<span>{{'INTERFACE.SEARCH' | translate}}</span>
 	</a>
 	
-	<ic-search ng-if = "toggle_search"></ic-search>
+	<ic-search 
+		ng-if 		= "toggle_search"
+		ic-focus	= "true"
+	></ic-search>
 
 	<a 
 		class	= "icon-large left icon-interface-favourites white"

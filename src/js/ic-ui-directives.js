@@ -271,8 +271,6 @@ angular.module('icUiDirectives', [
 					onScroll()	
 				}
 
-
-
 				scope.$watch(
 					function(){
 						return scope.$eval(attrs.icScrollSnapTarget)
@@ -396,15 +394,65 @@ angular.module('icUiDirectives', [
 		return {
 			restrict: 'A',
 
-			link: function(scope, element){
-				console.log('focus!')
-				element[0].focus()
+			link: function(scope, element, attrs){
+				if(attrs.focusMe === undefined || scope.$eval(attrs.focusMe) ) element[0].focus()
 			}
 		}
 	}
 ])
 
 
+.directive('scrollTop', [
+	function(){
+		return {
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+				scope.$watch(attrs.scrollTop, function(){
+					var el = element
+
+					while(el && el [0]){
+						el[0].scrollTop = 0
+						el = el.parent()
+					}
+				})
+			}
+		}
+	}
+])
+
+.directive('icClickOutside', [
+	function(){
+		return {
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+				var body	= angular.element(document.getElementsByTagName('body'))
+				console.log('peng')
+
+				function click(){
+					console.log('blub')
+					console.log(attrs.icClickOutside)
+					scope.$eval(attrs.icClickOutside)
+					scope.$apply()
+
+				}
+
+				body.on('click touchstart', click)
+
+				element.on('click touchstart', function(event){
+					event.stopPropagation();
+				})
+
+				scope.$on('$destroy', function(){
+					body.off('click', click)
+				})
+
+			}
+		}
+	}
+])
 
 
 
@@ -440,6 +488,9 @@ angular.module('icUiDirectives', [
 ])
 
 
+
+
+
 //debug
 
 .filter('toConsole', [
@@ -454,19 +505,27 @@ angular.module('icUiDirectives', [
 
 .filter('onScreen', function(){
 	return function(x){
-		var element = angular.element(document.getElementById('on-screen-debug-window') || document.createElement('div'))
+		var element = angular.element(document.getElementById('on-screen-debug-window') || document.createElement('div')),
 			log		= angular.element('<pre>'+x+'</pre>'),
 			body	= angular.element(document.getElementsByTagName('body'))
 
-		ody.append(element)
+		body.append(element)
 
 		element.css({
+			boxSizing:	'border-box',
+			padding:	'1rem',
 			position:	'fixed',
 			bottom:		'0',
 			height:		'20%',
 			width:		'100%',
 			opacity:	'0.8',
-			overflowY:	'scroll'
+			overflowY:	'scroll',
+			zIndex:		'100',
+			background:	'#fff',
+			minHeight: 	'2rem',
+			minWidth:	'10rem',
+			border:		'0.5rem solid #000'
+
 		})
 		element.append(log)
 

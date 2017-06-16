@@ -9,9 +9,19 @@
 		</a>	
 	</li>
 	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
-	<li>
-		<a href="#" class = "icon right icon-interface-down white">{{'INTERFACE.MORE' | translate}}</a>		
-		<ul>
+	<li
+		ng-mouseenter 		= "showMore = true" 
+		ng-mouseleave		= "showMore	= false"
+		ng-click			= "showMore = !showMore"
+		ic-click-outside 	= "showMore = false" 
+	>
+		<a 
+			class 			= "icon right icon-interface-down white"
+		>
+			{{'INTERFACE.MORE' | translate}}
+		</a>		
+
+		<ul ng-show = "showMore">
 			<li><a href="/p/about" hover-meh>		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
 			<li><a href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
 			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
@@ -32,9 +42,6 @@
 	</li>
  -->
 
- 	<li>
- 			<a class ="icon-interface-close icon white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
- 	</li>
-
+ 	
 </ul>
 

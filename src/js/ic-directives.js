@@ -219,7 +219,8 @@ angular.module('icDirectives', [
 			scope:			{
 								icOnSubmit: 	'&',
 								icOnUpdate: 	'&',
-								icButtonLabel:	'<'		
+								icButtonLabel:	'<'	,
+								icFocus:		'<'
 							},
 
 			link: function(scope, element, attrs){
@@ -230,6 +231,7 @@ angular.module('icDirectives', [
 					var input = element[0].querySelector('#search-term')
 					
 					search_term = search_term.replace(/[\/?#]+/g,' ')
+
 
 					input.focus()
 					input.blur()
