@@ -429,11 +429,8 @@ angular.module('icUiDirectives', [
 			link: function(scope, element, attrs){
 
 				var body	= angular.element(document.getElementsByTagName('body'))
-				console.log('peng')
 
 				function click(){
-					console.log('blub')
-					console.log(attrs.icClickOutside)
 					scope.$eval(attrs.icClickOutside)
 					scope.$apply()
 

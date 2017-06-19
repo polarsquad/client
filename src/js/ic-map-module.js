@@ -452,6 +452,22 @@ angular.module('icMap', [
 				}
 
 
+				var sizeInvalidationSchedule = undefined
+
+				function scheduleSizeInvalidation(){
+
+					if(sizeInvalidationSchedule) window.cancelAnimationFrame(sizeInvalidationSchedule)
+
+					sizeInvalidationSchedule = window.requestAnimationFrame(function(){
+						map.invalidateSize()
+						sizeInvalidationSchedule = undefined
+					})
+				}
+
+
+				$rootScope.$watch(scheduleSizeInvalidation)
+
+
 
 				var	stop_watching_filteredList = $rootScope.$watchCollection(
 						function(){ return icItemStorage.filteredList	},
