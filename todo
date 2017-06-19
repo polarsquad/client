@@ -145,3 +145,9 @@ Bitte:
 * iPad ruckelt beim scrollen
 * Untertiotel tiles Startseite
 * Merkliste überschrift
+
+
+Todo:
+* Marker: "Mehr..." kein pointer
+* Browser back
+* Links generieren, damit back button läuft

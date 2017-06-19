@@ -8,7 +8,7 @@
 	<div class = "tiles">
 		<a
 			ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
-			ng-href			= "{{ {activeItem: item} | icLink }}"
+			ng-href			= "{{ item | icItemLink }}"
 			class			= "item-tile"
 		>
 			<button 
