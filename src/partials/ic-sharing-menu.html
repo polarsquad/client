@@ -1,0 +1,28 @@
+<button 
+	class 		=	"icon icon-interface-close close large"
+	ng-click 	=	"ic.overlays.toggle('sharingMenu')" 
+>
+</button>
+
+<h2>
+	{{"INTERFACE.SHARE" | translate}}
+</h2>
+
+<a 
+	ng-repeat  	= "platform in platforms"
+	ng-href		= "{{platform.link}}" 
+	class		= "platform"
+	ic-touch-me
+>
+		<span class = "icon icon-property-{{platform.name}} active"> </span>
+		<span class = "active">
+			{{"INTERFACE.SHARE.%s" | fill : platform.name | translate}}
+		</span>
+</a>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
+<textarea readonly>{{vars.url}}</textarea>
