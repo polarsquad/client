@@ -17,6 +17,7 @@ ic-map-item-marker {
 	height:					2.6666667em;
 	width:					0;
 	transition:				transform 300ms ease-out;
+	outline:				none !important;
 }
 
 
@@ -41,6 +42,7 @@ ic-map-item-marker .outer-icon .inner-icon {
 	background-repeat:		no-repeat;
 	background-size:		1.5em;
 	background-position:	center;
+	cursor:					default;
 }
 
 ic-map-item-marker .content {
@@ -119,6 +121,7 @@ ic-map-cluster-marker {
 	height:					0;
 	width:					0;
 	text-align:				center;
+	outline:				none !important;	
 }
 
 ic-map-cluster-marker:active,

@@ -148,6 +148,22 @@ Bitte:
 
 
 Todo:
+* Merkliste -> karte -> Page?
+* Tags auf items verlinken
+
+Done:
+* Browser back (nur links erezuegen neuen history eintrag)
+* Links generieren, damit back button läuft -> anders gelöst
 * Marker: "Mehr..." kein pointer
-* Browser back
-* Links generieren, damit back button läuft
+* cluster nict auf 5 begrenzen wenn maximale zoomstufe -> Fall taucht nicht auf
+* More itemMrker verschwinmet? -> nicht mehr
+
+Bitte:
+* Layouts durchspielen: Karte anzeigen wenn item aktiv? u.a.
+* social Icons als svg  (anders als properties?)
+* Einheitliches Layout für overlays
+	-> link vs active
+	-> hr ?
+	-> flucht
+	-> heading
+

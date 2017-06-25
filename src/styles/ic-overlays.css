@@ -19,6 +19,8 @@ ic-overlays.ic-hide {
 	transform:				translateX(-100%);
 }
 
+
+
 ic-overlays > * {
 	position:				absolute;
 	transform:				translateX(0) translateY(0);
@@ -35,10 +37,18 @@ ic-overlays > * {
 	transition-duration:	400ms;
 }
 
+ic-overlays > * > h2 {
+	margin-bottom:			2rem;
+}
+
+
 ic-overlays > * > * {
 	display:				block;
 	width:					18rem;
+	margin:					auto;
 }
+
+
 
 ic-overlays > .full {
 	position:				fixed;
@@ -72,10 +82,13 @@ ic-overlays > ic-spinner {
 
 ic-overlays > .center {
 	position:				relative;
+	box-sizing:				border-box;
 	display:				block;
 	margin:					5rem auto;
-	width:					21rem;
-	padding:				2rem;
+	width:					50%;
+	min-width:				20rem;
+	max-width:				30rem;
+	padding:				1rem;
 	height:					auto !important;
 	min-height:				0;
 }
@@ -181,11 +194,6 @@ ic-overlays .white  > a {
 }
 
 
-ic-overlays .white  > a:last-of-type {
-	border-bottom:			1px solid rgba(0, 0, 0, 0.3);
-}
-
-
 
 ic-overlays .white >  header {
 	padding:				0 1rem;
@@ -199,22 +207,6 @@ ic-overlays .white  a {
 ic-overlays .white  a > * {
 	display:				inline-block;
 	vertical-align:			top;
-}
-
-ic-overlays .white  a > .icon {
-	display:				inline-block;
-	height:					3rem;
-	width:					3rem;
-	background-position:	50% 50%;
-	background-repeat:		no-repeat;
-	background-size:		2rem;
-	vertical-align:			middle;
-}
-
-ic-overlays .white  a > .icon + * {
-	display:				inline-block;
-	vertical-align:			middle;
-	line-height:			1.5;
 }
 
 
@@ -290,3 +282,39 @@ ic-overlays .qrcode > div {
 	width:					100%;
 }
 
+
+
+
+
+
+
+
+ic-overlays ic-sharing-menu {
+
+}
+
+ic-overlays ic-sharing-menu  .platform {
+	border:					none !important;
+	display:				flex;
+}
+
+ic-overlays ic-sharing-menu  .platform > * {
+	border-top:				1px solid transparent;
+	line-heigt:				3rem;
+}
+
+
+ic-overlays ic-sharing-menu  .platform .icon {
+	border-color:			transparent;
+	flex:					0 0 3rem;
+}
+
+ic-overlays ic-sharing-menu  .platform .icon + * {
+	border-color:			rgba(0,0,0,0.3);
+	flex:					1 0 auto;
+}
+
+
+ic-overlays ic-sharing-menu textarea {
+	margin-top:				2rem;
+}

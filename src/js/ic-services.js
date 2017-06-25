@@ -170,7 +170,7 @@ angular.module('icServices', [
 				var current_path 	= $location.path(),
 					new_path		= icSite.getNewPath()
 				
-				if(current_path != new_path) $location.path(new_path)
+				if(current_path != new_path) $location.path(new_path).replace()
 
 				return icSite
 			}
@@ -263,9 +263,6 @@ angular.module('icServices', [
 			icSite.adjust = function(){
 				icSite.config.params.forEach(function(param){ icSite[param.name] 	= param.adjust 	? param.adjust(ic)	: icSite[param.name]	}),
 				icSite.config.switches.forEach(function(swt){ icSite[swt.name]		= swt.adjust	? swt.adjust(ic)	: icSite[swt.name]		})
-
-
-				$location.replace()
 
 				return icSite
 			}

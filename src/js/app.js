@@ -81,26 +81,28 @@ angular.module("InfoCompass",[
 			name:			'page',
 			template:		'partials/ic-section-page.html',
 			active:			function(ic){
+									
 								return ic.site.page
 							},
 			show:			function(ic){
-								if(ic.site.activeItem) 	return false						
-								if(ic.site.list) 		return false						
+								if(ic.site.activeSections['item']) 		return false						
+								if(ic.site.activeSections['list']) 		return false						
+								if(ic.site.activeSections['map']) 		return false						
 
-								return 		 ic.site.page
-										&&	!ic.site.activeSections['list']
+								return true
 							}				
 		})
 		.registerSection({
 			name:			'filter',
 			template:		'partials/ic-section-filter.html',
 			active:			function(ic){
-								return 	ic.site.list
+								return 	true
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeItem) return false						
-								return 	true
+								if(ic.site.activeSections['list']) 		return true
+								if(ic.site.activeSections['map']) 		return true
+								return 	false
 							}				
 		})
 
@@ -112,8 +114,9 @@ angular.module("InfoCompass",[
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeItem) return false		
-								if(ic.site.expandMap) return false				
+								if(ic.site.activeSections['item']) 		return false
+								if(ic.site.expandMap) 					return false		
+
 								return 	true
 							}				
 		})
@@ -125,6 +128,9 @@ angular.module("InfoCompass",[
 								return 	ic.site.activeItem
 							},
 			show:			function(ic){
+
+								if(ic.site.expandMap) 					return false		
+									
 								return true
 							}				
 		})
@@ -132,10 +138,10 @@ angular.module("InfoCompass",[
 			name:			'map',
 			template:		'partials/ic-section-map.html',
 			active:			function(ic){
-								return 	ic.site.list && !ic.site.activeItem
+								return 	ic.site.list || ic.site.expandMap
 							},
 			show:			function(ic){
-								return ic.site.list
+								return	true
 							}				
 		})
 		.registerSwitch({
@@ -263,11 +269,26 @@ angular.module("InfoCompass",[
 
 .run([
 	'$rootScope',
+	'$location',
 	'ic',
 
-	function($rootScope, ic){
+	function($rootScope, $location, ic){
 
 		$rootScope.ic = ic
+
+
+		$rootScope.$watch(
+			function() { 
+				return $location.path(); 
+			},
+			function(a){  
+				console.log('url has changed: ' + a);
+    		}
+    	)
+
+		$rootScope.$on('$routeChangeStart', function(){
+			console.log('$routeChangeStart')
+		})
 
 	}
 ])

@@ -9,16 +9,19 @@
 		<ic-spinner active = "item.downloading"></ic-spinner>	
 
 		<div class = "main">
-<!-- 			
-			<button class = "icon-large round icon-interface-share drop-shadow bg-0">
+			
+			<button 
+				class 		= "icon round large active icon-interface-share drop-shadow bg-0"
+				ng-click 	= "ic.overlays.toggle('sharingMenu')" 
+			>
+
 			</button>
- -->
+
 			<button 
 				class 		= "icon round large active icon-interface-print drop-shadow bg-0"
 				ng-click 	= "ic.site.print()" 
 				title		= "{{'INTERFACE.PRINT' | translate}}"
 			>
-
 			</buton>			
 			<button 
 				class 		= "icon round large icon-interface-favourites drop-shadow"

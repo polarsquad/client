@@ -426,6 +426,69 @@ angular.module('icDirectives', [
 
 
 
+.directive('icSharingMenu', [
+
+	'$location', 
+	'icSite',
+	'icLanguages',
+
+
+	function($location, icSite, icLanguages){
+		return {
+			restrict: 		'AE',
+			templateUrl:	'partials/ic-sharing-menu.html',
+
+			link: function(scope){
+
+				scope.vars = {}
+
+				function getVars(){
+
+					if(!icSite.activeItem)				return null
+					if(!icSite.activeItem.title) 		return null
+					if(!icSite.activeItem.id)			return null
+
+					var abs_url 	= 	$location.absUrl(),
+						path		= 	$location.path(),
+						title		=	icSite.activeItem.title,
+						url			= 	abs_url.replace(path, '')
+										+'/item/'	+ icSite.activeItem.id
+										+'/l/'		+ icSite.currentLanguage
+
+					scope.vars.url 		= url
+					scope.vars.title	= title
+
+					return scope.vars
+				}
+
+				scope.$watch(
+					getVars,
+					function(v){
+						if(!v){
+							scope.platforms = []
+							return null
+						}
+
+						scope.platforms = [
+							{name: 'email',		link: 'mailto:?subject=Infocompass: '+v.title+'&body='+v.url},
+							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags=infocompass'},
+							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
+							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
+							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
+						]						
+					},
+					true
+				)
+
+			}
+		}
+	}
+
+])
+
+
+
 
 
 
@@ -753,66 +816,6 @@ angular.module('icDirectives', [
 // ])
 
 
-// .directive('icSharingMenu', [
-
-// 	'$location', 
-// 	'icSite',
-// 	'icLanguages',
-
-
-// 	function($location, icSite, icLanguages){
-// 		return {
-// 			restrict: 		'AE',
-// 			templateUrl:	'partials/ic-sharing-menu.html',
-
-// 			link: function(scope){
-
-// 				scope.vars = {}
-
-// 				function getVars(){
-// 					scope.item = icSite.activeItem
-// 					if(!scope.item)				return null
-// 					if(!scope.item.title) 		return null
-// 					if(!scope.item.id)			return null
-
-// 					var abs_url 	= 	$location.absUrl(),
-// 						path		= 	$location.path(),
-// 						title		=	scope.item.title,
-// 						url			= 	abs_url.replace(path, '')
-// 										+'/item/'	+ scope.item.id
-// 										+'/l/'		+ icSite.currentLanguage
-
-// 					scope.vars.url 		= url
-// 					scope.vars.title	= title
-
-// 					return scope.vars
-// 				}
-
-// 				scope.$watch(
-// 					getVars,
-// 					function(v){
-// 						if(!v){
-// 							scope.platforms = []
-// 							return null
-// 						}
-
-// 						scope.platforms = [
-// 							{name: 'email',		link: 'mailto:?subject=Infocompass: '+v.title+'&body='+v.url},
-// 							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags=infocompass'},
-// 							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
-// 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
-// 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-// 							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
-// 						]						
-// 					},
-// 					true
-// 				)
-
-// 			}
-// 		}
-// 	}
-
-// ])
 
 
 

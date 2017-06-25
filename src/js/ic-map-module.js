@@ -12,7 +12,7 @@ angular.module('icMap', [
 
 	function($compile){
 
-		var icItemMarker = function(item, parentScope){
+		var icMapItemMarker = function(item, parentScope){
 
 			var scope 	=  	parentScope.$new()
 
@@ -31,8 +31,35 @@ angular.module('icMap', [
 
 		}
 
-		return icItemMarker
+		return icMapItemMarker
 	}
+])
+
+
+
+.directive('icMapItemMarker',[
+
+	'$timeout',
+	'ic',
+
+	function(icLanguages, ic){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-map-marker-item.html',
+			scope:			{
+								icItem:		"<",
+								icTitle: 	"<",
+								icDetails:	"<",
+								icAction:	"&?"
+							},
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+
+		}
+	}
+
 ])
 
 
@@ -71,37 +98,12 @@ angular.module('icMap', [
 	}
 ])
 
-
-.directive('icMapItemMarker',[
-
-	'$timeout',
-	'ic',
-
-	function(icLanguages, ic){
-		return {
-			restrict:		'AE',
-			templateUrl:	'partials/ic-map-marker-item.html',
-			scope:			{
-								icItem:		"<",
-								icTitle: 	"<",
-								icDetails:	"<"
-							},
-
-			link: function(scope, element){
-				scope.ic = ic
-			}
-
-		}
-	}
-
-])
-
-
 .directive('icMapClusterMarker',[
 
 	'icSite',
+	'ic',
 
-	function(icSite){
+	function(icSite, ic){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-map-marker-cluster.html',
@@ -110,7 +112,11 @@ angular.module('icMap', [
 							},
 
 			link: function(scope){
+
+				scope.ic = ic
+
 				scope.$watch('icCluster', function(){
+
 					scope.items = 	scope.icCluster.getAllChildMarkers()
 									.map(function(marker){
 										return marker.options.item
