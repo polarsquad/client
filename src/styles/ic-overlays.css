@@ -38,7 +38,7 @@ ic-overlays > * {
 }
 
 ic-overlays > * > h2 {
-	margin-bottom:			2rem;
+	margin:					2rem auto;
 }
 
 
@@ -93,6 +93,17 @@ ic-overlays > .center {
 	min-height:				0;
 }
 
+
+ic-overlays > .center .close {
+	position:				absolute;
+	top:					0;
+	right:					0;
+	border:					none !important;
+	width:					auto !important;
+}
+
+
+
 ic-overlays > .center.greedy {
 	width:					90%;
 	max-width:				40rem;
@@ -106,6 +117,8 @@ ic-overlays > .center.greedy > * {
 ic-overlays > .center.greedy h3 {
 	margin-top:				3rem;
 }
+
+
 
 
 ic-overlays > .center .message + form{

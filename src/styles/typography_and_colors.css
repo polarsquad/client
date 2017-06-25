@@ -51,6 +51,8 @@ button::-moz-focus-inner {
 button {
 	cursor:				pointer;
 	outline:			none !important;
+	background-color:	transparent;
+	padding:			0;
 }
 
 button.ic-touched {

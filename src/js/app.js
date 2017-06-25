@@ -96,13 +96,15 @@ angular.module("InfoCompass",[
 			name:			'filter',
 			template:		'partials/ic-section-filter.html',
 			active:			function(ic){
-								return 	true
+								if(ic.site.list)		return true
+								if(ic.site.expandMap)	return true
+
+								return 	false
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeSections['list']) 		return true
-								if(ic.site.activeSections['map']) 		return true
-								return 	false
+								if(ic.site.activeSections['item']) 		return false
+								return 	true
 							}				
 		})
 

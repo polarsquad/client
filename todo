@@ -166,4 +166,6 @@ Bitte:
 	-> hr ?
 	-> flucht
 	-> heading
+	-> buttons?
+	-> hover/click
 
