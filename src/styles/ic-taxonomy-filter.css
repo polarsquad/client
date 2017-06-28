@@ -35,7 +35,16 @@ ic-taxonomy-filter section li {
 	background-position:		1rem 50% !important;
 }
 
-ic-taxonomy-filter section li.disabled {
+ic-taxonomy-filter section .types li.disabled {
+	display:					none;
+}
+
+ic-taxonomy-filter section .categories li.disabled {
+	display:					none;
+}
+
+
+ic-taxonomy-filter section .unsorted li.disabled {
 	display:					none;
 }
 
