@@ -1,17 +1,92 @@
-<span> Home </span>
-<span ng-if = "!ic.site.searchTerm">&gt; {{'INTERFACE.LIST' | translate}}</span>
-<span ng-if = "ic.site.searchTerm">&gt; {{'INTERFACE.SEARCH_FOR' | translate}} "{{ic.site.searchTerm}}"</span>
 
-<span ng-if = "ic.site.filterByType.length"> 
-	&gt; <span> {{ic.site.filterByType[0] | uppercase | translate}} </span>
-</span>
+<div>
+	<span>
+	<a class = "active" href = "/">{{'INTERFACE.HOME' | translate}}</a>
+	</span>
+</div>
 
-<span 	ng-if = "ic.site.filterByCategory.length">
-	&gt; {{'INTERFACE.CATEGORIES' | translate}}:
-	<span ng-repeat = "category in ic.site.filterByCategory"> {{'CATEGORIES.%s' | fill : category | translate}} </span>
-</span>
 
-<span ng-if = "ic.site.filterByUnsortedTags.length">
-	&gt; {{'INTERFACE.UNSORTED_TAGS' | translate }}:
-	<span ng-repeat = "tag in ic.site.filterByUnsortedTag"> {{'UNSORTED_TAGS.%s'| fill: tag | translate}} </span>
-</span>
+
+<!-- categories -->
+
+<div ng-if = "mainCategory = (ic.site.filterByCategory | icCategory) || (ic.site.activeItem | icCategory)">
+	<span class = "icon icon-interface-right left plain"></span>
+
+	<a class = "active" href = "/p/tags">{{'INTERFACE.CATEGORIES' | translate}}</a>
+
+	<span class = "icon icon-interface-right left plain"></span>
+		<a 
+			class 	= "active" 
+			ng-href = "/list/c/{{mainCategory.name}}"
+		>
+			{{'CATEGORIES.%s' | fill : mainCategory.name | translate}}
+		</a>
+
+	<span 	
+		ng-if = "(subCategories = (ic.site.filterByCategory | icSubCategories) || (ic.site.activeItem | icSubCategories)).length"
+		class = "icon icon-interface-right left plain"
+	>
+		<a 	
+			class 		= "active" 
+			ng-repeat 	= "category_name in subCategories"
+			ng-href 	= "list/c/{{category_name}}"	
+		>
+			{{'CATEGORIES.%s' | fill : category_name | translate}}
+			<span ng-if = "!$last">, </span>
+	</span>
+	
+</div>
+
+
+
+<!-- search -->
+
+<div ng-if = "ic.site.searchTerm">
+	<span class = "icon icon-interface-right left plain"></span>
+	<a class = "active">{{'INTERFACE.SEARCH_FOR' | translate}} "{{ic.site.searchTerm}}"</a>
+</div>
+
+<!-- types -->
+
+<div ng-if = "ic.site.filterByType.length">
+
+	&nbsp; |
+
+	<a 
+		class 		= "active"
+		ng-repeat 	= "type_name in ic.site.filterByType" 
+		ng-href		= "/list/t/{{type_name}}"
+	> 
+		{{'TYPES.%s' | fill : type_name | translate}} 
+		<span ng-if = "!$last">, </span>
+
+	</a>
+</div>
+
+
+
+<!-- unsorted -->
+
+<div ng-if = "ic.site.filterByUnsortedTag.length">
+	
+	&nbsp; |
+
+	<a 
+		class 		= "active"
+		ng-repeat 	= "tag in ic.site.filterByUnsortedTag" 
+		ng-href		= "/list/u/{{tag_name}}"
+	> 
+		{{'UNSORTED_TAGS.%s' | fill : tag | translate}} 
+		<span ng-if = "!$last">, </span>
+
+	</a>
+</div>
+
+
+<! item >
+
+
+<div ng-if = "ic.site.activeItem">
+	
+	<span class = "icon icon-interface-right left plain"> {{ic.site.activeItem.title}}</span>
+</div>

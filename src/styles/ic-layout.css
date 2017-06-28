@@ -36,7 +36,6 @@ ic-main-content > * {
 	flex:						1 0 0;
 	box-sizing:					border-box;
 	position:					relative;
-	padding-top:				1rem;
 	padding-bottom:				1rem;
 	padding-left:				0.5rem;
 	padding-right:				0.5rem;
@@ -90,14 +89,6 @@ ic-main-content > *:nth-child(5){
 	min-width:					30rem;
 	max-width:					32rem;
 }
-/*
-#section-list ic-breadcrumbs {
-	display:					none;
-	flex:						0 0 100%;
-	margin-bottom:				1rem;
-	padding:					1rem;
-}
-*/
 
 #section-item {
 	flex:						10 0 20rem;

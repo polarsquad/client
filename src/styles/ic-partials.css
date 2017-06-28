@@ -72,12 +72,3 @@ ic-search form button {
 	background-color:				transparent;
 }
 
-
-/* ic-breadcrumbs */
-
-ic-breadcrumbs {
-	display:						block;
-	box-sizing:						border-box;
-	line-height:					2em;
-	padding-left:					1rem;
-}

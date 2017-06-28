@@ -490,15 +490,31 @@ angular.module('icServices', [
 			checkTagsInCategories()
 			
 
-			icTaxonomy.getCategory = function(category_names){
-				var single = (typeof category_name == 'string')
+			icTaxonomy.getCategory = function(haystack){
+				var single = (typeof haystack == 'string')
 				
-				if(single) category_names = [category_names]
+				if(single) haystack = [haystack]
 
 				var result = 	icTaxonomy.categories.filter(function(category){
-									return category_names.indexOf(category.name) != -1
+									return 	haystack.some(function(c){
+												var tag = (c.name || c)
+												return 	tag	 == category.name
+														||	category.tags.indexOf(tag) != -1
+											})
 								})
 				return	result[0]
+			}
+
+			icTaxonomy.getSubCategories = function(haystack){
+				var single = (typeof haystack == 'string')
+				
+				if(single) haystack = [haystack]
+
+				return 	haystack.filter(function(t){
+							return 	icTaxonomy.categories.some(function(category){
+										return 	category.tags.indexOf(t.name || t) != -1
+									})
+						})
 			}
 
 			icTaxonomy.getType = function(type_names){
@@ -553,6 +569,15 @@ angular.module('icServices', [
 
 								return (matches && matches[2].split('-')) || []
 							},
+
+			adjust:			function(ic){
+
+								var mainCategory = ic.taxonomy.getCategory(ic.site.filterByCategory)
+
+								return	mainCategory && ic.site.filterByCategory.indexOf(mainCategory.name) == -1
+										?	ic.site.filterByCategory.concat([mainCategory.name])
+										:	ic.site.filterByCategory
+							}
 		})
 		.registerParameter({
 			name:			'filterByType',

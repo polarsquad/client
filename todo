@@ -148,8 +148,8 @@ Bitte:
 
 
 Todo:
-* Merkliste -> karte -> Page?
 * Tags auf items verlinken
+* SEO Facebook/Server
 
 Done:
 * Browser back (nur links erezuegen neuen history eintrag)
@@ -157,6 +157,9 @@ Done:
 * Marker: "Mehr..." kein pointer
 * cluster nict auf 5 begrenzen wenn maximale zoomstufe -> Fall taucht nicht auf
 * More itemMrker verschwinmet? -> nicht mehr
+* Merkliste -> karte -> Page? -> active show /displays
+* SVGs
+* Breadcrumbs
 
 Bitte:
 * Layouts durchspielen: Karte anzeigen wenn item aktiv? u.a.
@@ -168,4 +171,4 @@ Bitte:
 	-> heading
 	-> buttons?
 	-> hover/click
-
+*Sharing/SEO

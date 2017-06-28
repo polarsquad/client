@@ -1,9 +1,16 @@
-var copyfiles	= require('copyfiles'),
-	fs 			= require('fs-extra'),
-	rimraf		= require('rimraf'),
-	config		= require('./config/config.json')
-	taxonomy	= require('./src/js/config/taxonomy.js'),
-	CleanCSS	= require('clean-css')
+var copyfiles	= 	require('copyfiles'),
+	fs 			= 	require('fs-extra'),
+	rimraf		= 	require('rimraf'),
+	config		= 	require('./config/config.json')
+	taxonomy	= 	require('./src/js/config/taxonomy.js'),
+	CleanCSS	= 	require('clean-css'),
+	SVGO		= 	require('svgo'),
+	svgo		= 	new SVGO({
+						plugins: [
+							{removeTitle:			true},
+						]
+					})
+
 
 
 function setup(){
@@ -74,6 +81,19 @@ function svgColors(src_folder, dest_folder, config){
 			))
 }
 
+function svgMinimize(src_folder, dest_folder){
+	return	fs.ensureDir(dest_folder)
+			.then( () => fs.readdir(src_folder) )
+			.then( result => result.filter( (filename) => filename.match(/\.svg$/) && fs.lstatSync(src_folder+'/'+filename).isFile()) )
+			.then( (filenames) => Promise.all(
+				filenames.map( (filename) => {
+					return	fs.readFile(src_folder+'/'+filename, 'utf8')
+							.then( content => new Promise( resolve => svgo.optimize(content, resolve) ) )
+							.then( result => fs.writeFile(dest_folder+'/'+filename, result.data, { flag : 'w', encoding: 'utf8'}))
+				})				
+			))
+}
+
 function images2Css(src_folder, dst_folder, template_file, preload){
 
 	return	Promise.all([
@@ -109,7 +129,6 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 }
 
 
-///////////////////////
 
 
 function compileIconsSrc2Tmp(){
@@ -117,8 +136,9 @@ function compileIconsSrc2Tmp(){
 				replace: '#000000',
 				colors: [
 					{name: null,		value: '#000000'},
-					{name: 'active',	value: config.activeIconColor || '#802651'},
-					{name: 'white',		value: '#ffffff'}
+					{name: 'active',	value: config.activeIconColor 	|| '#802651'},
+					{name: 'plain',		value: config.plainIconColor	|| '#979797'},
+					{name: 'white',		value: '#ffffff'},
 				]
 			})
 }
@@ -168,7 +188,7 @@ function prepareRoboto(){
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
 }
 
-function copyFilesToTmp(){
+function copyFilesSrcToTmp(){
 	return 	Promise.all([
 				fs.copy("src/images/icons", 	"tmp/images/icons"),
 			])
@@ -176,7 +196,7 @@ function copyFilesToTmp(){
 
 
 
-function copyFilesToDev(){
+function copyReadyFilesToDev(){
 	return 	Promise.all([
 
 				fs.copy("src/js", 				"dev/js"),
@@ -186,11 +206,11 @@ function copyFilesToDev(){
 				fs.copy("vendor.js", 			"dev/js/vendor.js"),
 				
 				//tmp
-				fs.copy("tmp/images", 		"dev/images"),
+				fs.copy("tmp/images", 			"dev/images"),
 				
 
 				//todo?
-				fs.copy("config", 			"dev/config", {dereference: true}),
+				fs.copy("config", 				"dev/config", {dereference: true}),
 			])
 }
 
@@ -264,6 +284,10 @@ function compileIndex(){
 }
 
 
+function minimizeSvgIconsTmp(){
+	return svgMinimize('tmp/images/icons', 'tmp/images/icons')
+}
+
 
 
 function cleanUp(){
@@ -280,7 +304,7 @@ setup()
 
 
 .then( () => process.stdout.write('\nCopying files from /src to /tmp for further processing ...'))
-.then(copyFilesToTmp)
+.then(copyFilesSrcToTmp)
 .then( () =>  process.stdout.write('Done.\n'))
 
 
@@ -322,8 +346,14 @@ setup()
 .then( () =>  process.stdout.write('Done.\n'))
 
 
+
+.then( () => process.stdout.write('\nMinimizing SVGs in /tmp...'))
+.then(minimizeSvgIconsTmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
 .then( () => process.stdout.write('\nCopying ready files to /dev...'))
-.then(copyFilesToDev)
+.then(copyReadyFilesToDev)
 .then( () => process.stdout.write('Done.\n'))
 
 .then( () => process.stdout.write('\nBuidling styles into /dev...'))

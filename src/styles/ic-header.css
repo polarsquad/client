@@ -183,3 +183,20 @@ ic-header.ic-scroll-snapped .tools button span{
 	max-width:						0;
 	z-index:						0;
 }
+
+ic-header .breadcrumbs {
+	padding:						1rem;
+}
+
+ic-header ic-breadcrumbs {
+	display:						flex;
+	box-sizing:						border-box;
+	line-height:					2em;
+	padding-left:					1rem;
+}
+
+ic-header ic-breadcrumbs > *
+ic-header ic-breadcrumbs > * > * {
+	display:						flex;
+	flex:							0 0 auto;
+}

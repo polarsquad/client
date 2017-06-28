@@ -1,6 +1,6 @@
 <!-- tools -->
 
-<div class 	= "tools">
+<div class 	= "tools bg-3">
 
 	<a href = "/p/home" class = "text-logo"> <ic-logo-text></ic-text-logo></a>
 
@@ -46,7 +46,7 @@
 
 <!-- logo -->
 <div 
-	class 					= "logo"
+	class 					= "logo bg-3"
 >
 	<a ng-href = "/p/home"><ic-logo-full></ic-logo-fullsys></a>
 </div>
@@ -56,4 +56,14 @@
 
 <!-- menu -->
 
-<ic-main-menu></ic-main-menu>
+<div class = "bg-3">
+	<ic-main-menu></ic-main-menu>
+</div>
+
+<!-- breadcrumbs -->
+<div 
+	class = "bg-1 breadcrumbs"
+	ng-if = "ic.site.visibleSections.list || ic.site.visibleSections.item"
+>
+	<ic-breadcrumbs class = "bg-0"></ic-breadcrumbs>
+</div>
