@@ -95,9 +95,10 @@
 
 			if(filter_name.match(/[^a-zA-Z0-9]/))			console.error('icItemStorage: filter names must contain only letters or numbers, A-Z, a-z, 0-9: '+filter_name+'.')
 			if(icItemStorage.filters[filter_name]) 			console.error('icItemStorage: filter already registered: '+filter_name+'.')
-			ic.itemConfig.tags.forEach(function(tag){ 
-				if(tag == filter_name) 						console.error('icItemStorage: filter names must be different from tags: "'+filter_name+'"')
-			})
+			//TODO
+			// ic.itemConfig.tags.forEach(function(tag){ 
+			// 	if(tag == filter_name) 						console.error('icItemStorage: filter names must be different from tags: "'+filter_name+'"')
+			// })
 			
 			icItemStorage.filters[filter_name] = match_fn
 			icItemStorage.data.forEach(function(item){
