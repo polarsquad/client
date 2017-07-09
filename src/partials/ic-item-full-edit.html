@@ -1,0 +1,186 @@
+<article class = "bg-0 padding">
+	<!-- title -->
+
+	<ic-item-property-edit
+		ic-type 				= "string"
+		ic-key					= "title"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+	<div
+		ng-if = "edit.title"
+	>
+		<div
+			ng-repeat 	= "title in icConfigData.titles"
+			ng-if		= "(item.title | stripSpecialChars) != (edit.title | stripSpecialChars) && (title | stripSpecialChars) == (edit.title | stripSpecialChars)"
+			
+		>
+			{{'INTERFACE.POSSIBLE_ITEM_DUPLICATE' | translate}}: {{title}}
+		</div>
+	</div>
+
+
+	<!-- definition -->
+
+	<ic-item-property-edit
+		ic-type 				= "string"
+		ic-key					= "definition"
+		ic-item					= "item"
+		ic-translatable			= "true"
+	></ic-item-property-edit>
+
+	<!-- description -->
+
+	<ic-item-property-edit
+		ic-type 				= "text"
+		ic-key					= "description"
+		ic-item					= "item"
+		ic-translatable			= "true"
+	></ic-item-property-edit>
+	
+	<!-- image -->
+
+	<ic-item-property-edit
+		ic-type 				= "string"
+		ic-key					= "imageUrl"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+
+	<hr/>
+
+
+
+	<!-- type -->
+
+	<ic-item-property-edit
+		ic-type					= "string"
+		ic-options				= "::icConfigData['types']"
+		ic-option-label			= "'CATEGORIES.%s' | fill: option | translate"
+		ic-key					= "type"
+		ic-item					= "item"
+	></ic-item-property-edit>
+
+
+	<!-- topics -->
+
+	<ic-item-property-edit
+		ic-type					= "array"
+		ic-options				= "::icConfigData['topics']"
+		ic-option-label			= "'CATEGORIES.%s' | fill: option | translate"
+		ic-key					= "topics"
+		ic-item					= "item"
+	></ic-item-property-edit>
+
+
+	<!-- primary topic -->
+
+	<ic-item-property-edit
+		ic-type					= "string"
+		ic-options				= "edit.topics"
+		ic-option-label			= "'CATEGORIES.%s' | fill: option | translate"
+		ic-key					= "primaryTopic"
+		ic-item					= "item"
+	></ic-item-property-edit>
+	
+
+	<!-- target groups -->
+
+	<ic-item-property-edit
+		ic-type					= "array"
+		ic-options				= "::icConfigData['targetGroups']"
+		ic-option-label			= "'CATEGORIES.%s' | fill: option | translate"
+		ic-key					= "targetGroups"
+		ic-item					= "item"
+	></ic-item-property-edit>
+
+
+	<hr />
+
+	<!-- address, zip, location, country, startDate ... -->
+
+	<ic-item-property-edit
+		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'startDate', 'endDate', 'hours']"
+		ic-type 				= "string"
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+
+	<hr />
+
+	<!--social media -->
+
+	<ic-item-property-edit
+		ng-repeat				= "key in ['website', 'facebook', 'twitter']"
+		ic-type 				= "string"
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+
+	<hr />
+
+	<!--contat details -->
+
+	<ic-item-property-edit
+		ng-repeat				= "key in ['name', 'email', 'phone']"
+		ic-type 				= "string"
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+
+	<hr />
+
+	<!-- misc -->
+
+	<ic-item-property-edit
+		ng-repeat				= "key in ['maxParticipants', 'latitude', 'longitude']"
+		ic-type 				= "string"
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+	></ic-item-property-edit>
+
+	<ic-item-property-edit
+		ng-repeat				= "key in ['price']"
+		ic-type 				= "string"
+		ic-key					= "{{key}}"
+		ic-item					= "item"
+		ic-translatable			= "false"
+		ic-force-number			= "true"
+	></ic-item-property-edit>
+
+
+	<hr />
+
+	<!-- state -->
+
+	<ic-item-property-edit
+		ng-if					= "icUser.can('edit_items')"
+		ic-type					= "string"
+		ic-options				= "::['draft', 'published', 'suggestion', 'archived']"
+		ic-option-label			= "'INTERFACE.ITEM_STATE_%s' | fill : option | translate"
+		ic-key					= "state"
+		ic-item					= "item"
+	></ic-item-property-edit>
+
+
+
+	<!-- Suggestion comment -->
+
+	<ic-item-property-edit
+		ng-if					= "icUser.can('edit_items') || icUser.can('add_new_items') || icUser.can('suggest_item_edits') || icUser.can('suggest_new_items')"
+		ic-type					= "text"
+		ic-key					= "comment"
+		ic-item					= "item"
+		ic-ignore-current-value	= "!icUser.can('edit_items')" 
+	></ic-item-property-edit>
+
+</article>

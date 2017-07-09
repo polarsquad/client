@@ -115,10 +115,8 @@ angular.module('icDirectives', [
 .directive('icItemFull',[
 
 	'ic',
-	'icSite',
-	'icTaxonomy',
 
-	function(ic, icSite,icTaxonomy){
+	function(ic){
 
 		return {
 			restrict:		'AE',
@@ -141,6 +139,210 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+.directive('icItemFullEdit',[
+
+	'ic',
+	'icItemEdits',
+	'icSite',
+
+	function(ic,icItemEdits, icSite){
+
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-full-edit.html',
+			scope:			{},
+
+			link: function(scope, element, attrs){
+				scope.ic 	= ic
+				
+				scope.$watch(
+					function(){
+						return icSite.activeItem
+					},
+					function(item){
+						scope.item = item
+						scope.edit = icItemEdits.get(item.id)
+					}
+				) 
+			
+			}
+		}
+	}
+])
+
+
+
+.directive('icItemPropertyEdit', [
+
+	'icSite',
+	'icUser',
+	'icItemEdits',
+	'icOverlays',
+	'$q',
+
+	function(icSite, icUser, icItemEdits, icOverlays, $q){
+		return {
+			restrict:		'AE',
+			scope:			{
+								icKey:					"@",
+								icTitle: 				"<",
+								icItem:					"<",
+								icType:					"@",
+								icOptions:				"<",
+								icOptionLabel:			"&",
+								icIgnoreCurrentValue:	"<",	//Workaround, TODO
+								icForceNumber:			"<"		//Workaround, TODO
+							},
+
+			templateUrl: 	"partials/ic-item-property-edit.html",
+
+			link: function(scope, element, attrs){
+
+				var itemEdit = icItemEdits.get(scope.icItem.id)
+
+
+				if(itemEdit[scope.icKey] === undefined){
+					console.warn('icItemPropertyEdit: unknown property: ', scope.icKey)
+					return null
+				}
+
+
+				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
+				scope.value				=	{}
+				scope.expand			=	undefined
+				scope.showCurrentValue	=	scope.icItem.state != 'new'
+
+
+
+				scope.validate = function(){
+					scope.errors = itemEdit.getErrors(scope.icKey, scope.value.new)
+				}
+
+				scope.update = function(){
+					scope.updating = true
+					itemEdit
+					.update(scope.icKey, scope.icTranslatable ? icSite.currentLanguage : undefined)
+					.then(
+						function(item_data){
+							scope.icItem.importData(item_data)
+							refreshValues()
+						},
+						function(reason){
+							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDITS')
+							return $q.reject(reason)
+						}
+					)
+					.finally(function(){
+						scope.updating = false
+					})
+				}
+
+				scope.revert = function(){
+					scope.value.new = angular.copy(scope.value.current)
+				}
+
+				scope.diff = function(){
+					if(!scope.value.new) 		return !!scope.value.current
+					if(!scope.value.current) 	return !!scope.value.new
+
+					switch(scope.icType){
+						case "string": 	return scope.value.new != scope.value.current; break;
+						case "text": 	return scope.value.new != scope.value.current; break;
+						case "array": 	return scope.value.new.length != scope.value.current.length || scope.value.new.some(function(option){ return scope.value.current.indexOf(option) == -1 })
+					}
+				}
+
+				scope.toggleOption = function(option){
+					var pos = scope.value.new.indexOf(option)
+
+					return	pos != -1
+							?	scope.value.new.splice(pos,1)
+							:	scope.value.new.push(option)
+
+				}
+
+
+
+
+				function refreshValues(){
+					itemEdit = icItemEdits.get(scope.icItem.id)
+
+					scope.value.new			= 	angular.copy(
+													scope.icTranslatable
+													?	itemEdit[scope.icKey][icSite.currentLanguage] 
+													:	itemEdit[scope.icKey]
+												)
+
+
+					scope.value.current		= 	angular.copy(
+													scope.icTranslatable
+													?	scope.icItem[scope.icKey][icSite.currentLanguage] 
+													:	scope.icItem[scope.icKey]
+												)
+					//workaround, actually the backend should never hand out this value if it is to be ignored:
+					if(scope.icIgnoreCurrentValue){
+						scope.value.current = ''
+					}else{
+						//keep this until workaround is no longer neccessary:
+						if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
+					}
+
+					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
+				}
+
+
+
+
+
+				scope.$watch(function(){ return icSite.currentLanguage }, refreshValues)
+
+				
+				scope.$watch(
+					function(){ 
+						return scope.icItem.state != 'new' && icUser.can('edit_items')
+					},
+					function(allowLocalEdit){
+						scope.allowLocalEdit = 	allowLocalEdit
+					}
+				)
+
+				// scope.$watch(
+				// 	function(){ return itemEdit.isInvalidKey(scope.icKey)},
+				// 	function(invalid){
+				// 		element.toggleClass('invalid', invalid)
+				// 	}
+				// )
+
+				scope.$watch('icItem[icKey]', refreshValues, true)
+
+				scope.$watch('value.new', function(){
+
+					// if(scope.icForceNumber && scope.value.new){	//Workaround
+					// 	if(!scope.value.new.match(/^\d*\.?\d{0,2}$/)){
+					// 		scope.value.new = 	scope.value.new
+					// 							.replace(/[^\d,.]/, '')
+					// 							.replace(/,/,'.')
+					// 							.replace(/^(\d*\.\d{2})\d*/, '$1')
+					// 		scope.value.new = String((parseFloat(scope.value.new) || 0 ).toFixed(2))
+					// 	}
+					// }
+
+					// if(scope.icTranslatable){
+					// 	itemEdit[scope.icKey][icSite.currentLanguage] = scope.value.new
+					// } else {
+					// 	itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
+					// 							?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
+					// 							:	scope.value.new
+					// }
+
+					// itemEdit.validateKey(scope.icKey)
+				})
+			}
+		}
+	}
+])
+
 
 
 .directive('icItemProperty', [
@@ -487,6 +689,63 @@ angular.module('icDirectives', [
 
 ])
 
+
+.directive('icLogin',[
+
+	'icUser',
+	'icOverlays',
+	'icItemStorage',
+
+	function(icUser, icOverlays, icItemStorage){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-login.html',
+			transclude:		true,
+
+			link: function(scope, element){
+				scope.username = ''
+				scope.password = ''
+
+				scope.login = function(){
+					icOverlays.toggle('spinner', true, true)
+					icUser.login(scope.username, scope.password)
+					.then(
+						function(){
+							scope.username = ''
+							scope.password = ''
+
+							icItemStorage.downloadAll()
+
+							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
+									.finally(function(){
+										if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
+									})
+
+						},
+						function(reason){
+							console.log('icLoginDirective:', reason)
+							var messages = 	{
+												'unknown user': 	'INTERFACE.LOGIN_UNKNOWN_USERNAME',
+												'invalid password':	'INTERFACE.LOGIN_INVALID_PASSWORD',
+												'locked account':	'INTERFACE.LOGIN_ACCOUNT_LOCKED'
+											}
+
+							return icOverlays.open('login', messages[reason] || 'INTERFACE.UNKNOWN', icOverlays.deferred.login, true)
+						}
+					)
+				}
+
+				scope.cancel = function(){
+					scope.username = ''
+					scope.password = ''					
+					if(icOverlays.deferred.login) icOverlays.deferred.login.reject()
+					icOverlays.toggle('login', false)
+				}
+
+			}
+		}
+	}
+])
 
 
 
@@ -2647,61 +2906,7 @@ angular.module('icDirectives', [
 // ])
 
 
-// .directive('icLogin',[
 
-// 	'icApi',
-// 	'icOverlays',
-// 	'icSearchResults',
-
-// 	function(icApi, icOverlays, icSearchResults){
-// 		return {
-// 			restrict:		'E',
-// 			templateUrl:	'partials/ic-login.html',
-// 			transclude:		true,
-
-// 			link: function(scope, element){
-// 				scope.username = ''
-// 				scope.password = ''
-
-// 				scope.login = function(){
-// 					icOverlays.toggle('spinner', true, true)
-// 					icApi.login(scope.username, scope.password)
-// 					.then(
-// 						function(){
-// 							scope.username = ''
-// 							scope.password = ''
-
-// 							icSearchResults.download()
-
-// 							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
-// 									.finally(function(){
-// 										if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
-// 									})
-
-// 						},
-// 						function(reason){
-// 							var messages = 	{
-// 												'unknown user': 	'INTERFACE.LOGIN_UNKNOWN_USERNAME',
-// 												'invalid password':	'INTERFACE.LOGIN_INVALID_PASSWORD',
-// 												'locked account':	'INTERFACE.LOGIN_ACCOUNT_LOCKED'
-// 											}
-
-// 							return icOverlays.open('login', messages[reason] || 'INTERFACE.UNKNOWN', icOverlays.deferred.login, true)
-// 						}
-// 					)
-// 				}
-
-// 				scope.cancel = function(){
-// 					scope.username = ''
-// 					scope.password = ''					
-// 					if(icOverlays.deferred.login) icOverlays.deferred.login.reject()
-// 					icOverlays.toggle('login', false)
-// 				}
-
-// 			}
-// 		}
-// 	}
-// ])
 
 
 

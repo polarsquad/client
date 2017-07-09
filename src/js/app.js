@@ -146,9 +146,15 @@ angular.module("InfoCompass",[
 								return	true
 							}				
 		})
+		
 		.registerSwitch({
 			name:			'expandMap',
 			index:			0
+		})		
+
+		.registerSwitch({
+			name:			'editItem',
+			index:			1
 		})
 	}
 ])
@@ -277,16 +283,6 @@ angular.module("InfoCompass",[
 	function($rootScope, $location, ic){
 
 		$rootScope.ic = ic
-
-
-		$rootScope.$watch(
-			function() { 
-				return $location.path(); 
-			},
-			function(a){  
-				console.log('url has changed: ' + a);
-    		}
-    	)
 
 		$rootScope.$on('$routeChangeStart', function(){
 			console.log('$routeChangeStart')

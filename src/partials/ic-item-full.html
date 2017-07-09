@@ -9,6 +9,15 @@
 		<ic-spinner active = "item.downloading"></ic-spinner>	
 
 		<div class = "main">
+
+			{{ic.site.editItem}}
+
+			<button 
+				class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
+				ng-click 	= "ic.site.editItem = true" 
+				ng-if		= "ic.user.can('edit_items')"
+			>
+			</button>
 			
 			<button 
 				class 		= "icon round large active icon-interface-share drop-shadow bg-0"
@@ -33,9 +42,9 @@
 		</div>
 	</div>
 	<div 
-		class	= "hero" 
-		style	= "background-image: url({{item.image}})"
-		ng-if	= "item.image"
+		class		= "hero" 
+		ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+		ng-if		= "item.image"
 	></div> 
 </header>
 

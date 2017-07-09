@@ -98,6 +98,18 @@
 					.delete({id: icItem.id})
 		}
 
+		icItem.getErrors = function(property_name, value){
+			console.log('getErrors:', property_name)
+			var property = ic.itemConfig.properties.filter(function(property){ return property.name == property_name})[0]
+
+			if(!property) console.warn('icItem: getErrors; unknown property:', property_name)
+
+			return	property
+					?	property.getErrors(value)
+					:	null
+
+		}
+
 
 
 		if(item_data && item_data.id){

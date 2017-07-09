@@ -37,6 +37,73 @@ angular.module('icServices', [
 
 
 
+.service('icUser', [
+
+	'$q',
+
+	function($q){
+
+		var icUser = this
+
+		if(!dpd.users) console.error('icUser: missing dpd.users')
+
+		icUser.clear = function(){
+			icUser.loggedIn			= false
+			icUser.displayName 		= undefined
+			icUser.privileges 		= ['suggest_new_items', 'suggest_item_changes']
+		}
+
+
+		icUser.setup = function(){
+			return	$q.when(dpd.users.me())
+					.then(
+						function(result){
+							icUser.loggedIn		= true
+							icUser.displayName 	= result.displayName
+							icUser.privileges	= result.privileges 		
+							return result					
+						},
+						icUser.clear
+					)
+		}
+
+
+		icUser.login = function(username, password){
+			return 	$q.when(dpd.users.login({
+						username: username,
+						password: password
+					}))
+					.then(icUser.setup)
+		}
+
+		icUser.logout = function(){
+			return 	$q.when(dpd.users.logout())
+					.then(
+						function(){
+							icUser.clear()
+						},
+						function(e){
+							console.log('icUser: logout failed:', e)
+							return $q.reject(e)
+						}
+					)
+
+		}
+
+		icUser.can = function(task){
+			return 	icUser.privileges && icUser.privileges.indexOf(task) != -1
+		}
+
+
+		icUser.ready = icUser.setup()
+
+		return icUser
+	}
+])
+
+
+
+
 
 
 .provider('icSite', function(){
@@ -188,10 +255,12 @@ angular.module('icServices', [
 
 
 			function search2Switches(){
-				var binary_str = parseInt($location.search().s || 0, 36).toString(2)
+				console.log('search_s:', $location.search().s)
+				var binary_str 	= parseInt($location.search().s || 0, 36).toString(2),
+					length		= binary_str.length
 
-				icSite.config.switches.forEach(function(swt, index){
-					icSite[swt.name] = !!parseInt(binary_str[swt.index])
+				icSite.config.switches.forEach(function(swt){
+					icSite[swt.name] = !!parseInt(binary_str[length-swt.index-1])
 
 				})
 
@@ -201,14 +270,16 @@ angular.module('icServices', [
 			function switches2Search(){
 				if(!icSite.config.switches.length) return null
 
-				var arr = Array(1 + icSite.config.switches.reduce(function(max, swt){ return Math.max(max, swt.index) },0 )).fill(0),
+				var length = 1 + icSite.config.switches.reduce(function(max, swt){ return Math.max(max, swt.index) },0 ),
+					arr = Array(length).fill(0),
 					s	= '0'
 
 				icSite.config.switches.forEach(function(swt){
-					arr[swt.index] = icSite[swt.name] ? 1 : 0
+					arr[length-swt.index-1] = icSite[swt.name] ? 1 : 0
 				})
 
-				s = parseInt(arr.join() , 2).toString(36)
+				s = parseInt(arr.join('') , 2).toString(36)
+
 				return 	s == '0'
 						?	null
 						:	s
@@ -370,8 +441,10 @@ angular.module('icServices', [
 		'$q',
 		'$rootScope',
 		'icSite',
+		'icUser',
 
-		function($q, $rootScope, icSite){
+		function($q, $rootScope, icSite, icUser){
+
 			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
 			var icItemStorage = itemStorage
@@ -380,7 +453,10 @@ angular.module('icServices', [
 				$rootScope.$apply()
 			})
 
-			icItemStorage.ready 		= 	$q.when(icItemStorage.downloadAll())
+			icItemStorage.ready 		= 	icUser.ready
+											.then(function(){
+												return 	icItemStorage.downloadAll()
+											})
 											.then(function(){
 												icItemStorage.updateFilteredList()
 											})
@@ -482,9 +558,11 @@ angular.module('icServices', [
 					})
 				})
 
-				itemConfig.tags.forEach(function(tag){
-					if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not accounted for in Catgories:', tag)
-				})
+				//Todo
+
+				// itemConfig.tags.forEach(function(tag){
+				// 	if(!tag_in_cat[tag]) console.warn('icTaxonomy: tag not accounted for in Catgories:', tag)
+				// })
 			}
 
 			checkTagsInCategories()
@@ -728,6 +806,49 @@ angular.module('icServices', [
 ])
 
 
+
+
+
+
+.service('icItemEdits', [
+
+	'icItemStorage',
+
+	function icItemEdits(icItemStorage){
+
+		if(!(window.ic && window.ic.Item)) console.error('icItemEdits: missing IcItem. Please load dpd-items.js')
+
+
+		var data 		= [],
+			icItemEdits = this
+
+		icItemEdits.get = function(id){
+			var item = 	data.filter(function(itemEdit){
+							return itemEdit.id == id
+						})[0]
+			if(!item){
+				item = new ic.Item({id: id})
+				data.push(item)
+			}
+
+			return item
+		}
+
+		icItemEdits.clear = function(id){
+			data = 	data.filter(function(itemEdit){
+						return itemEdit.id != id
+					})
+		}
+
+
+		return icItemEdits
+	}
+])
+
+
+
+
+
 .provider('icLanguages', function(){
 
 	var translationTableUrl = '',
@@ -766,7 +887,6 @@ angular.module('icServices', [
 			icLanguages.ready = 	$http.get(translationTableUrl)
 									.then(
 										function(result){
-											console.log(result)
 											return result.data
 										},
 										function(){
@@ -1043,8 +1163,9 @@ angular.module('icServices', [
 	'icFavourites',
 	'icOverlays',
 	'icAdmin',
+	'icUser',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1055,6 +1176,7 @@ angular.module('icServices', [
 		ic.favourites	= icFavourites
 		ic.overlays		= icOverlays
 		ic.admin		= icAdmin
+		ic.user			= icUser
 
 		console.dir(ic)
 	}

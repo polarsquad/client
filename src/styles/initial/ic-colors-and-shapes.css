@@ -75,7 +75,9 @@
 
 
 
-
+.padding {
+	padding:					1rem;
+}
 
 .round {
 	border-radius:				999rem;

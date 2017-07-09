@@ -109,6 +109,12 @@ ic-header ic-main-menu ul {
 ic-header ic-main-menu ul > li {
 	display:						inline-block;
 	padding:						0 1rem;
+	flex:							0 0 auto;
+}
+
+ic-header ic-main-menu ul > li.spacer {
+
+	flex:							1 0 0;
 }
 
 

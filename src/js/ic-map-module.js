@@ -413,7 +413,7 @@ angular.module('icMap', [
 																if(
 																		// in icItemStorage:
 																		list.indexOf(marker.options.item) != -1
-																		// current item:
+																		// active item:
 																	||	(icSite.activeItem && marker.options.item.id == icSite.activeItem.id)
 																){
 																	return true
@@ -438,20 +438,20 @@ angular.module('icMap', [
 
 				}
 
-				function updateCurrentItemMarker(previous, current){
-					var previous_item	= previous,
-						item			= current
+				function updateActiveItemMarker(active_id, previous_id){
+
+					console.log(previous_id, active_id)
 
 					//remove previous item marker:
-					if(previous_item){
-						markers.getLayers(function(marker){
-							if(marker.options.item.id == previous_item.id) markers.removeLayer(marker)
+					if(previous_id){
+						markers.getLayers().forEach(function(marker){
+							if(marker.options.item.id == previous_id) markers.removeLayer(marker)
 						})
 					}
 
-					//add current item marker:
-					if(item){
-						markers.addLayer(getMarker(item))
+					//add active item marker:
+					if(icSite.activeItem){
+						markers.addLayer(getMarker(icSite.activeItem))
 					}
 
 					//markers.refreshClusters()
@@ -484,14 +484,19 @@ angular.module('icMap', [
 						}
 					),
 
-					stop_watching_currentItem = $rootScope.$watch(
-						function(){ return [icSite.activeItem, icSite.activeItem && icSite.activeItem.longitude, icSite.activeItem && icSite.activeItem.latitude] }, 
+					stop_watching_activeItem = $rootScope.$watchCollection(
+						function(){ 
+							return 	[
+											icSite.activeItem && icSite.activeItem.id, 
+											icSite.activeItem && icSite.activeItem.longitude, 
+											icSite.activeItem && icSite.activeItem.latitude
+									]
+						}, 
 						function(p,c){
 							window.requestAnimationFrame(function(){
-								updateCurrentItemMarker(p[0],c[0])								
+								updateActiveItemMarker(p[0],c[0])								
 							})
-						}, 
-						true
+						}
 					),
 
 					stop_watching_displayedSections = $rootScope.$watch(
@@ -510,7 +515,7 @@ angular.module('icMap', [
 					icMainMap.clearMapObject()
 					stop_watching_filteredList()
 					stop_watching_displayedSections()
-					stop_watching_currentItem()
+					stop_watching_activeItem()
 					angular.element(window).off('resize', adjustSize)
 
 				})

@@ -22,17 +22,24 @@
 		</a>		
 
 		<ul ng-show = "showMore">
-			<li><a href="/p/about" hover-meh>		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li><a href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
 			<li><a href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
 			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
 			<li><a href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
 			<li><a href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
 		</ul>
 	</li>
-<!-- 	
-	<li>
-		<a href="#" class = "icon right icon-interface-down white">{{'INTERFACE.ADMIN' | translate}}</a>	
-		<ul>
+	<li class 	= "spacer"></li>
+	
+	<li 
+		ng-if				= "ic.user.loggedIn"
+		ng-mouseenter 		= "showAdmin = true" 
+		ng-mouseleave		= "showAdmin= false"
+		ng-click			= "showAdmin = !showAdmin"
+		ic-click-outside 	= "showAdmin = false" 
+	>
+		<a class = "icon right icon-interface-down white">{{'INTERFACE.ADMIN' | translate}}</a>	
+		<ul ng-show = "showAdmin">
 			<li>
 				<a
 					ng-click = "ic.admin.updateTranslations()"
@@ -40,7 +47,13 @@
 			</li>
 		</ul>
 	</li>
- -->
+
+	<li ng-if	= "!ic.user.loggedIn">
+		<a ng-click = "ic.overlays.toggle('login')">login</a>
+	</li>
+	<li ng-if	= "ic.user.loggedIn">
+		<a ng-click = "ic.user.logout()">logout</a>
+	</li>
 
  	
 </ul>

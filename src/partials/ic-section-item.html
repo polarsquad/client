@@ -1,2 +1,11 @@
-<ic-item-full class = "bg-0">
+<ic-item-full 
+	ng-if = "!ic.site.editItem" 
+	class = "bg-0"
+>
 </ic-item-full>
+
+<ic-item-full-edit 
+	ng-if = "ic.site.editItem" 
+	class = "bg-0"
+>
+</ic-item-full-edit>

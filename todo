@@ -38,6 +38,7 @@ Todo:
 * icons ergänzen
 * filter scroll nicht
 
+
 * HTMl title
 * category icon disabled too dark
 * ROBOTO
@@ -156,7 +157,6 @@ Done:
 * Links generieren, damit back button läuft -> anders gelöst
 * Marker: "Mehr..." kein pointer
 * cluster nict auf 5 begrenzen wenn maximale zoomstufe -> Fall taucht nicht auf
-* More itemMrker verschwinmet? -> nicht mehr
 * Merkliste -> karte -> Page? -> active show /displays
 * SVGs
 * Breadcrumbs
@@ -172,3 +172,26 @@ Bitte:
 	-> buttons?
 	-> hover/click
 *Sharing/SEO
+
+
+TODO! Sharing
+
+
+Todo: 
+* Edit
+* Taxonomy aufräumen
+* Dashboard schützen
+* security password hash
+* https
+* Breadcrumbs rand weg
+* Todo in dev sheet
+* schatten karte
+* layout sharing
+* meta
+
+
+Done:
+* Login und AdminMenu
+* Einträge vervielfältigen sich -> scheint wieder zu gehen. -> zwei fehler gefixt
+* More itemMrker verschwinmet? -> ist gut, waren vorher zuviele (dopelte?) marker
+
