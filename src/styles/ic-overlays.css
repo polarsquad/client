@@ -171,6 +171,7 @@ ic-overlays > .right {
 }
 
 ic-overlays > .ic-hide {
+	display:				none;
 	opacity:				0 !important;
 }
 

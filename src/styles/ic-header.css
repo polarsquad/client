@@ -190,10 +190,6 @@ ic-header.ic-scroll-snapped .tools button span{
 	z-index:						0;
 }
 
-ic-header .breadcrumbs {
-	padding:						1rem;
-}
-
 ic-header ic-breadcrumbs {
 	display:						flex;
 	box-sizing:						border-box;

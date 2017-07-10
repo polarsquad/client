@@ -459,7 +459,8 @@ angular.module('icUiDirectives', [
 			rep = 	rep || 'undefined'
 			rep = 	rep
 					.replace(/\s/, '_')
-					.replace(/([A-Z])/g, '_$1').toUpperCase()
+					//.replace(/([A-Z])/g, '_$1')
+					.toUpperCase()
 			return str.replace(/%s/, rep)
 		}
 	}

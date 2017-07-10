@@ -183,9 +183,7 @@ Todo:
 * Dashboard schützen
 * security password hash
 * https
-* Breadcrumbs rand weg
 * Todo in dev sheet
-* schatten karte
 * layout sharing
 * meta
 
@@ -194,4 +192,11 @@ Done:
 * Login und AdminMenu
 * Einträge vervielfältigen sich -> scheint wieder zu gehen. -> zwei fehler gefixt
 * More itemMrker verschwinmet? -> ist gut, waren vorher zuviele (dopelte?) marker
+* Inverted Taxonomy
+* Taxonomy interativ (zahlen stimmen nicht)
+* Edit angelegt
+* s.todo
+* Breadcrumbs rand weg -> Schatten
+* schatten karte
+* active-KLasse auschtauschn
 

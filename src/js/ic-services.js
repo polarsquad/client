@@ -57,13 +57,19 @@ angular.module('icServices', [
 		icUser.setup = function(){
 			return	$q.when(dpd.users.me())
 					.then(
-						function(result){
-							icUser.loggedIn		= true
-							icUser.displayName 	= result.displayName
-							icUser.privileges	= result.privileges 		
-							return result					
+						function(user_data){
+							if(user_data && user_data.id){
+								icUser.loggedIn		= true
+								icUser.displayName 	= user_data.displayName
+								icUser.privileges	= user_data.privileges 		
+								return icUser								
+							} else {
+								icUser.clear()
+							}
 						},
-						icUser.clear
+						function(){
+							console.error('icUser: unable to setup user.')							
+						}
 					)
 		}
 
@@ -255,7 +261,6 @@ angular.module('icServices', [
 
 
 			function search2Switches(){
-				console.log('search_s:', $location.search().s)
 				var binary_str 	= parseInt($location.search().s || 0, 36).toString(2),
 					length		= binary_str.length
 
@@ -696,8 +701,10 @@ angular.module('icServices', [
 							
 			if(replace) icFilterConfig.clearType()
 
-			if(pos == -1 &&  toggle) 				return !!icSite.filterByType.push(type_name)
-			if(pos != -1 && !toggle && !replace) 	return !!icSite.filterByType.splice(pos,1)
+			if(pos == -1 &&  toggle) 				icSite.filterByType.push(type_name)
+			if(pos != -1 && !toggle && !replace) 	icSite.filterByType.splice(pos,1)
+
+			return icFilterConfig
 
 		}
 

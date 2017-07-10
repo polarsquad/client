@@ -115,8 +115,9 @@ angular.module('icDirectives', [
 .directive('icItemFull',[
 
 	'ic',
+	'icSite',
 
-	function(ic){
+	function(ic, icSite){
 
 		return {
 			restrict:		'AE',
@@ -216,7 +217,7 @@ angular.module('icDirectives', [
 
 
 				scope.validate = function(){
-					scope.errors = itemEdit.getErrors(scope.icKey, scope.value.new)
+					scope.error = itemEdit.getErrors(scope.icKey, scope.value.new)
 				}
 
 				scope.update = function(){

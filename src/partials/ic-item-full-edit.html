@@ -25,7 +25,7 @@
 
 	<ic-item-property-edit
 		ic-type 				= "string"
-		ic-key					= "definition"
+		ic-key					= "brief"
 		ic-item					= "item"
 		ic-translatable			= "true"
 	></ic-item-property-edit>
@@ -43,7 +43,7 @@
 
 	<ic-item-property-edit
 		ic-type 				= "string"
-		ic-key					= "imageUrl"
+		ic-key					= "image"
 		ic-item					= "item"
 		ic-translatable			= "false"
 	></ic-item-property-edit>
@@ -99,10 +99,10 @@
 
 	<hr />
 
-	<!-- address, zip, location, country, startDate ... -->
+	<!-- location, address, zip, country... -->
 
 	<ic-item-property-edit
-		ng-repeat				= "key in ['address', 'zip', 'location', 'country', 'startDate', 'endDate', 'hours']"
+		ng-repeat				= "key in ['location, address', 'zip', 'location', 'country', 'startDate', 'endDate', 'hours']"
 		ic-type 				= "string"
 		ic-key					= "{{key}}"
 		ic-item					= "item"

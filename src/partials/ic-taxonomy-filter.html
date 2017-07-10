@@ -14,8 +14,8 @@
 	<ul class = "bg-0">
 		<li
 			class 		= "icon icon-interface-all"
-			ng-class	= "{active:ic.filterConfig.typeCleared()}"
-			ng-click	= "ic.filterConfig.clearType()" 
+			ng-class	= "{'bg-3 white':ic.filterConfig.typeCleared()}"
+			ng-click	= "ic.filterConfig.clearType().clearCategory().clearUnsortedTags()" 
 			ic-touch-me	= "true"
 		>
 			<div>{{'INTERFACE.FILTER_ANY' | translate}}</div>
@@ -24,14 +24,15 @@
 			ng-repeat 	= "type in ic.taxonomy.types"
 			class 		= "icon icon-type-{{::type.name}}"
 			ic-button	= "{active:ic.filterConfig.typeActive(type.name), disabled: !ic.itemStorage.currentStats.altMatches[type.name]}"
-			ng-class	= "{active:active, disabled: disabled}"
-			ng-click	= "!disabled && ic.filterConfig.toggleType(type.name, undefined, true)"
-			ic-touch-me	= "!disabled"
+			ng-class	= "{'bg-3 white':active, XXXdisabled: disabled}"
+			ng-click	= "!XXXdisabled && (ic.filterConfig.toggleType(type.name, undefined, true).clearCategory().clearUnsortedTag())"
+			ic-touch-me	= "!XXXdisabled"
 		>
 			<div>{{'TYPES.%s' | fill : type.name |translate}} </div>
 			<span 
-				class = "bubble shade-light col-1"
-				ng-if = "!disabled"
+				class 		= "bubble"
+				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
+				ng-if 		= "!disabled"
 			>
 				{{ic.itemStorage.currentStats.altMatches[type.name]}}
 			</span>
@@ -53,8 +54,8 @@
 		<li
 			ng-if		= "true"
 			class 		= "icon icon-interface-all"
-			ng-class	= "{active:ic.filterConfig.categoryCleared()}"
-			ng-click	= "ic.filterConfig.clearCategory()" 
+			ng-class	= "{'bg-3 white':ic.filterConfig.categoryCleared()}"
+			ng-click	= "ic.filterConfig.clearCategory().clearUnsortedTag()" 
 			ic-touch-me	= "true"
 		>
 			<div>{{'INTERFACE.FILTER_ANY' | translate}}</div>
@@ -64,14 +65,15 @@
 			ng-if		= "true"
 			class		= "icon icon-category-{{::category.name}} bg-0"
 			ic-button	= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.currentStats.altMatches[category.name]}"
-			ng-class	= "{active:active, disabled: disabled}"
-			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name, undefined, true)"
+			ng-class	= "{'bg-3 white':active, disabled: disabled}"
+			ng-click	= "!disabled && ic.filterConfig.toggleCategory(category.name, undefined, true); ic.filterConfig.clearUnsortedTag()"
 			ic-touch-me	= "!disabled"
 		>
 			<div>{{'CATEGORIES.%s' | fill : category.name | translate}}</div>
 			<span 
-				class = "bubble shade-light col-1"
-				ng-if = "!disabled"
+				class 		= "bubble"
+				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
+				ng-if 		= "!disabled"
 			>
 				{{ic.itemStorage.currentStats.altMatches[category.name]}}
 			</span>
@@ -93,7 +95,7 @@
 		<li
 			ng-if		= "true"
 			class 		= "icon icon-interface-all"
-			ng-class	= "{active:ic.filterConfig.unsortedTagCleared()}"
+			ng-class	= "{'bg-3 white':ic.filterConfig.unsortedTagCleared()}"
 			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
 			ic-touch-me	= "true"
 		>
@@ -110,8 +112,8 @@
 		>
 			<div>{{'UNSORTED_TAGS.%s' | fill : tag | translate }}</div>
 			<span 
-				class = "bubble shade-light col-1"
-				ng-if = "!disabled"
+				class 		= "bubble shade-light col-1: !active"
+				ng-if 		= "!disabled"
 			>{{ic.itemStorage.currentStats.subMatches[tag]}}</span>
 		</li>
 	</ul>

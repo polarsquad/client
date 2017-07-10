@@ -8,7 +8,7 @@
 <div 
 	ng-if	= "expand"
 	class 	= "requirement"
->{{'ITEMS_%s_REQUIREMENT' | fill : icKey | translate}}</div>
+>{{'ITEMS.%s_NOTE' | fill : icKey | translate}}</div>
 
 
 <form 
@@ -127,9 +127,9 @@
 
 
 
-	<ul class = "errors">
-		<li ng-repeat = "error in errors">
-			{{error|translate}}
+	<ul class = "error">
+		<li ng-if = "error">
+			{{'ITEM.ERROR_%s' | fill : error.code|translate}}
 		</li>
 	</ul>
 
