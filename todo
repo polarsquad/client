@@ -206,9 +206,11 @@ Todo(neu):
 * -> aktiver marker verschwindet
 * taxonomy filter total matches
 * login unter mehr
-* statt admin -> username
 * logout unter admin
 * sharing -> neues tab
 * meta
 * facebook temporär deaktivieren
 * automatische übersetzung
+
+Done:
+* statt admin -> username
