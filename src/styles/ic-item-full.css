@@ -4,7 +4,6 @@ ic-item-full {
 }
 
 ic-item-full header {
-	margin-bottom:				2rem;
 	min-height:					5rem;
 }
 
@@ -47,8 +46,11 @@ ic-item-full article .description{
 	line-height: 1.57;
 }
 
-ic-item-full > article,
-ic-item-full > ic-item-property {
+ic-item-full > section {
+	padding:					2rem 0;
+}
+
+ic-item-full > section > * {
 	display:					flex;
 	margin-bottom:				1rem;
 	padding:					0 1rem;
@@ -58,21 +60,18 @@ ic-item-full > ic-item-property a {
 	color:						#802651;
 }
 
-ic-item-full > article	> *:nth-child(1),
-ic-item-full > ic-item-property	> *:nth-child(1) {
+ic-item-full > section > * > *:nth-child(1){
 	flex:						1 0 0;
 	text-align:					right;
 	padding-right:				2rem;
 }
 
-ic-item-full > article	> *:nth-child(2),
-ic-item-full > ic-item-property	> *:nth-child(2){
+ic-item-full > section  > *	> *:nth-child(2){
 	flex:						10 0 0;
 	max-width: 					40rem;
 }
 
-ic-item-property:after,
-ic-item-full > article:after {
+ic-item-full > section > *:after {
 	content:					'';
 	flex:						1 0 0;
 }
@@ -97,7 +96,7 @@ ic-item-full h3 {
 
 
 ic-item-full .qrcode {
-	margin:						3rem 0;
+	margin-top:					3rem;
 	text-align:					center;
 }
 
@@ -112,7 +111,6 @@ ic-item-full .qrcode qrcode canvas{
 }
 
 ic-item-full footer.screen-only {
-	padding:					1rem 0;
 }
 
 
@@ -122,7 +120,7 @@ ic-item-full footer.screen-only button {
 	width:						100%;
 	text-align:					left;
 	box-sizing:					border-box;
-	margin-bottom:				1rem;
+	margin:						1rem 0;
 }
 
 ic-item-full footer.screen-only button > * {

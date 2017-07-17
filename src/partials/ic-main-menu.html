@@ -27,6 +27,9 @@
 			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
 			<li><a href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
 			<li><a href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li ng-if	= "!ic.user.loggedIn">
+				<a ng-click = "ic.overlays.toggle('login')">{{'INTERFACE.LOGIN'}}</a>
+			</li>
 		</ul>
 	</li>
 	<li class 	= "spacer"></li>
@@ -38,23 +41,19 @@
 		ng-click			= "showAdmin = !showAdmin"
 		ic-click-outside 	= "showAdmin = false" 
 	>
-		<a class = "icon right icon-interface-down white">{{'INTERFACE.ADMIN' | translate}}</a>	
+		<a class = "icon left icon-interface-down white">{{ic.user.displayName}}</a>	
 		<ul ng-show = "showAdmin">
 			<li>
 				<a
 					ng-click = "ic.admin.updateTranslations()"
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
 			</li>
+			<li>
+				<a
+					ng-click = "ic.user.logout()"
+				>{{'INTERFACE.LOGOUT' | translate}}</a>	
+			</li>
 		</ul>
 	</li>
-
-	<li ng-if	= "!ic.user.loggedIn">
-		<a ng-click = "ic.overlays.toggle('login')">login</a>
-	</li>
-	<li ng-if	= "ic.user.loggedIn">
-		<a ng-click = "ic.user.logout()">logout</a>
-	</li>
-
- 	
 </ul>
 

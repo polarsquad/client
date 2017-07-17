@@ -395,7 +395,7 @@ angular.module('icUiDirectives', [
 			restrict: 'A',
 
 			link: function(scope, element, attrs){
-				if(attrs.focusMe === undefined || scope.$eval(attrs.focusMe) ) element[0].focus()
+				if(attrs.focusMe === undefined || attrs.focusMe === "" || scope.$eval(attrs.focusMe) ) element[0].focus()
 			}
 		}
 	}

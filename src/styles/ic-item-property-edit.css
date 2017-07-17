@@ -1,0 +1,36 @@
+ic-item-property-edit h4 {
+	margin:						0;
+}
+
+ic-item-property-edit .current-value{
+	font-size:					1em;
+	padding-left:				1rem;
+	opacity:					0.6;
+}
+
+ic-item-property-edit .current-value.diff {
+	text-decoration:			line-through;
+}
+
+ic-item-property-edit input[type = "text"]{
+	padding:					0.5rem 1rem;
+}
+
+ic-item-property-edit [type = "text"]:focus {
+	box-shadow:					0 0 0 1px #000 inset;
+}
+
+ic-item-property-edit input[type = "text"].invalid {
+	box-shadow:					0 0 0 2px #802651 inset;
+}
+
+ic-item-property-edit .error {
+	padding:					0.5rem 1rem ;
+}
+
+
+
+
+
+
+

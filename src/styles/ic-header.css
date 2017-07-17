@@ -107,25 +107,37 @@ ic-header ic-main-menu ul {
 }
 
 ic-header ic-main-menu ul > li {
+	position:						relative;
 	display:						inline-block;
 	padding:						0 1rem;
 	flex:							0 0 auto;
 }
 
 ic-header ic-main-menu ul > li.spacer {
-
 	flex:							1 0 0;
+}
+
+ic-header ic-main-menu > ul > li:last-child {
+	margin-right:					1rem;
 }
 
 
 ic-header ic-main-menu ul > li > ul {
 	display:						block;
-	margin-left:					-1rem;
+	left:							0;
 	position:						absolute;
 	overflow:						hidden;
-	z-index:						99;
+	z-index:						-1;
 	box-shadow:						0 0 0.5em rgba(0,0,0,0.5);
 }
+
+ic-header ic-main-menu li.spacer + li ul{
+	right:							0;
+	left:							auto;
+}
+
+
+
 
 /*
 ic-header ic-main-menu ul > li:hover > ul {
@@ -141,6 +153,7 @@ ic-header ic-main-menu ul > li > ul > li {
 	line-height:					2.5rem;
 	padding: 						0;
 	border: 						0;
+	white-space: 					nowrap;
 }
 
 ic-main-menu ul > li > ul > li a {
@@ -161,8 +174,6 @@ ic-main-menu ul > li > ul > li a:hover{
 ic-header ic-main-menu ul > li > ul > li:last-child {
 	border-bottom:					0px;
 }
-
-
 
 
 
@@ -195,6 +206,11 @@ ic-header ic-breadcrumbs {
 	box-sizing:						border-box;
 	line-height:					2em;
 	padding-left:					1rem;
+}
+
+ic-header .breadcrumbs {
+	position:						relative;
+	z-index:						-10;
 }
 
 ic-header ic-breadcrumbs > *

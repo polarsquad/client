@@ -1,0 +1,42 @@
+<a 
+	class		= "bg-3 round"
+	ng-repeat	= "type in ic.site.filterByType"
+	title		= "INTERFACE.REMOVE_FILTER"
+	ng-click	= "ic.filterConfig.toggleType(type)"
+	ic-touch-me
+>
+	<span>	{{'TYPES.%s' | fill : type | translate }} </span>
+	<span class = "icon right white icon-interface-close"></span>
+</a>
+
+<a 
+	class		= "bg-3 round"
+	ng-repeat	= "category in ic.site.filterByCategory"
+	title		= "INTERFACE.REMOVE_FILTER"
+	ng-click	= "ic.filterConfig.toggleCategory(category)"
+	ic-touch-me
+>
+	<span>	{{'CATEGORIES.%s' | fill : category | translate }} </span>
+	<span class = "icon right white icon-interface-close"></span>
+</a>
+
+<a 
+	class		= "bg-3 round"
+	ng-repeat	= "tag in ic.site.filterByUnsortedTag"
+	title		= "INTERFACE.REMOVE_FILTER"
+	ng-click	= "ic.filterConfig.toggleUnsortedTag(tag)"
+	ic-touch-me
+>
+	<span>	{{'UNSORTED_TAGS.%s' | fill : tag | translate }} </span>
+	<span class = "icon right white icon-interface-close"></span>
+</a>
+
+<a 
+	ng-if		= "ic.site.filterByType.length+ic.site.filterByCategory.length+ic.site.filterByUnsortedTag.length > 1"
+	class		= "border-3 round active"
+	title		= "INTERFACE.REMOVE_ALL_FILTERS"
+	ng-click	= "ic.filterConfig.clearType().clearCategory().clearUnsortedTag()"
+	ic-touch-me
+>
+	<span>	{{'INTERFACE.REMOVE_ALL_FILTERS'| translate }} </span>
+</a>

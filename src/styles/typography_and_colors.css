@@ -76,19 +76,6 @@ h1 {
 }
 
 
-hr {
-	display:				block;
-	height:					0px;
-	width:					auto;
-	border:					none;
-	border-bottom:			1px solid rgba(0,0,0,0.2);
-	margin:					0.75rem 0;
-}
-
-hr + hr {
-	display:				none;
-}
-
 
 textarea,
 form [contenteditable]{
@@ -131,7 +118,6 @@ input[type=password]{
 	padding:				0.5rem 0.5rem 0.5rem 0.5rem;
 	box-sizing:				border-box;
 	border-radius:			0;
-	background:				#eee;
 	font-size:				1.2rem;
 	line-height:			1.5rem;
 	text-align:				left;
@@ -139,12 +125,14 @@ input[type=password]{
 }
 
 input[type=text]:focus,
-input[type=password]:focus {
+input[type=password]:focus,
+textarea:focus {
 	outline: 				none;
-	box-shadow:				0 0 0 1px #802651 inset;
+	box-shadow:				0 0 0 1px #000 inset;
 } 
 
-input:-webkit-autofill:focus{
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill:focus{
 	box-shadow:				0 0 0 1000rem #eeeeee inset, 0 0 0 1px #000 inset !important;
 	color:					inherit;	
 }

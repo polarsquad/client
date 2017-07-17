@@ -26,6 +26,7 @@ ic-item-preview .content .title{
 	max-height:				2.4rem;
 	overflow:				hidden;
 	font-weight:			600;
+	padding-right:			1rem;
 } 
 
 ic-item-preview .content .brief{
@@ -51,4 +52,10 @@ ic-item-preview .icon-large {
 	height:					3.5rem;
 	width:					3.5rem;
 	border-radius:			3.5rem;
+}
+
+ic-item-preview .icon {
+	position: 				absolute;
+	right:					0.25rem;
+	top:					0.5rem;
 }

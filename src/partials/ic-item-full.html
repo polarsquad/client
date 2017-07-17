@@ -1,4 +1,4 @@
-<header >
+<header class = "bg-0">
 	<div class = "tools">
 		<a 
 			class 		= "icon icon-interface-close"
@@ -46,170 +46,171 @@
 	></div> 
 </header>
 
+<section class = "bg-0">
 
-
-<div class = "type print-only">
-	{{ 'TYPES.%s' | fill : (item | icType).name | translate }}
-</div>
-
-
-<div class = "category print-only">
-	{{ 'CATEGORIES.%s' | fill :  (item | icCategory).name | translate }}
-	<div 
-		class	= "img print-only icon-category-{{ (item | icCategory).name}}"
-	></div>
-</div>
-
-
-<!-- tags -->
-
-
-<article class = "screen-only">
-	<div><!-- spacer --></div>
-	<ic-tag-list ic-tags = "item.tags"></ic-tag-list>
-</article>
-
-
-
-<!-- start item title, brief description -->
-<article class = "main">
-	<div>
-		<div class = "icon white large round icon-category-{{(item|icCategory).name}} ic-bg-cat-{{(item|icCategory).name}} iblock"></div>
+	<div class = "type print-only">
+		{{ 'TYPES.%s' | fill : (item | icType).name | translate }}
 	</div>
-	<div>
-		<h2 class 	= "title" >
-			{{ item.title }}
-		</h2>
-		<h3>
-			{{ item.brief[ic.site.currentLanguage] }}
-		</h3>
-		<div class = "description">
-			{{ item.description[ic.site.currentLanguage] }}
+
+
+	<div class = "category print-only">
+		{{ 'CATEGORIES.%s' | fill :  (item | icCategory).name | translate }}
+		<div 
+			class	= "img print-only icon-category-{{ (item | icCategory).name}}"
+		></div>
+	</div>
+
+
+	<!-- tags -->
+
+
+	<article class = "screen-only">
+		<div><!-- spacer --></div>
+		<ic-taxonomy-tag-list ic-tags = "item.tags"></ic-tag-list>
+	</article>
+
+
+
+	<!-- start item title, brief description -->
+	<article class = "main">
+		<div>
+			<div class = "icon white large round icon-category-{{(item|icCategory).name}} ic-bg-cat-{{(item|icCategory).name}} iblock"></div>
 		</div>
-	</div>
-</article>
-<!-- end item title -->
+		<div>
+			<h2 class 	= "title" >
+				{{ item.title }}
+			</h2>
+			<h3>
+				{{ item.brief[ic.site.currentLanguage] }}
+			</h3>
+			<div class = "description">
+				{{ item.description[ic.site.currentLanguage] }}
+			</div>
+		</div>
+	</article>
+	<!-- end item title -->
 
 
 
 
 
-<!-- address -->
+	<!-- address -->
 
-<ic-item-property
-	ng-if			= "item.address"
-	ic-title 		= "'ITEMS.ADDRESS' | translate"
-	ic-content		= "item.location"
-	ic-extra-lines	= "[item.address|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
-	ic-extra-links	= "{'Google Maps' : (item | gmLink), 'OpenStreetMap' : (item | osmLink)}"
-	ic-icon			= "'/images/icons/property-location.svg'"
->
-</ic-item-property>
+	<ic-item-property
+		ng-if			= "item.address"
+		ic-title 		= "'ITEMS.ADDRESS' | translate"
+		ic-content		= "item.location"
+		ic-extra-lines	= "[item.address|| '-', (item.zip||'') + ' ' + (item.location||''), item.country ||'']"
+		ic-extra-links	= "{'Google Maps' : (item | gmLink), 'OpenStreetMap' : (item | osmLink)}"
+		ic-icon			= "'/images/icons/property-location.svg'"
+	>
+	</ic-item-property>
 
 
 
-<!-- geo coordinates -->
+	<!-- geo coordinates -->
 
-<article>
-	<div><!-- spacer --></div>
-	<ic-mini-map
+	<article>
+		<div><!-- spacer --></div>
+		<ic-mini-map
+			class			= "screen-only"
+			ng-if			= "item.longitude && item.latitude"
+			ic-item			= "item"
+		>
+		</ic-mini-map>
+	</article>
+
+	<ic-item-property
 		class			= "screen-only"
-		ng-if			= "item.longitude && item.latitude"
-		ic-item			= "item"
+		ng-if			= "item.longitude && item.latitude && !item.address"
+		ic-title 		= "'ITEMS.GEO_COORDINATES' | translate"
+		ic-content		= "item.latitude + ', ' +item.longitude"
+		ic-icon			= "'/images/icons/property-location.svg'"
+		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 	>
-	</ic-mini-map>
-</article>
-
-<ic-item-property
-	class			= "screen-only"
-	ng-if			= "item.longitude && item.latitude && !item.address"
-	ic-title 		= "'ITEMS.GEO_COORDINATES' | translate"
-	ic-content		= "item.latitude + ', ' +item.longitude"
-	ic-icon			= "'/images/icons/property-location.svg'"
-	ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
->
-</ic-item-property>
+	</ic-item-property>
 
 
 
 
-<!-- misc -->
+	<!-- misc -->
 
-<ic-item-property
-	ng-repeat	= "key in ['contact', 'website', 'email', 'phone']"
-	ng-if		= "item[key]"
-	ic-title 	= "'ITEMS.%s' | fill : key | translate"
-	ic-content	= "item[key]"
-	ic-icon		= "'/images/icons/property-'+key+'.svg'"
-	ic-link		= "::key | icLinkPrefix"
->
-</ic-item-property>
-
-
-<ic-item-property
-	ng-repeat	= "key in ['facebook', 'twitter', 'whatsapp']"
-	ng-if		= "item[key]"
-	ic-title 	= "'ITEMS.%s' | fill : key | translate"
-	ic-content	= "item[key]"
-	ic-icon		= "'/images/icons/property-'+key+'.svg'"
-	ic-link		= "::key | icLinkPrefix"
-	class		= "screen-only"
->
-</ic-item-property>
-
-<!-- start and end dates -->
-
-<ic-item-property
-	ng-if		= "item.startDate && item.endDate"
-	ic-title 	= "'ITEMS.DATES' | translate"
-	ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
-	ic-icon		= "'/images/icons/property-time.svg'"
->
-</ic-item-property>
-
-
-<ic-item-property
-	ng-if		= "item.startDate && !item.endDate"
-	ic-title 	= "'ITEMS.START_DATE' | translate"
-	ic-content	= "item.startDate | icDate"
-	ic-icon		= "'/images/icons/property-time.svg'"
->
-</ic-item-property>
-
-<ic-item-property
-	ng-if		= "item.endDate && !item.startDate"
-	ic-title 	= "'ITEMS.END_DATE' | translate"
-	ic-content	= "item.endDate | icDate"
-	ic-icon		= "'/images/icons/property-time.svg'"
->
-</ic-item-property>
-
-
-
-<!-- hours -->
-
-<!-- <ic-item-property
-	ng-if			= "item.hours"
-	ic-title 		= "'ITEMS..HOURS' | translate"
-	ic-extra-lines	= "item.hours | icSplit : ','"
-	ic-icon			= "'/images/icon/property-time.svg'"
->
-</ic-item-property>
- -->
-
-
-<div class = "qrcode">
-	<qrcode 
-		version					=	"4" 
-		error-correction-level	=	"M" 
-		size					=	"200" 
-		data					=	"{{item | icItemLink}}"
-		ng-if					=	"item"
-		ng-click				=	"ic.overlays.open('qrcode')"
+	<ic-item-property
+		ng-repeat	= "key in ['contact', 'website', 'email', 'phone']"
+		ng-if		= "item[key]"
+		ic-title 	= "'ITEMS.%s' | fill : key | translate"
+		ic-content	= "item[key]"
+		ic-icon		= "'/images/icons/property-'+key+'.svg'"
+		ic-link		= "::key | icLinkPrefix"
 	>
-	</qrcode>
-</div>
+	</ic-item-property>
 
+
+	<ic-item-property
+		ng-repeat	= "key in ['facebook', 'twitter', 'whatsapp']"
+		ng-if		= "item[key]"
+		ic-title 	= "'ITEMS.%s' | fill : key | translate"
+		ic-content	= "item[key]"
+		ic-icon		= "'/images/icons/property-'+key+'.svg'"
+		ic-link		= "::key | icLinkPrefix"
+		class		= "screen-only"
+	>
+	</ic-item-property>
+
+	<!-- start and end dates -->
+
+	<ic-item-property
+		ng-if		= "item.startDate && item.endDate"
+		ic-title 	= "'ITEMS.DATES' | translate"
+		ic-content	= "(item.startDate | icDate) +' – '+ (item.endDate | icDate)"
+		ic-icon		= "'/images/icons/property-time.svg'"
+	>
+	</ic-item-property>
+
+
+	<ic-item-property
+		ng-if		= "item.startDate && !item.endDate"
+		ic-title 	= "'ITEMS.START_DATE' | translate"
+		ic-content	= "item.startDate | icDate"
+		ic-icon		= "'/images/icons/property-time.svg'"
+	>
+	</ic-item-property>
+
+	<ic-item-property
+		ng-if		= "item.endDate && !item.startDate"
+		ic-title 	= "'ITEMS.END_DATE' | translate"
+		ic-content	= "item.endDate | icDate"
+		ic-icon		= "'/images/icons/property-time.svg'"
+	>
+	</ic-item-property>
+
+
+
+	<!-- hours -->
+
+	<!-- <ic-item-property
+		ng-if			= "item.hours"
+		ic-title 		= "'ITEMS..HOURS' | translate"
+		ic-extra-lines	= "item.hours | icSplit : ','"
+		ic-icon			= "'/images/icon/property-time.svg'"
+	>
+	</ic-item-property>
+	 -->
+
+
+	<div class = "qrcode">
+		<qrcode 
+			version					=	"4" 
+			error-correction-level	=	"M" 
+			size					=	"200" 
+			data					=	"{{item | icItemLink}}"
+			ng-if					=	"item"
+			ng-click				=	"ic.overlays.open('qrcode')"
+		>
+		</qrcode>
+	</div>
+
+</section>
 
 <footer class  = "print-only">
 	<div class = "logo print-only">
@@ -223,7 +224,7 @@
 </footer>
 
 
-<footer class = "screen-only bg-1">
+<footer class = "screen-only">
 
 	<button 
 		class 		= "bg-0"

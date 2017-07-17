@@ -1,7 +1,21 @@
-<!-- 
-<ic-breadcrumbs
-	class = "bg-0"
-></ic-breadcrumbs>
- -->
+<ic-taxonomy-filter-tag-list
+	class = "padding bg-0"
+>
+</ic-taxonomy-filter-tag-list>
+
+<a
+	class  ="block bg-0 padding"
+	ic-touch-me	
+>
+	<span 
+		class 		= "icon left icon-interface-down"
+		ng-click 	= "ic.filterConfig.toggleSortOrder('alphabetical_'+ic.site.currentLanguage)" 
+	>
+		{{'INTERFACE.SORT_ALPHABETICALLY_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
+	</span>
+
+</a>
+
+
 <ic-search-result-list>
 </ic-search-result-list>

@@ -13,6 +13,7 @@ ic-search-result-list header ic-spinner {
 }
 
 
-ic-search-result-list ic-item-preview {
+ic-search-result-list a {
+	display:					block;
 	margin:						1px 0;
 }

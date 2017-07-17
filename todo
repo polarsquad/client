@@ -177,16 +177,6 @@ Bitte:
 TODO! Sharing
 
 
-Todo: 
-* Edit
-* Taxonomy aufräumen
-* Dashboard schützen
-* security password hash
-* https
-* Todo in dev sheet
-* layout sharing
-* meta
-
 
 Done:
 * Login und AdminMenu
@@ -195,8 +185,30 @@ Done:
 * Inverted Taxonomy
 * Taxonomy interativ (zahlen stimmen nicht)
 * Edit angelegt
-* s.todo
 * Breadcrumbs rand weg -> Schatten
 * schatten karte
-* active-KLasse auschtauschn
+* active-Klasse auschtauschn
+* s.todo
 
+
+Todo(neu): 
+* Edit
+* Taxonomy aufräumen
+* Dashboard schützen
+* security password hash
+* https
+* Todo in dev sheet
+* layout for sharing
+* update translations
+* manifest
+* older -> elderly
+* sharing
+* -> aktiver marker verschwindet
+* taxonomy filter total matches
+* login unter mehr
+* statt admin -> username
+* logout unter admin
+* sharing -> neues tab
+* meta
+* facebook temporär deaktivieren
+* automatische übersetzung

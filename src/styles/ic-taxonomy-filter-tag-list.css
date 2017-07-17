@@ -1,0 +1,19 @@
+ic-taxonomy-filter-tag-list {
+	display:					block;
+	line-height:				2.5rem;
+}
+
+ic-taxonomy-filter-tag-list > a {
+	display:					inline-block;
+	line-height:				2rem;
+	padding:					0 0.75rem;
+	margin-right:				0.25rem;
+}
+
+ic-taxonomy-filter-tag-list > a > * + * {
+	margin-left:				0.25rem;
+}
+
+ic-taxonomy-filter-tag-list > a > .icon {
+	margin-right:				-0.5rem;
+}

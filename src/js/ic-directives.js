@@ -156,6 +156,7 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				scope.ic 	= ic
+				scope.item 	= icSite.activeItem
 				
 				scope.$watch(
 					function(){
@@ -180,18 +181,21 @@ angular.module('icDirectives', [
 	'icUser',
 	'icItemEdits',
 	'icOverlays',
+	'ic',
 	'$q',
 
-	function(icSite, icUser, icItemEdits, icOverlays, $q){
+	function(icSite, icUser, icItemEdits, icOverlays, ic, $q){
 		return {
 			restrict:		'AE',
 			scope:			{
 								icKey:					"@",
-								icTitle: 				"<",
+								icTitle: 				"<?",
 								icItem:					"<",
 								icType:					"@",
 								icOptions:				"<",
 								icOptionLabel:			"&",
+								icTranslatable:			"<?",
+
 								icIgnoreCurrentValue:	"<",	//Workaround, TODO
 								icForceNumber:			"<"		//Workaround, TODO
 							},
@@ -200,34 +204,33 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 
-				var itemEdit = icItemEdits.get(scope.icItem.id)
+				scope.ic				=	ic
+				scope.icEdit 			=	icItemEdits.get(scope.icItem.id)	
+				scope.expand			=	undefined
+				scope.local				=	{value:''}
 
 
-				if(itemEdit[scope.icKey] === undefined){
+
+
+				if(scope.icEdit[scope.icKey] === undefined){
 					console.warn('icItemPropertyEdit: unknown property: ', scope.icKey)
 					return null
 				}
 
 
-				scope.icTranslatable 	= 	'icTranslatable' in attrs && scope.$eval(attrs.icTranslatable) !== false
-				scope.value				=	{}
-				scope.expand			=	undefined
-				scope.showCurrentValue	=	scope.icItem.state != 'new'
-
-
-
 				scope.validate = function(){
-					scope.error = itemEdit.getErrors(scope.icKey, scope.value.new)
+					scope.error = scope.icEdit.getErrors(scope.icKey, icSite.currentLanguage)
 				}
+
+
 
 				scope.update = function(){
 					scope.updating = true
-					itemEdit
-					.update(scope.icKey, scope.icTranslatable ? icSite.currentLanguage : undefined)
+					$q.when(scope.icEdit.update(scope.icKey, scope.icTranslatable ? icSite.currentLanguage : undefined))
 					.then(
 						function(item_data){
 							scope.icItem.importData(item_data)
-							refreshValues()
+							return item_data
 						},
 						function(reason){
 							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDITS')
@@ -240,63 +243,114 @@ angular.module('icDirectives', [
 				}
 
 				scope.revert = function(){
-					scope.value.new = angular.copy(scope.value.current)
+					if(scope.icTranslatable){
+						scope.local.value = scope.icItem[scope.icKey][icSite.currentLanguage]
+					} else {
+						scope.local.value = scope.icItem[scope.icKey]
+					}
+
 				}
 
 				scope.diff = function(){
-					if(!scope.value.new) 		return !!scope.value.current
-					if(!scope.value.current) 	return !!scope.value.new
+
+					var edit_value 		= 	scope.icTranslatable
+											?	scope.icEdit[scope.icKey][icSite.currentLanguage]
+											:	scope.icEdit[scope.icKey],
+
+						current_value	=	scope.icTranslatable
+											?	scope.icItem[scope.icKey][icSite.currentLanguage]
+											:	scope.icItem[scope.icKey]
+
+
 
 					switch(scope.icType){
-						case "string": 	return scope.value.new != scope.value.current; break;
-						case "text": 	return scope.value.new != scope.value.current; break;
-						case "array": 	return scope.value.new.length != scope.value.current.length || scope.value.new.some(function(option){ return scope.value.current.indexOf(option) == -1 })
+						case "string": 	return edit_value != current_value; break;
+						case "text": 	return edit_value != current_value; break;
+						case "array": 	return edit_value.length != current_value.length || edit_value.some(function(option){ return current_value.indexOf(option) == -1 })
 					}
 				}
 
 				scope.toggleOption = function(option){
-					var pos = scope.value.new.indexOf(option)
+					var pos = scope.icEdit[scope.icKey].indexOf(option)
 
 					return	pos != -1
-							?	scope.value.new.splice(pos,1)
-							:	scope.value.new.push(option)
+							?	scope.icEdit[scope.icKey].splice(pos,1)
+							:	scope.icEdit[scope.icKey].push(option)
 
 				}
 
+			
+
+				//update value when the original changes (most likely because it finshed downloading)
+				scope.$watch(
+					function(){
+						return scope.icItem[scope.icKey]
+					},
+
+					function(v){
+						scope.local.value = scope.icTranslatable 
+											?	scope.icItem[scope.icKey][icSite.currentLanguage] 
+											:	scope.icItem[scope.icKey]
+
+					},
+					true
+				)
+
+				scope.$watch(
+					function(){
+						return icSite.currentLanguage
+					},
+					function(a,b){
+						if( a!=b && scope.icTranslatable){
+							scope.local.value = scope.icEdit[scope.icKey][icSite.currentLanguage]
+						}
+					}
+				)
 
 
-
-				function refreshValues(){
-					itemEdit = icItemEdits.get(scope.icItem.id)
-
-					scope.value.new			= 	angular.copy(
-													scope.icTranslatable
-													?	itemEdit[scope.icKey][icSite.currentLanguage] 
-													:	itemEdit[scope.icKey]
-												)
-
-
-					scope.value.current		= 	angular.copy(
-													scope.icTranslatable
-													?	scope.icItem[scope.icKey][icSite.currentLanguage] 
-													:	scope.icItem[scope.icKey]
-												)
-					//workaround, actually the backend should never hand out this value if it is to be ignored:
-					if(scope.icIgnoreCurrentValue){
-						scope.value.current = ''
-					}else{
-						//keep this until workaround is no longer neccessary:
-						if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
+				scope.$watch('local.value', function(){
+					if(scope.icTranslatable){
+						scope.icEdit[scope.icKey][icSite.currentLanguage] = scope.local.value 
+					} else {
+						scope.icEdit[scope.icKey] = scope.local.value 
 					}
 
-					scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
-				}
+					scope.validate()
+				}, true)
+
+
+
+				// function refreshValues(){
+				// 	itemEdit = icItemEdits.get(scope.icItem.id)
+
+				// 	scope.value.new			= 	angular.copy(
+				// 									scope.icTranslatable
+				// 									?	itemEdit[scope.icKey][icSite.currentLanguage] 
+				// 									:	itemEdit[scope.icKey]
+				// 								)
+
+
+				// 	scope.value.current		= 	angular.copy(
+				// 									scope.icTranslatable
+				// 									?	scope.icItem[scope.icKey][icSite.currentLanguage] 
+				// 									:	scope.icItem[scope.icKey]
+				// 								)
+				// 	//workaround, actually the backend should never hand out this value if it is to be ignored:
+				// 	if(scope.icIgnoreCurrentValue){
+				// 		scope.value.current = ''
+				// 	}else{
+				// 		//keep this until workaround is no longer neccessary:
+				// 		if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
+				// 	}
+
+				// 	scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
+				// }
 
 
 
 
 
-				scope.$watch(function(){ return icSite.currentLanguage }, refreshValues)
+				// scope.$watch(function(){ return icSite.currentLanguage }, refreshValues)
 
 				
 				scope.$watch(
@@ -315,30 +369,32 @@ angular.module('icDirectives', [
 				// 	}
 				// )
 
-				scope.$watch('icItem[icKey]', refreshValues, true)
 
-				scope.$watch('value.new', function(){
 
-					// if(scope.icForceNumber && scope.value.new){	//Workaround
-					// 	if(!scope.value.new.match(/^\d*\.?\d{0,2}$/)){
-					// 		scope.value.new = 	scope.value.new
-					// 							.replace(/[^\d,.]/, '')
-					// 							.replace(/,/,'.')
-					// 							.replace(/^(\d*\.\d{2})\d*/, '$1')
-					// 		scope.value.new = String((parseFloat(scope.value.new) || 0 ).toFixed(2))
-					// 	}
-					// }
 
-					// if(scope.icTranslatable){
-					// 	itemEdit[scope.icKey][icSite.currentLanguage] = scope.value.new
-					// } else {
-					// 	itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
-					// 							?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
-					// 							:	scope.value.new
-					// }
+				// scope.$watch('value.new', function(){
 
-					// itemEdit.validateKey(scope.icKey)
-				})
+				// 	// if(scope.icForceNumber && scope.value.new){	//Workaround
+				// 	// 	if(!scope.value.new.match(/^\d*\.?\d{0,2}$/)){
+				// 	// 		scope.value.new = 	scope.value.new
+				// 	// 							.replace(/[^\d,.]/, '')
+				// 	// 							.replace(/,/,'.')
+				// 	// 							.replace(/^(\d*\.\d{2})\d*/, '$1')
+				// 	// 		scope.value.new = String((parseFloat(scope.value.new) || 0 ).toFixed(2))
+				// 	// 	}
+				// 	// }
+
+
+				// 	if(scope.icTranslatable){
+				// 		itemEdit[scope.icKey][icSite.currentLanguage] = scope.value.new
+				// 	} else {
+				// 		itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
+				// 								?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
+				// 								:	scope.value.new
+				// 	}
+
+				// 	scope.validate()
+				// })
 			}
 		}
 	}
@@ -459,7 +515,7 @@ angular.module('icDirectives', [
 ])
 
 
-.directive('icTagList', [
+.directive('icTaxonomyTagList', [
 
 	'ic',
 	'icTaxonomy',
@@ -467,7 +523,7 @@ angular.module('icDirectives', [
 	function(ic, icTaxonomy){
 		return {
 			restrict:		'E',
-			templateUrl:	'partials/ic-tag-list.html',
+			templateUrl:	'partials/ic-taxonomy-tag-list.html',
 			scope:			{
 								icTags: "<"
 							},
@@ -500,7 +556,23 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icTaxonomyFilterTagList', [
 
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-taxonomy-filter-tag-list.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])
+	
 
 
 
@@ -724,7 +796,7 @@ angular.module('icDirectives', [
 
 						},
 						function(reason){
-							console.log('icLoginDirective:', reason)
+							console.warn('icLoginDirective:', reason)
 							var messages = 	{
 												'unknown user': 	'INTERFACE.LOGIN_UNKNOWN_USERNAME',
 												'invalid password':	'INTERFACE.LOGIN_INVALID_PASSWORD',

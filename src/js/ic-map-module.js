@@ -115,15 +115,17 @@ angular.module('icMap', [
 
 				scope.ic = ic
 
-				scope.$watch('icCluster', function(){
+				scope.$watchCollection('icCluster', function(){
 
 					scope.items = 	scope.icCluster.getAllChildMarkers()
 									.map(function(marker){
 										return marker.options.item
 									})
 
-					scope.isActive = function(){
-						return scope.item == icSite.activeItem
+					scope.isActive = function(item){
+						return 	item == icSite.activeItem
+								?	0
+								:	1
 					}
 				})
 			}
@@ -410,12 +412,7 @@ angular.module('icMap', [
 
 							var items_to_be_left_alone = 	markers.getLayers()
 															.filter(function(marker){ 
-																if(
-																		// in icItemStorage:
-																		list.indexOf(marker.options.item) != -1
-																		// active item:
-																	||	(icSite.activeItem && marker.options.item.id == icSite.activeItem.id)
-																){
+																if(list.indexOf(marker.options.item) != -1){
 																	return true
 																} else {
 																	markers.removeLayer(marker)
@@ -433,28 +430,33 @@ angular.module('icMap', [
 																		&&	items_to_be_left_alone.indexOf(item) == -1
 															})
 
+								if(icSite.activeItem && list.indexOf(icSite.activeItem) == -1) 
+									additional_items.push(icSite.activeItem)
+
 							markers.addLayers(additional_items.map(getMarker))
-							//markers.refreshClusters()
+							markers.refreshClusters()
 
 				}
 
 				function updateActiveItemMarker(active_id, previous_id){
 
-					console.log(previous_id, active_id)
+					var previous_in_list = previous_id && icItemStorage.filteredList.filter(function(item){ return item.id == previous_id }).length > 0
 
-					//remove previous item marker:
-					if(previous_id){
-						markers.getLayers().forEach(function(marker){
-							if(marker.options.item.id == previous_id) markers.removeLayer(marker)
-						})
-					}
 
-					//add active item marker:
-					if(icSite.activeItem){
-						markers.addLayer(getMarker(icSite.activeItem))
-					}
+					//remove previous and active item marker
+					markers.getLayers()
+					.forEach(function(marker){ 
+						if(marker.options.item.id == active_id) 	
+							markers.removeLayer(marker)
 
-					//markers.refreshClusters()
+						if(marker.options.item.id == previous_id && !previous_in_list) 	
+							markers.removeLayer(marker)
+					})
+
+					//add active item marker
+					if(icSite.activeItem) markers.addLayer(getMarker(icSite.activeItem))
+
+					markers.refreshClusters()
 				}
 
 
@@ -476,7 +478,9 @@ angular.module('icMap', [
 
 
 				var	stop_watching_filteredList = $rootScope.$watchCollection(
-						function(){ return icItemStorage.filteredList	},
+						function(){ 
+							return icItemStorage.filteredList	
+						},
 						function(list){
 							window.requestAnimationFrame(function(){
 								updateListMarkers(list)								

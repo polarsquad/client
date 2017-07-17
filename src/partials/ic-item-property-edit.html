@@ -1,47 +1,32 @@
-<h4
-	ic-click 	= "expand = !expand"
-	class		= "icon"
-	ng-class	= "{'icon-interface-right': !expand, 'icon-interface-down': expand}"
-	ic-touch-me
-> {{'ITEMS.%s' | fill : icKey | translate}} {{ icTranslatable ? '('+icLanguages.currentLanguage+')' : ''}}</h4>
+<div>
+	<div class = "icon large icon-property-{{icKey}}"></div>
+</div>
 
-<div 
-	ng-if	= "expand"
-	class 	= "requirement"
->{{'ITEMS.%s_NOTE' | fill : icKey | translate}}</div>
+<form novalidate ng-submit = "$event.preventDefault()">
 
-
-<form 
-	novalidate
-	ng-submit 	= "allowLocalEdit && update()"
-	ng-if		= "expand"
->
-
-
+	<h4> {{'ITEMS.%s' | fill : icTitle || icKey | translate}} {{ icTranslatable ? '('+('LANGUAGES.%s' | fill : ic.site.currentLanguage | translate)+')' : ''}}</h4>
 
 	<!-- String -->	
 
 	<div ng-if	= "::icType == 'string' && !icOptions" >
 
 		<div 
-			ng-if 	= "showCurrentValue"
+			ng-if 	= "!hideCurrentValue"
 			class 	= "current-value {{diff() ? 'diff' : ''}} "
 		>
-			{{value.current || ('INTERFACE.EMPTY' | translate) }}
+			{{ (icTranslatable ? icItem[icKey][ic.site.currentLanguage] : icItem[icKey]) || ('INTERFACE.EMPTY' | translate) }}
 		</div>	
 
-		<div
-			class 		= "icon left white bg-3"
-			ng-class  	= "{'icon-interface-valid': !errors, 'icon-interface-invalid': errors}"
-		>
-			<input 
-				type 				= "text"
-				ng-model			= "value.new"
-				ng-model-options	= "{ updateOn: 'default blur',  debounce: { 'default': 500, 'blur': 0 }}" 
-				ng-change			= "validate()"
-			></input>
-		</div>
+		<input 
+			type 				= "text"
+			ng-model			= "local.value"
+			class				= "bg-1"
+			ng-class			= "{invalid: error}"
+		></input>
+
 	</div>
+
+
 
 	<div ng-if = "::icType == 'string' && icOptions != undefined">
 
@@ -49,15 +34,18 @@
 			ng-if 	= "showCurrentValue"
 			class 	= "current-value {{diff() ? 'diff' : ''}} "
 		>
-			{{ value.current ? icOptionLabel({option:value.current}) : ('INTERFACE.EMPTY' | translate) }}
+			{{ local.value ? icOptionLabel({option:local.value}) : ('INTERFACE.EMPTY' | translate) }}
 		</div>	
 
 		<div class = "options">
 			<a 
 				ng-repeat 	= "option in icOptions"
-				ng-class 	= "{'icon-interface-radio-selected' : value.new == option , 'icon-interface-radio': value.new  != option}"
+				ng-class 	= "{'icon-interface-checkbox-checked' : value.new == option.name , 'icon-interface-checkbox': local.value  != option}"
 				ng-click	= "value.new = option"
-			>{{icOptionLabel({option: option}) }}</a>
+				class		= "block icon left"
+			>
+				<span>{{icOptionLabel({option: option.name}) }}</span>
+			</a>
 			<span ng-if = "icOptions.length == 0">{{'INTERFACE.NO_OPTIONS' | translate}}</span>
 		</div>
 
@@ -124,39 +112,15 @@
 	</div>
 
 
-
-
-
-	<ul class = "error">
-		<li ng-if = "error">
-			{{'ITEM.ERROR_%s' | fill : error.code|translate}}
-		</li>
-	</ul>
-
-
-
-
-
-
-
-	<button
-		ng-show		= "allowLocalEdit"
-		type 		= "submit"
-		ng-disabled	= "updating || value.new == value.current" 
+	<div 
+		class = "error col-3"	
+		ng-if = "error"
 	>
-		{{ "INTERFACE.UPDATE" | translate }}
-	</buton>
+			{{'ITEM.ERROR_%s' | fill : error.code | translate}}
+	</div>
 
-	<button
-		ng-show		= "allowLocalEdit"
-		ic-click	= "revert()" 
-		ng-disabled	= "updating || value.new == value.current"
-		type		= "button"
-	>
-		{{ "INTERFACE.REVERT" | translate }}
-	</buton>
-
-
-
+	<div 
+		class 	= "note"
+	>{{'ITEMS.%s_NOTE' | fill : icKey | translate}}</div>
 
 </form>

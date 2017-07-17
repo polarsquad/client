@@ -11,7 +11,6 @@
 		var icItem = this
 
 		icItem.downloading 		= undefined
-		icItem.preliminary 		= undefined
 
 		icItem.importData = function(data){
 
@@ -57,9 +56,12 @@
 
 			ic.itemConfig.properties.forEach(function(property){ 
 				if(!name || name == property.name){
-					return 	key 
-							?	icItem[property.name][key]
-							:	icItem[property.name]
+					if(!key){
+						data[property.name] 		=  	icItem[property.name]
+					} else {
+						data[property.name] 		= 	{}
+						data[property.name][key]	= 	icItem[property.name][key]
+					}
 				}
 			})
 
@@ -69,18 +71,23 @@
 		icItem.download = function(){
 			if(!icItem.id) console.error('icItemDpd.download: missing item id.')
 
-			icItem.downloading = true
+			if(icItem.ongoingDownload) return icItem.ongoingDownload
 
-			return	dpd(ic.itemConfig.collectionName)
-					.get({id: icItem.id})
-					.then(icItem.importData)
-					.then(function(){
-						icItem.downloading = false
-					})
+			icItem.downloading 		= 	true
+			icItem.ongoingDownload 	= 	dpd(ic.itemConfig.collectionName)
+										.get({id: icItem.id})
+										.then(icItem.importData)
+										.then(function(){
+											icItem.downloading = false
+										})
+
+			return icItem.ongoingDownload
 		}
 
 		icItem.update = function(key, subkey){
 			if(!icItem.id) console.error('icItemDpd.update: missing item id.')
+
+			console.log('PUT', icItem.exportData(key, subkey))
 
 			return 	dpd(ic.itemConfig.collectionName)
 					.put({id: icItem.id}, icItem.exportData(key, subkey))
@@ -98,14 +105,15 @@
 					.delete({id: icItem.id})
 		}
 
-		icItem.getErrors = function(property_name, value){
-			console.log('getErrors:', property_name)
+		icItem.getErrors = function(property_name, key){
 			var property = ic.itemConfig.properties.filter(function(property){ return property.name == property_name})[0]
 
 			if(!property) console.warn('icItem: getErrors; unknown property:', property_name)
 
+			console.log('checking for errors:', property_name, icItem[property_name], key)
+
 			return	property
-					?	property.getErrors(value)
+					?	property.getErrors(icItem[property_name], key)
 					:	null
 
 		}

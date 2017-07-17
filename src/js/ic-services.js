@@ -89,7 +89,7 @@ angular.module('icServices', [
 							icUser.clear()
 						},
 						function(e){
-							console.log('icUser: logout failed:', e)
+							console.warn('icUser: logout failed:', e)
 							return $q.reject(e)
 						}
 					)
@@ -197,8 +197,7 @@ angular.module('icServices', [
 			function path2Params(path){
 				icSite.config.params.forEach(function(param){
 					try {
-						$q.when(decodeParam(path, param))
-						.then(function(value){ icSite[param.name] = value })
+						icSite[param.name] = decodeParam(path, param)
 					} catch(e) {
 						console.error('icSite path2Params', param.name ,e)
 					}
@@ -623,8 +622,9 @@ angular.module('icServices', [
 	'icSite',
 	'icItemStorage',
 	'icTaxonomy',
-	
-	function($rootScope, icSite, icItemStorage, icTaxonomy){
+	'icLanguages',
+
+	function($rootScope, icSite, icItemStorage, icTaxonomy, icLanguages){
 		var icFilterConfig = this
 
 		icSite
@@ -688,6 +688,37 @@ angular.module('icServices', [
 								return (matches && matches[2].split('-')) || []
 							},
 		})
+
+		.registerParameter({
+			name:			'sortOrder',
+			encode:			function(value, ic){
+								if(!value) return ''
+
+								return 'o/'+value 
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)o\/([^\/]*)/)
+
+								return matches && matches[2]
+							},
+		})
+
+		.registerParameter({
+			name:			'sortDirection',
+			encode:			function(value, ic){
+								if(value != -1 && value != 1) return ''
+
+								return (value == -1 ?  'desc' : 'asc')
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)(asc|desc)/)
+
+								return matches && matches[2] && (matches[2] == 'asc' ? 1 : -1)
+							},
+			options:		[1, -1],
+			defaultValue:	1
+		})
+
 
 		icFilterConfig.toggleType = function(type_name, toggle, replace){
 
@@ -780,6 +811,38 @@ angular.module('icServices', [
 		}
 
 
+
+		icFilterConfig.toggleSortOrder = function(sortCriterium){
+			if(icSite.sortOrder == sortCriterium){
+				icSite.sortDirection = icSite.sortDirection * -1
+			}else{
+				icSite.sortOrder = sortCriterium
+			}
+			return icFilterConfig
+		}
+
+		icFilterConfig.toggleSortDirection = function(dir){
+			icSite.sortDirection = dir || (icSite.sortDirection *-1)
+			return icFiltercConfig
+		}
+
+		//TDODO: check
+
+		icItemStorage.ready
+		.then(function(){
+			//register sorting criteria after everything has donwloaded:		
+			
+			icLanguages.availableLanguages.forEach(function(language_code){
+				icItemStorage.registerSortingCriterium('alphabetical_'+language_code, function(item_1, item_2){
+					return item_1.title.localeCompare(item_2.title, language_code)
+				})
+			})
+
+			icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
+			
+		})
+
+
 		$rootScope.$watch(
 			function(){
 				return 	[
@@ -797,9 +860,27 @@ angular.module('icServices', [
 						icTaxonomy.categories.map(function(category){ return category.name }), 
 						null
 					])
+
+					if(icSite.sortOrder) icItemStorage.sortFilteredList(icSite.sortOrder, icSite.sortDirection)
 				})
 			},
 			true
+		)
+
+		$rootScope.$watchCollection(
+			function(){
+				return 	[
+							icSite.sortOrder,
+							icSite.sortDirection
+						]
+			},
+
+			function(){
+				icItemStorage.ready
+				.then(function(){
+					if(icSite.sortOrder)  icItemStorage.sortFilteredList(icSite.sortOrder, icSite.sortDirection)
+				})
+			}
 		)
 
 	}
@@ -820,8 +901,9 @@ angular.module('icServices', [
 .service('icItemEdits', [
 
 	'icItemStorage',
+	'$q',
 
-	function icItemEdits(icItemStorage){
+	function icItemEdits(icItemStorage, $q){
 
 		if(!(window.ic && window.ic.Item)) console.error('icItemEdits: missing IcItem. Please load dpd-items.js')
 
@@ -830,15 +912,23 @@ angular.module('icServices', [
 			icItemEdits = this
 
 		icItemEdits.get = function(id){
-			var item = 	data.filter(function(itemEdit){
-							return itemEdit.id == id
-						})[0]
-			if(!item){
-				item = new ic.Item({id: id})
-				data.push(item)
+
+			var original	= 	icItemStorage.getItem(id),
+				edit 		= 	data.filter(function(itemEdit){
+									return itemEdit.id == id
+								})[0]
+				
+			if(!edit){
+				edit = new ic.Item({id:id})
+				data.push(edit)
 			}
 
-			return item
+			$q.when(original.download())
+			.then(function(){
+				edit.importData(original.exportData())
+			})
+
+			return edit
 		}
 
 		icItemEdits.clear = function(id){

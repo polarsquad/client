@@ -1,4 +1,41 @@
-<article class = "bg-0 padding">
+<header class = "bg-0">
+	<div class = "tools">
+		<a 
+			class 		= "icon icon-interface-close"
+			ng-click 	= "ic.site.activeItem = null" 
+		>
+		</a>
+
+		<div class = "main">
+<!-- 
+			<button 
+				class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
+				ng-click 	= "ic.site.editItem = true" 
+				ng-if		= "ic.user.can('edit_items')"
+			>
+			</button>
+			 -->
+		</div>
+	</div>
+	<div 
+		class		= "hero" 
+		ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+		ng-if		= "item.image"
+	></div> 
+</header>
+
+
+<section class = "bg-0 ">
+
+	<div>		
+		<div> <!-- spacer --> </div>
+		<h3>{{'INTERFACE.EDIT_ITEM' | translate}}</h3>
+	</div>
+
+
+	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
+
+
 	<!-- title -->
 
 	<ic-item-property-edit
@@ -8,6 +45,7 @@
 		ic-translatable			= "false"
 	></ic-item-property-edit>
 
+<!-- 
 	<div
 		ng-if = "edit.title"
 	>
@@ -19,9 +57,10 @@
 			{{'INTERFACE.POSSIBLE_ITEM_DUPLICATE' | translate}}: {{title}}
 		</div>
 	</div>
+ -->
 
 
-	<!-- definition -->
+	<!-- brief -->
 
 	<ic-item-property-edit
 		ic-type 				= "string"
@@ -38,7 +77,8 @@
 		ic-item					= "item"
 		ic-translatable			= "true"
 	></ic-item-property-edit>
-	
+
+
 	<!-- image -->
 
 	<ic-item-property-edit
@@ -49,7 +89,11 @@
 	></ic-item-property-edit>
 
 
-	<hr/>
+
+
+	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
+
+	
 
 
 
@@ -57,9 +101,10 @@
 
 	<ic-item-property-edit
 		ic-type					= "string"
-		ic-options				= "::icConfigData['types']"
-		ic-option-label			= "'CATEGORIES.%s' | fill: option | translate"
-		ic-key					= "type"
+		ic-title				= "type"
+		ic-options				= "::ic.taxonomy.types"
+		ic-option-label			= "'TYPES.%s' | fill: option | translate"
+		ic-key					= "tags"
 		ic-item					= "item"
 	></ic-item-property-edit>
 
@@ -74,6 +119,8 @@
 		ic-item					= "item"
 	></ic-item-property-edit>
 
+
+	<hr/>
 
 	<!-- primary topic -->
 
@@ -183,4 +230,12 @@
 		ic-ignore-current-value	= "!icUser.can('edit_items')" 
 	></ic-item-property-edit>
 
-</article>
+</section>
+
+<footer>
+	<button
+		ng-click = "ic.site.editItem = false"
+	>
+		{{'INTERFACE.CANCEL_EDIT' | translate}}
+	</button>
+</footer>

@@ -1,11 +1,13 @@
+
 <ic-item-full 
-	ng-if = "!ic.site.editItem" 
-	class = "bg-0"
+	ng-if = "!ic.site.activeItem.downloading && !ic.site.editItem" 
 >
 </ic-item-full>
 
 <ic-item-full-edit 
-	ng-if = "ic.site.editItem" 
-	class = "bg-0"
+	ng-if = "!ic.site.activeItem.downloading && ic.site.editItem" 
 >
 </ic-item-full-edit>
+
+
+<ic-spinner ng-if = "ic.site.activeItem.downloading" active = "true"></ic-spinner>

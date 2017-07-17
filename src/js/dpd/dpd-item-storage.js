@@ -62,6 +62,7 @@
 			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
 
+
 			//TODO
 			if(!skip_internals) icItemStorage.updateItemInternals(item)
 
@@ -141,7 +142,7 @@
 		icItemStorage.registerSortingCriterium = function(criterium_name, compare_fn){
 
 
-			if(criterium_name.match(/[^a-zA-Z]/))				console.error('icItemStorage: sort criteria names must contain only letters, A-Z, a-z: '+criterium_name+'.')
+			if(criterium_name.match(/[^a-zA-Z_]/))				console.error('icItemStorage: sort criteria names must contain only underscore and letters, A-Z, a-z: '+criterium_name+'.')
 			if(icItemStorage.sortingCriteria[criterium_name]) 	console.error('icItemStorage: sort criterium name already registered: '+criterium_name+'.')
 
 			icItemStorage.sortingCriteria[criterium_name] =	compare_fn
@@ -246,16 +247,19 @@
 
 
 
-		icItemStorage.sortFilteredList = function(criterium){
+		icItemStorage.sortFilteredList = function(criterium, dir){
+			var dir = (dir == -1) ?  -1 : 1
+
 			if(!icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
 			icItemStorage.filteredList.sort(function(item_1, item_2){
 
-				if(item_1.internal.sortingValue[criterium] === undefined || item_2.internal.sortingValue[criterium] === undefined) return icItemStorage.sortingCriteria[criterium](item_1, item_2)
-				if(item_1.internal.sortingValue[criterium] > item_2.internal.sortingValue[criterium]) return 1
-				if(item_1.internal.sortingValue[criterium] < item_2.internal.sortingValue[criterium]) return -1
-				
-				return 1
+				//TOSO set soting value=?
 
+				if(item_1.internal.sortingValues[criterium] === undefined || item_2.internal.sortingValues[criterium] === undefined) return dir * icItemStorage.sortingCriteria[criterium](item_1, item_2)
+				if(item_1.internal.sortingValues[criterium] > item_2.internal.sortingValues[criterium]) return dir
+				if(item_1.internal.sortingValues[criterium] < item_2.internal.sortingValues[criterium]) return -1 *dir
+				
+				return 0
 			})
 		}
 
@@ -263,18 +267,14 @@
 			var id		= item_or_id.id || item_or_id,
 				item 	= icItemStorage.data.filter(function(item){ return item.id == id })[0] 
 
-			if(!item){
-				item = icItemStorage.storeItem({id: id})
-				item.preliminary = true
-			}
 
-			if(item.downloading) return item
+			if(item) return item
 
+			item = icItemStorage.storeItem({id: id})
+			
 			item.download()
 			.then(
 				function(){
-					item.preliminary = false
-					
 					icItemStorage.runAsyncTriggers()
 					
 					return item
@@ -287,7 +287,6 @@
 					return Promise.reject(reason)
 				}
 			)
-			item.downloading = true
 
 			return item
 		}
