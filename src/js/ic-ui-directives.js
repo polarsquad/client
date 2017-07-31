@@ -402,7 +402,7 @@ angular.module('icUiDirectives', [
 ])
 
 
-.directive('scrollTop', [
+.directive('icScrollTop', [
 	function(){
 		return {
 			restrict:	'A',
@@ -453,6 +453,41 @@ angular.module('icUiDirectives', [
 
 
 
+
+.directive('icAutoGrow', [
+
+	function(){
+		return {
+			restrict:	"A",
+			require:	"ngModel",
+
+			link: function(scope, element, attrs, ctrl){
+
+				function resize(){
+					console.log('resize!')
+					window.requestAnimationFrame(function(){
+						element.css('height', 'auto')
+						element.css('height', element[0].scrollHeight + 'px')
+					})
+				}
+
+				element.on('blur keyup keydown change focus blur',resize)
+				ctrl.$viewChangeListeners.push(resize)
+
+				scope.$watch(attrs.ngModel, resize)
+			}
+		}
+	}
+
+])
+
+
+
+
+
+
+
+
 .filter('fill', [
 	function(){
 		return function(str, rep){
@@ -480,12 +515,40 @@ angular.module('icUiDirectives', [
 .filter('in',[
 	function(){
 		return function(x, a){
-			return a.indexOf(x) != -1
+			return a && a.indexOf(x) != -1
 		}
 	}
 ])
 
 
+.filter('preventLoop', [
+	function(){
+		var cache = []
+
+		return function(array){	
+
+			var json		= JSON.stringify(array),
+				cache_item 	= cache.filter(function(cache_item){ return cache_item.j == json })[0]
+
+			if(!cache_item){
+				cache_item = {j: json, a: array}
+				cache.push(cache_item )
+			}
+
+			return cache_item.a
+		}
+	}
+])
+
+.filter('mapToKey',[
+	function(){
+		return function(array, key){	
+			return 	array
+					?	array.map(function(value){ return value[key] })
+					:	null
+		}
+	}
+])
 
 
 

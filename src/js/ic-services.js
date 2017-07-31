@@ -494,10 +494,27 @@ angular.module('icServices', [
 })
 
 
+.provider('icItemConfig', function(){
+
+	var itemConfig = undefined
+	
+	this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
+
+	this.$get = [
+		function(){
+			if(!itemConfig) console.error('icItemConfig: itemConfig missing. You should probably load dpd-item-config.js.')
+
+			return itemConfig
+		}
+	]
+})
+
+
+
 .provider('icTaxonomy',function(){
 
-	var itemConfig 	= undefined,
-		taxonomy	= undefined
+	var taxonomy	= undefined
+		
 
 	function IcCategory(config){
 		this.name 	= config.name
@@ -510,8 +527,6 @@ angular.module('icServices', [
 	}
 
 	this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
-	this.setItemConfig 	= function(ic){ itemConfig 	= ic; return this}
-
 
 	this.$get = [
 		function(){
@@ -522,7 +537,6 @@ angular.module('icServices', [
 			icTaxonomy.unsortedTags = taxonomy.unsortedTags
 
 			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
-			if(!itemConfig) console.error('icTaxonomy: itemConfig missing. You should probably load dpd-item-config.js.')
 
 
 			icTaxonomy.addCategory = function(cat_config){
@@ -573,24 +587,38 @@ angular.module('icServices', [
 			
 
 			icTaxonomy.getCategory = function(haystack){
-				var single = (typeof haystack == 'string')
-				
-				if(single) haystack = [haystack]
 
+				if(!haystack) return null
+
+				haystack = 	typeof haystack == 'string'
+							?	[haystack]
+							:	haystack
+				
 				var result = 	icTaxonomy.categories.filter(function(category){
 									return 	haystack.some(function(c){
-												var tag = (c.name || c)
-												return 	tag	 == category.name
-														||	category.tags.indexOf(tag) != -1
+												return 	(c.name || c) == category.name														
 											})
 								})
+
+				if(!result.length){
+					// this is only relevent if the tags are incoherent (if a subcategory exsists without catgory)
+					result = 	icTaxonomy.categories.filter(function(category){
+									return 	haystack.some(function(c){
+												return 	category.tags.indexOf((c.name || c)) != -1
+											})
+								})
+				}
+
+
 				return	result[0]
 			}
 
 			icTaxonomy.getSubCategories = function(haystack){
-				var single = (typeof haystack == 'string')
-				
-				if(single) haystack = [haystack]
+				if(!haystack) return []
+					
+				haystack = 	typeof haystack == 'string'
+							?	[haystack]
+							:	haystack
 
 				return 	haystack.filter(function(t){
 							return 	icTaxonomy.categories.some(function(category){
@@ -599,16 +627,20 @@ angular.module('icServices', [
 						})
 			}
 
-			icTaxonomy.getType = function(type_names){
-				var single = (typeof type_names == 'string')
-				
-				if(single) type_names = [type_names]
+
+			icTaxonomy.getType = function(haystack){
+				if(!haystack) return null
+
+				haystack = 	typeof haystack == 'string'
+							?	[haystack]
+							:	haystack
 
 				var result = 	icTaxonomy.types.filter(function(type){
-									return type_names.indexOf(type.name) != -1
+									return haystack.indexOf(type.name) != -1
 								})
 				return	result[0]
 			}
+
 
 			return icTaxonomy
 		}
@@ -911,9 +943,10 @@ angular.module('icServices', [
 		var data 		= [],
 			icItemEdits = this
 
-		icItemEdits.get = function(id){
+		icItemEdits.get = function(item_or_id){
 
-			var original	= 	icItemStorage.getItem(id),
+			var id			= 	item_or_id.id || item_or_id,
+				original	= 	icItemStorage.getItem(id),
 				edit 		= 	data.filter(function(itemEdit){
 									return itemEdit.id == id
 								})[0]
@@ -921,12 +954,13 @@ angular.module('icServices', [
 			if(!edit){
 				edit = new ic.Item({id:id})
 				data.push(edit)
+				
+				$q.when(original.download())
+				.then(function(){
+					edit.importData(original.exportData())
+				})
 			}
 
-			$q.when(original.download())
-			.then(function(){
-				edit.importData(original.exportData())
-			})
 
 			return edit
 		}
@@ -1254,6 +1288,7 @@ angular.module('icServices', [
 	'icSite',
 	'icItemStorage',
 	'icLayout',
+	'icItemConfig',
 	'icTaxonomy',
 	'icFilterConfig',
 	'icLanguages',
@@ -1262,11 +1297,12 @@ angular.module('icServices', [
 	'icAdmin',
 	'icUser',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
 		ic.layout		= icLayout
+		ic.itemConfig	= icItemConfig
 		ic.taxonomy		= icTaxonomy
 		ic.filterConfig	= icFilterConfig
 		ic.languages	= icLanguages

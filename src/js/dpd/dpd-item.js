@@ -110,8 +110,6 @@
 
 			if(!property) console.warn('icItem: getErrors; unknown property:', property_name)
 
-			console.log('checking for errors:', property_name, icItem[property_name], key)
-
 			return	property
 					?	property.getErrors(icItem[property_name], key)
 					:	null

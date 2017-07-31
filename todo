@@ -202,15 +202,16 @@ Todo(neu):
 * update translations
 * manifest
 * older -> elderly
-* sharing
-* -> aktiver marker verschwindet
 * taxonomy filter total matches
 * login unter mehr
 * logout unter admin
-* sharing -> neues tab
 * meta
 * facebook temporär deaktivieren
 * automatische übersetzung
+* sharing -> neues tab
 
 Done:
 * statt admin -> username
+* sharing
+* -> aktiver marker verschwindet
+* Filter Tags

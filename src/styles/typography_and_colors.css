@@ -11,6 +11,14 @@ html{
 }
 
 
+textarea, 
+input, 
+button, 
+select { 
+	font-family: 		inherit; 
+	font-size: 			inherit; 
+}
+
 
 h1,h2,h3,h4,h5,h6 {
 	font-family: 		Biryani, Roboto, sans-serif;
@@ -32,6 +40,17 @@ p {
 }
 
 
+
+ul {
+	margin:				0;
+	padding:			0;
+	list-style:			none;
+}
+
+ul li {
+	margin:				0;
+	padding:			0;
+}
 
 input, 
 button, 

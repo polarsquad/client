@@ -36,6 +36,10 @@ ic-item-full-edit > section > * {
 	display:					flex;
 }
 
+ic-item-full-edit > section > article {
+	margin:						2rem 0;
+}
+
 ic-item-full-edit > section > * > *:nth-child(1){
 	flex:						1 0 0;
 	text-align:					right;
@@ -67,12 +71,12 @@ ic-item-full-edit  h4 {
 
 ic-item-full-edit hr {
 	display:				block;
-	height:					2px;
+	height:					0;
 	width:					auto;
-	border:					none;
-	margin:					3rem 0;
+	border:					1px solid transparent;
+	margin-top:				3rem;
+	margin-bottom:			1rem;
 }
-
 
 
 ic-item-full-edit footer.screen-only {

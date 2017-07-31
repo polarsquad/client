@@ -26,7 +26,7 @@ ic-taxonomy-filter section ul {
 
 ic-taxonomy-filter section h2, 
 ic-taxonomy-filter section li {
-	display:					flex;
+	display:					flex !important;
 	align-items:				center;
 	justify-content:			start;
 	height:						3rem;

@@ -213,16 +213,31 @@ angular.module("InfoCompass",[
 
 	function(icTaxonomyProvider){
 
-		if(!(window.ic && window.ic.itemConfig)) 
-			console.error('icTaxonomyProvider:  missing ic.itemConfig. Please load ic-item-config.js.')
+		// if(!(window.ic && window.ic.itemConfig)) 
+		// 	console.error('icTaxonomyProvider:  missing ic.itemConfig. Please load ic-item-config.js.')
 		if(!(window.ic && window.ic.taxonomy)) 
 			console.error('icTaxonomyProvider:  missing ic.taxonomy. Please load taxonomy.js.')
 
 		icTaxonomyProvider
-		.setItemConfig(window.ic.itemConfig)
+		//.setItemConfig(window.ic.itemConfig)
 		.setTaxonomy(window.ic.taxonomy)
 	}
 ])
+
+.config([
+
+	'icItemConfigProvider',
+
+	function(icItemConfigProvider){
+
+		if(!(window.ic && window.ic.itemConfig)) 
+			console.error('icTaxonomyProvider:  missing ic.itemConfig. Please load ic-item-config.js.')
+		
+		icItemConfigProvider
+		.setItemConfig(window.ic.itemConfig)
+	}
+])
+
 
 .config([
 	'icLanguagesProvider',

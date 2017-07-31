@@ -146,8 +146,11 @@ angular.module('icDirectives', [
 	'ic',
 	'icItemEdits',
 	'icSite',
+	'icTaxonomy',
+	'icOverlays',
+	'$q',
 
-	function(ic,icItemEdits, icSite){
+	function(ic, icItemEdits, icSite, icTaxonomy, icOverlays, $q){
 
 		return {
 			restrict:		'AE',
@@ -156,17 +159,74 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				scope.ic 	= ic
-				scope.item 	= icSite.activeItem
 				
+
+				scope.cancelEdit = function(){
+					icSite.editItem = false
+				}
+
+				scope.submit = function(){
+
+					if(!scope.icEdit) return null
+
+					var item = scope.icItem,
+						edit = scope.icEdit
+
+					icOverlays.toggle('spinner', true)
+
+					$q.when(edit.update())
+					.then(
+						function(){
+							item.download()
+							icSite.editItem = false
+							return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')
+						},
+						function(){
+							return icOverlays.open('popup', 'INTERFACE.UPDATE_FAILED')
+						}
+					)
+
+				}
+
 				scope.$watch(
 					function(){
 						return icSite.activeItem
 					},
 					function(item){
-						scope.item = item
-						scope.edit = icItemEdits.get(item.id)
+						scope.icItem = item
+						scope.icEdit = icItemEdits.get(item)
 					}
 				) 
+
+				function removeTagFromEdit(tag){
+					var pos = scope.icEdit.tags.indexOf(tag)
+
+					if(pos != -1) scope.icEdit.tags.splice(pos,1)
+				}
+
+
+				// keep tag and taxonomy consistency
+				scope.$watch('icEdit.tags', function(){
+
+					if(!scope.icEdit) return null
+
+					// make sure there is only one type:
+					var type 		= icTaxonomy.getType(scope.icEdit.tags)
+
+					icTaxonomy.types.forEach(function(tag){ if(tag != (type && type.name)) removeTagFromEdit(tag) })
+
+					var category 	= icTaxonomy.getCategory(scope.icEdit.tags)
+
+					icTaxonomy.categories.forEach(function(c){ 	
+						if(c.name != (category && category.name)){
+							removeTagFromEdit(c.name) 
+							c.tags.forEach(removeTagFromEdit)
+						}
+					})
+
+
+				},
+				true)
 			
 			}
 		}
@@ -178,223 +238,225 @@ angular.module('icDirectives', [
 .directive('icItemPropertyEdit', [
 
 	'icSite',
-	'icUser',
 	'icItemEdits',
-	'icOverlays',
+	'icItemConfig',
 	'ic',
 	'$q',
+	'$parse',
 
-	function(icSite, icUser, icItemEdits, icOverlays, ic, $q){
+	function(icSite, icItemEdits, icItemConfig, ic, $q, $parse){
 		return {
 			restrict:		'AE',
 			scope:			{
-								icKey:					"@",
-								icTitle: 				"<?",
 								icItem:					"<",
+								icKey:					"@",
 								icType:					"@",
-								icOptions:				"<",
-								icOptionLabel:			"&",
-								icTranslatable:			"<?",
 
-								icIgnoreCurrentValue:	"<",	//Workaround, TODO
-								icForceNumber:			"<"		//Workaround, TODO
+								icOptions:				"<?",
+								icOptionLabel:			"&?",
+								icOptionIconClass:		"&?",
+
 							},
 
-			templateUrl: 	"partials/ic-item-property-edit.html",
+			templateUrl: 	function(tElement, tAttrs){
+								if(tAttrs.icType == 'array')	return "partials/ic-item-property-edit-array.html"
+								if(tAttrs.icType == 'string')	return "partials/ic-item-property-edit-simple-value.html"
+								if(tAttrs.icType == 'text') 	return "partials/ic-item-property-edit-simple-value.html"
+
+								return 	"partials/ic-item-property-edit-fallback.html"
+
+							},
 
 			link: function(scope, element, attrs){
 
 				scope.ic				=	ic
-				scope.icEdit 			=	icItemEdits.get(scope.icItem.id)	
-				scope.expand			=	undefined
-				scope.local				=	{value:''}
+				scope.value				=	{
+												edit: 		undefined,
+												current: 	undefined
+											}
+				scope.property			=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
+
+				scope.icAllowMultipleChoices = scope.icAllowMultipleChoices || false
 
 
+				scope.icTranslatable 			= attrs.icTranslatable 			? $parse(attrs.icTranslatable)() 			: false
+				scope.icHideErrors				= attrs.icHideErrors			? $parse(attrs.icHideErrors)()				: false
+				scope.icAllowMultipleChoices	= attrs.icAllowMultipleChoices	? $parse(attrs.icAllowMultipleChoices)()	: false
 
 
-				if(scope.icEdit[scope.icKey] === undefined){
-					console.warn('icItemPropertyEdit: unknown property: ', scope.icKey)
-					return null
+				function copyOptions(array){
+
+					return 	array && scope.icOptions
+							?	scope.icOptions.filter(function(option){
+									return array.indexOf(option) != -1
+								})
+							:	undefined
 				}
+
+
+
+
+				scope.$watch('icItem', function(a, b){
+					scope.icEdit = scope.icItem && icItemEdits.get(scope.icItem.id)
+
+					// check coherence:
+					if(scope.icEdit && scope.icEdit[scope.icKey] === undefined){
+						console.warn('icItemPropertyEdit: unknown property: ', scope.icKey)
+						return null
+					}
+
+					if(scope.icItem && scope.icEdit) setupWatchers()
+				})
+
+
+				function setupWatchers(){
+
+						// update local value, when the original changes (most likely because it finshed downloading, i.e. after storing to the backend)
+						scope.$watch(
+							function(){
+								return scope.icItem && scope.icItem[scope.icKey]
+							},
+
+							function(v){
+								if(!scope.icItem) return null
+
+								if(scope.icOptions){
+									scope.value.current = copyOptions(scope.icItem[scope.icKey])
+								}else{
+									scope.value.current = 	scope.icTranslatable 
+															?	angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
+															:	angular.copy(scope.icItem[scope.icKey])
+								}
+
+								//reset local edit value, if it was undefined. Should only happen when the property is edited for the first time:
+								if(scope.value.edit === undefined) scope.value.edit = angular.copy(scope.value.current)
+
+							},
+							true
+						)
+
+						// update local value, when the edit changes (most likely different property changed the current one depends on)
+						scope.$watch(
+							function(){
+								return scope.icEdit && scope.icEdit[scope.icKey]
+							},
+
+							function(v){
+								if(!scope.icEdit) return null
+
+								if(scope.icOptions){
+									scope.value.edit = 	copyOptions(scope.icEdit[scope.icKey])
+								} else {
+
+									scope.value.edit = 	scope.icTranslatable 
+														?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
+														:	angular.copy(scope.icEdit[scope.icKey])
+								}
+
+							},
+							true
+						)
+
+
+						scope.$watch(
+							function(){
+								return scope.icOptions
+							},
+
+							function(v){
+								if(!scope.icOptions) return null
+								scope.value.edit 	= copyOptions(scope.icEdit[scope.icKey])
+								scope.value.current	= copyOptions(scope.icItem[scope.icKey])
+							},
+							true
+						)
+
+
+						// update local value, if it is translatable, when current language changes:
+						scope.$watch(
+							function(){
+								return icSite.currentLanguage
+							},
+							function(a,b){
+								if( a!=b && scope.icTranslatable){
+									scope.value.edit 	= angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
+									scope.value.current = angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
+								}
+							}
+						)
+
+
+						// update global edit and check for errors, when local edit changes
+						scope.$watch('value.edit', function(){
+
+
+							if(typeof scope.value.edit == 'string'){
+								scope.value.edit = scope.value.edit.replace(/(^\s+|\s+$)/g, '')
+							}
+
+							if(scope.icTranslatable){
+								scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
+							} else {
+								if(scope.icOptions){
+									scope.icOptions.forEach(function(option){
+										var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
+											pos_2 = scope.value.edit.indexOf(option)
+
+										if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
+										if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
+									})
+
+								}else{
+									scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
+								}
+							}
+
+							scope.validate()
+						}, true)
+				}
+
+
+
 
 
 				scope.validate = function(){
 					scope.error = scope.icEdit.getErrors(scope.icKey, icSite.currentLanguage)
+					element.toggleClass('invalid', scope.error)
 				}
 
-
-
-				scope.update = function(){
-					scope.updating = true
-					$q.when(scope.icEdit.update(scope.icKey, scope.icTranslatable ? icSite.currentLanguage : undefined))
-					.then(
-						function(item_data){
-							scope.icItem.importData(item_data)
-							return item_data
-						},
-						function(reason){
-							icOverlays.open('popup', 'INTERFACE.UNABLE_TO_SUBMIT_EDITS')
-							return $q.reject(reason)
-						}
-					)
-					.finally(function(){
-						scope.updating = false
-					})
-				}
 
 				scope.revert = function(){
-					if(scope.icTranslatable){
-						scope.local.value = scope.icItem[scope.icKey][icSite.currentLanguage]
-					} else {
-						scope.local.value = scope.icItem[scope.icKey]
-					}
-
+					scope.value.edit = angular.copy(scope.value.current)
 				}
 
 				scope.diff = function(){
-
-					var edit_value 		= 	scope.icTranslatable
-											?	scope.icEdit[scope.icKey][icSite.currentLanguage]
-											:	scope.icEdit[scope.icKey],
-
-						current_value	=	scope.icTranslatable
-											?	scope.icItem[scope.icKey][icSite.currentLanguage]
-											:	scope.icItem[scope.icKey]
-
-
-
 					switch(scope.icType){
-						case "string": 	return edit_value != current_value; break;
-						case "text": 	return edit_value != current_value; break;
-						case "array": 	return edit_value.length != current_value.length || edit_value.some(function(option){ return current_value.indexOf(option) == -1 })
+						case "string": 	return 	scope.value.edit != scope.value.current; break;
+						case "text": 	return 	scope.value.edit != scope.value.current; break;
+						case "array": 	return 		!scope.value.current
+												||	!scope.value.edit
+												||	(scope.value.current.length != scope.value.edit.length)
+												||	scope.value.current.some(function(option){ return scope.value.edit.indexOf(option) == -1 })
+												||	scope.value.edit.some(function(option){ return scope.value.current.indexOf(option) == -1 })
 					}
 				}
 
 				scope.toggleOption = function(option){
-					var pos = scope.icEdit[scope.icKey].indexOf(option)
 
-					return	pos != -1
-							?	scope.icEdit[scope.icKey].splice(pos,1)
-							:	scope.icEdit[scope.icKey].push(option)
+					if(!scope.icAllowMultipleChoices){
+						scope.value.edit = 	scope.value.edit.filter(function(entry){
+												return scope.icOptions.indexOf(entry) == -1
+											})
+					}
+
+					var pos = scope.value.edit.indexOf(option)
+
+					pos == -1
+					?	scope.value.edit.push(option)
+					:	scope.value.edit.splice(pos,1)	
 
 				}
 
-			
-
-				//update value when the original changes (most likely because it finshed downloading)
-				scope.$watch(
-					function(){
-						return scope.icItem[scope.icKey]
-					},
-
-					function(v){
-						scope.local.value = scope.icTranslatable 
-											?	scope.icItem[scope.icKey][icSite.currentLanguage] 
-											:	scope.icItem[scope.icKey]
-
-					},
-					true
-				)
-
-				scope.$watch(
-					function(){
-						return icSite.currentLanguage
-					},
-					function(a,b){
-						if( a!=b && scope.icTranslatable){
-							scope.local.value = scope.icEdit[scope.icKey][icSite.currentLanguage]
-						}
-					}
-				)
-
-
-				scope.$watch('local.value', function(){
-					if(scope.icTranslatable){
-						scope.icEdit[scope.icKey][icSite.currentLanguage] = scope.local.value 
-					} else {
-						scope.icEdit[scope.icKey] = scope.local.value 
-					}
-
-					scope.validate()
-				}, true)
-
-
-
-				// function refreshValues(){
-				// 	itemEdit = icItemEdits.get(scope.icItem.id)
-
-				// 	scope.value.new			= 	angular.copy(
-				// 									scope.icTranslatable
-				// 									?	itemEdit[scope.icKey][icSite.currentLanguage] 
-				// 									:	itemEdit[scope.icKey]
-				// 								)
-
-
-				// 	scope.value.current		= 	angular.copy(
-				// 									scope.icTranslatable
-				// 									?	scope.icItem[scope.icKey][icSite.currentLanguage] 
-				// 									:	scope.icItem[scope.icKey]
-				// 								)
-				// 	//workaround, actually the backend should never hand out this value if it is to be ignored:
-				// 	if(scope.icIgnoreCurrentValue){
-				// 		scope.value.current = ''
-				// 	}else{
-				// 		//keep this until workaround is no longer neccessary:
-				// 		if(!scope.value.new || scope.value.new.length == 0) scope.value.new = angular.copy(scope.value.current)
-				// 	}
-
-				// 	scope.expand = (scope.expand === undefined ? scope.value.new || undefined : scope.expand)
-				// }
-
-
-
-
-
-				// scope.$watch(function(){ return icSite.currentLanguage }, refreshValues)
-
-				
-				scope.$watch(
-					function(){ 
-						return scope.icItem.state != 'new' && icUser.can('edit_items')
-					},
-					function(allowLocalEdit){
-						scope.allowLocalEdit = 	allowLocalEdit
-					}
-				)
-
-				// scope.$watch(
-				// 	function(){ return itemEdit.isInvalidKey(scope.icKey)},
-				// 	function(invalid){
-				// 		element.toggleClass('invalid', invalid)
-				// 	}
-				// )
-
-
-
-
-				// scope.$watch('value.new', function(){
-
-				// 	// if(scope.icForceNumber && scope.value.new){	//Workaround
-				// 	// 	if(!scope.value.new.match(/^\d*\.?\d{0,2}$/)){
-				// 	// 		scope.value.new = 	scope.value.new
-				// 	// 							.replace(/[^\d,.]/, '')
-				// 	// 							.replace(/,/,'.')
-				// 	// 							.replace(/^(\d*\.\d{2})\d*/, '$1')
-				// 	// 		scope.value.new = String((parseFloat(scope.value.new) || 0 ).toFixed(2))
-				// 	// 	}
-				// 	// }
-
-
-				// 	if(scope.icTranslatable){
-				// 		itemEdit[scope.icKey][icSite.currentLanguage] = scope.value.new
-				// 	} else {
-				// 		itemEdit[scope.icKey] = scope.icForceNumber	&& scope.value.new	//Workaround
-				// 								?	String((parseFloat(scope.value.new) || 0 ).toFixed(2))
-				// 								:	scope.value.new
-				// 	}
-
-				// 	scope.validate()
-				// })
 			}
 		}
 	}

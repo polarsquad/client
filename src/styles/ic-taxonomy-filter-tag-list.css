@@ -8,6 +8,7 @@ ic-taxonomy-filter-tag-list > a {
 	line-height:				2rem;
 	padding:					0 0.75rem;
 	margin-right:				0.25rem;
+	white-space: 				nowrap;
 }
 
 ic-taxonomy-filter-tag-list > a > * + * {

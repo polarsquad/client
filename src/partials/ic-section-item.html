@@ -1,11 +1,14 @@
 
 <ic-item-full 
-	ng-if = "!ic.site.activeItem.downloading && !ic.site.editItem" 
+	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.editItem" 
+	ic-scroll-top	= "true"
+
 >
 </ic-item-full>
 
 <ic-item-full-edit 
-	ng-if = "!ic.site.activeItem.downloading && ic.site.editItem" 
+	ng-if 			= "!ic.site.activeItem.downloading && ic.site.editItem" 
+	ic-scroll-top	= "true"
 >
 </ic-item-full-edit>
 

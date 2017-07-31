@@ -4,23 +4,72 @@ ic-item-property-edit h4 {
 
 ic-item-property-edit .current-value{
 	font-size:					1em;
-	padding-left:				1rem;
 	opacity:					0.6;
+}
+
+ic-item-property-edit:not([ic-type="array"]) .current-value {
+	padding-left:				1rem;
 }
 
 ic-item-property-edit .current-value.diff {
 	text-decoration:			line-through;
 }
 
-ic-item-property-edit input[type = "text"]{
+
+ic-item-property-edit input[type="text"],
+ic-item-property-edit textarea {
+	font-size:					1rem;
 	padding:					0.5rem 1rem;
 }
 
-ic-item-property-edit [type = "text"]:focus {
+
+ic-item-property-edit input[type="text"]:focus,
+ic-item-property-edit textarea:focus {
 	box-shadow:					0 0 0 1px #000 inset;
 }
 
-ic-item-property-edit input[type = "text"].invalid {
+ic-item-property-edit .extra-padding textarea:focus {
+	padding:					0.5rem 0.5rem 2rem 1rem;
+}
+
+ic-item-property-edit .extra-padding input[type="text"]:focus {
+	padding:					0.5rem 5rem 0.5rem 1rem;
+}
+
+ic-item-property-edit .input-wrapper {
+	position:					relative;
+}
+
+ic-item-property-edit .input-wrapper input:focus + *,
+ic-item-property-edit .input-wrapper textarea:focus + * {
+	display:					inline-block;
+}
+
+ic-item-property-edit .input-wrapper :not(input):not(textarea){
+	display:					none;
+	position:					absolute;
+	right:						0.5rem;
+	bottom:						0.5rem;
+	line-height:				1.5rem;
+}
+
+
+ic-item-property-edit .options li {
+	line-height:				2rem;
+	display:					block;
+}
+
+ic-item-property-edit .options li > * {
+	vertical-align:				middle;
+}
+
+ic-item-property-edit .options li .icon {
+	margin:						0 0.5rem;
+}
+
+
+ic-item-property-edit .invalid input[type="text"],
+ic-item-property-edit .invalid textarea {
 	box-shadow:					0 0 0 2px #802651 inset;
 }
 

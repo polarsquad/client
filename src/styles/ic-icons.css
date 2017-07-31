@@ -1,11 +1,14 @@
 .icon {
+	display:				inline-block;
 	box-sizing:				border-box;
 	background-position:	50% 50%;
 	background-repeat:		no-repeat;
 	background-size:		1.5em;
 	min-width:				1.5em;
 	min-height:				1.5em;
+	vertical-align:			middle;
 }
+
 
 .img {
 	position:				relative;
