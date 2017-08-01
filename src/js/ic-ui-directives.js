@@ -491,12 +491,19 @@ angular.module('icUiDirectives', [
 .filter('fill', [
 	function(){
 		return function(str, rep){
-			rep = 	rep || 'undefined'
-			rep = 	rep
-					.replace(/\s/, '_')
-					//.replace(/([A-Z])/g, '_$1')
-					.toUpperCase()
-			return str.replace(/%s/, rep)
+			rep = rep || 'undefined'
+			
+			if(typeof rep == 'string') rep = [rep] 
+
+			rep = rep.map(function(r){
+				return 	r
+						.replace(/\s/g, '_')
+						.toUpperCase()
+			})
+
+			return 	rep.reduce(function(s, r){
+						return s.replace(/%s/, r)
+					}, str)
 		}
 	}
 ])

@@ -45,6 +45,11 @@
 		<ul ng-show = "showAdmin">
 			<li>
 				<a
+					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
+			</li>
+			<li>
+				<a
 					ng-click = "ic.admin.updateTranslations()"
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
 			</li>

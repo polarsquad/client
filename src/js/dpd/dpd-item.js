@@ -97,12 +97,16 @@
 		icItem.submitAsNew = function(){
 			return	dpd(ic.itemConfig.collectionName)
 					.post(icItem.exportData())
+					.then(function(data){
+						icItem.importData(data)
+						return data
+					})
 		}
 
 
 		icItem.delete = function(){
 			return 	dpd(ic.itemConfig.collectionName)
-					.delete({id: icItem.id})
+					.del({id: icItem.id})
 		}
 
 		icItem.getErrors = function(property_name, key){

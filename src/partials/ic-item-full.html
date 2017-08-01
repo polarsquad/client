@@ -14,12 +14,22 @@
 				class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
 				ng-click 	= "ic.site.editItem = true" 
 				ng-if		= "ic.user.can('edit_items')"
+				title		= "{{'INTERFACE.EDIT' | translate}}"
+			>
+			</button>
+
+			<button 
+				class 		= "icon round large active icon-interface-close drop-shadow bg-0"
+				ng-click 	= "delete()" 
+				ng-if		= "ic.user.can('delete_items')"
+				title		= "{{'INTERFACE.DELETE' | translate}}"
 			>
 			</button>
 			
 			<button 
 				class 		= "icon round large active icon-interface-share drop-shadow bg-0"
 				ng-click 	= "ic.overlays.toggle('sharingMenu')" 
+				title		= "{{'INTERFACE.SHARE' | translate}}"
 			>
 
 			</button>

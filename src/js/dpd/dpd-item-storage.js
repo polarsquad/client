@@ -61,6 +61,7 @@
 			item.internal 				= item.internal || {}
 			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
+			item.internal.new			= item.internal.new || false
 
 
 			//TODO
@@ -263,10 +264,21 @@
 			})
 		}
 
+		icItemStorage.newItem = function(){
+			var num = 0
+
+			while(icItemStorage.data.some(function(item){ return item.id == 'new_'+num })){	num++ }
+
+			var item = icItemStorage.storeItem({id: 'new_'+num})
+
+			item.internal.new = true
+
+			return item
+		}
+
 		icItemStorage.getItem = function(item_or_id){
 			var id		= item_or_id.id || item_or_id,
 				item 	= icItemStorage.data.filter(function(item){ return item.id == id })[0] 
-
 
 			if(item) return item
 

@@ -7,14 +7,13 @@
 		</a>
 
 		<div class = "main">
-<!-- 
 			<button 
-				class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
-				ng-click 	= "ic.site.editItem = true" 
+				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
+				ng-click 	= "ic.site.editItem = false" 
 				ng-if		= "ic.user.can('edit_items')"
+				title		= "{{'INTERFACE.CANCEL_EDIT' | translate}}"
 			>
 			</button>
--->
 		</div>
 	</div>
 	<div 
@@ -31,7 +30,7 @@
 
 	<div>		
 		<div> <!-- spacer --> </div>
-		<h3>{{'INTERFACE.EDIT_ITEM' | translate}}</h3>
+		<h3>{{'INTERFACE.%s_ITEM' | fill: icItem.internal.new ? 'create' : 'edit' | translate}}</h3>
 	</div>
 
 
@@ -289,10 +288,10 @@
 		<div>
 			<button
 				class 		= "active border-3 bg-0 padding"
-				ng-click  	= "cancelEdit()"
+				ng-click 	= "ic.site.editItem = false" 
 				ic-touch-me
 			>
-				{{"INTERFACE.CANCEL" | translate}}
+				{{"INTERFACE.CANCEL_EDIT" | translate}}
 			</button>
 
 

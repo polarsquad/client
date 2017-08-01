@@ -27,6 +27,7 @@
 			ng-if				= "icType == 'string'"
 			type 				= "text"
 			ng-model			= "value.edit"
+			ng-model-options	= "{updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 }, allowInvalid}"
 			class				= "bg-1"
 			maxlength			= "{{property.max}}"
 			ng-trim				= "false"
@@ -35,6 +36,7 @@
 		<textarea
 			ng-if				= "icType == 'text'"
 			ng-model			= "value.edit"
+			ng-model-options	= "{updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 }, allowInvalid}"
 			ng-trim				= "false"
 			class				= "bg-1"	
 			ic-auto-grow
@@ -48,7 +50,7 @@
 	</div>
 
 	<div class  = "note">{{"ITEM.%s_NOTE" | fill : icKey | translate }}</div>
-	<div ng-if = "!icHideErrors" class = "error col-3"> {{error.code | translate}} </div>
+	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEM.%s_%s' | fill : [icKey, error.code] | translate}} </div>
 
 	<button
 		ng-show		= "allowLocalEdit"
