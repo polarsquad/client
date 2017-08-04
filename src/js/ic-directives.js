@@ -117,9 +117,10 @@ angular.module('icDirectives', [
 	'ic',
 	'icSite',
 	'icOverlays',
+	'icItemStorage',
 	'$q',
 
-	function(ic, icSite, icOverlays, $q){
+	function(ic, icSite, icOverlays, icItemStorage, $q){
 
 		return {
 			restrict:		'AE',
@@ -135,6 +136,10 @@ angular.module('icDirectives', [
 						return 	$q.when(icSite.activeItem.delete())
 								.then(
 									function(){
+										icItemStorage
+										.removeItem(icSite.activeItem)
+										.refreshFilteredList()
+
 										icSite.activeItem = undefined
 										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCESSFULL')
 									},
@@ -167,9 +172,10 @@ angular.module('icDirectives', [
 	'icItemStorage',
 	'icTaxonomy',
 	'icOverlays',
+	'$rootScope',
 	'$q',
 
-	function(ic, icItemEdits, icSite, icItemStorage, icTaxonomy, icOverlays, $q){
+	function(ic, icItemEdits, icSite, icItemStorage, icTaxonomy, icOverlays, $rootScope, $q){
 
 		return {
 			restrict:		'AE',
@@ -177,14 +183,29 @@ angular.module('icDirectives', [
 			scope:			{},
 
 			link: function(scope, element, attrs){
-				scope.ic 	= ic
-				
+				scope.ic = ic
+
+				scope.validate = function(){
+					return !scope.validationFunctions.filter(function(fn){ return fn() })[0]
+				}
+
+				scope.cancel = function(){
+					if(scope.icItem.internal.new) icSite.activeItem = undefined
+					ic.site.editItem = false
+				}
+
+				scope.revertAll = function(){
+					scope.icEdit.importData(scope.icItem.exportData())
+				}
+
 				scope.submit = function(){
 
 					if(!scope.icEdit) return null
 
-					var item = scope.icItem,
-						edit = scope.icEdit
+					var item 		= scope.icItem,
+						edit 		= scope.icEdit
+
+					if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 
 					icOverlays.toggle('spinner', true)
 
@@ -195,10 +216,16 @@ angular.module('icDirectives', [
 					)
 					.then(
 						function(item_data){
-							icItemStorage.storeItem(item_data)
-							icSite.editItem = false
-							edit.internal.new = false
 							item.internal.new = false
+							item.id = item_data.id
+
+							icItemStorage.storeItem(item_data)
+							icItemStorage.refreshFilteredList()
+
+							icSite.updateUrl()
+							icSite.editItem = false
+
+
 							return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')
 						},
 						function(){
@@ -248,6 +275,13 @@ angular.module('icDirectives', [
 				},
 				true)
 			
+			},
+
+			controller: function($scope){
+				$scope.validationFunctions = $scope.validationFunctions || []
+				this.registerValidationFunction = function(fn){
+					$scope.validationFunctions.push(fn)
+				}
 			}
 		}
 	}
@@ -267,6 +301,7 @@ angular.module('icDirectives', [
 	function(icSite, icItemEdits, icItemConfig, ic, $q, $parse){
 		return {
 			restrict:		'AE',
+			require:		['^^icItemFullEdit'],
 			scope:			{
 								icItem:					"<",
 								icKey:					"@",
@@ -275,26 +310,29 @@ angular.module('icDirectives', [
 								icOptions:				"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
+								icForceChoice:			"<?"
 
 							},
 
 			templateUrl: 	function(tElement, tAttrs){
-								if(tAttrs.icType == 'array')	return "partials/ic-item-property-edit-array.html"
-								if(tAttrs.icType == 'string')	return "partials/ic-item-property-edit-simple-value.html"
-								if(tAttrs.icType == 'text') 	return "partials/ic-item-property-edit-simple-value.html"
-
-								return 	"partials/ic-item-property-edit-fallback.html"
+								if(tAttrs.icOptions)	return "partials/ic-item-property-edit-options.html"
+								
+								return "partials/ic-item-property-edit-simple-value.html"
 
 							},
 
-			link: function(scope, element, attrs){
+			link: function(scope, element, attrs, ctrls){
 
 				scope.ic				=	ic
 				scope.value				=	{
 												edit: 		undefined,
 												current: 	undefined
 											}
-				scope.property			=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
+				scope.icProperty			=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
+				
+				if(scope.icOptions === true){
+					scope.icOptions	 =	scope.icProperty.options
+				}
 
 				scope.icAllowMultipleChoices = scope.icAllowMultipleChoices || false
 
@@ -304,13 +342,21 @@ angular.module('icDirectives', [
 				scope.icAllowMultipleChoices	= attrs.icAllowMultipleChoices	? $parse(attrs.icAllowMultipleChoices)()	: false
 
 
+
 				function copyOptions(array){
 
-					return 	array && scope.icOptions
-							?	scope.icOptions.filter(function(option){
-									return array.indexOf(option) != -1
-								})
-							:	undefined
+					if(!array) return undefined
+					if(!array.forEach) array = [array]
+
+					var matching_options = 	scope.icOptions
+											?	scope.icOptions.filter(function(option){
+													return array.indexOf(option) != -1
+												})
+											:	[]
+
+					return 	scope.icType == 'array'
+							?	matching_options
+							:	matching_options[0]
 				}
 
 
@@ -340,6 +386,10 @@ angular.module('icDirectives', [
 							function(v){
 								if(!scope.icItem) return null
 
+								if(scope.icItem.internal.new){
+									scope.hideCurrentValue = true
+								}
+
 								if(scope.icOptions){
 									scope.value.current = copyOptions(scope.icItem[scope.icKey])
 								}else{
@@ -366,12 +416,13 @@ angular.module('icDirectives', [
 
 								if(scope.icOptions){
 									scope.value.edit = 	copyOptions(scope.icEdit[scope.icKey])
-								} else {
+									return undefined
+								} 
 
-									scope.value.edit = 	scope.icTranslatable 
-														?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
-														:	angular.copy(scope.icEdit[scope.icKey])
-								}
+
+								scope.value.edit = 	scope.icTranslatable 
+													?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
+													:	angular.copy(scope.icEdit[scope.icKey])
 
 							},
 							true
@@ -384,9 +435,17 @@ angular.module('icDirectives', [
 							},
 
 							function(v){
+
 								if(!scope.icOptions) return null
+
+								if(scope.icOptions === true){
+									scope.icOptions = scope.icProperty.options
+								}
+
 								scope.value.edit 	= copyOptions(scope.icEdit[scope.icKey])
 								scope.value.current	= copyOptions(scope.icItem[scope.icKey])
+
+								scope.validate()
 							},
 							true
 						)
@@ -416,22 +475,27 @@ angular.module('icDirectives', [
 
 							if(scope.icTranslatable){
 								scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
-							} else {
-								if(scope.icOptions){
-									scope.icOptions.forEach(function(option){
-										var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
-											pos_2 = scope.value.edit.indexOf(option)
+								scope.validate()
+								return undefined
+							} 
 
-										if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
-										if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
-									})
+							if(scope.icOptions && scope.icType == 'array') {
+								scope.icOptions.forEach(function(option){
+									var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
+										pos_2 = scope.value.edit.indexOf(option)
 
-								}else{
-									scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
-								}
+									if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
+									if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
+								})
+
+								scope.validate()
+								return undefined
 							}
 
-							scope.validate()
+							scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
+								scope.validate()
+								return undefined
+
 						}, true)
 				}
 
@@ -440,9 +504,15 @@ angular.module('icDirectives', [
 
 
 				scope.validate = function(){
-					scope.error = scope.icEdit.getErrors(scope.icKey, icSite.currentLanguage)
+					scope.error 	= 	scope.icForceChoice && !(scope.value.edit.length)
+										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
+										:	scope.icEdit.getErrors(scope.icKey)
+
 					element.toggleClass('invalid', scope.error)
+					return scope.error
 				}
+
+				ctrls.forEach(function(ctrl){ ctrl.registerValidationFunction(scope.validate)	})
 
 
 				scope.revert = function(){
@@ -462,6 +532,13 @@ angular.module('icDirectives', [
 				}
 
 				scope.toggleOption = function(option){
+
+					if(scope.icType == 'string'){
+						scope.value.edit = 	scope.value.edit == option
+											? null
+											: option
+						return undefined
+					}
 
 					if(!scope.icAllowMultipleChoices){
 						scope.value.edit = 	scope.value.edit.filter(function(entry){

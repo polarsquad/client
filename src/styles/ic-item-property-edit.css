@@ -13,6 +13,7 @@ ic-item-property-edit:not([ic-type="array"]) .current-value {
 
 ic-item-property-edit .current-value.diff {
 	text-decoration:			line-through;
+	white-space:				npwrap;
 }
 
 

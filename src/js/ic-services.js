@@ -951,6 +951,7 @@ angular.module('icServices', [
 				
 			if(!edit){
 				edit = new ic.Item({id:id})
+
 				data.push(edit)
 
 				if(original.internal.new){
@@ -968,9 +969,9 @@ angular.module('icServices', [
 			return edit
 		}
 
-		icItemEdits.clear = function(id){
+		icItemEdits.clear = function(item_or_id){
 			data = 	data.filter(function(itemEdit){
-						return itemEdit.id != id
+						return itemEdit.id != item_or_id.id || item_or_id
 					})
 		}
 

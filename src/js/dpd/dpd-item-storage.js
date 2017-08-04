@@ -61,6 +61,8 @@
 			item.internal 				= item.internal || {}
 			item.internal.tags 			= item.internal.tags || []
 			item.internal.sortingValues = item.internal.sortingValues || {}
+			item.internal.altMatches	= item.internal.altMatches || []
+			item.internal.subMatches	= item.internal.subMatches || []
 			item.internal.new			= item.internal.new || false
 
 
@@ -68,6 +70,18 @@
 			if(!skip_internals) icItemStorage.updateItemInternals(item)
 
 			return item
+		}
+
+		icItemStorage.removeItem = function(item_or_id, skip_internals){
+			var item 	= 	icItemStorage.getItem(item_or_id),
+				pos		=  	icItemStorage.data.indexOf(item)
+
+			if(pos != -1) icItemStorage.data.splice(pos, 1)
+
+			//TODO
+			if(!skip_internals) icItemStorage.updateItemInternals(item)
+
+			return icItemStorage
 		}
 
 		icItemStorage.updateItemInternals = function(item_or_id){
@@ -292,7 +306,7 @@
 					return item
 				},
 				function(reason){
-					console.error('icItemStorage.getItem: update failed.', reason)
+					console.warn('icItemStorage.getItem: update failed.', reason)
 					
 					icItemStorage.runAsyncTriggers()
 

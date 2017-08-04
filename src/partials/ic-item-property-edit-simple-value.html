@@ -21,7 +21,7 @@
 
 	<div 
 		class 		= "input-wrapper"
-		ng-class 	= "{'extra-padding': property.max}" 
+		ng-class 	= "{'extra-padding': icProperty.max}" 
 	> 
 		<input 
 			ng-if				= "icType == 'string'"
@@ -29,7 +29,7 @@
 			ng-model			= "value.edit"
 			ng-model-options	= "{updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 }, allowInvalid}"
 			class				= "bg-1"
-			maxlength			= "{{property.max}}"
+			maxlength			= "{{icProperty.max}}"
 			ng-trim				= "false"
 		></input>
 
@@ -44,13 +44,14 @@
 		</textarea>
 
 
-		<div ng-if = "property.max">
-			{{value.edit.length}} / {{property.max}}
+		<div ng-if = "icProperty.max">
+			{{value.edit.length}} / {{icProperty.max}}
 		</div>
 	</div>
 
-	<div class  = "note">{{"ITEM.%s_NOTE" | fill : icKey | translate }}</div>
-	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEM.%s_%s' | fill : [icKey, error.code] | translate}} </div>
+
+	<div class  = "note">{{"ITEMS.%s_NOTE" | fill : icKey | translate }}</div>
+	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [icKey, error.code] | translate}} </div>
 
 	<button
 		ng-show		= "allowLocalEdit"

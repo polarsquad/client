@@ -464,7 +464,6 @@ angular.module('icUiDirectives', [
 			link: function(scope, element, attrs, ctrl){
 
 				function resize(){
-					console.log('resize!')
 					window.requestAnimationFrame(function(){
 						element.css('height', 'auto')
 						element.css('height', element[0].scrollHeight + 'px')
@@ -493,11 +492,12 @@ angular.module('icUiDirectives', [
 		return function(str, rep){
 			rep = rep || 'undefined'
 			
-			if(typeof rep == 'string') rep = [rep] 
+			if(!rep.forEach) rep = [rep] 
 
 			rep = rep.map(function(r){
 				return 	r
 						.replace(/\s/g, '_')
+						.replace(/([a-z])([A-Z])/g, '$1_$2')
 						.toUpperCase()
 			})
 

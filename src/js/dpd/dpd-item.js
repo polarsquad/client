@@ -110,13 +110,20 @@
 		}
 
 		icItem.getErrors = function(property_name, key){
-			var property = ic.itemConfig.properties.filter(function(property){ return property.name == property_name})[0]
 
-			if(!property) console.warn('icItem: getErrors; unknown property:', property_name)
+			var errors	= 	ic.itemConfig.properties.reduce(function(errors, property){
+								if(!property || property_name == property.name){
+									var e = property.getErrors(icItem[property.name], key)
+									if(e) errors[property_name] = e
+								}
+								return errors
+							}, {})
 
-			return	property
-					?	property.getErrors(icItem[property_name], key)
-					:	null
+			if(Object.keys(errors).length == 0) return null
+
+			return	property_name
+					?	errors[property_name]
+					:	errors
 
 		}
 

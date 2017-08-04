@@ -9,7 +9,7 @@
 		<div class = "main">
 			<button 
 				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
-				ng-click 	= "ic.site.editItem = false" 
+				ng-click 	= "cancel()" 
 				ng-if		= "ic.user.can('edit_items')"
 				title		= "{{'INTERFACE.CANCEL_EDIT' | translate}}"
 			>
@@ -125,6 +125,7 @@
 				ic-option-label				= "'TYPES.%s' | fill: option | translate"
 				ic-option-icon-class		= "'icon-type-' + option"
 				ic-allow-multiple-choices	= "false"
+				ic-force-choice				= "true"
 				ic-key						= "tags"
 			></ic-item-property-edit>
 		</div>
@@ -143,13 +144,14 @@
 				ic-option-label				= "'CATEGORIES.%s' | fill: option | translate"
 				ic-option-icon-class		= "'icon-category-' + option"
 				ic-allow-multiple-choices	= "false"
+				ic-force-choice				= "true"
 				ic-key						= "tags"
 			></ic-item-property-edit>
 		</div>
 	</article>
 
 
-	<article>
+	<article ng-if = "ic.taxonomy.getCategory(icEdit.tags)">
 		<div> <!-- spacer --> </div>
 		<div>
 			<h4> {{'ITEMS.SUBCATEGORIES' | translate}}</h4>
@@ -251,13 +253,44 @@
 
 			<ic-item-property-edit
 				ic-type 				= "string"
-				ic-key					= " {{key}}"
+				ic-key					= "{{key}}"
 				ic-item					= "icItem"
 			></ic-item-property-edit>
 		</div>
 	</article>
 
 
+	<article>
+		<div> <!-- spacer --> </div>
+		<div>
+			<h4> {{'ITEMS.STATE' | translate}}</h4>
+
+			<ic-item-property-edit
+				ic-item						= "icItem"
+				ic-type						= "string"
+				ic-options					= "true"
+				ic-option-label				= "'ITEMS.STATE_%s' | fill: option | translate"
+				ic-allow-multiple-choices	= "false"
+				ic-force-choice				= "true"
+				ic-key						= "state"
+			></ic-item-property-edit>
+		</div>
+	</article>
+
+
+
+	<article>
+		<div> <!-- spacer --> </div>
+		<div>
+			<h4> {{'ITEMS.EDITING_NOTE' | translate}}</h4>
+
+			<ic-item-property-edit
+				ic-item						= "icItem"
+				ic-type						= "text"
+				ic-key						= "editingNote"
+			></ic-item-property-edit>
+		</div>
+	</article>
 
 	<!-- state -->
 
@@ -284,14 +317,24 @@
 
 
 	<article>
-		<div> <div class = "icon icon-property-{{key}}"></div> </div>
-		<div>
+		<div> <!-- spacer --></div>
+		<div class = "controls">
+
 			<button
 				class 		= "active border-3 bg-0 padding"
-				ng-click 	= "ic.site.editItem = false" 
+				ng-click 	= "cancel()" 
 				ic-touch-me
 			>
 				{{"INTERFACE.CANCEL_EDIT" | translate}}
+			</button>
+
+
+			<button
+				class 		= "active border-3 bg-0 padding"
+				ng-click 	= "revertAll()" 
+				ic-touch-me
+			>
+				{{"INTERFACE.ITEM_REVERT_ALL" | translate}}
 			</button>
 
 

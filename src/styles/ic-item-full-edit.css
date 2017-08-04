@@ -73,11 +73,21 @@ ic-item-full-edit hr {
 	display:				block;
 	height:					0;
 	width:					auto;
-	border:					1px solid transparent;
+	border-top:				1px solid transparent;
 	margin-top:				3rem;
 	margin-bottom:			1rem;
 }
 
+ic-item-full-edit .controls {
+	display:				flex;
+	flex-wrap:				wrap;
+	margin:					-0.5rem;
+}
+
+ic-item-full-edit .controls > * {
+	flex:					1 0 auto;
+	margin:					0.5rem;
+}
 
 ic-item-full-edit footer.screen-only {
 }
