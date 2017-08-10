@@ -16,10 +16,12 @@
 		icItemStorage.sortingCriteria	= 	{}
 		icItemStorage.filteredList		= 	[]
 		icItemStorage.currentStats		= 	{
-												'subMatches':	{},
-												'altMatches':	{},
-												'tagGroups':	[],
-												'altGroups':	[]
+												'subMatches':		{},
+												'altMatches':		{},
+												'tagGroups':		[],
+												'altGroups':		[],
+												'sortBy':			'id',
+												'sortDirection':	1
 											}
 		icItemStorage.refreshRequired	=	false 
 
@@ -107,9 +109,11 @@
 		
 		icItemStorage.registerFilter = function(filter_name, match_fn){
 
+
+
 			filter_name = String(filter_name)
 
-			if(filter_name.match(/[^a-zA-Z0-9]/))			console.error('icItemStorage: filter names must contain only letters or numbers, A-Z, a-z, 0-9: '+filter_name+'.')
+			if(filter_name.match(/[^a-zA-Z0-9_]/))			console.error('icItemStorage: filter names must contain only letters, numbers or underscores, A-Z, a-z, 0-9. _: '+filter_name+'.')
 			if(icItemStorage.filters[filter_name]) 			console.error('icItemStorage: filter already registered: '+filter_name+'.')
 			//TODO
 			// ic.itemConfig.tags.forEach(function(tag){ 
@@ -117,9 +121,9 @@
 			// })
 			
 			icItemStorage.filters[filter_name] = match_fn
-			icItemStorage.data.forEach(function(item){
-				if(match_fn(item)) item.internal.tags.push(filter_name)
-			})
+			icItemStorage.data.forEach(function(item){ icItemStorage.itemCheckFilter(item, filter_name)	})
+			icItemStorage.data.forEach(icItemStorage.matchItem)
+			icItemStorage.refreshRequired = true
 
 			return icItemStorage
 		}
@@ -153,7 +157,7 @@
 			return icItemStorage
 		}
 
-		//Todo item changes
+		//Todo item changes ? 
 		icItemStorage.registerSortingCriterium = function(criterium_name, compare_fn){
 
 
@@ -169,6 +173,7 @@
 			.forEach(function(item, index){
 				item.internal.sortingValues[criterium_name]	= index
 			})
+
 
 			return this
 		}
@@ -250,12 +255,15 @@
 
 
 		icItemStorage.refreshFilteredList = function(){
+
 			icItemStorage.clearFilteredList()
 			icItemStorage.data.forEach(function(item){
 				item.internal.altMatches.forEach(function(tag){ icItemStorage.currentStats.altMatches[tag] = (icItemStorage.currentStats.altMatches[tag] ||0) + 1 })
 				item.internal.subMatches.forEach(function(tag){ icItemStorage.currentStats.subMatches[tag] = (icItemStorage.currentStats.subMatches[tag] ||0) + 1 })
 				if(item.internal.match) icItemStorage.filteredList.push(item)
 			})
+
+			icItemStorage.sortFilteredList()
 
 			icItemStorage.refreshRequired = false
 		}
@@ -265,7 +273,21 @@
 		icItemStorage.sortFilteredList = function(criterium, dir){
 			var dir = (dir == -1) ?  -1 : 1
 
-			if(!icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
+			if(criterium && !icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
+
+			if(criterium){
+				icItemStorage.currentStats.sortBy 			= criterium
+				icItemStorage.currentStats.sortDirection 	= dir
+			} else {
+				criterium 	= icItemStorage.currentStats.sortBy 
+				dir 		= icItemStorage.currentStats.sortDirection
+			}
+
+			if(!criterium && !icItemStorage.currentStats.sortBy){
+				console.warn('icItemStorage: no sorting criterium provided.')
+				return null	
+			} 
+
 			icItemStorage.filteredList.sort(function(item_1, item_2){
 
 				//TOSO set soting value=?
@@ -380,6 +402,10 @@
 
 			return search_tag.replace(/%1/,index)
 		}
+
+		icItemStorage.registerSortingCriterium('id', function(item_1, item_2){
+			return ( ( item_1.id == item_2.id ) ? 0 : ( ( item_1.id > item_2.id ) ? 1 : -1 ) )
+		})
 
 	}
 

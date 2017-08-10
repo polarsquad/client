@@ -438,9 +438,10 @@ angular.module('icUiDirectives', [
 
 				body.on('click touchstart', click)
 
-				element.on('click touchstart', function(event){
-					event.stopPropagation();
-				})
+				// what was this for?  break href =/
+				// element.on('click touchstart', function(event){
+				// 	event.stopPropagation();
+				// })
 
 				scope.$on('$destroy', function(){
 					body.off('click', click)

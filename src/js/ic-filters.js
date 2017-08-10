@@ -114,15 +114,17 @@ angular.module('icFilters', [
 		}
 
 		function icDateFilter(date_str, use_time){
-			
-			dates[date_str] 								= dates[date_str] || {}
+
+			if(!date_str) return undefined
+
+			dates[date_str] 						= dates[date_str] || {}
 			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
 
 
 			if(!dates[date_str][icSite.currentLanguage].withoutTime){
 				dates[date_str][icSite.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
-																			?	new Date(date_str).toLocaleDateString(icSite.currentLanguage)
-																			:	date_str
+																		?	new Date(date_str).toLocaleDateString(icSite.currentLanguage)
+																		:	date_str
 			} 
 
 			if(!dates[date_str][icSite.currentLanguage].withTime && use_time){

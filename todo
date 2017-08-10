@@ -214,6 +214,19 @@ Todo(neu):
 * force choice
 * multichoice -> not type xtring?
 * creationdate /author
+* flasches Passwort -> Fehlermeldung!
+* edit -> unsorted Tags
+* manifest
+* backend item validate and defaults
+* radios pointer
+* Neues item erstellen, dann edit, dann error
+* 'new' -Filter
+* tags werden nicht übernommen
+
+
+
+
+
 
 
 Done:
@@ -221,3 +234,13 @@ Done:
 * sharing
 * -> aktiver marker verschwindet
 * Filter Tags
+* Filter nach state
+* RELOAD fpr links!? (ic-click-outside war schuld)
+* TRANSLATION MESSAGE -> TYPE/CYTEGORY NOTE?
+* Fehlermeldung geht nicht weg
+* Fehlermeldungen
+* STATE auswahl kaput --> fixed
+* Kommentar alter wert soll weg wenn neu
+* Revert ALL bei neu weg
+* bei neu 'Suggesten' / 'ersttelen' auf den button
+* Abbrechen bei neu extra string

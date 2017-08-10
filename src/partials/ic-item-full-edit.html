@@ -6,7 +6,27 @@
 		>
 		</a>
 
-		<div class = "main">
+		<!-- EDIT -->
+
+		<div 
+			class = "main"
+			ng-if = "!icItem.internal.new"
+		>
+			<button 
+				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
+				ng-click 	= "cancel()" 
+				ng-if		= "ic.user.can('edit_items')"
+				title		= "{{'INTERFACE.CANCEL_EDIT' | translate}}"
+			>
+			</button>
+		</div>
+
+		<!-- NEW -->
+
+		<div 
+			class = "main"
+			ng-if = "icItem.internal.new"
+		>
 			<button 
 				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
 				ng-click 	= "cancel()" 
@@ -27,6 +47,19 @@
 
 
 <section class = "bg-0 padding">
+
+	<div ng-if = "ic.user.can('edit_items')">		
+		<div> <!-- spacer --> </div>
+		<div>
+
+			<div ng-if = "icItem.creator">
+				{{'ITEMS.CREATOR' | translate}} 	 	{{icItem.creator 	}} 	({{icItem.creationDate | icDate}})
+			</div>
+			<div ng-if  ="icItem.lastEditor">
+				{{'ITEMS.LAST_EDITOR' | translate}}  	{{icItem.lastEditor	}}	({{icItem.lastEditDate | icDate}})
+			</div>	
+		</div>
+	</div>
 
 	<div>		
 		<div> <!-- spacer --> </div>
@@ -121,6 +154,7 @@
 			<ic-item-property-edit
 				ic-item						= "icItem"
 				ic-type						= "array"
+				ic-translation-key			= "type"
 				ic-options					= "ic.taxonomy.types | mapToKey : 'name' | preventLoop"
 				ic-option-label				= "'TYPES.%s' | fill: option | translate"
 				ic-option-icon-class		= "'icon-type-' + option"
@@ -140,6 +174,7 @@
 			<ic-item-property-edit
 				ic-item						= "icItem"
 				ic-type						= "array"
+				ic-translation-key			= "category"
 				ic-options					= "ic.taxonomy.categories | mapToKey : 'name' | preventLoop"
 				ic-option-label				= "'CATEGORIES.%s' | fill: option | translate"
 				ic-option-icon-class		= "'icon-category-' + option"
@@ -159,6 +194,7 @@
 			<ic-item-property-edit
 				ic-item						= "icItem"
 				ic-type						= "array"
+				ic-translation-key			= "unsorted"
 				ic-options					= "ic.taxonomy.getCategory(icEdit.tags).tags"
 				ic-option-label				= "'CATEGORIES.%s' | fill: option | translate"
 				ic-allow-multiple-choices	= "true"
@@ -292,33 +328,17 @@
 		</div>
 	</article>
 
-	<!-- state -->
-
-<!-- 	<ic-item-property-edit
-		ng-if					= "icUser.can('edit_items')"
-		ic-type					= "string"
-		ic-options				= "::['draft', 'published', 'suggestion', 'archived']"
-		ic-option-label			= "'INTERFACE.ITEM_STATE_%s' | fill : option | translate"
-		ic-key					= "state"
-		ic-item					= "icItem"
-	></ic-item-property-edit> -->
-
-
-
-	<!-- Suggestion comment -->
-
-<!-- 	<ic-item-property-edit
-		ng-if					= "icUser.can('edit_items') || icUser.can('add_new_items') || icUser.can('suggest_item_edits') || icUser.can('suggest_new_items')"
-		ic-type					= "text"
-		ic-key					= "comment"
-		ic-item					= "icItem"
-		ic-ignore-current-value	= "!icUser.can('edit_items')" 
-	></ic-item-property-edit> -->
-
 
 	<article>
 		<div> <!-- spacer --></div>
-		<div class = "controls">
+
+
+		<!-- EDIT -->
+
+		<div 
+			class = "controls"
+			ng-if = "!icItem.internal.new"
+		>
 
 			<button
 				class 		= "active border-3 bg-0 padding"
@@ -344,6 +364,31 @@
 				ic-touch-me
 			>
 				{{"INTERFACE.SUBMIT_CHANGES" | translate}}
+			</button>
+		</div>
+
+		<!-- NEW -->
+
+		<div 
+			class = "controls"
+			ng-if = "icItem.internal.new"
+		>
+
+			<button
+				class 		= "active border-3 bg-0 padding"
+				ng-click 	= "cancel()" 
+				ic-touch-me
+			>
+				{{"INTERFACE.CANCEL_CREATION" | translate}}
+			</button>
+
+
+			<button
+				class 		= "bg-3 col-2 padding"
+				ng-click 	= "submit()"	 
+				ic-touch-me
+			>
+				{{"INTERFACE.SUBMIT_NEW_ITEM" | translate}}
 			</button>
 		</div>
 	</article>

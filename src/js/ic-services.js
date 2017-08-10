@@ -79,15 +79,14 @@ angular.module('icServices', [
 						username: username,
 						password: password
 					}))
-					.then(icUser.setup)
+					.then(function(){ location.reload()	})
 		}
+
 
 		icUser.logout = function(){
 			return 	$q.when(dpd.users.logout())
 					.then(
-						function(){
-							icUser.clear()
-						},
+						function(){ location.reload() },
 						function(e){
 							console.warn('icUser: logout failed:', e)
 							return $q.reject(e)
@@ -446,8 +445,9 @@ angular.module('icServices', [
 		'$rootScope',
 		'icSite',
 		'icUser',
+		'icTaxonomy',
 
-		function($q, $rootScope, icSite, icUser){
+		function($q, $rootScope, icSite, icUser, icTaxonomy){
 
 			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
@@ -457,11 +457,28 @@ angular.module('icServices', [
 
 			icItemStorage.ready 		= 	icUser.ready
 											.then(function(){
-												return 	icItemStorage.downloadAll()
+												return 	$q.when(icItemStorage.downloadAll())
 											})
 											.then(function(){
 												icItemStorage.updateFilteredList()
 											})
+
+			icUser.ready.then(function(){
+				if(icUser.can('edit_items')){
+					icItemStorage.ready
+					.then(function(){
+						icItemStorage.registerFilter('state_public', 		function(item){ return item.state == 'public' 		})
+						icItemStorage.registerFilter('state_draft', 		function(item){ return item.state == 'draft' 		})
+						icItemStorage.registerFilter('state_suggestion', 	function(item){ return item.state == 'suggestion' 	})
+						icItemStorage.registerFilter('state_archived', 		function(item){ return item.state == 'archived' 	})
+					})
+
+					icTaxonomy.addUnsortedTag('state_public')
+					icTaxonomy.addUnsortedTag('state_draft')
+					icTaxonomy.addUnsortedTag('state_suggestion')
+					icTaxonomy.addUnsortedTag('state_archived')
+				}				
+			})
 
 
 			$rootScope.$watch(

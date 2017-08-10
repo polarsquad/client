@@ -307,6 +307,7 @@ angular.module('icDirectives', [
 								icKey:					"@",
 								icType:					"@",
 
+								icTranslationKey:		"@?",
 								icOptions:				"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
@@ -342,7 +343,6 @@ angular.module('icDirectives', [
 				scope.icAllowMultipleChoices	= attrs.icAllowMultipleChoices	? $parse(attrs.icAllowMultipleChoices)()	: false
 
 
-
 				function copyOptions(array){
 
 					if(!array) return undefined
@@ -371,134 +371,146 @@ angular.module('icDirectives', [
 						return null
 					}
 
-					if(scope.icItem && scope.icEdit) setupWatchers()
+
+					if(scope.icItem.internal.new){
+						scope.hideCurrentValue = true
+					}
+
+					scope.untouched		= 	true
+					scope.error			=	null
 				})
 
 
-				function setupWatchers(){
 
-						// update local value, when the original changes (most likely because it finshed downloading, i.e. after storing to the backend)
-						scope.$watch(
-							function(){
-								return scope.icItem && scope.icItem[scope.icKey]
-							},
+				// update local value, when the original changes (most likely because it finshed downloading, i.e. after storing to the backend)
+				scope.$watch(
+					function(){
+						return scope.icItem && scope.icItem[scope.icKey]
+					},
 
-							function(v){
-								if(!scope.icItem) return null
+					function(v){
+						if(!scope.icItem || !scope.icEdit) return null
 
-								if(scope.icItem.internal.new){
-									scope.hideCurrentValue = true
-								}
+						if(scope.icOptions){
+							scope.value.current = copyOptions(scope.icItem[scope.icKey])
+						}else{
+							scope.value.current = 	scope.icTranslatable 
+													?	angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
+													:	angular.copy(scope.icItem[scope.icKey])
+						}
 
-								if(scope.icOptions){
-									scope.value.current = copyOptions(scope.icItem[scope.icKey])
-								}else{
-									scope.value.current = 	scope.icTranslatable 
-															?	angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
-															:	angular.copy(scope.icItem[scope.icKey])
-								}
+						//reset local edit value, if it was undefined. Should only happen when the property is edited for the first time:
+						if(scope.value.edit === undefined) scope.value.edit = angular.copy(scope.value.current)
 
-								//reset local edit value, if it was undefined. Should only happen when the property is edited for the first time:
-								if(scope.value.edit === undefined) scope.value.edit = angular.copy(scope.value.current)
+					},
+					true
+				)
 
-							},
-							true
-						)
+				// update local value, when the edit changes (most likely different property changed the current one depends on)
+				scope.$watch(
+					function(){
+						return scope.icEdit && scope.icEdit[scope.icKey]
+					},
 
-						// update local value, when the edit changes (most likely different property changed the current one depends on)
-						scope.$watch(
-							function(){
-								return scope.icEdit && scope.icEdit[scope.icKey]
-							},
+					function(v){
+						if(!scope.icItem || !scope.icEdit) return null
+						
 
-							function(v){
-								if(!scope.icEdit) return null
-
-								if(scope.icOptions){
-									scope.value.edit = 	copyOptions(scope.icEdit[scope.icKey])
-									return undefined
-								} 
+						if(scope.icOptions){
+							scope.value.edit = 	copyOptions(scope.icEdit[scope.icKey])
+							return undefined
+						} 
 
 
-								scope.value.edit = 	scope.icTranslatable 
-													?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
-													:	angular.copy(scope.icEdit[scope.icKey])
+						scope.value.edit = 	scope.icTranslatable 
+											?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
+											:	angular.copy(scope.icEdit[scope.icKey])
 
-							},
-							true
-						)
-
-
-						scope.$watch(
-							function(){
-								return scope.icOptions
-							},
-
-							function(v){
-
-								if(!scope.icOptions) return null
-
-								if(scope.icOptions === true){
-									scope.icOptions = scope.icProperty.options
-								}
-
-								scope.value.edit 	= copyOptions(scope.icEdit[scope.icKey])
-								scope.value.current	= copyOptions(scope.icItem[scope.icKey])
-
-								scope.validate()
-							},
-							true
-						)
+					},
+					true
+				)
 
 
-						// update local value, if it is translatable, when current language changes:
-						scope.$watch(
-							function(){
-								return icSite.currentLanguage
-							},
-							function(a,b){
-								if( a!=b && scope.icTranslatable){
-									scope.value.edit 	= angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
-									scope.value.current = angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
-								}
-							}
-						)
+				scope.$watch(
+					function(){
+						return scope.icOptions
+					},
+
+					function(v){
+						if(!scope.icItem || !scope.icEdit) return null
+
+						if(!scope.icOptions) return null
+
+						if(scope.icOptions === true){
+							scope.icOptions = scope.icProperty.options
+						}
+
+						scope.value.edit 	= copyOptions(scope.icEdit[scope.icKey])
+						scope.value.current	= copyOptions(scope.icItem[scope.icKey])
+
+						// maybe check if touched before
+						//scope.validate()
+					},
+					true
+				)
 
 
-						// update global edit and check for errors, when local edit changes
-						scope.$watch('value.edit', function(){
+				// update local value, if it is translatable, when current language changes:
+				scope.$watch(
+					function(){
+						return icSite.currentLanguage
+					},
+					function(a,b){
+						if(!scope.icItem || !scope.icEdit) return null
+
+						if( a!=b && scope.icTranslatable){
+							scope.value.edit 	= angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
+							scope.value.current = angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
+						}
+					}
+				)
 
 
-							if(typeof scope.value.edit == 'string'){
-								scope.value.edit = scope.value.edit.replace(/(^\s+|\s{2,}$)/g, '')
-							}
 
-							if(scope.icTranslatable){
-								scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
-								scope.validate()
-								return undefined
-							} 
 
-							if(scope.icOptions && scope.icType == 'array') {
-								scope.icOptions.forEach(function(option){
-									var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
-										pos_2 = scope.value.edit.indexOf(option)
+				// update global edit and check for errors, when local edit changes
+				scope.$watch('value.edit', function(){
 
-									if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
-									if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
-								})
+					if(!scope.icItem || !scope.icEdit) return null
 
-								scope.validate()
-								return undefined
-							}
 
-							scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
-								scope.validate()
-								return undefined
+					if(typeof scope.value.edit == 'string'){
+						scope.value.edit = scope.value.edit.replace(/(^\s+|\s{2,}$)/g, '')
+					}
 
-						}, true)
-				}
+					if(scope.icTranslatable){
+						scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
+					} 
 
+					else if(scope.icOptions && scope.icType == 'array') {
+						scope.icOptions.forEach(function(option){
+							var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
+								pos_2 = scope.value.edit.indexOf(option)
+
+							if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
+							if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
+						})
+
+					}
+
+					else {
+						scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
+					}
+
+					console.log(scope.icTranslationKey || scope.icKey, scope.untouched)
+
+					if(scope.untouched){
+						scope.untouched = false
+					} else {
+						scope.validate()
+					}
+
+				}, true)
 
 
 
@@ -943,16 +955,7 @@ angular.module('icDirectives', [
 					icUser.login(scope.username, scope.password)
 					.then(
 						function(){
-							scope.username = ''
-							scope.password = ''
-
-							icItemStorage.downloadAll()
-
-							return 	icOverlays.open('popup', 'INTERFACE.LOGIN_SUCCESSFULL')
-									.finally(function(){
-										if(icOverlays.deferred.login) icOverlays.deferred.login.resolve()
-									})
-
+							// icUser.login will reload the page
 						},
 						function(reason){
 							console.warn('icLoginDirective:', reason)

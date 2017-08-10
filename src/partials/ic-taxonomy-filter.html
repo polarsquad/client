@@ -112,7 +112,8 @@
 		>
 			<div>{{'UNSORTED_TAGS.%s' | fill : tag | translate }}</div>
 			<span 
-				class 		= "bubble shade-light col-1: !active"
+				class 		= "bubble"
+				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
 				ng-if 		= "!disabled"
 			>{{ic.itemStorage.currentStats.subMatches[tag]}}</span>
 		</li>

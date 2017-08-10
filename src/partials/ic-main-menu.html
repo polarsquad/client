@@ -1,5 +1,7 @@
 <ul>
+
 	<li><a href="/p/home">	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
+	
 	<li><a href="/p/tags">	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
 	<li>
 		<a 
@@ -22,7 +24,7 @@
 		</a>		
 
 		<ul ng-show = "showMore">
-			<li><a href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li><a ng-href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
 			<li><a href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
 			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
 			<li><a href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
@@ -53,11 +55,29 @@
 					ng-click = "ic.admin.updateTranslations()"
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
 			</li>
+
+			<li>
+				<a href = "/list/u/state_draft">{{'INTERFACE.LIST_DRAFT' | translate}}</a>	
+			</li>
+
+			<li>
+				<a href = "/list/u/state_suggestion">{{'INTERFACE.LIST_SUGGESTION' | translate}}</a>	
+			</li>
+
+
+			<li>
+				<a href = "/list/u/state_archived">{{'INTERFACE.LIST_ARCHIVED' | translate}}</a>	
+			</li>
+
 			<li>
 				<a
 					ng-click = "ic.user.logout()"
 				>{{'INTERFACE.LOGOUT' | translate}}</a>	
 			</li>
+
+			
+
+
 		</ul>
 	</li>
 </ul>
