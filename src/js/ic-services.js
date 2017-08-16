@@ -475,14 +475,12 @@ angular.module('icServices', [
 				if(icUser.can('edit_items')){
 					icItemStorage.ready
 					.then(function(){
-						icItemStorage.registerFilter('state_new', 			function(item){ return !!item.internal.new  		})
 						icItemStorage.registerFilter('state_public', 		function(item){ return item.state == 'public' 		})
 						icItemStorage.registerFilter('state_draft', 		function(item){ return item.state == 'draft' 		})
 						icItemStorage.registerFilter('state_suggestion', 	function(item){ return item.state == 'suggestion' 	})
 						icItemStorage.registerFilter('state_archived', 		function(item){ return item.state == 'archived' 	})
 					})
 
-					icTaxonomy.addExtraTag('state_new')
 					icTaxonomy.addExtraTag('state_public')
 					icTaxonomy.addExtraTag('state_draft')
 					icTaxonomy.addExtraTag('state_suggestion')

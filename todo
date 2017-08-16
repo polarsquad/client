@@ -191,49 +191,38 @@ Done:
 * s.todo
 
 
+
+
 Todo(neu): 
-* Edit
 * Taxonomy aufräumen
-* Dashboard schützen
 * security password hash
 * https
 * Todo in dev sheet
-* layout for sharing
 * update translations
 * manifest
 * older -> elderly
 * taxonomy filter total matches
-* login unter mehr
-* logout unter admin
 * meta
-* facebook temporär deaktivieren
 * automatische übersetzung
-* sharing -> neues tab
+* sharing -> neues tab (facebook?)
 * privilegien updaten
-* force choice
-* multichoice -> not type xtring?
 * manifest
 * backend item validate and defaults
 * radios pointer
-* Neues item erstellen, dann edit, dann error
-* 'new' -Filter
-* item.website length
+
+
 * DB backup!
-* validate
 
-* Infocompass (alt): Icons!
 
-* Edit- radio touch feedback
 * datumsauswahl
 * test: backend nicht erreichbar
 * suggestions
-* edit -> unsorted Tags
 
 
 * stats.domain
 
 
-* English bei starten auf der startseite nicht übersetzt? -> ccanot reproduce
+* English bei starten auf der startseite nicht übersetzt? -> cannot reproduce
 
 
 
@@ -261,3 +250,16 @@ Done:
 * tags werden nicht übernommen
 * creationdate /author
 * flasches Passwort -> Fehlermeldung!
+* force choice
+* Infocompass (alt): Icons!
+* item.website length
+* 'new' -Filter -> new items are always empty (working on editItem!)
+* validate -> läuft
+* edit -> unsorted Tags
+* Neues item erstellen, dann edit, dann error -> geht
+* Edit -> läuft
+* layout for sharing
+* Edit- radio touch feedback
+* Dashboard schützen
+* login unter mehr
+* logout unter admin

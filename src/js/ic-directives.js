@@ -118,9 +118,10 @@ angular.module('icDirectives', [
 	'icSite',
 	'icOverlays',
 	'icItemStorage',
+	'icItemEdits',
 	'$q',
 
-	function(ic, icSite, icOverlays, icItemStorage, $q){
+	function(ic, icSite, icOverlays, icItemStorage, icItemEdits, $q){
 
 		return {
 			restrict:		'AE',
@@ -139,6 +140,9 @@ angular.module('icDirectives', [
 										icItemStorage
 										.removeItem(icSite.activeItem)
 										.refreshFilteredList()
+
+										icItemEdits
+										.clear(icSite.activeItem)
 
 										icSite.activeItem = undefined
 										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCESSFULL')
@@ -946,7 +950,7 @@ angular.module('icDirectives', [
 							// {name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
+							// {name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
 						]						
 					},
 					true

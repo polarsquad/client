@@ -13,6 +13,7 @@
 		>
 			{{icOptionLabel({option:option})}}
 		</span>
+		
 		<span ng-if = "!value.current.length">
 			{{'INTERFACE.PROPERTY_EMPTY' | translate }}
 		</span>
@@ -23,8 +24,7 @@
 			type		= "button"
 		>
 			{{ "INTERFACE.PROPERTY_REVERT" | translate }}
-		</buton>
-		
+		</buton>		
 	</div>	
 
 	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
@@ -38,6 +38,7 @@
 			ng-repeat 	= "option in icOptions"
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-checkbox {{(option|in : value.edit) ? 'checked' : ''}}"
+			ic-touch-me
 		>
 			<span 
 				class 	= "icon {{icOptionIconClass({option:option})}}"

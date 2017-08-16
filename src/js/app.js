@@ -155,8 +155,7 @@ angular.module("InfoCompass",[
 			name:			'editItem',
 			index:			1,
 			adjust:			function(ic){
-								console.log('adjustswitch, editItem')
-								return	ic.site.activeItem.internal.new
+								return	ic.site.activeItem && ic.site.activeItem.internal.new
 										?	true
 										:	ic.site.editItem
 							}

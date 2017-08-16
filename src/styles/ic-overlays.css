@@ -89,6 +89,7 @@ ic-overlays > .center {
 	min-width:				20rem;
 	max-width:				30rem;
 	padding:				1rem;
+	padding-top:			3rem;
 	height:					auto !important;
 	min-height:				0;
 }
@@ -96,8 +97,8 @@ ic-overlays > .center {
 
 ic-overlays > .center .close {
 	position:				absolute;
-	top:					0;
-	right:					0;
+	top:					0.25rem;
+	right:					0.25rem;
 	border:					none !important;
 	width:					auto !important;
 }
@@ -313,6 +314,10 @@ ic-overlays ic-sharing-menu {
 
 }
 
+ic-overlays ic-sharing-menu h2 {
+	margin-left:			3rem;
+}
+
 ic-overlays ic-sharing-menu  .platform {
 	border:					none !important;
 	display:				flex;
@@ -320,7 +325,7 @@ ic-overlays ic-sharing-menu  .platform {
 
 ic-overlays ic-sharing-menu  .platform > * {
 	border-top:				1px solid transparent;
-	line-heigt:				3rem;
+	line-height:			3rem;
 }
 
 
