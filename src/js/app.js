@@ -80,8 +80,7 @@ angular.module("InfoCompass",[
 		.registerSection({
 			name:			'page',
 			template:		'partials/ic-section-page.html',
-			active:			function(ic){
-									
+			active:			function(ic){									
 								return ic.site.page
 							},
 			show:			function(ic){
@@ -154,7 +153,13 @@ angular.module("InfoCompass",[
 
 		.registerSwitch({
 			name:			'editItem',
-			index:			1
+			index:			1,
+			adjust:			function(ic){
+								console.log('adjustswitch, editItem')
+								return	ic.site.activeItem.internal.new
+										?	true
+										:	ic.site.editItem
+							}
 		})
 	}
 ])

@@ -162,6 +162,13 @@
 }
 
 
+.flex-shrink {
+	flex-shrink:				1;
+	text-overflow: 				ellipsis;
+	white-space:				nowrap;
+	overflow:					hidden;
+}
+
 .bubble {
 	display:					inline-block;
 	font-size:					0.8em;

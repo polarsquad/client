@@ -210,37 +210,54 @@ Todo(neu):
 * automatische übersetzung
 * sharing -> neues tab
 * privilegien updaten
-* Suggestion comment/Editor Note!
 * force choice
 * multichoice -> not type xtring?
-* creationdate /author
-* flasches Passwort -> Fehlermeldung!
-* edit -> unsorted Tags
 * manifest
 * backend item validate and defaults
 * radios pointer
 * Neues item erstellen, dann edit, dann error
 * 'new' -Filter
-* tags werden nicht übernommen
+* item.website length
+* DB backup!
+* validate
+
+* Infocompass (alt): Icons!
+
+* Edit- radio touch feedback
+* datumsauswahl
+* test: backend nicht erreichbar
+* suggestions
+* edit -> unsorted Tags
 
 
+* stats.domain
 
+
+* English bei starten auf der startseite nicht übersetzt? -> ccanot reproduce
 
 
 
 
 Done:
-* statt admin -> username
-* sharing
-* -> aktiver marker verschwindet
-* Filter Tags
-* Filter nach state
-* RELOAD fpr links!? (ic-click-outside war schuld)
-* TRANSLATION MESSAGE -> TYPE/CYTEGORY NOTE?
-* Fehlermeldung geht nicht weg
-* Fehlermeldungen
-* STATE auswahl kaput --> fixed
-* Kommentar alter wert soll weg wenn neu
-* Revert ALL bei neu weg
-* bei neu 'Suggesten' / 'ersttelen' auf den button
-* Abbrechen bei neu extra string
+* latitude = 0
+* close icon abstand nach lnk bzw- oben ändern
+* popup, wenn man bearbeiten abbrechen will
+* in den filter total anzeigen?
+* Bei Sprachumstelliung auch sortieung anpassen
+* Type nach ganz oben
+* history back und 'switches' (-> links wenn kein replace passieren soll)
+* item schließen daNn zurück macht quatsch (fixed mit link)
+* Derfaultwerte beu NEU einfügen (passiert sowieso)
+* Missing zeichenzahl bei undefined
+* Breadcrumbs shrink
+* evtl zeichenanzahl sofort akualisieren
+* Textfeld immer mit leer Zeile am Ende
+* Platz reservieren für Fehlermeldungen
+* Inputbox -> #000
+* -> input label grau
+* INTERFACE.LOGIN? -> fixed
+* cONFIRMATION MODAL AUFHÜBSCHEN
+* errors bei PUT
+* tags werden nicht übernommen
+* creationdate /author
+* flasches Passwort -> Fehlermeldung!

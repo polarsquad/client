@@ -13,20 +13,17 @@ ic-item-full header .tools{
 	font-size:					1.5rem;
 }
 
-ic-item-full header .tools > * {
-	display:					inline-block;
-	vertical-align:				top;
-	height:						3rem;
-}
 
-ic-item-full header .tools .main {
+ic-item-full header .main {
+	display:					flex;
 	top:						1.25rem;
 	position:					absolute;
 	right:						0;
 	padding-right:				0.5rem;
 }
 
-ic-item-full header .tools .main > *  {
+ic-item-full header .main > *  {
+	flex:						0 0 auto;
 	margin-right:				1rem;
 }
 

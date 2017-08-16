@@ -13,7 +13,7 @@
 
 <a
 	class 		= "content"
-	ng-click	= "(icAction|toConsole); icAction ? icAction() : (icItem && (ic.site.activeItem = icItem) && (ic.site.expandMap = false))"
+	ng-click	= "icAction ? icAction() : (icItem && (ic.site.activeItem = icItem) && (ic.site.expandMap = false))"
 	ng-if		= "icItem || icTitle || icDetails"
 >
 	<div ng-if = "icTitle"	class = "title"> 	{{icTitle}}			</div>

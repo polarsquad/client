@@ -17,10 +17,14 @@ ic-item-property-edit .current-value.diff {
 }
 
 
-ic-item-property-edit input[type="text"],
-ic-item-property-edit textarea {
+ic-item-property-edit input[type="text"]{
 	font-size:					1rem;
 	padding:					0.5rem 1rem;
+}
+
+ic-item-property-edit textarea {
+	font-size:					1rem;
+	padding-bottom:				2rem;
 }
 
 
@@ -29,20 +33,17 @@ ic-item-property-edit textarea:focus {
 	box-shadow:					0 0 0 1px #000 inset;
 }
 
-ic-item-property-edit .extra-padding textarea:focus {
-	padding:					0.5rem 0.5rem 2rem 1rem;
-}
 
 ic-item-property-edit .extra-padding input[type="text"]:focus {
-	padding:					0.5rem 5rem 0.5rem 1rem;
+	padding-right:				5rem;
 }
 
 ic-item-property-edit .input-wrapper {
 	position:					relative;
 }
 
-ic-item-property-edit .input-wrapper input:focus + *,
-ic-item-property-edit .input-wrapper textarea:focus + * {
+ic-item-property-edit .input-wrapper input:focus ~ *:not(input):not(textarea),
+ic-item-property-edit .input-wrapper textarea:focus ~ *:not(input):not(textarea){
 	display:					inline-block;
 }
 
@@ -76,6 +77,8 @@ ic-item-property-edit .invalid textarea {
 
 ic-item-property-edit .error {
 	padding:					0.5rem 1rem ;
+	line-height:				1.2rem;
+	min-height:					1.2rem;
 }
 
 

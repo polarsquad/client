@@ -24,33 +24,35 @@
 		ng-class 	= "{'extra-padding': icProperty.max}" 
 	> 
 		<input 
-			ng-if				= "icType == 'string'"
+			class				= "bg-1 col-0"
 			type 				= "text"
+			ng-if				= "icType == 'string'"
+			maxlength			= "{{icProperty.max}}"
 			ng-model			= "value.edit"
 			ng-model-options	= "{updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 }, allowInvalid}"
-			class				= "bg-1"
-			maxlength			= "{{icProperty.max}}"
 			ng-trim				= "false"
+			ic-expose-internal-model = "internalModel"
 		></input>
-
 		<textarea
+			class				= "bg-1 col-0"	
 			ng-if				= "icType == 'text'"
 			ng-model			= "value.edit"
 			ng-model-options	= "{updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 }, allowInvalid}"
 			ng-trim				= "false"
-			class				= "bg-1"	
+			ic-expose-internal-model = "internalModel"
 			ic-auto-grow
 		>
 		</textarea>
 
-
 		<div ng-if = "icProperty.max">
-			{{value.edit.length}} / {{icProperty.max}}
+			{{ internalModel.length || 0 }} / {{ icProperty.max }}
 		</div>
 	</div>
 
 
-	<div class  = "note">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
+	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
+	
+	<div ng-if = "!error || icHideErrors" class = "error"></div>
 	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
 
 	<button

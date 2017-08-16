@@ -24,13 +24,13 @@
 		</a>		
 
 		<ul ng-show = "showMore">
-			<li><a ng-href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li><a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
 			<li><a href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
 			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
 			<li><a href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
 			<li><a href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
 			<li ng-if	= "!ic.user.loggedIn">
-				<a ng-click = "ic.overlays.toggle('login')">{{'INTERFACE.LOGIN'}}</a>
+				<a ng-click = "ic.overlays.toggle('login')">{{'INTERFACE.LOGIN' | translate }}</a>
 			</li>
 		</ul>
 	</li>

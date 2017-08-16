@@ -484,6 +484,23 @@ angular.module('icUiDirectives', [
 
 
 
+.directive('icExposeInternalModel', [
+
+	function(){
+		return {
+			restrict:	"A",
+			require:	"ngModel",
+
+			link: function(scope, element, attrs, ctrl){
+
+				scope.$watch(function(){
+					scope.$parent[attrs.icExposeInternalModel] = ctrl.$viewValue
+				})
+			}
+		}
+	}
+])
+
 
 
 
@@ -562,7 +579,7 @@ angular.module('icUiDirectives', [
 
 //debug
 
-.filter('toConsole', [
+.filter('consoleLog', [
 	function(){
 		return function(x){
 			console.log(x)
@@ -571,6 +588,15 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+
+.filter('consoleDir', [
+	function(){
+		return function(x){
+			console.dir(x)
+			return x
+		}
+	}
+])
 
 .filter('onScreen', function(){
 	return function(x){

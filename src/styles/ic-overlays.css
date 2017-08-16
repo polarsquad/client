@@ -119,23 +119,29 @@ ic-overlays > .center.greedy h3 {
 }
 
 
-
+ic-overlays > .center .message {
+	text-align:				center;
+}
 
 ic-overlays > .center .message + form{
 	margin-top:				1rem;
 }
 
+
+
+
 ic-overlays > .center .buttons {
 	margin-top:				2rem;
 	display:				flex;
-	text-align:				center;
+	flex-wrap:				wrap;
 }
 
 ic-overlays > .center .buttons button {
 	display:				inline-block;
 	padding:				0 1rem;
-	flex:					1 0 0;
+	flex:					1 1 0;
 	line-height:			2rem;
+	text-align:				center;
 }
 
 ic-overlays > .center .buttons button + button {

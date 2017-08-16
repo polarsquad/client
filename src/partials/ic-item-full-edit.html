@@ -2,7 +2,7 @@
 	<div class = "tools">
 		<a 
 			class 		= "icon icon-interface-close"
-			ng-click 	= "ic.site.activeItem = null" 
+			ng-click 	= "cancel()" 
 		>
 		</a>
 
@@ -70,8 +70,6 @@
 	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
 
 
-
-
 	<!-- title -->
 
 	<article>
@@ -87,6 +85,30 @@
 			></ic-item-property-edit>
 		</div>
 	</article>
+
+
+
+	<!-- tags/type -->
+	<article>
+		<div> <!-- spacer --> </div>
+		<div>
+			<h4> {{'ITEMS.TYPE' | translate}}</h4>
+
+			<ic-item-property-edit
+				ic-item						= "icItem"
+				ic-type						= "array"
+				ic-translation-key			= "type"
+				ic-options					= "ic.taxonomy.types | mapToKey : 'name' | preventLoop"
+				ic-option-label				= "'TYPES.%s' | fill: option | translate"
+				ic-option-icon-class		= "'icon-type-' + option"
+				ic-allow-multiple-choices	= "false"
+				ic-force-choice				= "true"
+				ic-key						= "tags"
+			></ic-item-property-edit>
+		</div>
+	</article>
+
+
 
 
 	<!-- brief -->
@@ -143,28 +165,7 @@
 
 	
 
-
-
-	<!-- tags -->
-	<article>
-		<div> <!-- spacer --> </div>
-		<div>
-			<h4> {{'ITEMS.TYPE' | translate}}</h4>
-
-			<ic-item-property-edit
-				ic-item						= "icItem"
-				ic-type						= "array"
-				ic-translation-key			= "type"
-				ic-options					= "ic.taxonomy.types | mapToKey : 'name' | preventLoop"
-				ic-option-label				= "'TYPES.%s' | fill: option | translate"
-				ic-option-icon-class		= "'icon-type-' + option"
-				ic-allow-multiple-choices	= "false"
-				ic-force-choice				= "true"
-				ic-key						= "tags"
-			></ic-item-property-edit>
-		</div>
-	</article>
-
+	<!-- tags/catgeory -->
 
 	<article>
 		<div> <!-- spacer --> </div>
@@ -186,6 +187,8 @@
 	</article>
 
 
+	<!-- subcategories -->
+
 	<article ng-if = "ic.taxonomy.getCategory(icEdit.tags)">
 		<div> <!-- spacer --> </div>
 		<div>
@@ -194,7 +197,7 @@
 			<ic-item-property-edit
 				ic-item						= "icItem"
 				ic-type						= "array"
-				ic-translation-key			= "unsorted"
+				ic-translation-key			= "subcategories"
 				ic-options					= "ic.taxonomy.getCategory(icEdit.tags).tags"
 				ic-option-label				= "'CATEGORIES.%s' | fill: option | translate"
 				ic-allow-multiple-choices	= "true"
@@ -203,6 +206,24 @@
 		</div>
 	</article>
 
+	<!-- tags/unsorted -->
+
+		<article ng-if = "ic.taxonomy.getCategory(icEdit.tags)">
+		<div> <!-- spacer --> </div>
+		<div>
+			<h4> {{'ITEMS.SUBCATEGORIES' | translate}}</h4>
+
+			<ic-item-property-edit
+				ic-item						= "icItem"
+				ic-type						= "array"
+				ic-translation-key			= "unsorted"
+				ic-options					= "ic.taxonomy.unsortedTags"
+				ic-option-label				= "'UNSORTED_TAGS.%s' | fill: option | translate"
+				ic-allow-multiple-choices	= "true"
+				ic-key						= "tags"
+			></ic-item-property-edit>
+		</div>
+	</article>
 
 	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
 

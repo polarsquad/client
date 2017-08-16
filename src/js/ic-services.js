@@ -182,6 +182,7 @@ angular.module('icServices', [
 			icSite.visibleSections 	= 	{}
 
 
+			console.log('icSITE GET')
 
 			//Params:
 
@@ -218,7 +219,7 @@ angular.module('icServices', [
 
 				icSite.config.params.forEach(function(param){
 					try {
-						var section = encodeParam(config[param.name] || icSite[param.name], param)
+						var section = encodeParam(param.name in config ? config[param.name] : icSite[param.name], param)
 						if(section)	path += '/' + section
 					} catch(e) {
 						console.error('icSite params2Path', param.name, e)
@@ -229,8 +230,8 @@ angular.module('icServices', [
 			}
 
 
-
 			icSite.updateFromPath = function(e,n,o){
+
 				path2Params($location.path())
 
 				return icSite
@@ -241,7 +242,11 @@ angular.module('icServices', [
 				var current_path 	= $location.path(),
 					new_path		= icSite.getNewPath()
 				
-				if(current_path != new_path) $location.path(new_path).replace()
+				if(current_path != new_path){
+					$location.path(new_path).replace()
+				}
+
+
 
 				return icSite
 			}
@@ -330,8 +335,11 @@ angular.module('icServices', [
 			}
 
 			icSite.onRegister = function(){ 
-				$rootScope.$evalAsync(icSite.updateFromPath) 
-				$rootScope.$evalAsync(icSite.updateFromSearch) 
+				// Some provider may register Params before service ic is initialized in .run() causing an error if onRegister is called to early
+				$rootScope.$evalAsync(function(){
+					icSite.updateFromPath()
+					icSite.updateFromSearch() 
+				})
 			}
 
 			icSite.adjust = function(){
@@ -467,16 +475,18 @@ angular.module('icServices', [
 				if(icUser.can('edit_items')){
 					icItemStorage.ready
 					.then(function(){
+						icItemStorage.registerFilter('state_new', 			function(item){ return !!item.internal.new  		})
 						icItemStorage.registerFilter('state_public', 		function(item){ return item.state == 'public' 		})
 						icItemStorage.registerFilter('state_draft', 		function(item){ return item.state == 'draft' 		})
 						icItemStorage.registerFilter('state_suggestion', 	function(item){ return item.state == 'suggestion' 	})
 						icItemStorage.registerFilter('state_archived', 		function(item){ return item.state == 'archived' 	})
 					})
 
-					icTaxonomy.addUnsortedTag('state_public')
-					icTaxonomy.addUnsortedTag('state_draft')
-					icTaxonomy.addUnsortedTag('state_suggestion')
-					icTaxonomy.addUnsortedTag('state_archived')
+					icTaxonomy.addExtraTag('state_new')
+					icTaxonomy.addExtraTag('state_public')
+					icTaxonomy.addExtraTag('state_draft')
+					icTaxonomy.addExtraTag('state_suggestion')
+					icTaxonomy.addExtraTag('state_archived')
 				}				
 			})
 
@@ -550,6 +560,7 @@ angular.module('icServices', [
 			icTaxonomy.categories 	= []
 			icTaxonomy.types		= []
 			icTaxonomy.unsortedTags = taxonomy.unsortedTags
+			icTaxonomy.extraTags	= []
 
 			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
 
@@ -575,6 +586,11 @@ angular.module('icServices', [
 
 			icTaxonomy.addUnsortedTag = function(tag){
 				icTaxonomy.unsortedTags.push(tag)
+				return icTaxonomy
+			}
+
+			icTaxonomy.addExtraTag = function(tag){
+				icTaxonomy.extraTags.push(tag)
 				return icTaxonomy
 			}
 
@@ -747,7 +763,7 @@ angular.module('icServices', [
 								var matches = path.match(/(^|\/)o\/([^\/]*)/)
 
 								return matches && matches[2]
-							},
+							}
 		})
 
 		.registerParameter({
@@ -860,17 +876,17 @@ angular.module('icServices', [
 
 
 		icFilterConfig.toggleSortOrder = function(sortCriterium){
-			if(icSite.sortOrder == sortCriterium){
-				icSite.sortDirection = icSite.sortDirection * -1
-			}else{
-				icSite.sortOrder = sortCriterium
-			}
+			icSite.sortOrder == sortCriterium
+			?	icFilterConfig.toggleSortDirection()
+			:	icSite.sortOrder = sortCriterium
+			
+
 			return icFilterConfig
 		}
 
 		icFilterConfig.toggleSortDirection = function(dir){
 			icSite.sortDirection = dir || (icSite.sortDirection *-1)
-			return icFiltercConfig
+			return icFilterConfig
 		}
 
 		//TDODO: check
@@ -879,6 +895,9 @@ angular.module('icServices', [
 		.then(function(){
 			//register sorting criteria after everything has donwloaded:		
 			
+
+			//alphabetical:
+
 			icLanguages.availableLanguages.forEach(function(language_code){
 				icItemStorage.registerSortingCriterium('alphabetical_'+language_code, function(item_1, item_2){
 					return item_1.title.localeCompare(item_2.title, language_code)
@@ -887,6 +906,26 @@ angular.module('icServices', [
 
 			icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
 			
+			$rootScope.$watch(
+				function(){ return icSite.currentLanguage },
+				function(){
+					if(icSite.sortOrder && icSite.sortOrder.match(/^alphabetical_/)){
+						icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
+					}
+				}
+			)
+
+			// last change:
+			
+			icItemStorage.registerSortingCriterium('last_change', function(item_1, item_2){
+				var timestamp_1 = item_1.lastEditDate || item_1.creationDate || 0,
+					timestamp_2 = item_2.lastEditDate || item_2.creationDate || 0
+
+				if(timestamp_1 == timestamp_2) return 0
+
+				return timestamp_1 > timestamp_2 ? 1 : -1
+			})
+
 		})
 
 
@@ -1171,7 +1210,7 @@ angular.module('icServices', [
 			})
 		})
 
-		icTaxonomy.addUnsortedTag('favourite')
+		icTaxonomy.addExtraTag('favourite')
 
 		$rootScope.$watch(
 			function(){

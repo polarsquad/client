@@ -15,36 +15,50 @@
 		icItem.importData = function(data){
 
 			if(!data){
-				console.warn('icItemDpd: .importData() called without data.')
+				console.warn('icItemDpd: .importData() called without any data.')
 				return icItem
 			}
 
 			ic.itemConfig.properties.forEach(function(property){
 
-				icItem[property.name] = 	icItem[property.name] !== undefined
-											?	icItem[property.name]
-											:	angular.copy(property.defaultValue)
 
-				if(data[property.name] === undefined) return null
-
+				// object
 				if(property.type == 'object'){
-					Object.keys(data[property.name]).forEach(function(key){
+					
+					if(property.mandatory && !data[property.name]){
+						icItem[property.name] = angular.copy(property.defaultValue)
+						return null
+					}
+
+					icItem[property.name] = {}
+
+					for(var key in data[property.name]) {
 						if(data[property.name][key] !== undefined) icItem[property.name][key] = data[property.name][key]
-					})						
+					}
+
 					return null
 				}
 
+				// array
 				if(property.type == 'array'){
-					// remove all duplicates:
+					
+					if(property.mandatory && !data[property.name]){
+						icItem[property.name] = angular.copy(property.defaultValue)
+						return null
+					}
+
 					icItem[property.name] = []
 
-					data[property.name].forEach(function(x){
+					;(data[property.name] || []).forEach(function(x){
 						if(icItem[property.name].indexOf(x) == -1) icItem[property.name].push(x)
 					})
 					return null
 				}
 
-				icItem[property.name] = data[property.name]
+
+				// string or number
+				icItem[property.name] = data[property.name] || (property.mandatory ? angular.copy(property.defaultValue) : undefined)
+
 			})
 
 			return icItem
@@ -86,8 +100,6 @@
 
 		icItem.update = function(key, subkey){
 			if(!icItem.id) console.error('icItemDpd.update: missing item id.')
-
-			console.log('PUT', icItem.exportData(key, subkey))
 
 			return 	dpd(ic.itemConfig.collectionName)
 					.put({id: icItem.id}, icItem.exportData(key, subkey))

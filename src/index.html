@@ -18,7 +18,7 @@
 	<head>
 
 		<title ng-if = "false">--- SeniorenNetz</title>
-		<title>{{'INTERFACE.TITLE' | translate}}</title>
+		<title>{{ ic.site.activeItem ? ic.site.activeItem.title + ' – ' : ''}} {{'INTERFACE.TITLE' | translate}} </title>
 
 		<base href = "/" />
 		<meta charset ="utf-8" />		

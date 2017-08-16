@@ -16,6 +16,7 @@
 		icItemStorage.sortingCriteria	= 	{}
 		icItemStorage.filteredList		= 	[]
 		icItemStorage.currentStats		= 	{
+												'totals':	{},
 												'subMatches':		{},
 												'altMatches':		{},
 												'tagGroups':		[],
@@ -101,8 +102,9 @@
 
 		icItemStorage.clearFilteredList = function(){
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
-			for(var tag in icItemStorage.currentStats.altMatches) delete icItemStorage.currentStats.altMatches[tag]
-			for(var tag in icItemStorage.currentStats.subMatches) delete icItemStorage.currentStats.subMatches[tag]
+			for(var tag in icItemStorage.currentStats.totals)	delete icItemStorage.currentStats.totals[tag]
+			for(var tag in icItemStorage.currentStats.altMatches) 		delete icItemStorage.currentStats.altMatches[tag]
+			for(var tag in icItemStorage.currentStats.subMatches) 		delete icItemStorage.currentStats.subMatches[tag]
 			return icItemStorage
 		}
 
@@ -188,6 +190,7 @@
 					alt_group_matches 	= [],
 					combined_tags		= item.tags.concat(item.internal.tags)
 
+
 				icItemStorage.currentStats.tagGroups.forEach(function(tag_group, index){
 					tag_group_matches[index] = tag_group.every(function(tag){ 
 						return combined_tags.indexOf(tag) != -1
@@ -200,10 +203,12 @@
 				tag_group_matches.forEach(function(tag_group_match, index){ if(!tag_group_match) failed_groups.push(index) })
 
 				if(failed_groups.length > 1) return null
+
 				//item failed no more then one tag group:
 
 
-				item.subMatch = true
+				// is this necessary/useful?
+				// item.subMatch = true
 
 				//collect alt_matches for tags:
 				combined_tags.forEach(function(tag){
@@ -212,7 +217,8 @@
 				})
 
 
-				if(failed_groups.length > 0 ) return null
+				if(failed_groups.length == 1) return null
+
 				// item failed no tag group:
 
 
@@ -258,8 +264,11 @@
 
 			icItemStorage.clearFilteredList()
 			icItemStorage.data.forEach(function(item){
-				item.internal.altMatches.forEach(function(tag){ icItemStorage.currentStats.altMatches[tag] = (icItemStorage.currentStats.altMatches[tag] ||0) + 1 })
-				item.internal.subMatches.forEach(function(tag){ icItemStorage.currentStats.subMatches[tag] = (icItemStorage.currentStats.subMatches[tag] ||0) + 1 })
+				var combined_tags = item.tags.concat(item.internal.tags)
+
+				combined_tags.forEach(function(tag){ 			icItemStorage.currentStats.totals[tag] 			= (icItemStorage.currentStats.totals[tag]		|| 0) + 1 })
+				item.internal.altMatches.forEach(function(tag){	icItemStorage.currentStats.altMatches[tag] 		= (icItemStorage.currentStats.altMatches[tag] 	|| 0) + 1 })
+				item.internal.subMatches.forEach(function(tag){ icItemStorage.currentStats.subMatches[tag]		= (icItemStorage.currentStats.subMatches[tag] 	|| 0) + 1 })
 				if(item.internal.match) icItemStorage.filteredList.push(item)
 			})
 
@@ -271,6 +280,7 @@
 
 
 		icItemStorage.sortFilteredList = function(criterium, dir){
+
 			var dir = (dir == -1) ?  -1 : 1
 
 			if(criterium && !icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
@@ -290,7 +300,7 @@
 
 			icItemStorage.filteredList.sort(function(item_1, item_2){
 
-				//TOSO set soting value=?
+				//TODO set soting value=?
 
 				if(item_1.internal.sortingValues[criterium] === undefined || item_2.internal.sortingValues[criterium] === undefined) return dir * icItemStorage.sortingCriteria[criterium](item_1, item_2)
 				if(item_1.internal.sortingValues[criterium] > item_2.internal.sortingValues[criterium]) return dir

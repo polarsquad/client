@@ -398,6 +398,11 @@ angular.module('icMap', [
 
 
 				function getMarker(item){
+
+					if(!item || !item.latitude || !item.longitude){
+						console.warn('icMap: getMarker() missing coordinates at ', item)
+					}
+
 					return 	new L.marker(
 								[item.latitude, item.longitude], 
 								{
@@ -410,28 +415,34 @@ angular.module('icMap', [
 
 				function updateListMarkers(list){
 
-							var items_to_be_left_alone = 	markers.getLayers()
-															.filter(function(marker){ 
-																if(list.indexOf(marker.options.item) != -1){
-																	return true
-																} else {
-																	markers.removeLayer(marker)
-																	return false
-																}
-															})
-															.map(function(marker){
-																return marker.options.item
-															})
+							var items_to_be_left_on_the_map	= 	markers.getLayers()
+																.filter(function(marker){ 
+																	if(list.indexOf(marker.options.item) != -1){
+																		return true
+																	} else {
+																		markers.removeLayer(marker)
+																		return false
+																	}
+																})
+																.map(function(marker){
+																	return marker.options.item
+																})
 															,
-								additional_items		=	list
-															.filter(function(item){
-																return 		item.latitude 
-																		&&	item.longitude
-																		&&	items_to_be_left_alone.indexOf(item) == -1
-															})
+								additional_items			=	list
+																.filter(function(item){
+																	return 		item.latitude 
+																			&&	item.longitude
+																			&&	items_to_be_left_on_the_map.indexOf(item) == -1
+																})
 
-								if(icSite.activeItem && list.indexOf(icSite.activeItem) == -1) 
+								if(
+										icSite.activeItem 
+									&&	icSite.activeItem.latitude
+									&&	icSite.activeItem.longitude
+									&&	list.indexOf(icSite.activeItem) == -1
+								){
 									additional_items.push(icSite.activeItem)
+								}
 
 							markers.addLayers(additional_items.map(getMarker))
 							markers.refreshClusters()
@@ -454,7 +465,13 @@ angular.module('icMap', [
 					})
 
 					//add active item marker
-					if(icSite.activeItem) markers.addLayer(getMarker(icSite.activeItem))
+					if(
+							icSite.activeItem
+						&&	icSite.activeItem.latitude
+						&&	icSite.activeItem.longitude
+					){
+						markers.addLayer(getMarker(icSite.activeItem))
+					}
 
 					markers.refreshClusters()
 				}

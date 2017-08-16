@@ -9,40 +9,48 @@
 
 <!-- categories -->
 
-<div ng-if = "mainCategory = (ic.site.filterByCategory | icCategory) || (ic.site.activeItem | icCategory)">
+<div 
+	ng-if 		= "category"
+	class		= "flex-shrink"
+>
 	<span class = "icon icon-interface-right left plain"></span>
 
 	<a class = "active" href = "/p/tags">{{'INTERFACE.CATEGORIES' | translate}}</a>
+</div>
 
+<div 
+	ng-if 		= "category"
+	class		= "flex-shrink"
+>
 	<span class = "icon icon-interface-right left plain"></span>
-		<a 
-			class 	= "active" 
-			ng-href = "/list/c/{{mainCategory.name}}"
-		>
-			{{'CATEGORIES.%s' | fill : mainCategory.name | translate}}
-		</a>
 
-	<span 	
-		ng-if = "(subCategories = (ic.site.filterByCategory | icSubCategories) || (ic.site.activeItem | icSubCategories)).length"
-		class = "icon icon-interface-right left plain"
+	<a 
+		class 	= "active" 
+		ng-href = "/list/c/{{category.name}}"
 	>
-		<a 	
-			class 		= "active" 
-			ng-repeat 	= "category_name in subCategories"
-			ng-href 	= "list/c/{{category_name}}"	
-		>
-			{{'CATEGORIES.%s' | fill : category_name | translate}}
-			<span ng-if = "!$last">, </span>
-		</a>
-	</span>
-	
+		{{'CATEGORIES.%s' | fill : category.name | translate}}
+	</a>
+</div>
+
+<div 
+	ng-repeat 	= "category_name in subCategories"
+	class		= "flex-shrink"
+>
+	<span class = "icon icon-interface-right left plain"></span>
+	<a 	
+		class 		= "active" 
+		ng-href 	= "list/c/{{category_name}}"	
+	>
+		{{'CATEGORIES.%s' | fill : category_name | translate}}
+		<span ng-if = "!$last">, </span>
+	</a>	
 </div>
 
 
 
 <!-- search -->
 
-<div ng-if = "ic.site.searchTerm">
+<div ng-if 		= "ic.site.searchTerm">
 	<span class = "icon icon-interface-right left plain"></span>
 	<a 
 		class 	= "active"
@@ -54,13 +62,15 @@
 
 <!-- types -->
 
-<div ng-if = "ic.site.filterByType.length">
+<div 
+	ng-repeat = "type_name in ic.site.filterByType"
+	class		= "flex-shrink"
+>
 
 	&nbsp; |
 
 	<a 
 		class 		= "active"
-		ng-repeat 	= "type_name in ic.site.filterByType" 
 		ng-href		= "/list/t/{{type_name}}"
 	> 
 		{{'TYPES.%s' | fill : type_name | translate}} 
@@ -73,13 +83,15 @@
 
 <!-- unsorted -->
 
-<div ng-if = "ic.site.filterByUnsortedTag.length">
+<div 
+	ng-repeat 	= "tag in ic.site.filterByUnsortedTag"
+	class		= "flex-shrink"
+>
 	
 	&nbsp; |
 
 	<a 
-		class 		= "active"
-		ng-repeat 	= "tag in ic.site.filterByUnsortedTag" 
+		class 		= "active" 
 		ng-href		= "/list/u/{{tag_name}}"
 	> 
 		{{'UNSORTED_TAGS.%s' | fill : tag | translate}} 
@@ -89,10 +101,9 @@
 </div>
 
 
-<! item >
+<!-- item -->
 
 
-<div ng-if = "ic.site.activeItem">
-	
+<div ng-if = "ic.site.activeItem">	
 	<span class = "icon icon-interface-right left plain"> {{ic.site.activeItem.title}}</span>
 </div>

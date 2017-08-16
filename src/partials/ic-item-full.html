@@ -1,54 +1,52 @@
 <header class = "bg-0">
-	<div class = "tools">
-		<a 
-			class 		= "icon icon-interface-close"
-			ng-click 	= "ic.site.activeItem = null" 
+	<a 
+		class 		= "icon icon-interface-close large"
+		ng-href		= "{{ {activeItem: null} | icLink }}"
+	>
+	</a>
+
+	<ic-spinner active = "item.downloading"></ic-spinner>	
+
+	<div class = "main">
+
+		<button 
+			class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
+			ng-click 	= "ic.site.editItem = true" 
+			ng-if		= "ic.user.can('edit_items')"
+			title		= "{{'INTERFACE.EDIT' | translate}}"
 		>
-		</a>
+		</button>
 
-		<ic-spinner active = "item.downloading"></ic-spinner>	
+		<button 
+			class 		= "icon round large active icon-interface-close drop-shadow bg-0"
+			ng-click 	= "delete()" 
+			ng-if		= "ic.user.can('delete_items')"
+			title		= "{{'INTERFACE.DELETE' | translate}}"
+		>
+		</button>
+		
+		<button 
+			class 		= "icon round large active icon-interface-share drop-shadow bg-0"
+			ng-click 	= "ic.overlays.toggle('sharingMenu')" 
+			title		= "{{'INTERFACE.SHARE' | translate}}"
+		>
+		</button>
 
-		<div class = "main">
-
-			<button 
-				class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
-				ng-click 	= "ic.site.editItem = true" 
-				ng-if		= "ic.user.can('edit_items')"
-				title		= "{{'INTERFACE.EDIT' | translate}}"
-			>
-			</button>
-
-			<button 
-				class 		= "icon round large active icon-interface-close drop-shadow bg-0"
-				ng-click 	= "delete()" 
-				ng-if		= "ic.user.can('delete_items')"
-				title		= "{{'INTERFACE.DELETE' | translate}}"
-			>
-			</button>
-			
-			<button 
-				class 		= "icon round large active icon-interface-share drop-shadow bg-0"
-				ng-click 	= "ic.overlays.toggle('sharingMenu')" 
-				title		= "{{'INTERFACE.SHARE' | translate}}"
-			>
-
-			</button>
-
-			<button 
-				class 		= "icon round large active icon-interface-print drop-shadow bg-0"
-				ng-click 	= "ic.site.print()" 
-				title		= "{{'INTERFACE.PRINT' | translate}}"
-			>
-			</buton>			
-			<button 
-				class 		= "icon round large icon-interface-favourites drop-shadow"
-				ng-class	= "{'bg-3 white': ic.favourites.contains(item), 'bg-0  active': !ic.favourites.contains(item)}"
-				ng-click 	= "ic.favourites.toggleItem(item)" 
-				title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
-			>
-			</buton>
-		</div>
+		<button 
+			class 		= "icon round large active icon-interface-print drop-shadow bg-0"
+			ng-click 	= "ic.site.print()" 
+			title		= "{{'INTERFACE.PRINT' | translate}}"
+		>
+		</buton>			
+		<button 
+			class 		= "icon round large icon-interface-favourites drop-shadow"
+			ng-class	= "{'bg-3 white': ic.favourites.contains(item), 'bg-0  active': !ic.favourites.contains(item)}"
+			ng-click 	= "ic.favourites.toggleItem(item)" 
+			title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
+		>
+		</buton>
 	</div>
+
 	<div 
 		class		= "hero" 
 		ng-style	= "{'background-image' : 'url('+item.image+')'}" 

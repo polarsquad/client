@@ -1,6 +1,6 @@
 <div
 	class		= "message" 
-	ng-repeat 	= "message in icOverlays.messages.login"
+	ng-repeat 	= "message in ic.overlays.messages.login"
 >
 	{{message | translate}}
 </div>
@@ -26,6 +26,7 @@
 
 	<div class = "buttons">
 		<button 
+			class		= "bg-3"
 			type 		= "button"
 			ng-click 	= "cancel()"
 			tabindex	= "4"		 		 
@@ -34,6 +35,7 @@
 		</button>
 
 		<button 
+			class		= "bg-3"
 			type 		= "submit"
 			tabindex	= "3"		 
 		>

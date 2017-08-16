@@ -167,6 +167,7 @@ angular.module('icDirectives', [
 .directive('icItemFullEdit',[
 
 	'ic',
+	'icUser',
 	'icItemEdits',
 	'icSite',
 	'icItemStorage',
@@ -175,7 +176,7 @@ angular.module('icDirectives', [
 	'$rootScope',
 	'$q',
 
-	function(ic, icItemEdits, icSite, icItemStorage, icTaxonomy, icOverlays, $rootScope, $q){
+	function(ic, icUser, icItemEdits, icSite, icItemStorage, icTaxonomy, icOverlays, $rootScope, $q){
 
 		return {
 			restrict:		'AE',
@@ -190,8 +191,16 @@ angular.module('icDirectives', [
 				}
 
 				scope.cancel = function(){
-					if(scope.icItem.internal.new) icSite.activeItem = undefined
-					ic.site.editItem = false
+					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
+
+					if(scope.icItem.internal.new &&  icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_CREATION"
+					if(scope.icItem.internal.new && !icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_SUGGESTION"
+
+					icOverlays.open('confirmationModal', message)
+					.then(function(){
+						if(scope.icItem.internal.new) icSite.activeItem = undefined
+						ic.site.editItem = false
+					})
 				}
 
 				scope.revertAll = function(){
@@ -363,10 +372,12 @@ angular.module('icDirectives', [
 
 
 				scope.$watch('icItem', function(a, b){
+					if(!scope.icItem) return null
+
 					scope.icEdit = scope.icItem && icItemEdits.get(scope.icItem.id)
 
 					// check coherence:
-					if(scope.icEdit && scope.icEdit[scope.icKey] === undefined){
+					if(scope.icEdit && !scope.icKey in scope.icEdit ){
 						console.warn('icItemPropertyEdit: unknown property: ', scope.icKey)
 						return null
 					}
@@ -502,8 +513,6 @@ angular.module('icDirectives', [
 						scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
 					}
 
-					console.log(scope.icTranslationKey || scope.icKey, scope.untouched)
-
 					if(scope.untouched){
 						scope.untouched = false
 					} else {
@@ -628,11 +637,27 @@ angular.module('icDirectives', [
 ])
 
 .directive('icBreadcrumbs',[
+	'$rootScope',
+	'icSite',
+	'icTaxonomy', 
 	'ic',
 
-	function(){
+	function($rootScope, icSite, icTaxonomy, ic){
 		return {
-			templateUrl:	'partials/ic-breadcrumbs.html'
+			templateUrl:	'partials/ic-breadcrumbs.html',
+			scope:			true,
+
+			link: function(scope){
+				scope.ic = ic
+
+				$rootScope.$watch(function(){
+					scope.category 		= 		icTaxonomy.getCategory(icSite.filterByCategory) 		
+											|| 	icTaxonomy.getCategory(icSite.activeItem && icSite.activeItem.tags)
+
+					scope.subCategories	= 		icTaxonomy.getSubCategories(icSite.filterByCategory)	
+											|| 	icTaxonomy.getSubCategories(icSite.activeItem && icSite.activeItem.tags)
+				})
+			}
 		}
 	}
 ])
@@ -939,8 +964,9 @@ angular.module('icDirectives', [
 	'icUser',
 	'icOverlays',
 	'icItemStorage',
+	'ic',
 
-	function(icUser, icOverlays, icItemStorage){
+	function(icUser, icOverlays, icItemStorage, ic){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-login.html',
@@ -949,6 +975,7 @@ angular.module('icDirectives', [
 			link: function(scope, element){
 				scope.username = ''
 				scope.password = ''
+				scope.ic = ic
 
 				scope.login = function(){
 					icOverlays.toggle('spinner', true, true)
@@ -958,14 +985,15 @@ angular.module('icDirectives', [
 							// icUser.login will reload the page
 						},
 						function(reason){
-							console.warn('icLoginDirective:', reason)
+							console.warn('icLoginDirective: login failed ', reason)
 							var messages = 	{
 												'unknown user': 	'INTERFACE.LOGIN_UNKNOWN_USERNAME',
 												'invalid password':	'INTERFACE.LOGIN_INVALID_PASSWORD',
-												'locked account':	'INTERFACE.LOGIN_ACCOUNT_LOCKED'
+												'locked account':	'INTERFACE.LOGIN_ACCOUNT_LOCKED',
+												'bad credentials':	'INTERFACE.LOGIN_BAD_CREDENTIALS',
 											}
 
-							return icOverlays.open('login', messages[reason] || 'INTERFACE.UNKNOWN', icOverlays.deferred.login, true)
+							return icOverlays.open('login', messages[reason] || 'INTERFACE.LOGIN_UNKNOWN', icOverlays.deferred.login, true)
 						}
 					)
 				}

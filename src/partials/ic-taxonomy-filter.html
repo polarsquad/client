@@ -34,7 +34,7 @@
 				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
 				ng-if 		= "!disabled"
 			>
-				{{ic.itemStorage.currentStats.altMatches[type.name]}}
+				{{ic.itemStorage.currentStats.altMatches[type.name]}}/{{ic.itemStorage.currentStats.totals[type.name]}}
 			</span>
 		</li>
 	</ul>
@@ -75,7 +75,7 @@
 				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
 				ng-if 		= "!disabled"
 			>
-				{{ic.itemStorage.currentStats.altMatches[category.name]}}
+				{{ic.itemStorage.currentStats.altMatches[category.name]}}/{{ic.itemStorage.currentStats.totals[category.name]}}
 			</span>
 		</li>
 	</ul>
@@ -102,7 +102,7 @@
 			<a>{{'INTERFACE.FILTER_ANY' |translate}}</a>
 		</li>
 		<li
-			ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
+			ng-repeat 	= "tag in ic.taxonomy.unsortedTags.concat(ic.taxonomy.extraTags)"
 			ng-if		= "true"
 			class		= "icon icon-interface-checkbox"
 			ic-button	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.currentStats.subMatches[tag]}"
@@ -112,10 +112,11 @@
 		>
 			<div>{{'UNSORTED_TAGS.%s' | fill : tag | translate }}</div>
 			<span 
-				class 		= "bubble"
-				ng-class	= "{'col-2': active, 'shade-light col-1': !active}"
+				class 		= "bubble shade-light col-1"
 				ng-if 		= "!disabled"
-			>{{ic.itemStorage.currentStats.subMatches[tag]}}</span>
+			>
+				{{ic.itemStorage.currentStats.subMatches[tag]}}/{{ic.itemStorage.currentStats.totals[tag]}}
+			</span>
 		</li>
 	</ul>
 </section>
