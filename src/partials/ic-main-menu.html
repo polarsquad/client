@@ -36,6 +36,17 @@
 	</li>
 	<li class 	= "spacer"></li>
 	
+	<li
+		ng-if				= "!ic.user.loggedIn"
+	>
+		<a 
+			class 		= "icon left icon-interface-new white"
+			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+		>
+			{{ 'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
+		</a>
+	</li>
+
 	<li 
 		ng-if				= "ic.user.loggedIn"
 		ng-mouseenter 		= "showAdmin = true" 
@@ -46,7 +57,7 @@
 		<a class = "icon left icon-interface-down white">{{ic.user.displayName}}</a>	
 		<ul ng-show = "showAdmin">
 			<li>
-				<a
+				<a 
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
 			</li>

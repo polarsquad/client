@@ -317,7 +317,9 @@
 	</article>
 
 
-	<article>
+	<article
+		ng-if = "ic.user.can('edit_items')"
+	>
 		<div> <!-- spacer --> </div>
 		<div>
 			<h4> {{'ITEMS.STATE' | translate}}</h4>

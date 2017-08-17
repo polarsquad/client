@@ -324,8 +324,7 @@ angular.module('icDirectives', [
 								icOptions:				"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
-								icForceChoice:			"<?"
-
+								icForceChoice:			"<?",
 							},
 
 			templateUrl: 	function(tElement, tAttrs){
@@ -559,9 +558,9 @@ angular.module('icDirectives', [
 				scope.toggleOption = function(option){
 
 					if(scope.icType == 'string'){
-						scope.value.edit = 	scope.value.edit == option
-											? null
-											: option
+						scope.value.edit = 	scope.value.edit == option 
+											?	scope.icProperty.defaultValue
+											:	option 
 						return undefined
 					}
 

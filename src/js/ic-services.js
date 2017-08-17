@@ -471,6 +471,22 @@ angular.module('icServices', [
 												icItemStorage.updateFilteredList()
 											})
 
+			icItemStorage.newItem = function(){
+				var num = 0
+
+				while(icItemStorage.data.some(function(item){ return item.id == 'new_'+num })){	num++ }
+
+				var item = icItemStorage.storeItem({
+								id: 	'new_'+num,
+								state:	icUser.can('edit_items') ? 'draft' : 'suggestion'
+							})
+
+				item.internal.new = true
+
+				return item
+			}
+
+
 			icUser.ready.then(function(){
 				if(icUser.can('edit_items')){
 					icItemStorage.ready
