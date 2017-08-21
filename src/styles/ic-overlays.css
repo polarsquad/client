@@ -139,9 +139,7 @@ ic-overlays > .center .buttons {
 
 ic-overlays > .center .buttons button {
 	display:				inline-block;
-	padding:				0 1rem;
 	flex:					1 1 0;
-	line-height:			2rem;
 	text-align:				center;
 }
 

@@ -1,36 +1,8 @@
-<ic-taxonomy-filter-tag-list
-	class = "padding bg-0"
->
+<ic-taxonomy-filter-tag-list class = "padding bg-0">
 </ic-taxonomy-filter-tag-list>
 
-<div class = "padding bg-0">
-	<a
-		class  		="block"
-		ng-click 	= "ic.filterConfig.toggleSortOrder('alphabetical_'+ic.site.currentLanguage)" 
-		ic-touch-me	
-	>
-		<span 
-			class 		= "icon left"
-			ng-class	= "{'icon-interface-down': ic.site.sortOrder.match('alphabetical_') && ic.site.sortDirection == 1, 'icon-interface-up': ic.site.sortOrder.match('alphabetical_') && ic.site.sortDirection == -1}"
-		>
-			{{'INTERFACE.SORT_ALPHABETICALLY_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
-		</span>
-	</a>
-
-	<a
-		class  		= "block"
-		ng-click 	= "ic.filterConfig.toggleSortOrder('last_change')" 
-		ng-if		= "ic.user.can('edit_items')"
-		ic-touch-me	
-	>
-		<span 
-			class 		= "icon left"
-			ng-class	= "{'icon-interface-down': ic.site.sortOrder == 'last_change' && ic.site.sortDirection == 1, 'icon-interface-up': ic.site.sortOrder == 'last_change' && ic.site.sortDirection == -1}"
-		>
-			{{'INTERFACE.SORT_LAST_CHANGE_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
-		</span>
-	</a>
-</div>
+<ic-sorting class = "padding bg-0">
+</ic-sorting>
 
 
 <ic-search-result-list>

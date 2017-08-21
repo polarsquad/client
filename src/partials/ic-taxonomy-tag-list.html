@@ -1,21 +1,24 @@
 	<a
-		ng-repeat 	= "category in ic.taxonomy.categories"
 		class		= "ic-tag ic-bg-cat-{{::category.name}}"
+		ng-repeat 	= "category in ic.taxonomy.categories"
 		ng-if		= "category.name | in : icTags"
+		ng-href		= "/list/c/{{::category.name}}"
 	>
 		{{'CATEGORIES.%s' | fill : category.name | translate}}
 	</a><!--
  --><a
-		ng-repeat 	= "type in ic.taxonomy.types"
 		class		= "ic-tag ic-bg-type-{{::type.name}}"
+		ng-repeat 	= "type in ic.taxonomy.types"
 		ng-if		= "type.name | in : icTags"
+		ng-href		= "/list/t/{{::type.name}}"
 	>
 		{{'TYPES.%s' | fill : type.name | translate}}
 	</a><!--
  --><a
-		ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
 		class		= "ic-tag shade-dark"
+		ng-repeat 	= "tag in ic.taxonomy.unsortedTags"
 		ng-if		= "tag | in: icTags"
+		ng-href		= "/list/u/{{::tag}}"
 	>
 		{{'UNSORTED_TAGS.%s' | fill : tag | translate}}
 	</a>

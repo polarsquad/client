@@ -195,20 +195,13 @@ Done:
 
 Todo(neu): 
 * Taxonomy aufräumen
-* security password hash
 * https
-* Todo in dev sheet
-* update translations
-* manifest
-* older -> elderly
-* taxonomy filter total matches
-* meta
 * automatische übersetzung
-* sharing -> neues tab (facebook?)
-* privilegien updaten
 * manifest
-* backend item validate and defaults
 * radios pointer
+
+* sharing -> neues tab (facebook?)
+* meta
 
 
 * DB backup!
@@ -216,15 +209,21 @@ Todo(neu):
 
 * datumsauswahl
 * test: backend nicht erreichbar
-* suggestions
 
 
 * stats.domain
 
 
-* English bei starten auf der startseite nicht übersetzt? -> cannot reproduce
+* Zeichenzahl sofort funktioniert nur lokal oO?
+
+* google drive liste
+* datepicker?
+* intput types für keyboards
 
 
+* partial suggestiosn nicht in die liste aufnehmen (online testen!)
+* config kopieren!
+* test mit ipad
 
 
 Done:
@@ -236,7 +235,7 @@ Done:
 * Type nach ganz oben
 * history back und 'switches' (-> links wenn kein replace passieren soll)
 * item schließen daNn zurück macht quatsch (fixed mit link)
-* Derfaultwerte beu NEU einfügen (passiert sowieso)
+* Defaultwerte beu NEU einfügen (passiert sowieso)
 * Missing zeichenzahl bei undefined
 * Breadcrumbs shrink
 * evtl zeichenanzahl sofort akualisieren
@@ -260,7 +259,26 @@ Done:
 * Edit -> läuft
 * layout for sharing
 * Edit- radio touch feedback
-* Dashboard schützen
 * login unter mehr
 * logout unter admin
 * "Nur für angemeldete nutzer sichtbar"
+* Dashboard schützen
+
+* close button noch nicht richtig (war edit mode)
+* Breadcrumbs bei suggest new item (einfach weg)
+* 17/17 zu nur 17
+* Overlay buttons mit padding machen
+* Fehlermeldung options nach unten
+* sortieren entkoppeln
+* Admin pfeil runter nach rechts
+* share per mail noch mit infocompass (twitter auch noch mit infocompass als hashtag)
+* Bei neuer eintrag cancel button einfach weg machen, bei Änderungen zurück zur Ansicht, close ganz weg
+* confirm grade häßlich (nur online)
+* suggestion mails hübscher
+* suggestions (basis variante)
+* qr code zentriert
+* button ic touch item full
+
+* print/share button invertieren zu kompliziert
+* hrfe="tel:...
+* links akrive statt unterstrichen

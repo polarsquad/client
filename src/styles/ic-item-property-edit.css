@@ -65,7 +65,7 @@ ic-item-property-edit .options li > * {
 	vertical-align:				middle;
 }
 
-ic-item-property-edit .options li .icon {
+ic-item-property-edit .options li > *:first-child {
 	margin:						0 0.5rem;
 }
 

@@ -145,7 +145,7 @@ angular.module('icDirectives', [
 										.clear(icSite.activeItem)
 
 										icSite.activeItem = undefined
-										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCESSFULL')
+										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCESSFUL')
 									},
 									function(){
 										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_FAILED')
@@ -771,6 +771,24 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+
+
+.directive('icSorting', [
+
+	'ic',
+
+	function(ic, icTaxonomy){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-sorting.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])
 	
 
 
@@ -905,9 +923,10 @@ angular.module('icDirectives', [
 	'$location', 
 	'icSite',
 	'icLanguages',
+	'icConfigData',
+	'translateFilter',
 
-
-	function($location, icSite, icLanguages){
+	function($location, icSite, icLanguages, icConfigData, translateFilter){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
@@ -943,9 +962,14 @@ angular.module('icDirectives', [
 							return null
 						}
 
+						var mail_subject 	= 		translateFilter('INTERFACE.TITLE')+': '+v.title,
+							twitter_hashtag	= 		icConfigData.sharing 
+												&&	icConfigData.sharing.twitter
+												&&	icConfigData.sharing.twitter.hashtag 
+
 						scope.platforms = [
-							{name: 'email',		link: 'mailto:?subject=Infocompass: '+v.title+'&body='+v.url},
-							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags=infocompass'},
+							{name: 'email',		link: 'mailto:?subject='+mail_subject+'&body='+v.url},
+							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags='+twitter_hashtag},
 							// {name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},

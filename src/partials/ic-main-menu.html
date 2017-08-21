@@ -39,11 +39,11 @@
 	<li
 		ng-if				= "!ic.user.loggedIn"
 	>
-		<a 
-			class 		= "icon left icon-interface-new white"
+		<a 			
 			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 		>
-			{{ 'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
+			<span class	= "icon large left icon-interface-edit white"></span>
+			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
 		</a>
 	</li>
 
@@ -54,7 +54,7 @@
 		ng-click			= "showAdmin = !showAdmin"
 		ic-click-outside 	= "showAdmin = false" 
 	>
-		<a class = "icon left icon-interface-down white">{{ic.user.displayName}}</a>	
+		<a class = "icon right icon-interface-down white">{{ic.user.displayName}}</a>	
 		<ul ng-show = "showAdmin">
 			<li>
 				<a 

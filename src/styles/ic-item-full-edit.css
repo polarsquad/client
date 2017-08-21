@@ -16,7 +16,6 @@ ic-item-full-edit header .tools{
 ic-item-full-edit header .tools > * {
 	display:					inline-block;
 	vertical-align:				top;
-	height:						3rem;
 }
 
 ic-item-full-edit header .tools .main {

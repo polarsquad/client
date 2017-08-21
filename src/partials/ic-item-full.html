@@ -18,7 +18,7 @@
 		</button>
 
 		<button 
-			class 		= "icon round large active icon-interface-close drop-shadow bg-0"
+			class 		= "icon round large active icon-interface-delete drop-shadow bg-0"
 			ng-click 	= "delete()" 
 			ng-if		= "ic.user.can('delete_items')"
 			title		= "{{'INTERFACE.DELETE' | translate}}"
@@ -238,6 +238,7 @@
 		class 		= "bg-0"
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 		ng-click 	= "ic.favourites.toggleItem(item)" 
+		ic-touch-me
 	> 
 		<span 
 			class 		="icon-large left icon-interface-favourites col-3 active normal"
@@ -252,6 +253,7 @@
 	<button 
 		class 		= "bg-0 col-3"
 		ng-click	= "ic.site.print()"
+		ic-touch-me
 	> 
 		<span class ="icon-large left icon-interface-print active normal">{{'INTERFACE.PRINT' | translate}}</span>
 	</button>

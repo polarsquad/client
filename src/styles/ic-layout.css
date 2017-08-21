@@ -49,6 +49,12 @@ ic-main-content > * {
 	-webkit-overflow-scrolling:	touch;
 }
 
+ic-main-content > *:after {
+	content:					'';
+	display:					block;
+	height:						10rem;
+}
+
 ic-main-content > *:first-child{
 	padding-left:				1rem;
 }

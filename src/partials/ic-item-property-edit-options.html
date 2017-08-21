@@ -22,15 +22,14 @@
 			ng-click	= "revert()" 
 			ng-disabled	= "updating ||!diff()"
 			type		= "button"
-		>
-			{{ "INTERFACE.PROPERTY_REVERT" | translate }}
+			title		= "{{ "INTERFACE.PROPERTY_REVERT" | translate }}"
+			class		= "icon icon-interface-item_revert active"
+		>			
 		</buton>		
 	</div>	
 
 	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
 	
-	<div ng-if = "!error || icHideErrors" class = "error"></div>
-	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
 
 
 	<ul class = "options">
@@ -48,6 +47,8 @@
 		</li>
 	</ul>
 
+	<div ng-if = "!error || icHideErrors" class = "error"></div>
+	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
 
 	<button
 		ng-show		= "allowLocalEdit"
@@ -56,5 +57,6 @@
 	>
 		{{ "INTERFACE.PROPERTY_UPDATE" | translate }}
 	</buton>
+	
 
 </form>

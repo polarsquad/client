@@ -13,10 +13,12 @@
 		ng-repeat  	= "platform in platforms"
 		ng-href		= "{{platform.link}}" 
 		class		= "platform"
-		ic-touch-me
 	>
 			<span class = "icon icon-share-{{platform.name}} active"> </span>
-			<span class = "active">
+			<span 
+				class = "active"
+				ic-touch-me
+			>
 				{{"INTERFACE.SHARE.%s" | fill : platform.name | translate}}
 			</span>
 	</a>
@@ -25,6 +27,6 @@
 	<br/>
 	<br/>
 	<br/>
-
+	{{'INTERFACE.SHARE_NOTE' | translate}}
 	<textarea readonly>{{vars.url}}</textarea>
 </div>

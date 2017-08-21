@@ -889,9 +889,9 @@ angular.module('icServices', [
 
 
 
-		icFilterConfig.toggleSortOrder = function(sortCriterium){
+		icFilterConfig.toggleSortOrder = function(sortCriterium, keep_direction){
 			icSite.sortOrder == sortCriterium
-			?	icFilterConfig.toggleSortDirection()
+			?	keep_direction || icFilterConfig.toggleSortDirection()
 			:	icSite.sortOrder = sortCriterium
 			
 

@@ -3,7 +3,7 @@
 	<div class = "title"> {{icTitle}} </div>
 	<div class = "content">		
 		<a 
-			class 	= "highlight"
+			class 	= "active"
 			ng-if	= "link"
 			ng-href = "{{link}}"
 			target	= "_blank"
@@ -30,7 +30,7 @@
 			ng-if		= "name | trim"
 			class		= "extra-link screen-only"
 		>
-			<a class ="highlight" ng-href = "{{href}}">{{name}}</a>
+			<a class ="active" ng-href = "{{href}}">{{name}}</a>
 		</div>
 	</div>
 </div>

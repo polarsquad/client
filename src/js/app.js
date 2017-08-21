@@ -169,7 +169,7 @@ angular.module("InfoCompass",[
 	'$compileProvider',
 
 	function($compileProvider){
-  		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto):/)
+  		$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto|tel):/)
   	}
 ])
 

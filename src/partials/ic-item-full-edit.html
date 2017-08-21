@@ -3,6 +3,7 @@
 		<a 
 			class 		= "icon icon-interface-close"
 			ng-click 	= "cancel()" 
+			ng-if		= "icItem.internal.new"
 		>
 		</a>
 
@@ -13,7 +14,7 @@
 			ng-if = "!icItem.internal.new"
 		>
 			<button 
-				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
+				class 		= "icon round large bg-3 white icon-interface-edit_cancel drop-shadow bg-0"
 				ng-click 	= "cancel()" 
 				ng-if		= "ic.user.can('edit_items')"
 				title		= "{{'INTERFACE.CANCEL_EDIT' | translate}}"
@@ -27,14 +28,9 @@
 			class = "main"
 			ng-if = "icItem.internal.new"
 		>
-			<button 
-				class 		= "icon round large bg-3 white icon-interface-edit drop-shadow bg-0"
-				ng-click 	= "cancel()" 
-				ng-if		= "ic.user.can('edit_items')"
-				title		= "{{'INTERFACE.CANCEL_EDIT' | translate}}"
-			>
-			</button>
+			
 		</div>
+
 	</div>
 	<div 
 		class		= "hero" 

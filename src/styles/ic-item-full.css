@@ -93,6 +93,7 @@ ic-item-full h3 {
 
 
 ic-item-full .qrcode {
+	display:					block;
 	margin-top:					3rem;
 	text-align:					center;
 }
@@ -100,6 +101,7 @@ ic-item-full .qrcode {
 ic-item-full .qrcode qrcode {
 	display:					inline-block;
 	position:					static;
+	flex:						none;
 }
 
 ic-item-full .qrcode qrcode canvas{
