@@ -1,0 +1,34 @@
+<ul>
+	<li
+		class  		= "block"
+		ng-click 	= "ic.filterConfig.toggleSortOrder('alphabetical_'+ic.site.currentLanguage, true)" 
+		ic-touch-me	
+	>
+		<span 
+			class 		= "icon left icon-interface-checkbox"
+			ng-class	= "{'checked': ic.site.sortOrder.match('alphabetical_')}"
+		>
+			{{'INTERFACE.SORT_ALPHABETICALLY_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
+		</span>
+	</li>
+
+	<li
+		class  		= "block"
+		ng-click 	= "ic.filterConfig.toggleSortOrder('last_change', true)" 
+		ng-if		= "ic.user.can('edit_items')"
+		ic-touch-me	
+	>
+			<span 
+				class 		= "icon left icon-interface-checkbox"
+				ng-class	= "{'checked': ic.site.sortOrder == 'last_change'}"
+			>
+				{{'INTERFACE.SORT_LAST_CHANGE_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
+			</span>
+	</li>
+</ul>
+
+<div>
+	<button	ng-click = "ic.filterConfig.toggleSortDirection()">
+		{{'INTERFACE.REVERSE_SORTING_ORDER' | translate}}
+	<button>	
+</div>

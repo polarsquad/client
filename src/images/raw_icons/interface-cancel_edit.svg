@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-interface-cancel-edit</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbole" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-interface-cancel-edit" fill="#000000">
+            <g id="Page-1" transform="translate(3.000000, 3.000000)">
+                <path d="M2.6425,12.5423 L1.2155,16.7713 L5.4715,15.3703 L16.7845,4.0573 L13.9565,1.2283 L2.6425,12.5423 Z M12.5425,4.0573 L13.9565,2.6433 L15.3705,4.0573 L13.9565,5.4713 L12.5425,4.0573 Z M3.5155,13.0843 L11.8355,4.7643 L13.2485,6.1783 L4.9325,14.4953 L2.8025,15.1963 L3.5155,13.0843 Z" id="Fill-2"></path>
+                <polygon id="Fill-3" points="16.6465 17.3535 0.6465 1.3535 1.3535 0.6465 17.3535 16.6465"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
