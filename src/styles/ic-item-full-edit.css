@@ -46,6 +46,7 @@ ic-item-full-edit > section > * > *:nth-child(1){
 }
 
 ic-item-full-edit > section  > * > *:nth-child(2){
+	position:					relative;
 	flex:						10 0 0;
 	max-width: 					40rem;
 }
@@ -66,6 +67,12 @@ ic-item-full-edit  h4 {
 	margin-top:				0rem;
 	margin-bottom:			0rem;
 	font-weight:			700;
+}
+
+ic-item-full-edit  h4 + ic-help {
+	position:				absolute;
+	top:					0;
+	right:					0;
 }
 
 ic-item-full-edit hr {

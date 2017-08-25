@@ -1040,3 +1040,21 @@ angular.module('icDirectives', [
 
 
 
+.directive('icHelp', [
+
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-help.html',
+			scope:			{
+								icMessage: '@'
+							},
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])

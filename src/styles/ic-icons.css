@@ -11,6 +11,10 @@
 }
 
 
+li.icon *:first-child{
+	margin-left:			0.5rem;
+}
+
 .img {
 	position:				relative;
 	background-image:		none !important;

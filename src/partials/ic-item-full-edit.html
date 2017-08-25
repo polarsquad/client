@@ -291,6 +291,20 @@
 
 
 
+	<article ng-repeat = "key in ['latitude', 'longitude']">
+		<div> <div class = "icon icon-property-{{key}}"></div> </div>
+		<div>
+			<h4> {{'ITEMS.%s' | fill : key | translate}}</h4>
+			
+			<ic-help ic-message = "{{ 'ITEM.%s_HELP' | fill : key }}"></ic-help>
+
+			<ic-item-property-edit
+				ic-type 				= "string"
+				ic-key					= "{{key}}"
+				ic-item					= "icItem"
+			></ic-item-property-edit>
+		</div>
+	</article>
 
 
 
@@ -298,8 +312,8 @@
 	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
 
 
-	<!-- e-mail -->
-	<article ng-repeat = "key in ['contact', 'email', 'phone', 'website', 'facebook', 'twitter', 'latitude', 'longitude']">
+	<!-- misc-->
+	<article ng-repeat = "key in ['contact', 'email', 'phone', 'website', 'facebook', 'twitter']">
 		<div> <div class = "icon icon-property-{{key}}"></div> </div>
 		<div>
 			<h4> {{'ITEMS.%s' | fill : key | translate}}</h4>
@@ -311,6 +325,7 @@
 			></ic-item-property-edit>
 		</div>
 	</article>
+
 
 
 	<article
