@@ -1,0 +1,141 @@
+<form 
+	ng-if		= "icItem && icEdit"
+	ng-submit 	= "allowLocalEdit && update()"
+	ng-class	= "{invalid: errors}"
+	ng-init		= ""
+>
+
+	<div 
+		ng-if 	= "!hideCurrentValue"
+		class	= "current-value {{diff()? 'diff': ''}}"
+	>
+		{{ value.current ? (value.current | icDate : true)  : ('INTERFACE.PROPERTY_EMPTY' | translate) }}
+
+		<button
+			ng-click	= "revert()" 
+			ng-disabled	= "updating || !diff()"
+			type		= "button"
+			title		= "{{ 'INTERFACE.PROPERTY_REVERT' | translate }}"
+			class		= "icon icon-interface-item_revert active"
+		>			
+		</buton>
+	</div>
+
+	<ul class = "padding"> 
+		<li
+			class 		= "block left icon icon-interface-checkbox"
+			ng-class	= "{'checked' : date.date_enabled}"
+			ng-click	= "date.date_enabled = !date.date_enabled"
+			ic-touch-me
+		>
+			<span>{{'INTERFACE.ENABLE_DATE' | translate}}</span>
+		</li>
+
+		<li
+			class 		= "block left icon icon-interface-checkbox"
+			ng-class	= "{'checked' : date.time_enabled}"
+			ng-click	= "date.time_enabled = !date.time_enabled"
+			ng-show		= "date.date_enabled"
+			ic-touch-me
+		>
+			<span>{{'INTERFACE.ENABLE_TIME' | translate}}</span>
+		</li>
+	</ul>
+
+
+	<div class = "date" ng-if = "date.date_enabled">
+		<label>
+			{{'INTERFACE.DAY' | translate}}
+			<input
+				title		= "{{'INTERFACE.DAY' | translate}}"
+				class		= "day bg-1 col-0"
+				type		= "number"
+				ng-model	= "date.day"
+				min			= "1"
+				max			= "31"
+				maxlength	= "2"
+				size		= "2"
+				required
+			>
+		</label>
+
+		<label>
+			{{'INTERFACE.MONTH' | translate}}
+			<input
+				title		= "{{'INTERFACE.MONTH' | translate}}"
+				class		= "month bg-1 col-0"
+				type		= "number"
+				ng-model	= "date.month"
+				min			= "1"
+				max			= "12"
+				maxlength	= "2"
+				size		= "2"
+				required
+			>
+		</label>
+
+		<label>
+			{{'INTERFACE.YEAR' | translate}}
+			<input
+				title		= "{{'INTERFACE.YEAR' | translate}}"
+				class		= "year bg-1 col-0"
+				type		= "number"
+				ng-model	= "date.year"
+				maxlength	= "4"
+				size		= "4"
+				required
+			>
+		</label>
+		
+	</div>
+
+		
+	<div class = "time" ng-if = "date.time_enabled">
+
+		<label>
+			{{'INTERFACE.HOUR' | translate}}
+			<input
+				title		= "{{'INTERFACE.HOUR' | translate}}"
+				class		= "hour bg-1 col-0"
+				type		= "number"
+				ng-model	= "date.hour"
+				min			= "0"
+				max			= "23"
+				maxlength	= "2"
+				size		= "2"
+				required
+			>
+		</label>
+		
+		<label>
+			{{'INTERFACE.MINUTE' | translate}}
+			<input
+				title		= "{{'INTERFACE.MINUTE' | translate}}"
+				class		= "minute bg-1 col-0"
+				type		= "number"
+				ng-model	= "date.minute"
+				min			= "0"
+				max			= "59"
+				maxlength	= "2"
+				size		= "2"
+				required
+			>
+		</label>
+	</div>
+
+	
+
+	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
+	
+	<div ng-if = "!error || icHideErrors" class = "error"></div>
+	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
+
+	<button
+		ng-show		= "allowLocalEdit"
+		ng-disabled	= "updating || !diff()" 
+		type 		= "submit"
+	>
+		{{ "INTERFACE.PROPERTY_UPDATE" | translate }}
+	</buton>
+
+</form>
