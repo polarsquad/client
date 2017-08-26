@@ -331,39 +331,50 @@ angular.module('icUiDirectives', [
 	
 	function(){
 
-		var scrollbar_width = undefined
+		var scrollbar_width = undefined,
+			style_element 	= undefined
+
+		function getScrollBarwidth(){
+			var div	= 	angular.element('<div></div>')
+						.css({
+							'width': 		'100px',
+							'height':		'100px',
+							'position':		'absolute',
+							'overflow-y':	'scroll'
+						})
+
+			angular.element(document.getElementsByTagName('body')[0]).append(div)
+
+			scrollbar_width	=	(100-div[0].clientWidth)
+
+			div.remove()
+		}
+
+		function addCssRules(){
+			style_element = document.createElement('style')
+
+		  	document.head.appendChild(style_element)
+
+			style_element.sheet.insertRule('[ic-settle-scrollbar] 			{overflow-y: hidden;}', 0)
+			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover		{overflow-y: scroll; -webkit-overflow-scrolling: touch;}', 0)
+			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
+		}
+
+		angular.element(window).on('resize', function(){
+			getScrollBarwidth()
+
+			style_element.sheet.deleteRule(0)
+			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
+
+		})
+
+		getScrollBarwidth()
+		addCssRules()
 			
 		return {
 			restrict:	'A',
 
 			link: function(scope, element){
-
-				if(scrollbar_width !== undefined) return null
-
-				var style_element = document.createElement('style')
-  
-		  		document.head.appendChild(style_element)
-
-
-				var div	= 	angular.element('<div></div>')
-								.css({
-								'width': 		'100px',
-								'height':		'100px',
-								'position':		'absolute',
-								'overflow-y':	'scroll'
-							})
-
-				angular.element(document.getElementsByTagName('body')[0]).append(div)
-
-				scrollbar_width	=	(100-div[0].clientWidth)
-
-				div.remove()
-
-				if(scrollbar_width != 0){
-			  		style_element.sheet.insertRule('[ic-settle-scrollbar] 		{overflow-y: hidden;}', 0)
-			  	}
-			  	style_element.sheet.insertRule('[ic-settle-scrollbar]:hover		{overflow-y: scroll; -webkit-overflow-scrolling: touch;}', 0)
-		  		style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
 			}
 		}
 	}

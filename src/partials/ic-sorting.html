@@ -12,6 +12,18 @@
 	</li>
 
 	<li
+		ng-click 	= "ic.filterConfig.toggleSortOrder('start_date', true)" 
+		ng-class	= "{'checked': ic.site.sortOrder.match('start_date')}"
+		class 		= "block icon left icon-interface-radio"
+		ic-touch-me	
+	>
+		<span 
+		>
+			{{'INTERFACE.SORT_START_DATE_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
+		</span>
+	</li>
+
+	<li
 		ng-if		= "ic.user.can('edit_items')"
 		ng-click 	= "ic.filterConfig.toggleSortOrder('last_change', true)" 
 		ng-class	= "{'checked': ic.site.sortOrder == 'last_change'}"

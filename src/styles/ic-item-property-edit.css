@@ -83,6 +83,38 @@ ic-item-property-edit .error {
 
 
 
+ic-item-property-edit .date, 
+ic-item-property-edit .time {
+	display:					flex;
+}
+
+ic-item-property-edit .date label, 
+ic-item-property-edit .time label {
+	display:					inline-block;
+	flex:						1 1 auto;
+}
+
+ic-item-property-edit .date label + label, 
+ic-item-property-edit .time label + label {
+	margin-left:				1rem;
+}
+
+ic-item-property-edit .date label > *, 
+ic-item-property-edit .time label > *{
+	display:					block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

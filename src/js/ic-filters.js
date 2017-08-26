@@ -96,8 +96,6 @@ angular.module('icFilters', [
 })
 
 
-
-
 .filter('icDate', [
 
 	'icSite',
@@ -117,21 +115,25 @@ angular.module('icFilters', [
 
 			if(!date_str) return undefined
 
+			var date = new Date(date_str)
+
+			if(isNaN(date.getTime())) return undefined
+
 			dates[date_str] 						= dates[date_str] || {}
 			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
 
 
 			if(!dates[date_str][icSite.currentLanguage].withoutTime){
 				dates[date_str][icSite.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
-																		?	new Date(date_str).toLocaleDateString(icSite.currentLanguage)
+																		?	date.toLocaleDateString(icSite.currentLanguage)
 																		:	date_str
 			} 
 
 			if(!dates[date_str][icSite.currentLanguage].withTime && use_time){
-				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime +
+				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime + ', ' +
 																			(
 																				toLocaleDateStringSupportsLocales
-																				?	new Date(date_str).toLocaleTimeString(icSite.currentLanguage)
+																				?	date.toLocaleTimeString(icSite.currentLanguage)
 																				:	''
 																			)
 			}

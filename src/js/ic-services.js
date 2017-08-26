@@ -929,6 +929,18 @@ angular.module('icServices', [
 				}
 			)
 
+			// start date:
+			
+			icItemStorage.registerSortingCriterium('start_date', function(item_1, item_2){
+				var date_str_1 = String(item_1.startDate || ""),
+					date_str_2 = String(item_2.startDate || "")
+
+				if(date_str_1 == date_str_2) return 0
+
+				return date_str_1 > date_str_2 ? 1 : -1
+			})
+
+
 			// last change:
 			
 			icItemStorage.registerSortingCriterium('last_change', function(item_1, item_2){
@@ -961,7 +973,8 @@ angular.module('icServices', [
 						null
 					])
 
-					if(icSite.sortOrder) icItemStorage.sortFilteredList(icSite.sortOrder, icSite.sortDirection)
+					//updateFilteredList() will sort anyway!
+					//if(icSite.sortOrder) icItemStorage.sortFilteredList(icSite.sortOrder, icSite.sortDirection)
 				})
 			},
 			true
@@ -1041,7 +1054,7 @@ angular.module('icServices', [
 
 		icItemEdits.clear = function(item_or_id){
 			data = 	data.filter(function(itemEdit){
-						return itemEdit.id != item_or_id.id || item_or_id
+						return itemEdit.id != (item_or_id.id || item_or_id)
 					})
 		}
 

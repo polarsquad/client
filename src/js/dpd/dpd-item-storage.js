@@ -298,9 +298,11 @@
 				return null	
 			} 
 
+
+
 			icItemStorage.filteredList.sort(function(item_1, item_2){
 
-				//TODO set soting value=?
+				//TODO set sorting value=?
 
 				if(item_1.internal.sortingValues[criterium] === undefined || item_2.internal.sortingValues[criterium] === undefined) return dir * icItemStorage.sortingCriteria[criterium](item_1, item_2)
 				if(item_1.internal.sortingValues[criterium] > item_2.internal.sortingValues[criterium]) return dir

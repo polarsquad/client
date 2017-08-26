@@ -232,6 +232,9 @@ angular.module('icDirectives', [
 							item.internal.new = false
 							item.id = item_data.id
 
+
+							icItemEdits.clear(edit)
+
 							icItemStorage.storeItem(item_data)
 							icItemStorage.refreshFilteredList()
 
@@ -325,11 +328,16 @@ angular.module('icDirectives', [
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
 								icForceChoice:			"<?",
+								icDate:					"<?"
 							},
 
 			templateUrl: 	function(tElement, tAttrs){
+
 								if(tAttrs.icOptions)	return "partials/ic-item-property-edit-options.html"
+								if(tAttrs.icDate)		return "partials/ic-item-property-edit-date.html"
 								
+
+
 								return "partials/ic-item-property-edit-simple-value.html"
 
 							},
@@ -341,7 +349,18 @@ angular.module('icDirectives', [
 												edit: 		undefined,
 												current: 	undefined
 											}
-				scope.icProperty			=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
+
+				scope.date				=	{
+												year:			undefined,
+												month:			undefined,
+												day:			undefined,
+												hour:			undefined,
+												minute:			undefined,
+												date_enabled:	false,
+												time_enabled:	false,
+											}
+
+				scope.icProperty		=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
 				
 				if(scope.icOptions === true){
 					scope.icOptions	 =	scope.icProperty.options
@@ -372,7 +391,37 @@ angular.module('icDirectives', [
 				}
 
 
+				function updateDateData(){
+					if(!scope.value.edit || typeof scope.value.edit != 'string'){
+						scope.date = 	{
+											year:			new Date().getFullYear(),
+											month:			1,
+											day:			1,
+											hour:			0,
+											minute:			0,
+											date_enabled:	false,
+											time_enabled:	false,
+										}
+						return null
+					}
 
+					var date = new Date(scope.value.edit)
+
+					if(isNaN(date.getTime())) return null
+
+					scope.date.year 		= date.getFullYear()
+					scope.date.month		= date.getMonth()+1
+					scope.date.day			= date.getDate()
+					scope.date.date_enabled	= true
+
+					if(scope.value.edit.match('T')){
+						scope.date.hour 		= date.getHours()
+						scope.date.minute		= date.getMinutes()
+						scope.date.time_enabled	= true
+					} else {
+						scope.date.time_enabled	= false
+					}
+				}
 
 				scope.$watch('icItem', function(a, b){
 					if(!scope.icItem) return null
@@ -492,7 +541,6 @@ angular.module('icDirectives', [
 
 					if(!scope.icItem || !scope.icEdit) return null
 
-
 					if(typeof scope.value.edit == 'string'){
 						scope.value.edit = scope.value.edit.replace(/(^\s+|\s{2,}$)/g, '')
 					}
@@ -522,13 +570,41 @@ angular.module('icDirectives', [
 						scope.validate()
 					}
 
+					if(scope.icDate) updateDateData()
+
+
+				}, true)
+
+
+
+				function pad(num, size) {
+					if(num === undefined || num === null) return NaN
+					var s = String(num);
+					while (s.length < size) s = "0" + s;
+					return s;
+				}
+
+
+				scope.$watch('date', function(){
+					if(!scope.icDate) return null
+
+					if(!scope.date.date_enabled){
+						scope.value.edit  = ''
+						return null
+					}
+
+					scope.value.edit = 	pad(scope.date.year,4) + '-' + pad(scope.date.month,2) + '-' + pad(scope.date.day,2)
+
+					if(scope.date.time_enabled)
+							scope.value.edit +=	'T' + pad(scope.date.hour,2) + ':' + pad(scope.date.minute, 2)	
+
 				}, true)
 
 
 
 
 				scope.validate = function(){
-					scope.error 	= 	scope.icForceChoice && !(scope.value.edit.length)
+					scope.error 	= 	scope.icForceChoice && !(scope.value.edit && scope.value.edit.length)
 										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
 										:	scope.icEdit.getErrors(scope.icKey)
 
@@ -541,6 +617,7 @@ angular.module('icDirectives', [
 
 				scope.revert = function(){
 					scope.value.edit = angular.copy(scope.value.current)
+					if(scope.icDate) updateDateData()
 				}
 
 				scope.diff = function(){

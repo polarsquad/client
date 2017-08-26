@@ -217,18 +217,16 @@ Todo(neu):
 * Zeichenzahl sofort funktioniert nur lokal oO?
 -> unterschiedliche angular versionen oO
 
-* google drive liste
-* datepicker?
-* intput types für keyboards
+* datepicker? datum sowieso
+
 
 
 * partial suggestiosn nicht in die liste aufnehmen (online testen!)
 * config kopieren!
 * test mit ipad
 
-* scrollleiste in section ohne zoom!
 
-* suggest abschikcen -> suggest neu /gleich daten
+
 
 
 Done:
@@ -287,3 +285,12 @@ Done:
 * print/share button invertieren zu kompliziert
 * hrfe="tel:...
 * links akrive statt unterstrichen
+
+* Help
+* Radios
+* scrollleiste in section ohne zoom!
+
+* suggest abschikcen -> suggest neu /gleich daten
+* validate dates!
+
+* Dates in der Datenbank :(
