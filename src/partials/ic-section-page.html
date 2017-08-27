@@ -1,8 +1,10 @@
 <ic-page
-	ng-if		= "ic.site.visibleSections.page" 
-	ng-include 	= "'/pages/'+ic.site.page+'.html'"
-	id			= "page-{{ic-site.page}}"	
-	scroll-top  = "ic.site.page"
+	ng-if			= "ic.site.visibleSections.page" 
+	ng-include 		= "'/pages/'+ic.site.page+'.html'"
+	id				= "page-{{ic-site.page}}"	
+	ic-scroll-top  	= "ic.site.page"
 ></ic-page>
+
+<ic-footer></ic-footer>
 
 

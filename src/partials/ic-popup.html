@@ -1,8 +1,9 @@
-<div
-	class		= "message" 
-	ng-repeat 	= "message in icOverlays.messages.popup">
-	{{message | translate}}
-</div>
+<p
+	class			= "message" 
+	ng-repeat 		= "message in icOverlays.messages.popup"
+	ng-bind-html	= "message | translate"
+>
+</p>
 
 <div class = "buttons">
 	<button 

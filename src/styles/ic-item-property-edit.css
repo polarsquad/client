@@ -86,6 +86,7 @@ ic-item-property-edit .error {
 ic-item-property-edit .date, 
 ic-item-property-edit .time {
 	display:					flex;
+	margin-bottom:				1rem;
 }
 
 ic-item-property-edit .date label, 

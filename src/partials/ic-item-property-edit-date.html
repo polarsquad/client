@@ -5,20 +5,20 @@
 	ng-init		= ""
 >
 
-	<div 
-		ng-if 	= "!hideCurrentValue"
-		class	= "current-value {{diff()? 'diff': ''}}"
-	>
-		{{ value.current ? (value.current | icDate : true)  : ('INTERFACE.PROPERTY_EMPTY' | translate) }}
+	<div ng-if 	= "!hideCurrentValue">
+
+		<span class	= "current-value {{diff()? 'diff': ''}}">
+			{{ value.current || ('INTERFACE.PROPERTY_EMPTY' | translate) }}
+		</span>	
 
 		<button
 			ng-click	= "revert()" 
-			ng-disabled	= "updating || !diff()"
+			ng-if		= "!updating && diff()"
 			type		= "button"
 			title		= "{{ 'INTERFACE.PROPERTY_REVERT' | translate }}"
 			class		= "icon icon-interface-item_revert active"
 		>			
-		</buton>
+		</buton>	
 	</div>
 
 	<ul class = "padding"> 

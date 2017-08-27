@@ -331,6 +331,8 @@
 				function(reason){
 					console.warn('icItemStorage.getItem: update failed.', reason)
 					
+					item.internal.failed = true
+
 					icItemStorage.runAsyncTriggers()
 
 					return Promise.reject(reason)

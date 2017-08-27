@@ -3,30 +3,32 @@
 	ng-submit 	= "allowLocalEdit && update()"
 	ng-class	= "{invalid: errors}"
 >
-	<div 
-		ng-if 	= "!hideCurrentValue"
-		class	= "current-value {{diff()? 'diff': ''}}"
-	>
-		<span
-			ng-repeat 	= "option in icOptions"
-			ng-if		= "value.current == option"
-		>
-			{{icOptionLabel({option:option})}}
-		</span>
+	<div ng-if 	= "!hideCurrentValue">
 		
-		<span ng-if = "!value.current.length">
-			{{'INTERFACE.PROPERTY_EMPTY' | translate }}
-		</span>
+		<span class	= "current-value {{diff()? 'diff': ''}}">
+			<span
+				ng-repeat 	= "option in icOptions"
+				ng-if		= "value.current == option"
+			>
+				{{icOptionLabel({option:option})}}
+			</span>
+			
+			<span ng-if = "!value.current.length">
+				{{'INTERFACE.PROPERTY_EMPTY' | translate }}
+			</span>
+
+		</span>	
 
 		<button
 			ng-click	= "revert()" 
-			ng-disabled	= "updating ||!diff()"
+			ng-if		= "!updating && diff()"
 			type		= "button"
 			title		= "{{'INTERFACE.PROPERTY_REVERT' | translate }}"
 			class		= "icon icon-interface-item_revert active"
 		>			
-		</buton>		
-	</div>	
+		</buton>	
+
+	</div>
 
 	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
 	

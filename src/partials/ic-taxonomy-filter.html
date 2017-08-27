@@ -38,7 +38,10 @@
 					{{ic.itemStorage.currentStats.altMatches[type.name]}}
 				</span>
 				<span ng-if = "ic.itemStorage.currentStats.altMatches[type.name] != ic.itemStorage.currentStats.totals[type.name]">
-					/{{ic.itemStorage.currentStats.totals[type.name]}}
+					/
+				</span>
+				<span ng-if = "ic.itemStorage.currentStats.altMatches[type.name] != ic.itemStorage.currentStats.totals[type.name]">
+					{{ic.itemStorage.currentStats.totals[type.name]}}
 				</span>
 			</span>
 		</li>
@@ -84,7 +87,10 @@
 					{{ic.itemStorage.currentStats.altMatches[category.name]}}
 				</span>
 				<span ng-if = "ic.itemStorage.currentStats.altMatches[category.name] != ic.itemStorage.currentStats.totals[category.name]">
-					/{{ic.itemStorage.currentStats.totals[category.name]}}
+					/
+				</span>
+				<span ng-if = "ic.itemStorage.currentStats.altMatches[category.name] != ic.itemStorage.currentStats.totals[category.name]">
+					{{ic.itemStorage.currentStats.totals[category.name]}}
 				</span>
 			</span>
 		</li>
@@ -129,7 +135,10 @@
 					{{ic.itemStorage.currentStats.subMatches[tag]}}
 				</span>
 				<span ng-if = "ic.itemStorage.currentStats.subMatches[tag] != ic.itemStorage.currentStats.totals[tag]">
-					/{{ic.itemStorage.currentStats.totals[tag]}}
+					/
+				</span>
+				<span ng-if = "ic.itemStorage.currentStats.subMatches[tag] != ic.itemStorage.currentStats.totals[tag]">
+					{{ic.itemStorage.currentStats.totals[tag]}}
 				</span>
 			</span>
 		</li>

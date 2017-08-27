@@ -545,6 +545,10 @@ angular.module('icDirectives', [
 						scope.value.edit = scope.value.edit.replace(/(^\s+|\s{2,}$)/g, '')
 					}
 
+					if(scope.icProperty.type == 'number'){
+						scope.value.edit = parseFloat(String(scope.value.edit).replace(/,/, '.'))
+					}
+
 					if(scope.icTranslatable){
 						scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
 					} 
@@ -621,8 +625,13 @@ angular.module('icDirectives', [
 				}
 
 				scope.diff = function(){
+					if(scope.icProperty.type == 'number'){
+						console.log(scope.value.edit, scope.value.current)
+					}
+
 					switch(scope.icType){
-						case "string": 	return 	scope.value.edit != scope.value.current; break;
+						case "string": 	return 	(scope.value.edit != scope.value.current) 
+												&& 	!(isNaN(scope.value.edit) && isNaN(scope.value.current)); break;
 						case "text": 	return 	scope.value.edit != scope.value.current; break;
 						case "array": 	return 		!scope.value.current
 												||	!scope.value.edit
@@ -1128,6 +1137,26 @@ angular.module('icDirectives', [
 			scope:			{
 								icMessage: '@'
 							},
+
+			link: function(scope, element){
+				scope.ic = ic
+			}
+		}
+	}
+])
+
+
+
+
+
+.directive('icFooter', [
+
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-footer.html',
 
 			link: function(scope, element){
 				scope.ic = ic

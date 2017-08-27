@@ -14,6 +14,8 @@
 
 		icItem.importData = function(data){
 
+			//There are no partial imports! If a property is not in data, then the default value is assumed or the value deleted!
+
 			if(!data){
 				console.warn('icItemDpd: .importData() called without any data.')
 				return icItem
@@ -59,6 +61,11 @@
 				// string or number
 				icItem[property.name] = data[property.name] || (property.mandatory ? angular.copy(property.defaultValue) : undefined)
 
+
+				if(property.type == "number"){
+					icItem[property.name] = parseFloat(String(icItem[property.name]).replace(/,/, '.'))
+				}
+
 			})
 
 			return icItem
@@ -71,7 +78,7 @@
 			ic.itemConfig.properties.forEach(function(property){ 
 				if(!name || name == property.name){
 					if(!key){
-						data[property.name] 		=  	icItem[property.name]
+						data[property.name] 		=  	icItem[property.name] || null
 					} else {
 						data[property.name] 		= 	{}
 						data[property.name][key]	= 	icItem[property.name][key]

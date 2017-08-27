@@ -57,9 +57,19 @@
 		</div>
 	</div>
 
+
 	<div>		
 		<div> <!-- spacer --> </div>
-		<h3>{{'INTERFACE.%s_ITEM' | fill: icItem.internal.new ? 'create' : 'edit' | translate}}</h3>
+		
+		<!-- EDIT -->
+		<h3 ng-if = "!icItem.internal.new">{{'INTERFACE.EDIT_ITEM'| translate}}</h3>
+
+		<!-- NEW -->
+		<h3 ng-if = "icItem.internal.new && ic.user.can('edit_items')">{{'INTERFACE.CREATE_NEW_ITEM'| translate}}</h3>
+
+		<!-- SUGGESTION -->
+		<h3 ng-if = "icItem.internal.new && !ic.user.can('edit_items')">{{'INTERFACE.SUGGEST_NEW_ITEM'| translate}}</h3>
+
 	</div>
 
 
@@ -146,7 +156,7 @@
 		<div>
 			<h4> {{'ITEMS.IMAGE' | translate}}</h4>
 
-			<ic-help ic-message = "ITEM.IMAGE_HELP"></ic-help>
+			<ic-help ic-message = "ITEMS.IMAGE_HELP"></ic-help>
 
 			<ic-item-property-edit
 				ic-type 				= "string"
@@ -298,7 +308,7 @@
 		<div>
 			<h4> {{'ITEMS.%s' | fill : key | translate}}</h4>
 			
-			<ic-help ic-message = "{{ 'ITEM.%s_HELP' | fill : key }}"></ic-help>
+			<ic-help ic-message = "{{ 'ITEMS.%s_HELP' | fill : key }}"></ic-help>
 
 			<ic-item-property-edit
 				ic-type 				= "string"
@@ -455,11 +465,12 @@
 			</button>
 		</div>
 
+
 		<!-- NEW -->
 
 		<div 
 			class = "controls"
-			ng-if = "icItem.internal.new"
+			ng-if = "icItem.internal.new && ic.user.can('edit_items')"
 		>
 
 			<button
@@ -479,5 +490,33 @@
 				{{"INTERFACE.SUBMIT_NEW_ITEM" | translate}}
 			</button>
 		</div>
+
+
+
+		<!-- SUGGESTION -->
+
+		<div 
+			class = "controls"
+			ng-if = "icItem.internal.new && !ic.user.can('edit_items')"
+		>
+
+			<button
+				class 		= "active border-3 bg-0 padding"
+				ng-click 	= "cancel()" 
+				ic-touch-me
+			>
+				{{"INTERFACE.CANCEL_SUGGESTION" | translate}}
+			</button>
+
+
+			<button
+				class 		= "bg-3 col-2 padding"
+				ng-click 	= "submit()"	 
+				ic-touch-me
+			>
+				{{"INTERFACE.SUBMIT_SUGGESTION" | translate}}
+			</button>
+		</div>
+
 	</article>
 </section>

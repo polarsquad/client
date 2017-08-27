@@ -86,7 +86,7 @@
 		</div>
 		<div>
 			<h2 class 	= "title" >
-				{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEM.STATE_%s' | fill: item.state | translate}}]</span>
+				{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
 			</h2>
 			<h3>
 				{{ item.brief[ic.site.currentLanguage] }}

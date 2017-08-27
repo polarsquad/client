@@ -170,7 +170,7 @@
 }
 
 .bubble {
-	display:					inline-block;
+	display:					inline-flex;
 	font-size:					0.8em;
 	font-family: 				Roboto, sans-serif;
 	box-sizing:					border-box;
@@ -181,6 +181,11 @@
 	text-align:					center;
 	border-radius:				1em;
 	min-width:					1.5em;
+}
+
+.bubble > * {
+	flex:						1 1 auto;
+
 }
 
 

@@ -1,14 +1,21 @@
-
 <ic-item-full 
-	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.editItem" 
+	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
 	ic-scroll-top	= "true"
 >
 </ic-item-full>
 
 <ic-item-full-edit 
-	ng-if 			= "!ic.site.activeItem.downloading && ic.site.editItem" 
+	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
 	ic-scroll-top	= "true"
 >
 </ic-item-full-edit>
 
-<ic-spinner ng-if = "ic.site.activeItem.downloading" active = "true"></ic-spinner>
+<ic-spinner ng-if = "ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed" active = "true"></ic-spinner>
+
+
+<div
+	class = "bg-0 padding"
+	ng-if = "ic.site.activeItem.internal.failed"
+>
+	{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
+</div>

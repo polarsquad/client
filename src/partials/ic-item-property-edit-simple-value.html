@@ -3,23 +3,24 @@
 	ng-submit 	= "allowLocalEdit && update()"
 	ng-class	= "{invalid: errors}"
 >
+	
+	<div ng-if 	= "!hideCurrentValue">
+		
+		<span class	= "current-value {{diff()? 'diff': ''}}">
+			{{ value.current || ('INTERFACE.PROPERTY_EMPTY' | translate) }}
 
-	<div 
-		ng-if 	= "!hideCurrentValue"
-		class	= "current-value {{diff()? 'diff': ''}}"
-	>
-		{{ value.current || ('INTERFACE.PROPERTY_EMPTY' | translate) }}
+		</span>	
 
 		<button
 			ng-click	= "revert()" 
-			ng-disabled	= "updating || !diff()"
+			ng-if		= "!updating && diff()"
 			type		= "button"
 			title		= "{{ 'INTERFACE.PROPERTY_REVERT' | translate }}"
 			class		= "icon icon-interface-item_revert active"
 		>			
 		</buton>	
-	</div>	
-
+	</div>
+	
 	<div 
 		class 		= "input-wrapper"
 		ng-class 	= "{'extra-padding': icProperty.max}" 
@@ -50,6 +51,7 @@
 		</div>
 	</div>
 
+	{{internalModel}}
 
 	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
 	

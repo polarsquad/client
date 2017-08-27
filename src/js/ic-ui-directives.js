@@ -419,7 +419,9 @@ angular.module('icUiDirectives', [
 			restrict:	'A',
 
 			link: function(scope, element, attrs){
+
 				scope.$watch(attrs.scrollTop, function(){
+
 					var el = element
 
 					while(el && el [0]){

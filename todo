@@ -193,12 +193,14 @@ Done:
 
 
 
+
+
+
 Todo(neu): 
 * Taxonomy aufräumen
 * https
 * automatische übersetzung
 * manifest
-* radios pointer
 
 * sharing -> neues tab (facebook?)
 * meta
@@ -217,15 +219,23 @@ Todo(neu):
 * Zeichenzahl sofort funktioniert nur lokal oO?
 -> unterschiedliche angular versionen oO
 
-* datepicker? datum sowieso
-
 
 
 * partial suggestiosn nicht in die liste aufnehmen (online testen!)
 * config kopieren!
 * test mit ipad
+* Testen ein komplettes item anlegen und gucken, wie es im preview und auf de rKarte aussieht.
+* Einmal testen, ob isch Einträge löschen lassen
 
 
+* Neu importieren ?
+
+* Leere Seite wnen ID nicht gefunden wird
+
+
+* Edit SUGGESTIONS!!!
+
+* Edit /wo can_edit
 
 
 
@@ -293,4 +303,18 @@ Done:
 * suggest abschikcen -> suggest neu /gleich daten
 * validate dates!
 
-* Dates in der Datenbank :(
+* in der Bubble den abstand wegmachen
+* Revert ausblenden wenn nicht möglich
+* Suggest Item -> STRINGS anpassen
+* New ITEM zu Suggets new item im Titel!
+* DRAFT /SUGGESTION nicht übersetzt
+* Platz zwischen DAtum und zeit
+* Contact -> ScrollTop
+* Footer unter all Statischen Seiten
+* Reihenfolge umdrhehn (sort) --> button an die Seite
+* ITEM STATE.SUGGESTION
+* Item LATITUDE.HELP
+* Default für City: Berlin (nicht gemacht, zu gefärhlich, führt dazu dass Logitude immer auf Null steht, Umgang mit numbers prüfen)
+* Breitengrad, Komma
+* radios pointer
+* datepicker? datum sowieso -> anders gelöst

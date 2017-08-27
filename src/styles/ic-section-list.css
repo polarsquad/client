@@ -1,3 +1,14 @@
 ic-sorting {
-	display:					block;
+	display:					flex;
+}
+
+ic-sorting > *:first-child {
+	flex:						2 0 auto;
+}
+
+ic-sorting > *:nth-child(2){
+	display:					flex;
+	flex:						1 0 0;
+	justify-content:			space-around;
+	align-items:				center;
 }

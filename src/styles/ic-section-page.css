@@ -3,7 +3,6 @@
 
 ic-page {
 	display:					block;
-	padding-bottom:				10rem;
 }
 
 ic-page  header {
@@ -24,8 +23,7 @@ ic-page  header h2 {
 	line-height: 				2;
 }
 
-ic-page  article,
-ic-page  footer {
+ic-page  article {
 	display:					block;
 	background-color:			#fff;
 	color:						#666;
@@ -226,28 +224,38 @@ ic-page .tiles > .item-tile .body {
 
 
 
-ic-page footer {
+ic-page ic-category {
+	margin-bottom:				2rem;
+}
+
+
+ic-footer {
+	display:					block;
+	background-color:			#fff;
+	color:						#666;
+	margin:						auto;
+	margin-bottom:				1rem;
+	padding:					2rem 5rem;
+}
+
+ic-footer a:hover {
+	border-bottom: 				1px solid #802651;
+}
+
+
+
+ic-footer {
 	padding: 2rem;
 	text-align: center;
 }
 
-
-ic-page footer a {
+ic-footer a {
 	display:					inline;
 	border:						none;
 	border-radius:				0;
 	color:						#802651;
 	margin-right:				1rem;
 	font-weight: 400;
-}
-
-ic-page footer a:hover {
-	border-bottom: 				1px solid #802651;
-}
-
-
-ic-page ic-category {
-	margin-bottom:				2rem;
 }
 
 
