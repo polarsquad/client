@@ -506,8 +506,9 @@ angular.module('icUiDirectives', [
 
 			link: function(scope, element, attrs, ctrl){
 
-				scope.$watch(function(){
+				element.on('change keydown blur', function(){
 					scope.$parent[attrs.icExposeInternalModel] = ctrl.$viewValue
+					scope.$parent.$digest()
 				})
 			}
 		}
