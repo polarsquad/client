@@ -506,9 +506,9 @@ angular.module('icUiDirectives', [
 
 			link: function(scope, element, attrs, ctrl){
 
-				scope.$parent[attrs.icExposeInternalModel] = ctrl.$viewValue
-				element.on('change keydown blur', function(){
-					scope.$parent.$digest()
+				element.on('change keyup paste click input blur', function(){
+					scope.$parent[attrs.icExposeInternalModel] = element[0].value
+					scope.$parent.$apply()
 				})
 			}
 		}

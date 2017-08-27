@@ -625,9 +625,6 @@ angular.module('icDirectives', [
 				}
 
 				scope.diff = function(){
-					if(scope.icProperty.type == 'number'){
-						console.log(scope.value.edit, scope.value.current)
-					}
 
 					switch(scope.icType){
 						case "string": 	return 	(scope.value.edit != scope.value.current) 
