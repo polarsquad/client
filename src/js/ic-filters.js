@@ -119,9 +119,9 @@ angular.module('icFilters', [
 
 			if(isNaN(date.getTime())) return undefined
 
+
 			dates[date_str] 						= dates[date_str] || {}
 			dates[date_str][icSite.currentLanguage]	= dates[date_str][icSite.currentLanguage] || {}
-
 
 			if(!dates[date_str][icSite.currentLanguage].withoutTime){
 				dates[date_str][icSite.currentLanguage].withoutTime = 	toLocaleDateStringSupportsLocales
