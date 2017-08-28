@@ -225,11 +225,13 @@ angular.module('icDirectives', [
 					if(item.internal.new && !icUser.can('edit_items'))
 						return 	$q.when(edit.submitAsNew())
 								.then(
-									function(itemdata){
+									function(){
 										icItemEdits.clear(edit)
 										icItemStorage.removeItem(item)
 
-										icSite.editItem = false
+										icSite.activeItem 	= null
+										icSite.editItem 	= false
+
 										icSite.updateUrl()
 
 										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
@@ -242,7 +244,7 @@ angular.module('icDirectives', [
 					if(!item.internal.new && !icUser.can('edit_items'))
 						return 	$q.when(edit.submitAsEditSuggestion())
 								.then(
-									function(itemdata){
+									function(){
 										icItemEdits.clear(edit)
 
 										icSite.editItem = false
