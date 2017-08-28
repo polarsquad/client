@@ -216,8 +216,6 @@ Todo(neu):
 * stats.domain
 
 
-* Zeichenzahl sofort funktioniert nur lokal oO?
--> unterschiedliche angular versionen oO
 
 
 
@@ -226,15 +224,13 @@ Todo(neu):
 * test mit ipad
 * Testen ein komplettes item anlegen und gucken, wie es im preview und auf de rKarte aussieht.
 * Einmal testen, ob isch Einträge löschen lassen
-
+* Einmal neue suggestiosn udn suffestion edits testen
 
 * Neu importieren ?
 
+* Übersetzung string für edit suggestions
 
 
-* Edit SUGGESTIONS!!!
-
-* Edit /wo can_edit
 
 
 
@@ -323,3 +319,5 @@ Done:
 Bitte:
 
 * Übersetzten: Download failed
+* Zeichenzahl sofort funktioniert nur lokal oO? -> fixed
+* Edit SUGGESTIONS!!!

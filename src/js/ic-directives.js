@@ -222,11 +222,40 @@ angular.module('icDirectives', [
 
 					icOverlays.toggle('spinner', true)
 
-					$q.when(
-						item.internal.new
-						?	edit.submitAsNew()
-						:	edit.update()
-					)
+					if(item.internal.new && !icUser.can('edit_items'))
+						return 	$q.when(edit.submitAsNew())
+								.then(
+									function(itemdata){
+										icItemEdits.clear(edit)
+										icItemStorage.removeItem(item)
+
+										icSite.editItem = false
+										icSite.updateUrl()
+
+										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+									},
+									function(){
+										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
+									}
+								)
+
+					if(!item.internal.new && !icUser.can('edit_items'))
+						return 	$q.when(edit.submitAsEditSuggestion())
+								.then(
+									function(itemdata){
+										icItemEdits.clear(edit)
+
+										icSite.editItem = false
+										icSite.updateUrl()
+
+										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+									},
+									function(){
+										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
+									}
+								)
+
+					$q.when(edit.update())
 					.then(
 						function(item_data){
 							item.internal.new = false
@@ -238,8 +267,8 @@ angular.module('icDirectives', [
 							icItemStorage.storeItem(item_data)
 							icItemStorage.refreshFilteredList()
 
-							icSite.updateUrl()
 							icSite.editItem = false
+							icSite.updateUrl()
 
 
 							return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')

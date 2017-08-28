@@ -122,6 +122,22 @@
 					})
 		}
 
+		icItem.submitAsEditSuggestion = function(){
+			var data = icItem.exportData()
+
+
+			data.state			= "suggestion"
+			data.proposalFor 	= icItem.id
+
+
+			return	dpd(ic.itemConfig.collectionName)
+					.post(data)
+					.then(function(data){
+						//icItem.importData(data)
+						return data
+					})
+		}
+
 
 		icItem.delete = function(){
 			return 	dpd(ic.itemConfig.collectionName)

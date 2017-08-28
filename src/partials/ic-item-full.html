@@ -12,7 +12,7 @@
 		<button 
 			class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
 			ng-click 	= "ic.site.editItem = true" 
-			ng-if		= "ic.user.can('edit_items')"
+			ng-if		= "true || ic.user.can('edit_items')"
 			title		= "{{'INTERFACE.EDIT' | translate}}"
 		>
 		</button>
