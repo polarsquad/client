@@ -434,21 +434,21 @@ angular.module('icDirectives', [
 						return null
 					}
 
-					var date = new Date(scope.value.edit)
+					var matches = scope.value.edit.match(/^(\d\d\d\d)\-(\d\d)\-(\d\d)($|T(\d\d)\:(\d\d))/)
 
-					if(isNaN(date.getTime())) return null
 
-					scope.date.year 		= date.getFullYear()
-					scope.date.month		= date.getMonth()+1
-					scope.date.day			= date.getDate()
-					scope.date.date_enabled	= true
+					if(!matches) return null
 
-					if(scope.value.edit.match('T')){
-						scope.date.hour 		= date.getHours()
-						scope.date.minute		= date.getMinutes()
-						scope.date.time_enabled	= true
-					} else {
-						scope.date.time_enabled	= false
+					scope.date.date_enabled = true
+					scope.date.year 		= parseInt(matches[1])
+					scope.date.month		= parseInt(matches[2])
+					scope.date.day			= parseInt(matches[3])
+
+					scope.date.time_enabled = !!matches[4]
+
+					if(scope.date.time_enabled){
+						scope.date.hour 		= parseInt(matches[5])
+						scope.date.minute		= parseInt(matches[6])
 					}
 				}
 
@@ -610,8 +610,18 @@ angular.module('icDirectives', [
 
 
 
-				function pad(num, size) {
+				function pad(num, size, min, max) {
 					if(num === undefined || num === null) return NaN
+					num = parseInt(num)
+
+					num = 	min
+							?	Math.max(min, num)
+							:	num
+
+					num =	max
+							?	Math.min(max, num)
+							:	num
+
 					var s = String(num);
 					while (s.length < size) s = "0" + s;
 					return s;
@@ -626,10 +636,10 @@ angular.module('icDirectives', [
 						return null
 					}
 
-					scope.value.edit = 	pad(scope.date.year,4) + '-' + pad(scope.date.month,2) + '-' + pad(scope.date.day,2)
+					scope.value.edit = 	pad(scope.date.year,4) + '-' + pad(scope.date.month,2,1,12) + '-' + pad(scope.date.day,2,1,31)
 
 					if(scope.date.time_enabled)
-							scope.value.edit +=	'T' + pad(scope.date.hour,2) + ':' + pad(scope.date.minute, 2)	
+							scope.value.edit +=	'T' + pad(scope.date.hour,2,0,23) + ':' + pad(scope.date.minute, 2,0,59)	
 
 				}, true)
 
