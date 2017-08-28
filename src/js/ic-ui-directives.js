@@ -443,9 +443,15 @@ angular.module('icUiDirectives', [
 
 				var body	= angular.element(document.getElementsByTagName('body'))
 
-				function click(){
-					scope.$eval(attrs.icClickOutside)
-					scope.$apply()
+				function click(e){
+					var c = e.target
+
+					while(c && c != element[0]){ c = c.parentElement }
+
+					if(!c){	
+						scope.$eval(attrs.icClickOutside)
+						scope.$apply()
+					}
 
 				}
 
