@@ -260,25 +260,22 @@ angular.module('icDirectives', [
 					if(item.internal.new && icUser.can('edit_items'))
 						return 	$q.when(edit.submitAsNew())
 								.then(
-									function(){
+									function(item_data){
 										item.internal.new = false
 										item.id = item_data.id
 
 										icItemEdits.clear(edit)
-										
+
 										icItemStorage.storeItem(item_data)
 										icItemStorage.refreshFilteredList()
 
 										icSite.editItem 	= false
-
 										icSite.updateUrl()
 
-
-
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_SUCESSFUL')
 									},
 									function(){
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
+										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_FAILED')
 									}
 								)
 
