@@ -597,7 +597,12 @@ angular.module('icDirectives', [
 					}
 
 					if(scope.icProperty.type == 'number'){
-						scope.value.edit = parseFloat(String(scope.value.edit).replace(/,.+/, '.'))
+						scope.value.edit = 	String(scope.value.edit).replace(/,/, '.')
+						scope.value.edit = 	isNaN(parseFloat(scope.value.edit))
+											?	null
+											:	scope.value.edit
+
+
 					}
 
 					if(scope.icTranslatable){
