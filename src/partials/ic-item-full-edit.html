@@ -439,7 +439,7 @@
 
 		<div 
 			class = "controls"
-			ng-if = "!icItem.internal.new"
+			ng-if = "!icItem.internal.new && ic.user.can('edit_items')"
 		>
 
 			<button
@@ -473,7 +473,7 @@
 
 		<div 
 			class = "controls"
-			ng-if = "!icItem.internal.new"
+			ng-if = "!icItem.internal.new && !ic.user.can('edit_items')"
 		>
 
 			<button
