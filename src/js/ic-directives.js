@@ -597,7 +597,16 @@ angular.module('icDirectives', [
 					}
 
 					if(scope.icProperty.type == 'number'){
-						scope.value.edit = 	String(scope.value.edit).replace(/,/, '.')
+						scope.value.edit = 	String(scope.value.edit)
+											.replace(/,/, '.')
+											.replace(/[^0-9\.\-]/g,'')
+											.replace(/\./,'DOT')
+											.replace(/\./g,'')
+											.replace(/DOT/, '.')
+											.replace(/\-/,'MINUS')
+											.replace(/\-/g, '')
+											.replace(/MINUS/,'-')
+
 						scope.value.edit = 	isNaN(parseFloat(scope.value.edit))
 											?	null
 											:	scope.value.edit
@@ -674,6 +683,7 @@ angular.module('icDirectives', [
 
 
 				scope.validate = function(){
+
 					scope.error 	= 	scope.icForceChoice && !(scope.value.edit && scope.value.edit.length)
 										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
 										:	scope.icEdit.getErrors(scope.icKey)
@@ -694,7 +704,8 @@ angular.module('icDirectives', [
 
 					switch(scope.icType){
 						case "string": 	return 	(scope.value.edit != scope.value.current) 
-												&& 	!(isNaN(scope.value.edit) && isNaN(scope.value.current)); break;
+												// check if NaN: 
+												&& 	!(scope.value.edit != scope.value.edit && scope.value.current != scope.value.current); break;
 						case "text": 	return 	scope.value.edit != scope.value.current; break;
 						case "array": 	return 		!scope.value.current
 												||	!scope.value.edit

@@ -197,39 +197,6 @@ Done:
 
 
 Todo(neu): 
-* Taxonomy aufräumen
-* https
-* automatische übersetzung
-* manifest
-
-* sharing -> neues tab (facebook?)
-* meta
-
-
-* DB backup!
-
-
-* datumsauswahl
-* test: backend nicht erreichbar
-
-
-* stats.domain
-
-
-
-
-
-* partial suggestiosn nicht in die liste aufnehmen (online testen!)
-* config kopieren!
-* test mit ipad
-* Testen ein komplettes item anlegen und gucken, wie es im preview und auf de rKarte aussieht.
-* Einmal testen, ob isch Einträge löschen lassen
-* Einmal neue suggestiosn udn suffestion edits testen
-
-* Neu importieren ?
-
-* Übersetzung string für edit suggestions
-
 
 
 
@@ -318,8 +285,67 @@ Done:
 * Edit SUGGESTIONS!!!
 
 
-Bitte:
 
-* Übersetzten: Download failed
-* Übersetzen: Invalid dates!
-* Übersetzen: Suggestions edit
+TODO:
+
+* Taxonomy aufräumen
+* https
+* automatische übersetzung
+* manifest
+
+* sharing -> neues tab (facebook?)
+* meta
+
+
+* DB backup!
+-> custom build script
+
+* datumsauswahl
+* test: backend nicht erreichbar
+
+
+* stats.domain
+
+
+
+
+
+* partial suggestiosn nicht in die liste aufnehmen (online testen!)
+* config kopieren!
+* test mit ipad
+* Testen ein komplettes item anlegen und gucken, wie es im preview und auf de rKarte aussieht.
+* Einmal testen, ob isch Einträge löschen lassen
+* Einmal neue suggestiosn udn suffestion edits testen
+
+* Neu importieren ?
+
+* Übersetzung string für edit suggestions
+
+* Suche prüfen
+
+* Button für Umkehrspring hin und her
+* Contact_NOTE wird nicht übersetzt
+* SubCategory doppelt
+* Übersetzungstring gleich ienfügen
+* Titel in die Config
+* City und Location
+* Butotn chaose bei edit/suggest
+* Anzahl draft im menu anzeigen
+
+* Revert button fehlt (bei translatables)
+
+* Responsive!!
+
+* Stats tunen /pro monat oder so
+* wieviele uVistors im schnitt pro montat im letzten halben jahr
+
+
+Done:
+*
+
+
+Feedback:
+ * Unterthema '"Bitte ausfüllen' PROPERTY_EMPTY
+ * Der neue Wert ist die auswahl
+ * Beschreibung hat keine mindestlänge
+ * Internationale Postleizahlen können Buchstaben haben. Und in Deutschland können sie mit 0 beginnen

@@ -8,9 +8,9 @@
 		<span class	= "current-value {{diff()? 'diff': ''}}">
 			<span
 				ng-repeat 	= "option in icOptions"
-				ng-if		= "value.current == option"
+				ng-if		= "icAllowMultipleChoices ? value.current.indexOf(option) != -1 : value.current == option"
 			>
-				{{icOptionLabel({option:option})}}
+				{{icOptionLabel({option:option})}}{{!$last ? ', ' : ''}}
 			</span>
 			
 			<span ng-if = "!value.current.length">
