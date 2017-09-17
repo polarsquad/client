@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-interface-sortorder_descending</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbole" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-interface-sortorder_descending">
+            <polygon id="Fill-2" fill="#DEDEDE" transform="translate(16.500200, 11.146300) scale(-1, 1) translate(-16.500200, -11.146300) " points="21.0102 9.2178 21.7182 8.5098 16.5002 3.2928 11.2822 8.5098 11.9902 9.2178 16.0002 5.2078 16.0002 18.9998 17.0012 18.9998 17.0012 5.2078"></polygon>
+            <polygon id="Fill-3" fill="#802651" transform="translate(7.500300, 12.854200) scale(-1, 1) translate(-7.500300, -12.854200) " points="12.0113 14.7822 8.0003 18.7922 8.0003 5.0002 7.0003 5.0002 7.0003 18.7922 2.9903 14.7822 2.2823 15.4892 7.5003 20.7082 12.7183 15.4892"></polygon>
+        </g>
+    </g>
+</svg>
