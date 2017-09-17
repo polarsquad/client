@@ -69,6 +69,24 @@
 	</div>
 
 
+	<article 
+		class = "screen only"
+		ng-if = "ic.user.can('edit_items')"
+	>		
+		<div> <!-- spacer --> </div>
+		<div>
+
+			<div ng-if = "item.creator">
+				{{'ITEMS.CREATOR' | translate}} 	 	{{item.creator 	}} 	({{item.creationDate | icDate}})
+			</div>
+			<div ng-if  ="item.lastEditor">
+				{{'ITEMS.LAST_EDITOR' | translate}}  	{{item.lastEditor	}}	({{item.lastEditDate | icDate}})
+			</div>	
+		</div>
+	</article>
+
+
+
 	<!-- tags -->
 
 
@@ -237,6 +255,59 @@
 
 	<button 
 		class 		= "bg-0"
+		ng-if		= "true || ic.user.can('edit_items')"
+		ng-click 	= "ic.site.editItem = true" 
+		title		= "{{'INTERFACE.EDIT' | translate}}"
+		ic-touch-me
+	>
+		<span
+			class 	="icon-large left icon-interface-edit col-3 active normal"
+		>
+			{{'INTERFACE.EDIT' | translate}}
+		</span>
+	</button>
+
+
+
+	<button 
+		class		= "bg-0"
+		ng-click 	= "delete()" 
+		ng-if		= "ic.user.can('delete_items')"
+		title		= "{{'INTERFACE.DELETE' | translate}}"
+		ic-touch-me
+	>
+		<span
+			class 	= "icon left icon-interface-delete col-3 active normal"
+		>
+			{{'INTERFACE.DELETE' | translate}}
+		</span>
+	</button>
+		
+	<button 
+		class 		= "bg-0"
+		ng-click 	= "ic.overlays.toggle('sharingMenu')" 
+		title		= "{{'INTERFACE.SHARE' | translate}}"
+		ic-touch-me
+	>
+		<span
+			class 	= "icon left icon-interface-share col-3 active normal"
+		>
+			{{'INTERFACE.SHARE' | translate}}
+		</span>
+	</button>
+
+		
+	<button 
+		class 		= "bg-0 col-3"
+		ng-click	= "ic.site.print()"
+		title		= "{{'INTERFACE.PRINT' | translate}}"
+		ic-touch-me
+	> 
+		<span class ="icon-large left icon-interface-print active normal">{{'INTERFACE.PRINT' | translate}}</span>
+	</button>
+
+	<button 
+		class 		= "bg-0"
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 		ng-click 	= "ic.favourites.toggleItem(item)" 
 		ic-touch-me
@@ -248,18 +319,5 @@
 			{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}
 		</span>
 	</button>
-<!-- 
-	<div class ="bg-0 col-3"> <span class ="icon-large left icon-interface-share.active">mit anderen teilen</span></div>
--->
-	<button 
-		class 		= "bg-0 col-3"
-		ng-click	= "ic.site.print()"
-		ic-touch-me
-	> 
-		<span class ="icon-large left icon-interface-print active normal">{{'INTERFACE.PRINT' | translate}}</span>
-	</button>
 
-<!-- 
-	<div class ="bg-0 col-3"> <span class ="icon-large left icon-interface-edit.active">Änderungen vorschlagen</span></div>
-	 -->
 </footer>

@@ -3,8 +3,23 @@ ic-item-property-edit h4 {
 }
 
 ic-item-property-edit .current-value{
+	display:					inline-flex;
+	word-break:					break-all;
 	font-size:					1em;
-	opacity:					0.6;
+	opacity:					0.4;
+	line-height:				1.5rem;
+}
+
+ic-item-property-edit .current-value > * {
+	flex:						0 0 auto;
+}
+
+ic-item-property-edit .current-value > * + *:before {
+	content:					', ';
+}
+
+ic-item-property-edit .current-value + button {
+	vertical-align:				top;
 }
 
 ic-item-property-edit:not([ic-type="array"]) .current-value {
@@ -13,7 +28,7 @@ ic-item-property-edit:not([ic-type="array"]) .current-value {
 
 ic-item-property-edit .current-value.diff {
 	text-decoration:			line-through;
-	white-space:				npwrap;
+	white-space:				no-wrap;
 }
 
 ic-item-property-edit input[type="text"]{

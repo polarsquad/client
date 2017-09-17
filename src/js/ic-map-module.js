@@ -1,6 +1,8 @@
 "use strict";
 
 
+
+
 angular.module('icMap', [
 	'icServices'
 ])
@@ -242,7 +244,13 @@ angular.module('icMap', [
 				scope.ic = ic
 
 				scope.focusItem = function(){
-					if(!scope.icItem ||  !scope.icItem.latitude || !scope.icItem.longitude){
+					if(
+							!scope.icItem 
+						||  !scope.icItem.latitude 
+						||	!scope.icItem.longitude
+						||	typeof(scope.icItem.latitude) 	!= 'number'
+						||	typeof(scope.icItem.longitude) 	!= 'number'
+					){
 						console.warn('icMiniMap: focusItemOnMap: missing coordinates.')
 						return null
 					}
@@ -399,8 +407,15 @@ angular.module('icMap', [
 
 				function getMarker(item){
 
-					if(!item || !item.latitude || !item.longitude){
+					if(
+							!item 
+						|| 	!item.latitude 
+						|| 	!item.longitude
+						||	typeof item.latitude != 'number'
+						||	typeof item.longitude != 'number'
+					){
 						console.warn('icMap: getMarker() missing coordinates at ', item)
+						return null
 					}
 
 					return 	new L.marker(
@@ -432,6 +447,10 @@ angular.module('icMap', [
 																.filter(function(item){
 																	return 		item.latitude 
 																			&&	item.longitude
+																			&&	typeof(item.latitude 	== 'number')
+																			&&	typeof(item.longitude 	== 'number')
+																			&&  Math.abs(item.latitude) 	<= 90
+																			&&  Math.abs(item.longitude)	<= 180
 																			&&	items_to_be_left_on_the_map.indexOf(item) == -1
 																})
 
@@ -439,6 +458,10 @@ angular.module('icMap', [
 										icSite.activeItem 
 									&&	icSite.activeItem.latitude
 									&&	icSite.activeItem.longitude
+									&&	typeof icSite.activeItem.latitude 	== 'number'
+									&&	typeof icSite.activeItem.longitude	== 'number'
+									&&  Math.abs(icSite.activeItem.latitude) 	<= 90
+									&&  Math.abs(icSite.activeItem.longitude)	<= 180
 									&&	list.indexOf(icSite.activeItem) == -1
 								){
 									additional_items.push(icSite.activeItem)
@@ -469,6 +492,10 @@ angular.module('icMap', [
 							icSite.activeItem
 						&&	icSite.activeItem.latitude
 						&&	icSite.activeItem.longitude
+						&&	typeof icSite.activeItem.latiude 	== 'number'
+						&&	typeof icSite.activeItem.longitude 	== 'number'
+						&&  Math.abs(icSite.activeItem.latitude) 	<= 90
+						&&  Math.abs(icSite.activeItem.longitude)	<= 180
 					){
 						markers.addLayer(getMarker(icSite.activeItem))
 					}
@@ -602,6 +629,19 @@ angular.module('icMap', [
 		
 				scope.$watch('icItem', function(icItem){
 					if(marker) marker.remove()
+
+					if(
+							!scope.icItem
+						||	!scope.icItem.latitude
+						||	!scope.icItem.longitude
+						||	typeof scope.icItem.latitude	!=  'number'
+						||	typeof scope.icItem.longitude 	!=  'number'
+						||  Math.abs(scope.icItem.latitude) 	> 90
+						||  Math.abs(scope.icItem.longitude)	> 180
+					){
+						return null
+					}
+
 
 					marker = L.marker(
 						[scope.icItem.latitude, scope.icItem.longitude], 

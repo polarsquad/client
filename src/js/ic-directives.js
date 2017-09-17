@@ -703,15 +703,34 @@ angular.module('icDirectives', [
 				scope.diff = function(){
 
 					switch(scope.icType){
-						case "string": 	return 	(scope.value.edit != scope.value.current) 
-												// check if NaN: 
-												&& 	!(scope.value.edit != scope.value.edit && scope.value.current != scope.value.current); break;
-						case "text": 	return 	scope.value.edit != scope.value.current; break;
+						case "string": 	return 	typeof(scope.value.current) == 'string'
+												?	scope.value.edit != scope.value.current
+												:	!(
+														(
+																isNaN(scope.value.edit)
+															||	scope.value.edit === null
+															||	scope.value.edit === undefined
+															||	scope.value.edit === ""
+														)
+														&&
+														(
+																isNaN(scope.value.current)
+															||	scope.value.current === null
+															||	scope.value.current === undefined
+														)
+													)
+													&& String(scope.value.edit) != String(scope.value.current)
+										break;
+						
+						case "text": 	return 	scope.value.edit != scope.value.current; 
+										break;
+						
 						case "array": 	return 		!scope.value.current
 												||	!scope.value.edit
 												||	(scope.value.current.length != scope.value.edit.length)
 												||	scope.value.current.some(function(option){ return scope.value.edit.indexOf(option) == -1 })
 												||	scope.value.edit.some(function(option){ return scope.value.current.indexOf(option) == -1 })
+										break;
 					}
 				}
 

@@ -39,7 +39,7 @@
 
 <div>
 	<button	
-		class		= "padding icon large icon-interface-sortorder round" 
+		class		= "padding icon large icon-interface-sortorder round {{ic.site.sortDirection == 1 ? 'asc' : 'desc'}}" 
 		ng-click 	= "ic.filterConfig.toggleSortDirection()"
 		title		= "{{'INTERFACE.REVERSE_SORTING_ORDER' | translate}}"
 		ic-touch-me

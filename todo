@@ -293,12 +293,7 @@ TODO:
 * automatische übersetzung
 * manifest
 
-* sharing -> neues tab (facebook?)
-* meta
 
-
-* DB backup!
--> custom build script
 
 * datumsauswahl
 * test: backend nicht erreichbar
@@ -308,44 +303,65 @@ TODO:
 
 
 
-
-
-* partial suggestiosn nicht in die liste aufnehmen (online testen!)
-* config kopieren!
-* test mit ipad
-* Testen ein komplettes item anlegen und gucken, wie es im preview und auf de rKarte aussieht.
-* Einmal testen, ob isch Einträge löschen lassen
-* Einmal neue suggestiosn udn suffestion edits testen
-
-* Neu importieren ?
-
 * Übersetzung string für edit suggestions
-
-* Suche prüfen
-
-* Button für Umkehrspring hin und her
-* Contact_NOTE wird nicht übersetzt
-* SubCategory doppelt
-* Übersetzungstring gleich ienfügen
-* Titel in die Config
-* City und Location
-* Butotn chaose bei edit/suggest
-* Anzahl draft im menu anzeigen
-
-* Revert button fehlt (bei translatables)
-
-* Responsive!!
 
 * Stats tunen /pro monat oder so
 * wieviele uVistors im schnitt pro montat im letzten halben jahr
 
+* Übersetzung funktioniert beim ersten laden nicht ?! (CORS)
+* ITEM.UNSORTED_TAGS
+
+
+
+* Responsive!!
+* Reponsive -> neues paket
+* Google Übersetzung -> neues paket
+* Projektpakete -> sheet Version 
+* DB backup!
+-> custom build script
+* sharing -> neues tab (facebook?)
+* meta
+
+
+
+
+
 
 Done:
-*
 
+* City und Location (alt)
+* Button chaose bei edit/suggest (alt)
+* Reverse wackeln + anders icon
+* Revert button zu roß -> springt
+* Farbe bei property note
+* Farbe bei note/current value angepasst -> opacity auf 0.4
+* Browser hängt!! -> wenn man eingeloggt ist und karte öffnet [war longitude >> 180]
+* Extra Komma bei Optionen weg
+* longitude/latiude besser prüfen
+ -> neue übersetzungsstrings
 
-Feedback:
- * Unterthema '"Bitte ausfüllen' PROPERTY_EMPTY
- * Der neue Wert ist die auswahl
- * Beschreibung hat keine mindestlänge
- * Internationale Postleizahlen können Buchstaben haben. Und in Deutschland können sie mit 0 beginnen
+* Anzeige Änderungsdatum bei item ansicht nach oben
+* ITEMS.LAST_EDITOR Doppelpunkt!
+* LANGUAGES.NONE
+* Button für Umkehrspring hin und her
+* Contact_NOTE wird nicht übersetzt (war leer)
+* Revert button fehlt (bei translatables)
+* startDate doof diff
+* INTERFACE.TITLE_ADD_ON Im Zweifel leer lassen
+* latitude/longitude kein Wert gesetzt trotzdem diff erkannt!
+* Bearbeitungsvermeke in die ansicht
+* Leersprache ergänzen!
+* Title konfigurierbar machen
+* Titel in die Config
+* 1. Bitte beim Login-popup etwas abstand zwischen dem Username Textfeld und dem “Paswort”-Label
+* Menu Buttons item full auch nach unten
+* Anzahl draft im menu anzeigen
+* Suche funktioniert nicht gut (oder doch? :))
+-> Kirchekreis
+-> wenn die suche schon in der url steht funktioniert sie nicht!
+
+* Datum plus zwei stunden
+-> nochmal prüfen bitte
+-> preview lücke weg und enddutum richtig
+*. Wenn ich die URL in die Browserzeile eingebe werden beim ersten laden immer nur die Interface Variablennamen dargestellt und nicht übersetzt.
+-> Fehler schicken, kann nicht reproduzieren

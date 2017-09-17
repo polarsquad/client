@@ -16,10 +16,12 @@
 
 
 	<head>
-
-		<title ng-if = "false">SeniorenNetz</title>
-		<title>{{ ic.site.activeItem ? ic.site.activeItem.title + ' – ' : ''}} {{'INTERFACE.TITLE' | translate}} </title>
-
+		<title
+			ng-bind = "(ic.site.activeItem ? ic.site.activeItem.title + ' – ' : '') + '<!--BUILD TITLE-->' + ' ' + ('INTERFACE.TITLE_ADD_ON' | translate)"
+		>
+			<!--BUILD TITLE-->
+		</title>
+		
 		<base href = "/" />
 		<meta charset ="utf-8" />		
 		<meta name ="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no" />

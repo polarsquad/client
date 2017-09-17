@@ -277,6 +277,7 @@ function compileIndex(){
 				return	index
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 		config.backendLocation)
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 	'\n'+head)
+						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 	config.title)
 			})
 			.then(function(content){
 				return fs.writeFile('dev/index.html', content, 'utf8')				

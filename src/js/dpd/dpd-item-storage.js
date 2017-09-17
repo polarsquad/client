@@ -110,9 +110,6 @@
 
 		
 		icItemStorage.registerFilter = function(filter_name, match_fn){
-
-
-
 			filter_name = String(filter_name)
 
 			if(filter_name.match(/[^a-zA-Z0-9_]/))			console.error('icItemStorage: filter names must contain only letters, numbers or underscores, A-Z, a-z, 0-9. _: '+filter_name+'.')
@@ -132,7 +129,7 @@
 
 
 		icItemStorage.itemCheckFilter = function(item_or_id, filter_name){
-
+			
 			var item 	= 	icItemStorage.getItem(item_or_id),
 				filters = 	{}
 
@@ -151,7 +148,6 @@
 				if(pos != -1) item.internal.tags.splice(pos,1)
 
 				if(icItemStorage.filters[filter_name](item)) item.internal.tags.push(filter_name)
-
 			}
 
 
@@ -347,7 +343,7 @@
 					.then(
 						function(data){
 							data.forEach(function(item_data){
-								icItemStorage.storeItem(item_data, true)
+								icItemStorage.storeItem(item_data, false) //for some reason second parameter skip_internals was set to true, why?
 							}) 
 							icItemStorage.runAsyncTriggers()
 						},
@@ -374,9 +370,9 @@
 
 			if(index == -1){
 
+
 				searchTerms.push(search_term)
 				index = searchTerms.length-1
-
 
 				var regex 					= 	new RegExp(search_term, 'i'),
 					searchable_properties 	= 	ic.itemConfig.properties.filter(function(property){

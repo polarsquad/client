@@ -10,9 +10,9 @@
 				ng-repeat 	= "option in icOptions"
 				ng-if		= "icAllowMultipleChoices ? value.current.indexOf(option) != -1 : value.current == option"
 			>
-				{{icOptionLabel({option:option})}}{{!$last ? ', ' : ''}}
+				{{icOptionLabel({option:option})}}
 			</span>
-			
+
 			<span ng-if = "!value.current.length">
 				{{'INTERFACE.PROPERTY_EMPTY' | translate }}
 			</span>
@@ -26,7 +26,7 @@
 			title		= "{{'INTERFACE.PROPERTY_REVERT' | translate }}"
 			class		= "icon icon-interface-item_revert active"
 		>			
-		</buton>	
+		</button>	
 
 	</div>
 

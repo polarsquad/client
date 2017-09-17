@@ -146,29 +146,43 @@ ic-header ic-main-menu ul > li:hover > ul {
 */
 
 ic-header ic-main-menu ul > li > ul > li {
-	display:						block;
+	display:						flex;
 	margin-top:						0;
 	background-color:				#fff;
 	color:							#802651;
 	line-height:					2.5rem;
-	padding: 						0;
+	padding:						0;
 	border: 						0;
 	white-space: 					nowrap;
-}
-
-ic-main-menu ul > li > ul > li a {
-	display: 						block;
 	font-family: 					Biryani, Roboto, sans-serif;
 	font-weight: 					300;	
+}
+
+ic-main-menu ul > li > ul > li > a > * {
+	flex:							0 0 auto;
+}
+
+ic-main-menu ul > li > ul > li > a > *:first-child {
+	flex:							1 0 auto;
+}
+
+ic-main-menu ul > li > ul > li > a {
+	display: 						flex;
+	align-items:					baseline;
+	box-sizing:						border-box;
+	flex:							1 0 auto;
 	padding: 						0.25rem 1rem;
 }
 
 
 ic-main-menu ul > li > ul > li a:hover{
-	display: inline-block;
-	background-color: #802651;
-	width: 100%;
-	color: #fff;
+	background-color: 				#802651;
+	color:							#fff;
+}
+
+ic-main-menu ul > li > ul > li a:hover > .bubble {
+	color:							#fff !important;
+	background-color:				transparent !important;
 }
 
 ic-header ic-main-menu ul > li > ul > li:last-child {

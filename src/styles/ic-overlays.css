@@ -88,8 +88,10 @@ ic-overlays > .center {
 	width:					50%;
 	min-width:				20rem;
 	max-width:				30rem;
-	padding:				1rem;
+	padding-left:			1rem;
+	padding-right:			1rem;
 	padding-top:			3rem;
+	padding-bottom:			2rem;
 	height:					auto !important;
 	min-height:				0;
 }
@@ -103,6 +105,13 @@ ic-overlays > .center .close {
 	width:					auto !important;
 }
 
+ic-overlays > .center label {
+	display:				block;
+}
+
+ic-overlays > .center label + label{
+	margin-top:				1.5rem;
+}
 
 
 ic-overlays > .center.greedy {
@@ -132,7 +141,7 @@ ic-overlays > .center .message + form{
 
 
 ic-overlays > .center .buttons {
-	margin-top:				2rem;
+	margin-top:				3rem;
 	display:				flex;
 	flex-wrap:				wrap;
 }

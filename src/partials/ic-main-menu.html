@@ -68,16 +68,25 @@
 			</li>
 
 			<li>
-				<a href = "/list/u/state_draft">{{'INTERFACE.LIST_DRAFT' | translate}}</a>	
+				<a href = "/list/u/state_draft">
+					<span>{{'INTERFACE.LIST_DRAFT' | translate}}</span>
+					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_draft'] || 0}}</span>
+				</a>	
 			</li>
 
 			<li>
-				<a href = "/list/u/state_suggestion">{{'INTERFACE.LIST_SUGGESTION' | translate}}</a>	
+				<a href = "/list/u/state_suggestion">
+					<span>{{'INTERFACE.LIST_SUGGESTION' | translate}}</span>
+					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_suggestion']|| 0}}</span>
+				</a>	
 			</li>
 
 
 			<li>
-				<a href = "/list/u/state_archived">{{'INTERFACE.LIST_ARCHIVED' | translate}}</a>	
+				<a href = "/list/u/state_archived">
+					<span>{{'INTERFACE.LIST_ARCHIVED' | translate}}</span>
+					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_archived'] || 0}}</span>
+				</a>	
 			</li>
 
 			<li>
