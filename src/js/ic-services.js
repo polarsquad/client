@@ -182,8 +182,6 @@ angular.module('icServices', [
 			icSite.visibleSections 	= 	{}
 
 
-			console.log('icSITE GET')
-
 			//Params:
 
 			function decodeParam(path, param){
