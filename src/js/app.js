@@ -71,6 +71,12 @@ angular.module("InfoCompass",[
 
 								return matches && matches[2]
 							},
+			adjust:			function(ic){
+								return		ic.site.activeItem
+										||	ic.site.list
+										?	null 
+										:	ic.site.page
+							},
 			options:		['home', 'tags', 'about', 'legal', 'contact', 'tiles', 'partner', 'network'],
 			defaultValue:	'home'
 		})
@@ -84,9 +90,9 @@ angular.module("InfoCompass",[
 								return ic.site.page
 							},
 			show:			function(ic){
-								if(ic.site.activeSections['item']) 		return false						
-								if(ic.site.activeSections['list']) 		return false						
-								if(ic.site.activeSections['map']) 		return false						
+								if(ic.site.activeSections.item) return false						
+								if(ic.site.activeSections.list) return false						
+								if(ic.site.expandMap)			return false
 
 								return true
 							}				
@@ -95,14 +101,15 @@ angular.module("InfoCompass",[
 			name:			'filter',
 			template:		'partials/ic-section-filter.html',
 			active:			function(ic){
-								if(ic.site.list)		return true
-								if(ic.site.expandMap)	return true
-
-								return 	false
+								return 	ic.site.list || ic.site.expandMap
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeSections['item']) 		return false
+
+								if(ic.layout.mode.name == 'XS') 	return false
+								if(ic.layout.mode.name == 'S')		return ic.site.activeSections.item ? false : true
+								if(ic.layout.mode.name == 'M')		return ic.site.activeSections.item ? false : true
+
 								return 	true
 							}				
 		})
@@ -115,8 +122,13 @@ angular.module("InfoCompass",[
 							},
 
 			show:			function(ic){		
-								if(ic.site.activeSections['item']) 		return false
-								if(ic.site.expandMap) 					return false		
+
+								if(ic.site.expandMap) 				return false		
+								if(ic.layout.mode.name == 'XS') 	return 	ic.site.activeSections.item ? false : true
+								if(ic.layout.mode.name == 'S') 		return 	ic.site.activeSections.item ? false : true
+
+
+										
 
 								return 	true
 							}				
@@ -126,11 +138,11 @@ angular.module("InfoCompass",[
 			name:			'item',
 			template:		'partials/ic-section-item.html',
 			active:			function(ic){
-								return 	ic.site.activeItem
+								return 	!!ic.site.activeItem
 							},
 			show:			function(ic){
 
-								if(ic.site.expandMap) 					return false		
+								if(ic.site.expandMap) 				return false		
 									
 								return true
 							}				
@@ -139,9 +151,16 @@ angular.module("InfoCompass",[
 			name:			'map',
 			template:		'partials/ic-section-map.html',
 			active:			function(ic){
-								return 	ic.site.list || ic.site.expandMap
+								return 	true
 							},
 			show:			function(ic){
+								if(ic.site.expandMap)				return true
+
+								if(ic.layout.mode.name == 'XS')		return false
+								if(ic.layout.mode.name == 'S')		return false
+								if(ic.layout.mode.name == 'M')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
+								if(ic.layout.mode.name == 'L')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
+
 								return	true
 							}				
 		})
@@ -266,8 +285,8 @@ angular.module("InfoCompass",[
 		icLayoutProvider.setModes([			
 			{
 				name:		'XS',	
-				width: 		23,
-				stretch:	false,
+				width: 		24,
+				stretch:	true,
 			},	
 			{
 				name:		'S',
@@ -281,7 +300,7 @@ angular.module("InfoCompass",[
 			},
 			{
 				name:		'L',
-				width:		80,
+				width:		96,
 				stretch:	false,
 			},
 			{

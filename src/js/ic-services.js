@@ -172,9 +172,10 @@ angular.module('icServices', [
 		'$q',
 		'$rootScope',
 		'$timeout',
+		'icLayout',
 		'ic',
 
-		function($location, $q, $rootScope, $timeout, ic){
+		function($location, $q, $rootScope, $timeout, icLayout, ic){
 			var icSite 					= 	this,
 				adjustment_scheduled	= 	false
 
@@ -355,7 +356,8 @@ angular.module('icServices', [
 				function(){
 					return 	Array.prototype.concat(
 								icSite.config.params.map(function(param){ return icSite[param.name] }),
-								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	})
+								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	}),
+								[icLayout.mode.name]
 							)
 				},
 				function(a, old){
