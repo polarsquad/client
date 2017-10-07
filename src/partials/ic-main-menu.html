@@ -1,45 +1,86 @@
-<ul>
+<ul ng-click = " ic.overlays.toggle('mainMenu', false, true)">
 
-	<li><a href="/p/home">	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
+	<li class = "bg-3"><a href="/p/home"  ic-touch-me>	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
 	
-	<li><a href="/p/tags">	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
-	<li>
+	<li class = "bg-3"><a href="/p/tags" ic-touch-me>	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
+	<li class = "bg-3">
 		<a 
+			ic-touch-me
 			ng-click = "ic.site.expandMap = true; ic.site.list = true; ic.site.activeItem = null"
 		>
 			{{'INTERFACE.MAP' | translate}}
 		</a>	
 	</li>
+
+	<li 
+		ng-if = "!ic.user.loggedIn && icPlain"
+		class = "bg-0 col-3"
+	>
+		<a 
+			ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+			ic-touch-me
+		>
+			<span class	= "icon large left icon-interface-edit active"></span>
+			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
+		</a>
+	</li>
+	<li 
+		ng-show = "!ic.user.loggedIn && icPlain"
+		class 	= "bg-0 col-3"
+	>
+		<a 
+			ng-click = "ic.overlays.toggle('login')"
+			ic-touch-me
+		>
+			<span class	= "icon large left icon-interface-user active"></span>
+			{{'INTERFACE.LOGIN' | translate }}
+		</a>
+	</li>
+
 	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
 	<li
 		ng-mouseenter 		= "showMore = true" 
 		ng-mouseleave		= "showMore	= false"
 		ng-click			= "showMore = !showMore"
 		ic-click-outside 	= "showMore = false" 
+		class 				= "bg-3"
 	>
 		<a 
 			class 			= "icon right icon-interface-down white"
+			ng-if			= "!icPlain"
 		>
 			{{'INTERFACE.MORE' | translate}}
 		</a>		
 
-		<ul ng-show = "showMore">
-			<li><a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
-			<li><a href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
-			<li><a href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
-			<li><a href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
-			<li><a href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
-			<li ng-if	= "!ic.user.loggedIn">
-				<a ng-click = "ic.overlays.toggle('login')">{{'INTERFACE.LOGIN' | translate }}</a>
+		<ul 
+			class	= "bg-0 col-3"
+			ng-show = "icPlain || showMore"
+		>
+			<li> <a ic-touch-me a ng-href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li> <a ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
+			<li> <a ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
+			<li> <a ic-touch-me ng-href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
+			<li> <a ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li 
+				ng-if	= "!ic.user.loggedIn && !icPlain"
+				ic-touch-me
+			>
+				<a  
+					ic-touch-me
+					ng-click = "ic.overlays.toggle('login')"
+				>{{'INTERFACE.LOGIN' | translate }}
+				</a>
 			</li>
 		</ul>
 	</li>
-	<li class 	= "spacer"></li>
-	
+	<li  ng-if = "!icPlain" class 	= "spacer"></li>
+
 	<li
-		ng-if				= "!ic.user.loggedIn"
+		ng-if = "!ic.user.loggedIn && !icPlain"
+		class = "bg-3"
 	>
-		<a 			
+		<a 	
+		 	ic-touch-me		
 			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 		>
 			<span class	= "icon large left icon-interface-edit white"></span>
@@ -50,32 +91,50 @@
 	<li 
 		ng-if				= "ic.user.loggedIn"
 		ng-mouseenter 		= "showAdmin = true" 
-		ng-mouseleave		= "showAdmin= false"
+		ng-mouseleave		= "showAdmin = false"
 		ng-click			= "showAdmin = !showAdmin"
 		ic-click-outside 	= "showAdmin = false" 
+		class 				= "bg-3"
 	>
-		<a class = "icon right icon-interface-down white">{{ic.user.displayName}}</a>	
-		<ul ng-show = "showAdmin">
+		<a 
+			ng-if = "!icPlain"
+			class = "icon right icon-interface-down white"
+			ic-touch-me
+		>
+			{{ic.user.displayName}}
+		</a>	
+		<ul 
+			class	= "bg-0 col-3"
+			ng-show = "icPlain || showAdmin"
+		>
 			<li>
 				<a 
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+					ic-touch-me
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
 			</li>
 			<li>
 				<a
 					ng-click = "ic.admin.updateTranslations()"
+					ic-touch-me
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
 			</li>
 
 			<li>
-				<a href = "/list/u/state_draft">
+				<a 
+					href = "/list/u/state_draft"
+					ic-touch-me
+				>
 					<span>{{'INTERFACE.LIST_DRAFT' | translate}}</span>
 					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_draft'] || 0}}</span>
 				</a>	
 			</li>
 
 			<li>
-				<a href = "/list/u/state_suggestion">
+				<a 
+					href = "/list/u/state_suggestion"
+				 	ic-touch-me
+				>
 					<span>{{'INTERFACE.LIST_SUGGESTION' | translate}}</span>
 					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_suggestion']|| 0}}</span>
 				</a>	
@@ -83,22 +142,24 @@
 
 
 			<li>
-				<a href = "/list/u/state_archived">
+				<a 
+					href = "/list/u/state_archived"
+					ic-touch-me
+				>
 					<span>{{'INTERFACE.LIST_ARCHIVED' | translate}}</span>
 					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_archived'] || 0}}</span>
 				</a>	
 			</li>
 
 			<li>
-				<a
+				<a 
 					ng-click = "ic.user.logout()"
-				>{{'INTERFACE.LOGOUT' | translate}}</a>	
+					 ic-touch-me
+				>
+					{{('INTERFACE.LOGOUT' | translate) + (icPlain ? ': '+ic.user.displayName :'')}}
+				</a>
 			</li>
-
-			
-
 
 		</ul>
 	</li>
 </ul>
-

@@ -1,5 +1,16 @@
 <a 
 	class		= "bg-3 round"
+	ng-if		= "ic.site.searchTerm"
+	title		= "INTERFACE.REMOVE_FILTER"
+	ng-click	= "ic.site.searchTerm = null"
+	ic-touch-me
+>
+	<span> {{'INTERFACE.SEARCH_FOR' | translate}} "{{ic.site.searchTerm}}"	 </span>
+	<span class = "icon right white icon-interface-close"></span>
+</a>
+
+<a 
+	class		= "bg-3 round"
 	ng-repeat	= "type in ic.site.filterByType"
 	title		= "INTERFACE.REMOVE_FILTER"
 	ng-click	= "ic.filterConfig.toggleType(type)"

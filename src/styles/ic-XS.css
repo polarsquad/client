@@ -1,0 +1,121 @@
+.XS #section-filter {
+	min-width:					0;
+}
+
+.XS #section-list {
+	min-width:					0;
+}
+
+
+.XS ic-header .tools a > span {
+	display:					none;
+}
+
+
+.XS ic-header .tools {
+	padding:					0;
+}
+
+.XS ic-header .tools > *  {
+	margin:						0 0.5rem;
+}
+
+
+.XS ic-header .logo {
+	position:					relative;
+	justify-content:			center;
+	height:						8rem;
+}
+
+.XS ic-header .logo ic-logo-full {
+	width:						20rem;
+	height:						4rem;
+}
+
+
+.XS ic-main-content > *,
+.XS ic-main-content > *:hover {
+	padding-left:				0 !important;
+	padding-right:				0 !important;
+}
+
+
+
+
+
+
+.XS ic-page article {
+	padding:					1rem;
+}
+
+.XS ic-page header {
+	margin-top:					-1rem;
+}
+
+.XS ic-page .image-home {
+	height:						10rem;
+}
+
+.XS ic-page .image-home * {
+	display:					none;
+}
+
+.XS ic-page article p {
+	font-size:					1rem;
+}
+
+.XS ic-page ic-search form input[type="text"] {
+	width:						0;
+}
+
+.XS ic-page ic-search form button {
+	padding-right:				0;
+	min-width:					0 !important;
+	width:						0;
+}
+
+
+.XS ic-page .types {
+	flex-wrap:					wrap;
+}
+
+
+.XS ic-page .types > * {
+	width:						50%;
+	overflow:					hidden;
+	white-space:				nowrap;
+	text-overflow:				ellipsis;
+}
+
+
+
+.XS ic-category > *:first-child {
+	margin-left:				0;
+	margin-right:				1rem;
+}
+
+.XS ic-category .ic-tag {
+	display:					flex;
+}
+
+.XS ic-category .ic-tag > *:first-child {
+	flex:						1 0 auto;
+}
+
+.XS ic-item-full header .main > * {
+	margin-right:				0.5rem;
+}
+
+
+
+
+.XS ic-footer > * {
+	display:					block;
+	line-height:				3rem;
+	text-align:					left;
+	font-size:					1.25rem;
+}
+
+.XS ic-footer > * + * {
+	border-top:					1px solid rgba(0,0,0,0.3);
+}

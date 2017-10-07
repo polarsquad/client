@@ -12,7 +12,9 @@
 					href  		= "/list/c/{{::category.name}}"
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 				>
-					{{'INTERFACE.FILTER_ANY' | translate}} 
+					<span>
+						{{'INTERFACE.FILTER_ANY' | translate}} 
+					</span>
 					<span 
 						class = "bubble shade-light"
 					>
@@ -25,7 +27,9 @@
 					class		= "ic-tag ic-bg-cat-{{category.name}} col-2 hover"
 					ng-if		= "ic.itemStorage.currentStats.subMatches[tag]"
 				>
-					{{'CATEGORIES.%s' | fill : tag | translate}} 
+					<span>
+						{{'CATEGORIES.%s' | fill : tag | translate}} 
+					</span>
 					<span 
 						class = "bubble shade-light"
 					>

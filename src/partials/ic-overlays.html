@@ -1,20 +1,21 @@
-<ic-language-menu 		ng-class = "{'ic-hide': !ic.overlays.show.languageMenu}" 	class = "white right">	</ic-language-menu>	
+<ic-language-menu 		ng-class = "{'ic-hide': !ic.overlays.show.languageMenu}" 	class = "bg-0 right">		</ic-language-menu>	
 
-<!-- 
-<ic-main-menu			ng-class = "{'ic-hide': !ic.overlays.show.mainMenu}"			class = "white left">	</ic-main-menu>
- -->
+<ic-main-menu			ng-class = "{'ic-hide': !ic.overlays.show.mainMenu}"		class = "bg-0 left" ic-plain = "true">		</ic-main-menu>
  
-<ic-spinner				ng-class = "{'ic-hide': !ic.overlays.show.spinner}" 		active = "true">		</ic-spinner>
+<ic-spinner				ng-class = "{'ic-hide': !ic.overlays.show.spinner}" 		active = "true">			</ic-spinner>
 
-<ic-sharing-menu 		ng-class = "{'ic-hide': !ic.overlays.show.sharingMenu}" 	class = "white center">	</ic-sharing-menu>
+<ic-sharing-menu 		ng-class = "{'ic-hide': !ic.overlays.show.sharingMenu}" 	class = "bg-0 center">		</ic-sharing-menu>
 
-<ic-confirmation-modal	ng-if = "ic.overlays.show.confirmationModal" 				class = "white center">	</ic-confirmation-modal>
-<ic-popup				ng-if = "ic.overlays.show.popup" 							class = "white center">	</ic-popup>
+<ic-confirmation-modal	ng-if = "ic.overlays.show.confirmationModal" 				class = "bg-0 center">		</ic-confirmation-modal>
+
+<ic-popup				ng-if = "ic.overlays.show.popup" 							class = "bg-0 center">		</ic-popup>
+
+<ic-taxonomy-filter 	ng-class = "{'ic-hide': !ic.overlays.show.taxonomyFilter}" 	class = "bg-1 left">		</ic-taxonomy-filter >
 
 
 <ic-login 
 	ng-if 				= "ic.overlays.show.login" 
-	class 				= "white center"
+	class 				= "bg-0 center"
 >
 
 </ic-login>

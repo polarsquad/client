@@ -811,9 +811,20 @@ angular.module('icDirectives', [
 ])
 
 .directive('icMainMenu', [
-	function(){
+
+	'ic',
+
+	function(ic){
 		return {
-			templateUrl:	'partials/ic-main-menu.html'
+			templateUrl:	'partials/ic-main-menu.html',
+			scope:			{
+								icPlain:	'<'
+							},
+
+			link: function(scope){
+				scope.ic = ic
+			}
+
 		}
 	}
 ])
@@ -874,7 +885,6 @@ angular.module('icDirectives', [
 					input.blur()
 
 					if(scope.icOnSubmit) scope.icOnSubmit()
-
 
 					if(search_term.replace(/s+/,'')){
 

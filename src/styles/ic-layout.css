@@ -95,9 +95,6 @@ ic-main-content > *:nth-child(5){
 	max-width:					40%;
 }
 
-.XS #section-filter {
-	min-width:					0;
-}
 
 
 
@@ -109,10 +106,6 @@ ic-main-content > *:nth-child(5){
 
 .S #section-list {
 	max-width:					60%;
-}
-
-.XS #section-list {
-	min-width:					0;
 }
 
 

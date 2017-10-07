@@ -1,3 +1,17 @@
+<div 
+	ng-if = "!ic.site.visibleSections.filter"
+	class = "bg-0 padding active"
+>
+	<div 
+		class 		= "block bg-3 padding tac"
+		ng-click 	= "ic.overlays.toggle('taxonomyFilter')"
+		ic-touch-me 
+	>
+		{{'INTERFACE.FILTER' | translate}}
+	</div>
+	
+</div>
+
 <ic-taxonomy-filter-tag-list class = "padding bg-0">
 </ic-taxonomy-filter-tag-list>
 

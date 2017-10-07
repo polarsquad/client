@@ -11,7 +11,7 @@ ic-category .icon-large {
 }
 
 ic-category .content {
-	flex:							1 0 grow;
+	flex:							1 0 0;
 }
 
 ic-category .content h2 {
@@ -21,4 +21,19 @@ ic-category .content h2 {
 
 ic-category .content ic-tag {
 	margin:							0.25em 0.3em;
+}
+
+
+
+
+
+
+.XS ic-item-full > section > * > :nth-child(1){
+	padding-right:					0;
+	min-width:						4rem;
+	text-align:						left;
+}
+
+.XS ic-item-full > section .qr-code {
+	text-align:						center !important;
 }

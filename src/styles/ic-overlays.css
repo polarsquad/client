@@ -211,6 +211,15 @@ ic-overlays .black {
 	background-color:		rgba(0,0,0,0.5);	
 }
 
+
+
+ic-overlays .expand {
+	background-position:	100% 50%;
+	background-repeat:		no-repeat;
+}
+
+
+/*
 ic-overlays .white {
 	background-color:		#fff;
 }
@@ -235,34 +244,43 @@ ic-overlays .white  a {
 ic-overlays .white  a > * {
 	display:				inline-block;
 	vertical-align:			top;
-}
+}*/
 
 
-ic-overlays .expand {
-	background-position:	100% 50%;
-	background-repeat:		no-repeat;
-}
 
-ic-language-menu  a {
+
+
+
+
+ic-overlays ic-language-menu  a {
+	line-height:			3rem;
+	display:				block;
 	clear:					both;
+	white-space:			nowrap;
+	border-top:				1px solid rgba(0, 0, 0, 0.3);
+
 }
 
 
-ic-language-menu  a  .translation {
+ic-overlays ic-language-menu  a  .translation {
 	display:				inline-block;
 	width:					50%;
 }
 
-ic-language-menu  a  .native {
+ic-overlays ic-language-menu  a  .native {
 	display:				inline-block;
 	width:					50%;
 	/*transition:				width 300ms ease-out;*/
 }
 
-ic-language-menu  a.active  .native {
+ic-overlays ic-language-menu  a.active  .native {
 	display:				inline-block;
 	width:					100%;
 }
+
+
+
+
 
 ic-overlays  p {
 	white-space:			pre-wrap !important;
@@ -315,9 +333,6 @@ ic-overlays .qrcode > div {
 
 
 
-
-
-
 ic-overlays ic-sharing-menu {
 
 }
@@ -352,3 +367,74 @@ ic-overlays ic-sharing-menu textarea {
 	margin-top:				2rem;
 }
 
+
+
+
+
+
+
+
+ic-overlays ic-main-menu {
+	background-color:			transparent;
+	padding:					0;
+}
+
+ic-overlays ic-main-menu ul {
+	display:					flex;
+	flex-direction:				column;
+	z-index:					0;
+	width:						auto;
+}
+
+ic-overlays ic-main-menu li {
+	padding:					0;
+}
+
+
+ic-overlays ic-main-menu > ul > li:nth-child(1){
+	padding-top:				2rem;
+}
+
+
+ic-overlays ic-main-menu > ul > li:nth-child(3){
+	padding-bottom:				1rem;
+}
+
+
+ic-overlays ic-main-menu > ul > li:nth-child(4){
+	padding-top	:				1rem;
+}
+
+
+ic-overlays ic-main-menu a {
+	display:					block;
+	padding:					0 2rem;
+	line-height:				3rem;
+}
+
+ic-overlays ic-main-menu ul li {
+	display:					block;
+}
+
+
+ic-overlays ic-main-menu ul > li > ul {
+	padding:					1rem 0;
+	position:					relative;
+	box-shadow:					none;
+}
+
+ic-overlays ic-main-menu ul > li > ul > li a:hover {
+	background-color:			transparent;
+	color:						inherit;
+}
+
+ic-overlays ic-main-menu ul > li > ul > li a {
+	display:					block;
+}
+
+ic-overlays ic-main-menu ul > li > ul > li:not(:first-child) a:before {
+	content:					'';
+	display:					block;
+	height:						0px;
+	border-top:					1px solid rgba(0,0,0,.3);
+}
