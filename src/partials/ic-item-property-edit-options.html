@@ -3,14 +3,13 @@
 	ng-submit 	= "allowLocalEdit && update()"
 	ng-class	= "{invalid: errors}"
 >
-	<div ng-if 	= "!hideCurrentValue">
+	<div ng-if 	= "!hideCurrentValue"  class = "current-value-parent-box">
 		
 		<span class	= "current-value {{diff()? 'diff': ''}}">
 			<span
-				ng-repeat 	= "option in icOptions"
-				ng-if		= "icAllowMultipleChoices ? value.current.indexOf(option) != -1 : value.current == option"
+				ng-repeat 	= "option in icOptions | section : value.current"
 			>
-				{{icOptionLabel({option:option})}}
+				{{icOptionLabel({option:option})+ ($last ? '' : ', ') }}
 			</span>
 
 			<span ng-if = "!value.current.length">

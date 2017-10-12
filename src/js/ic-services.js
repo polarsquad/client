@@ -730,14 +730,14 @@ angular.module('icServices', [
 								return (matches && matches[2].split('-')) || []
 							},
 
-			adjust:			function(ic){
+			// adjust:			function(ic){
 
-								var mainCategory = ic.taxonomy.getCategory(ic.site.filterByCategory)
+			// 					var mainCategory = ic.taxonomy.getCategory(ic.site.filterByCategory)
 
-								return	mainCategory && ic.site.filterByCategory.indexOf(mainCategory.name) == -1
-										?	ic.site.filterByCategory.concat([mainCategory.name])
-										:	ic.site.filterByCategory
-							}
+			// 					return	mainCategory && ic.site.filterByCategory.indexOf(mainCategory.name) == -1
+			// 							?	ic.site.filterByCategory.concat([mainCategory.name])
+			// 							:	ic.site.filterByCategory
+			// 				}
 		})
 		.registerParameter({
 			name:			'filterByType',
@@ -1152,16 +1152,13 @@ angular.module('icServices', [
 				decode:		function(path,ic){
 								var matches = path.match(/(^|\/)l\/([^\/]*)/)
 
-								return matches && matches[2]
-							},
-
-				adjust:		function(ic){
-								return		ic.site.currentLanguage 
+								return 	(matches && matches[2])
+										|| 	ic.site.currentLanguage 
 										|| 	icLanguages.getStoredLanguage()
-										|| 	navigator.language.substr(0,2)
+										|| 	(icLanguages.availableLanguages.indexOf(navigator.language.substr(0,2)) && navigator.language.substr(0,2))
 										|| 	icLanguages.fallbackLanguage
 										|| 	'en'
-							}	
+							}
 
 			})
 

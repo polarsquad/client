@@ -1,11 +1,12 @@
-<h2>{{'INTERFACE.FAVOURITES' | translate}}</h2>
+<article>
+	<h2>{{'INTERFACE.FAVOURITES' | translate}}</h2>
 
-<section>
-	<div ng-if = "ic.itemStorage.filteredList.length == 0">
+	<p ng-if = "ic.itemStorage.filteredList.length == 0">
 		{{'INTERFACE.NO_ITEMS' |translate}}
-	</div>
+	</p>
+</article>
 
-	<div class = "tiles">
+<section class = "tiles">
 		<a
 			ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
 			ng-href			= "{{ item | icItemLink }}"
@@ -31,5 +32,4 @@
 			</div>
 		</a>
 		<button ng-if= "noScroll && !noMoreItems" ng-click = "icScrollRepeatLimitIncrease()">more</button>
-	</div>
 </section>

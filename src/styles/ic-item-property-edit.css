@@ -2,20 +2,30 @@ ic-item-property-edit h4 {
 	margin:						0;
 }
 
+ic-item-property-edit .current-value-parent-box{
+	display:					flex;
+	position:					relative;
+}
+
 ic-item-property-edit .current-value{
-	display:					inline-flex;
+	display:					inline-block;
+	flex:						1 0 0;
 	word-break:					break-all;
+	white-space:				nowrap;
+	overflow:					hidden;
+	text-overflow:				ellipsis;
 	font-size:					1em;
 	opacity:					0.4;
 	line-height:				1.5rem;
 }
 
-ic-item-property-edit .current-value > * {
-	flex:						0 0 auto;
+ic-item-property-edit .current-value .list {
+	display:					inline-flex;
 }
 
-ic-item-property-edit .current-value > * + *:before {
+ic-item-property-edit .current-value .list > *:after {
 	content:					', ';
+	flex:						0 0 auto;
 }
 
 ic-item-property-edit .current-value + button {

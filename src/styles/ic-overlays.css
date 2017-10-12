@@ -390,18 +390,21 @@ ic-overlays ic-main-menu li {
 	padding:					0;
 }
 
+ic-overlays ic-main-menu li ic-logo-text{
+	font-size:					3rem;
+}
 
 ic-overlays ic-main-menu > ul > li:nth-child(1){
 	padding-top:				2rem;
 }
 
 
-ic-overlays ic-main-menu > ul > li:nth-child(3){
+ic-overlays ic-main-menu > ul > li:nth-child(4){
 	padding-bottom:				1rem;
 }
 
 
-ic-overlays ic-main-menu > ul > li:nth-child(4){
+ic-overlays ic-main-menu > ul > li:nth-child(5){
 	padding-top	:				1rem;
 }
 

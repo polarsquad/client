@@ -81,12 +81,17 @@
 
 
 .XS ic-page .types > * {
-	width:						50%;
+	width:						100%;
 	overflow:					hidden;
 	white-space:				nowrap;
 	text-overflow:				ellipsis;
 }
 
+
+
+.XS ic-page .tiles {
+	justify-content:			center;
+}
 
 
 .XS ic-category > *:first-child {
@@ -122,4 +127,24 @@
 
 .XS ic-footer > * + * {
 	border-top:					1px solid rgba(0,0,0,0.3);
+}
+
+
+
+
+
+.XS ic-item-full > section > * > :nth-child(1){
+	padding-right:					0;
+	min-width:						4rem;
+	text-align:						left;
+}
+
+.XS ic-item-full-edit > section > * > :nth-child(1){
+	padding-right:					0;
+	min-width:						4rem;
+	text-align:						left;
+}
+
+.XS ic-item-full > section .qr-code {
+	text-align:						center !important;
 }

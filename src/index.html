@@ -67,7 +67,7 @@
 		<!-- header -->
 		<ic-header 
 			ng-show 				= "::ic.init.ready"
-			ic-scroll-snap-target 	= "ic.site.visibleSections.page ? 'header' : false" 
+			ic-scroll-snap-target 	= "ic.layout.mode.name != 'XS' && (ic.site.visibleSections.page ? 'header' : false)" 
 		></ic-header>
 
 		<!-- content -->

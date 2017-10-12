@@ -66,6 +66,7 @@ ic-item-full > section > * > *:nth-child(1){
 ic-item-full > section  > *	> *:nth-child(2){
 	flex:						10 0 0;
 	max-width: 					40rem;
+	min-width:					0;
 }
 
 ic-item-full > section > *:after {

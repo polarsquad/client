@@ -566,6 +566,14 @@ angular.module('icUiDirectives', [
 ])
 
 
+.filter('section', [
+	function(){
+		return function(arr_1, arr_2){
+			return arr_1.filter(function(item){ return arr_2.indexOf(item) != -1})
+		}
+	}
+])
+
 .filter('preventLoop', [
 	function(){
 		var cache = []

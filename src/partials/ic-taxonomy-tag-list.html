@@ -1,12 +1,4 @@
 	<a
-		class		= "ic-tag ic-bg-cat-{{::category.name}}"
-		ng-repeat 	= "category in ic.taxonomy.categories"
-		ng-if		= "category.name | in : icTags"
-		ng-href		= "/list/c/{{::category.name}}"
-	>
-		{{'CATEGORIES.%s' | fill : category.name | translate}}
-	</a><!--
- --><a
 		class		= "ic-tag ic-bg-type-{{::type.name}}"
 		ng-repeat 	= "type in ic.taxonomy.types"
 		ng-if		= "type.name | in : icTags"
@@ -14,6 +6,23 @@
 	>
 		{{'TYPES.%s' | fill : type.name | translate}}
 	</a><!--
+ 	--><a
+		class				= "ic-tag ic-bg-cat-{{::category.name}}"
+		ng-repeat-start 	= "category in ic.taxonomy.categories"
+		ng-if				= "category.name | in : icTags"
+		ng-href				= "/list/c/{{::category.name}}"
+	>
+		{{'CATEGORIES.%s' | fill : category.name | translate}}
+	</a><!--
+ --><a
+		class				= "ic-tag ic-bg-cat-{{::category.name}}"
+		ng-repeat		 	= "tag in category.tags"
+		ng-if				= "tag | in : icTags"
+		ng-href				= "/list/c/{{::tag}}"
+	>
+		{{'CATEGORIES.%s' | fill : tag | translate}}
+	</a><!--
+ --><span ng-repeat-end></span><!--
  --><a
 		class		= "ic-tag shade-dark"
 		ng-repeat 	= "tag in ic.taxonomy.unsortedTags"

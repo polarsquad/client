@@ -12,6 +12,7 @@
 			ng-repeat 	= "type in ic.taxonomy.types"
 			ng-href		= "/list/t/{{type.name}}"
 			class 		= "icon left normal icon-type-{{type.name}} active"
+			ic-touch-me
 		>
 			{{'TYPES.%s' | fill : type.name | translate}}
 		</a>
