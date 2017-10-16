@@ -5,6 +5,7 @@
 	ng-repeat 	= "language in ic.languages.availableLanguages"
 	ng-click	= "ic.site.currentLanguage = language; ic.overlays.toggle('languageMenu')"
 	ng-class 	= "{'highlight active': ic.site.currentLanguage == language}"	
+	ng-if		= "ic.user.can('update_translations') || language != 'none'"
 	ic-touch-me	
 >
 	<span class = "native">{{"LANGUAGES.%s" | fill : language | translate : null : null : language}}</span>

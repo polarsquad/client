@@ -65,8 +65,8 @@ ic-spinner .background:before {
 	position:				absolute;
 	top:					0;
 	left:					0;
-	width:					1em;
-	height:					1em;
+	bottom:					0;
+	right:					0;
 
 	background-image:		url('/images/icons/logo.svg');
 	background-size:		0.725em;
