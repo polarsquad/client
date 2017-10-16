@@ -5,7 +5,7 @@
 	ng-init		= ""
 >
 
-	<div ng-if 	= "!hideCurrentValue">
+	<div ng-if 	= "!hideCurrentValue" class = "current-value-parent-box">
 
 		<span class	= "current-value {{diff()? 'diff': ''}}">
 			{{ value.current || ('INTERFACE.PROPERTY_EMPTY' | translate) }}

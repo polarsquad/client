@@ -46,6 +46,7 @@
 		height:				100%;
 		padding:			0 !important;
 		overflow: 			visible !important;
+		background-color:	#fff;
 	}
 
 
@@ -98,6 +99,10 @@
 
 	ic-item-full article {
 		padding:			0;
+	}
+
+	ic-item-full > section > * > :nth-child(1) {
+		text-align:			right !important;
 	}
 
 	ic-item-full .type {

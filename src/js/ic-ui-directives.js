@@ -364,12 +364,13 @@ angular.module('icUiDirectives', [
 			getScrollBarwidth()
 
 			style_element.sheet.deleteRule(0)
-			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
+			if(scrollbar_width > 0) style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
 
 		})
 
 		getScrollBarwidth()
-		addCssRules()
+
+		if(scrollbar_width > 0) addCssRules()
 			
 		return {
 			restrict:	'A',

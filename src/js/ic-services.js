@@ -9,9 +9,13 @@ angular.module('icServices', [
 
 .service('ic',[
 
-	function(){
+	'$q',
+
+	function($q){
 
 		function IcCoreService(){
+			this.deferred 	= $q.defer()
+			this.ready 		= this.deferred.promise
 		}
 
 		return new IcCoreService()
@@ -22,13 +26,26 @@ angular.module('icServices', [
 
 .service('icInit', [
 
+	'$q',
+	'ic',
+	'icUser',
 	'icItemStorage',
+	'icLanguages',
+	'$timeout',
 
-	function(icItemStorage){
+	function($q, ic, isUser, icItemStorage, icLanguages, $timeout){
 
 		var icInit = {}
 
-		icInit.ready = icItemStorage.ready //Mock
+		$q.all([
+			ic.ready,
+			isUser.ready,
+			icItemStorage.ready,
+			icLanguages.ready
+		])
+		.then(function(){ 
+			icInit.ready = true
+		})
 
 		return icInit
 	}
@@ -362,21 +379,23 @@ angular.module('icServices', [
 				},
 				function(a, old){
 
-					icSite
-					.updateSections()
-					.updateUrl()	
+					ic.ready.then(function(){
+						icSite
+						.updateSections()
+						.updateUrl()	
 
-					if(!adjustment_scheduled){
-						adjustment_scheduled = true
+						if(!adjustment_scheduled){
+							adjustment_scheduled = true
 
-						window.requestAnimationFrame(function(){
-							$rootScope.$apply(function(){
-								icSite.adjust()
-								adjustment_scheduled = false
+							window.requestAnimationFrame(function(){
+								$rootScope.$apply(function(){
+									icSite.adjust()
+									adjustment_scheduled = false
+								})
 							})
-						})
-						
-					}
+							
+						}
+					})
 				},
 				true
 			)
@@ -1394,6 +1413,9 @@ angular.module('icServices', [
 		ic.overlays		= icOverlays
 		ic.admin		= icAdmin
 		ic.user			= icUser
+
+		ic.deferred.resolve()
+		delete ic.deferred
 
 		console.dir(ic)
 	}

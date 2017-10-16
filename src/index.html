@@ -17,7 +17,7 @@
 
 	<head>
 		<title
-			ng-bind = "(ic.site.activeItem ? ic.site.activeItem.title + ' – ' : '') + '<!--BUILD TITLE-->' + ' ' + ('INTERFACE.TITLE_ADD_ON' | translate)"
+			ng-bind = "(ic.site.activeItem ? ic.site.activeItem.title + ' – ' : '') + '<!--BUILD TITLE-->' + ' ' + (ic.init.ready ? ('INTERFACE.TITLE_ADD_ON' | translate) : '')"
 		>
 			<!--BUILD TITLE-->
 		</title>
@@ -62,11 +62,16 @@
 
 	<body class = "col-0">
 		<noscript>Please enable javascript.</noscript>
-		<div ng-if = "!ic.init.ready"> loading ... </div>
+		<div
+			class = "padding bg-3" 
+			ng-if = "!ic.init.ready"
+		> 
+			loading ... 
+		</div>
 
 		<!-- header -->
 		<ic-header 
-			ng-show 				= "::ic.init.ready"
+			ng-show 				= "ic.init.ready"
 			ic-scroll-snap-target 	= "ic.layout.mode.name != 'XS' && (ic.site.visibleSections.page ? 'header' : false)" 
 		></ic-header>
 

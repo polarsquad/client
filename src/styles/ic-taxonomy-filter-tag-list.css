@@ -1,14 +1,36 @@
 ic-taxonomy-filter-tag-list {
-	display:					block;
+	display:					flex;
+	flex-wrap:					wrap;
 	line-height:				2.5rem;
 }
 
 ic-taxonomy-filter-tag-list > a {
-	display:					inline-block;
+	flex:						0 1 auto;
+	display:					inline-flex;
+	position:					relative;
 	line-height:				2rem;
 	padding:					0 0.75rem;
-	margin-right:				0.25rem;
+	margin:						0.25rem 0.25rem;
 	white-space: 				nowrap;
+	min-width:					0;
+
+}
+
+ic-taxonomy-filter-tag-list > a > * {
+	flex:						1 0 0;
+	display:					inline-block;
+	vertical-align:				middle;
+}
+
+ic-taxonomy-filter-tag-list > a > *:not(.icon){
+	white-space: 				nowrap;
+	overflow:					hidden;
+	text-overflow:				ellipsis;
+	min-width:					0;
+}
+
+ic-taxonomy-filter-tag-list > a > .icon {
+	flex:						0 0 auto;
 }
 
 ic-taxonomy-filter-tag-list > a > * + * {
