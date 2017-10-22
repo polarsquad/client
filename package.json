@@ -20,8 +20,8 @@
     "typeface-biryani": "0.0.22"
   },
   "scripts": {
-    "build:dev": "node build_dev.js",
-    "prebuild:dev": "browserify index_vendor.js > vendor.js"
+    "build": "node build.js",
+    "prebuild": "browserify index_vendor.js > vendor.js"
   },
   "repository": {
     "type": "git",

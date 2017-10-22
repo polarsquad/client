@@ -1,7 +1,9 @@
+"use strcit";
+
+
 var copyfiles	= 	require('copyfiles'),
 	fs 			= 	require('fs-extra'),
 	rimraf		= 	require('rimraf'),
-	config		= 	require('./config/config.json')
 	taxonomy	= 	require('./src/js/config/taxonomy.js'),
 	CleanCSS	= 	require('clean-css'),
 	SVGO		= 	require('svgo'),
@@ -9,24 +11,40 @@ var copyfiles	= 	require('copyfiles'),
 						plugins: [
 							{removeTitle:			true},
 						]
-					})
+					}),
+	cst			=	process.argv[2] && 'custom/'+process.argv[2],
+	dst			=	process.argv[3] || 'dev',
+	src			=	'tmp/src',
+
+	config		=	cst
+					?	require(cst+'/config.json')
+					:	
+
 
 
 
 function setup(){
+
 	return 	Promise.all([
-				fs.emptyDir('dev'),
+				fs.stat(cst),
+				fs.emptyDir(dst),
 				fs.emptyDir('tmp')
 			])
+			.then( ()	=>  fs.copy(cst ? cst+'/config' : 'config', 	dst+"/config", {dereference: true}))
+			.then( ()	=>	fs.copy('src',  	'tmp/src'))
+			.then( () 	=> 	cst 
+							?	fs.copy(cst,	'tmp/src', {flags: 'w'}) 
+							:	Promise.resolve()
+			)
 }
 
 
-function copyQRCodeScriptsSrc2Dev(){
-	return 	fs.ensureDir('dev/js')
+function copyQRCodeScriptsSrc2Dst(){
+	return 	fs.ensureDir(dst+'/js')
 			.then( () => Promise.all([
-				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	'dev/js/qrcode_UTF8.js'),
-				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		'dev/js/qrcode.js'),
-				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	'dev/js/angular-qrcode.js')
+				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	dst+'/js/qrcode_UTF8.js'),
+				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		dst+'/js/qrcode.js'),
+				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	dst+'/js/angular-qrcode.js')
 			]))
 }
 
@@ -54,8 +72,8 @@ function compileTaxonomyTemplate(key, template){
 
 function compileTaxonomyTemplatesToTmp() {
 	return	Promise.all([
-				compileTaxonomyTemplate('categories', 	'src/styles/templates/ic-category.template'),
-				compileTaxonomyTemplate('types', 		'src/styles/templates/ic-types.template')
+				compileTaxonomyTemplate('categories', 	src+'/styles/templates/ic-category.template'),
+				compileTaxonomyTemplate('types', 		src+'/styles/templates/ic-types.template')
 			])
 			.then(function(results){			 
 				return 	fs.ensureDir('tmp/styles')
@@ -132,7 +150,7 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 
 
 function compileIconsSrc2Tmp(){
-	return 	svgColors('src/images/raw_icons', 'tmp/images/icons', {
+	return 	svgColors(src+'/images/raw_icons', 'tmp/images/icons', {
 				replace: '#000000',
 				colors: [
 					{name: null,		value: '#000000'},
@@ -144,7 +162,7 @@ function compileIconsSrc2Tmp(){
 }
 
 function compileMarkersSrc2Tmp(){
-	return 	svgColors('src/images/raw_markers', 'tmp/images/icons', {
+	return 	svgColors(src+'/images/raw_markers', 'tmp/images/icons', {
 				replace: '#7F7F7F',
 				colors: taxonomy.categories.map( category => { return {name: category.name, value: category.colors[0] } })
 						.concat([
@@ -155,12 +173,12 @@ function compileMarkersSrc2Tmp(){
 
 
 function compileIconTemplatesTmp2Tmp(){
-	return	images2Css('tmp/images/icons', '/images/icons', 'src/styles/templates/ic-icon.template', true)
+	return	images2Css('tmp/images/icons', '/images/icons', src+'/styles/templates/ic-icon.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
 }
 
 function compileImageTemplatesSrc2Tmp(){
-	return	images2Css('src/images/large', '/images/large', 'src/styles/templates/ic-image.template')
+	return	images2Css(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template')
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
 }
 
@@ -169,8 +187,8 @@ function prepareBiyarni(){
 
 	return 	Promise.all([
 				fs.readFile("node_modules/typeface-biryani/index.css",	"utf8"),
-				fs.copy("node_modules/typeface-biryani/files",			"dev/fonts/Biyarni"),
-				fs.ensureDir("dev/styles")
+				fs.copy("node_modules/typeface-biryani/files",			dst+"/fonts/Biyarni"),
+				fs.ensureDir(dst+"/styles")
 			])
 			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
 			.then( css 		=> fs.writeFile('tmp/styles/biryani.css', css, 'utf8'))
@@ -181,8 +199,8 @@ function prepareRoboto(){
 
 	return 	Promise.all([
 				fs.readFile("node_modules/roboto-fontface/css/roboto/roboto-fontface.css",	"utf8"),
-				fs.copy("node_modules/roboto-fontface/fonts/Roboto",		"dev/fonts/Roboto"),
-				fs.ensureDir("dev/styles")
+				fs.copy("node_modules/roboto-fontface/fonts/Roboto",		dst+"/fonts/Roboto"),
+				fs.ensureDir(dst+"/styles")
 			])
 			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
@@ -190,27 +208,23 @@ function prepareRoboto(){
 
 function copyFilesSrcToTmp(){
 	return 	Promise.all([
-				fs.copy("src/images/icons", 	"tmp/images/icons"),
+				fs.copy(src+'/images/icons', 	"tmp/images/icons")
 			])
 }
 
 
 
-function copyReadyFilesToDev(){
+function copyReadyFilesToDst(){
 	return 	Promise.all([
 
-				fs.copy("src/js", 				"dev/js"),
-				fs.copy("src/pages",			"dev/pages"),
-				fs.copy("src/partials",			"dev/partials"),
-				fs.copy("src/images/large", 	"dev/images/large"),
-				fs.copy("vendor.js", 			"dev/js/vendor.js"),
+				fs.copy(src+"/js", 				dst+"/js"),
+				fs.copy(src+"/pages",			dst+"/pages"),
+				fs.copy(src+"/partials",		dst+"/partials"),
+				fs.copy(src+"/images/large", 	dst+"/images/large"),
+				fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
 				//tmp
-				fs.copy("tmp/images", 			"dev/images"),
-				
-
-				//todo?
-				fs.copy("config", 				"dev/config", {dereference: true}),
+				fs.copy("tmp/images", 			dst+"/images"),
 			])
 }
 
@@ -247,16 +261,16 @@ function bundleStyles(src_dir, target_dir, filename){
 }
 
 
-function bundleStylesToDev(){
+function bundleStylesToDst(){
 
 	return 	Promise.all([
-				fs.copy("src/styles", 									"tmp/styles"),	
+				fs.copy(src+"/styles", 									"tmp/styles"),	
 				fs.copy("node_modules/leaflet/dist/leaflet.css", 		"tmp/styles/leaflet.css"),
-				fs.copy("src/styles/initial", 							"tmp/styles/initial")
+				fs.copy(src+'/styles/initial', 							"tmp/styles/initial")
 			])
 			.then(() => Promise.all([
-				bundleStyles('tmp/styles', 			'dev/styles', 'styles.css'),
-				bundleStyles('tmp/styles/initial', 	'dev/styles', 'initial.css')
+				bundleStyles('tmp/styles', 			dst+'/styles', 'styles.css'),
+				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css')
 			]))
 }
 
@@ -265,8 +279,8 @@ function bundleStylesToDev(){
 function compileIndex(){
 
 	return 	Promise.all([
-				fs.readFile('src/index.html', 		'utf8'),
-				fs.readFile('src/dev_head.html', 	'utf8')
+				fs.readFile(src+'/index.html', 		'utf8'),
+				fs.readFile(src+'/dev_head.html', 	'utf8')
 			])
 			.then(function(result){
 				var index	= result[0],
@@ -280,7 +294,7 @@ function compileIndex(){
 						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 	config.title)
 			})
 			.then(function(content){
-				return fs.writeFile('dev/index.html', content, 'utf8')				
+				return fs.writeFile(dst+'/index.html', content, 'utf8')				
 			})
 }
 
@@ -298,24 +312,24 @@ function cleanUp(){
 setup()
 
 
-.then( () => process.stdout.write('\nCopying qr code scripts from /src to /dev ...'))
-.then(copyQRCodeScriptsSrc2Dev)
+.then( () => process.stdout.write('\nCopying qr code scripts from src to '+dst+' ...'))
+.then(copyQRCodeScriptsSrc2Dst)
 .then( () =>  process.stdout.write('Done.\n'))
 
 
 
-.then( () => process.stdout.write('\nCopying files from /src to /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCopying files from src to /tmp for further processing ...'))
 .then(copyFilesSrcToTmp)
 .then( () =>  process.stdout.write('Done.\n'))
 
 
 
-.then( () => process.stdout.write('\nCompiling raw icons from /src to /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCompiling raw icons from src to /tmp for further processing ...'))
 .then(compileIconsSrc2Tmp)
 .then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => process.stdout.write('\nCompiling raw markers from /src to /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCompiling raw markers from src to /tmp for further processing ...'))
 .then(compileMarkersSrc2Tmp)
 .then( () =>  process.stdout.write('Done.\n'))
 
@@ -332,7 +346,7 @@ setup()
 
 
 
-.then( () => process.stdout.write('\nCompiling image templates for images in /src into /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCompiling image templates for images in src into /tmp for further processing ...'))
 .then(compileImageTemplatesSrc2Tmp)
 .then( () =>  process.stdout.write('Done.\n'))
 
@@ -353,16 +367,16 @@ setup()
 .then( () =>  process.stdout.write('Done.\n'))
 
 
-.then( () => process.stdout.write('\nCopying ready files to /dev...'))
-.then(copyReadyFilesToDev)
+.then( () => process.stdout.write('\nCopying ready files to '+dst+'...'))
+.then(copyReadyFilesToDst)
 .then( () => process.stdout.write('Done.\n'))
 
-.then( () => process.stdout.write('\nBuidling styles into /dev...'))
-.then(bundleStylesToDev)
+.then( () => process.stdout.write('\nBuidling styles into '+dst+'...'))
+.then(bundleStylesToDst)
 .then( () => process.stdout.write('Done.\n'))
 
 
-.then( () => process.stdout.write('\nCompiling Index into /dev...'))
+.then( () => process.stdout.write('\nCompiling Index into '+dst+'...'))
 .then(compileIndex)
 .then( () =>  process.stdout.write('Done.\n'))
 
