@@ -17,16 +17,14 @@ var copyfiles	= 	require('copyfiles'),
 	src			=	'tmp/src',
 
 	config		=	cst
-					?	require(cst+'/config.json')
-					:	
-
-
+					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
+					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8'))
 
 
 function setup(){
 
 	return 	Promise.all([
-				fs.stat(cst),
+				cst && fs.stat(cst),
 				fs.emptyDir(dst),
 				fs.emptyDir('tmp')
 			])
