@@ -13,7 +13,7 @@ var copyfiles	= 	require('copyfiles'),
 						]
 					}),
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
-	dst			=	process.argv[3] || 'dev',
+	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
 	src			=	'tmp/src',
 
 	config		=	cst
@@ -28,7 +28,6 @@ function setup(){
 				fs.emptyDir(dst),
 				fs.emptyDir('tmp')
 			])
-			.then( ()	=>  fs.copy(cst ? cst+'/config' : 'config', 	dst+"/config", {dereference: true}))
 			.then( ()	=>	fs.copy('src',  	'tmp/src'))
 			.then( () 	=> 	cst 
 							?	fs.copy(cst,	'tmp/src', {flags: 'w'}) 
