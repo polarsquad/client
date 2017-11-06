@@ -92,7 +92,7 @@
 		icItem.download = function(){
 			if(!icItem.id) console.error('icItemDpd.download: missing item id.')
 
-			if(icItem.ongoingDownload) return icItem.ongoingDownload
+			if(icItem.downloading && icItem.ongoingDownload) return icItem.ongoingDownload
 
 			icItem.downloading 		= 	true
 			icItem.ongoingDownload 	= 	dpd(ic.itemConfig.collectionName)
@@ -100,6 +100,7 @@
 										.then(icItem.importData)
 										.then(function(){
 											icItem.downloading = false
+											return icItem
 										})
 
 			return icItem.ongoingDownload

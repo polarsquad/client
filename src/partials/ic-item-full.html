@@ -68,7 +68,6 @@
 		></div>
 	</div>
 
-
 	<article 
 		class = "screen only"
 		ng-if = "ic.user.can('edit_items')"
@@ -82,8 +81,12 @@
 			<div ng-if  ="item.lastEditor">
 				{{'ITEMS.LAST_EDITOR' | translate}}  	{{item.lastEditor	}}	({{item.lastEditDate | icDate}})
 			</div>	
+			<div>
+				<a class = "active" ng-click ="ic.admin.autoTranslate(ic.site.activeItem.id, ['brief', 'description'])">auto translate</a>
+			</div>
 		</div>
 	</article>
+
 
 
 

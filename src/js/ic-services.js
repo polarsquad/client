@@ -418,25 +418,23 @@ angular.module('icServices', [
 
 .provider('icAdmin', function(){
 
-	var dpdActions = undefined
-
-	this.setActions = function(ac){ dpdActions = ac }
 
 	this.$get = [
 
 		'$q',
 		'icOverlays',
+		'icLanguages',
+		'icItemStorage',
 
-		function($q, icOverlays){
+		function($q, icOverlays, icLanguages, icItemStorage){
 			var icAdmin = this
 
-			if(!dpdActions) console.error('Service icAdmin:  dpdActions missing.')
-			
+
 			icAdmin.updateTranslations = function(){
 
 				icOverlays.open('spinner')
 
-				return $q.when(dpdActions.updateTranslations())
+				return 	$q.when(dpd.actions.exec('updateTranslations'))
 						.then(
 							function(){
 								return icOverlays.open('popup', 'INTERFACE.TRANSLATION_UPDATED')
@@ -448,6 +446,31 @@ angular.module('icServices', [
 						)
 			}		
 
+			icAdmin.autoTranslate = function(item_id, properties) {
+				return 	$q.when(dpd.actions.exec('translateItem', {
+							item: 		item_id,
+							from: 		Array.concat.apply([], ['en', 'de'], icLanguages.availableLanguages),
+							to:			icLanguages.availableLanguages,
+							properties:	properties
+						}))
+						.then( function(){
+							console.log(item_id)
+							return $q.when(icItemStorage.getItem(item_id).download()).then(
+								function(x){console.log('XXX',x)},
+								function(e){console.log('EEE',e)}
+							)
+						})
+						.then(
+							function(){
+								return icOverlays.open('popup', 'INTERFACE.ITEM_TRANSLATION_UPDATED')
+							},
+
+							function(e){
+								console.error(e)
+								return icOverlays.open('popup', 'INTERFACE.UNABLE_TO_UPDATE_ITEM_TRANSLATIONS')
+							}
+						)
+			}
 
 			return icAdmin
 		}

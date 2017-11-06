@@ -206,19 +206,6 @@ angular.module("InfoCompass",[
 ])
 
 .config([
-
-	'icAdminProvider',
-
-	function(icAdminProvider){
-		if(!(window.ic && window.ic.actions)) 
-				console.error('icAdminProvider:  missing ic.actions. Please load dpd-actions.js.')
-
-		icAdminProvider.setActions(window.ic.actions)
-	}
-])
-
-
-.config([
 	'$translateProvider',
 
 	function($translateProvider,plImagesProvider){

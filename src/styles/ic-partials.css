@@ -72,3 +72,7 @@ ic-search form button {
 	background-color:				transparent;
 }
 
+
+ic-item-badge {
+	display:						inline-block;
+}

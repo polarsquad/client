@@ -4,9 +4,9 @@
 var copyfiles	= 	require('copyfiles'),
 	fs 			= 	require('fs-extra'),
 	rimraf		= 	require('rimraf'),
-	taxonomy	= 	require('./src/js/config/taxonomy.js'),
 	CleanCSS	= 	require('clean-css'),
 	SVGO		= 	require('svgo'),
+	Promise		=	require('bluebird'),
 	svgo		= 	new SVGO({
 						plugins: [
 							{removeTitle:			true},
@@ -15,6 +15,11 @@ var copyfiles	= 	require('copyfiles'),
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
 	src			=	'tmp/src',
+
+
+	taxonomy	= 	cst
+					?	require('./'+cst+'/js/config/taxonomy.js')
+					:	require('./src/js/config/taxonomy.js'),
 
 	config		=	cst
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
@@ -30,9 +35,10 @@ function setup(){
 			])
 			.then( ()	=>	fs.copy('src',  	'tmp/src'))
 			.then( () 	=> 	cst 
-							?	fs.copy(cst,	'tmp/src', {flags: 'w'}) 
+							?	fs.copy(cst,	'tmp/src', {overwrite: true})
 							:	Promise.resolve()
 			)
+
 }
 
 
@@ -79,21 +85,27 @@ function compileTaxonomyTemplatesToTmp() {
 }
 
 function svgColors(src_folder, dest_folder, config){
-	return	fs.ensureDir(dest_folder)
-			.then( () => fs.readdir(src_folder) )
-			.then( result => result.filter( (filename) => filename.match(/\.svg$/) && fs.lstatSync(src_folder+'/'+filename).isFile()) )
-			.then( (filenames) => Promise.all(
-				filenames.map( (filename) => {
-					return	fs.readFile(src_folder+'/'+filename, 'utf8')
-							.then( (content) => Promise.all( config.colors.map( color => {
-								var fn = 	color.name
-											?	filename.replace(/\.svg$/,'-'+color.name+'.svg')
-											:	filename
+	return	Promise.resolve( fs.ensureDir(dest_folder) )
+			.then( 	() 			=> 	fs.readdir(src_folder) )
+			.filter(filename 	=> 	filename.match(/\.svg$/) && fs.lstatSync(src_folder+'/'+filename).isFile()	)	
+			.map(	filename 	=>	Promise.props({ 
+										name: 		filename, 
+										content : 	fs.readFile(src_folder+'/'+filename, 'utf8')
+									})  
+			)
+			.map(	file 		=> 	Promise.each( 
+										config.colors, 
+										color => {
+											var fn = 	color.name
+														?	file.name.replace(/\.svg$/,'-'+color.name+'.svg')
+														:	file.name
 
-									return fs.writeFile(dest_folder+'/'+fn, content.replace(new RegExp(config.replace, "g"), color.value), 'utf8')
-							})))
-				})				
-			))
+													return fs.writeFile(dest_folder+'/'+fn, file.content.replace(new RegExp(config.replace, "g"), color.value), 'utf8')
+										}
+									)
+			)
+
+			
 }
 
 function svgMinimize(src_folder, dest_folder){
@@ -161,10 +173,11 @@ function compileIconsSrc2Tmp(){
 function compileMarkersSrc2Tmp(){
 	return 	svgColors(src+'/images/raw_markers', 'tmp/images/icons', {
 				replace: '#7F7F7F',
-				colors: taxonomy.categories.map( category => { return {name: category.name, value: category.colors[0] } })
-						.concat([
-							{name: 'unknown', value: '#7F7F7F'}
-						])
+				colors: [
+							...(taxonomy.categories.map(	category 	=> { return {name: category.name, 	value: category.colors[0] 	} })),
+							...(taxonomy.types.map( 		type 		=> { return {name: type.name, 		value: type.colors[0] 		} })),
+							{name: 'unknown', value: '#999988'}
+						]
 			})
 }
 

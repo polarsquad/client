@@ -97,15 +97,27 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				scope.ic = ic
+			}
+		}
+	}
+])
 
-				scope.$watch(
-					function(){ return scope.icItem.tags},
-					function(){ 
-						scope.icCategory 	= 	scope.icItem && icTaxonomy.getCategory(scope.icItem.tags) 
-						scope.icType 		= 	scope.icItem && icTaxonomy.getType(scope.icItem.tags)
-					},
-					true
-				)
+.directive('icItemBadge', [
+
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy){
+		return {
+
+			restrict: 		'AE',
+			templateUrl: 	'partials/ic-item-badge.html',
+			scope:			{
+								icItem:	"<",
+							},
+
+			link: function(scope, element, attrs){
+				scope.ic = ic
 			}
 		}
 	}
@@ -119,9 +131,10 @@ angular.module('icDirectives', [
 	'icOverlays',
 	'icItemStorage',
 	'icItemEdits',
+	'icAdmin',
 	'$q',
 
-	function(ic, icSite, icOverlays, icItemStorage, icItemEdits, $q){
+	function(ic, icSite, icOverlays, icItemStorage, icItemEdits, icAdmin, $q){
 
 		return {
 			restrict:		'AE',

@@ -114,11 +114,17 @@
 			class	= "bg-0 col-3"
 			ng-show = "icPlain || showAdmin"
 		>
-			<li>
+			<li ng-if="ic.user.can('edit_items')">
 				<a 
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
+			</li>
+			<li ng-if = "!ic.user.can('edit_items')">
+				<a 
+					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+					ic-touch-me
+				>{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}</a>	
 			</li>
 			<li>
 				<a

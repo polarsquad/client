@@ -2,13 +2,11 @@ TODO:
 
 * Taxonomy aufräumen
 * https
-* automatische übersetzung
-* manifest
+
 
 
 
 * datumsauswahl
-* test: backend nicht erreichbar
 
 
 * stats.domain
@@ -30,14 +28,15 @@ TODO:
 * Reponsive -> neues paket
 * Google Übersetzung -> neues paket
 * Projektpakete -> sheet Version 
+
+* Projektpakete -> sheet Version 
 * DB backup!
 -> custom build script
 * sharing -> neues tab (facebook?)
 
-* LOGIN_UNKNOWN
 
 
-* Wenn zoom super klein ist macht die liste beim scrollen stress
+
 
 
 
@@ -64,5 +63,29 @@ Done:
  -> abwarten
 
 
+TODO:
 
 
+* monitoring
+* automatische übersetzung
+* manifest
+* Wenn zoom super klein ist macht die liste beim scrollen stress
+* Google Übersetzung -> neues paket
+* Projektpakete -> sheet Version 
+* LOGIN_UNKNOWN
+* Loading Screen?
+* Build one large template file
+* description später laden, Suche auf backend (teil-)auslagern
+
+* ICB:  app.config-> sprachen anpassen
+* minimize svg
+
+* Create item nur anzeigen, wenn der Nutzer auch die Rechte hat
+
+* badges
+
+* use request in icutils, backend
+
+* Taxonomy
+	-> Farben
+	-> icons?

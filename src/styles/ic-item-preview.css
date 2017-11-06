@@ -43,7 +43,7 @@ ic-item-preview .content .date {
 	padding-right:			0.25rem;
 }
 
-ic-item-preview .icon-large {
+ic-item-preview ic-item-badge {
 	position:				absolute;
 	display:				block;
 	top:					0.5rem;
@@ -53,9 +53,9 @@ ic-item-preview .icon-large {
 	width:					3.5rem;
 	border-radius:			3.5rem;
 }
-
+/*
 ic-item-preview .icon {
 	position: 				absolute;
 	right:					0.25rem;
 	top:					0.5rem;
-}
+}*/
