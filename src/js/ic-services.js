@@ -1112,7 +1112,8 @@ angular.module('icServices', [
 .provider('icLanguages', function(){
 
 	var translationTableUrl = '',
-		availableLanguages	= []
+		availableLanguages	= [],
+		fallbackLanguage	= undefined
 
 	this.setAvailableLanguages = function(languages){
 		Array.prototype.push.apply(availableLanguages, languages)
@@ -1123,6 +1124,11 @@ angular.module('icServices', [
 		translationTableUrl = url
 		return this
 	}
+
+	this.setFallbackLanguage = function(lang){
+		fallbackLanguage = lang
+	}
+
 
 	this.$get = [
 
@@ -1138,11 +1144,8 @@ angular.module('icServices', [
 			var icLanguages 			= 	this
 
 			icLanguages.availableLanguages	=	availableLanguages
-			icLanguages.fallbackLanguage	=	undefined
 
-			icLanguages.fallbackLanguage	= 	icLanguages.availableLanguages.indexOf('en') != -1
-												?	'en'
-												:	icLanguages.availableLanguages[0]
+			icLanguages.fallbackLanguage	= 	fallbackLanguage
 
 			icLanguages.ready = 	$http.get(translationTableUrl)
 									.then(
@@ -1168,7 +1171,6 @@ angular.module('icServices', [
 				return up
 			}
 
-
 			icLanguages.getTranslationTable = function(lang){
 				return	icLanguages.ready
 						.then(function(translations){
@@ -1192,13 +1194,17 @@ angular.module('icServices', [
 							},
 
 				decode:		function(path,ic){
-								var matches = path.match(/(^|\/)l\/([^\/]*)/)
+								console.log(icLanguages.fallbackLanguage)
 
-								return 	(matches && matches[2])
-										|| 	ic.site.currentLanguage 
-										|| 	icLanguages.getStoredLanguage()
-										|| 	(icLanguages.availableLanguages.indexOf(navigator.language.substr(0,2)) && navigator.language.substr(0,2))
-										|| 	icLanguages.fallbackLanguage
+								var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
+									best_guess 	= 	(matches && matches[2])
+													|| 	ic.site.currentLanguage 
+													|| 	icLanguages.getStoredLanguage()
+													|| 	navigator.language.substr(0,2)
+													|| 	navigator.userLanguage.substr(0,2)
+													|| 	icLanguages.fallbackLanguage
+
+								return 	(icLanguages.availableLanguages.indexOf(best_guess) && best_guess)
 										|| 	'en'
 							}
 

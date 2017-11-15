@@ -259,6 +259,7 @@ angular.module("InfoCompass",[
 		icLanguageProvider
 		.setAvailableLanguages(['de', 'en', 'ru', 'tr', 'none'])
 		.setTranslationTableUrl(window.config.backendLocation+'/translations.json')
+		.setFallbackLanguage('de')
 	}
 ])
 

@@ -9,3 +9,4 @@
 /sharing_patch
 /custom
 !/custom/.gitkeep
+vendor.js
