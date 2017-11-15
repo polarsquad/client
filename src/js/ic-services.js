@@ -1205,7 +1205,7 @@ angular.module('icServices', [
 
 
 								return 	(icLanguages.availableLanguages.indexOf(best_guess) != -1 && best_guess)
-										|| 	'ru'
+										|| 	'en'
 							}
 
 			})
