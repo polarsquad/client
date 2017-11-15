@@ -317,3 +317,4 @@ angular.module("InfoCompass",[
 	}
 ])
 
+

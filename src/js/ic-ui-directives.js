@@ -629,7 +629,7 @@ angular.module('icUiDirectives', [
 
 .filter('onScreen', function(){
 	return function(x){
-		var element = angular.element(document.getElementById('on-screen-debug-window') || document.createElement('div')),
+		var element = angular.element(document.getElementById('on-screen-debug-window') || angular.element("<div id =\"on-screen-debug-window\"></div>")),
 			log		= angular.element('<pre>'+x+'</pre>'),
 			body	= angular.element(document.getElementsByTagName('body'))
 
@@ -640,7 +640,7 @@ angular.module('icUiDirectives', [
 			padding:	'1rem',
 			position:	'fixed',
 			bottom:		'0',
-			height:		'20%',
+			height:		'40%',
 			width:		'100%',
 			opacity:	'0.8',
 			overflowY:	'scroll',
@@ -652,7 +652,6 @@ angular.module('icUiDirectives', [
 
 		})
 		element.append(log)
-
 		return x
 	}
 })

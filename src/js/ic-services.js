@@ -1138,8 +1138,9 @@ angular.module('icServices', [
 		'$http',
 		'$translate',
 		'icSite',
+		'onScreenFilter',
 
-		function($window, $rootScope, $q, $http, $translate, icSite){
+		function($window, $rootScope, $q, $http, $translate, icSite, onScreenFilter){
 
 			var icLanguages 			= 	this
 
@@ -1194,18 +1195,17 @@ angular.module('icServices', [
 							},
 
 				decode:		function(path,ic){
-								console.log(icLanguages.fallbackLanguage)
-
 								var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
 									best_guess 	= 	(matches && matches[2])
 													|| 	ic.site.currentLanguage 
 													|| 	icLanguages.getStoredLanguage()
-													|| 	navigator.language.substr(0,2)
-													|| 	navigator.userLanguage.substr(0,2)
+													|| 	(navigator.language && navigator.language.substr(0,2) )
+													|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
 													|| 	icLanguages.fallbackLanguage
 
-								return 	(icLanguages.availableLanguages.indexOf(best_guess) && best_guess)
-										|| 	'en'
+
+								return 	(icLanguages.availableLanguages.indexOf(best_guess) != -1 && best_guess)
+										|| 	'ru'
 							}
 
 			})
