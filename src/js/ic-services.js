@@ -1203,9 +1203,6 @@ angular.module('icServices', [
 													|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
 													|| 	icLanguages.fallbackLanguage
 
-								console.log(best_guess)
-								console.log((icLanguages.availableLanguages.indexOf(best_guess) != -1))
-
 								return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
 										|| 	'en'
 							}
