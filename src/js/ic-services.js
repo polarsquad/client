@@ -1,6 +1,7 @@
 "use strict";
 
 angular.module('icServices', [
+	'plImages',
 	// 'icApi',
 	// 'smlLayout',
 	// 'pascalprecht.translate'
@@ -31,21 +32,35 @@ angular.module('icServices', [
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
+	'plImages',
 	'$timeout',
+	'$rootScope', 
 
-	function($q, ic, isUser, icItemStorage, icLanguages, $timeout){
+	function($q, ic, icUser, icItemStorage, icLanguages, plImages, $timeout, $rootScope){
 
-		var icInit = {}
-
-		$q.all([
-			ic.ready,
-			isUser.ready,
-			icItemStorage.ready,
-			icLanguages.ready
-		])
-		.then(function(){ 
-			icInit.ready = true
+		var icInit 			= 	{},
+			deferred		=	$q.defer(),
+			styles_ready 	= 	deferred.promise,
+			promises 		= 	{
+									ic: 			ic.ready,
+									icUser: 		icUser.ready,
+									icItemStorage:	icItemStorage.ready,
+									icLanguages:	icLanguages.ready,
+									images:			plImages.ready,
+								}
+	
+			
+		Object.keys(promises).forEach(function(key){
+			promises[key].then(function(){
+				console.log(key+ ' ready')
+				icInit.readyCount ++
+				console.log(icInit.readyCount)
+				if(icInit.readyCount == icInit.readyMax) $timeout(function(){ icInit.ready = true; }, 1000)
+			})
 		})
+
+		icInit.readyCount 	= 0
+		icInit.readyMax		= Object.keys(promises).length
 
 		return icInit
 	}
@@ -351,10 +366,12 @@ angular.module('icServices', [
 			}
 
 			icSite.onRegister = function(){ 
-				// Some provider may register Params before service ic is initialized in .run() causing an error if onRegister is called to early
-				$rootScope.$evalAsync(function(){
-					icSite.updateFromPath()
-					icSite.updateFromSearch() 
+				// Some provider may register Params before service ic is initialized in .run() causing an error if onRegister is called too early
+				ic.ready.then(function(){
+					$rootScope.$evalAsync(function(){
+						icSite.updateFromPath()
+						icSite.updateFromSearch() 
+					})
 				})
 			}
 
@@ -400,7 +417,7 @@ angular.module('icServices', [
 				true
 			)
 
-
+			
 			$rootScope.$watch(
 				function(){ return $location.search().s},
 				function(s){
@@ -410,7 +427,9 @@ angular.module('icServices', [
 
 			$rootScope.$on('$locationChangeSuccess', icSite.updateFromPath)
 
+
 			return icSite
+			
 		}
 	]
 })
@@ -1445,7 +1464,6 @@ angular.module('icServices', [
 		ic.deferred.resolve()
 		delete ic.deferred
 
-		console.dir(ic)
 	}
 ])
 

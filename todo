@@ -1,17 +1,11 @@
 TODO:
 
 * Taxonomy aufräumen
-* https
-
-
 
 
 * datumsauswahl
 
-
 * stats.domain
-* LANGUAGE.NONE nur für update translatations permission
-* Editor mit Namen nicht mit ID
 
 
 * Übersetzung string für edit suggestions
@@ -24,26 +18,51 @@ TODO:
 
 
 
-* Responsive!!
-* Reponsive -> neues paket
-* Google Übersetzung -> neues paket
 * Projektpakete -> sheet Version 
 
 * Projektpakete -> sheet Version 
-* DB backup!
 -> custom build script
+
 * sharing -> neues tab (facebook?)
-
-
-
-
-
 
 
 * scroll hackelig auf touch device, extra tap...
 * param update neu machen, favourites to page stellt ganz schnel noch alle items als favpurites da -> doof
 
-Done: 
+
+* monitoring
+* manifest
+* Wenn zoom super klein ist macht die liste beim scrollen stress
+* Projektpakete -> sheet Version 
+* LOGIN_UNKNOWN
+* Loading Screen?
+* Build one large template file
+* description später laden, Suche auf backend (teil-)auslagern
+
+* ICB:  app.config-> sprachen anpassen
+* minimize svg
+
+
+* badges
+
+* use request in icutils, backend
+
+* Taxonomy
+	-> Farben
+	-> icons?
+
+* Theme ICB
+* Loading Screen
+
+
+* STYLES.CSS wird zweimal geladen?!
+
+
+
+
+
+Done:
+
 * Übersetzung flackert
 * cafe züri
 * Suche auf Sprachen anpassen =/
@@ -57,35 +76,20 @@ Done:
 * expand Map hinund her komisch nach minimap, dann item auswählen -> nicht mehr nachvollziehbar
 * meta
 * Lange Suche mit Leerzeichen!
-
 * Scrollefekkt bei XS wegmachen
 * Titel bei google
  -> abwarten
+* LANGUAGE.NONE nur für update translatations permission
+* Editor mit Namen nicht mit ID (nochmal angucken?)
 
-
-TODO:
-
-
-* monitoring
-* automatische übersetzung
-* manifest
-* Wenn zoom super klein ist macht die liste beim scrollen stress
-* Google Übersetzung -> neues paket
-* Projektpakete -> sheet Version 
-* LOGIN_UNKNOWN
-* Loading Screen?
-* Build one large template file
-* description später laden, Suche auf backend (teil-)auslagern
-
-* ICB:  app.config-> sprachen anpassen
-* minimize svg
-
+* Translationkey
+* AutoTranslate
+* Spracherkennung
 * Create item nur anzeigen, wenn der Nutzer auch die Rechte hat
+* DB backup!
+* Responsive / Reponsive -> neues paket
+* Google Übersetzung -> neues paket
 
-* badges
 
-* use request in icutils, backend
-
-* Taxonomy
-	-> Farben
-	-> icons?
+* Brauche:
+* Übersetzungen

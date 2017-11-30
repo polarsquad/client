@@ -41,6 +41,21 @@ angular.module('icDirectives', [
 ])
 
 
+.directive('icLoadingScreen',[
+	'ic',
+	function(ic, $rootScope){
+		return {
+			restrict: 		"E",
+			//templateUrl:	"partials/ic-loading-screen.html",
+			scope:			{},
+
+			link: function(scope, element){ 
+				scope.ic = ic 
+			}
+		}
+	}
+])
+
 // Section directives:
 
 

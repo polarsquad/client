@@ -1,7 +1,5 @@
 /*loading screen */
 
-
-
 ic-loading-screen{
 	display:				block;
 	position:				fixed;
@@ -14,14 +12,13 @@ ic-loading-screen{
 	background-color:		#fff;
 	/*transition-duration:	1000ms;
 	transition-timing-function: ease-in;*/
-	box-shadow:				0 0 2rem rgba(0,0,0,0.2);
 }
 
-ic-loading-screen.ic-hide {
+/*ic-loading-screen.ic-hide {
 	transition-property:	transform;
 	transform:				translateX(-100%);
 }
-
+*/
 ic-loading-screen h1 {
 	text-align:				center;
 	margin-top:				1em;
@@ -30,8 +27,27 @@ ic-loading-screen h1 {
 	line-height:			1.4em;
 }
 
+ic-loading-screen .progress {
+	position:				relative;
+	display:				block;
+	margin:					auto;
+	max-width:				20rem;
+	width:					90%;
+	height:					0.2rem;
+	background-color:		rgba(0,0,0,0.2);
+}
 
 
+ic-loading-screen .progress .current {
+	position:				absolute;
+	top:					0;
+	left:					0;
+	bottom:					0;
+	background-color:		#000;
+	transition:				width 250ms linear;
+}
+
+/*
 
 ic-loading-screen .spinner {
 	margin:					0 auto;
@@ -104,4 +120,4 @@ ic-loading-screen .progress span:nth-child(5).done {
 	transition-delay:		500ms;
 }
 
-
+*/

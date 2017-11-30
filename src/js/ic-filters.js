@@ -171,3 +171,21 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+.filter('range', [
+
+	function(){
+
+		var ranges = {}
+
+		return function(input, total){
+			var total = parseInt(total) || 0
+
+			ranges[total] = ranges[total] || Array(total).fill(1).map(function(value, index){ return index })
+
+			console.log(ranges[total])
+
+			return ranges[total]
+		}
+	}
+])

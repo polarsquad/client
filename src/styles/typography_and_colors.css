@@ -10,6 +10,9 @@ html{
 	color:				#444;
 }
 
+h1,h2,h3,h4,h5,h6 {
+	font-family: 		Biryani, Roboto, sans-serif;
+}
 
 textarea, 
 input, 
@@ -18,13 +21,6 @@ select {
 	font-family: 		inherit; 
 	font-size: 			inherit; 
 }
-
-
-h1,h2,h3,h4,h5,h6 {
-	font-family: 		Biryani, Roboto, sans-serif;
-}
-
-
 
 
 /* common  MAYBE outsource to extra css*/

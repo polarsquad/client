@@ -23,7 +23,9 @@ var copyfiles	= 	require('copyfiles'),
 
 	config		=	cst
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
-					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8'))
+					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
+
+	preloadImg	=	[]
 
 
 function setup(){
@@ -130,11 +132,9 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 			.then(result => {
 				var template	= 	result[0], 
 					filenames 	= 	result[1].filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
-					preload		= 	preload
-									?	'\n\nbody:before{\n display:none;\n content:'
-										+ filenames.map( (fn) => '\turl('+dst_folder+'/'+ fn + ')' ).join('')
-										+ ';\n}\n\n'
-									: ''
+
+				filenames.forEach( fn =>  preloadImg.push(dst_folder+'/'+ fn) )
+
 
 				return 	filenames.map(function(filename){
 
@@ -151,10 +151,15 @@ function images2Css(src_folder, dst_folder, template_file, preload){
 									.replace(/{{name}}/g, dst_folder+'/'+filename)
 						})
 						.join('\n\n')
-						+ preload 
 			})
 }
 
+
+function preloadImagesTmp(){
+	return 	Promise.resolve()
+			.then( () => fs.ensureDir('tmp/json') )
+			.then( () => fs.writeFile('tmp/json/preload-images.json', JSON.stringify(preloadImg) ))
+}
 
 
 
@@ -188,7 +193,7 @@ function compileIconTemplatesTmp2Tmp(){
 }
 
 function compileImageTemplatesSrc2Tmp(){
-	return	images2Css(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template')
+	return	images2Css(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
 }
 
@@ -222,19 +227,27 @@ function copyFilesSrcToTmp(){
 			])
 }
 
+function createConfigJson(){
+	return 	Promise.resolve()
+			.then( () => fs.ensureDir('tmp/json'))
+			.then( () => fs.writeFile('tmp/json/config.json', JSON.stringify(config) ) )
+}
+
 
 
 function copyReadyFilesToDst(){
 	return 	Promise.all([
 
 				fs.copy(src+"/js", 				dst+"/js"),
-				fs.copy(src+"/pages",			dst+"/pages"),
-				fs.copy(src+"/partials",		dst+"/partials"),
+				// templates in index.html, no need for this:
+				// fs.copy(src+"/pages",		dst+"/pages"),
+				// fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
 				fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
 				//tmp
 				fs.copy("tmp/images", 			dst+"/images"),
+				fs.copy("tmp/json",				dst)
 			])
 }
 
@@ -289,23 +302,38 @@ function bundleStylesToDst(){
 function compileIndex(){
 
 	return 	Promise.all([
-				fs.readFile(src+'/index.html', 		'utf8'),
-				fs.readFile(src+'/dev_head.html', 	'utf8')
+				fs.readFile(src+'/index.html', 				'utf8'),
+				fs.readFile(src+'/dev_head.html', 			'utf8'),
+				fs.readFile(src+'/ic-loading-screen.html', 	'utf8'),
+				Promise.map(fs.readdir(src+'/partials'), 	filename => 'partials/'+filename),
+				Promise.map(fs.readdir(src+'/pages'),		filename => 'pages/'+filename)	
 			])
-			.then(function(result){
-				var index	= result[0],
-					head 	= result[1]
+			.spread( (index, head, loading_screen, partials, pages) => {
 
-				head = head.replace(/CONFIG/g, JSON.stringify(config))	
+				head 		= 	head.replace(/CONFIG/g, JSON.stringify(config))	
+				partials 	= 	partials.filter(	filename => fs.lstatSync(src+'/'+filename).isFile() )
+				pages 		= 	pages.filter(		filename => fs.lstatSync(src+'/'+filename).isFile() )
 
-				return	index
-						.replace(/CONFIG\.BACKEND\_LOCATION/g, 		config.backendLocation)
-						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 	'\n'+head)
-						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 	config.title)
+				templates	=	partials.concat(pages)
+
+				return	Promise.map(
+							templates, 
+							filename => Promise.props({ name: filename, content : fs.readFile(src+'/'+filename, 'utf8')} )
+						)
+						.map( 	file 			=> '\t\t<script type="text/ng-template" id="'+file.name+'">'+file.content.replace(/\n|\r/g,'')+'</script>')
+						.then( 	template_tags 	=> template_tags.join("\n"))
+						.then( 	template_block	=> 
+							index
+							.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
+							.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
+							.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
+							.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
+							.replace(/\s*<\!--\s*BUILD NG-TEMPLATES\s*-->/g,	'\n'+template_block)
+							
+						)
+
 			})
-			.then(function(content){
-				return fs.writeFile(dst+'/index.html', content, 'utf8')				
-			})
+			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
 }
 
 
@@ -361,6 +389,10 @@ setup()
 .then( () =>  process.stdout.write('Done.\n'))
 
 
+.then( () => process.stdout.write('\nCompiling preloading image styles into /tmp for further processing ...'))
+.then( preloadImagesTmp)
+.then( () => process.stdout.write('Done.\n'))
+
 .then( () => process.stdout.write('\nPreparing Biyarni...'))
 .then(prepareBiyarni)
 .then( () =>  process.stdout.write('Done.\n'))
@@ -374,6 +406,11 @@ setup()
 
 .then( () => process.stdout.write('\nMinimizing SVGs in /tmp...'))
 .then(minimizeSvgIconsTmp)
+.then( () =>  process.stdout.write('Done.\n'))
+
+
+.then( () => process.stdout.write('\ncreating config.json in /tmp...'))
+.then(createConfigJson)
 .then( () =>  process.stdout.write('Done.\n'))
 
 

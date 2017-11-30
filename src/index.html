@@ -1,7 +1,6 @@
 <!doctype html>
 <html 
 	lang			=	"{{ic.site.currentLanguage}}" 
-	ng-app			=	"InfoCompass"
 	ng-class		=	"{
 							'show-page': 	ic.site.displayedComponents.page, 
 							'show-list': 	ic.site.displayedComponents.list, 
@@ -56,22 +55,24 @@
 		<meta property="og:image" 			content="/images/large/seniorennetz_icon.png" />
 		<meta property="og:site_name" 		content="<!--BUILD TITLE-->" />
 
+
+		<!-- AngularJs templates -->
+		<!--BUILD NG-TEMPLATES-->
+
 	</head>
 
 
 
 	<body class = "col-0">
 		<noscript>Please enable javascript.</noscript>
-		<div
-			class = "padding bg-3" 
-			ng-if = "!ic.init.ready"
-		> 
-			loading ...
-		</div>
+
+		<ic-loading-screen ng-if = "!ic.init.ready"> 
+			<!--BUILD LOADING-SCREEN-->
+		</ic-loading-screen>
 
 		<!-- header -->
 		<ic-header 
-			ng-show 				= "ic.init.ready"
+			ng-show 				= "::ic.init.ready"
 			ic-scroll-snap-target 	= "ic.layout.mode.name != 'XS' && (ic.site.visibleSections.page ? 'header' : false)" 
 		></ic-header>
 
