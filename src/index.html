@@ -31,12 +31,6 @@
 		<link rel="apple-touch-icon" href="/images/large/seniorennetz_icon.png" />
 
 
-
-		<script src="CONFIG.BACKEND_LOCATION/dpd.js">				</script>
-		<script src="CONFIG.BACKEND_LOCATION/ic-item-config.js">	</script>
-
-
-
 		<!--BUILD HEAD-->
 		
 		<!-- Schema.org markup for Google+ -->
@@ -55,10 +49,6 @@
 		<meta property="og:image" 			content="/images/large/seniorennetz_icon.png" />
 		<meta property="og:site_name" 		content="<!--BUILD TITLE-->" />
 
-
-		<!-- AngularJs templates -->
-		<!--BUILD NG-TEMPLATES-->
-
 	</head>
 
 
@@ -72,18 +62,18 @@
 
 		<!-- header -->
 		<ic-header 
-			ng-show 				= "::ic.init.ready"
+			ng-if 					= "::ic.init.ready"
 			ic-scroll-snap-target 	= "ic.layout.mode.name != 'XS' && (ic.site.visibleSections.page ? 'header' : false)" 
 		></ic-header>
 
 		<!-- content -->
 		<ic-main-content 
-			ng-show   	= "::ic.init.ready"
+			ng-if	   	= "::ic.init.ready"
 		></ic-main-content>
 
 		<!-- overlays -->
 		<ic-overlays 
-			ng-show		= "::ic.init.ready"
+			ng-if		= "::ic.init.ready"
 			class		= "ic-hide"
 			ng-class	= "{'ic-hide' :!ic.overlays.active()}"
 		></ic-overlays>

@@ -22,12 +22,10 @@
 
 	 }
 
-	var icConfig 			= undefined,
-		icPreloadImages		= undefined
+	 var icConfig = undefined
 
 	Promise.all([
-		loadJSON('config.json')			.then(function(config){ icConfig 			= config }),
-		loadJSON('preload-images.json')	.then(function(images){ icPreloadImages 	= images })
+		loadJSON('config.json').then(function(config){ icConfig = config }),
 	])
 	.then(function(){
 
@@ -40,14 +38,14 @@
 			'icFilters',
 			'icUiDirectives',	
 			'icMap',
-			'plImages',
+			'icPreload',
 		])
 
 		.config([
 
 			'$locationProvider',
 
-			function($locationProvider,preloadImagesProvider){
+			function($locationProvider){
 				$locationProvider
 				.html5Mode({
 					enabled:		true
@@ -61,7 +59,16 @@
 			'plImagesProvider',
 
 			function(plImagesProvider){
-				plImagesProvider.setUrls(icPreloadImages)
+				plImagesProvider.setJsonFile('preload-images.json')
+			}
+		])
+
+		.config([
+
+			'plTemplatesProvider',
+
+			function(plTemplatesProvider){
+				plTemplatesProvider.setJsonFile('preload-templates.json')
 			}
 		])
 

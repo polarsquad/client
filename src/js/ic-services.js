@@ -1,7 +1,7 @@
 "use strict";
 
 angular.module('icServices', [
-	'plImages',
+	'icPreload',
 	// 'icApi',
 	// 'smlLayout',
 	// 'pascalprecht.translate'
@@ -33,10 +33,11 @@ angular.module('icServices', [
 	'icItemStorage',
 	'icLanguages',
 	'plImages',
+	'plTemplates',
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLanguages, plImages, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLanguages, plImages, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
@@ -46,7 +47,8 @@ angular.module('icServices', [
 									icUser: 		icUser.ready,
 									icItemStorage:	icItemStorage.ready,
 									icLanguages:	icLanguages.ready,
-									images:			plImages.ready,
+									plImages:		plImages.ready,
+									plTemplates:	plTemplates.ready
 								}
 	
 			

@@ -28,6 +28,13 @@ var copyfiles	= 	require('copyfiles'),
 	preloadImg	=	[]
 
 
+function done(all){
+	all
+	?	process.stdout.write('\x1b[32m\n*** All done.\n\x1b[0m')
+	:	process.stdout.write('\x1b[32m Done.\n\x1b[0m')
+}
+
+
 function setup(){
 
 	return 	Promise.all([
@@ -162,6 +169,19 @@ function preloadImagesTmp(){
 }
 
 
+function preloadNgTemplatesTmp(){
+	return	Promise.all([
+				Promise.map(fs.readdir(src+'/partials'), 	filename => 'partials/'+filename),
+				Promise.map(fs.readdir(src+'/pages'),		filename => 'pages/'+filename),
+				fs.ensureDir('tmp/json')
+			])
+			.then(	([partials, pages])	=> [].concat(partials, pages) )
+			.map(	filename 			=> Promise.props({ name: filename, content : fs.readFile(src+'/'+filename, 'utf8')} ) )
+			.then(	files				=> fs.writeFile('tmp/json/preload-templates.json', JSON.stringify(files) ) )
+
+}
+
+
 
 function compileIconsSrc2Tmp(){
 	return 	svgColors(src+'/images/raw_icons', 'tmp/images/icons', {
@@ -239,9 +259,9 @@ function copyReadyFilesToDst(){
 	return 	Promise.all([
 
 				fs.copy(src+"/js", 				dst+"/js"),
-				// templates in index.html, no need for this:
-				// fs.copy(src+"/pages",		dst+"/pages"),
-				// fs.copy(src+"/partials",		dst+"/partials"),
+				// templates are preloaded, but in case the preload is not ready yet::
+				fs.copy(src+"/pages",			dst+"/pages"),
+				fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
 				fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
@@ -304,33 +324,15 @@ function compileIndex(){
 	return 	Promise.all([
 				fs.readFile(src+'/index.html', 				'utf8'),
 				fs.readFile(src+'/dev_head.html', 			'utf8'),
-				fs.readFile(src+'/ic-loading-screen.html', 	'utf8'),
-				Promise.map(fs.readdir(src+'/partials'), 	filename => 'partials/'+filename),
-				Promise.map(fs.readdir(src+'/pages'),		filename => 'pages/'+filename)	
+				fs.readFile(src+'/ic-loading-screen.html', 	'utf8')
 			])
 			.spread( (index, head, loading_screen, partials, pages) => {
 
-				head 		= 	head.replace(/CONFIG/g, JSON.stringify(config))	
-				partials 	= 	partials.filter(	filename => fs.lstatSync(src+'/'+filename).isFile() )
-				pages 		= 	pages.filter(		filename => fs.lstatSync(src+'/'+filename).isFile() )
-
-				templates	=	partials.concat(pages)
-
-				return	Promise.map(
-							templates, 
-							filename => Promise.props({ name: filename, content : fs.readFile(src+'/'+filename, 'utf8')} )
-						)
-						.map( 	file 			=> '\t\t<script type="text/ng-template" id="'+file.name+'">'+file.content.replace(/\n|\r/g,'')+'</script>')
-						.then( 	template_tags 	=> template_tags.join("\n"))
-						.then( 	template_block	=> 
-							index
-							.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
-							.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
-							.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
-							.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
-							.replace(/\s*<\!--\s*BUILD NG-TEMPLATES\s*-->/g,	'\n'+template_block)
-							
-						)
+				return	index
+						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
+						.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
+						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
+						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
@@ -352,90 +354,96 @@ setup()
 
 .then( () => process.stdout.write('\nCopying qr code scripts from src to '+dst+' ...'))
 .then(copyQRCodeScriptsSrc2Dst)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nCopying files from src to /tmp for further processing ...'))
 .then(copyFilesSrcToTmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nCompiling raw icons from src to /tmp for further processing ...'))
 .then(compileIconsSrc2Tmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\nCompiling raw markers from src to /tmp for further processing ...'))
 .then(compileMarkersSrc2Tmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nCompiling icon templates for icons in /tmp into /tmp for further processing ...'))
 .then(compileIconTemplatesTmp2Tmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\nCompiling taxonomy templates into /tmp for further processing ...'))
 .then(compileTaxonomyTemplatesToTmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nCompiling image templates for images in src into /tmp for further processing ...'))
 .then(compileImageTemplatesSrc2Tmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
-.then( () => process.stdout.write('\nCompiling preloading image styles into /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCompiling collecting images in json for later preloading into /tmp for further processing ...'))
 .then( preloadImagesTmp)
-.then( () => process.stdout.write('Done.\n'))
+.then( () => done() )
+
+
+.then( () => process.stdout.write('\nCompiling collecting ng-templates in json for later preloading  styles into /tmp for further processing ...'))
+.then( preloadNgTemplatesTmp)
+.then( () => done() )
+
 
 .then( () => process.stdout.write('\nPreparing Biyarni...'))
 .then(prepareBiyarni)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\nPreparing Roboto...'))
 .then(prepareRoboto)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nMinimizing SVGs in /tmp...'))
 .then(minimizeSvgIconsTmp)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\ncreating config.json in /tmp...'))
 .then(createConfigJson)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\nCopying ready files to '+dst+'...'))
 .then(copyReadyFilesToDst)
-.then( () => process.stdout.write('Done.\n'))
+.then( () => done() )
 
 .then( () => process.stdout.write('\nBuidling styles into '+dst+'...'))
 .then(bundleStylesToDst)
-.then( () => process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 .then( () => process.stdout.write('\nCompiling Index into '+dst+'...'))
 .then(compileIndex)
-.then( () =>  process.stdout.write('Done.\n'))
+.then( () => done() )
 
 
 
 // .then( () => process.stdout.write('\nCleaninng up...'))
 // .then(cleanUp)
-// .then( () => process.stdout.write('Done.'))
+// .then( () => process.stdout.write('\x1b[32m Done.'))
 
 
 .then(
-	()	=> process.stdout.write('\nAll done. \n'),
+	()	=> done(true),
 	e	=> console.trace(e)
 )
 

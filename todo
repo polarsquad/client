@@ -77,8 +77,7 @@ Done:
 * meta
 * Lange Suche mit Leerzeichen!
 * Scrollefekkt bei XS wegmachen
-* Titel bei google
- -> abwarten
+* Titel bei google -> abwarten
 * LANGUAGE.NONE nur für update translatations permission
 * Editor mit Namen nicht mit ID (nochmal angucken?)
 
@@ -91,5 +90,6 @@ Done:
 * Google Übersetzung -> neues paket
 
 
-* Brauche:
+Brauche:
 * Übersetzungen
+* Backup 100gb
