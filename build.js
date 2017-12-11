@@ -328,7 +328,7 @@ function compileIndex(){
 			])
 			.spread( (index, head, loading_screen, partials, pages) => {
 
-				head =  head.replace(/^.*CONFIG\.EXTERNAL\_CSS.*$/igm, '')
+				if(!config.externalCss) head =  head.replace(/^.*CONFIG\.EXTERNAL\_CSS.*$/igm, '')
 
 				return	index
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
