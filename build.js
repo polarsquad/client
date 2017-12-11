@@ -328,11 +328,14 @@ function compileIndex(){
 			])
 			.spread( (index, head, loading_screen, partials, pages) => {
 
+				head =  head.replace(/^.*CONFIG\.EXTERNAL\_CSS.*$/igm, '')
+
 				return	index
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
 						.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
 						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
+						.replace(/CONFIG\.EXTERNAL\_CSS/g, 					config.externalCss)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
