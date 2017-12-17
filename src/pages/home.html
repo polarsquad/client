@@ -29,7 +29,7 @@
 		<a 
 			ng-repeat 	= "type in ic.taxonomy.types"
 			ng-href		= "/list/t/{{type.name}}"
-			class 		= "icon icon-type-{{type.name}} white"
+			class 		= "icon icon-type-{{type.name}} white bg-3"
 		>
 			{{'TYPES.%s' | fill : type.name | translate}}
 			<small></small>
@@ -37,7 +37,7 @@
 
 		<a 
 			href	= "/tiles/p/tiles/u/favourite"
-			class 	= "icon icon-interface-favourites white"
+			class 	= "icon icon-interface-favourites white  bg-3"
 		>
 			Merkliste
 			<small></small>
