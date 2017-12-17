@@ -26,7 +26,7 @@ select {
 /* common  MAYBE outsource to extra css*/
 a {
 	outline:			none !important;
-	text-decoration:	none !important;
+	text-decoration:	none;
 	color:				inherit;
 	cursor:				pointer;
 }

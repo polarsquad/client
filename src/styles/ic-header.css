@@ -3,7 +3,6 @@
 
 ic-header {
 	color:							#fff;
-	background-color:				#802651;
 	z-index:						100;
 }
 
@@ -71,7 +70,6 @@ ic-header .tools .text-logo {
 ic-header .logo {
 	display:						flex;
 	box-sizing:						border-box;
-	background-color:				#802651;
 	flex-direction:					row;
 	justify-content:				flex-end;
 	align-items:					center;
@@ -106,21 +104,27 @@ ic-header ic-main-menu ul {
 	padding:						0;
 }
 
-ic-header ic-main-menu ul > li {
-	position:						relative;
-	display:						inline-block;
-	padding:						0 1rem;
-	flex:							0 0 auto;
-	background-color:				transparent !important;
-}
-
-ic-header ic-main-menu ul > li.spacer {
-	flex:							1 0 0;
-}
-
 ic-header ic-main-menu > ul > li:last-child {
 	margin-right:					1rem;
 }
+
+ic-header ic-main-menu > ul > li{
+	background-color:				transparent !important;
+}
+
+ic-header ic-main-menu ul > li {
+	flex:							0 0 auto;
+	position:						relative;
+	display:						flex;
+	align-items:					stretch;
+	flex:							0 0 auto;
+}
+
+ic-header ic-main-menu ul > li > a {
+	padding:						0 1rem;
+	line-height:					inherit !important;
+}
+
 
 
 ic-header ic-main-menu ul > li > ul {
@@ -149,7 +153,6 @@ ic-header ic-main-menu ul > li:hover > ul {
 ic-header ic-main-menu ul > li > ul > li {
 	display:						flex;
 	margin-top:						0;
-	color:							#802651;
 	line-height:					2.5rem;
 	padding:						0;
 	border: 						0;
@@ -173,12 +176,6 @@ ic-header ic-main-menu ul > li > ul > li > a {
 	box-sizing:						border-box;
 	flex:							1 0 auto;
 	padding: 						0.25rem 1rem;
-}
-
-
-ic-header ic-main-menu ul > li > ul > li a:hover{
-	background-color: 				#802651;
-	color:							#fff;
 }
 
 ic-header ic-main-menu ul > li > ul > li a:hover > .bubble {

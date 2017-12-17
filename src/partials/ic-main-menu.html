@@ -21,7 +21,7 @@
 
 	<li 
 		ng-if = "!ic.user.loggedIn && icPlain"
-		class = "bg-0 col-3"
+		class = "bg-3"
 	>
 		<a 
 			ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
@@ -33,7 +33,7 @@
 	</li>
 	<li 
 		ng-show = "!ic.user.loggedIn && icPlain"
-		class 	= "bg-0 col-3"
+		class 	= "bg-0"
 	>
 		<a 
 			ng-click = "ic.overlays.toggle('login')"
@@ -50,7 +50,6 @@
 		ng-mouseleave		= "showMore	= false"
 		ng-click			= "showMore = !showMore"
 		ic-click-outside 	= "showMore = false" 
-		class 				= "bg-3"
 	>
 		<a 
 			class 			= "icon right icon-interface-down white"
@@ -60,19 +59,20 @@
 		</a>		
 
 		<ul 
-			class	= "bg-0 col-3"
+			class	= "bg-0"
 			ng-show = "icPlain || showMore"
 		>
-			<li> <a ic-touch-me a ng-href="/p/about">		{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
-			<li> <a ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
-			<li> <a ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
-			<li> <a ic-touch-me ng-href="/p/legal">		{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
-			<li> <a ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
-			<li 
+			<li> <a class = "bg-0 hover" ic-touch-me a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
+			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
+			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/legal">	{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
+			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li  
 				ng-if	= "!ic.user.loggedIn && !icPlain"
 				ic-touch-me
 			>
 				<a  
+					class = "bg-0 hover"
 					ic-touch-me
 					ng-click = "ic.overlays.toggle('login')"
 				>{{'INTERFACE.LOGIN' | translate }}
@@ -84,7 +84,6 @@
 
 	<li
 		ng-if = "!ic.user.loggedIn && !icPlain"
-		class = "bg-3"
 	>
 		<a 	
 		 	ic-touch-me		
@@ -101,7 +100,6 @@
 		ng-mouseleave		= "showAdmin = false"
 		ng-click			= "showAdmin = !showAdmin"
 		ic-click-outside 	= "showAdmin = false" 
-		class 				= "bg-3"
 	>
 		<a 
 			ng-if = "!icPlain"
@@ -111,23 +109,25 @@
 			{{ic.user.displayName}}
 		</a>	
 		<ul 
-			class	= "bg-0 col-3"
 			ng-show = "icPlain || showAdmin"
 		>
 			<li ng-if="ic.user.can('edit_items')">
 				<a 
+					class = "bg-0 hover"  
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
 			</li>
 			<li ng-if = "!ic.user.can('edit_items')">
 				<a 
+					class = "bg-0 hover"  
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
 				>{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}</a>	
 			</li>
 			<li>
 				<a
+					class = "bg-0 hover"  
 					ng-click = "ic.admin.updateTranslations()"
 					ic-touch-me
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
@@ -135,6 +135,7 @@
 
 			<li>
 				<a 
+					class = "bg-0 hover"  
 					href = "/list/u/state_draft"
 					ic-touch-me
 				>
@@ -145,6 +146,7 @@
 
 			<li>
 				<a 
+					class = "bg-0 hover"  
 					href = "/list/u/state_suggestion"
 				 	ic-touch-me
 				>
@@ -155,7 +157,8 @@
 
 
 			<li>
-				<a 
+				<a
+					class = "bg-0 hover"  
 					href = "/list/u/state_archived"
 					ic-touch-me
 				>
@@ -166,8 +169,9 @@
 
 			<li>
 				<a 
+					class = "bg-0 hover" 
 					ng-click = "ic.user.logout()"
-					 ic-touch-me
+					ic-touch-me
 				>
 					{{('INTERFACE.LOGOUT' | translate) + (icPlain ? ': '+ic.user.displayName :'')}}
 				</a>

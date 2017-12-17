@@ -94,9 +94,9 @@ ic-item-property-edit .options li > *:first-child {
 }
 
 
-ic-item-property-edit .invalid input[type="text"],
-ic-item-property-edit .invalid textarea {
-	box-shadow:					0 0 0 2px #802651 inset;
+ic-item-property-edit.invalid input[type="text"],
+ic-item-property-edit.invalid textarea {
+	box-shadow:					0 0 0 2px red inset;
 }
 
 ic-item-property-edit .error {

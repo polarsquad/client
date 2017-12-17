@@ -386,6 +386,11 @@ ic-overlays ic-main-menu ul {
 	width:						auto;
 }
 
+ic-overlays ic-main-menu .bg-0.hover:hover {
+	background:					inherit !important;
+	color:						inherit !important;
+}
+
 ic-overlays ic-main-menu li {
 	padding:					0;
 }

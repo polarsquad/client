@@ -297,10 +297,16 @@ function bundleStyles(src_dir, target_dir, filename){
 						?	Promise.reject(minify_result.errors)
 						:	minify_result.styles
 			})
-			.then(function(css){
-				return	fs.ensureDir(target_dir)
-						.then(() => fs.writeFile(target_dir+'/'+filename, css, 'utf8'))
-			})
+			.then(
+				function(css){
+					return	fs.ensureDir(target_dir)
+							.then(() => fs.writeFile(target_dir+'/'+filename, css, 'utf8'))
+				},
+				function(e){
+					return	fs.ensureDir(target_dir)
+							.then(() => fs.writeFile(target_dir+'/'+filename, '', 'utf8'))
+				}
+			)
 }
 
 
@@ -313,7 +319,8 @@ function bundleStylesToDst(){
 			])
 			.then(() => Promise.all([
 				bundleStyles('tmp/styles', 			dst+'/styles', 'styles.css'),
-				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css')
+				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css'),
+				bundleStyles('tmp/styles/last', 	dst+'/styles', 'last.css')
 			]))
 }
 
@@ -440,9 +447,9 @@ setup()
 
 
 
-// .then( () => process.stdout.write('\nCleaninng up...'))
-// .then(cleanUp)
-// .then( () => process.stdout.write('\x1b[32m Done.'))
+.then( () => process.stdout.write('\nCleaninng up...'))
+.then(cleanUp)
+.then( () => process.stdout.write('\x1b[32m Done.'))
 
 
 .then(
