@@ -62,17 +62,17 @@
 			class	= "bg-0"
 			ng-show = "icPlain || showMore"
 		>
-			<li> <a class = "bg-0 hover" ic-touch-me a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
-			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
-			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
-			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/legal">	{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
-			<li> <a class = "bg-0 hover" ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li class = "bg-0 hover"> <a ic-touch-me a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
+			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
+			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
+			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/legal">	{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
+			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
 			<li  
+				class = "bg-0 hover"
 				ng-if	= "!ic.user.loggedIn && !icPlain"
 				ic-touch-me
 			>
 				<a  
-					class = "bg-0 hover"
 					ic-touch-me
 					ng-click = "ic.overlays.toggle('login')"
 				>{{'INTERFACE.LOGIN' | translate }}
@@ -111,31 +111,37 @@
 		<ul 
 			ng-show = "icPlain || showAdmin"
 		>
-			<li ng-if="ic.user.can('edit_items')">
+			<li
+				ng-if="ic.user.can('edit_items')"
+			>
 				<a 
-					class = "bg-0 hover"  
+					
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
 			</li>
-			<li ng-if = "!ic.user.can('edit_items')">
+			<li 
+				class = "bg-0 hover"  
+				ng-if = "!ic.user.can('edit_items')"
+			>
 				<a 
-					class = "bg-0 hover"  
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
 				>{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}</a>	
 			</li>
-			<li>
+			<li
+				class = "bg-0 hover"  
+			>
 				<a
-					class = "bg-0 hover"  
 					ng-click = "ic.admin.updateTranslations()"
 					ic-touch-me
 				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
 			</li>
 
-			<li>
+			<li
+				class = "bg-0 hover"  
+			>
 				<a 
-					class = "bg-0 hover"  
 					href = "/list/u/state_draft"
 					ic-touch-me
 				>
@@ -144,9 +150,10 @@
 				</a>	
 			</li>
 
-			<li>
+			<li
+				class = "bg-0 hover"  
+			>
 				<a 
-					class = "bg-0 hover"  
 					href = "/list/u/state_suggestion"
 				 	ic-touch-me
 				>
@@ -156,9 +163,10 @@
 			</li>
 
 
-			<li>
+			<li
+				class = "bg-0 hover"  
+			>
 				<a
-					class = "bg-0 hover"  
 					href = "/list/u/state_archived"
 					ic-touch-me
 				>
@@ -167,9 +175,10 @@
 				</a>	
 			</li>
 
-			<li>
+			<li
+				class = "bg-0 hover"  
+			>
 				<a 
-					class = "bg-0 hover" 
 					ng-click = "ic.user.logout()"
 					ic-touch-me
 				>
