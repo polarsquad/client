@@ -130,6 +130,7 @@ ic-header ic-main-menu ul > li > a {
 ic-header ic-main-menu ul > li > ul {
 	display:						block;
 	left:							0;
+	top:							100%;
 	position:						absolute;
 	overflow:						hidden;
 	z-index:						-1;
