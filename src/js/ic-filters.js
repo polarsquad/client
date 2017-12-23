@@ -58,6 +58,7 @@ angular.module('icFilters', [
 .filter('osmLink', [
 	function(){
 		return function(config){
+			if(!config) return undefined
 			return 	config.longitude && config.latitude
 					?	'https://www.openstreetmap.org/?mlat='+config.latitude +'&mlon=' + config.longitude + '#map=17/'+config.latitude+'/'+config.longitude
 					:	'https://www.openstreetmap.org/search?query='+config.address + ', ' + config.zip + ', ' + config.city
@@ -71,6 +72,7 @@ angular.module('icFilters', [
 .filter('gmLink', [
 	function(){
 		return function(config){
+			if(!config) return undefined
 			return	config.longitude && config.latitude
 					?	'https://www.google.de/maps/place/'+config.latitude+'+' + config.longitude + '/@'+config.latitude + ',' + config.longitude +',17z'
 					:	'https://www.google.de/maps/place/'+config.address+', '+config.zip+', '+config.city

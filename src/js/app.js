@@ -74,6 +74,15 @@
 
 		.config([
 
+			'icStatsProvider',
+
+			function(icStatsProvider){
+				icStatsProvider.setUrl(icConfig.statsLocation)
+			}
+		])
+
+		.config([
+
 			'icSiteProvider',
 
 			function(icSiteProvider){
@@ -95,6 +104,7 @@
 				.registerParameter({
 					name: 			'activeItem',
 					encode:			function(value, ic){
+
 										return 	value && value.id
 												?	'item/'+value.id 
 												:	''
@@ -358,8 +368,7 @@
 
 				$rootScope.ic = ic
 
-				$rootScope.$on('$routeChangeStart', function(){
-					console.log('$routeChangeStart')
+				$rootScope.$watch(function(){
 				})
 
 			}

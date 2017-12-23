@@ -388,15 +388,21 @@ angular.module('icServices', [
 				window.print()
 			}
 
+
 			$rootScope.$watch(
 				function(){
-					return 	Array.prototype.concat(
-								icSite.config.params.map(function(param){ return icSite[param.name] }),
-								icSite.config.switches.map(function(swt){ return icSite[swt.name] 	}),
-								[icLayout.mode.name]
-							)
+					var state = {}
+
+					icSite.config.params.forEach(function(param){ state[param.name] = icSite[param.name]	})
+					icSite.config.switches.forEach(function(swt){ state[swt.name]	= icSite[swt.name]		})
+
+					state.layoutMode = icLayout.mode.name
+
+					return state 
+					
 				},
-				function(a, old){
+				function(new_state, old_state){
+
 
 					ic.ready.then(function(){
 						icSite
@@ -475,11 +481,7 @@ angular.module('icServices', [
 							properties:	properties
 						}))
 						.then( function(){
-							console.log(item_id)
-							return $q.when(icItemStorage.getItem(item_id).download()).then(
-								function(x){console.log('XXX',x)},
-								function(e){console.log('EEE',e)}
-							)
+							return $q.when(icItemStorage.getItem(item_id).download())
 						})
 						.then(
 							function(){
@@ -499,6 +501,138 @@ angular.module('icServices', [
 })
 
 
+
+
+
+.provider('icStats', [
+
+	function(){
+
+		var url = undefined
+
+		this.setUrl = function(u){
+			url = u
+		}
+
+		this.$get = [
+			'$rootScope',
+			'$http',
+			'icSite',
+			'icOverlays',
+
+			function($rootScope, $http, icSite, icOverlays){
+
+				var icStats = {}
+
+				icStats.statItem = function(id){
+					console.log('statItem', id)
+					if(!url) 	return null
+					if(!id)		return null
+					return	$http.post(url+'/item/'+id).catch( function(){} )
+				}
+
+				icStats.statSearch = function(search_term){
+					console.log('statSearch', search_term)
+					if(!url) 			return null
+					if(!search_term)	return null
+					return	$http.post(url+'/search/'+search_term).catch( function(){} )
+				}
+
+				icStats.statPrintItem = function(id){
+					console.log('statPrintItem', id)
+					if(!url) 	return null
+					if(!id)		return null
+					return	$http.post(url+'/print/'+id).catch( function(){} )
+				}
+
+				icStats.statLanguage = function(lang){
+					console.log('statLanguage', lang)
+					if(!url) 	return null
+					if(!lang)	return null
+					return	$http.post(url+'/language/'+lang).catch( function(){} )
+				}
+
+				icStats.statShareItem	= function(id){
+					console.log('statShareItem', id)
+					if(!url) 	return null
+					if(!id)		return null
+					return	$http.post(url+'/share/'+id).catch( function(){} )
+				}
+
+				icStats.statPrintItem = function(id){
+					console.log('printShareItem', id)
+					if(!url) 	return null
+					if(!id)		return null
+					return	$http.post(url+'/print/'+id).catch( function(){} )
+
+				}
+
+
+				var checked = {}
+
+
+				$rootScope.$watch(
+					function(){ return icSite.activeItem && icSite.activeItem.id },
+					function(new_id, old_id){ 
+						if(!checked.item || new_id != old_id) icStats.statItem(new_id) 
+						checked.item = true	
+					}
+				)
+
+				$rootScope.$watch(
+					function(){ return icSite.searchTerm },
+					function(new_search_term, old_search_term){ 
+						if(!checked.search || new_search_term != old_search_term) icStats.statSearch(new_search_term) 
+						checked.item = true	
+					}
+				)
+			
+				$rootScope.$watch(
+					function(){ return icSite.currentLanguage },
+					function(new_language, old_language){ 
+						if(!checked.language || new_language != old_language) icStats.statLanguage(new_language) 
+						checked.item = true	
+					}
+				)
+		
+				var last_share = undefined
+
+				$rootScope.$watch(
+					function(){ return icOverlays.show.sharingMenu	},
+					function(){
+						if(last_share == (icSite.activeItem && icSite.activeItem.id)) return null
+						if(icOverlays.show.sharingMenu) icStats.statShareItem(icSite.activeItem && icSite.activeItem.id)
+						last_share = icOverlays.show.sharingMenu && (icSite.activeItem && icSite.activeItem.id)
+					}
+				)
+
+
+				/* print stat */
+
+				var mediaQueryList = window.matchMedia('print'),
+					last_print = undefined
+
+				function tryStatShare(){
+					if(last_print == (icSite.activeItem && icSite.activeItem.id)) return null
+					icStats.statPrintItem(icSite.activeItem && icSite.activeItem.id)
+					last_print = (icSite.activeItem && icSite.activeItem.id)
+				}
+
+				mediaQueryList.addListener(function (mql) {
+					if(mql.matches) tryStatShare()
+				})
+
+				window.onbeforeprint = tryStatShare
+
+
+
+
+				return this
+			}
+		]
+
+	}
+])
 
 
 
@@ -1362,6 +1496,7 @@ angular.module('icServices', [
 
 			}
 
+
 			if(leave_others_open) return this
 
 			for(var key in icOverlays.show){
@@ -1448,8 +1583,9 @@ angular.module('icServices', [
 	'icOverlays',
 	'icAdmin',
 	'icUser',
+	'icStats',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1462,6 +1598,7 @@ angular.module('icServices', [
 		ic.overlays		= icOverlays
 		ic.admin		= icAdmin
 		ic.user			= icUser
+		ic.stats		= icStats
 
 		ic.deferred.resolve()
 		delete ic.deferred
