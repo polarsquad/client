@@ -19,7 +19,7 @@
     "roboto-fontface": "^0.7.0",
     "svgo": "^0.7.2",
     "typeface-biryani": "0.0.22",
-    "uglify-js": "^3.2.0"
+    "uglify-js": "^3.3.1"
   },
   "scripts": {
     "build": "node build.js",

@@ -51,6 +51,7 @@ angular.module('icServices', [
 									plTemplates:	plTemplates.ready
 								}
 	
+
 			
 		Object.keys(promises).forEach(function(key){
 			promises[key].then(function(){

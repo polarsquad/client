@@ -5,6 +5,7 @@ var copyfiles	= 	require('copyfiles'),
 	fs 			= 	require('fs-extra'),
 	rimraf		= 	require('rimraf'),
 	CleanCSS	= 	require('clean-css'),
+	UglifyJS 	= 	require("uglify-js"),
 	SVGO		= 	require('svgo'),
 	Promise		=	require('bluebird'),
 	svgo		= 	new SVGO({
@@ -51,13 +52,55 @@ function setup(){
 }
 
 
-function copyQRCodeScriptsSrc2Dst(){
+
+
+function copyQRCodeScriptsSrcToTmp(){
 	return 	fs.ensureDir(dst+'/js')
 			.then( () => Promise.all([
-				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	dst+'/js/qrcode_UTF8.js'),
-				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		dst+'/js/qrcode.js'),
-				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	dst+'/js/angular-qrcode.js')
+				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	src+'/js/qrcode_UTF8.js'),
+				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		src+'/js/qrcode.js'),
+				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	src+'/js/angular-qrcode.js')
 			]))
+}
+
+function bundleScriptsToDst(){
+
+
+		// <script src="/js/config/taxonomy.js">			</script>
+		// <script src="/js/dpd/dpd-item.js">				</script>
+		// <script src="/js/dpd/dpd-item-storage.js">		</script>
+		// <script src="/js/ic-layout.js">					</script>
+		// <script src="/js/ic-services.js">				</script>
+		// <script src="/js/ic-directives.js">				</script>
+		// <script src="/js/ic-filters.js">				</script>
+		// <script src="/js/ic-ui-directives.js">			</script>
+		// <script src="/js/ic-map-module.js">				</script>
+		// <script src="/js/app.js">						</script>
+
+		// <script src="/js/qrcode.js">					</script>
+		// <script src="/js/qrcode_UTF8.js">				</script>
+		// <script src="/js/angular-qrcode.js">			</script>
+
+	return	Promise.props({
+				"taxonomy.js": 			fs.readFile(src+'/js/config/taxonomy.js', 		'utf8'),
+				"dpd-items.js": 		fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
+				"dpd-item-storage.js": 	fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
+				"ic-preload.js": 		fs.readFile(src+'/js/ic-preload.js', 			'utf8'),
+				"ic-layout.js": 		fs.readFile(src+'/js/ic-layout.js', 			'utf8'),
+				"ic-services.js": 		fs.readFile(src+'/js/ic-services.js', 			'utf8'),
+				"ic-directives.js": 	fs.readFile(src+'/js/ic-directives.js',			'utf8'),
+				"ic-filters.js": 		fs.readFile(src+'/js/ic-filters.js', 			'utf8'),
+				"ic-ui-directives.js": 	fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
+				"ic-map-module.js": 	fs.readFile(src+'/js/ic-map-module.js', 		'utf8'),
+				"app.js": 				fs.readFile(src+'/js/app.js', 					'utf8'),
+
+
+				"qrcode.js": 			fs.readFile(src+'/js/qrcode.js', 				'utf8'),
+				"qrcode_UTF8.js": 		fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
+				"angular-qrcode.js": 	fs.readFile(src+'/js/angular-qrcode.js', 		'utf8'),
+			})
+			.then( files	=> UglifyJS.minify(files) )
+			.then( result 	=> fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'))
 }
 
 function compileTaxonomyTemplate(key, template){
@@ -130,7 +173,7 @@ function svgMinimize(src_folder, dest_folder){
 			))
 }
 
-function images2Css(src_folder, dst_folder, template_file, preload){
+function imagesToCss(src_folder, dst_folder, template_file, preload){
 
 	return	Promise.all([
 				fs.readFile(template_file, 'utf8'),
@@ -183,7 +226,7 @@ function preloadNgTemplatesTmp(){
 
 
 
-function compileIconsSrc2Tmp(){
+function compileIconsSrcToTmp(){
 	return 	svgColors(src+'/images/raw_icons', 'tmp/images/icons', {
 				replace: '#000000',
 				colors: [
@@ -195,7 +238,7 @@ function compileIconsSrc2Tmp(){
 			})
 }
 
-function compileMarkersSrc2Tmp(){
+function compileMarkersSrcToTmp(){
 	return 	svgColors(src+'/images/raw_markers', 'tmp/images/icons', {
 				replace: '#7F7F7F',
 				colors: [
@@ -207,13 +250,13 @@ function compileMarkersSrc2Tmp(){
 }
 
 
-function compileIconTemplatesTmp2Tmp(){
-	return	images2Css('tmp/images/icons', '/images/icons', src+'/styles/templates/ic-icon.template', true)
+function compileIconTemplatesTmpToTmp(){
+	return	imagesToCss('tmp/images/icons', '/images/icons', src+'/styles/templates/ic-icon.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
 }
 
-function compileImageTemplatesSrc2Tmp(){
-	return	images2Css(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template', true)
+function compileImageTemplatesSrcToTmp(){
+	return	imagesToCss(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template', true)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
 }
 
@@ -258,10 +301,10 @@ function createConfigJson(){
 function copyReadyFilesToDst(){
 	return 	Promise.all([
 
-				fs.copy(src+"/js", 				dst+"/js"),
+				// fs.copy(src+"/js", 				dst+"/js"),
 				// templates are preloaded, but in case the preload is not ready yet::
-				fs.copy(src+"/pages",			dst+"/pages"),
-				fs.copy(src+"/partials",		dst+"/partials"),
+				//fs.copy(src+"/pages",			dst+"/pages"),
+				//fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
 				fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
@@ -363,7 +406,7 @@ setup()
 
 
 .then( () => process.stdout.write('\nCopying qr code scripts from src to '+dst+' ...'))
-.then(copyQRCodeScriptsSrc2Dst)
+.then(copyQRCodeScriptsSrcToTmp)
 .then( () => done() )
 
 
@@ -375,18 +418,18 @@ setup()
 
 
 .then( () => process.stdout.write('\nCompiling raw icons from src to /tmp for further processing ...'))
-.then(compileIconsSrc2Tmp)
+.then(compileIconsSrcToTmp)
 .then( () => done() )
 
 
 .then( () => process.stdout.write('\nCompiling raw markers from src to /tmp for further processing ...'))
-.then(compileMarkersSrc2Tmp)
+.then(compileMarkersSrcToTmp)
 .then( () => done() )
 
 
 
 .then( () => process.stdout.write('\nCompiling icon templates for icons in /tmp into /tmp for further processing ...'))
-.then(compileIconTemplatesTmp2Tmp)
+.then(compileIconTemplatesTmpToTmp)
 .then( () => done() )
 
 
@@ -397,7 +440,7 @@ setup()
 
 
 .then( () => process.stdout.write('\nCompiling image templates for images in src into /tmp for further processing ...'))
-.then(compileImageTemplatesSrc2Tmp)
+.then(compileImageTemplatesSrcToTmp)
 .then( () => done() )
 
 
@@ -436,9 +479,18 @@ setup()
 .then(copyReadyFilesToDst)
 .then( () => done() )
 
+
 .then( () => process.stdout.write('\nBuidling styles into '+dst+'...'))
 .then(bundleStylesToDst)
 .then( () => done() )
+
+
+
+.then( () => process.stdout.write('\nBuidling scripts into '+dst+'...'))
+.then(bundleScriptsToDst)
+.then( () => done() )
+
+
 
 
 .then( () => process.stdout.write('\nCompiling Index into '+dst+'...'))

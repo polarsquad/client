@@ -373,8 +373,9 @@
 
 			}
 		])
-
+		
 		angular.bootstrap(document, ['InfoCompass']);
+
 	})
 
 })()
