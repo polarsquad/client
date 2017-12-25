@@ -33,11 +33,12 @@ angular.module('icServices', [
 	'icItemStorage',
 	'icLanguages',
 	'plImages',
+	'plStyles',
 	'plTemplates',
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLanguages, plImages, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLanguages, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
@@ -48,6 +49,7 @@ angular.module('icServices', [
 									icItemStorage:	icItemStorage.ready,
 									icLanguages:	icLanguages.ready,
 									plImages:		plImages.ready,
+									plStyles:		plStyles.ready,
 									plTemplates:	plTemplates.ready
 								}
 	
@@ -58,7 +60,7 @@ angular.module('icServices', [
 				console.log(key+ ' ready')
 				icInit.readyCount ++
 				console.log(icInit.readyCount)
-				if(icInit.readyCount == icInit.readyMax) $timeout(function(){ icInit.ready = true; }, 1000)
+				if(icInit.readyCount == icInit.readyMax) $timeout(function(){ icInit.ready = true; }, 200)
 			})
 		})
 

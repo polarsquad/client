@@ -17,7 +17,6 @@
 
 			function($q, $http){
 
-				console.log(jsonFile)
 
 				this.ready = 	Promise.resolve()
 								.then(function()		{ return 	$http.get(jsonFile) } )
@@ -45,6 +44,49 @@
 		]
 
 	})
+
+	.provider('plStyles', function(){
+
+		var jsonFile 	= undefined,
+			files		= undefined
+
+		this.setJsonFile 	= function(a){ jsonFile = a }
+		this.setFiles		= function(f){ files = f}	 
+
+		this.$get = [
+
+			'$q',
+			'$http',
+
+			function($q, $http){
+				
+				this.ready = 	Promise.resolve()
+								.then(function()		{ return 	{data : files} || $http.get(jsonFile) } )
+								.then(function(result)	{ return 	result.data })
+								.then(function(styles)	{ return 	Promise.all(styles.map(function(url){
+																		return new Promise(function(resolve, reject){
+																			var l = document.createElement('link')
+
+																				l.setAttribute('rel',	'stylesheet')
+																				l.setAttribute('type',	'text/css')
+																				l.setAttribute('href',	url)
+																				l.addEventListener('load', resolve )
+																				document.head.appendChild(l)
+
+																		})
+
+																	}))
+														}
+								)
+								.catch(console.log)
+
+				return this
+
+			}
+		]
+
+	})
+
 
 	.provider('plTemplates',function(){
 

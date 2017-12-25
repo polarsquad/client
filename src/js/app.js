@@ -65,6 +65,16 @@
 
 		.config([
 
+			'plStylesProvider',
+
+			function(plStylesProvider){
+				plStylesProvider.setFiles(['/styles/styles.css'])
+			}
+		])
+
+
+		.config([
+
 			'plTemplatesProvider',
 
 			function(plTemplatesProvider){

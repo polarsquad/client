@@ -101,7 +101,10 @@ function bundleScriptsToDst(){
 				"angular-qrcode.js": 	fs.readFile(src+'/js/angular-qrcode.js', 		'utf8'),
 			})
 			.then( files	=> UglifyJS.minify(files) )
-			.then( result 	=> fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'))
+			.then( 
+					result 	=> fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'),
+					e		=> console.dir(e)
+			)
 }
 
 function compileTaxonomyTemplate(key, template){
@@ -211,6 +214,7 @@ function preloadImagesTmp(){
 			.then( () => fs.ensureDir('tmp/json') )
 			.then( () => fs.writeFile('tmp/json/preload-images.json', JSON.stringify(preloadImg) ))
 }
+
 
 
 function preloadNgTemplatesTmp(){
@@ -324,33 +328,31 @@ function bundleStyles(src_dir, target_dir, filename){
 	return	fs.readdir(src_dir)
 			.then(function(filenames){
 
-				var filenames	=	filenames
-									.map(function(fn){ 
-										return 	fn.match(/\.css$/) 
-												?	src_dir+'/'+fn
-												:	undefined
-									})
-									.filter(function(x){ return !!x }),
+				console.log(src_dir)
 
-					minify_result =	cleanCSS.minify(filenames)
+				var filenames		=	filenames
+										.map(function(fn){ 
+											return 	fn.match(/\.css$/) 
+													?	src_dir+'/'+fn
+													:	undefined
+										})
+										.filter(function(x){ return !!x }),
 
-				if(filenames.length == 0) return Promise.reject('bundleStyles: files missing.')
+					minify_result 	=	cleanCSS.minify(filenames)
 
 
 				return 	minify_result.errors.length
 						?	Promise.reject(minify_result.errors)
 						:	minify_result.styles
 			})
-			.then(
-				function(css){
+			.catch( function(e){
+				if(e.syscall == 'scandir' && e.errno == -2) return ""	
+				return Promise.reject(e)			
+			})
+			.then(function(css){
 					return	fs.ensureDir(target_dir)
 							.then(() => fs.writeFile(target_dir+'/'+filename, css, 'utf8'))
-				},
-				function(e){
-					return	fs.ensureDir(target_dir)
-							.then(() => fs.writeFile(target_dir+'/'+filename, '', 'utf8'))
-				}
-			)
+			})
 }
 
 
@@ -361,14 +363,17 @@ function bundleStylesToDst(){
 				fs.copy("node_modules/leaflet/dist/leaflet.css", 		"tmp/styles/leaflet.css"),
 				fs.copy(src+'/styles/initial', 							"tmp/styles/initial")
 			])
-			.then(() => Promise.all([
-				bundleStyles('tmp/styles', 			dst+'/styles', 'styles.css'),
+			.then( () => Promise.all([
 				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css'),
-				bundleStyles('tmp/styles/last', 	dst+'/styles', 'last.css')
+				bundleStyles('tmp/styles', 			'tmp/bundle', 'styles.css'),
+				bundleStyles('tmp/styles/last', 	'tmp/bundle', 'last.css')
 			]))
+			.then( () => {
+				bundleStyles('tmp/bundle', dst+'/styles', 'styles.css')
+			})
+			.catch(console.log)
+
 }
-
-
 
 function compileIndex(){
 
@@ -500,9 +505,9 @@ setup()
 
 
 
-.then( () => process.stdout.write('\nCleaninng up...'))
-.then(cleanUp)
-.then( () => process.stdout.write('\x1b[32m Done.'))
+// .then( () => process.stdout.write('\nCleaninng up...'))
+// .then(cleanUp)
+// .then( () => process.stdout.write('\x1b[32m Done.'))
 
 
 .then(
