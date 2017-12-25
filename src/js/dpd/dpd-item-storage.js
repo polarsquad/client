@@ -384,7 +384,17 @@
 				searchTerms.push(search_term)
 				index = searchTerms.length-1
 
-				var regex_array				= 	search_term.split(/\s/).map(function(part){ return new RegExp(part, 'i') }),
+				var regex_array				= 	search_term.split(/\s/).map(function(part){ 
+													var regex = undefined
+													
+													try {
+														regex = new RegExp(part, 'i') 
+													} catch(e) {
+														regex = new RegExp(part.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i')
+													}
+
+													return regex
+												}),
 					searchable_properties 	= 	ic.itemConfig.properties.filter(function(property){
 													return property.searchable
 												})

@@ -535,7 +535,7 @@ angular.module('icServices', [
 					console.log('statSearch', search_term)
 					if(!url) 			return null
 					if(!search_term)	return null
-					return	$http.post(url+'/search/'+search_term).catch( function(){} )
+					return	$http.post(url+'/search/'+encodeURIComponent(search_term)).catch( function(){} )
 				}
 
 				icStats.statPrintItem = function(id){
