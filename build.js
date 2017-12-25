@@ -82,6 +82,7 @@ function bundleScriptsToDst(){
 		// <script src="/js/angular-qrcode.js">			</script>
 
 	return	Promise.props({
+				"vendor.js"				fs.readFile('vendor.js', 						'utf8'),
 				"taxonomy.js": 			fs.readFile(src+'/js/config/taxonomy.js', 		'utf8'),
 				"dpd-items.js": 		fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
 				"dpd-item-storage.js": 	fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
@@ -306,7 +307,7 @@ function copyReadyFilesToDst(){
 				//fs.copy(src+"/pages",			dst+"/pages"),
 				//fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
-				fs.copy("vendor.js", 			dst+"/js/vendor.js"),
+				// fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
 				//tmp
 				fs.copy("tmp/images", 			dst+"/images"),
