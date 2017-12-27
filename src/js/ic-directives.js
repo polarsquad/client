@@ -372,12 +372,12 @@ angular.module('icDirectives', [
 			
 			},
 
-			controller: function($scope){
+			controller: [ '$scope', function($scope){
 				$scope.validationFunctions = $scope.validationFunctions || []
 				this.registerValidationFunction = function(fn){
 					$scope.validationFunctions.push(fn)
 				}
-			}
+			}]
 		}
 	}
 ])

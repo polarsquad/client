@@ -328,8 +328,6 @@ function bundleStyles(src_dir, target_dir, filename){
 	return	fs.readdir(src_dir)
 			.then(function(filenames){
 
-				console.log(src_dir)
-
 				var filenames		=	filenames
 										.map(function(fn){ 
 											return 	fn.match(/\.css$/) 
