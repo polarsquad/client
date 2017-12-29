@@ -67,21 +67,6 @@ function copyQRCodeScriptsSrcToTmp(){
 function bundleScriptsToDst(){
 
 
-		// <script src="/js/config/taxonomy.js">			</script>
-		// <script src="/js/dpd/dpd-item.js">				</script>
-		// <script src="/js/dpd/dpd-item-storage.js">		</script>
-		// <script src="/js/ic-layout.js">					</script>
-		// <script src="/js/ic-services.js">				</script>
-		// <script src="/js/ic-directives.js">				</script>
-		// <script src="/js/ic-filters.js">				</script>
-		// <script src="/js/ic-ui-directives.js">			</script>
-		// <script src="/js/ic-map-module.js">				</script>
-		// <script src="/js/app.js">						</script>
-
-		// <script src="/js/qrcode.js">					</script>
-		// <script src="/js/qrcode_UTF8.js">				</script>
-		// <script src="/js/angular-qrcode.js">			</script>
-
 	return	Promise.props({
 				"vendor.js":			fs.readFile('vendor.js', 						'utf8'),
 				"taxonomy.js": 			fs.readFile(src+'/js/config/taxonomy.js', 		'utf8'),
@@ -103,7 +88,7 @@ function bundleScriptsToDst(){
 			})
 			.then( files	=> UglifyJS.minify(files) )
 			.then( 
-					result 	=> fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'),
+					result 	=> result.error ? console.log(result.error) : fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'),
 					e		=> console.dir(e)
 			)
 }
@@ -382,14 +367,11 @@ function compileIndex(){
 			])
 			.spread( (index, head, loading_screen, partials, pages) => {
 
-				if(!config.externalCss) head =  head.replace(/^.*CONFIG\.EXTERNAL\_CSS.*$/igm, '')
-
 				return	index
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
 						.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
 						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
-						.replace(/CONFIG\.EXTERNAL\_CSS/g, 					config.externalCss)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )

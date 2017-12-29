@@ -68,10 +68,13 @@
 			'plStylesProvider',
 
 			function(plStylesProvider){
-				plStylesProvider.setFiles(['/styles/styles.css'])
+				plStylesProvider.setFiles([
+					['/styles/styles.css'],
+					[icConfig.externalCss]
+				])
 			}
 		])
-
+			
 
 		.config([
 

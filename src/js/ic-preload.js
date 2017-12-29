@@ -50,8 +50,8 @@
 		var jsonFile 	= undefined,
 			files		= undefined
 
-		this.setJsonFile 	= function(a){ jsonFile = a }
-		this.setFiles		= function(f){ files = f}	 
+		this.setJsonFile 	= function(a){ jsonFile 	= a }
+		this.setFiles		= function(f){ files 		= f }	 
 
 		this.$get = [
 
@@ -59,25 +59,37 @@
 			'$http',
 
 			function($q, $http){
+
+				function loadStyles(files){
+					console.log('loading ', files)
+					return		Promise.all(files.map(function(url){
+									return new Promise(function(resolve, reject){
+										var l = document.createElement('link')
+
+											l.setAttribute('rel',	'stylesheet')
+											l.setAttribute('type',	'text/css')
+											l.setAttribute('href',	url)
+											l.addEventListener('load', resolve )
+											document.head.appendChild(l)
+
+									})
+								}))
+				}
 				
 				this.ready = 	Promise.resolve()
-								.then(function()		{ return 	{data : files} || $http.get(jsonFile) } )
-								.then(function(result)	{ return 	result.data })
-								.then(function(styles)	{ return 	Promise.all(styles.map(function(url){
-																		return new Promise(function(resolve, reject){
-																			var l = document.createElement('link')
+								.then( function()		{	return 	{data : files} || $http.get(jsonFile) })
+								.then( function(result)	{	return 	result.data })
+								.then( function(styles)	{	
+									if(typeof styles 		== 'string') styles = [styles]
+									if(typeof styles[0] 	== 'string') styles = [styles]	
+									
+									var queue = Promise.resolve()
 
-																				l.setAttribute('rel',	'stylesheet')
-																				l.setAttribute('type',	'text/css')
-																				l.setAttribute('href',	url)
-																				l.addEventListener('load', resolve )
-																				document.head.appendChild(l)
+									styles.forEach(function(filenames){ 
+										return queue.then(function(){ loadStyles(filenames) }) 
+									})
 
-																		})
-
-																	}))
-														}
-								)
+								})
 								.catch(console.log)
 
 				return this
