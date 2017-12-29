@@ -8,6 +8,7 @@ var copyfiles	= 	require('copyfiles'),
 	UglifyJS 	= 	require("uglify-js"),
 	SVGO		= 	require('svgo'),
 	Promise		=	require('bluebird'),
+	cleanCSS 	= 	new CleanCSS()
 	svgo		= 	new SVGO({
 						plugins: [
 							{removeTitle:			true},
@@ -323,12 +324,11 @@ function copyReadyFilesToDst(){
 
 function bundleStyles(src_dir, target_dir, filename){
 
-	var	cleanCSS = new CleanCSS()
-
 	return	fs.readdir(src_dir)
 			.then(function(filenames){
 
 				var filenames		=	filenames
+										.sort()
 										.map(function(fn){ 
 											return 	fn.match(/\.css$/) 
 													?	src_dir+'/'+fn
@@ -363,8 +363,8 @@ function bundleStylesToDst(){
 			])
 			.then( () => Promise.all([
 				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css'),
-				bundleStyles('tmp/styles', 			'tmp/bundle', 'styles.css'),
-				bundleStyles('tmp/styles/last', 	'tmp/bundle', 'last.css')
+				bundleStyles('tmp/styles', 			'tmp/bundle', '0_styles.css'),
+				bundleStyles('tmp/styles/last', 	'tmp/bundle', '1_last.css')
 			]))
 			.then( () => {
 				bundleStyles('tmp/bundle', dst+'/styles', 'styles.css')
