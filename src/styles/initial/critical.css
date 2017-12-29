@@ -1,3 +1,11 @@
+* {
+	-webkit-font-smoothing: 	antialiased;
+	-moz-osx-font-smoothing: 	grayscale;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+
+
 /*loading screen */
 
 ic-loading-screen{
@@ -19,12 +27,13 @@ ic-loading-screen{
 	transform:				translateX(-100%);
 }
 */
-ic-loading-screen h1 {
+ic-loading-screen .loading {
 	text-align:				center;
 	margin-top:				1em;
 	margin-bottom:			1em;
 	font-size:				1.92rem;
 	line-height:			1.4em;
+	font-family:			sans-serif;
 }
 
 ic-loading-screen .progress {
