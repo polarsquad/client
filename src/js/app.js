@@ -327,12 +327,14 @@
 
 				if(!icConfig) console.log('Missing Config!') //TODO
 
-				var	available_language = 	icConfig.languages && icConfig.languages.length != 0
+				console.log(icConfig.languages)
+
+				var	available_languages = 	icConfig.languages && icConfig.languages.length != 0
 											?	icConfig.languages
 											:	(console.warn('icLanguagesProvider: config does not provide abvailable languages!') || ['de', 'en', 'none'])
 
 				icLanguageProvider
-				.setAvailableLanguages(['de', 'en', 'ru', 'tr', 'none'])
+				.setAvailableLanguages(available_languages)
 				.setTranslationTableUrl(icConfig.backendLocation+'/translations.json')
 				.setFallbackLanguage('de')
 			}
