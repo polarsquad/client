@@ -95,6 +95,14 @@
 		])
 
 		.config([
+			'icMainMapProvider',
+
+			function(icMainMapProvider){
+				if(icConfig.map) icMainMapProvider.setDefaults(icConfig.map)
+			}
+		])
+
+		.config([
 
 			'icSiteProvider',
 
@@ -327,11 +335,9 @@
 
 				if(!icConfig) console.log('Missing Config!') //TODO
 
-				console.log(icConfig.languages)
-
 				var	available_languages = 	icConfig.languages && icConfig.languages.length != 0
 											?	icConfig.languages
-											:	(console.warn('icLanguagesProvider: config does not provide abvailable languages!') || ['de', 'en', 'none'])
+											:	(console.warn('icLanguagesProvider: config does not provide available languages!') || ['de', 'en', 'none'])
 
 				icLanguageProvider
 				.setAvailableLanguages(available_languages)

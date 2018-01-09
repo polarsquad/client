@@ -52,7 +52,7 @@ ic-main-content > * {
 ic-main-content > *:after {
 	content:					'';
 	display:					block;
-	height:						10rem;
+	height:						0rem;
 }
 
 ic-main-content > *:first-child{

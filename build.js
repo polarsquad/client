@@ -79,6 +79,7 @@ function bundleScriptsToDst(){
 				"ic-filters.js": 		fs.readFile(src+'/js/ic-filters.js', 			'utf8'),
 				"ic-ui-directives.js": 	fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
 				"ic-map-module.js": 	fs.readFile(src+'/js/ic-map-module.js', 		'utf8'),
+				"custom.js":			fs.readFile(src+'/js/custom.js',				'utf8').catch( (e) => console.log('skipping custom.js') || ''),
 				"app.js": 				fs.readFile(src+'/js/app.js', 					'utf8'),
 
 
@@ -86,9 +87,14 @@ function bundleScriptsToDst(){
 				"qrcode_UTF8.js": 		fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
 				"angular-qrcode.js": 	fs.readFile(src+'/js/angular-qrcode.js', 		'utf8'),
 			})
-			.then( files	=> UglifyJS.minify(files) )
+			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}} ))
 			.then( 
-					result 	=> result.error ? console.log(result.error) : fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8'),
+					result 	=> {
+									if(result.error) return console.log(result.error) 
+
+									fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8')
+									fs.writeFile(dst+'/js/scripts.js.map', result.map, 'utf8')
+								},
 					e		=> console.dir(e)
 			)
 }
@@ -103,7 +109,7 @@ function compileTaxonomyTemplate(key, template){
 										.replace(/{{name}}/g, 			item.name)
 										.replace(/{{color\[([0-9]+)\]}}/g, 
 											function(match, p1){
-												var color = item.colors && item.colors[parseInt(p1)]
+												var color = item.colors && item.colors[parseInt(p1)] || '#999988'
 												if(!color) console.error('Taxonomy templates: missing color: {{color['+p1+']}}', item.name)
 
 												return color
@@ -233,8 +239,8 @@ function compileMarkersSrcToTmp(){
 	return 	svgColors(src+'/images/raw_markers', 'tmp/images/icons', {
 				replace: '#7F7F7F',
 				colors: [
-							...(taxonomy.categories.map(	category 	=> { return {name: category.name, 	value: category.colors[0] 	} })),
-							...(taxonomy.types.map( 		type 		=> { return {name: type.name, 		value: type.colors[0] 		} })),
+							...(taxonomy.categories.map(	category 	=> { return {name: category.name, 	value: category.colors[0] 	|| '#999988' } })),
+							...(taxonomy.types.map( 		type 		=> { return {name: type.name, 		value: type.colors[0] 		|| '#999988' } })),
 							{name: 'unknown', value: '#999988'}
 						]
 			})

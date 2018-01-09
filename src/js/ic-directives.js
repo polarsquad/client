@@ -830,6 +830,14 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icLogoLine',[
+	function(){
+		return {
+			templateUrl:	'partials/ic-logo-line.html'
+		}
+	}
+])
+
 .directive('icLogoFull',[
 	function(){
 		return {
@@ -837,6 +845,15 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+.directive('icLogoPrint',[
+	function(){
+		return {
+			templateUrl:	'partials/ic-logo-print.html'
+		}
+	}
+])
+
 
 .directive('icMainMenu', [
 

@@ -137,6 +137,7 @@ ic-page .tiles {
 
 
 ic-page .tiles > * {
+	display:					flex;
 	box-sizing:					border-box;
 	font-family: 				Biryani, Roboto, sans-serif;
 	font-weight: 				600;
@@ -187,7 +188,7 @@ ic-page .tiles > .item-tile	button {
 }
 
 ic-page .tiles > .item-tile .image {
-	position:					ansolute;
+	position:					absolute;
 	height:						62.5%;
 	top:						0;
 	left:						0;
@@ -215,6 +216,11 @@ ic-page .tiles > .item-tile .body {
 	min-height:					37.5%;
 	font-size:					1rem;
 	padding-top:				1rem;
+}
+
+ic-page .tiles > .bottom {
+	flex-direction:				column;
+	justify-content: 			flex-end;
 }
 
 

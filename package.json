@@ -4,22 +4,22 @@
   "description": "",
   "main": "Gruntfile.js",
   "dependencies": {
-    "angular": "^1.6.2",
+    "angular": "^1.6.8",
     "angular-qrcode": "^6.2.1",
-    "angular-sanitize": "^1.6.3",
-    "angular-translate": "^2.15.1",
+    "angular-sanitize": "^1.6.8",
+    "angular-translate": "^2.17.0",
     "bluebird": "^3.5.1",
     "browserify": "^14.1.0",
     "clean-css": "^4.0.12",
     "copyfiles": "^1.2.0",
-    "fs-extra": "^4.0.0",
+    "fs-extra": "^4.0.3",
     "leaflet": "^1.0.3",
-    "leaflet.markercluster": "^1.0.3",
+    "leaflet.markercluster": "^1.2.0",
     "rimraf": "^2.6.1",
     "roboto-fontface": "^0.7.0",
     "svgo": "^0.7.2",
     "typeface-biryani": "0.0.22",
-    "uglify-js": "^3.3.1"
+    "uglify-js": "^3.3.5"
   },
   "scripts": {
     "build": "node build.js",

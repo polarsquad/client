@@ -19,8 +19,9 @@
 			</button>
 
 			<div 
-				class = "image"
-				style = "background-image: url({{item.image}})"
+				class 		= "image ic-bg-type-{{(item|icType).name}}"
+				ng-class 	= "{'bg-0': item.image}"
+				style 		= "background-image: url({{item.image}})"
 			>
 			</div>
 

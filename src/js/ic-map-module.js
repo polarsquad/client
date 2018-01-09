@@ -263,7 +263,7 @@
 
 						icMainMap.ready
 						.then(function(map){
-							map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.default.maxZoom)	
+							map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.defaults.zoom)	
 						})
 
 					}
@@ -273,37 +273,57 @@
 	])
 
 
-	.service('icMainMap', [
+	.provider('icMainMap', [
 
-		'$q',
+		function(){
 
-		function($q){
+			var defaults	= 	{
+									center:				[52.600, 13.350],
+									zoom:				13,
+									minZoom:			11,
+									maxZoom:			18,
+									maxBounds:			[
+															[52.80, 13.80], 
+															[52.20, 13.00]
+														],
+									maxClusterRadius: 	40
+								}
 
-			var mapReady = $q.defer(),
-				icMainMap = 	{
-								ready:		mapReady.promise,
-								default:	{
-												center:		[52.600, 13.350],
-												zoom:		13,
-												minZoom:	11,
-												maxZoom:	18
-											},
-								mapObject: 	undefined
-							}
+			this.setDefaults = function(config){
 
-			icMainMap.setMapObject = function(obj){
-				if(icMainMap.mapObject) console.warn('icMainMap: mapObject already set!')
-				icMainMap.mapObject = obj
-				mapReady.resolve(icMainMap.mapObject)
-			}
-			icMainMap.clearMapObject = function(){
-				mapReady.reject('map object cleared')
-				mapReady = $q.defer()
-				icMainMap.mapObject = undefined
-				icMainMap.ready	= mapReady.promise
+				defaults = angular.extend({}, defaults, config)
+
+				return this
 			}
 
-			return icMainMap
+			this.$get =	[
+
+				'$q',
+
+				function($q){
+
+					var mapReady = $q.defer(),
+						icMainMap = 	{
+										ready:		mapReady.promise,
+										defaults:	defaults,
+										mapObject: 	undefined
+									}
+
+					icMainMap.setMapObject = function(obj){
+						if(icMainMap.mapObject) console.warn('icMainMap: mapObject already set!')
+						icMainMap.mapObject = obj
+						mapReady.resolve(icMainMap.mapObject)
+					}
+					icMainMap.clearMapObject = function(){
+						mapReady.reject('map object cleared')
+						mapReady = $q.defer()
+						icMainMap.mapObject = undefined
+						icMainMap.ready	= mapReady.promise
+					}
+
+					return icMainMap
+				}
+			]
 		}
 	])
 
@@ -328,8 +348,9 @@
 					if(!window.L) console.error('icMap: missing Leaflet!')
 
 
+
 					var markers = 	L.markerClusterGroup({
-										maxClusterRadius: 			40,
+										maxClusterRadius: 			icMainMap.defaults.maxClusterRadius,
 										spiderfyOnMaxZoom:			true,
 										chunkedLoading:				true,
 										zoomToBoundsOnClick:		false,
@@ -338,17 +359,15 @@
 										}
 									} ),
 						map 	= 	L.map(element[0], {
-										center: 		icMainMap.default.center,
-										zoom: 			icMainMap.default.zoom,
-										minZoom:		icMainMap.default.minZoom,
-										maxZoom:		icMainMap.default.maxZoom,
+										center: 		icMainMap.defaults.center,
+										zoom: 			icMainMap.defaults.zoom,
+										minZoom:		icMainMap.defaults.minZoom,
+										maxZoom:		icMainMap.defaults.maxZoom,
 										zoomControl: 	false,
 										trackSize:		false,
-										maxBounds:		[
-															[52.80, 13.80], 
-															[52.20, 13.00]
-														]
+										maxBounds:		icMainMap.defaults.maxBounds
 									})
+
 
 
 

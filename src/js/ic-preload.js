@@ -61,7 +61,6 @@
 			function($q, $http){
 
 				function loadStyles(files){
-					console.log('loading ', files)
 					return		Promise.all(files.map(function(url){
 									return new Promise(function(resolve, reject){
 										var l = document.createElement('link')

@@ -1,0 +1,44 @@
+
+
+/* ic-text-logo */
+
+.ic-text-logo,
+ic-logo-line,
+ic-logo-text {
+	display:						inline-block;
+	height:							1em;
+	width:							4em;
+	position:						relative;
+	background-image:				url(/images/large/logo-text-white.svg);
+	background-size:				contain;
+	background-repeat:				no-repeat;
+	background-position:			0 50%;
+}
+
+
+
+
+/* ic-logo-full */
+
+.ic-logo-full,
+ic-logo-full {
+	height:							1em;
+	width:							4em;
+	display:						inline-block;
+	background-image:				url(/images/large/logo-full.svg);
+	background-size:				contain;
+	background-repeat:				no-repeat;
+	background-position:			0 50%;
+}
+
+
+/* ic-logo-print */
+
+ic-logo-print {
+	height:							1em;
+	position:						relative;
+}
+
+ic-logo-print img {
+	height:							1em;
+}

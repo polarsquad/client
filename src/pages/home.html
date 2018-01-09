@@ -1,5 +1,5 @@
 <header class = "image-home ">
-	<h2 class = "col-3 bg-0">Digital mobil <br/> im Märkischen Viertel</h2>
+	<h2 class = "col-3 bg-0" ng-bind-html = "('INTERFACE.CLAIM' | translate | trustAsHtml)"></h2>
 </header>	
 
 <article class = "search">
@@ -39,7 +39,7 @@
 			href	= "/tiles/p/tiles/u/favourite"
 			class 	= "icon icon-interface-favourites white  bg-3"
 		>
-			Merkliste
+			{{'INTERFACE.FAVOURITES' | translate}}
 			<small></small>
 		</a>
 

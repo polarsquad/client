@@ -1,0 +1,22 @@
+.background-image {
+	background-size:					cover !important;
+}
+
+.background-image.top{
+	background-position:				50% 0% !important;
+}
+
+
+.background-image.bottom{
+	background-position:				50% 100% !important;
+}
+
+
+.background-image.right{
+	background-position:				100% 50% !important;
+}
+
+
+.background-image.left{
+	background-position:				0% 50% !important;
+}

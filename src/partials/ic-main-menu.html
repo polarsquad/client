@@ -112,7 +112,8 @@
 			ng-show = "icPlain || showAdmin"
 		>
 			<li
-				ng-if="ic.user.can('edit_items')"
+				ng-if = "ic.user.can('edit_items')"
+				class = "bg-0 hover"  
 			>
 				<a 
 					
@@ -121,8 +122,8 @@
 				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
 			</li>
 			<li 
-				class = "bg-0 hover"  
 				ng-if = "!ic.user.can('edit_items')"
+				class = "bg-0 hover"  
 			>
 				<a 
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"

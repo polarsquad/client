@@ -57,9 +57,7 @@ angular.module('icServices', [
 			
 		Object.keys(promises).forEach(function(key){
 			promises[key].then(function(){
-				console.log(key+ ' ready')
 				icInit.readyCount ++
-				console.log(icInit.readyCount)
 				if(icInit.readyCount == icInit.readyMax) $timeout(function(){ icInit.ready = true; }, 200)
 			})
 		})
@@ -528,42 +526,36 @@ angular.module('icServices', [
 				var icStats = {}
 
 				icStats.statItem = function(id){
-					console.log('statItem', id)
 					if(!url) 	return null
 					if(!id)		return null
 					return	$http.post(url+'/item/'+id).catch( function(){} )
 				}
 
 				icStats.statSearch = function(search_term){
-					console.log('statSearch', search_term)
 					if(!url) 			return null
 					if(!search_term)	return null
 					return	$http.post(url+'/search/'+encodeURIComponent(search_term)).catch( function(){} )
 				}
 
 				icStats.statPrintItem = function(id){
-					console.log('statPrintItem', id)
 					if(!url) 	return null
 					if(!id)		return null
 					return	$http.post(url+'/print/'+id).catch( function(){} )
 				}
 
 				icStats.statLanguage = function(lang){
-					console.log('statLanguage', lang)
 					if(!url) 	return null
 					if(!lang)	return null
 					return	$http.post(url+'/language/'+lang).catch( function(){} )
 				}
 
 				icStats.statShareItem	= function(id){
-					console.log('statShareItem', id)
 					if(!url) 	return null
 					if(!id)		return null
 					return	$http.post(url+'/share/'+id).catch( function(){} )
 				}
 
 				icStats.statPrintItem = function(id){
-					console.log('printShareItem', id)
 					if(!url) 	return null
 					if(!id)		return null
 					return	$http.post(url+'/print/'+id).catch( function(){} )
@@ -832,6 +824,7 @@ angular.module('icServices', [
 			
 
 			icTaxonomy.getCategory = function(haystack){
+
 
 				if(!haystack) return null
 

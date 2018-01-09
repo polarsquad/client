@@ -32,7 +32,7 @@ ic-header .tools > * + * {
 }
 
 
-ic-header .tools ic-logo-text {
+ic-header .tools ic-logo-line {
 	font-size:						3rem;
 }
 
@@ -62,7 +62,7 @@ ic-header .tools ic-search {
 	display:						inline-block;
 }
 
-ic-header .tools .text-logo {
+ic-header .tools .logo-line {
 	display:						none;
 }
 
@@ -82,6 +82,7 @@ ic-header .logo {
 
 ic-header .logo ic-logo-full {
 	font-size:						4rem;
+	margin-right:					1.5rem;
 }
 
 
@@ -180,8 +181,8 @@ ic-header ic-main-menu ul > li > ul > li > a {
 }
 
 ic-header ic-main-menu ul > li > ul > li a:hover > .bubble {
-	color:							#fff !important;
-	background-color:				transparent !important;
+	color:							#444 !important;
+	background-color:				#fff !important;
 }
 
 ic-header ic-main-menu ul > li > ul > li:last-child {
@@ -205,7 +206,7 @@ ic-header.ic-scroll-snapped .logo {
 	overflow:						hidden;
 }
 
-ic-header.ic-scroll-snapped .tools .text-logo{
+ic-header.ic-scroll-snapped .tools .logo-line{
 	display:						inline-block;
 	flex-grow:						1;
 }

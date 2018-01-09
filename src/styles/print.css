@@ -221,11 +221,9 @@
 
 	ic-item-full footer .logo {
 		flex:				0 0 auto;
+		font-size:			3rem;
 	}
 
-	ic-item-full footer .logo img {
-		width:				6cm;
-	}
 
 	ic-item-full footer .link-to-item {
 		display:			none;
