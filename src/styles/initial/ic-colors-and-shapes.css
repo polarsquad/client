@@ -196,6 +196,7 @@
 .ic-tag {
 	display:					inline-block;
 	font-family: 				Roboto, sans-serif;
+	background-color:			#99999a;
 	color:						#fff;
 	padding: 					0.25em 0.75em;
 	border-radius: 				0.175em;

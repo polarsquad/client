@@ -395,7 +395,7 @@ ic-overlays ic-main-menu li {
 	padding:					0;
 }
 
-ic-overlays ic-main-menu li ic-logo-text{
+ic-overlays ic-main-menu li ic-logo-line{
 	font-size:					3rem;
 }
 

@@ -286,7 +286,8 @@
 															[52.80, 13.80], 
 															[52.20, 13.00]
 														],
-									maxClusterRadius: 	40
+									maxClusterRadius: 	40,
+									tiles:				undefined
 								}
 
 			this.setDefaults = function(config){
@@ -391,7 +392,7 @@
 					}).addTo(map)
 
 					L.tileLayer(
-						'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoicmhvdGVwIiwiYSI6ImNqMGRib2dmYTAwMGEzMnBkNDBuZ2dqMHMifQ.LNUbADugC76iQ91I73xFwg', 
+						icMainMap.defaults.tiles, 					
 						{
 							attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						}

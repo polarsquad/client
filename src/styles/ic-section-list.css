@@ -12,3 +12,9 @@ ic-sorting > *:nth-child(2){
 	justify-content:			space-around;
 	align-items:				center;
 }
+
+ic-sorting li {
+	padding-top:				0.25em !important;
+	padding-bottom:				0.25em !important;
+	border-radius:				0.25em;
+}

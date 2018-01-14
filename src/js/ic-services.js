@@ -223,9 +223,13 @@ angular.module('icServices', [
 			function decodeParam(path, param){
 				var value = param.decode(path, ic)
 
-				return	!param.options || param.options.indexOf(value) != -1
-						?	value
-						:	param.defaultValue
+				if(!value || (param.options && param.options.indexOf(value) == -1) ){
+					value = typeof param.defaultValue == 'function'
+							?	param.defaultValue(ic)
+							:	param.defaultValue
+				}
+
+				return value
 			}
 
 			function path2Params(path){
@@ -241,7 +245,12 @@ angular.module('icServices', [
 
 			function encodeParam(value, param){
 				if(param.options && param.options.indexOf(value) == -1)	value = null
-				if(value ==  param.defaultValue) 						value = null
+
+				var default_value =	typeof param.defaultValue == 'function'
+									?	param.defaultValue(ic)
+									:	param.defaultValue
+
+				if(value ==  default_value) value = null
 
 				return param.encode(value, ic)
 			}
@@ -970,7 +979,8 @@ angular.module('icServices', [
 								var matches = path.match(/(^|\/)o\/([^\/]*)/)
 
 								return matches && matches[2]
-							}
+							},
+			defaultValue:	function(ic){ return 'alphabetical_'+ic.site.currentLanguage }
 		})
 
 		.registerParameter({
