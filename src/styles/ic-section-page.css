@@ -15,14 +15,23 @@ ic-page  header {
 
 
 ic-page  header h2 {
-	display: 					inline;
-	font-size:					3rem;
-	margin:						0;
-	font-weight:				700;
-	padding: 					0.5rem;
-	margin-left: 				-1rem;
-	line-height: 				2;
+	display: 						block;
+	font-size:						3rem;
+	margin-top:						0.5rem;
+	margin-left:					-1rem;
+	padding-left:					1em;
+	font-weight:					700;
+	max-width:						50rem;
+	text-indent:					-1em;
 }
+
+ic-page  header h2 span {
+	padding:					0.5rem;
+	-webkit-box-decoration-break: 	clone;
+  	-o-box-decoration-break: 		clone;
+  	box-decoration-break:			clone;
+}
+
 
 ic-page  article {
 	display:					block;

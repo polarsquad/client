@@ -28,6 +28,16 @@ ic-item-full header .main > *  {
 }
 
 
+ic-item-full .hero-wrapper{
+	background-size:			5rem;
+	background-position:		50% 50%;
+	background-repeat:			no-repeat;
+}
+
+ic-item-full .hero-wrapper:before{
+	display:					none;
+}
+
 ic-item-full .hero {
 	padding-bottom:				50%;
 	background-size:			cover;

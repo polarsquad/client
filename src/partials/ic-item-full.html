@@ -48,10 +48,13 @@
 	</div>
 
 	<div 
-		class		= "hero" 
-		ng-style	= "{'background-image' : 'url('+item.image+')'}" 
-		ng-if		= "item.image"
-	></div> 
+		class 		= "hero-wrapper {{ !item.image && 'icon-type-'+(item | icType).name }}"
+	>
+		<div 
+			class		= "hero" 
+			ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+		></div>
+	</div> 
 </header>
 
 <section class = "bg-0">
