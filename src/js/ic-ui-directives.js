@@ -169,7 +169,11 @@ angular.module('icUiDirectives', [
 
 		this.registerAnchor = function(anchor_name, element){
 			element = element[0] || element
-			if(this.anchors[anchor_name]) console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
+			if(this.anchors[anchor_name]){
+				console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
+				return null
+			}
+			
 			this.anchors[anchor_name] = element
 			return this
 		}
@@ -534,7 +538,7 @@ angular.module('icUiDirectives', [
 			if(!rep.forEach) rep = [rep] 
 
 			rep = rep.map(function(r){
-				return 	r
+				return 	r && r
 						.replace(/\s/g, '_')
 						.replace(/([a-z])([A-Z])/g, '$1_$2')
 						.toUpperCase()
@@ -570,7 +574,21 @@ angular.module('icUiDirectives', [
 .filter('section', [
 	function(){
 		return function(arr_1, arr_2){
-			return arr_1.filter(function(item){ return arr_2.indexOf(item) != -1})
+			return 	arr_1
+					?	arr_1.filter(function(item){ return arr_2 && arr_2.indexOf(item) != -1})
+					:	[]
+		}
+	}
+])
+
+.filter('flatten', [
+	function(){
+		return function(obj){
+			var result = []
+
+			for(key in obj) result = result.concat(obj[key])
+
+			return result
 		}
 	}
 ])
@@ -603,7 +621,6 @@ angular.module('icUiDirectives', [
 		}
 	}
 ])
-
 
 
 //debug

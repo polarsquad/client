@@ -357,13 +357,8 @@ angular.module('icDirectives', [
 
 					icTaxonomy.types.forEach(function(tag){ if(tag != (type && type.name)) removeTagFromEdit(tag) })
 
-					var category 	= icTaxonomy.getCategory(scope.icEdit.tags)
-
 					icTaxonomy.categories.forEach(function(c){ 	
-						if(c.name != (category && category.name)){
-							removeTagFromEdit(c.name) 
-							c.tags.forEach(removeTagFromEdit)
-						}
+						if(scope.icEdit.tags.indexOf(c.name) == -1) c.tags.forEach(removeTagFromEdit)
 					})
 
 
@@ -457,6 +452,7 @@ angular.module('icDirectives', [
 
 					if(!array) return undefined
 					if(!array.forEach) array = [array]
+
 
 					var matching_options = 	scope.icOptions
 											?	scope.icOptions.filter(function(option){
@@ -555,6 +551,7 @@ angular.module('icDirectives', [
 					},
 
 					function(v){
+
 						if(!scope.icItem || !scope.icEdit) return null
 						
 
@@ -618,6 +615,7 @@ angular.module('icDirectives', [
 				// update global edit and check for errors, when local edit changes
 				scope.$watch('value.edit', function(){
 
+
 					if(!scope.icItem || !scope.icEdit) return null
 
 					if(typeof scope.value.edit == 'string'){
@@ -647,6 +645,7 @@ angular.module('icDirectives', [
 					} 
 
 					else if(scope.icOptions && scope.icType == 'array') {
+
 						scope.icOptions.forEach(function(option){
 							var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
 								pos_2 = scope.value.edit.indexOf(option)
@@ -668,6 +667,7 @@ angular.module('icDirectives', [
 					}
 
 					if(scope.icDate) updateDateData()
+
 
 
 				}, true)
@@ -771,17 +771,20 @@ angular.module('icDirectives', [
 						return undefined
 					}
 
-					if(!scope.icAllowMultipleChoices){
-						scope.value.edit = 	scope.value.edit.filter(function(entry){
-												return scope.icOptions.indexOf(entry) == -1
-											})
-					}
+
 
 					var pos = scope.value.edit.indexOf(option)
 
 					pos == -1
 					?	scope.value.edit.push(option)
 					:	scope.value.edit.splice(pos,1)	
+
+
+					if(!scope.icAllowMultipleChoices){
+						scope.value.edit = 	scope.value.edit.filter(function(entry){
+												return scope.icOptions.indexOf(entry) == -1 || entry == option
+											})
+					}
 
 				}
 
@@ -982,7 +985,7 @@ angular.module('icDirectives', [
 				scope.ic 		= 	ic
 				scope.expand 	= 	{
 										categories: 	true,
-										unsortedTags: 	true
+										// unsortedTags: 	true
 									}
 			}
 		}

@@ -774,7 +774,7 @@ angular.module('icServices', [
 
 			icTaxonomy.categories 	= []
 			icTaxonomy.types		= []
-			icTaxonomy.unsortedTags = taxonomy.unsortedTags
+			icTaxonomy.tags 		= taxonomy.tags
 			icTaxonomy.extraTags	= []
 
 			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
@@ -800,12 +800,13 @@ angular.module('icServices', [
 			})
 
 			icTaxonomy.addUnsortedTag = function(tag){
-				icTaxonomy.unsortedTags.push(tag)
+				icTaxonomy.tags.misc.push(tag)
 				return icTaxonomy
 			}
 
 			icTaxonomy.addExtraTag = function(tag){
-				icTaxonomy.extraTags.push(tag)
+				icTaxonomy.tags.extra = icTaxonomy.tags.extra || []
+				icTaxonomy.tags.extra.push(tag)
 				return icTaxonomy
 			}
 
@@ -859,6 +860,7 @@ angular.module('icServices', [
 
 				return	result[0]
 			}
+
 
 			icTaxonomy.getSubCategories = function(haystack){
 				if(!haystack) return []
@@ -1077,8 +1079,13 @@ angular.module('icServices', [
 
 		}
 
-		icFilterConfig.clearUnsortedTag = function(){
-			while(icSite.filterByUnsortedTag.pop());
+		icFilterConfig.clearUnsortedTag = function(tags){
+			tags = tags || icSite.filterByUnsortedTag
+
+			tags.forEach(function(tag){
+				var pos = icSite.filterByUnsortedTag.indexOf(tag)
+				if(pos != -1) icSite.filterByUnsortedTag.splice(pos,1)
+			})
 			return icFilterConfig
 		}
 
@@ -1086,8 +1093,11 @@ angular.module('icServices', [
 			return icSite.filterByUnsortedTag.indexOf(tag) != -1
 		}
 
-		icFilterConfig.unsortedTagCleared = function(){
-			return !icSite.filterByUnsortedTag.length
+		icFilterConfig.unsortedTagCleared = function(tags){
+
+			if(!tags) return icSite.filterByUnsortedTag.length == 0
+
+			return tags.every(function(tag){ return icSite.filterByUnsortedTag.indexOf(tag) == -1 })
 		}
 
 

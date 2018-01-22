@@ -85,28 +85,31 @@
 	</ul>
 </section>
 
-<section class = "unsorted">
+<section 
+	class 		= "unsorted"
+	ng-repeat 	= " (key, tagGroup) in ic.taxonomy.tags" 
+>
 	<h2 
 		class 		= "bg-0 icon"
-		ng-class	= "{'icon-interface-down': expand.unsortedTags, 'icon-interface-right': !expand.unsortedTags}"
-		ng-click	= "expand.unsortedTags = !expand.unsortedTags"
+		ng-class	= "{'icon-interface-down': expand.tags[key], 'icon-interface-right': !expand.tags[key]}"
+		ng-click	= "expand.tags[key] = !expand.tags[key]"
 		ic-touch-me	= "true" 
-	>{{'INTERFACE.UNSORTED_TAGS' | translate}}</h2>
+	>{{'INTERFACE.TAGS_%s' | fill : key| translate}}</h2>
 	<ul 
 		class = "bg-0"
-		ng-show	= "expand.unsortedTags"
+		ng-show	= "expand.tags[key]"
 	>
 		<li
 			ng-if		= "true"
 			class 		= "icon icon-interface-all"
-			ng-class	= "{'bg-3 white':ic.filterConfig.unsortedTagCleared()}"
-			ng-click	= "ic.filterConfig.clearUnsortedTag()" 
+			ng-class	= "{'bg-3 white':ic.filterConfig.unsortedTagCleared(tagGroup)}"
+			ng-click	= "ic.filterConfig.clearUnsortedTag(tagGroup)" 
 			ic-touch-me	= "true"
 		>
 			<a>{{'INTERFACE.FILTER_ANY' |translate}}</a>
 		</li>
 		<li
-			ng-repeat 	= "tag in ic.taxonomy.unsortedTags.concat(ic.taxonomy.extraTags)"
+			ng-repeat 	= "tag in tagGroup"
 			ng-if		= "true"
 			class		= "icon icon-interface-checkbox"
 			ic-button	= "{active:ic.filterConfig.unsortedTagActive(tag), checked:ic.filterConfig.unsortedTagActive(tag), disabled: !ic.itemStorage.currentStats.subMatches[tag]}"
