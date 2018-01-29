@@ -1080,12 +1080,14 @@ angular.module('icServices', [
 		}
 
 		icFilterConfig.clearUnsortedTag = function(tags){
-			tags = tags || icSite.filterByUnsortedTag
+			tags = tags || angular.copy(icSite.filterByUnsortedTag)
 
 			tags.forEach(function(tag){
 				var pos = icSite.filterByUnsortedTag.indexOf(tag)
+				console.log(tag, pos)
 				if(pos != -1) icSite.filterByUnsortedTag.splice(pos,1)
 			})
+
 			return icFilterConfig
 		}
 

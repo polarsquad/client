@@ -246,11 +246,11 @@ angular.module('icDirectives', [
 					var item 		= scope.icItem,
 						edit 		= scope.icEdit
 
-					if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 
 					icOverlays.toggle('spinner', true)
 
-					if(item.internal.new && !icUser.can('edit_items'))
+					if(item.internal.new && !icUser.can('edit_items')){
+						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsNew())
 								.then(
 									function(){
@@ -268,8 +268,10 @@ angular.module('icDirectives', [
 										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
 									}
 								)
+					}
 
-					if(!item.internal.new && !icUser.can('edit_items'))
+					if(!item.internal.new && !icUser.can('edit_items')){
+						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsEditSuggestion())
 								.then(
 									function(){
@@ -284,8 +286,10 @@ angular.module('icDirectives', [
 										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
 									}
 								)
+					}
 
-					if(item.internal.new && icUser.can('edit_items'))
+					if(item.internal.new && icUser.can('edit_items')){
+						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsNew())
 								.then(
 									function(item_data){
@@ -306,7 +310,7 @@ angular.module('icDirectives', [
 										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_FAILED')
 									}
 								)
-
+					}
 
 					$q.when(edit.update())
 					.then(

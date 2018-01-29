@@ -418,6 +418,45 @@ angular.module('icUiDirectives', [
 ])
 
 
+.directive('icScrollTo', [
+	function(){
+		return {
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+
+				scope.$watch(attrs.scrollTop, function(){
+
+					var target = attrs.icScrollTo.toLowerCase()
+
+
+					element.on('click touch', function(){
+
+
+						var scroll_parent = element[0]
+
+						while(scroll_parent && scroll_parent.scrollHeight == scroll_parent.offsetHeight){
+							console.log(scroll_parent)
+							scroll_parent = scroll_parent.parentElement							
+						}
+
+						console.log(target, scroll_parent)
+
+						if(!scroll_parent) return null
+
+						if( target == 'top') 	scroll_parent.scrollTop = 0
+						if( target == 'bottom') scroll_parent.scrollTop = scroll_parent.scrollHeight
+					})
+
+				})
+			}
+		}
+	}
+])
+
+
+
 .directive('icScrollTop', [
 	function(){
 		return {

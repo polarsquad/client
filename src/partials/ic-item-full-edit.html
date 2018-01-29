@@ -44,6 +44,7 @@
 
 <section class = "bg-0 padding">
 
+
 	<div ng-if = "ic.user.can('edit_items')">		
 		<div> <!-- spacer --> </div>
 		<div>
@@ -74,6 +75,11 @@
 		<!-- SUGGESTION -->
 		<h3 ng-if = "icItem.internal.new && !ic.user.can('edit_items')">{{'INTERFACE.SUGGEST_NEW_ITEM'| translate}}</h3>
 
+		<button
+			class 			= "icon icon-interface-down"
+			ic-scroll-to 	= "bottom"
+		>
+		</button>
 	</div>
 
 
@@ -432,6 +438,20 @@
 
 
 	<article>
+		<div><!--spacer--></div>
+		<div class ="xjust">
+			<div>
+			</div>
+			<button
+				class 			= "icon icon-interface-up"
+				ic-scroll-to 	= "top"
+			>
+			</button>
+		</div>
+	</article>
+	
+
+	<article>
 		<div> <!-- spacer --></div>
 
 
@@ -461,6 +481,15 @@
 
 
 			<button
+				class 		= "active border-3 bg-0 padding"
+				ng-click 	= "validate() ? ic.overlays.open('popup', 'INTERFACE.VALIDATION_SUCESSFUL') : ic.overlays.open('popup', 'INTERFACE.VALIDATION_FAILED')"	 
+				ic-touch-me
+			>
+				{{"INTERFACE.ITEM_VALIDATE" | translate}}
+			</button>
+
+
+			<button
 				class 		= "bg-3 col-2 padding"
 				ng-click 	= "submit()"	 
 				ic-touch-me
@@ -468,6 +497,8 @@
 				{{"INTERFACE.SUBMIT_CHANGES" | translate}}
 			</button>
 		</div>
+
+
 
 		<!-- EDIT SUGGESTION-->
 
@@ -549,7 +580,7 @@
 
 			<button
 				class 		= "bg-3 col-2 padding"
-				ng-click 	= "submit()"	 
+				ng-click 	= "submit()"
 				ic-touch-me
 			>
 				{{"INTERFACE.SUBMIT_SUGGESTION" | translate}}
@@ -558,3 +589,8 @@
 
 	</article>
 </section>
+
+<button
+	class = "ic icon large icon-interface-up round drop shadow"
+>
+</button>

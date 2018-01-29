@@ -45,16 +45,25 @@
 			title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 		>
 		</buton>
+
+
 	</div>
 
 	<div 
-		class 		= "hero-wrapper {{ !item.image && 'icon-type-'+(item | icType).name }}"
+		class 		= "hero-wrapper {{item.image ? 'bg-0' : 'ic-bg-type-'+(item|icType).name}}"
 	>
+		<div
+			ng-if		="!item.image"
+			class		= "hero fallback {{ !item.image && 'white icon-type-'+(item | icType).name }}" 
+		>
+		</div>
 		<div 
+			ng-if		= "item.image"
 			class		= "hero" 
 			ng-style	= "{'background-image' : 'url('+item.image+')'}" 
 		></div>
 	</div> 
+
 </header>
 
 <section class = "bg-0">
@@ -84,8 +93,13 @@
 			<div ng-if  ="item.lastEditor">
 				{{'ITEMS.LAST_EDITOR' | translate}}  	{{item.lastEditor	}}	({{item.lastEditDate | icDate}})
 			</div>	
-			<div>
-				<a class = "active" ng-click ="ic.admin.autoTranslate(ic.site.activeItem.id, ['brief', 'description'])">auto translate</a>
+			<div class = "xjust">
+				<a class = "active" ng-click ="ic.admin.autoTranslate(ic.site.activeItem.id, ['brief', 'description'])">{{'INTERFACE_AUTO_TRANSLATE'| translate }}</a>
+				<button
+					class = "icon icon-interface-down"
+					ic-scroll-to = "bottom"
+				>
+				</button>
 			</div>
 		</div>
 	</article>
@@ -219,16 +233,31 @@
 
 
 
+
+
 	<!-- hours -->
 
-	<!-- <ic-item-property
-		ng-if			= "item.hours"
-		ic-title 		= "'ITEMS..HOURS' | translate"
-		ic-extra-lines	= "item.hours | icSplit : ','"
-		ic-icon			= "'/images/icon/property-time.svg'"
+	<ic-item-property
+		ng-if			= "item.hours[ic.site.currentLanguage]"
+		ic-title 		= "'ITEMS.HOURS' | translate"
+		ic-icon			= "'/images/icons/property-time.svg'"
+		ic-content		= "item.hours[ic.site.currentLanguage]"
 	>
 	</ic-item-property>
-	 -->
+	
+
+	<article>
+		<div>
+		</div>
+		<div class = "xjust">
+			<div class = "spacer"></div>
+			<button
+				class 			= "icon icon-interface-up"
+				ic-scroll-to 	= "top"
+			>
+			</button>
+		</div>
+	</article>
 
 
 	<div class = "qrcode">
@@ -242,6 +271,7 @@
 		>
 		</qrcode>
 	</div>
+
 
 </section>
 
@@ -258,6 +288,7 @@
 
 
 <footer class = "screen-only">
+
 
 	<button 
 		class 		= "bg-0"

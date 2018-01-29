@@ -5,6 +5,7 @@ ic-item-full {
 
 ic-item-full header {
 	min-height:					5rem;
+	z-index:					1000;
 }
 
 ic-item-full header .tools{
@@ -15,11 +16,12 @@ ic-item-full header .tools{
 
 
 ic-item-full header .main {
+	position:					absolute;
 	display:					flex;
 	top:						1.25rem;
-	position:					absolute;
 	right:						0;
-	padding-right:				0.5rem;
+	padding-right:				0.4rem;
+	z-index:					99;
 }
 
 ic-item-full header .main > *  {
@@ -29,21 +31,39 @@ ic-item-full header .main > *  {
 
 
 ic-item-full .hero-wrapper{
+	position: 					relative;
 	background-size:			5rem;
 	background-position:		50% 50%;
 	background-repeat:			no-repeat;
+	padding-bottom:				50%;
 }
 
-ic-item-full .hero-wrapper:before{
+
+ic-item-full .hero.fallback{
+	position:					absolute;
+	font-size:					10rem;
+	width:						1em;
+	height:						1em;
+	margin-left:				-0.5em;
+	margin-top:					-0.5em;
+	opacity:					0.25;
+	left:						50%;
+	top:						50%;
+}
+
+ic-item-full .hero.fallback:before {
 	display:					none;
 }
 
 ic-item-full .hero {
-	padding-bottom:				50%;
+	position:					absolute;
 	background-size:			cover;
 	background-position:		50% 50%;
-	background-color:			rgba(0,0,0,0.1);
 	background-repeat:			no-repeat;
+	top:						0;
+	bottom:						0;
+	left:						0;
+	right:						0;
 }
 
 
