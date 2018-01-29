@@ -838,13 +838,15 @@ angular.module('icServices', [
 
 				if(!haystack) return null
 
-				haystack = 	typeof haystack == 'string'
-							?	[haystack]
-							:	haystack
+				haystack = 	haystack.filter
+							?	haystack
+							:	[haystack]
 				
+				haystack = haystack.filter(function(t){ return !!t})
+
 				var result = 	icTaxonomy.categories.filter(function(category){
 									return 	haystack.some(function(c){
-												return 	(c.name || c) == category.name														
+												return 	(c.name || c) == category.name
 											})
 								})
 
