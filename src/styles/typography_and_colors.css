@@ -198,6 +198,7 @@ textarea:-webkit-autofill:focus{
 .xjust{
 	display:				flex !important;
 	justify-content:		space-between;
+	align-items:			flex-start;
 }
 
 .wsp {
