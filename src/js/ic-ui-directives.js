@@ -625,7 +625,7 @@ angular.module('icUiDirectives', [
 		return function(obj){
 			var result = []
 
-			for(key in obj) result = result.concat(obj[key])
+			for(var key in obj) result = result.concat(obj[key])
 
 			return result
 		}
