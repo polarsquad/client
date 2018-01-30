@@ -219,8 +219,14 @@ ic-header.ic-scroll-snapped .tools button span{
 ic-header ic-breadcrumbs {
 	display:						flex;
 	box-sizing:						border-box;
-	line-height:					2em;
+	height:							2em;
 	padding:						0 1rem;
+	align-items:					center;
+}
+
+ic-header ic-breadcrumbs > * {
+	display:						inline-flex;
+	align-items:					center;
 }
 
 ic-header .breadcrumbs {
