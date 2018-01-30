@@ -32,9 +32,6 @@ ic-item-full header .main > *  {
 
 ic-item-full .hero-wrapper{
 	position: 					relative;
-	background-size:			5rem;
-	background-position:		50% 50%;
-	background-repeat:			no-repeat;
 	padding-bottom:				50%;
 }
 
@@ -49,6 +46,7 @@ ic-item-full .hero.fallback{
 	opacity:					0.25;
 	left:						50%;
 	top:						50%;
+	opacity:					0.5;
 }
 
 ic-item-full .hero.fallback:before {

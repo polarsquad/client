@@ -12,10 +12,12 @@
 	<a
 		ng-repeat		= "item in ic.itemStorage.filteredList | limitTo : displayLimit"
 		ng-href			= "{{ {activeItem: item} | icLink }}"
+		ic-touch-me
 	>
 		<ic-item-preview
-			class	= "bg-0"
-			ic-item = "item"
+			class		= "bg-0"
+			ng-class 	= "{'active-item': item == ic.site.activeItem}"
+			ic-item 	= "item"
 		></ic-item-preview>
 	</a>
 	<button ng-if= "noScroll && !noMoreItems" ng-click = "icScrollRepeatLimitIncrease()">more</button>

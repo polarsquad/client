@@ -9,8 +9,8 @@ ic-item-preview {
 }
 
 ic-item-preview:active,
-ic-item-preview.active {
-	background-color:		rgba(0,0,0,0.1);
+ic-item-preview.active-item {
+	background-color:		rgba(0,0,0,0.06);
 }
 
 ic-item-preview .content {
