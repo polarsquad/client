@@ -437,11 +437,8 @@ angular.module('icUiDirectives', [
 						var scroll_parent = element[0]
 
 						while(scroll_parent && scroll_parent.scrollHeight == scroll_parent.offsetHeight){
-							console.log(scroll_parent)
 							scroll_parent = scroll_parent.parentElement							
 						}
-
-						console.log(target, scroll_parent)
 
 						if(!scroll_parent) return null
 
