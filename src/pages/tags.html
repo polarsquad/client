@@ -7,6 +7,9 @@
 		<div class = "icon-large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
 			<h2><a ng-href = "/list/c/{{::category.name}}">{{'CATEGORIES.%s' | fill : category.name | translate}}</a></h2>
+			<p>
+				{{'CATEGORIES.%s_NOTE' | fill : category.name | translate}}
+			</p>
 			<div>
 				<a
 					href  		= "/list/c/{{::category.name}}"

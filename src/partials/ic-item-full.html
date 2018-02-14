@@ -94,12 +94,7 @@
 				{{'ITEMS.LAST_EDITOR' | translate}}  	{{item.lastEditor	}}	({{item.lastEditDate | icDate}})
 			</div>	
 			<div class = "xjust">
-				<a class = "active" ng-click ="ic.admin.autoTranslate(ic.site.activeItem.id, ['brief', 'description'])">{{'INTERFACE_AUTO_TRANSLATE'| translate }}</a>
-				<button
-					class = "icon icon-interface-down"
-					ic-scroll-to = "bottom"
-				>
-				</button>
+				<a class = "active" ng-click ="ic.admin.autoTranslate(ic.site.activeItem.id, ['brief', 'description'])">{{'INTERFACE.AUTO_TRANSLATE'| translate }}</a>
 			</div>
 		</div>
 	</article>
@@ -132,6 +127,7 @@
 		<div>
 			<ic-item-badge ic-item = "item"></ic-item-badge>
 		</div>
+
 		<div>
 			<div class ="xjust">
 				<h2 class = "title" >
@@ -146,8 +142,7 @@
 			<h3>
 				{{ item.brief[ic.site.currentLanguage] }}
 			</h3>
-			<div class = "description">
-				{{ item.description[ic.site.currentLanguage] }}
+			<div class = "description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage] | trustAsHtml">
 			</div>
 		</div>
 	</article>
