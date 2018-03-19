@@ -1212,9 +1212,9 @@ angular.module('icDirectives', [
 							{name: 'email',		link: 'mailto:?subject='+mail_subject+'&body='+v.url},
 							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags='+twitter_hashtag},
 							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url},
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
-							// {name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url}
 						]						
 					},
 					true
