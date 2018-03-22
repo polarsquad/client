@@ -376,9 +376,10 @@ function compileIndex(){
 				return	index
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
 						.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
-						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
-						.replace(/\s*<\!--\s*BUILD DESCRIPTION\s*-->/g, 	config.description || '')
+						.replace(/\s*<\!--\s*CONFIG\.TITLE\s*-->/g, 		config.title)
+						.replace(/\s*<\!--\s*CONFIG\.DESCRIPTION\s*-->/g, 	config.description || '')
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
+						.replace(/CONFIG\.FRONTEND\_LOCATION/g, 			config.frontendLocation || '')
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )

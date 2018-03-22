@@ -16,16 +16,16 @@
 
 	<head>
 		<title
-			ng-bind = "(ic.site.activeItem ? ic.site.activeItem.title + ' – ' : '') + '<!--BUILD TITLE-->' + ' ' + (ic.init.ready ? ('INTERFACE.TITLE_ADD_ON' | translate) : '')"
+			ng-bind = "(ic.site.activeItem ? ic.site.activeItem.title + ' – ' : '') + '<!--CONFIG.TITLE-->' + ' ' + (ic.init.ready ? ('INTERFACE.TITLE_ADD_ON' | translate) : '')"
 		>
-			<!--BUILD TITLE-->
+			<!--CONFIG.TITLE-->
 		</title>
 		
 		<base href = "/" />
 		<meta charset ="utf-8" />		
 		<meta name ="viewport" content="width=device-width, minimum-scale = 1.0, maximum-scale = 1.0, initial-scale=1.0, user-scalable=no" />
 		<meta name ="mobile-web-app-capable" content="yes" />
-		<meta name ="<!--BUILD TITLE-->" content="AppTitle" />
+		<meta name ="<!--CONFIG.TITLE-->" content="AppTitle" />
 
 		<link rel="shortcut icon" type="image/png" href="/images/icons/logo_icon.png"/>
 		<link rel="apple-touch-icon" href="/images/icons/logo_icon.png" />
@@ -33,34 +33,34 @@
 
 		<!--BUILD HEAD-->
 
-		<meta name="description" content="<!--BUILD DESCRIPTION-->">
+		<meta name="description" content="<!--CONFIG.DESCRIPTION-->">
 
 		<!-- Schema.org markup for Google+ -->
-		<meta itemprop="name" 				content="<!--BUILD TITLE-->">
-		<meta itemprop="image" 				content="/images/icons/logo_icon.png">
+		<meta itemprop="name" 				content="<!--CONFIG.TITLE-->">
+		<meta itemprop="image" 				content="<!--CONFIG.FRONTEND_LOCATION-->/images/icons/logo_icon.png">
 
 		<script type="application/ld+json">
 		{
 			"@context": 	"http://schema.org",
 			"@type": 		"Thing",
-			"name": 		"<!--BUILD TITLE-->",
-			"image":		"/images/icons/logo_icon.png",
-			"description":	"<!--BUILD TITLE-->"
+			"name": 		"<!--CONFIG.TITLE-->",
+			"image":		"<!--CONFIG.FRONTEND_LOCATION-->/images/icons/logo_icon.png",
+			"description":	"<!--CONFIG.DESCRIPTION-->"
 		}
 		</script>
 
 		<!-- Twitter Card data -->
-		<meta name="twitter:card" 			content="/images/icons/logo_icon.png">
-		<meta name="twitter:title" 			content="<!--BUILD TITLE-->">
+		<meta name="twitter:card" 			content="<!--CONFIG.FRONTEND_LOCATION-->/images/icons/logo_icon.png">
+		<meta name="twitter:title" 			content="<!--CONFIG.TITLE-->">
 		<!-- Twitter summary card with large image must be at least 280x150px -->
-		<meta name="twitter:image:src" 		content="/images/icons/logo_icon.png">
+		<meta name="twitter:image:src" 		content="<!--CONFIG.FRONTEND_LOCATION-->/images/icons/logo_icon.png">
 
 		<!-- Open Graph data -->
-		<meta property="og:title" 			content="<!--BUILD TITLE-->" />
+		<meta property="og:title" 			content="<!--CONFIG.TITLE-->" />
 		<meta property="og:type" 			content="website" />
-		<meta property="og:image" 			content="/images/icons/logo_icon.png" />
-		<meta property="og:site_name" 		content="<!--BUILD TITLE-->" />
-		<meta property="og:description" 	content="<!--BUILD DESCRIPTION-->" />
+		<meta property="og:image" 			content="<!--CONFIG.FRONTEND_LOCATION-->/images/icons/logo_icon.png" />
+		<meta property="og:site_name" 		content="<!--CONFIG.TITLE-->" />
+		<meta property="og:description" 	content="<!--CONFIG.DESCRIPTION-->" />
 
 	</head>
 
