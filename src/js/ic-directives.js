@@ -1214,7 +1214,7 @@ angular.module('icDirectives', [
 							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+text+'&url='+v.url+'&hashtags='+twitter_hashtag},
 							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+text},
 							{name: 'whatsapp',	link: 'whatsapp://send?text='+text+': '+v.url},
-							{name: 'telegram',	link: 'tg://msg?text='+text}
+							{name: 'telegram',	link: 'tg://msg?text='+text+': '+v.url}
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
 						]						
