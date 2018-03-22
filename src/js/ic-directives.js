@@ -1206,13 +1206,15 @@ angular.module('icDirectives', [
 						var mail_subject 	= 		translateFilter('INTERFACE.TITLE')+': '+v.title,
 							twitter_hashtag	= 		icConfigData.sharing 
 												&&	icConfigData.sharing.twitter
-												&&	icConfigData.sharing.twitter.hashtag 
+												&&	icConfigData.sharing.twitter.hashtag,
+							text			=		encodeURIComponent(v.title)
 
 						scope.platforms = [
 							{name: 'email',		link: 'mailto:?subject='+mail_subject+'&body='+v.url},
-							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+v.title+'&url='+v.url+'&hashtags='+twitter_hashtag},
-							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+v.title},
-							{name: 'whatsapp',	link: 'whatsapp://send?text='+v.title+': '+v.url},
+							{name: 'twitter', 	link: 'https://twitter.com/intent/tweet?text='+text+'&url='+v.url+'&hashtags='+twitter_hashtag},
+							{name: 'facebook', 	link: 'https://www.facebook.com/sharer/sharer.php?u='+v.url+'&t='+text},
+							{name: 'whatsapp',	link: 'whatsapp://send?text='+text+': '+v.url},
+							{name: 'telegram',	link: 'tg://msg?text='+text}
 							// {name: 'google+', 	link: 'https://plus.google.com/share?url='+url},
 							// {name: 'linkedin', 	link: 'https://www.linkedin.com/shareArticle?mini=true&url='+url},
 						]						
