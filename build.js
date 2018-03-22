@@ -377,6 +377,7 @@ function compileIndex(){
 						.replace(/\s*<\!--\s*BUILD HEAD\s*-->/g, 			'\n'+head)
 						.replace(/\s*<\!--\s*BUILD LOADING-SCREEN\s*-->/g, 	'\n'+loading_screen)
 						.replace(/\s*<\!--\s*BUILD TITLE\s*-->/g, 			config.title)
+						.replace(/\s*<\!--\s*BUILD DESCRIPTION\s*-->/g, 	config.description || '')
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
 
 			})
