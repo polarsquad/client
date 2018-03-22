@@ -267,7 +267,7 @@
 			'$compileProvider',
 
 			function($compileProvider){
-				$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto|tel):/)
+				$compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|whatsapp|mailto|tel|tg):/)
 			}
 		])
 
