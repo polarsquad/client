@@ -439,11 +439,13 @@ angular.module('icServices', [
 			$rootScope.$watch(
 				function(){ return $location.search().s},
 				function(s){
-					icSite.updateFromSearch()
+					ic.ready.then(function(){ icSite.updateFromSearch() })
 				}
 			)
 
-			$rootScope.$on('$locationChangeSuccess', icSite.updateFromPath)
+			$rootScope.$on('$locationChangeSuccess', function(){
+				ic.ready.then(function(){ icSite.updateFromPath() })
+			})
 
 
 			return icSite
@@ -805,7 +807,8 @@ angular.module('icServices', [
 			}
 
 			icTaxonomy.addExtraTag = function(tag){
-				icTaxonomy.tags.extra = icTaxonomy.tags.extra || []
+				icTaxonomy.tags			= icTaxonomy.tags || {} 
+				icTaxonomy.tags.extra 	= icTaxonomy.tags.extra || []
 				icTaxonomy.tags.extra.push(tag)
 				return icTaxonomy
 			}
@@ -1135,12 +1138,12 @@ angular.module('icServices', [
 				})
 			})
 
-			icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
+			if(icSite.currentLanguage) icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
 			
 			$rootScope.$watch(
 				function(){ return icSite.currentLanguage },
 				function(){
-					if(icSite.sortOrder && icSite.sortOrder.match(/^alphabetical_/)){
+					if(icSite.currentLanguage && icSite.sortOrder && icSite.sortOrder.match(/^alphabetical_/)){
 						icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage
 					}
 				}
