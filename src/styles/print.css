@@ -132,13 +132,17 @@
 		color:				#000 !important;
 	}
 
+	ic-item-full .category .img{
+		display:			block;
+		text-align:			center !important;
+		padding-top:		1rem;
+	}
+
 	ic-item-full .category .img:before{
+		position:			relative;
 		display:			inline-block;
-		margin-top:			1rem;
-		left:				50%;
-		width:				auto;
-		height:				0;
-		transform:			scale(5);
+		width:				8rem;
+		height:				8rem;
 	}
 
 	ic-item-full .main {

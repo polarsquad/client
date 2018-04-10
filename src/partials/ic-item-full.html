@@ -14,6 +14,7 @@
 			ng-click 	= "ic.site.editItem = true" 
 			ng-if		= "true || ic.user.can('edit_items')"
 			title		= "{{'INTERFACE.EDIT' | translate}}"
+			ic-touch-me
 		>
 		</button>
 
@@ -22,6 +23,7 @@
 			ng-click 	= "delete()" 
 			ng-if		= "ic.user.can('delete_items')"
 			title		= "{{'INTERFACE.DELETE' | translate}}"
+			ic-touch-me
 		>
 		</button>
 		
@@ -29,6 +31,7 @@
 			class 		= "icon round large active icon-interface-share drop-shadow bg-0"
 			ng-click 	= "ic.overlays.toggle('sharingMenu')" 
 			title		= "{{'INTERFACE.SHARE' | translate}}"
+			ic-touch-me
 		>
 		</button>
 
@@ -36,6 +39,7 @@
 			class 		= "icon round large active icon-interface-print drop-shadow bg-0"
 			ng-click 	= "ic.site.print()" 
 			title		= "{{'INTERFACE.PRINT' | translate}}"
+			ic-touch-me
 		>
 		</buton>			
 		<button 
@@ -43,6 +47,7 @@
 			ng-class	= "{'bg-3 white': ic.favourites.contains(item), 'bg-0  active': !ic.favourites.contains(item)}"
 			ng-click 	= "ic.favourites.toggleItem(item)" 
 			title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
+			ic-touch-me
 		>
 		</buton>
 
@@ -112,7 +117,7 @@
 
 
 	<!--scroll-->
-	<article>
+	<article class = "screen-only">
 		<div>
 		</div>
 		<div class = "xjust">
@@ -133,17 +138,22 @@
 				<h2 class = "title" >
 					{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
 				</h2>
-					<button
-						class 			= "icon icon-interface-down"
-						ic-scroll-to 	= "bottom"
-					>
-					</button>
+				<button
+					class 			= "screen-only icon icon-interface-down"
+					ic-scroll-to 	= "bottom"
+				>
+				</button>
 			</div>
 			<h3>
 				{{ item.brief[ic.site.currentLanguage] }}
 			</h3>
-			<div class = "description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage] | trustAsHtml">
+
+			<div class = "screen-only description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage] | trustAsHtml">
 			</div>
+
+			<div class = "print-only description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage]">
+			</div>
+
 		</div>
 	</article>
 	<!-- end item title -->
@@ -259,7 +269,7 @@
 	
 
 	<!-- scroll -->
-	<article>
+	<article class = "screen-only">
 		<div>
 		</div>
 		<div class = "xjust">
