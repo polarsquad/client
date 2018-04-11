@@ -158,6 +158,10 @@ textarea:-webkit-autofill:focus{
 	font-size:				0.8rem;
 }
 
+.ws-pre-line {
+	white-space: 			pre-line;
+}
+
 .iblock {
 	display:				inline-block;
 }
@@ -167,6 +171,8 @@ textarea:-webkit-autofill:focus{
 	transition-duration:	400ms;			
 	transition-property:	border, background-color;
 }
+
+
 
 
 

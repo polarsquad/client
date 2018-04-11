@@ -490,7 +490,7 @@ angular.module('icServices', [
 							item: 		item_id,
 							from: 		Array.concat.apply([], ['en', 'de'], icLanguages.availableLanguages),
 							to:			icLanguages.availableLanguages,
-							properties:	properties
+							properties:	properties || undefined
 						}))
 						.then( function(){
 							return $q.when(icItemStorage.getItem(item_id).download())

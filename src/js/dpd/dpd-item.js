@@ -23,10 +23,10 @@
 
 			ic.itemConfig.properties.forEach(function(property){
 
-
 				// object
 				if(property.type == 'object'){
 					
+
 					if(property.mandatory && !data[property.name]){
 						icItem[property.name] = angular.copy(property.defaultValue)
 						return null
