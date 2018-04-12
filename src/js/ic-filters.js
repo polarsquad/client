@@ -117,6 +117,8 @@ angular.module('icFilters', [
 
 			if(!date_str) return undefined
 
+			icSite.date_str = date_str
+
 			var date
 
 			if(date_str.match && date_str.match(/T[^-+]+$/)){
@@ -125,13 +127,16 @@ angular.module('icFilters', [
 					tmatches = date_str.match(/T(\d\d):(\d\d)/)
 
 
+
 				date = new Date(Date.UTC(parseInt(dmatches[1]), parseInt(dmatches[2])-1, parseInt(dmatches[3]), parseInt(tmatches[1]), parseInt(tmatches[2])))
 
-				console.log('blub')
+				icSite.dmatches = dmatches
+				icSite.tmatches = tmatches
+				icSite.date
+
 			}else{
 				date = new Date(date_str)
 			}
-
 
 
 			if(isNaN(date.getTime())) return undefined
