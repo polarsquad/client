@@ -117,6 +117,21 @@ angular.module('icFilters', [
 
 			if(!date_str) return undefined
 
+
+			if(date_str.match && date_str.match(/T[^-+]+$/)){
+
+				var offset 	= new Date().getTimezoneOffset(),
+					sign	= offset < 0 ? '+' : '-',
+					abs		= Math.abs(offset),
+					hours	= Math.floor(abs/60),
+					minutes = abs % 60,
+					hstr	= hours 	< 10 ? '0' + hours 		: '' + hours,
+					mstr	= minutes 	< 10 ? '0' + minutes	: '' + minutes
+
+				date_str = date_str+sign+hstr+mstr
+			}
+
+
 			var date = new Date(date_str)
 
 			if(isNaN(date.getTime())) return undefined
@@ -135,7 +150,7 @@ angular.module('icFilters', [
 				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime + ', ' +
 																			(
 																				toLocaleDateStringSupportsLocales
-																				?	date.toLocaleTimeString(icSite.currentLanguage, {timeZone: 'UTC'})
+																				?	date.toLocaleTimeString(icSite.currentLanguage)
 																				:	''
 																			)
 			}
