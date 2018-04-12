@@ -150,7 +150,7 @@ angular.module('icFilters', [
 				dates[date_str][icSite.currentLanguage].withTime	= 	dates[date_str][icSite.currentLanguage].withoutTime + ', ' +
 																			(
 																				toLocaleDateStringSupportsLocales
-																				?	date.toLocaleTimeString(icSite.currentLanguage)
+																				?	date.toLocaleTimeString(icSite.currentLanguage, {timeZone:'UTC'})
 																				:	''
 																			)
 			}
