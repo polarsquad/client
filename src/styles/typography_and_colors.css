@@ -63,10 +63,6 @@ button {
 	padding:			0;
 }
 
-button.ic-touched {
-	background-color:	rgba(0,0,0,0.2) !important;
-}
-
 button::-moz-focus-inner {
 	border:				0;
 	padding:			0;
@@ -169,7 +165,7 @@ textarea:-webkit-autofill:focus{
 
 .ic-touch-fade {
 	transition-duration:	400ms;			
-	transition-property:	border, background-color;
+	transition-property:	border, background-color, filter, transform;
 }
 
 
