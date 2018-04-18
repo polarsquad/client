@@ -488,7 +488,7 @@ angular.module('icServices', [
 			icAdmin.autoTranslate = function(item_id, properties) {
 				return 	$q.when(dpd.actions.exec('translateItem', {
 							item: 		item_id,
-							from: 		Array.concat.apply([], ['en', 'de'], icLanguages.availableLanguages),
+							from: 		[].concat(['en', 'de'], icLanguages.availableLanguages),
 							to:			icLanguages.availableLanguages,
 							properties:	properties || undefined
 						}))
