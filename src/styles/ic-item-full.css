@@ -135,6 +135,7 @@ ic-item-full .qrcode qrcode canvas{
 }
 
 ic-item-full footer.screen-only {
+	padding-bottom:				6rem;
 }
 
 
