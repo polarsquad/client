@@ -464,8 +464,9 @@ angular.module('icServices', [
 		'icOverlays',
 		'icLanguages',
 		'icItemStorage',
+		'icItemEdits',
 
-		function($q, icOverlays, icLanguages, icItemStorage){
+		function($q, icOverlays, icLanguages, icItemStorage, icItemEdits){
 			var icAdmin = this
 
 
@@ -492,8 +493,9 @@ angular.module('icServices', [
 							to:			icLanguages.availableLanguages,
 							properties:	properties || undefined
 						}))
-						.then( function(){
-							return $q.when(icItemStorage.getItem(item_id).download())
+						.then( function(item_data){
+							icItemStorage.getItem(item_id).importData(item_data)
+							icItemEdits.get(item_id).importData(item_data)
 						})
 						.then(
 							function(){

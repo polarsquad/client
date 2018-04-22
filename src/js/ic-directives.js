@@ -531,6 +531,7 @@ angular.module('icDirectives', [
 					},
 
 					function(v){
+
 						if(!scope.icItem || !scope.icEdit) return null
 
 						if(scope.icOptions){
