@@ -486,29 +486,6 @@ angular.module('icServices', [
 						)
 			}		
 
-			icAdmin.autoTranslate = function(item_id, properties) {
-				return 	$q.when(dpd.actions.exec('translateItem', {
-							item: 		item_id,
-							from: 		[].concat(['en', 'de'], icLanguages.availableLanguages),
-							to:			icLanguages.availableLanguages,
-							properties:	properties || undefined
-						}))
-						.then( function(item_data){
-							icItemStorage.getItem(item_id).importData(item_data)
-							icItemEdits.get(item_id).importData(item_data)
-						})
-						.then(
-							function(){
-								return icOverlays.open('popup', 'INTERFACE.ITEM_TRANSLATION_UPDATED')
-							},
-
-							function(e){
-								console.error(e)
-								return icOverlays.open('popup', 'INTERFACE.UNABLE_TO_UPDATE_ITEM_TRANSLATIONS')
-							}
-						)
-			}
-
 			return icAdmin
 		}
 	]
