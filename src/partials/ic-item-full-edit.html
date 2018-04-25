@@ -16,7 +16,7 @@
 			<button 
 				class 		= "icon round large bg-3 white icon-interface-cancel_edit drop-shadow bg-0"
 				ng-click 	= "cancel()" 
-				ng-if		= "true || ic.user.can('edit_items')"
+				ng-if		= "true"
 				title		= "{{ic.user.can('edit_items')? 'INTERFACE.CANCEL_EDIT' : 'INTERFACE.CANCEL_EDIT_SUGGESTION' | translate}}"
 				ic-touch-me
 			>
@@ -56,8 +56,8 @@
 			<div ng-if  ="icItem.lastEditor">
 				{{'ITEMS.LAST_EDITOR' | translate}}  	{{icItem.lastEditor	}}	({{icItem.lastEditDate | icDate}})
 			</div>	
-			<div>
-				<a class = "active" ng-click ="autoTranslate()">{{'INTERFACE.AUTO_TRANSLATE'| translate }}</a>
+			<div ng-if = "ic.user.can('edit_items')">
+				<a class = "active" ng-click ="ic.admin.autoTranslate(icItem)">{{'INTERFACE.AUTO_TRANSLATE'| translate }}</a>
 			</div>
 		</div>
 	</div>

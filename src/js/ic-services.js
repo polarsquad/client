@@ -465,8 +465,9 @@ angular.module('icServices', [
 		'icLanguages',
 		'icItemStorage',
 		'icItemEdits',
+		'icItemConfig',
 
-		function($q, icOverlays, icLanguages, icItemStorage, icItemEdits){
+		function($q, icOverlays, icLanguages, icItemStorage, icItemEdits, icItemConfig){
 			var icAdmin = this
 
 
@@ -485,6 +486,47 @@ angular.module('icServices', [
 							}
 						)
 			}		
+
+			icAdmin.autoTranslate = function(item){
+
+
+				var icItem			= item,
+					icEdit			= icItemEdits.get(item.id),
+					from_languages 	= [].concat(['en', 'de'], icLanguages.availableLanguages),
+					to_languages	= icLanguages.availableLanguages
+
+
+				icOverlays.toggle('spinner', true)
+
+
+				return $q.when(dpd.actions.exec('translateItem', {
+							item:		icItem.id,
+							from:		from_languages,
+							to:			to_languages
+						}))
+						.then(function(item_data){
+							var translation_data = {}
+
+							icItemConfig.properties.forEach(function(property){
+								if(property.translatable){
+									icItem[property.name] = item_data[property.name]
+									icEdit[property.name] = item_data[property.name]
+								}
+							})
+
+						})
+						.then(
+							function(){
+								return icOverlays.open('popup', 'INTERFACE.ITEM_TRANSLATION_UPDATED')
+							},
+
+							function(e){
+								console.error(e)
+								return icOverlays.open('popup', 'INTERFACE.UNABLE_TO_UPDATE_ITEM_TRANSLATIONS')
+							}
+						)
+
+				}
 
 			return icAdmin
 		}
