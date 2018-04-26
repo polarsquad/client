@@ -242,40 +242,6 @@ angular.module('icDirectives', [
 				}
 
 
-				scope.autoTranslate = function(){
-
-					var from_languages 	= [].concat(['en', 'de'], icLanguages.availableLanguages),
-						to_languages	= icLanguages.availableLanguages
-
-					return $q.when(dpd.actions.exec('translateItem', {
-								item:		scope.icItem.id,
-								from:		from_languages,
-								to:			to_languages
-							}))
-							.then(function(item_data){
-								var translation_data = {}
-
-								icItemConfig.properties.forEach(function(property){
-									if(property.translatable){
-										scope.icItem[property.name] = item_data[property.name]
-										scope.icEdit[property.name] = item_data[property.name]
-									}
-								})
-
-							})
-							.then(
-								function(){
-									return icOverlays.open('popup', 'INTERFACE.ITEM_TRANSLATION_UPDATED')
-								},
-
-								function(e){
-									console.error(e)
-									return icOverlays.open('popup', 'INTERFACE.UNABLE_TO_UPDATE_ITEM_TRANSLATIONS')
-								}
-							)
-
-				}
-
 				scope.submit = function(){
 
 					if(!scope.icEdit) return null
@@ -1202,10 +1168,10 @@ angular.module('icDirectives', [
 	'$location', 
 	'icSite',
 	'icLanguages',
-	'icConfigData',
+	'icConfig',
 	'translateFilter',
 
-	function($location, icSite, icLanguages, icConfigData, translateFilter){
+	function($location, icSite, icLanguages, icConfig, translateFilter){
 		return {
 			restrict: 		'AE',
 			templateUrl:	'partials/ic-sharing-menu.html',
@@ -1242,9 +1208,9 @@ angular.module('icDirectives', [
 						}
 
 						var mail_subject 	= 		translateFilter('INTERFACE.TITLE')+': '+v.title,
-							twitter_hashtag	= 		icConfigData.sharing 
-												&&	icConfigData.sharing.twitter
-												&&	icConfigData.sharing.twitter.hashtag,
+							twitter_hashtag	= 		icConfig.sharing 
+												&&	icConfig.sharing.twitter
+												&&	icConfig.sharing.twitter.hashtag,
 							text			=		encodeURIComponent(v.title)
 
 						scope.platforms = [

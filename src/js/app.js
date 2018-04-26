@@ -40,6 +40,7 @@
 			'icMap',
 			'icPreload',
 		])
+		.constant('icConfig', icConfig)
 
 		.config([
 

@@ -1240,13 +1240,6 @@ angular.module('icServices', [
 	}
 ])
 
-.service('icConfigData', [
-
-	function(){
-		return window.config
-	}
-])
-
 
 
 
