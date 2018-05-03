@@ -142,12 +142,6 @@
 	box-shadow:					0 0 0.15em rgba(0,0,0,0.7);
 }
 
-.ic-touched {
-	filter: 			brightness(75%);
-	transform: 			scale(0.95);
-}
-
-
 
 [disabled],
 .disabled {
