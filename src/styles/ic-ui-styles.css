@@ -7,3 +7,14 @@
 	cursor:					pointer;
 }
 
+
+.ic-touched {
+    filter: 				brightness(80%);
+}
+
+
+
+.ic-touch-fade {
+	transition-duration:	400ms;			
+	transition-property:	border, background-color, filter, transform;
+}

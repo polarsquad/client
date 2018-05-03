@@ -163,14 +163,6 @@ textarea:-webkit-autofill:focus{
 }
 
 
-.ic-touch-fade {
-	transition-duration:	400ms;			
-	transition-property:	border, background-color, filter, transform;
-}
-
-
-
-
 
 /* flex */
 
