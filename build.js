@@ -12,6 +12,7 @@ var copyfiles	= 	require('copyfiles'),
 	svgo		= 	new SVGO({
 						plugins: [
 							{removeTitle:			true},
+							{removeDimensions:		true}
 						]
 					}),
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
@@ -35,6 +36,8 @@ var copyfiles	= 	require('copyfiles'),
 	js_dir		= 	'js_'+build
 
 
+
+console.log('build: ', build)
 
 function done(all){
 	all
@@ -392,6 +395,7 @@ function compileIndex(){
 						.replace(/CONFIG\.FRONTEND\_LOCATION/g, 			config.frontendLocation || '')
 						.replace(/DIR.STYLES/g,								styles_dir)
 						.replace(/DIR.JS/g,									js_dir)
+						.replace(/BUILD/g,									build)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
