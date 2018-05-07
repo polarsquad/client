@@ -22,12 +22,35 @@
 
 	 }
 
-	 var icConfig = undefined
+	 function getBuildNumber(){
+	 	return new Promise(function(resolve, reject){
+
+			var xobj = new XMLHttpRequest()
+				xobj.overrideMimeType("application/text")
+
+			xobj.open('GET', 'build', true)
+			xobj.onreadystatechange = function () {
+				if (xobj.readyState == 4 && xobj.status == "200") {
+					resolve(xobj.responseText)
+				}
+			};
+			xobj.send(null);  
+
+		})
+
+	 }
+
+	var icConfig 	= undefined,
+		build		= undefined 
 
 	Promise.all([
-		loadJSON('config.json').then(function(config){ icConfig = config }),
+		loadJSON('config.json'),
+		getBuildNumber()
 	])
-	.then(function(){
+	.then(function(result){
+
+		icConfig 	= result[0]
+		build		= result[1]
 
 		angular.module("InfoCompass",[
 			'monospaced.qrcode',
@@ -70,7 +93,7 @@
 
 			function(plStylesProvider){
 				plStylesProvider.setFiles([
-					['/styles/styles.css'],
+					['/styles_'+build+'/styles.css'],
 					[icConfig.externalCss]
 				])
 			}

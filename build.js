@@ -27,7 +27,9 @@ var copyfiles	= 	require('copyfiles'),
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
 					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
 
-	preloadImg	=	[]
+	preloadImg	=	[],
+
+	build 		= 	Date.now()
 
 
 function done(all){
@@ -44,6 +46,7 @@ function setup(){
 				fs.emptyDir(dst),
 				fs.emptyDir('tmp')
 			])
+			.then( ()	=> 	fs.writeFile(dst+'/build', build, 'utf8'))
 			.then( ()	=>	fs.copy('src',  	'tmp/src'))
 			.then( () 	=> 	cst 
 							?	fs.copy(cst,	'tmp/src', {overwrite: true})
@@ -353,12 +356,12 @@ function bundleStylesToDst(){
 				fs.copy(src+'/styles/initial', 							"tmp/styles/initial")
 			])
 			.then( () => Promise.all([
-				bundleStyles('tmp/styles/initial', 	dst+'/styles', 'initial.css'),
+				bundleStyles('tmp/styles/initial', 	dst+'/styles_'+build, 'initial.css'),
 				bundleStyles('tmp/styles', 			'tmp/bundle', '0_styles.css'),
 				bundleStyles('tmp/styles/last', 	'tmp/bundle', '1_last.css')
 			]))
 			.then( () => {
-				bundleStyles('tmp/bundle', dst+'/styles', 'styles.css')
+				bundleStyles('tmp/bundle', dst+'/styles_'+build, 'styles.css')
 			})
 			.catch(console.log)
 
@@ -380,6 +383,7 @@ function compileIndex(){
 						.replace(/CONFIG\.DESCRIPTION/g, 					config.description || '')
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
 						.replace(/CONFIG\.FRONTEND\_LOCATION/g, 			config.frontendLocation || '')
+						.replace(/BUILD/g,									build)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )

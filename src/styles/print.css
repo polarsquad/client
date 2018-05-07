@@ -88,6 +88,10 @@
 		width:				48% !important;
 	}
 
+	ic-item-full .main {
+		top:				8rem;
+	}
+
 	ic-item-full .category {
 		width:				40% !important;
 	}
@@ -99,6 +103,10 @@
 
 	ic-item-full article {
 		padding:			0;
+	}
+
+	ic-item-full > section {
+		padding-top:		8rem;
 	}
 
 	ic-item-full > section > * > :nth-child(1) {
@@ -197,9 +205,6 @@
 		padding-right:		0.5rem !important;
 	}
 
-	ic-item-full ic-item-property:nth-of-type(1){
-		margin-top:			10rem;
-	}
 
 	ic-item-full .qrcode {
 		position:			absolute;
