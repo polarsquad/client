@@ -29,7 +29,11 @@ var copyfiles	= 	require('copyfiles'),
 
 	preloadImg	=	[],
 
-	build 		= 	Date.now()
+	build 		= 	Date.now(),
+
+	styles_dir	=	'styles_'+build,
+	js_dir		= 	'js_'+build
+
 
 
 function done(all){
@@ -59,7 +63,7 @@ function setup(){
 
 
 function copyQRCodeScriptsSrcToTmp(){
-	return 	fs.ensureDir(dst+'/js')
+	return 	fs.ensureDir(src+'/js')
 			.then( () => Promise.all([
 				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	src+'/js/qrcode_UTF8.js'),
 				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		src+'/js/qrcode.js'),
@@ -91,14 +95,17 @@ function bundleScriptsToDst(){
 				"angular-qrcode.js": 	fs.readFile(src+'/js/angular-qrcode.js', 		'utf8'),
 			})
 			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}} ))
-			.then( 
-					result 	=> {
+			.then( result 	=> {
 									if(result.error) return console.log(result.error) 
 
-									fs.writeFile(dst+'/js/scripts.js', result.code, 'utf8')
-									fs.writeFile(dst+'/js/scripts.js.map', result.map, 'utf8')
+									return 	fs.ensureDir(dst+'/'+js_dir)
+											.then( () => 	Promise.all([
+																fs.writeFile(dst+'/'+js_dir+'/scripts.js', result.code, 'utf8'),
+																fs.writeFile(dst+'/'+js_dir+'/scripts.js.map', result.map, 'utf8')
+															])
+											)
 								},
-					e		=> console.dir(e)
+					e		=> console.error(e)
 			)
 }
 
@@ -266,7 +273,7 @@ function prepareBiyarni(){
 	return 	Promise.all([
 				fs.readFile("node_modules/typeface-biryani/index.css",	"utf8"),
 				fs.copy("node_modules/typeface-biryani/files",			dst+"/fonts/Biyarni"),
-				fs.ensureDir(dst+"/styles")
+				fs.ensureDir('tmp/styles')
 			])
 			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
 			.then( css 		=> fs.writeFile('tmp/styles/biryani.css', css, 'utf8'))
@@ -278,7 +285,7 @@ function prepareRoboto(){
 	return 	Promise.all([
 				fs.readFile("node_modules/roboto-fontface/css/roboto/roboto-fontface.css",	"utf8"),
 				fs.copy("node_modules/roboto-fontface/fonts/Roboto",		dst+"/fonts/Roboto"),
-				fs.ensureDir(dst+"/styles")
+				fs.ensureDir('tmp/styles')
 			])
 			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
@@ -356,12 +363,12 @@ function bundleStylesToDst(){
 				fs.copy(src+'/styles/initial', 							"tmp/styles/initial")
 			])
 			.then( () => Promise.all([
-				bundleStyles('tmp/styles/initial', 	dst+'/styles_'+build, 'initial.css'),
+				bundleStyles('tmp/styles/initial', 	dst+'/'+styles_dir, 'initial.css'),
 				bundleStyles('tmp/styles', 			'tmp/bundle', '0_styles.css'),
 				bundleStyles('tmp/styles/last', 	'tmp/bundle', '1_last.css')
 			]))
 			.then( () => {
-				bundleStyles('tmp/bundle', dst+'/styles_'+build, 'styles.css')
+				bundleStyles('tmp/bundle', dst+'/'+styles_dir, 'styles.css')
 			})
 			.catch(console.log)
 
@@ -383,7 +390,8 @@ function compileIndex(){
 						.replace(/CONFIG\.DESCRIPTION/g, 					config.description || '')
 						.replace(/CONFIG\.BACKEND\_LOCATION/g, 				config.backendLocation)
 						.replace(/CONFIG\.FRONTEND\_LOCATION/g, 			config.frontendLocation || '')
-						.replace(/BUILD/g,									build)
+						.replace(/DIR.STYLES/g,								styles_dir)
+						.replace(/DIR.JS/g,									js_dir)
 
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
