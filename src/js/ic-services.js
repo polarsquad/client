@@ -1621,8 +1621,9 @@ angular.module('icServices', [
 	'icAdmin',
 	'icUser',
 	'icStats',
+	'icConfig',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1636,6 +1637,7 @@ angular.module('icServices', [
 		ic.admin		= icAdmin
 		ic.user			= icUser
 		ic.stats		= icStats
+		ic.config		= icConfig
 
 		ic.deferred.resolve()
 		delete ic.deferred

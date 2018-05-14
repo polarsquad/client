@@ -17,7 +17,9 @@
 				{{icItem.startDate | icDate}}
 		 		{{icItem.endDate ? " – "+ (icItem.endDate | icDate) : ''}}
 		 	</span> 
-			{{icItem.brief[ic.site.currentLanguage]}}
+		 	<div class = "lang-{{ic.site.currentLanguage}}">
+				{{icItem.brief[ic.site.currentLanguage]}}
+			</div>
 		</div>
 		<span 
 			ng-if = "icCategory"

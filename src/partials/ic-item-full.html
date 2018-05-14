@@ -148,10 +148,16 @@
 				{{ item.brief[ic.site.currentLanguage] }}
 			</h3>
 
-			<div class = "screen-only description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage] | trustAsHtml">
+			<div 
+				class 			= "screen-only description highlight-links lang-{{ic.site.currentLanguage}}" 
+				ng-bind-html 	= " item.description[ic.site.currentLanguage] | trustAsHtml"
+			>
 			</div>
 
-			<div class = "print-only description highlight-links" ng-bind-html = " item.description[ic.site.currentLanguage]">
+			<div 
+				class 			= "print-only description highlight-links lang-{{ic.site.currentLanguage}}" 
+				ng-bind-html 	= " item.description[ic.site.currentLanguage]"
+			>
 			</div>
 
 		</div>

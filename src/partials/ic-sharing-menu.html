@@ -13,6 +13,7 @@
 		ng-repeat  	= "platform in platforms"
 		ng-href		= "{{platform.link}}" 
 		class		= "platform"
+		ng-if		= "!!ic.config.sharing[platform.name]"
 	>
 			<span class = "icon icon-share-{{platform.name}} active"> </span>
 			<span 
