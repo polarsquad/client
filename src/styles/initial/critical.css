@@ -56,3 +56,71 @@ ic-loading-screen .progress .current {
 	transition:				width 250ms linear;
 }
 
+
+
+/*ic-spinner*/
+
+ic-spinner,
+.ic-spinner {
+	position:				relative;
+	display:				block;
+	width:					1em;
+	height:					1em;
+	margin:					0 auto;
+	overflow:				hidden;
+	opacity:				0;
+	transition:				opacity 600ms ease-in;
+}
+
+ic-spinner.active,
+.ic-spinner.active {
+	opacity:				1;
+}
+
+
+ic-spinner .foreground,
+.ic-spinner .foreground {
+	position:				absolute;
+	top:					50%;
+	left:					50%;
+	width:					1em;
+	height:					1em;
+	margin-top:				-0.5em;
+	margin-left:			-0.5em;
+
+	background-image:		url('/images/icons/logo.svg');
+	background-size:		1em;
+	background-position:	50% 50%;
+	background-repeat:		no-repeat;
+	z-index:				5;
+
+	animation:				spin 2000ms infinite linear;
+	-webkit-animation:		spin 2000ms infinite linear;
+}
+
+
+
+@keyframes spin {
+
+	0% { 
+		transform:			rotate(0deg);
+	}
+
+	100% { 
+		transform:			rotate(360deg);
+	}
+
+}
+
+@-webkit-keyframes spin {
+
+	0% { 
+		transform:			rotate(0deg);
+	}
+
+	100% { 
+		transform:			rotate(360deg);
+	}
+
+}
+

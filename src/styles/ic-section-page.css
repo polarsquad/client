@@ -168,7 +168,7 @@ ic-page .tiles > * {
 }
 
 ic-page .tiles > *:hover {
-	filter:						brightness(1.25)
+	filter:						brightness(1.1)
 }
 
 ic-page .tiles > * > small {
@@ -232,6 +232,15 @@ ic-page .tiles > .bottom {
 	justify-content: 			flex-end;
 }
 
+
+
+
+ic-page .third-party-logo{
+	width:						15rem;
+	height:						10rem;
+	background-size:			contain;
+	background-repeat:			no-repeat;
+}
 
 
 
