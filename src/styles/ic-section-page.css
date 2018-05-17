@@ -210,8 +210,8 @@ ic-page .tiles > .item-tile .image {
 }
 
 ic-page .tiles > .item-tile:hover .image{
-	-webkit-filter: 			brightness(1.2);
-	filter: 					brightness(1.2);
+	-webkit-filter: 			brightness(1.1);
+	filter: 					brightness(1.1);
 }
 
 
