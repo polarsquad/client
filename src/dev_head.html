@@ -1,4 +1,11 @@
 
+		<!-- stupid IE fix -->
+		<script type="text/javascript">
+			if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+				document.write('<script src="/DIR.JS/promiscuous-browser-full.js"><\/script>')
+		</script>
+
+
 		<link href ="/DIR.STYLES/initial.css"	type="text/css" rel = "stylesheet" /> 
 
 		<script src="CONFIG.BACKEND_LOCATION/dpd.js" defer>				</script>

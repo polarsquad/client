@@ -16,6 +16,7 @@
     "leaflet": "^1.0.3",
     "leaflet.markercluster": "^1.2.0",
     "npm": "^5.10.0",
+    "promiscuous": "^0.7.1",
     "rimraf": "^2.6.1",
     "roboto-fontface": "^0.7.0",
     "svgo": "^0.7.2",

@@ -407,6 +407,10 @@ function minimizeSvgIconsTmp(){
 }
 
 
+function copyPromiscuousForIE(){
+	return fs.copy("node_modules/promiscuous/promiscuous-browser-full.js",	dst+"/"+js_dir+"/"+"promiscuous-browser-full.js")
+}
+
 
 function cleanUp(){
 	return fs.remove('tmp')
@@ -506,6 +510,14 @@ setup()
 .then( () => process.stdout.write('\nCompiling Index into '+dst+'...'))
 .then(compileIndex)
 .then( () => done() )
+
+
+
+
+.then( () => process.stdout.write('\nCopying IE stuff into '+dst+'...'))
+.then(copyPromiscuousForIE)
+.then( () => done() )
+
 
 
 
