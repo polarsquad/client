@@ -68,8 +68,8 @@ function setup(){
 function copyQRCodeScriptsSrcToTmp(){
 	return 	fs.ensureDir(src+'/js')
 			.then( () => Promise.all([
-				fs.copy('node_modules/qrcode-generator/js/qrcode_UTF8.js', 	src+'/js/qrcode_UTF8.js'),
-				fs.copy('node_modules/qrcode-generator/js/qrcode.js', 		src+'/js/qrcode.js'),
+				fs.copy('node_modules/qrcode-generator/qrcode_UTF8.js', 	src+'/js/qrcode_UTF8.js'),
+				fs.copy('node_modules/qrcode-generator/qrcode.js', 			src+'/js/qrcode.js'),
 				fs.copy('node_modules/angular-qrcode/angular-qrcode.js', 	src+'/js/angular-qrcode.js')
 			]))
 }
