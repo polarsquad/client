@@ -7,7 +7,6 @@ var copyfiles	= 	require('copyfiles'),
 	CleanCSS	= 	require('clean-css'),
 	UglifyJS 	= 	require("uglify-js"),
 	SVGO		= 	require('svgo'),
-	SVGSpriter	=	require('svg-sprite'),
 	Promise		=	require('bluebird'),
 	cleanCSS 	= 	new CleanCSS()
 	svgo		= 	new SVGO({
