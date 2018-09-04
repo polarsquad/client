@@ -24,6 +24,34 @@ angular.module('icServices', [
 ])
 
 
+.service('icUtils', [
+
+	function(){
+
+		var scheduled_calls = {}
+
+		return {
+			schedule: function(id, callback, delay, defer){
+
+				scheduled_calls[id] 		= 	scheduled_calls[id] || {}
+
+				if(scheduled_calls[id].timeout && !defer) return false
+
+				if(scheduled_calls[id].timeout) window.clearTimeout(scheduled_calls[id].timeout)	
+
+				scheduled_calls[id].timeout = 	window.setTimeout(function() {
+													callback()
+													delete scheduled_calls[id]
+												}, delay)
+
+				return true
+
+			}
+		}
+	}
+
+])
+
 
 .service('icInit', [
 
@@ -412,7 +440,6 @@ angular.module('icServices', [
 					
 				},
 				function(new_state, old_state){
-
 
 					ic.ready.then(function(){
 						icSite
@@ -1110,7 +1137,6 @@ angular.module('icServices', [
 
 			tags.forEach(function(tag){
 				var pos = icSite.filterByUnsortedTag.indexOf(tag)
-				console.log(tag, pos)
 				if(pos != -1) icSite.filterByUnsortedTag.splice(pos,1)
 			})
 
@@ -1622,8 +1648,9 @@ angular.module('icServices', [
 	'icUser',
 	'icStats',
 	'icConfig',
+	'icUtils',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1638,6 +1665,7 @@ angular.module('icServices', [
 		ic.user			= icUser
 		ic.stats		= icStats
 		ic.config		= icConfig
+		ic.utils		= icUtils
 
 		ic.deferred.resolve()
 		delete ic.deferred

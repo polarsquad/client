@@ -76,17 +76,17 @@
 				}
 				
 				this.ready = 	Promise.resolve()
-								.then( function()		{	return 	{data : files} || $http.get(jsonFile) })
+								.then( function()		{	return 	files ? {data : files} : $http.get(jsonFile) })
 								.then( function(result)	{	return 	result.data })
 								.then( function(styles)	{	
-									if(typeof styles 		== 'string') styles = [styles]
-									if(typeof styles[0] 	== 'string') styles = [styles]	
+
+									if(typeof styles == 'string') styles = [styles]
 									
+									styles = styles.filter(function(filename){ return !!filename})
+
 									var queue = Promise.resolve()
 
-									styles.forEach(function(filenames){ 
-										return queue.then(function(){ loadStyles(filenames) }) 
-									})
+									return loadStyles(styles) 
 
 								})
 								.catch(console.log)

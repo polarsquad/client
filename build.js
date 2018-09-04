@@ -7,12 +7,13 @@ var copyfiles	= 	require('copyfiles'),
 	CleanCSS	= 	require('clean-css'),
 	UglifyJS 	= 	require("uglify-js"),
 	SVGO		= 	require('svgo'),
+	SVGSpriter	=	require('svg-sprite'),
 	Promise		=	require('bluebird'),
 	cleanCSS 	= 	new CleanCSS()
 	svgo		= 	new SVGO({
 						plugins: [
-							{removeTitle:			true},
-							{removeDimensions:		true}
+							{removeTitle:					true},
+							{removeDimensions:				true},
 						]
 					}),
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
@@ -192,25 +193,32 @@ function imagesToCss(src_folder, dst_folder, template_file, preload){
 				var template	= 	result[0], 
 					filenames 	= 	result[1].filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
 
-				filenames.forEach( fn =>  preloadImg.push(dst_folder+'/'+ fn) )
+				if(preload) filenames.forEach( fn =>  preloadImg.push(dst_folder+'/'+ fn) )
 
-
-				return 	filenames.map(function(filename){
-
-							var parts = filename.replace(/\..*/g, '').split('-')
-
-							return 	template
-									.replace(/{{([^{}[]]*)name\[([0-9]+)\]}}/g, function(match, p1, p2){
-										var part = parts && parts[parseInt(p2)]
-
-										return 	part
-												?	p1+part
-												:	''
-									})
-									.replace(/{{name}}/g, dst_folder+'/'+filename)
-						})
-						.join('\n\n')
+				return 	filenames.map( filename  => Promise.props({
+							template: 	template,
+							name: 		filename,
+							svg: 		filename.match(/.svg$/) ? fs.readFile(src_folder+'/'+filename, 'utf8') : undefined
+						}))
 			})
+			.map( ({template, name, svg}) => {
+
+				var parts 	= name.replace(/\..*/g, '').split('-'),
+					svg		= encodeURIComponent( (svg || '').replace(/"/g,"'"))
+
+
+				return 	template
+						.replace(/{{([^{}[]]*)name\[([0-9]+)\]}}/g, function(match, p1, p2){
+							var part = parts && parts[parseInt(p2)]
+
+							return 	part
+									?	p1+part
+									:	''
+						})
+						.replace(/{{name}}/g, dst_folder+'/'+name)
+						.replace(/{{svg}}/g, svg)
+			})
+			.then( templates => templates.join('\n\n') )
 }
 
 
@@ -261,7 +269,7 @@ function compileMarkersSrcToTmp(){
 
 
 function compileIconTemplatesTmpToTmp(){
-	return	imagesToCss('tmp/images/icons', '/images/icons', src+'/styles/templates/ic-icon.template', true)
+	return	imagesToCss('tmp/images/icons', '/images/icons', src+'/styles/templates/ic-icon.template', false)
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
 }
 
@@ -441,6 +449,10 @@ setup()
 .then( () => done() )
 
 
+.then( () => process.stdout.write('\nMinimizing SVG icons in  in /tmp...'))
+.then(minimizeSvgIconsTmp)
+.then( () => done() )
+
 
 .then( () => process.stdout.write('\nCompiling icon templates for icons in /tmp into /tmp for further processing ...'))
 .then(compileIconTemplatesTmpToTmp)
@@ -478,10 +490,6 @@ setup()
 .then( () => done() )
 
 
-
-.then( () => process.stdout.write('\nMinimizing SVGs in /tmp...'))
-.then(minimizeSvgIconsTmp)
-.then( () => done() )
 
 
 .then( () => process.stdout.write('\ncreating config.json in /tmp...'))

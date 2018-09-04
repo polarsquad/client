@@ -263,7 +263,7 @@
 
 						icMainMap.ready
 						.then(function(map){
-							map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.defaults.zoom)	
+							map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.defaults.maxZoom)	
 						})
 
 					}
@@ -334,13 +334,14 @@
 		'$timeout',
 		'icSite',
 		'icItemStorage',
+		'icUtils',
 		'icMainMap',
 		'icMapItemMarker',
 		'icMapClusterMarker',
 		'icMapExpandControl',
 		'icMapSpinnerControl',
 
-		function($rootScope, $timeout, icSite, icItemStorage, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl){
+		function($rootScope, $timeout, icSite, icItemStorage, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl){
 			return {
 				restrict: 'AE',
 
@@ -401,32 +402,21 @@
 					map.addLayer(markers)
 
 					var width 					= undefined,
-						height					= undefined,
-						scheduled_adjustment	= undefined
+						height					= undefined
 
 					function adjustSize(delay){
 
-						delay = parseInt(delay) || 50
-						
-						if(delay > 400) return null
-						if(scheduled_adjustment) $timeout.cancel(scheduled_adjustment)
-
-						scheduled_adjustment = $timeout(function(){
-							if(width !== element[0].clientWidth || height !== element[0].clientHeight){
-								map.invalidateSize(false)
-								width 	= element[0].clientWidth
-								height 	= element[0].clientHeight
-
-								adjustSize()					
-							} else{
-								adjustSize(delay *2)
-							}
-
-						}, delay , false)
+						if(width !== element[0].clientWidth || height !== element[0].clientHeight){
+							map.invalidateSize(false)
+							width 	= element[0].clientWidth
+							height 	= element[0].clientHeight
+						}
 					}
 
 
-					angular.element(window).on('resize', adjustSize)
+					angular.element(window).on('resize', function(){
+						icUtils.schedule('adjustSize', adjustSize, 200, true)
+					})
 
 
 					function getMarker(item){
@@ -475,8 +465,10 @@
 										additional_items.push(icSite.activeItem)
 									}
 
-								markers.addLayers(additional_items.map(getMarker))
-								markers.refreshClusters()
+								window.requestAnimationFrame(function(){
+									markers.addLayers(additional_items.map(getMarker))
+									markers.refreshClusters()
+								})
 
 					}
 
@@ -508,7 +500,8 @@
 					}
 
 
-					var sizeInvalidationSchedule = undefined
+					//what was this for?
+					/*var sizeInvalidationSchedule = undefined
 
 					function scheduleSizeInvalidation(){
 
@@ -521,7 +514,7 @@
 					}
 
 
-					$rootScope.$watch(scheduleSizeInvalidation)
+					$rootScope.$watch(scheduleSizeInvalidation)*/
 
 
 
@@ -530,9 +523,9 @@
 								return icItemStorage.filteredList	
 							},
 							function(list){
-								window.requestAnimationFrame(function(){
+								icUtils.schedule('updateListMarkers',function(){
 									updateListMarkers(list)								
-								})
+								}, 600, true)
 							}
 						),
 
@@ -545,21 +538,15 @@
 										]
 							}, 
 							function(p,c){
+								if(angular.equals(p,c)) return null
+
 								window.requestAnimationFrame(function(){
 									updateActiveItemMarker(p[0],c[0])								
 								})
 							}
 						),
 
-						stop_watching_displayedSections = $rootScope.$watch(
-							function(){ return icSite.displayedSections },
-							function(){
-								window.requestAnimationFrame(function(){
-									adjustSize()
-								})
-							},
-							true
-						)
+						stop_watching_displayedSections = $rootScope.$watch(adjustSize)
 
 
 

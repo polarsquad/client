@@ -1,4 +1,4 @@
-<section class = "types">
+<section class = "types" ng-if = "ic.taxonomy.types && ic.taxonomy.types.length > 0">
 	<ul class = "bg-0">
 		<li
 			class 		= "icon icon-interface-all"
@@ -36,7 +36,7 @@
 	</ul>
 </section>
 
-<section class = "categories">
+<section class = "categories" ng-if = "ic.taxonomy.categories && ic.taxonomy.categories.length > 0">
 	<h2 
 		class 		= "bg-0 icon"
 		ng-class	= "{'icon-interface-down': expand.categories, 'icon-interface-right': !expand.categories}"

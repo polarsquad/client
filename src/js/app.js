@@ -49,6 +49,7 @@
 	])
 	.then(function(result){
 
+
 		icConfig 	= result[0]
 		build		= result[1]
 
@@ -93,8 +94,8 @@
 
 			function(plStylesProvider){
 				plStylesProvider.setFiles([
-					['/styles_'+build+'/styles.css'],
-					[icConfig.externalCss]
+					'/styles_'+build+'/styles.css',
+					icConfig.externalCss
 				])
 			}
 		])
@@ -125,6 +126,7 @@
 				if(icConfig.map) icMainMapProvider.setDefaults(icConfig.map)
 			}
 		])
+
 
 		.config([
 
@@ -190,7 +192,7 @@
 					name:			'page',
 					template:		'partials/ic-section-page.html',
 					active:			function(ic){									
-										return ic.site.page
+										return ic.site.page && !ic.site.list && !ic.site.activeItem
 									},
 					show:			function(ic){
 										if(ic.site.activeSections.item) return false						
