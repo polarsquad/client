@@ -19,7 +19,6 @@
     "qrcode-generator": "^1.4.1",
     "rimraf": "^2.6.1",
     "roboto-fontface": "^0.7.0",
-    "svg-sprite": "^1.4.0",
     "svgo": "^0.7.2",
     "typeface-biryani": "0.0.22",
     "uglify-js": "^3.4.9"
