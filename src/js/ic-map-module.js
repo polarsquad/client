@@ -457,17 +457,19 @@
 																				&&	items_to_be_left_on_the_map.indexOf(item) == -1
 																	})
 
-									if(
-											icSite.activeItem 
-										&&	hasValidGeoCoordinates(icSite.activeItem)
-										&&	list.indexOf(icSite.activeItem) == -1
-									){
-										additional_items.push(icSite.activeItem)
-									}
+								if(
+										icSite.activeItem 
+									&&	hasValidGeoCoordinates(icSite.activeItem)
+									&&	list.indexOf(icSite.activeItem) == -1
+								){
+									additional_items.push(icSite.activeItem)
+								}
+
+								markers.addLayers(additional_items.map(getMarker))
 
 								window.requestAnimationFrame(function(){
-									markers.addLayers(additional_items.map(getMarker))
 									markers.refreshClusters()
+									scope.$digest()
 								})
 
 					}
@@ -525,7 +527,7 @@
 							function(list){
 								icUtils.schedule('updateListMarkers',function(){
 									updateListMarkers(list)								
-								}, 600, true)
+								}, 500, true)
 							}
 						),
 
