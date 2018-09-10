@@ -18,11 +18,77 @@
 	])
 
 
+	.service('icMapMarkerDigestQueue',[
+
+		function(){
+
+			var queuePromise 	= Promise.resolve(),
+				chunk_size		= 5,
+				points			= chunk_size,
+				length			= 0,
+				c_resolve
+			
+			var Queue = {}
+
+			Queue.currentRun = new Promise(renewResolve)
+
+			function resetPoints(){
+				 points = chunk_size
+			} 
+
+			function renewResolve(resolve){
+				c_resolve = resolve
+			}
+
+			function advance(scope, weight){
+				scope.$digest()
+				length--
+				points -= weight
+
+				if(points <= 0) return 	new Promise(window.requestAnimationFrame)
+										.then(resetPoints)
+			}
+
+			function finalize(){
+				c_resolve()
+				Queue.currentRun = new Promise(renewResolve)
+			}
+
+			function checkForChunkEnd(){
+				if(length > 0) return null
+
+				return 	new Promise(window.requestAnimationFrame)
+						.then(finalize)
+			}
+
+
+			Queue.isRunning = function(){ return length != 0}
+
+			Queue.add = function(scope, weight){
+				if(length == 0) queuePromise = new Promise(window.requestAnimationFrame)
+
+				length++
+				if(weight == undefined) weight = 1
+
+				queuePromise = 	queuePromise
+								.then(advance.bind(null, scope, weight))
+								.then(checkForChunkEnd)
+
+				return Queue.currentRun
+			}
+
+			return Queue
+		}
+
+	])
+
+
 	.service('icMapItemMarker',[
 
 		'$compile',
+		'icMapMarkerDigestQueue',
 
-		function($compile){
+		function($compile, icMapMarkerDigestQueue){
 
 			var icMapItemMarker = function(item, parentScope){
 
@@ -33,13 +99,16 @@
 				var element = 	$compile('<ic-map-item-marker ic-item = "item"></ic-map-item-marker')(scope)
 					//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')
 
+				icMapMarkerDigestQueue.add(scope)
+
 				this.createIcon = function(){
 					return element[0]
 				}
 
 				this.createShadow = function(){
-					return //null shadow[0]
+					return null // shadow[0]
 				}
+
 
 			}
 
@@ -51,13 +120,15 @@
 
 	.directive('icMapItemMarker',[
 
-		'$timeout',
+		'$templateCache',
 		'ic',
 
-		function(icLanguages, ic){
+		function($templateCache, ic){
 			return {
 				restrict:		'AE',
-				templateUrl:	'partials/ic-map-marker-item.html',
+				//templateUrl:	'partials/ic-map-marker-item.html',
+				//not using templateUrl, because it triggers a $digest
+				template:		$templateCache.get('partials/ic-map-marker-item.html'),
 				scope:			{
 									icItem:		"<",
 									icTitle: 	"<",
@@ -78,11 +149,12 @@
 	.service('icMapClusterMarker',[
 
 		'$compile',
+		'icMapMarkerDigestQueue',
 
-		function($compile, icSite){
+		function($compile, icMapMarkerDigestQueue){
 
 
-			var icClusterMarker = function(cluster, parentScope){
+			function icClusterMarker(cluster, parentScope){
 
 				if(cluster._marker) return cluster._marker
 
@@ -90,10 +162,12 @@
 				var scope 	=  	parentScope.$new(),
 					element =	$compile('<ic-map-cluster-marker ic-cluster = "cluster"></ic-map-cluster-marker>')(scope)
 
+				icMapMarkerDigestQueue.add(scope, cluster._childCount)
+
 				scope.cluster 			=	cluster
 				cluster.scope 			= 	scope
 				cluster._marker 		= 	this
-
+				element[0].scope		= 	scope
 				
 				this.createIcon = function(){
 					return cluster._icon || element[0]
@@ -103,7 +177,6 @@
 					return null //shadow[0]
 				}
 
-
 			}
 
 			return icClusterMarker
@@ -112,13 +185,16 @@
 
 	.directive('icMapClusterMarker',[
 
+		'$templateCache',
 		'icSite',
 		'ic',
 
-		function(icSite, ic){
+		function($templateCache, icSite, ic){
 			return {
 				restrict:		'AE',
-				templateUrl:	'partials/ic-map-marker-cluster.html',
+				//templateUrl:	'partials/ic-map-marker-cluster.html',
+				//not using templateUrl, because it triggers a $digest
+				template:		$templateCache.get('partials/ic-map-marker-cluster.html'),
 				scope:			{
 									icCluster:	"<"
 								},
@@ -156,20 +232,22 @@
 
 			if(!window.L) console.error('icMapSpinnerControl: missing Leaflet!')
 
-
 			var element = undefined
 
-			L.Control.IcMapSpinner = L.Control.extend({
+			L.icMapSpinnerControl = L.Control.extend({
+
 				onAdd: function(map) {
 					return element && element[0]
 				},
 
 				onRemove: function(map) {
+
 				}
 			})
 
 			this.setScope = function(scope){
-				element = 	$compile('<ic-spinner active = "!icItemStorage.ready"></ic-spinner>')(scope)
+				this.scope = scope
+				element = 	$compile('<ic-spinner active = "loading"></ic-spinner>')(scope)
 			}
 		}
 	])
@@ -304,7 +382,7 @@
 				function($q){
 
 					var mapReady = $q.defer(),
-						icMainMap = 	{
+						icMainMap = {
 										ready:		mapReady.promise,
 										defaults:	defaults,
 										mapObject: 	undefined
@@ -315,6 +393,7 @@
 						icMainMap.mapObject = obj
 						mapReady.resolve(icMainMap.mapObject)
 					}
+
 					icMainMap.clearMapObject = function(){
 						mapReady.reject('map object cleared')
 						mapReady = $q.defer()
@@ -340,8 +419,9 @@
 		'icMapClusterMarker',
 		'icMapExpandControl',
 		'icMapSpinnerControl',
+		'icMapMarkerDigestQueue',
 
-		function($rootScope, $timeout, icSite, icItemStorage, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl){
+		function($rootScope, $timeout, icSite, icItemStorage, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapMarkerDigestQueue){
 			return {
 				restrict: 'AE',
 
@@ -349,13 +429,16 @@
 
 					if(!window.L) console.error('icMap: missing Leaflet!')
 
+					scope.loading = 1
 
+					icMainMap.ready.then(function(){ scope.loading-- })
 
 					var markers = 	L.markerClusterGroup({
 										maxClusterRadius: 			icMainMap.defaults.maxClusterRadius,
 										spiderfyOnMaxZoom:			true,
 										chunkedLoading:				true,
 										zoomToBoundsOnClick:		false,
+										animate:					false,
 										iconCreateFunction: function(cluster) {										
 											return 	new icMapClusterMarker(cluster, scope)
 										}
@@ -371,9 +454,10 @@
 									})
 
 
-
+					//map.on('zoomend', function(){ scope.$digest()})
 
 					icMainMap.setMapObject(map)
+
 
 					new L.Control.Zoom({
 						position: 	'topright' 	
@@ -388,9 +472,11 @@
 
 					icMapSpinnerControl.setScope(scope)
 
-					new L.Control.IcMapSpinner({ 
-						position: 	'bottomleft',
+					new L.icMapSpinnerControl({
+						position:	'bottomleft'
 					}).addTo(map)
+
+
 
 					L.tileLayer(
 						icMainMap.defaults.tiles, 					
@@ -419,6 +505,8 @@
 					})
 
 
+					var cached_markers  ={}
+
 					function getMarker(item){
 
 						if(!hasValidGeoCoordinates(item)){
@@ -426,53 +514,45 @@
 							return null
 						}
 
+
+						if(!cached_markers[item.id]){
+							cached_markers[item.id] =  new icMapItemMarker(item, scope)
+						}
+
 						return 	new L.marker(
 									[item.latitude, item.longitude], 
 									{
-										icon: new icMapItemMarker(item, scope),
+										icon: cached_markers[item.id],
 										item: item,
-										riseOnHover: true
+										riseOnHover: true,
 									}
 								)
 					}
 
+
 					function updateListMarkers(list){
 
-								var items_to_be_left_on_the_map	= 	markers.getLayers()
-																	.filter(function(marker){ 
-																		if(list.indexOf(marker.options.item) != -1){
-																			return true
-																		} else {
-																			markers.removeLayer(marker)
-																			return false
-																		}
-																	})
-																	.map(function(marker){
-																		return marker.options.item
-																	})
-																,
-									additional_items			=	list
-																	.filter(function(item){
-																		return 		hasValidGeoCoordinates(item)
-																				&&	items_to_be_left_on_the_map.indexOf(item) == -1
-																	})
+						markers.clearLayers()
 
-								if(
-										icSite.activeItem 
-									&&	hasValidGeoCoordinates(icSite.activeItem)
-									&&	list.indexOf(icSite.activeItem) == -1
-								){
-									additional_items.push(icSite.activeItem)
-								}
+						
+						var	new_items	=	list.filter(function(item){
+												return hasValidGeoCoordinates(item)
+											})
 
-								markers.addLayers(additional_items.map(getMarker))
+						if(
+								icSite.activeItem 
+							&&	hasValidGeoCoordinates(icSite.activeItem)
+							&&	list.indexOf(icSite.activeItem) == -1
+						){
+							new_items.push(icSite.activeItem)
+						}
 
-								window.requestAnimationFrame(function(){
-									markers.refreshClusters()
-									scope.$digest()
-								})
+						markers.addLayers(new_items.map(getMarker))
 
+						return icMapMarkerDigestQueue.currentRun
+						
 					}
+
 
 					function updateActiveItemMarker(active_id, previous_id){
 
@@ -525,9 +605,16 @@
 								return icItemStorage.filteredList	
 							},
 							function(list){
+								if(scope.waiting != true) scope.loading++
+								scope.waiting = true	
 								icUtils.schedule('updateListMarkers',function(){
-									updateListMarkers(list)								
-								}, 500, true)
+									scope.waiting = false
+									return 	updateListMarkers(list)								
+								}, 200, true)
+								.finally(function(){
+									scope.loading--
+									icMapSpinnerControl.scope.$digest()
+								})
 							}
 						),
 
@@ -571,10 +658,11 @@
 
 	.directive('icMiniMap',[
 
+		'icMainMap',
 		'icMapItemMarker',
 		'icMapSwitchControl',
 
-		function(icMapItemMarker, icMapSwitchControl){
+		function(icMainMap, icMapItemMarker, icMapSwitchControl){
 			return {
 				restrict: 	'AE',
 				scope:		{
@@ -613,7 +701,7 @@
 					}).addTo(map)
 
 					L.tileLayer(
-						'https://{s}.tiles.mapbox.com/v4/mapbox.streets-basic/{z}/{x}/{y}@2x.png?access_token=pk.eyJ1IjoicmhvdGVwIiwiYSI6ImNqMGRib2dmYTAwMGEzMnBkNDBuZ2dqMHMifQ.LNUbADugC76iQ91I73xFwg', 
+						icMainMap.defaults.tiles,
 						{
 							attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 						}

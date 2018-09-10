@@ -30,24 +30,56 @@ angular.module('icServices', [
 
 		var scheduled_calls = {}
 
-		return {
+		icUtils = {
+
 			schedule: function(id, callback, delay, defer){
 
-				scheduled_calls[id] 		= 	scheduled_calls[id] || {}
+				var resolve, reject, promise = new Promise(function(a,b){ resolve = a, reject = b })
+
+
+				scheduled_calls[id] = scheduled_calls[id] || {}
 
 				if(scheduled_calls[id].timeout && !defer) return false
 
 				if(scheduled_calls[id].timeout) window.clearTimeout(scheduled_calls[id].timeout)	
 
 				scheduled_calls[id].timeout = 	window.setTimeout(function() {
-													callback()
-													delete scheduled_calls[id]
+													Promise.resolve(callback())
+													.then(resolve, reject)
+													.finally(function(){ delete scheduled_calls[id] })
 												}, delay)
 
-				return true
+				return promise
 
+			},
+
+			chunkedJob: function(array, callback, chunk_size, promise){
+				var resolve, reject, promise = promise || new Promise(function(a,b){ resolve = a, reject = b })
+					
+
+				promise.resolve = promise.resolve	|| resolve				
+				promise.reject	= promise.reject	|| reject
+
+
+				var points	= 0,
+					index	= 0
+
+				while( array[index] && points < chunk_size ) {
+					points += (callback(array[index]) || 1)
+					index ++
+				}
+
+				array[index]
+				?	window.requestAnimationFrame(function(){ 
+						icUtils.chunkedJob(array.slice(index), callback, chunk_size, promise)
+					})
+				:	promise.resolve()
+
+				return promise
 			}
 		}
+
+		return icUtils
 	}
 
 ])
@@ -416,10 +448,30 @@ angular.module('icServices', [
 			}
 
 			icSite.adjust = function(){
-				icSite.config.params.forEach(function(param){ icSite[param.name] 	= param.adjust 	? param.adjust(ic)	: icSite[param.name]	}),
-				icSite.config.switches.forEach(function(swt){ icSite[swt.name]		= swt.adjust	? swt.adjust(ic)	: icSite[swt.name]		})
+				var changed = false
 
-				return icSite
+				icSite.config.params.forEach(function(param){ 
+					var new_value = param.adjust 	? param.adjust(ic) : icSite[param.name]
+
+					if(new_value!= icSite[param.name]){
+						console.log(new_value, icSite[param.name])
+						icSite[param.name] = new_value
+						changed = true
+					}
+
+				}),
+
+				icSite.config.switches.forEach(function(swt){ 
+					var new_value = swt.adjust 	? swt.adjust(ic) : icSite[swt.name]
+
+					if(new_value!= icSite[swt.name]){
+						console.log(new_value, icSite[swt.name])
+						icSite[swt.name] = new_value
+						changed = true
+					}
+				})
+
+				return changed
 			}
 
 			icSite.print = function(){
@@ -450,10 +502,8 @@ angular.module('icServices', [
 							adjustment_scheduled = true
 
 							window.requestAnimationFrame(function(){
-								$rootScope.$apply(function(){
-									icSite.adjust()
-									adjustment_scheduled = false
-								})
+								adjustment_scheduled = false
+								if(icSite.adjust()) $rootScope.$digest()
 							})
 							
 						}

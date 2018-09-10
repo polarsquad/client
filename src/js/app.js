@@ -179,7 +179,7 @@
 					adjust:			function(ic){
 										return		ic.site.activeItem
 												||	ic.site.list
-												?	null 
+												?	this.defaultValue 
 												:	ic.site.page
 									},
 					options:		['home', 'tags', 'about', 'legal', 'contact', 'tiles', 'partner', 'network'],
