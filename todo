@@ -1,95 +1,20 @@
-TODO:
+TODO
 
-* Taxonomy aufräumen
+* Search klppt mit pfeile nicht
+* Map update Markers durcheinander!
+* Search in worker auslagern
+* indef wenn man item öffnet (oder wenn schon beim laden eine category gesetzt ist?)
 
+* tiles proxy
 
-* datumsauswahl
-
-* stats.domain
-
-
-* Übersetzung string für edit suggestions
-
-* Stats tunen /pro monat oder so
-* wieviele uVistors im schnitt pro montat im letzten halben jahr
-
-* Übersetzung funktioniert beim ersten laden nicht ?! (CORS)
-* ITEM.UNSORTED_TAGS
+* setup backups and stats for at
+* sorting in worker auslagern und von services nach app verschiebenTODO
 
 
 
-* Projektpakete -> sheet Version 
-
-* Projektpakete -> sheet Version 
--> custom build script
-
-* sharing -> neues tab (facebook?)
+* Sorting queuen, für den fall dass es noch nicht fertig ist (statt am ende des registerns asny zu triggern)
 
 
-* scroll hackelig auf touch device, extra tap...
-* param update neu machen, favourites to page stellt ganz schnel noch alle items als favpurites da -> doof
+* mobilversion map filter
 
 
-* monitoring
-* manifest
-* Wenn zoom super klein ist macht die liste beim scrollen stress
-* Projektpakete -> sheet Version 
-* LOGIN_UNKNOWN
-* Loading Screen?
-* Build one large template file
-* description später laden, Suche auf backend (teil-)auslagern
-
-* ICB:  app.config-> sprachen anpassen
-* minimize svg
-
-
-* badges
-
-* use request in icutils, backend
-
-* Taxonomy
-	-> Farben
-	-> icons?
-
-* Theme ICB
-* Loading Screen
-
-
-* STYLES.CSS wird zweimal geladen?!
-
-
-
-
-
-Done:
-
-* Übersetzung flackert
-* cafe züri
-* Suche auf Sprachen anpassen =/
-* Footer buttons icongröße
-* Responsive: brauche user icon
-* last Editor richtiger name rein (tuts)
-* cant convert null .. merliste
-* XS Print
-* Null in suggestion mails
-* Nach minimap fehlt der active MArker!
-* expand Map hinund her komisch nach minimap, dann item auswählen -> nicht mehr nachvollziehbar
-* meta
-* Lange Suche mit Leerzeichen!
-* Scrollefekkt bei XS wegmachen
-* Titel bei google -> abwarten
-* LANGUAGE.NONE nur für update translatations permission
-* Editor mit Namen nicht mit ID (nochmal angucken?)
-
-* Translationkey
-* AutoTranslate
-* Spracherkennung
-* Create item nur anzeigen, wenn der Nutzer auch die Rechte hat
-* DB backup!
-* Responsive / Reponsive -> neues paket
-* Google Übersetzung -> neues paket
-
-
-Brauche:
-* Übersetzungen
-* Backup 100gb

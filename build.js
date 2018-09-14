@@ -78,24 +78,24 @@ function bundleScriptsToDst(){
 
 
 	return	Promise.props({
-				"vendor.js":			fs.readFile('vendor.js', 						'utf8'),
-				"taxonomy.js": 			fs.readFile(src+'/js/config/taxonomy.js', 		'utf8'),
-				"dpd-items.js": 		fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
-				"dpd-item-storage.js": 	fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
-				"ic-preload.js": 		fs.readFile(src+'/js/ic-preload.js', 			'utf8'),
-				"ic-layout.js": 		fs.readFile(src+'/js/ic-layout.js', 			'utf8'),
-				"ic-services.js": 		fs.readFile(src+'/js/ic-services.js', 			'utf8'),
-				"ic-directives.js": 	fs.readFile(src+'/js/ic-directives.js',			'utf8'),
-				"ic-filters.js": 		fs.readFile(src+'/js/ic-filters.js', 			'utf8'),
-				"ic-ui-directives.js": 	fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
-				"ic-map-module.js": 	fs.readFile(src+'/js/ic-map-module.js', 		'utf8'),
-				"custom.js":			fs.readFile(src+'/js/custom.js',				'utf8').catch( (e) => console.log('skipping custom.js') || ''),
-				"app.js": 				fs.readFile(src+'/js/app.js', 					'utf8'),
+				"vendor.js":					fs.readFile('vendor.js', 							'utf8'),
+				"taxonomy.js": 					fs.readFile(src+'/js/config/taxonomy.js', 			'utf8'),
+				"dpd-items.js": 				fs.readFile(src+'/js/dpd/dpd-item.js', 				'utf8'),
+				"dpd-item-storage.js": 			fs.readFile(src+'/js/dpd/dpd-item-storage.js', 		'utf8'),
+				"ic-preload.js": 				fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
+				"ic-layout.js": 				fs.readFile(src+'/js/ic-layout.js', 				'utf8'),
+				"ic-services.js": 				fs.readFile(src+'/js/ic-services.js', 				'utf8'),
+				"ic-directives.js": 			fs.readFile(src+'/js/ic-directives.js',				'utf8'),
+				"ic-filters.js": 				fs.readFile(src+'/js/ic-filters.js', 				'utf8'),
+				"ic-ui-directives.js": 			fs.readFile(src+'/js/ic-ui-directives.js', 			'utf8'),
+				"ic-map-module.js": 			fs.readFile(src+'/js/ic-map-module.js', 			'utf8'),
+				"custom.js":					fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
+				"app.js": 						fs.readFile(src+'/js/app.js', 						'utf8'),
 
 
-				"qrcode.js": 			fs.readFile(src+'/js/qrcode.js', 				'utf8'),
-				"qrcode_UTF8.js": 		fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
-				"angular-qrcode.js": 	fs.readFile(src+'/js/angular-qrcode.js', 		'utf8'),
+				"qrcode.js": 					fs.readFile(src+'/js/qrcode.js', 					'utf8'),
+				"qrcode_UTF8.js": 				fs.readFile(src+'/js/qrcode_UTF8.js', 				'utf8'),
+				"angular-qrcode.js": 			fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
 			})
 			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}} ))
 			.then( result 	=> {
@@ -323,6 +323,7 @@ function copyReadyFilesToDst(){
 				//fs.copy(src+"/pages",			dst+"/pages"),
 				//fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
+				fs.copy(src+"/js/worker", 		dst+'/worker'),
 				// fs.copy("vendor.js", 			dst+"/js/vendor.js"),
 				
 				//tmp
@@ -429,7 +430,6 @@ setup()
 .then( () => process.stdout.write('\nCopying qr code scripts from src to '+dst+' ...'))
 .then(copyQRCodeScriptsSrcToTmp)
 .then( () => done() )
-
 
 
 .then( () => process.stdout.write('\nCopying files from src to /tmp for further processing ...'))

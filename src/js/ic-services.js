@@ -92,13 +92,14 @@ angular.module('icServices', [
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
+	'icMainMap',
 	'plImages',
 	'plStyles',
 	'plTemplates',
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLanguages, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLanguages, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
@@ -110,7 +111,7 @@ angular.module('icServices', [
 									icLanguages:	icLanguages.ready,
 									plImages:		plImages.ready,
 									plStyles:		plStyles.ready,
-									plTemplates:	plTemplates.ready
+									plTemplates:	plTemplates.ready,
 								}
 	
 
@@ -118,7 +119,17 @@ angular.module('icServices', [
 		Object.keys(promises).forEach(function(key){
 			promises[key].then(function(){
 				icInit.readyCount ++
-				if(icInit.readyCount == icInit.readyMax) $timeout(function(){ icInit.ready = true; }, 200)
+
+				console.log(key, '... ready.')
+
+				if(icInit.readyCount == icInit.readyMax){
+					$timeout(function(){ 
+						icInit.ready = true; 
+					}, 200)
+					.then(function(){
+						return icMainMap.prepareMarkers(icItemStorage.data)
+					})			
+				}
 			})
 		})
 
@@ -454,7 +465,6 @@ angular.module('icServices', [
 					var new_value = param.adjust 	? param.adjust(ic) : icSite[param.name]
 
 					if(new_value!= icSite[param.name]){
-						console.log(new_value, icSite[param.name])
 						icSite[param.name] = new_value
 						changed = true
 					}
@@ -465,7 +475,6 @@ angular.module('icServices', [
 					var new_value = swt.adjust 	? swt.adjust(ic) : icSite[swt.name]
 
 					if(new_value!= icSite[swt.name]){
-						console.log(new_value, icSite[swt.name])
 						icSite[swt.name] = new_value
 						changed = true
 					}
@@ -762,7 +771,7 @@ angular.module('icServices', [
 
 			var icItemStorage = itemStorage
 
-			icItemStorage.addAsyncTrigger(function(){ $rootScope.$apply() })
+			icItemStorage.addAsyncTrigger(function(){ $rootScope.$applyAsync() })
 
 			icItemStorage.ready 		= 	icUser.ready
 											.then(function(){
@@ -1228,11 +1237,38 @@ angular.module('icServices', [
 			
 
 			//alphabetical:
+			
 
-			icLanguages.availableLanguages.forEach(function(language_code){
-				icItemStorage.registerSortingCriterium('alphabetical_'+language_code, function(item_1, item_2){
-					return item_1.title.localeCompare(item_2.title, language_code)
+			console.log('before register sorting critt', icSite.currentLanguage)
+			
+			function prepareLanguageSorting(language_code){
+				return	icItemStorage.registerSortingCriterium(
+							'alphabetical_'+language_code, 
+							function(item_1, item_2){
+								return item_1.title.localeCompare(item_2.title, language_code)
+							},
+							{
+								type:		'alphabetical',
+								property:	'title',
+								param:		language_code
+							}
+						)
+			}
+
+			var prio_language = icSite.currentLanguage
+
+			;(
+				prio_language
+				?	prepareLanguageSorting(prio_language)
+				:	Promise.resolve()
+			)
+			.then(function(){
+				icLanguages.availableLanguages
+				.filter(function(language_code){ 
+					return 		language_code != prio_language
+							&& 	language_code != 'none'
 				})
+				.forEach(prepareLanguageSorting)
 			})
 
 			if(icSite.currentLanguage) icSite.sortOrder = 'alphabetical_'+icSite.currentLanguage

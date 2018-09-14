@@ -200,12 +200,10 @@ angular.module('icFilters', [
 
 		var ranges = {}
 
-		return function(input, total){
+		return function(a, total){
 			var total = parseInt(total) || 0
 
 			ranges[total] = ranges[total] || Array(total).fill(1).map(function(value, index){ return index })
-
-			console.log(ranges[total])
 
 			return ranges[total]
 		}

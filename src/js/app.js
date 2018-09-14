@@ -66,6 +66,12 @@
 		])
 		.constant('icConfig', icConfig)
 
+
+		.config(['$compileProvider', function ($compileProvider) {
+			$compileProvider.debugInfoEnabled(false)
+		}])
+
+
 		.config([
 
 			'$locationProvider',
@@ -426,7 +432,13 @@
 			}
 		])
 		
-		angular.bootstrap(document, ['InfoCompass']);
+		angular.bootstrap(
+			document, 
+			['InfoCompass'],
+			{
+				strictDi: true
+			}
+		)
 
 	})
 

@@ -6,6 +6,12 @@
 	if(!(window.ic && window.ic.Item)) 			console.error('icItemStorage: missing ic.Item. Please load ic-item-dpd.js.')
 
 
+
+
+
+
+
+
 	function IcItemStorage(){
 		
 
@@ -21,12 +27,13 @@
 												'altMatches':		{},
 												'tagGroups':		[],
 												'altGroups':		[],
-												'sortBy':			'id',
+												'sortBy':			undefined,
 												'sortDirection':	1
 											}
 		icItemStorage.refreshRequired	=	false 
 
 		icItemStorage.asyncTriggers 	=	[] 
+
 
 		icItemStorage.addAsyncTrigger = function(triggerFn){
 			if(typeof triggerFn != 'function') console.error('icItemStorage.addAsyncTrigger: triggerFn not a function.')
@@ -46,6 +53,7 @@
 		}
 
 		icItemStorage.runAsyncTriggers = function(){
+			console.log('icItemStorage: runAsyncTriggers')
 			icItemStorage.asyncTriggers.forEach(function(triggerFn){
 				triggerFn.call()
 			})
@@ -133,6 +141,8 @@
 			var item 	= 	icItemStorage.getItem(item_or_id),
 				filters = 	{}
 
+
+			//TODO: this is a bit complicated for some reason. should be much shorter
 			if(filter_name){
 				filters[filter_name] = icItemStorage.filters[filter_name] || function(){}
 				if(!icItemStorage.filters[filter_name]) console.warn('icItemStorage.itemCheckFilter, unknown filter: ',filter_name)
@@ -155,25 +165,64 @@
 			return icItemStorage
 		}
 
-		//Todo item changes ? 
-		icItemStorage.registerSortingCriterium = function(criterium_name, compare_fn){
 
+
+
+
+		function preDefSort(config){
+
+			// config = { type: ..., property: ..., param: ...}
+			// type in ['alphabetical']
+
+			var worker 	= new Worker('worker/sort.js'),
+				promise = new Promise(function(resolve, reject){ 
+								worker.onmessage = function(event){ resolve(event.data) }
+								worker.onerror = reject 
+							}) 
+
+			worker.postMessage({
+				data:	icItemStorage.data.map(function(item){
+							return {id: item.id, property: item[config.property]}
+						}),
+				type:	config.type,
+				param:	config.param
+			})
+
+			return promise
+		}
+
+
+
+		//Todo item changes ? 
+		icItemStorage.registerSortingCriterium = function(criterium_name, compare_fn, config){
 
 			if(criterium_name.match(/[^a-zA-Z_]/))				console.error('icItemStorage: sort criteria names must contain only underscore and letters, A-Z, a-z: '+criterium_name+'.')
 			if(icItemStorage.sortingCriteria[criterium_name]) 	console.error('icItemStorage: sort criterium name already registered: '+criterium_name+'.')
 
-			icItemStorage.sortingCriteria[criterium_name] =	compare_fn
-
-		
-			
-			icItemStorage.data
-			.sort(compare_fn)
-			.forEach(function(item, index){
-				item.internal.sortingValues[criterium_name]	= index
-			})
-
-
-			return this
+			var run = 	config
+						? 	preDefSort(config)
+							.then(function(result){
+								icItemStorage.data.forEach(function(item){
+									item.internal.sortingValues[criterium_name] = result[item.id]
+								})
+							})
+						:	Promise.resolve()	
+							.then(function(){
+								icItemStorage.data.sort(compare_fn)
+								.forEach(function(item, index){
+									item.internal.sortingValues[criterium_name]	= index
+								})							
+							})
+			return 	run
+					.then(function(){
+						icItemStorage.sortingCriteria[criterium_name] =	compare_fn
+						//since registering a sorting criterium is async, 
+						//icItemStorage might have already tried to sort with it before registering was complete:
+						if(icItemStorage.currentStats.sortBy == criterium_name){
+							icItemStorage.sortFilteredList()
+							icItemStorage.runAsyncTriggers()
+						}
+					})
 		}
 
 		icItemStorage.matchItem = function(item){			
@@ -277,9 +326,9 @@
 
 		icItemStorage.sortFilteredList = function(criterium, dir){
 
+
 			var dir = (dir == -1) ?  -1 : 1
 
-			if(criterium && !icItemStorage.sortingCriteria[criterium]) console.error('icItemStorage: unknown sorting criterium: '+ criterium)
 
 			if(criterium){
 				icItemStorage.currentStats.sortBy 			= criterium
@@ -294,7 +343,10 @@
 				return null	
 			} 
 
-
+			if(!icItemStorage.sortingCriteria[criterium]){
+				console.warn('icItemStorage: missing compare function: '+ criterium + ' Maybe sorting criterium has not yet finished registering.')
+				return null
+			}
 
 			icItemStorage.filteredList.sort(function(item_1, item_2){
 
@@ -364,10 +416,10 @@
 			if (!s) { return ''; }
 			var result = '';
 			for (var i=0; i<s.length; i++) {
-				result += accent_map[s.charAt(i)] || s.charAt(i);
+				result += accent_map[s.charAt(i)] || s.charAt(i)
 			}
-			return result;
-		};
+			return result
+		}
 
 		icItemStorage.getSearchTag = function(search_term){
 
@@ -425,9 +477,10 @@
 			return search_tag.replace(/%1/,index)
 		}
 
-		icItemStorage.registerSortingCriterium('id', function(item_1, item_2){
-			return ( ( item_1.id == item_2.id ) ? 0 : ( ( item_1.id > item_2.id ) ? 1 : -1 ) )
-		})
+		//This doesnt seem usefull, but slows down initial laoding
+		// icItemStorage.registerSortingCriterium('id', function(item_1, item_2){
+		// 	return ( ( item_1.id == item_2.id ) ? 0 : ( ( item_1.id > item_2.id ) ? 1 : -1 ) )
+		// })
 
 	}
 
