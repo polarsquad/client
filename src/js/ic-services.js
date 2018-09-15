@@ -125,10 +125,7 @@ angular.module('icServices', [
 				if(icInit.readyCount == icInit.readyMax){
 					$timeout(function(){ 
 						icInit.ready = true; 
-					}, 200)
-					.then(function(){
-						return icMainMap.prepareMarkers(icItemStorage.data)
-					})			
+					}, 200)	
 				}
 			})
 		})
@@ -778,7 +775,7 @@ angular.module('icServices', [
 												return 	$q.when(icItemStorage.downloadAll())
 											})
 											.then(function(){
-												icItemStorage.updateFilteredList()
+												return icItemStorage.updateFilteredList()
 											})
 
 			icItemStorage.newItem = function(){

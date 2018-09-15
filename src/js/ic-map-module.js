@@ -393,9 +393,10 @@
 				'$rootScope',
 				'$q',
 				'icMapItemMarker',
+				'icItemStorage',
 
 
-				function($rootScope, $q ,icMapItemMarker){
+				function($rootScope, $q ,icMapItemMarker, icItemStorage){
 
 					var mapReady = $q.defer(),
 						icMainMap = {
@@ -440,25 +441,6 @@
 										riseOnHover: false,
 									}
 								)
-					}
-
-
-					// fill markerCache
-					icMainMap.prepareMarkers = function(items){
-						
-						icMainMap.scope.preparingMarkers = true
-
-						return	icUtils.chunkedJob(
-									items.filter(hasValidGeoCoordinates), 
-									function(item){
-										icMainMap.getMarker(item)
-									},
-									10
-								)
-								.then(function(){
-									icMainMap.scope.preparingMarkers = false
-									$rootScope.$evalAsync()
-								})
 					}
 
 					return icMainMap
@@ -560,6 +542,7 @@
 
 					map.addLayer(markers)
 
+
 					var width 					= undefined,
 						height					= undefined
 
@@ -579,7 +562,7 @@
 
 
 
-					function updateListMarkers(list){
+					function updateListMarkers(){
 
 						// var items_to_be_left_on_the_map	= 	markers.getLayers()
 						// 									.filter(function(marker){ 
@@ -609,12 +592,9 @@
 
 						markers.clearLayers()
 
-						var	additional_items	=	list
-													.filter(function(item){
-														return 		hasValidGeoCoordinates(item)
-													})
+						var	additional_items	=	icItemStorage.filteredList
+													.filter(hasValidGeoCoordinates)
 
-					
 						markers.addLayers(additional_items.map(icMainMap.getMarker))
 
 						// map.eachLayer(function(layer){
@@ -674,6 +654,7 @@
 					$rootScope.$watch(scheduleSizeInvalidation)*/
 
 
+					updateListMarkers()
 
 
 					var	stop_watching_filteredList = $rootScope.$watchCollection(
@@ -681,12 +662,21 @@
 								return icItemStorage.filteredList	
 							},
 							function(new_list, old_list){
+
+								if(new_list.length == old_list.length){
+									var check = {}
+									for(var i = 0; i < new_list.length; i++){
+										check[new_list[i].id] = true
+										check[old_list[i].id] = true
+									}
+									if(Object.keys(check).length == new_list.length) return null
+								}
+
 								!scope.waiting && scope.loading++
 								scope.waiting = true	
-								//TODO console.log hier weiter
-								icUtils.schedule('updateListMarkers',function(){
-									return 	updateListMarkers(icItemStorage.filteredList)								
-								}, 300, true)
+								
+
+								icUtils.schedule('updateListMarkers', updateListMarkers, 300, true)
 								.finally(function(){
 									scope.loading--
 									scope.waiting = false
@@ -694,6 +684,7 @@
 								})
 							}
 						),
+
 
 						stop_watching_activeItem = $rootScope.$watchCollection(
 							function(){ 
