@@ -18,8 +18,7 @@ var copyfiles	= 	require('copyfiles'),
 	ins			=	process.argv[2],
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
-	src			=	'tmp/src',
-	mlf			=	'map_'+process.argv[2]+'.log',
+	src			=	'tmp/src'
 
 	taxonomy	= 	cst
 					?	require('./'+cst+'/js/config/taxonomy.js')
@@ -28,10 +27,6 @@ var copyfiles	= 	require('copyfiles'),
 	config		=	cst
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
 					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
-
-	map_log		=	fs.existsSync(mlf)
-					?	JSON.parse(fs.readFileSync(mlf, 'utf8'))
-					:	undefined,
 
 	preloadImg	=	[],
 
@@ -327,8 +322,6 @@ function copyReadyFilesToDst(){
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
 				fs.copy(src+"/js/worker", 		dst+'/worker'),
 
-				//map tiles
-				fs.copy('map/'+ins,				dst+'/map'),
 				// fs.copy("vendor.js", 		dst+"/js/vendor.js"),
 				
 				//tmp
