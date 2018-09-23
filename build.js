@@ -15,10 +15,11 @@ var copyfiles	= 	require('copyfiles'),
 							{removeDimensions:				true},
 						]
 					}),
+	ins			=	process.argv[2],
 	cst			=	process.argv[2] && 'custom/'+process.argv[2],
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
 	src			=	'tmp/src',
-
+	mlf			=	'map_'+process.argv[2]+'.log',
 
 	taxonomy	= 	cst
 					?	require('./'+cst+'/js/config/taxonomy.js')
@@ -28,6 +29,10 @@ var copyfiles	= 	require('copyfiles'),
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
 					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
 
+	map_log		=	fs.existsSync(mlf)
+					?	JSON.parse(fs.readFileSync(mlf, 'utf8'))
+					:	undefined,
+
 	preloadImg	=	[],
 
 	build 		= 	Date.now(),
@@ -36,8 +41,7 @@ var copyfiles	= 	require('copyfiles'),
 	js_dir		= 	'js_'+build
 
 
-
-console.log('build: ', build)
+console.log('Build: ', build)
 
 function done(all){
 	all
@@ -61,6 +65,8 @@ function setup(){
 			)
 
 }
+
+
 
 
 
@@ -318,13 +324,12 @@ function createConfigJson(){
 function copyReadyFilesToDst(){
 	return 	Promise.all([
 
-				// fs.copy(src+"/js", 				dst+"/js"),
-				// templates are preloaded, but in case the preload is not ready yet::
-				//fs.copy(src+"/pages",			dst+"/pages"),
-				//fs.copy(src+"/partials",		dst+"/partials"),
 				fs.copy(src+"/images/large", 	dst+"/images/large"),
 				fs.copy(src+"/js/worker", 		dst+'/worker'),
-				// fs.copy("vendor.js", 			dst+"/js/vendor.js"),
+
+				//map tiles
+				fs.copy('map/'+ins,				dst+'/map'),
+				// fs.copy("vendor.js", 		dst+"/js/vendor.js"),
 				
 				//tmp
 				fs.copy("tmp/images", 			dst+"/images"),
@@ -423,6 +428,8 @@ function copyPromiscuousForIE(){
 function cleanUp(){
 	return fs.remove('tmp')
 }
+
+
 
 setup()
 

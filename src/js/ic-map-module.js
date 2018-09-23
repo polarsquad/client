@@ -44,7 +44,7 @@
 				scope.queuedForDigest = false
 
 				length-- 
-				if(scope.$$destroyed) return console.log('destroyed') || null
+				if(scope.$$destroyed) return null
 
 				scope.$digest()
 				points -= weight

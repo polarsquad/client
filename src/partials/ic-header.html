@@ -20,6 +20,14 @@
 	<div class = "spacer"></div>
 
 	<a 
+		class 		= "white"
+		ng-click 	= "ic.site.expandMap = true; ic.site.list = true"
+		ng-if		= "ic.layout.mode.name == 'XS' && !show.search"
+	>
+		{{'INTERFACE.MAP' | translate}}
+	</a>
+
+	<a 
 		class 		= "icon-large left icon-interface-search white"
 		ic-click 	= "show.search = !show.search"
 	>

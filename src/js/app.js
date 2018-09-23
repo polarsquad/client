@@ -129,7 +129,15 @@
 			'icMainMapProvider',
 
 			function(icMainMapProvider){
-				if(icConfig.map) icMainMapProvider.setDefaults(icConfig.map)
+				if(icConfig.map) icMainMapProvider.setDefaults({
+					center:				icConfig.map.center,
+					zoom:				icConfig.map.zoom,
+					minZoom:			icConfig.map.minZoom,
+					maxZoom:			icConfig.map.maxZoom,
+					maxBounds:			icConfig.map.maxBounds,
+					maxClusterRadius: 	icConfig.map.maxClusterRadius,
+					tiles:				icConfig.map.tiles
+				})
 			}
 		])
 

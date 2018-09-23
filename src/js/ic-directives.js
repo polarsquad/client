@@ -813,8 +813,6 @@ angular.module('icDirectives', [
 			scope:			{
 								icTitle:		"<",
 								icContent:		"<",
-								icExtraLines:	"<",
-								icExtraLinks:	"<",
 								icIcon:			"<",
 								icLink:			"<",
 							},
@@ -825,6 +823,9 @@ angular.module('icDirectives', [
 						scope.link = scope.icLink + scope.icContent
 					}
 				})
+
+				scope.$parent.$watch(attrs.icExtraLinks, function(value){ console.log('extraLinks', value); scope.icExtraLinks = value}, true)
+				scope.$parent.$watch(attrs.icExtraLines, function(value){ scope.icExtraLines = value}, true)
 
 			}
 		}

@@ -5,8 +5,11 @@ todo
 /node_modules
 /dev
 /dist
+/map
 /tmp
 /sharing_patch
 /custom
 !/custom/.gitkeep
 vendor.js
+map*.log
+
