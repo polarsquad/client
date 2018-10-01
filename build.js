@@ -286,8 +286,19 @@ function prepareBiyarni(){
 				fs.copy("node_modules/typeface-biryani/files",			dst+"/fonts/Biyarni"),
 				fs.ensureDir('tmp/styles')
 			])
-			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
+			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Fira-Sans'))
 			.then( css 		=> fs.writeFile('tmp/styles/biryani.css', css, 'utf8'))
+}
+
+
+function prepareFira(){
+	return 	Promise.all([
+				fs.readFile("node_modules/typeface-fira-sans/index.css",	"utf8"),
+				fs.copy("node_modules/typeface-fira-sans/files",			dst+"/fonts/Fira-Sans"),
+				fs.ensureDir('tmp/styles')
+			])
+			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Fira-Sans'))
+			.then( css 		=> fs.writeFile('tmp/styles/fira-sans.css', css, 'utf8'))
 }
 
 
@@ -300,6 +311,17 @@ function prepareRoboto(){
 			])
 			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
+}
+
+
+function prepareFonts(){
+	return 	Promise.all([
+				prepareRoboto,
+				prepareFira,
+				prepareBiyarni
+			])
+			.then( () => console.log("\n\n#####CHECK FONTS!!\n"))
+
 }
 
 function copyFilesSrcToTmp(){
@@ -479,16 +501,9 @@ setup()
 .then( () => done() )
 
 
-.then( () => process.stdout.write('\nPreparing Biyarni...'))
-.then(prepareBiyarni)
+.then( () => process.stdout.write('\nPreparing Fonts...'))
+.then(prepareFonts)
 .then( () => done() )
-
-
-.then( () => process.stdout.write('\nPreparing Roboto...'))
-.then(prepareRoboto)
-.then( () => done() )
-
-
 
 
 .then( () => process.stdout.write('\ncreating config.json in /tmp...'))

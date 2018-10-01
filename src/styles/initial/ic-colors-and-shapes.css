@@ -1,5 +1,4 @@
 
-
 .bg-t {
 	background-color:			transparent;
 }
@@ -175,7 +174,6 @@
 .bubble {
 	display:					inline-block;
 	font-size:					0.8em;
-	font-family: 				Roboto, sans-serif;
 	box-sizing:					border-box;
 	padding:					0 0.4em;
 	line-height:				1.5em;
@@ -190,7 +188,6 @@
 
 .ic-tag {
 	display:					inline-block;
-	font-family: 				Roboto, sans-serif;
 	background-color:			#99999a;
 	color:						#fff;
 	padding: 					0.25em 0.75em;

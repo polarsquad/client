@@ -1505,7 +1505,7 @@ angular.module('icServices', [
 													|| 	icLanguages.fallbackLanguage
 
 								return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
-										|| 	'en'
+										|| 	icLanguages.availableLanguages[0] || 'en'
 							}
 
 			})

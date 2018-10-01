@@ -2,15 +2,15 @@
 
 
 ic-page {
-	display:					block;
+	display:						block;
 }
 
 ic-page  header {
-	position:					relative;
-	height: 					30rem;
-	padding:					1rem;
-	background-size:			cover;
-	background-position: 		center;
+	position:						relative;
+	height: 						30rem;
+	padding:						1rem;
+	background-size:				cover;
+	background-position: 			center;
 }
 
 
@@ -26,7 +26,7 @@ ic-page  header h2 {
 }
 
 ic-page  header h2 span {
-	padding:					0.5rem;
+	padding:						0.5rem;
 	-webkit-box-decoration-break: 	clone;
   	-o-box-decoration-break: 		clone;
   	box-decoration-break:			clone;
@@ -34,12 +34,12 @@ ic-page  header h2 span {
 
 
 ic-page  article {
-	display:					block;
-	background-color:			#fff;
-	color:						#666;
-	margin:						auto;
-	margin-bottom:				1rem;
-	padding:					2rem 5rem;
+	display:						block;
+	background-color:				#fff;
+	color:							#666;
+	margin:							auto;
+	margin-bottom:					1rem;
+	padding:						2rem 5rem;
 }
 
 ic-page h3 {
@@ -52,7 +52,6 @@ ic-page h3 {
 ic-page p{
 	max-width:					50rem;
 	font-size: 					1rem;
-	font-family: 				Biryani, Roboto, sans-serif;
 	font-size: 					1.25rem;
 	line-height: 				2;
 
@@ -61,7 +60,6 @@ ic-page p{
 ic-page a.boxed {
 	display:					inline-block;
 	font-size: 					0.875rem;
-	font-family: 				Biryani, Roboto, sans-serif;
 	font-weight: 				800;
 	line-height:				2.5em;
 	border-width:				0.15em;
@@ -148,7 +146,6 @@ ic-page .tiles {
 ic-page .tiles > * {
 	display:					flex;
 	box-sizing:					border-box;
-	font-family: 				Biryani, Roboto, sans-serif;
 	font-weight: 				600;
 	font-size: 					1.25rem;
 	padding: 					1rem;	
@@ -175,7 +172,6 @@ ic-page .tiles > * > small {
 	display: 					inline-block;
 	margin-top: 				0.5rem;
 	font-weight:				300;
-	font-family: 				Roboto, sans-serif;
 	font-weight: 				300;	
 	font-size: 					1.25rem;
 }

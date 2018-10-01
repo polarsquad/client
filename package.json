@@ -21,6 +21,7 @@
     "roboto-fontface": "^0.7.0",
     "svgo": "^0.7.2",
     "typeface-biryani": "0.0.22",
+    "typeface-fira-sans": "0.0.54",
     "uglify-js": "^3.4.9"
   },
   "scripts": {
