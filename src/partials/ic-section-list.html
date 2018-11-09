@@ -1,23 +1,32 @@
-<div 
-	ng-if = "!ic.site.visibleSections.filter"
-	class = "bg-0 padding active"
+<article
+	ic-settle-scrollbar		= "true"
+	ic-scroll-snap-anchor 	= "header"
+	ic-scroll-repeat-limit-container = "true"
+	class					= "padding"
 >
+
 	<div 
-		class 		= "block bg-3 padding tac"
-		ng-click 	= "ic.overlays.toggle('taxonomyFilter')"
-		ic-touch-me 
+		ng-if = "!ic.site.visibleSections.filter"
+		class = "bg-0 padding active"
 	>
-		{{'INTERFACE.FILTER' | translate}}
+		<div 
+			class 		= "block bg-3 padding tac"
+			ng-click 	= "ic.overlays.toggle('taxonomyFilter')"
+			ic-touch-me 
+		>
+			{{'INTERFACE.FILTER' | translate}}
+		</div>
+		
 	</div>
+
+	<ic-taxonomy-filter-tag-list class = "padding bg-0">
+	</ic-taxonomy-filter-tag-list>
+
+	<ic-sorting class = "padding bg-0">
+	</ic-sorting>
+
+
+	<ic-search-result-list>
+	</ic-search-result-list>
 	
-</div>
-
-<ic-taxonomy-filter-tag-list class = "padding bg-0">
-</ic-taxonomy-filter-tag-list>
-
-<ic-sorting class = "padding bg-0">
-</ic-sorting>
-
-
-<ic-search-result-list>
-</ic-search-result-list>
+</article>

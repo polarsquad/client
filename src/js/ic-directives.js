@@ -139,25 +139,22 @@ angular.module('icDirectives', [
 ])
 
 
-.directive('icItemFull',[
-
-	'ic',
-	'icSite',
+.directive('icItemFullHeader',[
 	'icOverlays',
+	'icSite',
 	'icItemStorage',
 	'icItemEdits',
-	'icAdmin',
-	'$q',
+	'ic',
 
-	function(ic, icSite, icOverlays, icItemStorage, icItemEdits, icAdmin, $q){
-
+	function(icOverlays, icSite, icItemStorage, icItemEdits, ic){
 		return {
 			restrict:		'AE',
-			templateUrl:	'partials/ic-item-full.html',
-			scope:			{},
+			templateUrl:	'partials/ic-item-full-header.html',
+			scope:			true,
 
-			link: function(scope, element, attrs){
-				scope.ic 	= ic
+			link: function(scope, element, attr){
+
+				scope.ic = ic
 				
 				scope.delete = function(){
 					icOverlays.open('confirmationModal', 'INTERFACE.DELETE_ITEM_CONFIRMATION')
@@ -182,6 +179,43 @@ angular.module('icDirectives', [
 					})
 				}
 
+				scope.cancel = function(){
+					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
+
+					if(icSite.activeItem.internal.new &&  icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_CREATION"
+					if(icSite.activeItem.internal.new && !icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_SUGGESTION"
+
+					icOverlays.open('confirmationModal', message)
+					.then(function(){
+						if(icSite.activeItem.internal.new) icSite.activeItem = undefined
+						icSite.editItem = false
+					})
+				}
+			}
+		}
+	}
+])
+
+.directive('icItemFull',[
+
+	'ic',
+	'icSite',
+	'icOverlays',
+	'icItemStorage',
+	'icItemEdits',
+	'icAdmin',
+	'$q',
+
+	function(ic, icSite, icOverlays, icItemStorage, icItemEdits, icAdmin, $q){
+
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-full.html',
+			scope:			{},
+
+			link: function(scope, element, attrs){
+				scope.ic 	= ic
+				
 				scope.$watch(
 					function(){
 						return icSite.activeItem
@@ -207,10 +241,11 @@ angular.module('icDirectives', [
 	'icItemStorage',
 	'icTaxonomy',
 	'icOverlays',
+	'icMainMap',
 	'$rootScope',
 	'$q',
 
-	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, $rootScope, $q){
+	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, icMainMap, $rootScope, $q){
 
 		return {
 			restrict:		'AE',
@@ -224,23 +259,17 @@ angular.module('icDirectives', [
 					return !scope.validationFunctions.filter(function(fn){ return fn() })[0]
 				}
 
-				scope.cancel = function(){
-					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
-
-					if(scope.icItem.internal.new &&  icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_CREATION"
-					if(scope.icItem.internal.new && !icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_SUGGESTION"
-
-					icOverlays.open('confirmationModal', message)
-					.then(function(){
-						if(scope.icItem.internal.new) icSite.activeItem = undefined
-						ic.site.editItem = false
-					})
-				}
-
 				scope.revertAll = function(){
 					scope.icEdit.importData(scope.icItem.exportData())
 				}
 
+
+				scope.pickCoordinates = function(){
+					icSite.expandMap 			= true
+
+					icMainMap.picker.latitude 	= scope.icEdit.latitude 	|| icMainMap.defaults.center[0]
+					icMainMap.picker.longitude	= scope.icEdit.longitude	|| icMainMap.defaults.center[1]
+				}
 
 				scope.submit = function(){
 
@@ -416,8 +445,6 @@ angular.module('icDirectives', [
 
 								if(tAttrs.icOptions)	return "partials/ic-item-property-edit-options.html"
 								if(tAttrs.icDate)		return "partials/ic-item-property-edit-date.html"
-								
-
 
 								return "partials/ic-item-property-edit-simple-value.html"
 
@@ -805,7 +832,9 @@ angular.module('icDirectives', [
 
 .directive('icItemProperty', [
 
-	function(){
+	'ic',
+
+	function(ic){
 
 		return {
 			restrict:		'AE',
@@ -818,13 +847,16 @@ angular.module('icDirectives', [
 							},
 
 			link: function(scope, element, attrs){
+				
+				scope.ic = ic
+
 				scope.$watch('icContent', function(){
 					if(typeof scope.icLink == "string"){
 						scope.link = scope.icLink + scope.icContent
 					}
 				})
 
-				scope.$parent.$watch(attrs.icExtraLinks, function(value){ console.log('extraLinks', value); scope.icExtraLinks = value}, true)
+				scope.$parent.$watch(attrs.icExtraLinks, function(value){ scope.icExtraLinks = value}, true)
 				scope.$parent.$watch(attrs.icExtraLines, function(value){ scope.icExtraLines = value}, true)
 
 			}

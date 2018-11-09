@@ -1,38 +1,4 @@
 <header class = "bg-0">
-	<div class = "tools">
-		<a 
-			class 		= "icon icon-interface-close"
-			ng-click 	= "cancel()" 
-			ng-if		= "icItem.internal.new"
-		>
-		</a>
-
-		<!-- EDIT -->
-
-		<div 
-			class = "main"
-			ng-if = "!icItem.internal.new"
-		>
-			<button 
-				class 		= "icon round large bg-3 white icon-interface-cancel_edit drop-shadow bg-0"
-				ng-click 	= "cancel()" 
-				ng-if		= "true"
-				title		= "{{ic.user.can('edit_items')? 'INTERFACE.CANCEL_EDIT' : 'INTERFACE.CANCEL_EDIT_SUGGESTION' | translate}}"
-				ic-touch-me
-			>
-			</button>
-		</div>
-
-		<!-- NEW -->
-
-		<div 
-			class = "main"
-			ng-if = "icItem.internal.new"
-		>
-			
-		</div>
-
-	</div>
 	<div 
 		class		= "hero" 
 		ng-style	= "{'background-image' : 'url('+icItem.image+')'}" 
@@ -316,21 +282,46 @@
 	</article>
 
 
+	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
 
-	<article ng-repeat = "key in ['latitude', 'longitude']">
-		<div> <div class = "icon icon-property-{{key}}"></div> </div>
+	<article>
+		<div> <div class = "icon icon-property-coordinates"></div> </div>
 		<div>
-			<h4> {{'ITEMS.%s' | fill : key | translate}}</h4>
-			
-			<ic-help ic-message = "{{ 'ITEMS.%s_HELP' | fill : key }}"></ic-help>
+			<div class = "split">
+				<div>
+					<h4> {{'ITEMS.LATITUDE' | translate}}</h4>
+					
+					<ic-help ic-message = "{{ 'ITEMS.LATITUDE_HELP' }}"></ic-help>
 
-			<ic-item-property-edit
-				ic-type 				= "string"
-				ic-key					= "{{key}}"
-				ic-item					= "icItem"
-			></ic-item-property-edit>
+					<ic-item-property-edit
+						ic-type 				= "string"
+						ic-key					= "latitude"
+						ic-item					= "icItem"
+					></ic-item-property-edit>
+				</div>
+				<div>
+					<h4> {{'ITEMS.LONGITUDE' | translate}}</h4>
+					
+					<ic-help ic-message = "{{ 'ITEMS.LONGITUDE_HELP' }}"></ic-help>
+
+					<ic-item-property-edit
+						ic-type 				= "string"
+						ic-key					= "longitude"
+						ic-item					= "icItem"
+					></ic-item-property-edit>
+				</div>
+				<button
+					ng-click = "pickCoordinates()"
+				>
+					{{!!pickCoordinates}} 
+					{{'INTERFACE_PICK_COORDINATES' | translate}}
+					}
+				</button>
+			</div>
 		</div>
 	</article>
+
+	
 
 
 
@@ -593,8 +584,3 @@
 
 	</article>
 </section>
-
-<button
-	class = "ic icon large icon-interface-up round drop shadow"
->
-</button>

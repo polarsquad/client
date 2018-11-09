@@ -107,10 +107,6 @@
 	flex:						1 0 auto;
 }
 
-.XS ic-item-full header .main > * {
-	margin-right:				0.5rem;
-}
-
 
 
 
@@ -130,21 +126,49 @@
 }
 
 
+.XS ic-item-full-header {
+	left:						0;
+}
 
+
+.XS ic-item-full header .main > * {
+	margin-right:				0.5rem;
+}
 
 
 .XS ic-item-full > section > * > :nth-child(1){
-	padding-right:					0;
-	min-width:						4rem;
-	text-align:						left;
+	flex:						0 0 auto;
+	padding-right:				0;
+	min-width:					0rem;
+	text-align:					left;
+	margin-right:				0.5rem;
 }
+
+.XS ic-item-full > section > * > :nth-child(2){
+	align-self:					center;
+}
+
 
 .XS ic-item-full-edit > section > * > :nth-child(1){
-	padding-right:					0;
-	min-width:						4rem;
-	text-align:						left;
+	padding-right:				0;
+	min-width:					0rem;
+	text-align:					left;
+	margin-right:				0.5rem;
 }
 
+
+.XS ic-item-full-edit > section > * > :nth-child(2){
+	align-self:					center;
+}
+
+
+
+
 .XS ic-item-full > section .qr-code {
-	text-align:						center !important;
+	text-align:					center !important;
+}
+
+
+.XS ic-item-full > section > * {
+	padding:					0 1rem 0 2.5rem;
 }

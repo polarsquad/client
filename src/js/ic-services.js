@@ -109,9 +109,11 @@ angular.module('icServices', [
 									icUser: 		icUser.ready,
 									icItemStorage:	icItemStorage.ready,
 									icLanguages:	icLanguages.ready,
+									//icMainMap:		icMainMap.ready,
 									plImages:		plImages.ready,
 									plStyles:		plStyles.ready,
 									plTemplates:	plTemplates.ready,
+
 								}
 	
 
@@ -120,7 +122,7 @@ angular.module('icServices', [
 			promises[key].then(function(){
 				icInit.readyCount ++
 
-				console.log(key, '... ready.')
+				console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
 				if(icInit.readyCount == icInit.readyMax){
 					$timeout(function(){ 
@@ -1732,8 +1734,9 @@ angular.module('icServices', [
 	'icStats',
 	'icConfig',
 	'icUtils',
+	'icMainMap',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icMainMap){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1749,6 +1752,7 @@ angular.module('icServices', [
 		ic.stats		= icStats
 		ic.config		= icConfig
 		ic.utils		= icUtils
+		ic.mainMap		= icMainMap
 
 		ic.deferred.resolve()
 		delete ic.deferred

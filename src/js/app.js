@@ -129,15 +129,7 @@
 			'icMainMapProvider',
 
 			function(icMainMapProvider){
-				if(icConfig.map) icMainMapProvider.setDefaults({
-					center:				icConfig.map.center,
-					zoom:				icConfig.map.zoom,
-					minZoom:			icConfig.map.minZoom,
-					maxZoom:			icConfig.map.maxZoom,
-					maxBounds:			icConfig.map.maxBounds,
-					maxClusterRadius: 	icConfig.map.maxClusterRadius,
-					tiles:				icConfig.map.tiles
-				})
+				if(icConfig.map) icMainMapProvider.setDefaults(icConfig.map)
 			}
 		])
 
@@ -220,7 +212,7 @@
 					name:			'filter',
 					template:		'partials/ic-section-filter.html',
 					active:			function(ic){
-										return 	ic.site.list || ic.site.expandMap
+										return 	ic.site.list || (ic.site.expandMap && !ic.site.editItem)
 									},
 
 					show:			function(ic){		
@@ -278,7 +270,7 @@
 										if(ic.layout.mode.name == 'XS')		return false
 										if(ic.layout.mode.name == 'S')		return false
 										if(ic.layout.mode.name == 'M')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
-										if(ic.layout.mode.name == 'L')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
+										if(ic.layout.mode.name == 'L')		return !ic.site.activeSections.page &&  !(ic.site.activeSections.item && ic.site.activeSections.list)
 
 										return	true
 									}				
@@ -286,16 +278,21 @@
 				
 				.registerSwitch({
 					name:			'expandMap',
-					index:			0
+					index:			0,
+					adjust:			function(ic){
+										return ic.site.expandMap && !(ic.site.activeItem && ic.site.activeItem.internal.failed)
+									}
 				})		
 
 				.registerSwitch({
 					name:			'editItem',
 					index:			1,
 					adjust:			function(ic){
-										return	ic.site.activeItem && ic.site.activeItem.internal.new
-												?	true
-												:	ic.site.editItem
+										if(!ic.site.activeItem) 				return false
+										if(ic.site.activeItem.internal.failed)	return false
+										if(ic.site.activeItem.internal.new)		return true
+										
+										return ic.site.editItem
 									}
 				})
 			}

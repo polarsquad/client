@@ -197,10 +197,22 @@ angular.module('icUiDirectives', [
 	function(icScrollSnapAnchors){
 		return{
 			link:function(scope, element, attrs){
-				icScrollSnapAnchors.registerAnchor(attrs.icScrollSnapAnchor, element)
+
+				var anchor_names = scope.$eval(attrs.icScrollSnapAnchor)
+
+				anchor_names =	Array.isArray(anchor_names)
+								?	anchor_names
+								:	[attrs.icScrollSnapAnchor]
+
+				anchor_names.forEach(function(anchor_name){
+					icScrollSnapAnchors.registerAnchor(anchor_name, element)
+				})
+
 
 				scope.$on('$destroy', function(){
-					icScrollSnapAnchors.deRegisterAnchor(attrs.icScrollSnapAnchor, element)
+					anchor_names.forEach(function(anchor_name){
+						icScrollSnapAnchors.deRegisterAnchor(anchor_name, element)
+					})
 				})
 			}
 		}
@@ -224,6 +236,8 @@ angular.module('icUiDirectives', [
 
 				function onScroll(){
 					window.requestAnimationFrame(function(){
+						if(!anchors[target]) return null
+							
 						element.toggleClass(
 							'ic-scroll-snapped', 
 
@@ -275,19 +289,36 @@ angular.module('icUiDirectives', [
 					onScroll()	
 				}
 
+				scope.scrollTop = function(){
+					if(target) anchors[target].scrollTop = 0
+				}
+
+				scope.scrollBottom = function(){
+					if(target) anchors[target].scrollTop = anchors[target].scrollHeight
+				}
+
+
 				scope.$watch(
 					function(){
-						return scope.$eval(attrs.icScrollSnapTarget)
+						var t = scope.$eval(attrs.icScrollSnapTarget)
+
+						return 	t === undefined 
+								? attrs.icScrollSnapTarget
+								: t
 					},
 					function(result){
 						target	= result || undefined
 
-						if(target){
+						console.log('target', target)
+
+						if(target !== false){
 							window.addEventListener('scroll', beforeScroll, true)
 						} else {
 							element.addClass('ic-scroll-snapped')
 							window.removeEventListener('scroll', beforeScroll)
 						}
+
+						onScroll()
 					}
 				)
 

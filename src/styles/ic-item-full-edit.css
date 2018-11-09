@@ -52,6 +52,19 @@ ic-item-full-edit > section  > * > *:nth-child(2){
 	min-width:					0;
 }
 
+ic-item-full-edit > section  > * > *:nth-child(2) .split {
+	display:					flex;
+	flex-wrap:					wrap;
+	margin:						0 -1rem;
+}
+
+ic-item-full-edit > section  > * > *:nth-child(2) .split > * {
+	position:					relative;
+	flex:						1 0 15rem;
+	margin:						0 1rem;
+}
+
+
 ic-item-full-edit > section > *:after {
 	content:					'';
 	flex:						1 0 0;

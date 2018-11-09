@@ -1,9 +1,7 @@
 <section
-	ng-repeat 				= "section in ic.site.config.sections"
-	ng-if					= "ic.site.visibleSections[section.name]"
-	ic-settle-scrollbar		= "true"
-	ic-scroll-snap-anchor 	= "header"
-	ic-scroll-repeat-limit-container = "true"
+	ng-repeat 	= "section in ic.site.config.sections"
+	ng-show		= "ic.site.visibleSections[section.name]"
+	
 	
 	id			= "section-{{section.name}}"
 	class		= "bg-1"

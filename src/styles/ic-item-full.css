@@ -3,40 +3,84 @@ ic-item-full {
 	position:					relative;
 }
 
-ic-item-full header {
-	min-height:					5rem;
+ic-item-full ic-spinner {
+	position:					absolute;
+}
+
+ic-item-full-header {
+	display:					block;
+	position:					absolute;
+	box-sizing:					border-box;
+	top:						1rem;
+	left:						1rem;
+	right:						1rem;
 	z-index:					1000;
+	height:						0;
 }
 
-ic-item-full header .tools{
-	height:						3rem;
-	line-height:				3rem;
-	font-size:					1.5rem;
+ic-item-full-header.ic-scroll-snapped{
+	top:						0;
+	transition:					all 200ms ease-in-out;
 }
 
 
-ic-item-full header .main {
+
+ic-item-full-header .tools {
 	position:					absolute;
 	display:					flex;
-	top:						1.25rem;
-	right:						0;
-	padding-right:				0.4rem;
-	z-index:					99;
+	font-size:					1rem;
+	top:						1.25em;
+	right:						0.4em;
+	height:						0em;
+	line-height:				2em;
+	transition:					all 200ms ease-in-out;
+	opacity:					1;
+	z-index:					99999;
 }
 
-ic-item-full header .main > *  {
+
+ic-item-full-header.ic-scroll-snapped .tools {
+	transform:					translateY(-5rem);
+	opacity:					0;
+	pointer-events:				none;
+}
+ic-item-full-header .tools > *  {
 	flex:						0 0 auto;
-	margin-right:				1rem;
+	margin-right:				0.5em;
+}
+
+ic-item-full-header nav {
+	position:					absolute;
+	top:						0;
+	left:						0;
+	display:					inline-flex;
+	flex-direction:				row;
+	transition:					all 200ms ease-in-out;
+}
+
+ic-item-full-header.ic-scroll-snapped nav {
+	flex-direction:				column;
 }
 
 
-ic-item-full .hero-wrapper{
+ic-item-full-header nav .up {
+	display:					none;
+}
+
+ic-item-full-header.ic-scroll-snapped nav .up {
+	display:					block;
+}
+
+ic-item-full .spacer {
+	height:						3rem;
+}
+
+ic-item-full .hero-wrapper {
 	position: 					relative;
-	padding-bottom:				50%;
 }
 
 
-ic-item-full .hero.fallback{
+ic-item-full .hero.fallback {
 	position:					absolute;
 	font-size:					10rem;
 	width:						1em;
@@ -54,7 +98,7 @@ ic-item-full .hero.fallback:before {
 }
 
 ic-item-full .hero {
-	position:					absolute;
+	padding-bottom:				50%;
 	background-size:			cover;
 	background-position:		50% 50%;
 	background-repeat:			no-repeat;
@@ -72,14 +116,16 @@ ic-item-full article .description{
 }
 
 ic-item-full > section {
-	padding:					2rem 0;
+	padding:					1rem 0;
 }
 
 ic-item-full > section > * {
 	display:					flex;
+	flex-wrap:					wrap;
 	margin-bottom:				1rem;
 	padding:					0 1rem;
 }
+
 
 ic-item-full > section > * > *:nth-child(1){
 	flex:						1 0 0;
@@ -91,6 +137,10 @@ ic-item-full > section  > *	> *:nth-child(2){
 	flex:						10 0 0;
 	max-width: 					40rem;
 	min-width:					0;
+}
+
+ic-item-full > section  > *	> *:nth-child(3){
+	width:						100%;
 }
 
 ic-item-full > section > *:after {

@@ -37,31 +37,38 @@ ic-main-content > * {
 	flex:						1 0 auto;
 	box-sizing:					border-box;
 	position:					relative;
-	padding-top:				1rem;
-	padding-bottom:				1rem;
-	padding-left:				0.5rem;
-	padding-right:				0.5rem;
 	box-sizing:					border-box;
-	overflow-y:					scroll;
+	overflow-y:					hidden;
 	overflow-x:					hidden;
 	flex-grow:					1;
 	height:						100%;
-	-webkit-overflow-scrolling:	touch;
 }
-
 ic-main-content > *:after {
 	content:					'';
 	display:					block;
 	height:						0rem;
 }
 
-ic-main-content > *:first-child{
+ic-main-content > *:not(.ng-hide) + * {
+	margin-left:				-1rem;
+}
+
+/*
+ic-main-content > * {
+	padding-top:				1rem;
+	padding-bottom:				1rem;
+	padding-left:				0.5rem;
+	padding-right:				0.5rem;
+}
+*/
+/*
+ic-main-content > *:first-child  {
 	padding-left:				1rem;
 }
 
-ic-main-content > *:last-child{
+ic-main-content > *:last-child  {
 	padding-right:				1rem;
-}
+}*/
 
 ic-main-content > *:nth-child(1){
 	z-index:					10;
@@ -111,7 +118,6 @@ ic-main-content > *:nth-child(5){
 
 #section-item {
 	flex:						10 0 20rem;
-	padding-bottom:				5rem;
 }
 
 
@@ -120,6 +126,7 @@ ic-main-content > *:nth-child(5){
 	flex:						10 0 0;
 	padding:					0;
 	overflow:					hidden !important;
+	margin:						0 !important;
 }
 
 #section-map:before {
@@ -154,6 +161,9 @@ ic-main-content > *:nth-child(5){
 #section-page {
 	width:						80rem;
 	max-width:					100%;
+}
+
+#section-page > article {
 	padding-bottom:				15rem;
 }
 

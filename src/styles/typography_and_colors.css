@@ -186,6 +186,13 @@ textarea:-webkit-autofill:focus{
 	align-items:			flex-start;
 }
 
+.xvcenter{
+	display:				flex !important;
+	flex-direction:			row;
+	justify-content:		center;
+	align-items:			center;
+}
+
 .wsp {
 	white-space:			pre;
 }

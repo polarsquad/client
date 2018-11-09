@@ -18,3 +18,11 @@
 	transition-duration:	400ms;			
 	transition-property:	border, background-color, filter, transform;
 }
+
+
+[ic-settle-scrollbar] {
+	box-sizing:				border-box;
+	max-height:				100%;
+	overflow-x:				hidden;
+	-webkit-overflow-scrolling:	touch;
+}

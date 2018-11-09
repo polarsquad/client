@@ -1,7 +1,7 @@
 
 ic-overlays {
 	position:				fixed;
-	display:				block;
+	display:				flex;
 	top:					0;
 	left:					0;
 	right:					0;
@@ -12,6 +12,8 @@ ic-overlays {
 	background:				rgba(0,0,0,0.5);	
 	transition-property:	background-color;
 	transition-duration:	400ms;
+	justify-content: 		center;
+	align-items: 			center;
 }
 
 ic-overlays.ic-hide {
@@ -84,7 +86,6 @@ ic-overlays > .center {
 	position:				relative;
 	box-sizing:				border-box;
 	display:				block;
-	margin:					5rem auto;
 	width:					50%;
 	min-width:				20rem;
 	max-width:				30rem;
@@ -127,6 +128,16 @@ ic-overlays > .center.greedy > * {
 ic-overlays > .center.greedy h3 {
 	margin-top:				3rem;
 }
+
+
+
+
+
+ic-overlays > .center.max {
+	width:					90%;
+	max-width:				60rem;
+}
+
 
 
 ic-overlays > .center .message {

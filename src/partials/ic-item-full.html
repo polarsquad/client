@@ -1,75 +1,22 @@
-<header class = "bg-0">
-	<a 
-		class 		= "icon icon-interface-close large"
-		ng-href		= "{{ {activeItem: null} | icLink }}"
+<div class = "bg-0 spacer"></div>
+
+<ic-spinner active = "item.downloading"></ic-spinner>
+
+<div 
+	class 		= "hero-wrapper {{item.image ? 'bg-0'  : 'disabled ic-bg-type-'+(item|icType).name}} screen-only"
+>
+	<div
+		ng-if		="!item.image"
+		class		= "hero fallback {{ !item.image && 'white icon-type-'+(item | icType).name }}" 
 	>
-	</a>
-
-	<ic-spinner active = "item.downloading"></ic-spinner>	
-
-	<div class = "main">
-
-		<button 
-			class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
-			ng-click 	= "ic.site.editItem = true" 
-			ng-if		= "true || ic.user.can('edit_items')"
-			title		= "{{'INTERFACE.EDIT' | translate}}"
-			ic-touch-me
-		>
-		</button>
-
-		<button 
-			class 		= "icon round large active icon-interface-delete drop-shadow bg-0"
-			ng-click 	= "delete()" 
-			ng-if		= "ic.user.can('delete_items')"
-			title		= "{{'INTERFACE.DELETE' | translate}}"
-			ic-touch-me
-		>
-		</button>
-		
-		<button 
-			class 		= "icon round large active icon-interface-share drop-shadow bg-0"
-			ng-click 	= "ic.overlays.toggle('sharingMenu')" 
-			title		= "{{'INTERFACE.SHARE' | translate}}"
-			ic-touch-me
-		>
-		</button>
-
-		<button 
-			class 		= "icon round large active icon-interface-print drop-shadow bg-0"
-			ng-click 	= "ic.site.print()" 
-			title		= "{{'INTERFACE.PRINT' | translate}}"
-			ic-touch-me
-		>
-		</buton>			
-		<button 
-			class 		= "icon round large icon-interface-favourites drop-shadow"
-			ng-class	= "{'bg-3 white': ic.favourites.contains(item), 'bg-0  active': !ic.favourites.contains(item)}"
-			ng-click 	= "ic.favourites.toggleItem(item)" 
-			title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
-			ic-touch-me
-		>
-		</buton>
-
-
 	</div>
-
 	<div 
-		class 		= "hero-wrapper {{item.image ? 'bg-0'  : 'disabled ic-bg-type-'+(item|icType).name}}"
-	>
-		<div
-			ng-if		="!item.image"
-			class		= "hero fallback {{ !item.image && 'white icon-type-'+(item | icType).name }}" 
-		>
-		</div>
-		<div 
-			ng-if		= "item.image"
-			class		= "hero" 
-			ng-style	= "{'background-image' : 'url('+item.image+')'}" 
-		></div>
-	</div> 
+		ng-if		= "item.image"
+		class		= "hero" 
+		ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+	></div>
+</div> 
 
-</header>
 
 <section class = "bg-0">
 
@@ -111,7 +58,7 @@
 
 
 	<article class = "screen-only">
-		<div><!-- spacer --></div>
+		<div ng-if = "ic.layout.mode.name != 'XS'"><!-- spacer --></div>
 		<ic-taxonomy-tag-list ic-tags = "item.tags"></ic-tag-list>
 	</article>
 
@@ -133,18 +80,28 @@
 			<ic-item-badge ic-item = "item"></ic-item-badge>
 		</div>
 
+		<div 
+			class 	= "xhcenter"
+			ng-if	= "ic.layout.mode.name == 'XS'"
+		>
+			<h2 class = "title" >
+				{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
+			</h2>
+			<h3>
+				{{ item.brief[ic.site.currentLanguage] }}
+			</h3>
+		</div>
+
 		<div>
-			<div class ="xjust">
+			<div 
+				class 	= "xjust"
+				ng-if	= "ic.layout.mode.name != 'XS'"
+			>
 				<h2 class = "title" >
 					{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
 				</h2>
-				<button
-					class 			= "screen-only icon icon-interface-down"
-					ic-scroll-to 	= "bottom"
-				>
-				</button>
 			</div>
-			<h3>
+			<h3 ng-if	= "ic.layout.mode.name != 'XS'">
 				{{ item.brief[ic.site.currentLanguage] }}
 			</h3>
 
@@ -185,7 +142,7 @@
 	<!-- geo coordinates -->
 
 	<article>
-		<div><!-- spacer --></div>
+		<div ng-if = "ic.layout.mode.name != 'XS'"><!-- spacer --></div>
 		<ic-mini-map
 			class			= "screen-only"
 			ng-if			= "item.longitude && item.latitude"
@@ -326,7 +283,7 @@
 		ic-touch-me
 	>
 		<span
-			class 	="icon-large left icon-interface-edit col-3 active normal"
+			class 	="icon-large left icon-interface-edit active normal"
 		>
 			{{'INTERFACE.EDIT' | translate}}
 		</span>
@@ -342,7 +299,7 @@
 		ic-touch-me
 	>
 		<span
-			class 	= "icon-large left icon-interface-delete col-3 active normal"
+			class 	= "icon-large left icon-interface-delete active normal"
 		>
 			{{'INTERFACE.DELETE' | translate}}
 		</span>
@@ -355,7 +312,7 @@
 		ic-touch-me
 	>
 		<span
-			class 	= "icon-large left icon-interface-share col-3 active normal"
+			class 	= "icon-large left icon-interface-share active normal"
 		>
 			{{'INTERFACE.SHARE' | translate}}
 		</span>
@@ -378,7 +335,7 @@
 		ic-touch-me
 	> 
 		<span 
-			class 		="icon-large left icon-interface-favourites col-3 active normal"
+			class 		="icon-large left icon-interface-favourites active normal"
 			ng-class	= "{'icon-interface-favourites_remove': ic.favourites.contains(item), 'icon-interface-favourites': !ic.favourites.contains(item)}"
 		>
 			{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}

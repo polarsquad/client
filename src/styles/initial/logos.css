@@ -35,6 +35,7 @@ ic-logo-full {
 /* ic-logo-print */
 
 ic-logo-print {
+	display:						inline-block;
 	height:							1em;
 	position:						relative;
 }

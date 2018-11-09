@@ -1,18 +1,33 @@
+<ic-item-full-header
+	ic-scroll-snap-target 	= "item"
+	ng-if 					= "!ic.site.activeItem.internal.failed"
+>
+</ic-item-full-header>
+
+
 <ic-item-full 
-	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
-	ic-scroll-top	= "true"
+	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
+	ic-scroll-top			= "true"
+	ic-settle-scrollbar		= "true"
+	ic-scroll-snap-anchor 	= "['header', 'item']"
+	class					= "padding"
 >
 </ic-item-full>
 
 <ic-item-full-edit 
-	ng-if 			= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
-	ic-scroll-top	= "true"
+	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
+	ic-scroll-top			= "true"
+	ic-settle-scrollbar		= "true"
+	ic-scroll-snap-anchor 	= "['header', 'item']"
+	class					= "padding"
 >
 </ic-item-full-edit>
 
 <div
-	class = "bg-0 padding"
-	ng-if = "ic.site.activeItem.internal.failed"
+	class 					= "bg-0 padding"
+	ng-if 					= "ic.site.activeItem.internal.failed"
+	ic-settle-scrollbar		= "true"
+	ic-scroll-snap-anchor 	= "header"
 >
 	{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
 </div>
