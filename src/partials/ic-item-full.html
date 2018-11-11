@@ -3,11 +3,11 @@
 <ic-spinner active = "item.downloading"></ic-spinner>
 
 <div 
-	class 		= "hero-wrapper {{item.image ? 'bg-0'  : 'disabled ic-bg-type-'+(item|icType).name}} screen-only"
+	class 		= "hero-wrapper screen-only {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}} "
 >
 	<div
 		ng-if		="!item.image"
-		class		= "hero fallback {{ !item.image && 'white icon-type-'+(item | icType).name }}" 
+		class		= "hero fallback white {{ (item | icType) && 'icon-type-'+(item | icType).name  || (item | icCategory) && 'icon-category-'+(item | icCategory).name}}" 
 	>
 	</div>
 	<div 

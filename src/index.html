@@ -76,7 +76,7 @@
 		<!-- header -->
 		<ic-header 
 			ng-if 					= "::ic.init.ready"
-			ic-scroll-snap-target 	= "ic.layout.mode.name != 'XS' && (ic.site.visibleSections.page ? 'header' : false)" 
+			ic-scroll-watch		 	= "(ic.layout.mode.name != 'XS' && ic.site.visibleSections.page ? 'page' : true)" 
 			class 					= "bg-3"
 		></ic-header>
 		

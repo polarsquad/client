@@ -162,168 +162,151 @@ angular.module('icUiDirectives', [
 ])
 
 
-.service('icScrollSnapAnchors',[
+.service('icScrollSources',[
 
 	function(){
-		this.anchors = {}
 
-		this.registerAnchor = function(anchor_name, element){
-			element = element[0] || element
-			if(this.anchors[anchor_name]){
-				console.warn('icScrollSnapAnchors: anchor with that name already exists: '+ anchor_name)
-				return null
+		var icScrollSources = new EventTarget()
+
+		icScrollSources.sources = {}
+
+		function scroll(e){
+			var element 	= e.target,
+				source_name	= undefined
+
+			for(var key in icScrollSources.sources){
+				if(icScrollSources.sources[key] == element) source_name = key
 			}
-			
-			this.anchors[anchor_name] = element
-			return this
+
+			var event = new CustomEvent('remote-scroll', { detail: {sourceName: source_name, sourceElement: element, sourceEvent: e }})
+			icScrollSources.dispatchEvent(event)
 		}
 
-		this.deRegisterAnchor = function(anchor_name, element){
+
+
+		icScrollSources.registerScrollSource = function(source_name, element){
 			element = element[0] || element
-			if(!this.anchors[anchor_name]) console.warn('icScrollSnapAnchors: no anchor with that name exists: '+ anchor_name)
-			if(!this.anchors[anchor_name] && this.anchors[anchor_name] != element) console.warn('icScrollSnapAnchors: element is not registered with this name:', anchor_name, element)
 
-			if(this.anchors[anchor_name] == element) this.anchors[anchor_name] = undefined
-			return this
+			if(icScrollSources.sources[source_name]) icScrollSources.deRegisterScrollSource(source_name, element)
+
+			element.addEventListener('scroll', scroll)
+			icScrollSources.sources[source_name] = element
+
+			//fake a scroll for the first run:
+			icScrollSources.dispatchEvent(new CustomEvent('remote-scroll', { detail: {sourceName: source_name, sourceElement: element}}))
+
+			return icScrollSources
 		}
 
+
+
+		icScrollSources.deRegisterScrollSource = function(source_name, element){
+			element = element[0] || element
+
+			element.removeEventListener('scroll', scroll)
+
+			if(icScrollSources.sources[source_name] == element) icScrollSources.sources[source_name] = undefined
+
+			return icScrollSources
+		}
+
+		return icScrollSources
 	}
 ])
 
-.directive('icScrollSnapAnchor',[
+.directive('icScrollSource',[
 
-	'icScrollSnapAnchors',
+	'icScrollSources',
 
-	function(icScrollSnapAnchors){
+	function(icScrollSources){
 		return{
 			link:function(scope, element, attrs){
 
-				var anchor_names = scope.$eval(attrs.icScrollSnapAnchor)
+				var source_name = scope.$eval(attrs.icScrollSource) || attrs.icScrollSource
 
-				anchor_names =	Array.isArray(anchor_names)
-								?	anchor_names
-								:	[attrs.icScrollSnapAnchor]
-
-				anchor_names.forEach(function(anchor_name){
-					icScrollSnapAnchors.registerAnchor(anchor_name, element)
-				})
-
+				icScrollSources.registerScrollSource(source_name, element)
 
 				scope.$on('$destroy', function(){
-					anchor_names.forEach(function(anchor_name){
-						icScrollSnapAnchors.deRegisterAnchor(anchor_name, element)
-					})
+					icScrollSources.deRegisterScrollSource(source_name, element)
 				})
 			}
 		}
 	}
 ])
 
-.directive('icScrollSnapTarget',[
+.directive('icScrollWatch',[
 
-	'icScrollSnapAnchors',
+	'icScrollSources',
 
-	function(icScrollSnapAnchors){
+	function(icScrollSources){
 		return {
 			link: function(scope, element, attrs){
 
 				var target				= undefined,
-					anchors				= icScrollSnapAnchors.anchors,
+					sources				= icScrollSources.sources,
 					to					= undefined,
 					expect_scroll		= false,
 					stop_snapping		= false,
 					threshold			= 0.15
 
-				function onScroll(){
+
+				function checkSource(sourceElement){
+
+
 					window.requestAnimationFrame(function(){
-						if(!anchors[target]) return null
+						if(!sourceElement) return null
 							
 						element.toggleClass(
-							'ic-scroll-snapped', 
+							'ic-scroll-top', 
 
-								anchors[target].scrollTop > 0 
-							&& 	element[0].offsetHeight + anchors[target].clientHeight < anchors[target].scrollHeight
+								sourceElement.scrollTop > 0 
+							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
 						)						
 					})
 
 				}
 
-				function snap(steps){
-
-
-					steps = steps || 0
-
-					if(steps > 10000){
-						console.warn('icScrollSnapTarget: too many snap steps: aborting.')
-						return null
-					}		
-
-
-					window.requestAnimationFrame(function(){
-
-						if(anchors[target].scrollTop > anchors[target].scrollHeight - anchors[target].clientHeight * (1+threshold) ) return null
-						if(anchors[target].scrollTop > anchors[target].clientHeight * threshold) return null
-						if(stop_snapping) return null
-
-
-						expect_scroll 		= true
-						anchors[target].scrollTop 	= Math.max(anchors[target].scrollTop * 0.85 - 2*steps, 0)
-
-						if(anchors[target].scrollTop != 0) snap(steps+1)
-					})
-				}
-
-				function afterScroll(){
-					stop_snapping = false
-					//TODO : snap()
-				}
 
 				function beforeScroll(event){
-					if(event.target != anchors[target]) return null
+				
+					if(event.detail.sourceName != target) return null
 
-					if(!expect_scroll) stop_snapping = true
-
-					window.clearTimeout(to)
-					to = window.setTimeout(afterScroll, 200)
-
-					onScroll()	
+					checkSource(event.detail.sourceElement)
 				}
 
 				scope.scrollTop = function(){
-					if(target) anchors[target].scrollTop = 0
+					if(target) sources[target].scrollTop = 0
 				}
 
 				scope.scrollBottom = function(){
-					if(target) anchors[target].scrollTop = anchors[target].scrollHeight
+					if(target) sources[target].scrollTop = sources[target].scrollHeight
 				}
 
 
 				scope.$watch(
 					function(){
-						var t = scope.$eval(attrs.icScrollSnapTarget)
+						var t = scope.$eval(attrs.icScrollWatch)
 
 						return 	t === undefined 
-								? attrs.icScrollSnapTarget
+								? attrs.icScrollWatch
 								: t
 					},
 					function(result){
 						target	= result || undefined
 
-						console.log('target', target)
-
-						if(target !== false){
-							window.addEventListener('scroll', beforeScroll, true)
+						if(typeof target != 'boolean'){
+							icScrollSources.addEventListener('remote-scroll', beforeScroll, true)
+							if(icScrollSources.sources[target]) checkSource(icScrollSources.sources[target])
 						} else {
-							element.addClass('ic-scroll-snapped')
-							window.removeEventListener('scroll', beforeScroll)
+							element.toggleClass('ic-scroll-top', target)
+							icScrollSources.removeEventListener('remote-scroll', beforeScroll)
 						}
 
-						onScroll()
 					}
 				)
 
 				scope.$on('$destroy', function(){
-					window.removeEventListener('scroll', onScroll)
+					icScrollSources.removeEventListener('remote-scroll', beforeScroll)
 				})
 			}
 		}

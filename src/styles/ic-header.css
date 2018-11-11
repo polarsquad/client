@@ -193,12 +193,12 @@ ic-header ic-main-menu ul > li > ul > li:last-child {
 
 
 
-/* ic-snapped */
+/* ic-scroll-top */
 
 
 
 
-ic-header.ic-scroll-snapped .logo {
+ic-header.ic-scroll-top .logo {
 	position:						relative;
 	height:							0;
 	opacity:						0;
@@ -206,12 +206,12 @@ ic-header.ic-scroll-snapped .logo {
 	overflow:						hidden;
 }
 
-ic-header.ic-scroll-snapped .tools .logo-line{
+ic-header.ic-scroll-top .tools .logo-line{
 	display:						inline-block;
 	flex-grow:						1;
 }
 
-ic-header.ic-scroll-snapped .tools button span{
+ic-header.ic-scroll-top .tools button span{
 	max-width:						0;
 	z-index:						0;
 }

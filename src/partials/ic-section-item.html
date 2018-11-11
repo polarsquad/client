@@ -1,5 +1,5 @@
 <ic-item-full-header
-	ic-scroll-snap-target 	= "item"
+	ic-scroll-watch 		= "item"
 	ng-if 					= "!ic.site.activeItem.internal.failed"
 >
 </ic-item-full-header>
@@ -9,7 +9,7 @@
 	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
 	ic-scroll-top			= "true"
 	ic-settle-scrollbar		= "true"
-	ic-scroll-snap-anchor 	= "['header', 'item']"
+	ic-scroll-source	 	= "item"
 	class					= "padding"
 >
 </ic-item-full>
@@ -18,7 +18,7 @@
 	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
 	ic-scroll-top			= "true"
 	ic-settle-scrollbar		= "true"
-	ic-scroll-snap-anchor 	= "['header', 'item']"
+	ic-scroll-source	= "item"
 	class					= "padding"
 >
 </ic-item-full-edit>
@@ -27,7 +27,7 @@
 	class 					= "bg-0 padding"
 	ng-if 					= "ic.site.activeItem.internal.failed"
 	ic-settle-scrollbar		= "true"
-	ic-scroll-snap-anchor 	= "header"
+	ic-scroll-source 		= "item"
 >
 	{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
 </div>

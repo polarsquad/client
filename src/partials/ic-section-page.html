@@ -1,14 +1,14 @@
 <article
 	ic-settle-scrollbar		= "true"
-	ic-scroll-snap-anchor 	= "header"
+	ic-scroll-source 		= "page"
 	class					= "padding"
 >
 
 	<ic-page
-		ng-if			= "ic.site.visibleSections.page" 
-		ng-include 		= "'pages/'+ic.site.page+'.html'"
-		id				= "page-{{ic-site.page}}"	
-		ic-scroll-top  	= "ic.site.page"
+		ng-if					= "ic.site.visibleSections.page" 
+		ng-include 				= "'pages/'+ic.site.page+'.html'"
+		id						= "page-{{ic-site.page}}"	
+		ic-scroll-top  			= "ic.site.page"
 	></ic-page>
 
 	<ic-footer></ic-footer>
