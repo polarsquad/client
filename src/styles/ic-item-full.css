@@ -111,8 +111,9 @@ ic-item-full .hero {
 
 
 ic-item-full article .description{
-	color: #222;
-	line-height: 1.57;
+	color: 						#222;
+	line-height: 				1.57;
+	white-space: 				pre-line;
 }
 
 ic-item-full > section {
