@@ -92,6 +92,7 @@ angular.module('icServices', [
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
+	'icTiles',
 	'icMainMap',
 	'plImages',
 	'plStyles',
@@ -99,7 +100,7 @@ angular.module('icServices', [
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLanguages, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLanguages, icTiles, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
@@ -108,6 +109,7 @@ angular.module('icServices', [
 									ic: 			ic.ready,
 									icUser: 		icUser.ready,
 									icItemStorage:	icItemStorage.ready,
+									icTiles:		icTiles.ready,
 									icLanguages:	icLanguages.ready,
 									//icMainMap:		icMainMap.ready,
 									plImages:		plImages.ready,
@@ -1714,6 +1716,41 @@ angular.module('icServices', [
 
 
 
+
+.service('icTiles', [
+
+	'$q',
+
+	function($q){
+
+		var icTiles 	= 	[]
+			
+		if(!dpd.tiles){
+			console.error('icUser: missing dpd.tiles')
+			icTiles.ready = $q.resolve()
+		}
+
+		icTiles.setup = function(){
+			return 	$q.when(dpd.tiles.get())
+					.then(function(tiles){
+						Array().push.apply(icTiles, tiles)
+					})
+			
+		}
+
+		icTiles.ready = dpd.tiles
+						?	icTiles.setup()
+						:	$q.resolve()
+
+		return 	icTiles
+				
+
+	}
+])
+
+
+
+
 //updating core Service
 
 
@@ -1734,9 +1771,10 @@ angular.module('icServices', [
 	'icStats',
 	'icConfig',
 	'icUtils',
+	'icTiles',
 	'icMainMap',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icMainMap){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icMainMap){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1753,6 +1791,7 @@ angular.module('icServices', [
 		ic.config		= icConfig
 		ic.utils		= icUtils
 		ic.mainMap		= icMainMap
+		ic.tiles		= icTiles
 
 		ic.deferred.resolve()
 		delete ic.deferred

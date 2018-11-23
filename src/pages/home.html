@@ -25,33 +25,15 @@
 <section>
 	<div class = "tiles">
 
-
 		<a 
-			ng-repeat 	= "type in ic.taxonomy.types"
-			ng-href		= "/list/t/{{type.name}}"
-			class 		= "icon icon-type-{{type.name}} white bg-3"
+			ng-repeat 	= "tile in ic.tiles"
+			ng-href		= "{{tile.link}}"
+			class 		= "icon {{tile.icon ?  'icon-'+tile.icon : ''}} white {{tile.bottom ? 'bottom' : ''}} {{tile.background ? 'background-image image-'+tile.background : ''}}"
+			ng-style	= "{'background-color': tile.color}"
 		>
-			{{'TYPES.%s' | fill : type.name | translate}}
-			<small></small>
+			<span>{{tile.label | translate}}</span>
+			<small>{{tile.description | translate}}</small>
 		</a>
-
-		<a 
-			href	= "/tiles/p/tiles/u/favourite"
-			class 	= "icon icon-interface-favourites white  bg-3"
-		>
-			{{'INTERFACE.FAVOURITES' | translate}}
-			<small></small>
-		</a>
-
-<!-- 
-		<a 
-			href	= "#"
-			class 	= "icon icon-interface-edit white"
-		>
-			Neu Einträge und Änderungen Vorschlagen.
-			<small>Ergänzen Sie die Plattform mit Ihren eigenen Einträgen</small>
-		</a>
--->
 
 	</div>
 </section>

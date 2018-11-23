@@ -612,7 +612,10 @@
 					//controls
 
 
-
+					if(!icMainMap.defaults.tiles){
+						console.error('icMap: missing tiles! Check config file.')
+						return null
+					}
 
 
 

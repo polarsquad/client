@@ -146,6 +146,10 @@ ic-page .tiles {
 ic-page .tiles > * {
 	display:					flex;
 	box-sizing:					border-box;
+
+	flex-direction:				column;
+	justify-content: 			flex-start;
+
 	font-weight: 				600;
 	font-size: 					1.25rem;
 	padding: 					1rem;	
@@ -226,6 +230,7 @@ ic-page .tiles > .item-tile .body {
 ic-page .tiles > .bottom {
 	flex-direction:				column;
 	justify-content: 			flex-end;
+	background-position:		right 1rem top 1rem;
 }
 
 
