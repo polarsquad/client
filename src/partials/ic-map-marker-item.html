@@ -11,10 +11,11 @@
 	></div>
 </div>
 
+
 <a
 	class 		= "content"
 	ng-click	= "icAction ? icAction() : (icItem && (ic.site.activeItem = icItem) && (ic.site.expandMap = false))"
-	ng-if		= "icItem || icTitle || icDetails"
+	ng-if		= "icItem.title || icTitle || icDetails"
 >
 	<div ng-if = "icTitle"	class = "title"> 	{{icTitle}}			</div>
 	<div ng-if = "icDetails"class = "details">	{{icDetails}}		</div>

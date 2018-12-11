@@ -477,6 +477,51 @@
 			return search_tag.replace(/%1/,index)
 		}
 
+
+
+		var areas = []
+
+
+		function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2) {
+			var R 		= 	6371,
+				dLat 	= 	deg2rad(lat2-lat1)
+				dLon 	= 	deg2rad(lon2-lon1);
+				a 		=	Math.sin(dLat/2) * Math.sin(dLat/2) +
+							Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+							Math.sin(dLon/2) * Math.sin(dLon/2),
+				c 		= 	2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)),
+				d 		= 	R * c
+
+			return d
+		}
+
+		function deg2rad(deg) {
+			return deg * (Math.PI/180)
+		}
+
+
+		icItemStorage.getAreaTag = function(latitude, longitude, distance){
+
+			var index 		= 	areas.findIndex(function(a){
+									return a[0] == latitude && a[1] == longitude && a[3] == distance
+								}),	
+				area_tag 	= 'area%1' 
+
+			if(index == -1){
+				areas.push([latitude, longitude, distance])
+				index = areas.length-1
+
+
+				icItemStorage.registerFilter(area_tag.replace(/%1/,index), function(item){
+					return getDistanceFromLatLonInKm(item.latitude, item.longitude, latitude, longitude) <= distance
+				})
+			}
+
+			return area_tag.replace(/%1/,index)
+
+		}
+
+
 		//This doesnt seem usefull, but slows down initial laoding
 		// icItemStorage.registerSortingCriterium('id', function(item_1, item_2){
 		// 	return ( ( item_1.id == item_2.id ) ? 0 : ( ( item_1.id > item_2.id ) ? 1 : -1 ) )

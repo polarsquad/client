@@ -3,11 +3,9 @@ ic-category {
 	align-items:					flex-start;
 }
 
-ic-category .icon-large {
+ic-category .icon {
 	flex:							0 0 auto;
 	margin:							0 2rem;
-	width:							3.5rem;
-	height:							3.5rem;
 }
 
 ic-category .content {

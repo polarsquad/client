@@ -496,6 +496,7 @@ angular.module('icServices', [
 					icSite.config.params.forEach(function(param){ state[param.name] = icSite[param.name]	})
 					icSite.config.switches.forEach(function(swt){ state[swt.name]	= icSite[swt.name]		})
 
+
 					state.layoutMode = icLayout.mode.name
 
 					return state 
@@ -1726,13 +1727,14 @@ angular.module('icServices', [
 		var icTiles 	= 	[]
 			
 		if(!dpd.tiles){
-			console.error('icUser: missing dpd.tiles')
+			console.error('icTiles: missing dpd.tiles')
 			icTiles.ready = $q.resolve()
 		}
 
 		icTiles.setup = function(){
 			return 	$q.when(dpd.tiles.get())
 					.then(function(tiles){
+						if(!tiles.length) console.warn('icTiles: no tiles defined.')
 						Array().push.apply(icTiles, tiles)
 					})
 			

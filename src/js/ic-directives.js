@@ -265,10 +265,17 @@ angular.module('icDirectives', [
 
 
 				scope.pickCoordinates = function(){
-					icSite.expandMap 			= true
 
-					icMainMap.picker.latitude 	= scope.icEdit.latitude 	|| icMainMap.defaults.center[0]
-					icMainMap.picker.longitude	= scope.icEdit.longitude	|| icMainMap.defaults.center[1]
+					icMainMap.pickCoordinates(scope.icEdit)
+					.then(function(result){
+						if(result.latitude && result.longitude){
+							scope.icEdit.latitude 	= result.latitude
+							scope.icEdit.longitude 	= result.longitude 
+						}
+					})
+					.catch(function(){})
+
+
 				}
 
 				scope.submit = function(){
@@ -1317,6 +1324,22 @@ angular.module('icDirectives', [
 	}
 ])
 
+
+
+.directive('icTiles',[
+	
+	function(icUser, icOverlays, icItemStorage, ic){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-tiles.html',
+			transclude:		true,
+
+			link: function(scope, element){
+
+			}
+		}
+	}
+])
 
 
 

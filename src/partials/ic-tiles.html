@@ -1,0 +1,14 @@
+<a 
+	ng-repeat 	= "tile in ic.tiles"
+	ng-href		= "{{tile.link}}"
+	class 		= "icon {{tile.icon ?  'icon-'+tile.icon : ''}} white {{tile.bottom ? 'bottom' : ''}} {{tile.background ? 'background-image image-'+tile.background : ''}}"
+	style		= "{{tile.stretch ? 'min-width:100%' : ''}}"
+	ng-style	= "{'background-color': tile.color, 'order': tile.order}"
+>
+	<span>{{tile.label | translate}}</span>
+	<small>{{tile.description | translate}}</small>
+</a>
+
+<ng-transclude></ng-transclude>
+		
+

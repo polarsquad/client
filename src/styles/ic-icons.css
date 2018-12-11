@@ -28,19 +28,14 @@
 	height:					1.5em;
 }
 
-.icon-large:before,
 .icon:before{
 	display:				none;
 }
 
 
-.icon-large {
-	box-sizing:				border-box;
-	background-position:	50% 50%;
-	background-repeat:		no-repeat;
-	background-size:		2.25em;
-	min-width:				2.25em;
-	min-height:				2.25em;
+.icon.round {
+	width:					2em;
+	height:					2em;
 }
 
 .icon.left {
@@ -48,10 +43,6 @@
 	padding-left:			1.5em;
 }
 
-.icon-large.left {
-	background-position:	0 50%;
-	padding-left:			2.25em;
-}
 
 .img.left {
 	left:					0;
@@ -64,11 +55,6 @@
 	padding-right:			1.5em;
 }
 
-.icon-large.right {
-	background-position:	100% 50%;
-	padding-right:			2.25em
-}
-
 .img{
 	right:					0;
 }
@@ -79,17 +65,8 @@
 	padding-top:			1.5em;
 }
 
-.icon-large.top {
-	background-position:	50% 0%;
-	padding-top:			2.25em;
-}
 
 .icon.bottom {
 	background-position:	50% 100%;
 	padding-top:			1.5em;
-}
-
-.icon-large.bottom {
-	background-position:	50% 100%;
-	padding-bottom:			2.25em;
 }

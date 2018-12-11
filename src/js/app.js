@@ -201,6 +201,15 @@
 										return ic.site.page && !ic.site.list && !ic.site.activeItem
 									},
 					show:			function(ic){
+
+										if(ic.site.pickCoordinates){
+											if(ic.layout.mode.name == 'XS')		return false
+											if(ic.layout.mode.name == 'S')		return false
+											if(ic.layout.mode.name == 'M')		return false
+										}
+
+
+
 										if(ic.site.activeSections.item) return false						
 										if(ic.site.activeSections.list) return false						
 										if(ic.site.expandMap)			return false
@@ -216,6 +225,13 @@
 									},
 
 					show:			function(ic){		
+
+										if(ic.site.pickCoordinates){
+											if(ic.layout.mode.name == 'XS')		return false
+											if(ic.layout.mode.name == 'S')		return false
+											if(ic.layout.mode.name == 'M')		return false
+										}
+
 
 										if(ic.layout.mode.name == 'XS') 	return false
 										if(ic.layout.mode.name == 'S')		return ic.site.activeSections.item ? false : true
@@ -233,6 +249,13 @@
 									},
 
 					show:			function(ic){		
+
+										if(ic.site.pickCoordinates){
+											if(ic.layout.mode.name == 'XS')		return false
+											if(ic.layout.mode.name == 'S')		return false
+											if(ic.layout.mode.name == 'M')		return false
+										}
+
 
 										if(ic.site.expandMap) 				return false		
 										if(ic.layout.mode.name == 'XS') 	return 	ic.site.activeSections.item ? false : true
@@ -253,7 +276,15 @@
 									},
 					show:			function(ic){
 
+
+										if(ic.site.pickCoordinates){
+											if(ic.layout.mode.name == 'XS')		return false
+											if(ic.layout.mode.name == 'S')		return false
+											if(ic.layout.mode.name == 'M')		return false
+										}
+
 										if(ic.site.expandMap) 				return false		
+
 											
 										return true
 									}				
@@ -265,6 +296,9 @@
 										return 	true
 									},
 					show:			function(ic){
+
+										if(ic.site.pickCoordinates)			return true
+
 										if(ic.site.expandMap)				return true
 
 										if(ic.layout.mode.name == 'XS')		return false
@@ -294,6 +328,11 @@
 										
 										return ic.site.editItem
 									}
+				})
+
+				.registerSwitch({
+					name:			'pickCoordinates',
+					index:			2,					
 				})
 			}
 		])

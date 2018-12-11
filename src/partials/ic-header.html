@@ -13,7 +13,7 @@
 	<a
 		ng-if		= "ic.layout.mode.name == 'XS'"
 		ng-click	= "ic.overlays.open('mainMenu')"
-		class		= "icon-large left icon-interface-menu white"
+		class		= "icon large left icon-interface-menu white"
 	>
 	</a>
 
@@ -24,14 +24,14 @@
 		ng-click 	= "ic.site.expandMap = true; ic.site.list = true"
 		ng-if		= "ic.layout.mode.name == 'XS' && !show.search"
 	>
-		{{'INTERFACE.MAP' | translate}}
+		<span class = "normal">{{'INTERFACE.MAP' | translate}}</span>
 	</a>
 
 	<a 
-		class 		= "icon-large left icon-interface-search white"
+		class 		= "icon large left icon-interface-search white"
 		ic-click 	= "show.search = !show.search"
 	>
-		<span>{{'INTERFACE.SEARCH' | translate}}</span>
+		<span class = "normal">{{'INTERFACE.SEARCH' | translate}}</span>
 	</a>
 	
 	<ic-search 
@@ -41,15 +41,15 @@
 	></ic-search>
 
 	<a 
-		class	= "icon-large left icon-interface-favourites white"
+		class	= "icon large left icon-interface-favourites white"
 		ng-href	= "/p/tiles/u/favourite"
 	>
-		<span>{{'INTERFACE.FAVOURITES' | translate}}</span>
+		<span class = "normal">{{'INTERFACE.FAVOURITES' | translate}}</span>
 	</a>
 
 <!-- 	
 	<a
-		class	= "icon-large left icon-interface-help white"
+		class	= "icon large left icon-interface-help white"
 	>
 		<span>{{'INTERFACE.HELP' | translate }}</span>
 	</a>
@@ -57,10 +57,10 @@
  
   
 	<a
-		class		= "icon-large left icon-interface-languages white"
+		class		= "icon large left icon-interface-languages white"
 		ng-click	= "ic.overlays.open('languageMenu')" 
 	>
-		<span>{{'INTERFACE.LANGUAGES' | translate}}</span>
+		<span class = "normal">{{'INTERFACE.LANGUAGES' | translate}}</span>
 	</a>
 
 

@@ -343,7 +343,7 @@
 
 				link: function(scope, element){
 					scope.$watch(
-						function(){ return [icMainMap.picker.latitude, icMainMap.picker.longitude] },
+						function(){ return icMainMap.picker && [icMainMap.picker.latitude , icMainMap.picker.longitude] },
 						function(){
 							element.addClass('changed')
 							window.requestAnimationFrame(function(){
@@ -454,9 +454,10 @@
 				'$q',
 				'icMapItemMarker',
 				'icItemStorage',
+				'icSite',
 
 
-				function($rootScope, $q ,icMapItemMarker, icItemStorage){
+				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite){
 
 					var mapReady 			= 	$q.defer(),
 						markersReady 		= 	$q.defer(),
@@ -466,17 +467,19 @@
 													defaults:		defaults,
 													mapObject: 		undefined,
 													markerCache:	{},
-													scope:			$rootScope.$new()
-												}		
+													scope:			$rootScope.$new(),
+												},		
 
 
 
 
-					icMainMap.picker		=	{
-													title:			'Pick location, translation needed',
+					defaultPicker			=	{
+													//title:		'Pick location, translation needed',
 													latitude: 		icMainMap.defaults.center[0],
 													longitude: 		icMainMap.defaults.center[1]
 												}
+
+					icMainMap.picker		=	angular.copy(defaultPicker)
 					
 
 
@@ -518,6 +521,43 @@
 									options
 								)
 					}
+
+
+					// ensure pickingMode is off when site loads, ven if the switch is on
+					icSite.pickCoordinates = false
+					$rootScope.$evalAsync(function(){ icSite.pickCoordinates = pickingDeferred && icSite.pickCoordinates })
+
+
+					var pickingDeferred = undefined
+
+					icMainMap.pickCoordinates = function(picker){
+
+						pickingDeferred && pickingDeferred.reject()
+
+						pickingDeferred = $q.defer()
+
+						picker = picker || defaultPicker
+
+						picker.latitude 	= Number(picker.latitude)
+						picker.longitude 	= Number(picker.longitude)
+
+						icMainMap.picker = angular.copy(picker)
+
+						icSite.pickCoordinates = true
+
+						return pickingDeferred.promise
+					}
+
+					icMainMap.pickOkay = function(){
+						pickingDeferred && pickingDeferred.resolve(angular.copy(icMainMap.picker))
+						icSite.pickCoordinates 	= false
+					}
+
+					icMainMap.pickCancel = function(){
+						pickingDeferred && pickingDeferred.reject()
+						icSite.pickCoordinates 	= false
+					}
+
 
 
 					icItemStorage.ready
@@ -581,8 +621,21 @@
 												trackSize:		false,
 												maxBounds:		icMainMap.defaults.maxBounds
 											}),
+
 						pickerPane		=	map.createPane('pickerPane'),
-						pickerMarker	=	icMainMap.getMarker(icMainMap.picker, {draggable: true, autoPan: true, pane: 'pickerPane'}).addTo(map),
+
+						pickerMarker	=	icMainMap.getMarker(
+												{
+													latitude:	icMainMap.defaults.center[0],
+													longitude:	icMainMap.defaults.center[1]
+												}, 
+												{
+													draggable: 	true, 
+													autoPan: 	true, 
+													pane: 		'pickerPane'
+												}
+											).addTo(map),
+
 						pickerControl	=	new L.Control.IcMapCoordinatePicker({ position: 	'bottomcenter' })
 
 
@@ -591,6 +644,7 @@
 					icMapCoordinatePickerControl.setScope(scope)
 					icMapExpandControl.setScope(scope)
 					icMapSpinnerControl.setScope(scope)
+
 
 					new L.Control.Zoom(					{ position: 'topright' 		}).addTo(map)
 					new L.Control.IcMapExpand(			{ position: 'topleft'		}).addTo(map)
@@ -604,6 +658,7 @@
 						//icMainMap.scope.$digest()
 					})
 					
+
 					map.on('layerremove', function(e){
 						if(e.layer.scope) e.layer.scope.$destroy()
 					})
@@ -630,16 +685,13 @@
 					map.addLayer(markers)
 
 
-					var width 					= undefined,
-						height					= undefined
+					function adjustSize(step){
 
-					function adjustSize(delay){
+						map.invalidateSize(false)
 
-						if(width !== element[0].clientWidth || height !== element[0].clientHeight){
-							map.invalidateSize(false)
-							width 	= element[0].clientWidth
-							height 	= element[0].clientHeight
-						}
+						step = step || 0
+
+						if(step < 5 ) setTimeout(adjustSize, 100*step)
 					}
 
 
@@ -691,15 +743,22 @@
 						markers.refreshClusters()
 					}
 
-					function switchMode(editItem){
-						if(!editItem){
+					function switchMode(pickMode){
+
+						if(!pickMode){
+
 							pickerControl.remove()
 							pickerPane.style.display = 'none'
 							map.getPane('markerPane').style.display = 'block'
+
 						} else {
+
 							pickerControl.addTo(map)
 							pickerPane.style.display = 'block'
-							map.getPane('markerPane').style.display = 'none'
+							map.getPane('markerPane').style.display = 'none'							
+							pickerMarker.setLatLng([icMainMap.picker.latitude, icMainMap.picker.longitude])
+							map.setView([icMainMap.picker.latitude, icMainMap.picker.longitude])
+
 						}
 					}
 
@@ -707,67 +766,81 @@
 					updateListMarkers()
 
 
-					var	stop_watching_filteredList = $rootScope.$watchCollection(
-							function(){ 
-								return icItemStorage.filteredList	
-							},
-							function(new_list, old_list){
+					scope.$watchCollection(
+						function(){ 
+							return icItemStorage.filteredList	
+						},
+						function(new_list, old_list){
 
-								if(new_list.length == old_list.length){
-									var check = {}
-									for(var i = 0; i < new_list.length; i++){
-										check[new_list[i].id] = true
-										check[old_list[i].id] = true
-									}
-									if(Object.keys(check).length == new_list.length) return null
+							if(new_list.length == old_list.length){
+								var check = {}
+								for(var i = 0; i < new_list.length; i++){
+									check[new_list[i].id] = true
+									check[old_list[i].id] = true
 								}
-
-								!scope.waiting && scope.loading++
-								scope.waiting = true	
-								
-
-								icUtils.schedule('updateListMarkers', updateListMarkers, 300, true)
-								.finally(function(){
-									scope.loading--
-									scope.waiting = false
-									icMapSpinnerControl.scope.$digest()
-								})
+								if(Object.keys(check).length == new_list.length) return null
 							}
-						),
+
+							!scope.waiting && scope.loading++
+							scope.waiting = true	
+							
+
+							icUtils.schedule('updateListMarkers', updateListMarkers, 300, true)
+							.finally(function(){
+								scope.loading--
+								scope.waiting = false
+								icMapSpinnerControl.scope.$digest()
+							})
+						}
+					),
 
 
-						stop_watching_activeItem = $rootScope.$watchCollection(
-							function(){ 
-								return 	[
-												icSite.activeItem && icSite.activeItem.id, 
-												icSite.activeItem && icSite.activeItem.longitude, 
-												icSite.activeItem && icSite.activeItem.latitude
-										]
-							}, 
-							function(p,c){
-								if(angular.equals(p,c)) return null
+					scope.$watchCollection(
+						function(){ 
+							return 	[
+											icSite.activeItem && icSite.activeItem.id, 
+											icSite.activeItem && icSite.activeItem.longitude, 
+											icSite.activeItem && icSite.activeItem.latitude
+									]
+						}, 
+						function(p,c){
+							if(angular.equals(p,c)) return null
 
-								window.requestAnimationFrame(function(){
-									updateActiveItemMarker(p[0],c[0])								
-								})
+							window.requestAnimationFrame(function(){
+								updateActiveItemMarker(p[0],c[0])								
+							})
+						}
+					),
+
+					scope.$watch(
+						function(){ return icSite.pickCoordinates },
+						switchMode
+					),
+
+					scope.$watch(
+						function(){ return icMainMap.picker },
+						function(){
+							for(prop in pickerMarker.options.item){
+								pickerMarker.options.item[prop] = undefined
 							}
-						),
 
-						stop_watching_editItem = $rootScope.$watch(
-							function(){ return icSite.editItem },
-							switchMode
-						)
+							for(prop in icMainMap.picker){
+								pickerMarker.options.item[prop] = icMainMap.picker[prop]
+							}
+						}
+					),
 
-						stop_watching = $rootScope.$watch(adjustSize)
+					scope.$watch(adjustSize)
 
 
 
 					scope.$on('$destroy', function(){
 						icMainMap.clearMapObject()
-						stop_watching_filteredList()
-						stop_watching_activeItem()
-						stop_watching()
-						stop_watching_editItem()
+						// stop_watching_filteredList()
+						// stop_watching_activeItem()
+						// stop_watching()
+						// stop_watching_pickMode()
+						// stop_watching_picker()
 						angular.element(window).off('resize', adjustSize)
 					})
 
@@ -830,6 +903,19 @@
 						}
 					).addTo(map)
 
+
+
+					function adjustSize(step){
+
+						map.invalidateSize(false)
+
+						step = step || 0
+
+						if(step < 5 ) setTimeout(adjustSize, 100*step)
+					}
+
+
+					scope.$watch(adjustSize)
 			
 					scope.$watch('icItem', function(icItem){
 						if(marker) marker.remove()

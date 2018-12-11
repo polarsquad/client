@@ -23,17 +23,6 @@
 </article>
 
 <section>
-	<div class = "tiles">
-
-		<a 
-			ng-repeat 	= "tile in ic.tiles"
-			ng-href		= "{{tile.link}}"
-			class 		= "icon {{tile.icon ?  'icon-'+tile.icon : ''}} white {{tile.bottom ? 'bottom' : ''}} {{tile.background ? 'background-image image-'+tile.background : ''}}"
-			ng-style	= "{'background-color': tile.color}"
-		>
-			<span>{{tile.label | translate}}</span>
-			<small>{{tile.description | translate}}</small>
-		</a>
-
-	</div>
+	<ic-tiles class = "tiles">
+	</ic-tiles>
 </section>
