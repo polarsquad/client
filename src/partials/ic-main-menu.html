@@ -179,6 +179,17 @@
 			<li
 				class = "bg-0 hover"  
 			>
+				<a
+					ng-click = "ic.overlays.open('listsMenu')"
+					ic-touch-me
+				>
+					<span>{{'INTERFACE.MANAGE_LISTS' | translate}}</span>
+				</a>	
+			</li>
+
+			<li
+				class = "bg-0 hover"  
+			>
 				<a 
 					ng-click = "ic.user.logout()"
 					ic-touch-me

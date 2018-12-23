@@ -68,6 +68,16 @@
 		ic-touch-me
 	>
 	</buton>			
+
+	<button 
+		ng-if		= "ic.user.loggedIn"
+		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
+		ng-click 	= "ic.overlays.toggle('listsMenu')" 
+		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
+		ic-touch-me
+	>
+	</buton>
+
 	<button 
 		class 		= "icon round large icon-interface-favourites drop-shadow"
 		ng-class	= "{'bg-3 white': ic.favourites.contains(ic.site.activeItem), 'bg-0  active': !ic.favourites.contains(ic.site.activeItem)}"
@@ -76,6 +86,7 @@
 		ic-touch-me
 	>
 	</buton>
+
 </div>
 
 <!-- EDIT -->
@@ -92,6 +103,15 @@
 		ic-touch-me
 	>
 	</button>
+
+	<button 
+		ng-if		= "ic.user.loggedIn"
+		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
+		ng-click 	= "ic.overlays.toggle('listsMenu')" 
+		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
+		ic-touch-me
+	>
+	</buton>
 </div>
 
 <!-- NEW -->

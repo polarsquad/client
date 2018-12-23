@@ -144,9 +144,10 @@ angular.module('icDirectives', [
 	'icSite',
 	'icItemStorage',
 	'icItemEdits',
+	'icUser',
 	'ic',
 
-	function(icOverlays, icSite, icItemStorage, icItemEdits, ic){
+	function(icOverlays, icSite, icItemStorage, icItemEdits, icUser, ic){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full-header.html',
@@ -921,6 +922,21 @@ angular.module('icDirectives', [
 				scope.ic = ic
 			}
 
+		}
+	}
+])
+
+.directive('icListsMenu', [
+
+	'icLists',
+	'icUser',
+
+	function(icLists){
+		return {
+			templateUrl:	'partials/ic-lists-menu.html',
+
+			link: function(){
+			}
 		}
 	}
 ])

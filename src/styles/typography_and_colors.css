@@ -150,17 +150,42 @@ textarea:-webkit-autofill:focus{
 }
 
 .iblock {
-	display:				inline-block;
+	display:				inline-block !important;
 }
 
 
 
 /* flex */
 
+.flex {
+	display:				flex;
+}
+
 
 .flex-grow {
 	flex:					1 0 0;
 }
+
+
+.flex-shrink {
+	flex-shrink:				1;
+	text-overflow: 				ellipsis;
+	white-space:				nowrap;
+	overflow:					hidden;
+}
+
+.spacer {
+	flex:						1 0 0 !important;
+}
+
+.block {
+	display:					block !important;
+}
+
+.tac {
+	text-align:					center;
+}
+
 
 /* aligns */
 

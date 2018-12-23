@@ -195,6 +195,26 @@ ic-overlays > .right {
 	right:					0;
 }
 
+
+ic-overlays > .right li,
+ic-overlays > .left li {
+	min-height:				2rem;
+	align-items:			center;
+	margin:					-0.5rem;
+}
+
+
+ic-overlays > .right li > *,
+ic-overlays > .left li > * {
+	margin:					0.5rem;
+}
+
+ic-overlays > .right li > button,
+ic-overlays > .left li > button {
+	align-self:				stretch;
+}
+
+
 ic-overlays > .ic-hide {
 	display:				none;
 	opacity:				0 !important;
@@ -290,6 +310,13 @@ ic-overlays ic-language-menu  a.active  .native {
 }
 
 
+
+
+ic-overlays ic-lists-menu form {
+	display:				flex;
+	flex-direction: 		column;
+	margin:					1rem 0;
+}
 
 
 

@@ -121,17 +121,21 @@ angular.module('icServices', [
 
 			
 		Object.keys(promises).forEach(function(key){
-			promises[key].then(function(){
-				icInit.readyCount ++
+			promises[key]
+			.then(
+				function(){
+					icInit.readyCount ++
 
-				console.info( (key+'...').padEnd(25,' ')+'[ok]')
+					console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
-				if(icInit.readyCount == icInit.readyMax){
-					$timeout(function(){ 
-						icInit.ready = true; 
-					}, 200)	
-				}
-			})
+					if(icInit.readyCount == icInit.readyMax){
+						$timeout(function(){ 
+							icInit.ready = true; 
+						}, 200)	
+					}
+				},
+				console.error
+			)
 		})
 
 		icInit.readyCount 	= 0
@@ -215,6 +219,166 @@ angular.module('icServices', [
 
 
 
+
+.service('icLists', [
+
+	'$rootScope',
+	'$q',
+	'$translationCache',
+	'icUser',
+	'icItemStorage',
+	'icLanguages',
+
+	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages){
+
+		var icLists = []
+
+
+		icLists.get = function(id){
+			return 	id
+					?	icLists.find(function(list){ return list.id == id })
+					:	$q.reject('icLists.get: missing id')
+		}
+
+		icLists.createList = function(name){
+			return 	name
+					?	$q.when(dpd.lists.post({name:name}))
+					:	$q.reject('icLsist.createList: missing name')
+		} 
+
+		icLists.removeList = function(id){
+			return 	id
+					?	$q.when(dpd.lists.del(id))
+					:	$q.reject('icLists.removeList: missing id')
+		}
+
+		icLists.addItemTolist = function(item_or_id, list_id){
+
+			var item_id = item_or_id.id || item_or_id
+
+			if(!item_id) return $q.reject('icLists.addItemToList: missing item_id')
+			if(!list_id) return $q.reject('icLists.addItemToList: missing list_id')
+
+			return $q.when(dpd.lists.put(list_id, { items: {$push: item_id} } ))
+		}
+
+		icLists.removeItemFromList = function(item_or_id, list_id){
+			
+			var item_id = item_or_id.id || item_or_id
+
+
+			if(!item_id) return $q.reject('icLists.addItemToList: missing item_id')
+			if(!list_id) return $q.reject('icLists.addItemToList: missing list_id')
+
+			return $q.when(dpd.lists.put(list_id, { items: {$pull: item_id} } ))
+		}
+
+		icLists.itemInList = function(item_or_id, list_id){
+
+			var item_id = item_or_id && item_or_id.id || item_or_id,
+				list 	= icLists.get(list_id)
+
+			return list && list.items && list.items.indexOf(item_id) != -1 || false
+		}
+
+		icLists.toggleItemInList = function(item_or_id, list_id){
+			
+			var item_id = item_or_id.id || item_or_id
+
+			return	icLists.itemInList(item_id, list_id)
+					?	icLists.removeItemFromList(item_id, list_id)
+					:	icLists.addItemTolist(item_id, list_id)
+
+		}
+
+
+		icLists.update = function(){
+			
+			return 	$q.when(dpd.lists.get())
+					.then(function(lists){
+						while(icLists.length){ icLists.pop() }
+						[].push.apply(icLists, lists)	
+					})
+		}
+
+
+		dpd.lists.on("creation", function(list){
+			icLists.push(list)
+
+			icItemStorage.registerFilter('list_'+list.id, function(item){
+				return icLists.itemInList(item, list.id)
+			})
+
+			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })		
+			$rootScope.$apply()
+		})
+
+
+
+		dpd.lists.on("update", function(list){
+
+
+			var old_list 	= icLists.find(function(l){ return l.id == list.id})
+				index		= icLists.indexOf(old_list)
+
+
+			index == -1
+			?	icLists.push(list)
+			:	icLists[index] = list
+
+
+			old_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+
+
+			$rootScope.$apply()
+		})
+
+
+		dpd.lists.on("deletion", function(list){
+
+			var index = icLists.findIndex(function(l){ return l.id == list.id})
+
+			index != -1 && icLists.splice(index,1)
+
+
+			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+
+
+			$rootScope.$apply()
+		})
+
+		
+
+		icLists.ready = icUser.ready
+						.then(icLists.update)
+						.then(function(){
+	
+							icLists.forEach(function(list){
+								icItemStorage.registerFilter('list_'+list.id, function(item){
+									return icLists.itemInList(item, list.id)
+								})
+
+								icLanguages.ready
+								.then(function(){
+									icLanguages.availableLanguages.forEach(function(lang){
+										lang = lang.toUpperCase()
+										if(!icLanguages.translationTable[lang]) return null
+										if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
+										icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] ='@:UNSORTED_TAGS.LIST '+list.name
+
+										icLanguages.refreshTranslations(lang)
+									})
+								})
+							})
+						})
+		
+
+
+
+		return icLists
+	}
+])
 
 
 
@@ -1454,10 +1618,12 @@ angular.module('icServices', [
 
 			icLanguages.fallbackLanguage	= 	fallbackLanguage
 
+			icLanguages.translationTable	=	{}
+
 			icLanguages.ready = 	$http.get(translationTableUrl)
 									.then(
 										function(result){
-											return result.data
+											return icLanguages.translationTable = objectKeysToUpperCase(result.data)
 										},
 										function(){
 											return $q.reject("Unable to load language data.")
@@ -1478,11 +1644,8 @@ angular.module('icServices', [
 				return up
 			}
 
-			icLanguages.getTranslationTable = function(lang){
-				return	icLanguages.ready
-						.then(function(translations){
-							return objectKeysToUpperCase(translations)[lang.toUpperCase()]
-						})
+			icLanguages.refreshTranslations = function(){
+				$translate.refresh()
 			}
 
 			icLanguages.getStoredLanguage = function(){
@@ -1532,6 +1695,21 @@ angular.module('icServices', [
 		}
 	]
 })
+
+
+
+.factory('icInterfaceTranslationLoader', [
+
+	'icLanguages',
+
+	function(icLanguages){
+		return 	function(options){
+					if(!options || !options.key) throw new Error('Couldn\'t use icInterfaceTranslationLoader since no language key is given!')
+					return 	icLanguages.ready
+							.then( function(){ return icLanguages.translationTable[options.key.toUpperCase()] })
+				}
+	}
+])
 
 
 
@@ -1606,18 +1784,6 @@ angular.module('icServices', [
 
 
 
-.factory('icInterfaceTranslationLoader', [
-
-	'icLanguages',
-
-	function(icLanguages){
-		return 	function(options){
-					if(!options || !options.key) throw new Error('Couldn\'t use icInterfaceTranslationLoader since no language key is given!');
-					return icLanguages.getTranslationTable(options.key)
-				}
-	}
-])
-
 
 
 
@@ -1673,6 +1839,7 @@ angular.module('icServices', [
 		}
 
 		icOverlays.open = function(overlay_name, message, deferred, overwrite_messages){
+			console.log('open', overlay_name, message)
 			icOverlays.messages[overlay_name] = overwrite_messages
 												? 	[]
 												:	(icOverlays.messages[overlay_name] || [])
@@ -1774,9 +1941,10 @@ angular.module('icServices', [
 	'icConfig',
 	'icUtils',
 	'icTiles',
+	'icLists',
 	'icMainMap',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icMainMap){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1794,6 +1962,7 @@ angular.module('icServices', [
 		ic.utils		= icUtils
 		ic.mainMap		= icMainMap
 		ic.tiles		= icTiles
+		ic.lists		= icLists
 
 		ic.deferred.resolve()
 		delete ic.deferred

@@ -51,29 +51,6 @@
 	cursor:						auto;
 }
 
-.iblock {
-	display:					inline-block !important;
-}
-
-.block {
-	display:					block !important;
-}
-
-.tac {
-	text-align:					center;
-}
-
-.flex-shrink {
-	flex-shrink:				1;
-	text-overflow: 				ellipsis;
-	white-space:				nowrap;
-	overflow:					hidden;
-}
-
-.spacer {
-	flex:						1 0 0 !important;
-}
-
 .bubble {
 	display:					inline-block;
 	font-size:					0.8em;

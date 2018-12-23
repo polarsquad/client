@@ -13,6 +13,19 @@
 	}
 
 
+	function adjustSize(map, step){
+
+		map.invalidateSize(false)
+
+		step = 	typeof step == 'number'
+				? step
+				: 0
+
+		if(step < 4 ) setTimeout( function(){ adjustSize(map, step+1) }, 100*Math.pow(step+1,2) )
+	}
+
+
+
 	angular.module('icMap', [
 		'icServices'
 	])
@@ -685,18 +698,12 @@
 					map.addLayer(markers)
 
 
-					function adjustSize(step){
-
-						map.invalidateSize(false)
-
-						step = step || 0
-
-						if(step < 5 ) setTimeout(adjustSize, 100*step)
-					}
+					scope.$evalAsync(function(){adjustSize(map)})
+					scope.$watch(function(){adjustSize(map)})
 
 
 					angular.element(window).on('resize', function(){
-						icUtils.schedule('adjustSize', adjustSize, 200, true)
+						icUtils.schedule('adjustSize', function(){adjustSize(map)}, 200, true)
 					})
 
 
@@ -830,8 +837,6 @@
 						}
 					),
 
-					scope.$watch(adjustSize)
-
 
 
 					scope.$on('$destroy', function(){
@@ -841,7 +846,7 @@
 						// stop_watching()
 						// stop_watching_pickMode()
 						// stop_watching_picker()
-						angular.element(window).off('resize', adjustSize)
+						angular.element(window).off('resize', function(){adjustSize(map)})
 					})
 
 
@@ -905,17 +910,8 @@
 
 
 
-					function adjustSize(step){
-
-						map.invalidateSize(false)
-
-						step = step || 0
-
-						if(step < 5 ) setTimeout(adjustSize, 100*step)
-					}
-
-
-					scope.$watch(adjustSize)
+					scope.$evalAsync(function(){adjustSize(map)})
+					scope.$watch(function(){adjustSize(map)})
 			
 					scope.$watch('icItem', function(icItem){
 						if(marker) marker.remove()
