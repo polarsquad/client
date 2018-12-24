@@ -1,0 +1,28 @@
+{
+	"backendLocation": 	"https://api.info-compass.net",
+	"statsLocation":	"https://stats.info-compass.net",
+	"title":			"icExample",
+	"description":		"Example Instance",
+	"languages":		["en","de","none","fa","ar","ru","sr","sq","fr","ur","tr"],
+	"activeIconColor":	"#f27020",
+	"plainIconColor":	"#979797",
+	"map":				{
+		"center":			[52.518611,13.408333],
+		"zoom":				10,
+		"minZoom":			11,
+		"maxZoom":			18,
+		"maxBounds":		[[52.8,13.8],[52.2,13]],
+		"maxClusterRadius":	60,
+		"tiles":			"https://api.mapbox.com/styles/v1/sgoellner/cjcbu7uhe21sn2soyaau4097y/tiles/256/{z}/{x}/{y}?access_token=<API-KEY>"
+	},
+	"sharing": {
+		"email"		:	true,
+
+		"twitter"	: 	{
+							"hashtag": "seniorennetz"
+						},
+		"facebook"	:	true,
+		"whatsapp"	:	true,
+		"telegram"	:	true
+	}
+}
