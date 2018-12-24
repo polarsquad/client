@@ -8,8 +8,8 @@ todo
 /sharing_patch
 /custom
 !/custom/.gitkeep
-!/custom/default/*
-/custom/default/config.json
+!/custom/default/config_example.json
+!/custom/default/js/taxonomy.js
 vendor.js
 map*.log
 
