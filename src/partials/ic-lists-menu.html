@@ -1,0 +1,81 @@
+<h2>{{'INTERFACE.LISTS' | translate}}</h2>
+
+<form
+	ng-submit 	= "ic.lists.createList(new_list); new_list = '' "
+>
+	<input class = "block" type = "text" placeholder = "{{'INTERFACE.CREATE_LIST_PLACEHOLDER' | translate}}" ng-model = "new_list"/>
+	<button 
+		class 		= "icon icon-interface-add bg-3 padding tac"
+		ng-disabled	= "!new_list"
+		type 		= "submit"
+	> 
+		{{'INTERFACE.CREATE_LIST' | translate}}
+	</button>
+</form> 
+
+<ul>
+
+	<li 
+		ng-repeat-start	= "list in ic.lists"
+		class			= "flex"
+		ic-touch-me
+	>
+		<span 
+			class 		= "icon icon-interface-checkbox"
+			ng-class 	= "{'checked': ic.lists.itemInList(ic.site.activeItem, list.id)}"
+			ng-click	= "ic.lists.toggleItemInList(ic.site.activeItem, list.id)"
+			ng-show		= "ic.site.activeItem && !confirm"
+		>
+		</span>
+
+		<span
+			ng-click	= "ic.filterConfig.toggleUnsortedTag('list_'+list.id)" 
+			ng-show		= "!confirm"
+			class		= "flex-grow"
+		>
+			{{list.name}}
+		</span>
+
+		<button 
+			class 		= "icon icon-interface-close"
+			ng-show		= "!confirm"
+			ng-click	= "confirm = true" 
+		></button>
+
+		<span 
+			ng-show		= "confirm"
+			class		= "tac flex-grow padding"
+		>
+			{{'INTERFACE.DELETE_LIST' | translate}}: {{list.name}} 
+		<span> 
+
+		
+
+	</li>
+	
+	<li 
+		ng-repeat-end
+		ng-show	= "confirm"
+		class	= "flex"
+	>
+		<button
+			class		= "flex-grow bg-3 padding"
+			ng-show		= "confirm"
+			ng-click	= "ic.lists.removeList(list.id)"
+		>
+			{{'INTERFACE.CONFIRM' | translate}}
+		</button>
+
+		<button
+			class		= "flex-grow bg-3 padding"
+			ng-show		= "confirm"
+			ng-click	= "confirm = false"
+		>
+			{{'INTERFACE.CANCEL' | translate}}
+		</button>
+	</li>
+	
+</ul>
+
+
+

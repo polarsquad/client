@@ -1,7 +1,5 @@
 todo
 /npm-debug.log
-/config/*
-!/config/.gitkeep
 /node_modules
 /dev
 /dist
@@ -10,6 +8,8 @@ todo
 /sharing_patch
 /custom
 !/custom/.gitkeep
+!/custom/default/*
+/custom/default/config.json
 vendor.js
 map*.log
 

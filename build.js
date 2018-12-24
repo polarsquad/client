@@ -8,25 +8,25 @@ var copyfiles	= 	require('copyfiles'),
 	UglifyJS 	= 	require("uglify-js"),
 	SVGO		= 	require('svgo'),
 	Promise		=	require('bluebird'),
-	cleanCSS 	= 	new CleanCSS()
+	cleanCSS 	= 	new CleanCSS(),
 	svgo		= 	new SVGO({
 						plugins: [
 							{removeTitle:					true},
 							{removeDimensions:				true},
 						]
 					}),
-	ins			=	process.argv[2],
-	cst			=	process.argv[2] && 'custom/'+process.argv[2],
+	ins			=	process.argv[2] || 'default',
+	cst			=	'custom/'+ins,
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
-	src			=	'tmp/src'
+	src			=	'tmp/src',
 
-	taxonomy	= 	cst
-					?	require('./'+cst+'/js/config/taxonomy.js')
-					:	require('./src/js/config/taxonomy.js'),
+	taxonomy	= 	fs.existsSync(cst+'/config.json')
+					?	require('./'+cst+'/js/taxonomy.js')
+					:	(console.log('\n\nmissing '+ cst+'/js/taxonomy.js') && process.exit(1)),
 
-	config		=	cst
+	config		=	fs.existsSync(cst+'/config.json')
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
-					:	JSON.parse(fs.readFileSync('config/config.json', 'utf8')),
+					:	(console.log('\n\nmissing '+ cst+'/config.json Copy default/config_example.json to '+ins+'/confi.json') && process.exit(1)),
 
 	preloadImg	=	[],
 
@@ -80,7 +80,7 @@ function bundleScriptsToDst(){
 
 	return	Promise.props({
 				"vendor.js":					fs.readFile('vendor.js', 							'utf8'),
-				"taxonomy.js": 					fs.readFile(src+'/js/config/taxonomy.js', 			'utf8'),
+				"taxonomy.js": 					fs.readFile(src+'/js/taxonomy.js', 					'utf8'),
 				"dpd-items.js": 				fs.readFile(src+'/js/dpd/dpd-item.js', 				'utf8'),
 				"dpd-item-storage.js": 			fs.readFile(src+'/js/dpd/dpd-item-storage.js', 		'utf8'),
 				"ic-preload.js": 				fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
