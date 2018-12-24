@@ -436,7 +436,7 @@ function minimizeSvgIconsTmp(){
 
 
 function copyPromiscuousForIE(){
-	return fs.copy("node_modules/promiscuous/promiscuous-browser-full.js",	dst+"/"+js_dir+"/"+"promiscuous-browser-full.js")
+	return fs.copy("node_modules/promiscuous/dist/promiscuous-browser-full.js",	dst+"/"+js_dir+"/"+"promiscuous-browser-full.js")
 }
 
 
