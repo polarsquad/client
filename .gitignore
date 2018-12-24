@@ -6,9 +6,10 @@ todo
 /map
 /tmp
 /sharing_patch
-/custom
-!/custom/default/config_example.json
-!/custom/default/js/taxonomy.js
+/custom/**
+!/custom/default/**
+/custom/default/config.json
+
 vendor.js
 map*.log
 
