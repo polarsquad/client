@@ -7,75 +7,8 @@ ic-item-full ic-spinner {
 	position:					absolute;
 }
 
-ic-item-full-header {
-	display:					block;
-	position:					absolute;
-	box-sizing:					border-box;
-	top:						1rem;
-	left:						1rem;
-	right:						1rem;
-	z-index:					1000;
-	height:						0;
-}
-
-ic-item-full-header.ic-scroll-top{
-	top:						0;
-	transition:					all 200ms ease-in-out;
-}
-
-
-
-ic-item-full-header .tools {
-	position:					absolute;
-	display:					flex;
-	font-size:					1rem;
-	top:						1.25em;
-	right:						0.4em;
-	height:						0em;
-	line-height:				2em;
-	transition:					all 200ms ease-in-out;
-	opacity:					1;
-	z-index:					99999;
-}
-
-
-ic-item-full-header.ic-scroll-top .tools {
-	transform:					translateY(-5rem);
-	opacity:					0;
-	pointer-events:				none;
-}
-ic-item-full-header .tools > *  {
-	flex:						0 0 auto;
-	margin-right:				0.5em;
-}
-
-ic-item-full-header nav {
-	position:					absolute;
-	top:						0;
-	left:						0;
-	display:					inline-flex;
-	flex-direction:				column;
-	transition:					all 200ms ease-in-out;
-}
-
-ic-item-full-header nav .up,
-ic-item-full-header nav .down {
-	opacity:					0;
-	height:						0;
-	min-height:					0;
-	overflow:					hidden;
-	transition:					all 200ms ease-in-out;
-}
-
-ic-item-full-header.ic-scroll-top nav .up,
-ic-item-full-header.ic-scroll-top nav .down {
-	opacity:					1;
-	height:						1.5em;
-	min-height:					1.5em;
-}
-
 ic-item-full .spacer {
-	height:						3rem;
+	height:						2.625rem;
 }
 
 ic-item-full .hero-wrapper {

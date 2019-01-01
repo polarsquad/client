@@ -1,3 +1,7 @@
+ic-item-property-edit {
+	display:					block;
+}
+
 ic-item-property-edit h4 {
 	margin:						0;
 }
@@ -101,7 +105,11 @@ ic-item-property-edit .options li > *:first-child {
 
 ic-item-property-edit.invalid input[type="text"],
 ic-item-property-edit.invalid textarea {
-	box-shadow:					0 0 0 2px red inset;
+	box-shadow:					0 0 0 2px red;
+}
+
+ic-item-property-edit[ic-options].invalid {
+	box-shadow:					2px 0 0 0px red;
 }
 
 ic-item-property-edit .error {

@@ -1,6 +1,7 @@
 <h2>
 	{{"INTERFACE.CHOOSE_LANGUAGE" | translate}}
 </h2>
+
 <a 
 	ng-repeat 	= "language in ic.languages.availableLanguages"
 	ng-click	= "ic.site.currentLanguage = language; ic.overlays.toggle('languageMenu')"

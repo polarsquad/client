@@ -1,0 +1,40 @@
+<div 
+	class 		= "shuttle"
+	ng-click	= "carousel.position = carousel.position + 1"
+>
+	<div class = "before">
+		<div 
+			ng-repeat 	= "image in carousel.images track by $index" 
+			style		= "background-image: url({{image}})"
+			class		= "image"
+		>
+		</div>
+	</div>
+
+	<div class = "center">
+		<div 
+			ng-repeat 	= "image in carousel.images track by $index" 
+			style		= "background-image: url({{image}})"
+			class		= "image"
+		>
+		</div>
+	</div>
+
+	<div class = "after">
+		<div 
+			ng-repeat 	= "image in carousel.images track by $index" 
+			style		= "background-image: url({{image}})"
+			class		= "image"
+		>
+		</div>
+	</div>
+</div>
+<nav>
+	<button 
+		ng-repeat 	= "image in carousel.images"
+		ng-click 	= "carousel.position = $index" 
+		ng-class	= "{'bg-3': carousel.position == $index, 'bg-0': carousel.position != $index }"
+		class		= "round border-3"
+	>
+	</button>
+</nav>

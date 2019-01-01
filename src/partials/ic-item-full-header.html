@@ -1,29 +1,29 @@
-<nav class = "bg-0">
-	<a 
-		class 		= "icon icon-interface-close large"
-		ng-href		= "{{ {activeItem: null} | icLink }}"
+<nav>
+	<button 
+		class 		= "bg-0 icon icon-interface-close large"
+		ng-click	= "ic.site.activeItem = null"
 		ng-if		= "!ic.site.editItem"
 	>
-	</a>
+	</button>
 
 	<button 
-		class 		= "icon icon-interface-close large"
+		class 		= "bg-0 icon icon-interface-close large"
 		ng-if		= "ic.site.editItem"
-		ng-click 	= "cancel()" 
+		ng-click 	= "cancel()"
 		title		= "{{ic.user.can('edit_items')? 'INTERFACE.CANCEL_EDIT' : 'INTERFACE.CANCEL_EDIT_SUGGESTION' | translate}}"
 		ic-touch-me
 	>
 	</button>
 
 	<button 
-		class 		= "icon large icon-interface-up up"
+		class 		= "bg-0 icon large icon-interface-up up"
 		ic-click	= "scrollTop()"
 		ic-touch-me
 	>
 	</button>
 
 	<button 
-		class 		= "icon large icon-interface-down down"
+		class 		= "bg-0 icon large icon-interface-down down"
 		ic-click	= "scrollBottom()"
 		ic-touch-me
 	>
@@ -38,8 +38,7 @@
 	<button 
 		class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
 		ng-click 	= "ic.site.editItem = true" 
-		ng-if		= "ic.user.can('edit_items')"
-		title		= "{{'INTERFACE.EDIT' | translate}}"
+		title		= "{{ic.user.can('edit_items')? 'INTERFACE.EDIT' : 'INTERFACE.EDIT_SUGGESTION' | translate}}"
 		ic-touch-me
 	>
 	</button>
@@ -71,7 +70,7 @@
 
 	<button 
 		ng-if		= "ic.user.loggedIn"
-		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
+		class 		= "icon round large active icon-interface-lists drop-shadow bg-0"
 		ng-click 	= "ic.overlays.toggle('listsMenu')" 
 		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
 		ic-touch-me

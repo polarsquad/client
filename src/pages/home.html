@@ -1,5 +1,12 @@
-<header class = "image-home">
+<header 
+	class 		= "image-home"
+>
 	<h2> <span class = "bg-0" ng-bind-html = "('INTERFACE.CLAIM' | translate | trustAsHtml)"></span></h2>
+	<ic-carousel
+		ic-images  		= "['/images/large/home.jpg', '/images/large/logo-full.svg', '/images/large/logo-text.svg', '/images/large/logo-print.svg']"
+		ic-auto-turn	= "30000"
+	>
+	</ic-carousel>
 </header>	
 
 <article class = "search">

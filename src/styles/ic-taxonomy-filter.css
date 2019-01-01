@@ -3,7 +3,7 @@ ic-taxonomy-filter {
 	padding-bottom:				10rem;
 }
 
-ic-taxonomy-filter section {
+ic-taxonomy-filter > * {
 	margin-bottom:				1rem;
 }
 

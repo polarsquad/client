@@ -257,7 +257,9 @@ angular.module('icDirectives', [
 				scope.ic = ic
 
 				scope.validate = function(){
-					return !scope.validationFunctions.filter(function(fn){ return fn() })[0]
+					//each validate function can return errors
+					//every one of them has be executed, so errors can be marked correctly in the template, do not use .some or .every here
+					return !scope.validationFunctions.filter(function(fn){return fn() })[0]
 				}
 
 				scope.revertAll = function(){
@@ -289,6 +291,8 @@ angular.module('icDirectives', [
 
 					icOverlays.toggle('spinner', true)
 
+
+					//suggesting new item
 					if(item.internal.new && !icUser.can('edit_items')){
 						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsNew())
@@ -310,6 +314,7 @@ angular.module('icDirectives', [
 								)
 					}
 
+					//suggesting edit 
 					if(!item.internal.new && !icUser.can('edit_items')){
 						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsEditSuggestion())
@@ -328,6 +333,8 @@ angular.module('icDirectives', [
 								)
 					}
 
+
+					//adding new item
 					if(item.internal.new && icUser.can('edit_items')){
 						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 						return 	$q.when(edit.submitAsNew())
@@ -1067,7 +1074,22 @@ angular.module('icDirectives', [
 			templateUrl:	'partials/ic-taxonomy-filter-tag-list.html',
 
 			link: function(scope, element){
+				var displayStyle = false
+
 				scope.ic = ic
+
+				scope.$watch(function(){
+					var children = element[0].children
+
+					if(children.length == 0 && displayStyle === false){
+						displayStyle = element[0].style.display
+						element[0].style.display = 'none'
+					}
+					if(children.length != 0 && displayStyle !== false){
+						element[0].style.display = displayStyle
+						displayStyle = false
+					}
+				})
 			}
 		}
 	}

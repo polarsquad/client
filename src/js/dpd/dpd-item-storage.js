@@ -120,8 +120,8 @@
 		icItemStorage.registerFilter = function(filter_name, match_fn){
 			filter_name = String(filter_name)
 
-			if(filter_name.match(/[^a-zA-Z0-9_]/))			console.error('icItemStorage: filter names must contain only letters, numbers or underscores, A-Z, a-z, 0-9. _: '+filter_name+'.')
-			if(icItemStorage.filters[filter_name]) 			console.error('icItemStorage: filter already registered: '+filter_name+'.')
+			if(filter_name.match(/^[^a-zA-Z0-9_\-]*$/))			throw('icItemStorage: filter names must contain only letters, numbers or underscores, A-Z, a-z, 0-9. _: '+filter_name+'.')
+			if(icItemStorage.filters[filter_name]) 				console.warn('icItemStorage: filter already registered: '+filter_name+'.')
 			//TODO
 			// ic.itemConfig.tags.forEach(function(tag){ 
 			// 	if(tag == filter_name) 						console.error('icItemStorage: filter names must be different from tags: "'+filter_name+'"')

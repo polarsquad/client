@@ -237,6 +237,8 @@
 										if(ic.layout.mode.name == 'S')		return ic.site.activeSections.item ? false : true
 										if(ic.layout.mode.name == 'M')		return ic.site.activeSections.item ? false : true
 
+										if(ic.layout.mode.name == 'XL')		return ic.site.activeSections.item ? false : true
+
 										return 	true
 									}				
 				})
@@ -283,7 +285,7 @@
 											if(ic.layout.mode.name == 'M')		return false
 										}
 
-										if(ic.site.expandMap) 				return false		
+										if(ic.site.expandMap) 				return ic.layout.mode.name == 'XL'	
 
 											
 										return true

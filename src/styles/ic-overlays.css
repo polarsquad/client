@@ -200,13 +200,13 @@ ic-overlays > .right li,
 ic-overlays > .left li {
 	min-height:				2rem;
 	align-items:			center;
-	margin:					-0.5rem;
+	/*margin:					-0.5rem;*/
 }
 
 
 ic-overlays > .right li > *,
 ic-overlays > .left li > * {
-	margin:					0.5rem;
+	/*margin:					0.5rem;*/
 }
 
 ic-overlays > .right li > button,

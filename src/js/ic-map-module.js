@@ -545,6 +545,7 @@
 
 					icMainMap.pickCoordinates = function(picker){
 
+
 						pickingDeferred && pickingDeferred.reject()
 
 						pickingDeferred = $q.defer()
@@ -553,6 +554,10 @@
 
 						picker.latitude 	= Number(picker.latitude)
 						picker.longitude 	= Number(picker.longitude)
+
+						if(!icMainMap.mapObject.options.maxBounds.contains([picker.latitude, picker.longitude])){
+							picker = defaultPicker
+						}
 
 						icMainMap.picker = angular.copy(picker)
 

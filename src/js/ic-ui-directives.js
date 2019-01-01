@@ -261,7 +261,15 @@ angular.module('icUiDirectives', [
 
 								sourceElement.scrollTop > 0 
 							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
-						)						
+						)		
+
+						element.toggleClass(
+							'ic-scroll-bottom', 
+
+								sourceElement.scrollTop + sourceElement.clientHeight < sourceElement.scrollHeight 
+							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
+						)		
+
 					})
 
 				}
@@ -346,8 +354,10 @@ angular.module('icUiDirectives', [
 
 
 .directive('icSettleScrollbar',[
+
+	'$rootScope',
 	
-	function(){
+	function($rootScope){
 
 		var scrollbar_width = undefined,
 			style_element 	= undefined
@@ -373,27 +383,43 @@ angular.module('icUiDirectives', [
 
 		  	document.head.appendChild(style_element)
 
-			style_element.sheet.insertRule('[ic-settle-scrollbar] 			{overflow-y: hidden;}', 0)
-			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover		{overflow-y: scroll; -webkit-overflow-scrolling: touch;}', 0)
-			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
+			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > *,	[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *	{margin-right: -'+scrollbar_width+'px;}', 0)
 		}
 
-		angular.element(window).on('resize', function(){
-			getScrollBarwidth()
+		var adjustment_scheduled = false
 
-			style_element.sheet.deleteRule(0)
-			if(scrollbar_width > 0) style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > * {margin-right: -'+scrollbar_width+'px;}', 0)
+		function adjust(){
+			if(adjustment_scheduled) return null
 
-		})
+			adjustment_scheduled = true
+
+			window.requestAnimationFrame(function(){
+				getScrollBarwidth()
+
+				style_element.sheet.deleteRule(0)
+
+				adjustment_scheduled = false
+				if(scrollbar_width == 0) return null
+				
+				style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > *,	[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *	{margin-right: -'+scrollbar_width+'px;}', 0)
+				
+			})
+		}
+
 
 		getScrollBarwidth()
 
 		if(scrollbar_width > 0) addCssRules()
 			
+		angular.element(window).on('resize', adjust)
+		$rootScope.$watch(adjust)
+
+
 		return {
 			restrict:	'A',
 
 			link: function(scope, element){
+				
 			}
 		}
 	}
@@ -574,6 +600,143 @@ angular.module('icUiDirectives', [
 			}
 		}
 	}
+])
+
+
+.directive('icCarousel',[
+
+	'$interval',
+
+	function($interval){
+		return {
+			restrict:		"AE",
+			scope:			true,
+			templateUrl:	"partials/ic-carousel.html",
+
+			link: function(scope, element, attrs, ctrl){
+
+				scope.carousel					= {}
+				scope.carousel.images 			= []
+				scope.carousel.position 		= 0
+				scope.carousel.autoTurn			= false
+				scope.carousel.stopAutoTurn 	= function(){}
+
+
+
+				var translation = 0,
+					width		= 0,
+					height		= 0
+
+
+
+				function updateImageSize(){
+					window.requestAnimationFrame(function(){
+						if( width == element[0].clientWidth && height == element[0].clientHeight ) return null
+
+
+						width		= element[0].clientWidth
+						height		= element[0].clientHeight
+
+
+						element[0].querySelectorAll('.image')
+						.forEach( function(i_element){
+							i_element.style.width 	= width  + 'px'
+							i_element.style.height 	= height + 'px'
+						})
+
+						resetToPosition()
+					})
+				}
+
+
+				function turnBy(amount){
+					if(scope.carousel.images.length <=1 ) return null
+
+					amount = amount % scope.carousel.images.length
+
+					centerView()
+
+					translation = translation + amount * element[0].clientWidth
+
+					updateView()
+					
+				}
+
+
+				function resetToPosition(){
+
+					var shuttle 	= element[0].children[0],
+						round 		= element[0].clientWidth * scope.carousel.images.length
+
+					translation = scope.carousel.position * element[0].clientWidth + round
+
+					shuttle.style.transitionDuration = '0ms'
+					shuttle.style.transform = 'translateX(-'+ translation +'px)'
+				}
+
+
+				function centerView(){
+					var shuttle 	= element[0].children[0],
+						round		= element[0].clientWidth * scope.carousel.images.length
+
+					var px_match 	= shuttle.style.transform.match(/translateX\((.+)px\)/)
+
+					translation	= (-1* parseInt(px_match ? px_match[1] : 0) ) % round + round
+
+					shuttle.style.transitionDuration = '0ms'
+					shuttle.style.transform = 'translateX(-'+ translation +'px)'
+				}
+
+
+				function updateView(){
+
+					window.requestAnimationFrame(function(){
+						var shuttle = element[0].children[0]
+
+						shuttle.style.transitionDuration = null
+						shuttle.style.transform = 'translateX(-'+ translation +'px)'
+
+					})
+				}
+
+				scope.$watch('carousel.position', function(new_pos, old_pos){
+
+					if(scope.carousel.images.length <= 1) 	return null
+
+					var way_1 	= (new_pos - old_pos) % scope.carousel.images.length,		
+						way_2 	= scope.carousel.images.length - way_1
+
+					if(way_1 == 0 ) return null
+
+					scope.carousel.position = new_pos % scope.carousel.images.length
+
+					Math.abs(way_1) < Math.abs(way_2)
+					?	turnBy(way_1)	
+					:	turnBy(way_2)	
+					
+				})
+
+				scope.$watchCollection(attrs.icCarousel || attrs.icImages, function(images){
+					scope.carousel.images = images || []
+					resetToPosition()
+				})
+
+				scope.$watch(attrs.icAutoTurn, function(x){
+					scope.carousel.stopAutoTurn()
+					scope.carousel.autoTurn = parseInt(x)
+					if(!scope.carousel.autoTurn) return null
+					scope.carousel.stopAutoTurn = $interval(function(){ scope.carousel.position = scope.carousel.position +1 }, scope.carousel.autoTurn)
+				})
+
+				scope.$on('$destroy', scope.carousel.stopAutoTurn)
+
+				angular.element(window).on('resize', updateImageSize)
+				scope.$watch(updateImageSize)
+
+			}
+		}
+	}
+
 ])
 
 

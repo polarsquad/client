@@ -13,18 +13,21 @@
 	</button>
 </form> 
 
+
 <ul>
 
 	<li 
 		ng-repeat-start	= "list in ic.lists"
 		class			= "flex"
 		ic-touch-me
+		ng-if			= "list.user == ic.user.id"
 	>
 		<span 
 			class 		= "icon icon-interface-checkbox"
 			ng-class 	= "{'checked': ic.lists.itemInList(ic.site.activeItem, list.id)}"
 			ng-click	= "ic.lists.toggleItemInList(ic.site.activeItem, list.id)"
 			ng-show		= "ic.site.activeItem && !confirm"
+			ng-title	= "{{ic.lists.itemInList(ic.site.activeItem, list.id) ? 'INTERFACE.REMOVE_ACTIVE_ITEM_FROM_LIST' : 'INTERFACE.ADD_ACTIVE_ITEM_TO_LIST'"
 		>
 		</span>
 
@@ -34,6 +37,13 @@
 			class		= "flex-grow"
 		>
 			{{list.name}}
+		</span>
+
+		<span 
+			class 		= "icon icon-interface-public"
+			ng-class 	= "{'active': list.public}"
+			ng-click	= "ic.lists.togglePublicState(list.id, !list.public)"
+		>
 		</span>
 
 		<button 

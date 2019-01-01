@@ -30,22 +30,33 @@ angular.module('icServices', [
 
 		var scheduled_calls = {}
 
+
+
 		icUtils = {
 
+			//call callback after $delay ms, further calls to the same id/callback  within $delay ms are either ignored (defer == false)
+			//or the initial call is deferred for another $delay ms
 			schedule: function(id, callback, delay, defer){
-
-				var resolve, reject, promise = new Promise(function(a,b){ resolve = a, reject = b })
-
 
 				scheduled_calls[id] = scheduled_calls[id] || {}
 
-				if(scheduled_calls[id].timeout && !defer) return false
+				var promise = 	scheduled_calls[id].promise
+								||
+								new Promise(function(a,b){ 
+									scheduled_calls[id].resolve	= a, 
+									scheduled_calls[id].reject 	= b 
+								})
+
+
+				scheduled_calls[id].promise = promise
+
+				if(scheduled_calls[id].timeout && !defer) return promise
 
 				if(scheduled_calls[id].timeout) window.clearTimeout(scheduled_calls[id].timeout)	
 
 				scheduled_calls[id].timeout = 	window.setTimeout(function() {
 													Promise.resolve(callback())
-													.then(resolve, reject)
+													.then(scheduled_calls[id].resolve, scheduled_calls[id].reject)
 													.finally(function(){ delete scheduled_calls[id] })
 												}, delay)
 
@@ -92,6 +103,7 @@ angular.module('icServices', [
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
+	'icLists',
 	'icTiles',
 	'icMainMap',
 	'plImages',
@@ -100,17 +112,16 @@ angular.module('icServices', [
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLanguages, icTiles, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
-			styles_ready 	= 	deferred.promise,
 			promises 		= 	{
-									ic: 			ic.ready,
 									icUser: 		icUser.ready,
 									icItemStorage:	icItemStorage.ready,
 									icTiles:		icTiles.ready,
 									icLanguages:	icLanguages.ready,
+									icLists:		icLists.ready,
 									//icMainMap:		icMainMap.ready,
 									plImages:		plImages.ready,
 									plStyles:		plStyles.ready,
@@ -173,6 +184,7 @@ angular.module('icServices', [
 								icUser.loggedIn		= true
 								icUser.displayName 	= user_data.displayName
 								icUser.privileges	= user_data.privileges 		
+								icUser.id			= user_data.id
 								return icUser								
 							} else {
 								icUser.clear()
@@ -228,8 +240,9 @@ angular.module('icServices', [
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
+	'icTaxonomy',
 
-	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages){
+	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy){
 
 		var icLists = []
 
@@ -291,90 +304,136 @@ angular.module('icServices', [
 
 		}
 
+		icLists.togglePublicState = function(list_id, public){
+			return $q.when(dpd.lists.put(list_id, { public: public }))
+		}
+
+
 
 		icLists.update = function(){
 			
 			return 	$q.when(dpd.lists.get())
 					.then(function(lists){
 						while(icLists.length){ icLists.pop() }
-						[].push.apply(icLists, lists)	
+						
+						return 	$q.all(lists.map(function(list){
+									icLists.push(list)
+									return afterListAddition(list)
+								}))
 					})
 		}
 
 
-		dpd.lists.on("creation", function(list){
-			icLists.push(list)
+		dpd.lists.on("creation", function(list_id){
+			$q.when(dpd.lists.get(list_id))
+			.then(function(list){
+				icLists.push(list)
+				list.items = list.items || []
 
+				return afterListAddition(list)
+
+			})
+			.catch(function(){ /*nothing to do here*/ })
+
+		})
+
+
+
+		dpd.lists.on("update", function(list_id){
+			$q.when(dpd.lists.get(list_id))
+			.then(function(list){
+
+				var old_list 	= icLists.find(function(l){ return l.id == list_id})
+					index		= icLists.indexOf(old_list)
+
+
+				//list not known yet, mabye acces restriction changed:
+				if(index == -1){
+					icLists.push(list)
+					return afterListAddition(list)
+				} else {
+					icLists[index] = list
+					return afterListUpdate(list, old_list)
+				}
+
+			})
+			//this may happen if the changes restrict access:
+			.catch(function(error){
+				var index = icLists.find(function(l){ return l.id == list_id })
+
+				if(index !== -1) icLists.splice(index, 1)
+			})
+		})
+
+
+		dpd.lists.on("deletion", function(list_id){
+
+			$q.when(dpd.lists.get(list_id))
+			.then(function(list){
+				var index = icLists.findIndex(function(l){ return l.id == list_id})
+
+				index != -1 && icLists.splice(index,1)
+
+				afterListRemoval(list)
+
+			})
+			.catch(function(){ /*nothing to do here*/ })
+		})
+
+		function addFilter(list){
 			icItemStorage.registerFilter('list_'+list.id, function(item){
 				return icLists.itemInList(item, list.id)
 			})
 
-			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })		
-			$rootScope.$apply()
-		})
+			icTaxonomy.tags.lists = icTaxonomy.tags.lists || []
+			icTaxonomy.tags.lists.push('list_'+list.id)
+		}
+
+		function updateTranslations(list){
+			return 	icLanguages.ready
+					.then(function(){
+						icLanguages.availableLanguages.forEach(function(lang){
+							lang = lang.toUpperCase()
+							if(!icLanguages.translationTable[lang]) return null
+							if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
+							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] ='@:UNSORTED_TAGS.LIST '+list.name
+
+							icLanguages.refreshTranslations(lang)
+						})
+					})
+		}
 
 
+		function afterListAddition(list){
+			
+			addFilter(list)
 
-		dpd.lists.on("update", function(list){
+			return updateTranslations(list)
+		}
 
-
-			var old_list 	= icLists.find(function(l){ return l.id == list.id})
-				index		= icLists.indexOf(old_list)
-
-
-			index == -1
-			?	icLists.push(list)
-			:	icLists[index] = list
-
-
+		function afterListUpdate(new_list, old_list){
 			old_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+			new_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+
+			updateTranslations(new_list)
+		}
+
+
+
+
+		function afterListRemoval(list){
 			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
 
+			if(!icTaxonomy.tags.lists) return null
 
-			$rootScope.$apply()
-		})
+			var index = icTaxonomy.tags.lists.filter(function(tag){ return tag == 'lists_'+list.id})
 
-
-		dpd.lists.on("deletion", function(list){
-
-			var index = icLists.findIndex(function(l){ return l.id == list.id})
-
-			index != -1 && icLists.splice(index,1)
-
-
-			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
-
-
-			$rootScope.$apply()
-		})
-
+			if(index != -1) icTaxonomy.tags.lists.splice(index,1)
+		}
 		
 
 		icLists.ready = icUser.ready
 						.then(icLists.update)
-						.then(function(){
-	
-							icLists.forEach(function(list){
-								icItemStorage.registerFilter('list_'+list.id, function(item){
-									return icLists.itemInList(item, list.id)
-								})
-
-								icLanguages.ready
-								.then(function(){
-									icLanguages.availableLanguages.forEach(function(lang){
-										lang = lang.toUpperCase()
-										if(!icLanguages.translationTable[lang]) return null
-										if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
-										icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] ='@:UNSORTED_TAGS.LIST '+list.name
-
-										icLanguages.refreshTranslations(lang)
-									})
-								})
-							})
-						})
-		
-
-
 
 		return icLists
 	}
@@ -385,10 +444,10 @@ angular.module('icServices', [
 .provider('icSite', function(){
 
 	this.config = 	{
-							params: 	[],
-							switches: 	[],
-							sections:	[],
-						}
+						params: 	[],
+						switches: 	[],
+						sections:	[],
+					}
 
 	this.onRegister = function(){}
 
@@ -398,6 +457,7 @@ angular.module('icServices', [
 								name:  	the key used to exposed value on icSite e.g. ic.site.%name
 								encode:	function(value, ic)	to encode value into url string
 								decode: function(path, ic) 	to decode value from url string	
+								options: array or function
 								defaultValue: ...
 							}
 		 */
@@ -447,6 +507,7 @@ angular.module('icServices', [
 		'ic',
 
 		function($location, $q, $rootScope, $timeout, icLayout, ic){
+
 			var icSite 					= 	this,
 				adjustment_scheduled	= 	false
 
@@ -457,12 +518,23 @@ angular.module('icServices', [
 			//Params:
 
 			function decodeParam(path, param){
-				var value = param.decode(path, ic)
+				var value 	= 	param.decode(path, ic),
+					options = 	typeof param.options == 'function'
+								?	param.options(ic)
+								:	param.options
 
-				if(!value || (param.options && param.options.indexOf(value) == -1) ){
-					value = typeof param.defaultValue == 'function'
-							?	param.defaultValue(ic)
-							:	param.defaultValue
+
+				if(options && Array.isArray(value)){
+					value.forEach(function(x, index){
+						if(options.indexOf(x) == -1) value.splice(index,1)
+					})
+				} 
+
+
+				if(!value || (options && !Array.isArray(value) && options.indexOf(value) == -1) ){
+					value 	= 	typeof param.defaultValue == 'function'
+								?	angular.copy(param.defaultValue(ic))
+								:	angular.copy(param.defaultValue)
 				}
 
 				return value
@@ -480,13 +552,26 @@ angular.module('icServices', [
 			}
 
 			function encodeParam(value, param){
-				if(param.options && param.options.indexOf(value) == -1)	value = null
 
-				var default_value =	typeof param.defaultValue == 'function'
-									?	param.defaultValue(ic)
-									:	param.defaultValue
+				var options			=	typeof param.options == 'function'
+										?	param.options(ic)
+										:	param.options,
 
-				if(value ==  default_value) value = null
+				 	default_value 	=	typeof param.defaultValue == 'function'
+										?	param.defaultValue(ic)
+										:	param.defaultValue
+				
+				if(options && Array.isArray(value)){
+					value.forEach(function(x, index){
+						if(options.indexOf(x) == -1) value.splice(index,1)
+					})
+				} 
+
+				if(options && !Array.isArray(value) && options.indexOf(value) == -1){
+					value = null
+				}
+
+				if(angular.equals(value, default_value)) value = null
 
 				return param.encode(value, ic)
 			}
@@ -614,12 +699,10 @@ angular.module('icServices', [
 			}
 
 			icSite.onRegister = function(){ 
-				// Some provider may register Params before service ic is initialized in .run() causing an error if onRegister is called too early
+				// Some providers may register Params before service ic is initialized in .run() causing an error if onRegister is called too early
 				ic.ready.then(function(){
-					$rootScope.$evalAsync(function(){
 						icSite.updateFromPath()
-						icSite.updateFromSearch() 
-					})
+						icSite.updateFromSearch()
 				})
 			}
 
@@ -627,6 +710,7 @@ angular.module('icServices', [
 				var changed = false
 
 				icSite.config.params.forEach(function(param){ 
+
 					var new_value = param.adjust 	? param.adjust(ic) : icSite[param.name]
 
 					if(new_value!= icSite[param.name]){
@@ -673,15 +757,8 @@ angular.module('icServices', [
 						.updateSections()
 						.updateUrl()	
 
-						if(!adjustment_scheduled){
-							adjustment_scheduled = true
+						$q.resolve(icUtils.schedule('adjustParameters', icSite.adjust, 30, true))
 
-							window.requestAnimationFrame(function(){
-								adjustment_scheduled = false
-								if(icSite.adjust()) $rootScope.$digest()
-							})
-							
-						}
 					})
 				},
 				true
@@ -696,7 +773,7 @@ angular.module('icServices', [
 			)
 
 			$rootScope.$on('$locationChangeSuccess', function(){
-				ic.ready.then(function(){ icSite.updateFromPath() })
+				ic.ready.then(icSite.updateFromPath)
 			})
 
 
@@ -927,11 +1004,10 @@ angular.module('icServices', [
 
 		'$q',
 		'$rootScope',
-		'icSite',
 		'icUser',
 		'icTaxonomy',
 
-		function($q, $rootScope, icSite, icUser, icTaxonomy){
+		function($q, $rootScope, icUser, icTaxonomy){
 
 			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
@@ -1211,6 +1287,17 @@ angular.module('icServices', [
 
 								return (matches && matches[2].split('-')) || []
 							},
+			options:		function(ic){
+
+								var result = []
+
+								ic.taxonomy.categories.forEach(function(category){
+									result.push(category.name)
+									result.push.apply(result, category.tags)
+								})
+								return result
+							},
+			defaultValue:	[]
 
 			// adjust:			function(ic){
 
@@ -1233,7 +1320,12 @@ angular.module('icServices', [
 
 								return (matches && matches[2].split('-')) || []
 							},
+			options:		function(ic){
+								return ic.taxonomy.types.map(function(t){ return t.name})
+							},
+			defaultValue:	[]
 		})		
+
 		.registerParameter({
 			name:			'filterByUnsortedTag',
 			encode:			function(value, ic){
@@ -1246,6 +1338,17 @@ angular.module('icServices', [
 
 								return (matches && matches[2].split('-')) || []
 							},
+			options:		function(ic){
+
+								var result = []
+
+								for(group in ic.taxonomy.tags){
+									result.push.apply(result, ic.taxonomy.tags[group])
+								}
+
+								return result
+							},
+			defaultValue:	[]
 		})
 
 		.registerParameter({
@@ -1405,8 +1508,6 @@ angular.module('icServices', [
 			//alphabetical:
 			
 
-			console.log('before register sorting critt', icSite.currentLanguage)
-			
 			function prepareLanguageSorting(language_code){
 				return	icItemStorage.registerSortingCriterium(
 							'alphabetical_'+language_code, 
@@ -1538,6 +1639,8 @@ angular.module('icServices', [
 
 		icItemEdits.get = function(item_or_id){
 
+			if(!item_or_id) return null
+
 			var id			= 	item_or_id.id || item_or_id,
 				original	= 	icItemStorage.getItem(id),
 				edit 		= 	data.filter(function(itemEdit){
@@ -1657,24 +1760,25 @@ angular.module('icServices', [
 			}
 
 			icSite.registerParameter({
-				name: 		'currentLanguage',
-				encode:		function(value,ic){
-								if(!value) return ''
-								return 'l/'+value 
-							},
+				name: 			'currentLanguage',
+				encode:			function(value,ic){
+									if(!value) return ''
+									return 'l/'+value 
+								},
 
-				decode:		function(path,ic){
-								var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
-									best_guess 	= 	(matches && matches[2])
-													|| 	ic.site.currentLanguage 
-													|| 	icLanguages.getStoredLanguage()
-													|| 	(navigator.language && navigator.language.substr(0,2) )
-													|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
-													|| 	icLanguages.fallbackLanguage
+				decode:			function(path,ic){
+									var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
+										best_guess 	= 	(matches && matches[2])
+														|| 	ic.site.currentLanguage 
+														|| 	icLanguages.getStoredLanguage()
+														|| 	(navigator.language && navigator.language.substr(0,2) )
+														|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
+														|| 	icLanguages.fallbackLanguage
 
-								return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
-										|| 	icLanguages.availableLanguages[0] || 'en'
-							}
+									return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
+											|| 	icLanguages.availableLanguages[0] || 'en'
+								},
+				defaultValue:	icLanguages.availableLanguages[0] || 'en'
 
 			})
 
@@ -1839,7 +1943,6 @@ angular.module('icServices', [
 		}
 
 		icOverlays.open = function(overlay_name, message, deferred, overwrite_messages){
-			console.log('open', overlay_name, message)
 			icOverlays.messages[overlay_name] = overwrite_messages
 												? 	[]
 												:	(icOverlays.messages[overlay_name] || [])
@@ -1943,8 +2046,9 @@ angular.module('icServices', [
 	'icTiles',
 	'icLists',
 	'icMainMap',
+	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap, $rootScope){
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -1964,8 +2068,14 @@ angular.module('icServices', [
 		ic.tiles		= icTiles
 		ic.lists		= icLists
 
-		ic.deferred.resolve()
-		delete ic.deferred
+
+		var stop 		= 	$rootScope.$watch(function(){
+								if(icInit.ready){
+									ic.deferred.resolve()	
+									delete ic.deferred
+									stop()
+								} 
+							})
 
 	}
 ])

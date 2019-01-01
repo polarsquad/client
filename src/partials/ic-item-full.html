@@ -63,16 +63,6 @@
 	</article>
 
 
-	<!--scroll-->
-	<article class = "screen-only">
-		<div>
-		</div>
-		<div class = "xjust">
-			<div class = "spacer"></div>
-			
-		</div>
-	</article>
-
 
 	<!-- start item title, brief description -->
 	<article class = "main">
@@ -230,21 +220,6 @@
 	</ic-item-property>
 	
 
-	<!-- scroll -->
-	<article class = "screen-only">
-		<div>
-		</div>
-		<div class = "xjust">
-			<div class = "spacer"></div>
-			<button
-				class 			= "icon icon-interface-up"
-				ic-scroll-to 	= "top"
-			>
-			</button>
-		</div>
-	</article>
-
-
 	<div class = "qrcode">
 		<qrcode 
 			version					=	"4" 
@@ -276,68 +251,74 @@
 
 
 	<button 
-		class 		= "bg-0"
+		class 		= "bg-0 active"
 		ng-if		= "true || ic.user.can('edit_items')"
 		ng-click 	= "ic.site.editItem = true" 
 		title		= "{{'INTERFACE.EDIT' | translate}}"
 		ic-touch-me
 	>
-		<span
-			class 	="icon-large left icon-interface-edit active normal"
-		>
+
+		<span>
+			<span class 	="icon large icon-interface-edit active"></span>
 			{{'INTERFACE.EDIT' | translate}}
 		</span>
+
 	</button>
 
 
 
 	<button 
-		class		= "bg-0"
+		class		= "bg-0 active"
 		ng-click 	= "delete()" 
 		ng-if		= "ic.user.can('delete_items')"
 		title		= "{{'INTERFACE.DELETE' | translate}}"
 		ic-touch-me
 	>
-		<span
-			class 	= "icon-large left icon-interface-delete active normal"
-		>
+		<span>
+			<span class 	= "icon large icon-interface-delete active"></span>
 			{{'INTERFACE.DELETE' | translate}}
 		</span>
 	</button>
 		
 	<button 
-		class 		= "bg-0"
+		class 		= "bg-0 active"
 		ng-click 	= "ic.overlays.toggle('sharingMenu')" 
 		title		= "{{'INTERFACE.SHARE' | translate}}"
 		ic-touch-me
 	>
-		<span
-			class 	= "icon-large left icon-interface-share active normal"
-		>
+		<span>
+			<span class 	= "icon large icon-interface-share active"></span>
 			{{'INTERFACE.SHARE' | translate}}
 		</span>
 	</button>
 
 		
 	<button 
-		class 		= "bg-0 col-3"
+		class 		= "bg-0 active"
 		ng-click	= "ic.site.print()"
 		title		= "{{'INTERFACE.PRINT' | translate}}"
 		ic-touch-me
 	> 
-		<span class ="icon-large left icon-interface-print active normal">{{'INTERFACE.PRINT' | translate}}</span>
+		<span>
+			<span class ="icon large icon-interface-print active"></span>
+			{{'INTERFACE.PRINT' | translate}}
+		</span>
+
 	</button>
 
 	<button 
-		class 		= "bg-0"
+		class 		= "bg-0 active"
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}"
 		ng-click 	= "ic.favourites.toggleItem(item)" 
 		ic-touch-me
 	> 
-		<span 
-			class 		="icon-large left icon-interface-favourites active normal"
-			ng-class	= "{'icon-interface-favourites_remove': ic.favourites.contains(item), 'icon-interface-favourites': !ic.favourites.contains(item)}"
-		>
+
+		<span>
+			<span 
+				class 		="icon large icon-interface-favourites active"
+				ng-class	= "{'icon-interface-favourites_remove': ic.favourites.contains(item), 'icon-interface-favourites': !ic.favourites.contains(item)}"
+			>
+			</span>
 			{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(item) ? 'remove': 'add' | translate}}
 		</span>
 	</button>
