@@ -45,7 +45,7 @@
 			<div ng-if  ="item.lastEditor">
 				{{'ITEMS.LAST_EDITOR' | translate}}  	{{item.lastEditor	}}	({{item.lastEditDate | icDate}})
 			</div>	
-			<div ng-if = "ic.user.can('edit_items')">
+			<div ng-if = "ic.user.can('edit_items') && ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)">
 				<a class = "active" ng-click ="ic.admin.autoTranslate(item)">{{'INTERFACE.AUTO_TRANSLATE'| translate }}</a>
 			</div>
 		</div>
