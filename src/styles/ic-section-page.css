@@ -221,6 +221,33 @@ ic-page .tiles > .item-tile .image {
 	transition:					all 500ms ease-out;
 }
 
+
+ic-page .tiles > .item-tile .image > * {
+	position:					absolute;
+	top:						0;
+	bottom:						0;
+	left:						0;
+	right:						0;
+	width:						auto  !important;
+	height:						auto  !important;
+}
+
+
+ic-page .tiles > .item-tile .image .fallback {
+	font-size:					10rem;
+	width:						1em;
+	height:						1em;
+	opacity:					0.5;
+	padding:					0;
+
+}
+
+ic-page .tiles > .item-tile .image .fallback:before {
+	display:					none;
+}
+
+
+
 ic-page .tiles > .item-tile:hover .image{
 	-webkit-filter: 			brightness(1.1);
 	filter: 					brightness(1.1);

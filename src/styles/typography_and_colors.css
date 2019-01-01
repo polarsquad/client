@@ -60,6 +60,7 @@ button::-moz-focus-inner {
 }
 
 
+
 h1,h2,h3,h4,h5,h6 {
 	font-weight:			500;
 	line-height:			1.4em;
@@ -96,6 +97,7 @@ input {
 	width:					100%;
 	padding:				0 1rem;
 	margin:					0.5rem 0;
+	min-width:				0;
 }
 
 input:-webkit-autofill,
@@ -173,10 +175,10 @@ textarea:-webkit-autofill:focus{
 
 
 .flex-shrink {
-	flex-shrink:				1;
-	text-overflow: 				ellipsis;
-	white-space:				nowrap;
-	overflow:					hidden;
+	flex:					0 1 auto;
+	text-overflow: 			ellipsis;
+	white-space:			nowrap;
+	overflow:				hidden;
 }
 
 .spacer {

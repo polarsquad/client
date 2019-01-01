@@ -5,11 +5,11 @@
 >
 	<input class = "block" type = "text" placeholder = "{{'INTERFACE.CREATE_LIST_PLACEHOLDER' | translate}}" ng-model = "new_list"/>
 	<button 
-		class 		= "icon icon-interface-add bg-3 padding tac"
+		class 		= "bg-3 padding tac"
 		ng-disabled	= "!new_list"
 		type 		= "submit"
 	> 
-		{{'INTERFACE.CREATE_LIST' | translate}}
+		<span class = "icon left icon-interface-lists_add white">{{'INTERFACE.CREATE_LIST' | translate}}</span>
 	</button>
 </form> 
 
@@ -31,35 +31,47 @@
 		>
 		</span>
 
-		<span
-			ng-click	= "ic.filterConfig.toggleUnsortedTag('list_'+list.id)" 
-			ng-show		= "!confirm"
-			class		= "flex-grow"
-		>
-			{{list.name}}
-		</span>
+
+		<input 
+			type 				= "text"
+			class				= "flex-grow"
+			ng-show				= "!confirm"
+			ng-model			= "list.name"
+			ng-change			= "ic.lists.updateName(list.id, list.name)"
+			ng-model-options	= "{ updateOn: 'blur change', debounce: {blur:0, change:300} }"
+		/>
 
 		<span 
 			class 		= "icon icon-interface-public"
+			ng-show		= "!confirm"
 			ng-class 	= "{'active': list.public}"
 			ng-click	= "ic.lists.togglePublicState(list.id, !list.public)"
 		>
 		</span>
 
-		<button 
-			class 		= "icon icon-interface-close"
+		<span 
+			class 		= "icon icon-interface-lists_delete"
 			ng-show		= "!confirm"
 			ng-click	= "confirm = true" 
-		></button>
+		></span>
 
-		<span 
+		<button
+			class		= "flex-grow bg-3"
 			ng-show		= "confirm"
-			class		= "tac flex-grow padding"
+			ng-click	= "ic.lists.removeList(list.id)"
+			title		= "{{'INTERFACE.DELETE_LIST' | translate}}"
 		>
-			{{'INTERFACE.DELETE_LIST' | translate}}: {{list.name}} 
-		<span> 
+			{{'INTERFACE.DELETE_LIST' | translate}}: {{list.name}}
+		</button>
 
-		
+		<button
+			class		= "icon icon-interface-close flex-grow bg-1 flex-shrink"
+			ng-show		= "confirm"
+			ng-click	= "confirm = false"
+			title		= "{{'INTERFACE.CANCEL' | translate}}"
+		>
+		</button>
+
 
 	</li>
 	
@@ -68,21 +80,6 @@
 		ng-show	= "confirm"
 		class	= "flex"
 	>
-		<button
-			class		= "flex-grow bg-3 padding"
-			ng-show		= "confirm"
-			ng-click	= "ic.lists.removeList(list.id)"
-		>
-			{{'INTERFACE.CONFIRM' | translate}}
-		</button>
-
-		<button
-			class		= "flex-grow bg-3 padding"
-			ng-show		= "confirm"
-			ng-click	= "confirm = false"
-		>
-			{{'INTERFACE.CANCEL' | translate}}
-		</button>
 	</li>
 	
 </ul>

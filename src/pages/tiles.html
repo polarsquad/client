@@ -19,11 +19,20 @@
 			</button>
 
 			<div 
-				class 		= "image ic-bg-type-{{(item|icType).name}}"
-				ng-class 	= "{'bg-0': item.image}"
+				class 		= "image {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}}"
 				style 		= "background-image: url({{item.image}})"
 			>
+				<div
+					ng-if		="!item.image"
+					class		= "icon fallback white {{ (item | icType) && 'icon-type-'+(item | icType).name  || (item | icCategory) && 'icon-category-'+(item | icCategory).name}}" 
+				>
+				</div>
+				<div 
+					ng-if		= "item.image"
+					ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+				></div>
 			</div>
+
 
 			<div class = "body bg-0">
 				<ic-item-preview

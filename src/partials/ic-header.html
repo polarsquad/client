@@ -59,6 +59,7 @@
 	<a
 		class		= "icon large left icon-interface-languages white"
 		ng-click	= "ic.overlays.open('languageMenu')" 
+		ng-if		= "ic.user.can('update_translations') || ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)"
 	>
 		<span class = "normal">{{'INTERFACE.LANGUAGES' | translate}}</span>
 	</a>

@@ -304,6 +304,10 @@ angular.module('icServices', [
 
 		}
 
+		icLists.updateName = function(list_id, name){
+			return $q.when(dpd.lists.put(list_id, { name: name }))
+		}
+
 		icLists.togglePublicState = function(list_id, public){
 			return $q.when(dpd.lists.put(list_id, { public: public }))
 		}
@@ -368,16 +372,14 @@ angular.module('icServices', [
 
 		dpd.lists.on("deletion", function(list_id){
 
-			$q.when(dpd.lists.get(list_id))
-			.then(function(list){
-				var index = icLists.findIndex(function(l){ return l.id == list_id})
+			var index = icLists.findIndex(function(l){ return l.id == list_id})
 
-				index != -1 && icLists.splice(index,1)
+			if(index != -1){
+				afterListRemoval(icLists.splice(index,1))
+				$rootScope.$digest()
+			}
 
-				afterListRemoval(list)
 
-			})
-			.catch(function(){ /*nothing to do here*/ })
 		})
 
 		function addFilter(list){
@@ -412,8 +414,8 @@ angular.module('icServices', [
 		}
 
 		function afterListUpdate(new_list, old_list){
-			old_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
-			new_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+			old_list.items && old_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+			new_list.items && new_list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
 
 			updateTranslations(new_list)
 		}
@@ -422,7 +424,7 @@ angular.module('icServices', [
 
 
 		function afterListRemoval(list){
-			list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
+			list.items && list.items.forEach(function(item){ icItemStorage.updateItemInternals(item) })
 
 			if(!icTaxonomy.tags.lists) return null
 
