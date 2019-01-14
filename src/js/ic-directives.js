@@ -1370,7 +1370,6 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-tiles.html',
-			transclude:		true,
 
 			link: function(scope, element){
 
