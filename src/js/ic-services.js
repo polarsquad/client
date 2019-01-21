@@ -55,9 +55,15 @@ angular.module('icServices', [
 				if(scheduled_calls[id].timeout) window.clearTimeout(scheduled_calls[id].timeout)	
 
 				scheduled_calls[id].timeout = 	window.setTimeout(function() {
-													Promise.resolve(callback())
-													.then(scheduled_calls[id].resolve, scheduled_calls[id].reject)
-													.finally(function(){ delete scheduled_calls[id] })
+													var resolve = scheduled_calls[id].resolve
+														reject 	= scheduled_calls[id].reject
+
+														delete scheduled_calls[id]
+
+													Promise
+													.resolve(callback())
+													.then(resolve, reject)
+
 												}, delay)
 
 				return promise
@@ -245,6 +251,11 @@ angular.module('icServices', [
 	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy){
 
 		var icLists = []
+
+		if(!dpd.lists){
+			console.error('icLists: missing dpd.lists')
+			icTiles.ready = icUser.ready
+		}
 
 
 		icLists.get = function(id){

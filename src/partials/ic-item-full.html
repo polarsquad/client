@@ -21,7 +21,7 @@
 <section class = "bg-0">
 
 	<div class = "type print-only">
-		{{ 'TYPES.%s' | fill : (item | icType).name | translate }}
+		<span ng-if = "(item | icType)">{{ 'TYPES.%s' | fill : (item | icType).name | translate }}</span>
 	</div>
 
 

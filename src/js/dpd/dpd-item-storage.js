@@ -225,6 +225,11 @@
 					})
 		}
 
+
+		function isSubset(a1, a2){
+			return a1.every(function(item){ return a2.indexOf(item) != -1 })
+		}
+
 		icItemStorage.matchItem = function(item){			
 
 				item.internal.subMatches 	= []
@@ -237,9 +242,7 @@
 
 
 				icItemStorage.currentStats.tagGroups.forEach(function(tag_group, index){
-					tag_group_matches[index] = tag_group.every(function(tag){ 
-						return combined_tags.indexOf(tag) != -1
-					})
+					tag_group_matches[index] = isSubset(tag_group, combined_tags)
 				})
 
 
@@ -249,11 +252,11 @@
 
 				if(failed_groups.length > 1) return null
 
-				//item failed no more then one tag group:
+				//item failed no more than one tag group:
 
 
 				// is this necessary/useful?
-				// item.subMatch = true
+				item.subMatch = true
 
 				//collect alt_matches for tags:
 				combined_tags.forEach(function(tag){

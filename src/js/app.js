@@ -90,7 +90,7 @@
 			'plImagesProvider',
 
 			function(plImagesProvider){
-				plImagesProvider.setJsonFile('preload-images.json')
+				plImagesProvider.setJsonFile('preload-images_'+build+'.json')
 			}
 		])
 
@@ -112,7 +112,7 @@
 			'plTemplatesProvider',
 
 			function(plTemplatesProvider){
-				plTemplatesProvider.setJsonFile('preload-templates.json')
+				plTemplatesProvider.setJsonFile('preload-templates_'+build+'.json')
 			}
 		])
 

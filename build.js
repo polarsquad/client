@@ -225,7 +225,7 @@ function imagesToCss(src_folder, dst_folder, template_file, preload){
 function preloadImagesTmp(){
 	return 	Promise.resolve()
 			.then( () => fs.ensureDir('tmp/json') )
-			.then( () => fs.writeFile('tmp/json/preload-images.json', JSON.stringify(preloadImg) ))
+			.then( () => fs.writeFile('tmp/json/preload-images_'+build+'.json', JSON.stringify(preloadImg) ))
 }
 
 
@@ -238,7 +238,7 @@ function preloadNgTemplatesTmp(){
 			])
 			.then(	([partials, pages])	=> [].concat(partials, pages) )
 			.map(	filename 			=> Promise.props({ name: filename, content : fs.readFile(src+'/'+filename, 'utf8')} ) )
-			.then(	files				=> fs.writeFile('tmp/json/preload-templates.json', JSON.stringify(files) ) )
+			.then(	files				=> fs.writeFile('tmp/json/preload-templates_'+build+'.json', JSON.stringify(files) ) )
 
 }
 

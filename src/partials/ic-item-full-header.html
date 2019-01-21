@@ -66,7 +66,7 @@
 		title		= "{{'INTERFACE.PRINT' | translate}}"
 		ic-touch-me
 	>
-	</buton>			
+	</button>			
 
 	<button 
 		class 		= "icon round large icon-interface-favourites drop-shadow"
@@ -76,16 +76,7 @@
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(ic.site.activeItem) ? 'remove': 'add' | translate}}"
 		ic-touch-me
 	>
-	</buton>
-
-	<button 
-		ng-if		= "ic.user.loggedIn"
-		class 		= "icon round large active icon-interface-lists drop-shadow bg-0"
-		ng-click 	= "ic.overlays.toggle('listsMenu')" 
-		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
-		ic-touch-me
-	>
-	</buton>
+	</button>
 
 </div>
 
@@ -103,15 +94,6 @@
 		ic-touch-me
 	>
 	</button>
-
-	<button 
-		ng-if		= "ic.user.loggedIn"
-		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
-		ng-click 	= "ic.overlays.toggle('listsMenu')" 
-		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
-		ic-touch-me
-	>
-	</buton>
 </div>
 
 <!-- NEW -->

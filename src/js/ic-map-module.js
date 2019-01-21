@@ -43,14 +43,17 @@
 			
 			var Queue = {}
 
-			Queue.currentRun = new Promise(renewResolve)
+			renew()
 
 			function resetPoints(){
 				 points = chunk_size
 			} 
 
-			function renewResolve(resolve){
-				c_resolve = resolve
+			function renew(){
+				Queue.currentRun = new Promise(function(resolve){
+					c_resolve = resolve	
+				})
+
 			}
 
 			function advance(scope, weight){
@@ -69,15 +72,11 @@
 
 			}
 
-			function finalize(){
-				c_resolve()
-				Queue.currentRun = new Promise(renewResolve)
-			}
 
 			function checkForRunEnd(){
 				if(length > 0) return null
 
-				finalize()
+				c_resolve()
 
 				return 	new Promise(window.requestAnimationFrame)
 						
@@ -87,9 +86,13 @@
 			Queue.isRunning = function(){ return length != 0}
 
 			Queue.add = function(scope, weight){
+
 				if(scope.queuedForDigest) return null
 
-				if(length == 0) queuePromise = new Promise(window.requestAnimationFrame)
+				if(length == 0){
+					renew()
+					queuePromise = new Promise(window.requestAnimationFrame)
+				}
 
 				length++
 				if(weight == undefined) weight = 1
@@ -112,9 +115,8 @@
 	.service('icMapItemMarker',[
 
 		'$compile',
-		'icMapMarkerDigestQueue',
 
-		function($compile, icMapMarkerDigestQueue){
+		function($compile){
 
 			var icMapItemMarker = function(item, parentScope){
 
@@ -793,14 +795,11 @@
 								if(Object.keys(check).length == new_list.length) return null
 							}
 
-							!scope.waiting && scope.loading++
-							scope.waiting = true	
-							
+							scope.loading++
 
 							icUtils.schedule('updateListMarkers', updateListMarkers, 300, true)
 							.finally(function(){
 								scope.loading--
-								scope.waiting = false
 								icMapSpinnerControl.scope.$digest()
 							})
 						}
