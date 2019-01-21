@@ -1,4 +1,5 @@
 <article>
+	<h2>{{'INTERFACE.CATEGORIES' | translate}}</h2>
 
 	<ic-category
 		ng-repeat 	= "category in ic.taxonomy.categories"
@@ -6,7 +7,7 @@
 	>
 		<div class = "icon large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>
 		<div class = "content">
-			<h2><a ng-href = "/list/c/{{::category.name}}">{{'CATEGORIES.%s' | fill : category.name | translate}}</a></h2>
+			<h3><a ng-href = "/list/c/{{::category.name}}">{{'CATEGORIES.%s' | fill : category.name | translate}}</a></h3>
 			<p>
 				{{'CATEGORIES.%s_NOTE' | fill : category.name | translate}}
 			</p>

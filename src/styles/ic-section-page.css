@@ -44,6 +44,11 @@ ic-page  header h2 span {
   	box-decoration-break:			clone;
 }
 
+ic-page h2 {
+	font-size:						2rem;
+	margin:							2rem 0;
+}
+
 
 ic-page  article {
 	display:						block;
@@ -63,9 +68,9 @@ ic-page h3 {
 
 ic-page p{
 	max-width:					50rem;
-	font-size: 					1rem;
 	font-size: 					1.25rem;
 	line-height: 				2;
+	margin:						1rem 0;
 
 }
 
@@ -187,9 +192,8 @@ ic-page .tiles > *:hover {
 ic-page .tiles > * > small {
 	display: 					inline-block;
 	margin-top: 				0.5rem;
-	font-weight:				300;
-	font-weight: 				300;	
-	font-size: 					1.25rem;
+	font-weight: 				400;	
+	font-size: 					1.1rem;
 }
 
 
@@ -285,6 +289,7 @@ ic-page .third-party-logo{
 
 
 ic-page ic-category {
+	margin:						1rem 0;
 	margin-bottom:				2rem;
 }
 
@@ -295,7 +300,7 @@ ic-footer {
 	color:						#666;
 	margin:						auto;
 	margin-bottom:				1rem;
-	padding:					2rem 5rem;
+	margin:						2rem 5rem;
 }
 
 ic-footer {

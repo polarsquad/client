@@ -286,7 +286,7 @@ function prepareBiyarni(){
 				fs.copy("node_modules/typeface-biryani/files",			dst+"/fonts/Biyarni"),
 				fs.ensureDir('tmp/styles')
 			])
-			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Fira-Sans'))
+			.then( result	=> result[0].replace(/\.\/files/g, '/fonts/Biyarni'))
 			.then( css 		=> fs.writeFile('tmp/styles/biryani.css', css, 'utf8'))
 }
 
@@ -316,9 +316,9 @@ function prepareRoboto(){
 
 function prepareFonts(){
 	return 	Promise.all([
-				prepareRoboto,
-				prepareFira,
-				prepareBiyarni
+				prepareRoboto(),
+				prepareFira(),
+				prepareBiyarni()
 			])
 			.then( () => console.log("\n\n#####CHECK FONTS!!\n"))
 
@@ -543,9 +543,9 @@ setup()
 
 
 
-// .then( () => process.stdout.write('\nCleaninng up...'))
-// .then(cleanUp)
-// .then( () => process.stdout.write('\x1b[32m Done.'))
+.then( () => process.stdout.write('\nCleaninng up...'))
+.then(cleanUp)
+.then( () => process.stdout.write('\x1b[32m Done.'))
 
 
 .then(
