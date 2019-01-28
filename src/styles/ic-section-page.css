@@ -299,14 +299,11 @@ ic-footer {
 	background-color:			#fff;
 	color:						#666;
 	margin:						auto;
+	padding: 					2rem;
+	text-align: 				center;
 	margin-bottom:				1rem;
-	margin:						2rem 5rem;
 }
 
-ic-footer {
-	padding: 2rem;
-	text-align: center;
-}
 
 ic-footer a {
 	display:					inline;

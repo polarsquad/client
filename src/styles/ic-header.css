@@ -87,8 +87,6 @@ ic-header .logo ic-logo-full {
 
 
 ic-header ic-main-menu {
-
-	font-family: 					Biryani, Roboto, sans-serif;
 	font-weight: 					600;	
 	display:						block;
 	background-color:				rgba(0,0,0,0.2);
@@ -159,7 +157,6 @@ ic-header ic-main-menu ul > li > ul > li {
 	padding:						0;
 	border: 						0;
 	white-space: 					nowrap;
-	font-family: 					Biryani, Roboto, sans-serif;
 	font-weight: 					300;	
 }
 

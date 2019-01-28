@@ -35,27 +35,30 @@
 	ng-if	= "!ic.site.editItem"
 >
 
-	<button 
-		class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
-		ng-click 	= "ic.site.editItem = true" 
-		title		= "{{ic.user.can('edit_items')? 'INTERFACE.EDIT' : 'INTERFACE.EDIT_SUGGESTION' | translate}}"
-		ic-touch-me
-	>
-	</button>
-
-	<button 
-		class 		= "icon round large active icon-interface-delete drop-shadow bg-0"
-		ng-click 	= "delete()" 
-		ng-if		= "ic.user.can('delete_items')"
-		title		= "{{'INTERFACE.DELETE' | translate}}"
-		ic-touch-me
-	>
-	</button>
 	
 	<button 
 		class 		= "icon round large active icon-interface-share drop-shadow bg-0"
 		ng-click 	= "ic.overlays.toggle('sharingMenu')" 
 		title		= "{{'INTERFACE.SHARE' | translate}}"
+		ic-touch-me
+	>
+	</button>
+
+	<button 
+		class 		= "icon round large icon-interface-favourites drop-shadow"
+		ng-if		= "!ic.user.loggedIn"
+		ng-class	= "{'bg-3 white': ic.favourites.contains(ic.site.activeItem), 'bg-0  active': !ic.favourites.contains(ic.site.activeItem)}"
+		ng-click 	= "ic.favourites.toggleItem(ic.site.activeItem)" 
+		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(ic.site.activeItem) ? 'remove': 'add' | translate}}"
+		ic-touch-me
+	>
+	</button>
+
+	<button 
+		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
+		ng-if		= "ic.user.loggedIn"
+		ng-click 	= "ic.overlays.toggle('listsMenu')" 
+		title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
 		ic-touch-me
 	>
 	</button>
@@ -69,15 +72,12 @@
 	</button>			
 
 	<button 
-		class 		= "icon round large icon-interface-favourites drop-shadow"
-		ng-if		= "!ic.user.loggedIn"
-		ng-class	= "{'bg-3 white': ic.favourites.contains(ic.site.activeItem), 'bg-0  active': !ic.favourites.contains(ic.site.activeItem)}"
-		ng-click 	= "ic.favourites.toggleItem(ic.site.activeItem)" 
-		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(ic.site.activeItem) ? 'remove': 'add' | translate}}"
+		class 		= "icon round large active icon-interface-edit drop-shadow bg-0"
+		ng-click 	= "ic.site.editItem = true" 
+		title		= "{{ic.user.can('edit_items')? 'INTERFACE.EDIT' : 'INTERFACE.EDIT_SUGGESTION' | translate}}"
 		ic-touch-me
 	>
 	</button>
-
 </div>
 
 <!-- EDIT -->

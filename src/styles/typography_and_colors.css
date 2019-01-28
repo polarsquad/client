@@ -194,6 +194,17 @@ textarea:-webkit-autofill:focus{
 }
 
 
+.tar {
+	text-align:					right;
+}
+
+
+.tal {
+	text-align:					left;
+}
+
+
+
 /* aligns */
 
 .fleft {

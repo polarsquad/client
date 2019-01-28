@@ -83,13 +83,13 @@
 	<li  ng-if = "!icPlain" class 	= "spacer"></li>
 
 	<li
-		ng-if = "!ic.user.loggedIn && !icPlain"
+		ng-if = "!ic.user.can('edit_items') && !icPlain"
 	>
 		<a 	
 		 	ic-touch-me		
-			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true; ic.site.list = false; ic.site.expandMap=false"
+			ng-click 	= "ic.site.('edit_items')activeItem = ic.itemStorage.newItem(); ic.site.editItem = true; ic.site.list = false; ic.site.expandMap=false"
 		>
-			<span class	= "icon large left icon-interface-edit white"></span>
+			<span class	= "icon large left icon-interface-plus white"></span>
 			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
 		</a>
 	</li>

@@ -398,8 +398,7 @@ angular.module('icServices', [
 				return icLists.itemInList(item, list.id)
 			})
 
-			icTaxonomy.tags.lists = icTaxonomy.tags.lists || []
-			icTaxonomy.tags.lists.push('list_'+list.id)
+			icTaxonomy.addExtraTag('list_'+list.id, 'lists')
 		}
 
 		function updateTranslations(list){
@@ -1168,10 +1167,11 @@ angular.module('icServices', [
 				return icTaxonomy
 			}
 
-			icTaxonomy.addExtraTag = function(tag){
-				icTaxonomy.tags			= icTaxonomy.tags || {} 
-				icTaxonomy.tags.extra 	= icTaxonomy.tags.extra || []
-				icTaxonomy.tags.extra.push(tag)
+			icTaxonomy.addExtraTag = function(tag, group_name){
+				group_name = group_name || 'extra'
+				icTaxonomy.tags				= icTaxonomy.tags || {} 
+				icTaxonomy.tags[group_name] = icTaxonomy.tags[group_name] || []
+				icTaxonomy.tags[group_name].push(tag)
 				return icTaxonomy
 			}
 
@@ -1882,7 +1882,7 @@ angular.module('icServices', [
 			})
 		})
 
-		icTaxonomy.addExtraTag('favourite')
+		icTaxonomy.addExtraTag('favourite', 'lists')
 
 		$rootScope.$watch(
 			function(){
