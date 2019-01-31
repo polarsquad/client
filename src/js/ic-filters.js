@@ -53,6 +53,17 @@ angular.module('icFilters', [
 ])
 
 
+.filter('icUnsortedTags',[
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags, group_name){
+			return item_or_tags && icTaxonomy.getUnsortedTags(item_or_tags.tags || item_or_tags, group_name)
+		}
+	}
+])
+
 
 
 .filter('osmLink', [

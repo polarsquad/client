@@ -9,9 +9,8 @@ ic-overlays {
 	overflow-x:				hidden;
 	overflow-y:				auto;
 	z-index:				99999;
-	background:				rgba(0,0,0,0.5);	
-	transition-property:	background-color;
-	transition-duration:	400ms;
+	background:				rgba(0,0,0,0.6);	
+	animation:				overlaysIn 300ms;
 	justify-content: 		center;
 	align-items: 			center;
 }
@@ -19,9 +18,34 @@ ic-overlays {
 ic-overlays.ic-hide {
 	background:				rgba(0,0,0,0);		
 	transform:				translateX(-100%);
+	animation:				overlaysOut 300ms;
 }
 
 
+
+@keyframes overlaysIn{
+	0% {
+		background:			rgba(0,0,0,0);	
+	}
+
+	100% {
+		background:			rgba(0,0,0,0.6);	
+	}
+}
+
+
+@keyframes overlaysOut{
+	0% {
+		background:			rgba(0,0,0,0.6);		
+		transform:			translateX(0%);
+
+	}
+
+	100% {
+		background:			rgba(0,0,0,0);	
+		transform:			translateX(0%);
+	}
+}
 
 ic-overlays > * {
 	position:				absolute;
@@ -35,8 +59,7 @@ ic-overlays > * {
 	overflow-x:				hidden;
 	overflow-y:				auto;
 	box-sizing:				border-box;
-	transition-property:	transform;
-	transition-duration:	400ms;
+	box-shadow:				0 0 4rem 0 rgba(0,0,0,0.6);
 }
 
 ic-overlays > * > h2 {
@@ -95,7 +118,43 @@ ic-overlays > .center {
 	padding-bottom:			2rem;
 	height:					auto !important;
 	min-height:				0;
+	animation:				centerIn 200ms;
 }
+
+
+ic-overlays > .center.ic-hide{
+	animation:				centerOut 200ms;
+} 
+
+@keyframes centerIn{
+	0%{
+		opacity:			0;
+		transform:			scale(0.98);
+	}
+
+	80%{
+		opacity:			1;
+		transform:			scale(1.02);		
+	}
+
+	100%{
+		opacity:			1;
+		transform:			scale(1);
+	}
+}
+
+@keyframes centerOut{
+	0%{
+		opacity:			1;
+		transform:			scale(1);
+	}
+
+	100%{
+		opacity:			0;
+		transform:			scale(0.9);
+	}
+}
+
 
 
 ic-overlays > .center .close {
@@ -178,6 +237,13 @@ ic-overlays > .center li {
 	width:					auto;
 }
 
+ic-overlays > .left,
+ic-overlays > .right {
+	transition:				transform 300ms;
+}
+
+
+
 
 ic-overlays > .left:after,
 ic-overlays > .right:after {
@@ -217,26 +283,27 @@ ic-overlays > .left li > button {
 
 ic-overlays > .ic-hide {
 	display:				none;
-	opacity:				0 !important;
 }
 
 ic-overlays > .ic-hide.left {
 	transform:				translateX(-100%);
+
 }
 
 ic-overlays > .ic-hide.right {
 	transform:				translateX(100%);
+
 }
 
 ic-overlays > .ic-hide.center {
 	transform:				translateY(-100%);
 }
 
-
+/*
 ic-overlays.ic-hide .ic-hide {
 	display:				block !important;
 }
-
+*/
 
 ic-overlays .black {
 	background-color:		rgba(0,0,0,0.5);	
@@ -301,7 +368,6 @@ ic-overlays ic-language-menu  a  .translation {
 ic-overlays ic-language-menu  a  .native {
 	display:				inline-block;
 	width:					50%;
-	/*transition:				width 300ms ease-out;*/
 }
 
 ic-overlays ic-language-menu  a.active  .native {

@@ -472,8 +472,8 @@
 				$rootScope.ic = ic
 
 
-				/*$rootScope.$watch(function(){
-				})*/
+				// $rootScope.$watch(function(){
+				// }, function(x){console.log(x)})
 
 			}
 		])

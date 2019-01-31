@@ -408,7 +408,9 @@ angular.module('icServices', [
 							lang = lang.toUpperCase()
 							if(!icLanguages.translationTable[lang]) return null
 							if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
-							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] ='@:UNSORTED_TAGS.LIST '+list.name
+
+							var utl = icLanguages.translationTable[lang]['UNSORTED_TAGS']['LIST'] || 'UNSORTED_TAGS.LIST'
+							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
 
 							icLanguages.refreshTranslations(lang)
 						})
@@ -1255,6 +1257,24 @@ angular.module('icServices', [
 									return haystack.indexOf(type.name) != -1
 								})
 				return	result[0]
+			}
+
+
+			icTaxonomy.getUnsortedTags = function(haystack, tag_group){
+
+				if(!haystack) return null
+
+				haystack = 	typeof haystack == 'string'
+							?	[haystack]
+							:	haystack
+
+
+				var tags 	= 	tag_group 
+								?	icTaxonomy.tags[tag_group] || []
+								:	Object.keys(icTaxonomy.tags)
+									.reduce(function(acc, key){ return acc.concat(icTaxonomy.tags[key]) }, []) 
+			
+				return	haystack.filter(function(tag){ return tags.indexOf(tag) != -1 })
 			}
 
 
