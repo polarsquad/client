@@ -83,6 +83,6 @@
 	overflow:					hidden;
 	white-space: 				nowrap;
 	text-overflow:				ellipsis;
-	max-width:					100%;
+	max-width:					14em;
 }
 
