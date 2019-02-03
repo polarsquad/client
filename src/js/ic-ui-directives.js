@@ -79,6 +79,42 @@ angular.module('icUiDirectives', [
 
 
 
+.directive('icRemove', [
+
+	'$timeout',
+
+	function($timeout){
+		
+		return {
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+				var stop_watching = scope.$watch(attrs.icRemove, function(new_value, old_value){
+
+					if(!new_value) return null
+
+					var delay = parseInt(attrs.icDelay)
+
+					if(isNaN(delay)) delay = 0
+
+					element.addClass('ic-remove')
+
+					$timeout(delay)
+					.then(clear)
+				})
+
+				function clear(){
+					element.remove()
+					stop_watching()
+				}
+			}
+		}
+	}
+
+])
+
+
 .directive('icScrollRepeatLimit',[
 
 	'$timeout',

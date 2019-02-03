@@ -65,7 +65,6 @@ angular.module('icFilters', [
 ])
 
 
-
 .filter('osmLink', [
 	function(){
 		return function(config){
@@ -201,6 +200,25 @@ angular.module('icFilters', [
 	function($sce){
 		return function(html){
 			return $sce.trustAsHtml(html)
+		}
+	}
+])
+
+
+.filter('match', [
+
+	function(){
+		return function(value, exp){
+
+			try {
+				var exp = new RegExp(exp, 'i')
+
+				if(typeof value != 'string') return false
+
+				return !!value.match(exp)
+			}catch(e){
+				return false
+			}
 		}
 	}
 ])

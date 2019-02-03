@@ -69,7 +69,11 @@
 	<body class = "col-0">
 		<noscript>Please enable javascript.</noscript>
 
-		<ic-loading-screen ng-if = "!ic.init.ready"> 
+		<ic-loading-screen 
+			ic-remove 	= "ic.init.ready" 
+			ic-delay	= "1000"
+			ng-class 	= "{'ready' : ic.init.ready, 'bootstrapped':true}"
+		> 
 			<!--BUILD LOADING-SCREEN-->
 		</ic-loading-screen>
 

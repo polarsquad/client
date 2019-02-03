@@ -20,7 +20,7 @@ ic-loading-screen{
 	left:					0;
 	right:					0;
 	font-size:				initial;
-	z-index:				999;	
+	z-index:				999999;	
 	background-color:		#fff;
 	/*transition-duration:	1000ms;
 	transition-timing-function: ease-in;*/
@@ -59,7 +59,6 @@ ic-loading-screen .progress .current {
 	background-color:		#000;
 	transition:				width 250ms linear;
 }
-
 
 
 /*ic-spinner*/

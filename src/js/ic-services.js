@@ -146,15 +146,14 @@ angular.module('icServices', [
 					console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
 					if(icInit.readyCount == icInit.readyMax){
-						$timeout(function(){ 
-							icInit.ready = true; 
-						}, 200)	
+						icInit.ready = true
 					}
 				},
 				console.error
 			)
 		})
 
+		icInit.ready		= undefined
 		icInit.readyCount 	= 0
 		icInit.readyMax		= Object.keys(promises).length
 
