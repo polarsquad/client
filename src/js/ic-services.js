@@ -26,7 +26,9 @@ angular.module('icServices', [
 
 .service('icUtils', [
 
-	function(){
+	'$rootScope',
+
+	function($rootScope){
 
 		var scheduled_calls = {}
 
@@ -93,6 +95,14 @@ angular.module('icServices', [
 				:	promise.resolve()
 
 				return promise
+
+			},
+
+			evalItems: function(expression, scope){
+				scope = scope || $rootScope
+				return  function(item){
+							return scope.$eval(expression, {item: item})
+						}	
 			}
 		}
 
@@ -146,7 +156,9 @@ angular.module('icServices', [
 					console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
 					if(icInit.readyCount == icInit.readyMax){
-						icInit.ready = true
+						$timeout(function(){ 
+							icInit.ready = true; 
+						}, 200)	
 					}
 				},
 				console.error

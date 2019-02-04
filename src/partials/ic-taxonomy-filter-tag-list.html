@@ -1,7 +1,7 @@
 <a 
 	class		= "bg-3 round"
 	ng-if		= "ic.site.searchTerm"
-	title		= "INTERFACE.REMOVE_FILTER"
+	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
 	ng-click	= "ic.site.searchTerm = null"
 	ic-touch-me
 >
@@ -12,7 +12,7 @@
 <a 
 	class		= "bg-3 round"
 	ng-repeat	= "type in ic.site.filterByType"
-	title		= "INTERFACE.REMOVE_FILTER"
+	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
 	ng-click	= "ic.filterConfig.toggleType(type)"
 	ic-touch-me
 >
@@ -23,7 +23,7 @@
 <a 
 	class		= "bg-3 round"
 	ng-repeat	= "category in ic.site.filterByCategory"
-	title		= "INTERFACE.REMOVE_FILTER"
+	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
 	ng-click	= "ic.filterConfig.toggleCategory(category)"
 	ic-touch-me
 >
@@ -34,7 +34,7 @@
 <a 
 	class		= "bg-3 round"
 	ng-repeat	= "tag in ic.site.filterByUnsortedTag"
-	title		= "INTERFACE.REMOVE_FILTER"
+	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
 	ng-click	= "ic.filterConfig.toggleUnsortedTag(tag)"
 	ic-touch-me
 >
