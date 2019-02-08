@@ -98,7 +98,7 @@ function bundleScriptsToDst(){
 				"qrcode_UTF8.js": 				fs.readFile(src+'/js/qrcode_UTF8.js', 				'utf8'),
 				"angular-qrcode.js": 			fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
 			})
-			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}} ))
+			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}, mangle:false} ))
 			.then( result 	=> {
 									if(result.error) return console.log(result.error) 
 

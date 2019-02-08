@@ -62,11 +62,13 @@
 			class	= "bg-0"
 			ng-show = "icPlain || showMore"
 		>
-			<li class = "bg-0 hover"> <a ic-touch-me a ng-href="/p/about">	{{'INTERFACE.ABOUT'			| translate}}</a>	</li>
-			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/contact">	{{'INTERFACE.CONTACT' 		| translate}}</a>	</li>
-			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/partner">	{{'INTERFACE.PARTNER' 		| translate}}</a>	</li>
-			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/legal">	{{'INTERFACE.LEGAL' 		| translate}}</a>	</li>
-			<li class = "bg-0 hover"> <a ic-touch-me ng-href="/p/network">	{{'INTERFACE.NETWORK' 		| translate}}</a>	</li>
+			<li 
+				ng-repeat 	= "page in ic.config.pages"
+				class 		= "bg-0 hover" 
+				ng-if 		= "['home', 'tiles', 'tags'].indexOf(page) == -1"
+			> 
+				<a ic-touch-me a ng-href="/p/{{page}}">	{{'INTERFACE.%s' | fill : page| translate}}</a>	
+			</li>
 			<li  
 				class = "bg-0 hover"
 				ng-if	= "!ic.user.loggedIn && !icPlain"

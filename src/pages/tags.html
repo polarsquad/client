@@ -2,7 +2,7 @@
 	<h2>{{'INTERFACE.CATEGORIES' | translate}}</h2>
 
 	<ic-category
-		ng-repeat 	= "category in ic.taxonomy.categories"
+		ng-repeat 	= "category in ic.taxonomy.categories | orderBy : ic.utils.evalItems('item.name.substr(0,4) == \'misc\' ? null : (\'CATEGORIES.%s\' | fill : item.name | translate)')"
 		ng-if		= "ic.itemStorage.currentStats.subMatches[category.name]"
 	>
 		<div class = "icon large icon-category-{{category.name}} white ic-bg-cat-{{category.name}} round"></div>

@@ -420,6 +420,14 @@ angular.module('icUiDirectives', [
 		  	document.head.appendChild(style_element)
 
 			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > *,	[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *	{margin-right: -'+scrollbar_width+'px;}', 0)
+
+			var fixed_styles = document.createElement('style')
+
+		  	document.head.appendChild(fixed_styles)
+
+			fixed_styles.sheet.insertRule('[ic-settle-scrollbar] { box-sizing: border-box; max-height: 100%; overflow-x: hidden; overflow-y: hidden; -webkit-overflow-scrolling: touch;}' )
+			fixed_styles.sheet.insertRule('[ic-settle-scrollbar]:hover, [ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] { overflow-y: scroll; -webkit-overflow-scrolling: touch; }')
+
 		}
 
 		var adjustment_scheduled = false
@@ -445,7 +453,10 @@ angular.module('icUiDirectives', [
 
 		getScrollBarwidth()
 
-		if(scrollbar_width > 0) addCssRules()
+		console.log('SB width', scrollbar_width)
+		if(scrollbar_width == 0) return {}
+
+		addCssRules()
 			
 		angular.element(window).on('resize', adjust)
 		$rootScope.$watch(adjust)

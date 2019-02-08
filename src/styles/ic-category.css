@@ -12,9 +12,10 @@ ic-category .content {
 	flex:							1 0 0;
 }
 
-ic-category .content h2 {
+ic-category .content h3 {
 	margin:							0;
 	margin-bottom:					1rem;
+	margin-top:						0;
 }
 
 ic-category .content ic-tag {

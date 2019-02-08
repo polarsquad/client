@@ -38,7 +38,6 @@ ic-main-content > * {
 	box-sizing:					border-box;
 	position:					relative;
 	box-sizing:					border-box;
-	overflow-y:					hidden;
 	overflow-x:					hidden;
 	flex-grow:					1;
 	height:						100%;

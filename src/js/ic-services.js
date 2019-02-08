@@ -103,7 +103,29 @@ angular.module('icServices', [
 				return  function(item){
 							return scope.$eval(expression, {item: item})
 						}	
+			},
+
+			waitWhileBusy: function(threshold, last_timestamp, resolve){
+
+				threshold 		= 	threshold || 16
+				last_timestamp	= 	last_timestamp || 0
+				
+				var promise		= 	resolve
+									?	null
+									:	new Promise(function(a){resolve = a}),
+					timestamp 	= 	Date.now(),
+					diff		= 	timestamp - last_timestamp
+
+
+				if(diff <= threshold) return resolve()
+
+				window.requestAnimationFrame(function(){
+					icUtils.waitWhileBusy(threshold*1.025, timestamp, resolve)
+				})
+
+				return	promise
 			}
+
 		}
 
 		return icUtils
@@ -122,13 +144,14 @@ angular.module('icServices', [
 	'icLists',
 	'icTiles',
 	'icMainMap',
+	'icUtils',
 	'plImages',
 	'plStyles',
 	'plTemplates',
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
@@ -156,9 +179,13 @@ angular.module('icServices', [
 					console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
 					if(icInit.readyCount == icInit.readyMax){
-						$timeout(function(){ 
-							icInit.ready = true; 
-						}, 200)	
+						
+						icInit.ready = true; 
+
+						icUtils.waitWhileBusy(20)
+						.then(function(){
+							icInit.done = true
+						})
 					}
 				},
 				console.error
@@ -166,6 +193,7 @@ angular.module('icServices', [
 		})
 
 		icInit.ready		= undefined
+		icInit.done			= undefined
 		icInit.readyCount 	= 0
 		icInit.readyMax		= Object.keys(promises).length
 
@@ -1229,7 +1257,7 @@ angular.module('icServices', [
 								})
 
 				if(!result.length){
-					// this is only relevent if the tags are incoherent (if a subcategory exsists without catgory)
+					// this is only relevant if the tags are incoherent (if a subcategory exists without catgory)
 					result = 	icTaxonomy.categories.filter(function(category){
 									return 	haystack.some(function(c){
 												return 	category.tags.indexOf((c.name || c)) != -1

@@ -188,7 +188,7 @@
 												?	this.defaultValue 
 												:	ic.site.page
 									},
-					options:		['home', 'tags', 'about', 'legal', 'contact', 'tiles', 'partner', 'network'],
+					options:		icConfig.pages || ['home'],
 					defaultValue:	'home'
 				})
 

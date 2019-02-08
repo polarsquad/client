@@ -1,4 +1,6 @@
-//"use strict"; this is cousing an error in IE11 at accent map =(
+"use strict"; 
+
+//this is causing an error in IE11 at accent map =(
 
 (function(){
 	if(!window.dpd) 							console.error('icItemStorage: missing dpd. Please load dpd.js.')
