@@ -171,7 +171,7 @@ angular.module('icDirectives', [
 										.clear(icSite.activeItem)
 
 										icSite.activeItem = undefined
-										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCESSFUL')
+										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_SUCCESSFUL')
 									},
 									function(){
 										icOverlays.open('popup', 'INTERFACE.DELETE_ITEM_FAILED')
@@ -258,7 +258,7 @@ angular.module('icDirectives', [
 
 				scope.validate = function(){
 					//each validate function can return errors
-					//every one of them has be executed, so errors can be marked correctly in the template, do not use .some or .every here
+					//every one of them has to be executed, so errors can be marked correctly in the template, do not use .some or .every here
 					return !scope.validationFunctions.filter(function(fn){return fn() })[0]
 				}
 
@@ -420,9 +420,14 @@ angular.module('icDirectives', [
 
 			controller: [ '$scope', function($scope){
 				$scope.validationFunctions = $scope.validationFunctions || []
-				this.registerValidationFunction = function(fn){
+				
+				this.registerValidationFunction = function(fn, remoteScope){
 					$scope.validationFunctions.push(fn)
+					remoteScope.$on('$destroy', function(){
+						$scope.validationFunctions = $scope.validationFunctions.filter(function(f){ return f != fn })
+					})
 				}
+
 			}]
 		}
 	}
@@ -548,9 +553,12 @@ angular.module('icDirectives', [
 				}
 
 				scope.$watch('icItem', function(a, b){
+
+
 					if(!scope.icItem) return null
 
 					scope.icEdit = scope.icItem && icItemEdits.get(scope.icItem.id)
+
 
 					// check coherence:
 					if(scope.icEdit && !scope.icKey in scope.icEdit ){
@@ -762,6 +770,9 @@ angular.module('icDirectives', [
 
 				scope.validate = function(){
 
+				
+					console.log(scope.icKey, scope.icEdit, scope.icTranslationKey)
+
 					scope.error 	= 	scope.icForceChoice && !(scope.value.edit && scope.value.edit.length)
 										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
 										:	scope.icEdit.getErrors(scope.icKey)
@@ -770,7 +781,7 @@ angular.module('icDirectives', [
 					return scope.error
 				}
 
-				ctrls.forEach(function(ctrl){ ctrl.registerValidationFunction(scope.validate)	})
+				ctrls.forEach(function(ctrl){ ctrl.registerValidationFunction(scope.validate, scope)	})
 
 
 				scope.revert = function(){

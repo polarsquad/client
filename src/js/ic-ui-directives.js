@@ -453,7 +453,6 @@ angular.module('icUiDirectives', [
 
 		getScrollBarwidth()
 
-		console.log('SB width', scrollbar_width)
 		if(scrollbar_width == 0) return {}
 
 		addCssRules()
