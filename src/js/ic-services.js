@@ -116,7 +116,6 @@ angular.module('icServices', [
 					timestamp 	= 	Date.now(),
 					diff		= 	timestamp - last_timestamp
 
-
 				if(diff <= threshold) return resolve()
 
 				window.requestAnimationFrame(function(){
@@ -182,7 +181,7 @@ angular.module('icServices', [
 						
 						icInit.ready = true; 
 
-						icUtils.waitWhileBusy(20)
+						$q.when(icUtils.waitWhileBusy(20))
 						.then(function(){
 							icInit.done = true
 						})
