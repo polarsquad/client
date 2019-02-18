@@ -274,5 +274,9 @@ textarea:-webkit-autofill:focus{
 	cursor:					pointer;
 }
 
+.no-clip {
+	text-overflow:			initial !important;
+	max-width:				100% !important;
+}
 
 

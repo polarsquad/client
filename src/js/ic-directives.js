@@ -146,8 +146,9 @@ angular.module('icDirectives', [
 	'icItemEdits',
 	'icUser',
 	'ic',
+	'$q',
 
-	function(icOverlays, icSite, icItemStorage, icItemEdits, icUser, ic){
+	function(icOverlays, icSite, icItemStorage, icItemEdits, icUser, ic, $q){
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full-header.html',

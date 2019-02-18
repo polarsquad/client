@@ -86,8 +86,18 @@
 	class = "tools"
 	ng-if = "ic.site.editItem && !ic.site.activeItem.internal.new"
 >
+
 	<button 
-		class 		= "icon round large bg-3 white icon-interface-cancel_edit drop-shadow bg-0"
+		class 		= "icon round large active icon-interface-delete drop-shadow bg-0"
+		ng-click 	= "delete()" 
+		ng-if		= "ic.user.can('delete_items')"
+		title		= "{{'INTERFACE.DELETE' | translate}}"
+		ic-touch-me
+	>
+	</button>
+
+	<button 
+		class 		= "icon round large bg-3 white icon-interface-cancel_edit drop-shadow"
 		ng-click 	= "cancel()" 
 		ng-if		= "true"
 		title		= "{{ic.user.can('edit_items')? 'INTERFACE.CANCEL_EDIT' : 'INTERFACE.CANCEL_EDIT_SUGGESTION' | translate}}"

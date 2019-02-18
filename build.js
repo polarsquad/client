@@ -26,7 +26,7 @@ var copyfiles	= 	require('copyfiles'),
 
 	config		=	fs.existsSync(cst+'/config.json')
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
-					:	(console.log('\n\nmissing '+ cst+'/config.json Copy default/config_example.json to '+ins+'/confi.json') && process.exit(1)),
+					:	(console.log('\n\nmissing '+ cst+'/config.json Copy default/config_example.json to '+ins+'/config.json') && process.exit(1)),
 
 	preloadImg	=	[],
 
@@ -34,6 +34,11 @@ var copyfiles	= 	require('copyfiles'),
 
 	styles_dir	=	'styles_'+build,
 	js_dir		= 	'js_'+build
+
+
+
+//defaults:
+if(config.pages.indexOf('home') == -1) config.pages.push('home')
 
 
 console.log('Build: ', build)
@@ -230,14 +235,28 @@ function preloadImagesTmp(){
 
 
 
-function preloadNgTemplatesTmp(){
+async function preloadNgTemplatesTmp(){
+	var default_page = await fs.readFile(src+'/pages/default.html', 'utf8').catch( e => "MISSING DEFAULT TEMPLATE")
+
 	return	Promise.all([
-				Promise.map(fs.readdir(src+'/partials'), 	filename => 'partials/'+filename),
-				Promise.map(fs.readdir(src+'/pages'),		filename => 'pages/'+filename),
+				Promise.map(
+					fs.readdir(src+'/partials'), 	
+					filename 	=> 	Promise.props({
+										name:		'partials/'+filename,
+										content:	fs.readFile(src+'/partials/'+filename, 'utf8')
+									})
+				),				
+				Promise.map(
+					config.pages,
+					page		=> 	Promise.props({
+										name: 		'pages/'+page+'.html',
+										content:	fs.readFile(src+'/pages/'+page+'.html', 'utf8').catch( e => default_page.replace(/DEFAULT/, page.toUpperCase() ) )
+									})
+				),
+				// Promise.map(fs.readdir(src+'/pages'),		filename 	=> 'pages/'+filename),
 				fs.ensureDir('tmp/json')
 			])
 			.then(	([partials, pages])	=> [].concat(partials, pages) )
-			.map(	filename 			=> Promise.props({ name: filename, content : fs.readFile(src+'/'+filename, 'utf8')} ) )
 			.then(	files				=> fs.writeFile('tmp/json/preload-templates_'+build+'.json', JSON.stringify(files) ) )
 
 }
