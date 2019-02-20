@@ -21,18 +21,21 @@ ic-item-full .hero-wrapper {
 }
 
 ic-item-full .hero {
+	display:					block;
+	position:					static;
 	padding-bottom:				50%;
+
 	background-size:			cover;
 	background-position:		50% 50%;
 	background-repeat:			no-repeat;
-	top:						0;
-	bottom:						0;
 	left:						0;
 	right:						0;
+	width:						100%;
 }
 
 
 ic-item-full .hero.fallback {
+	position:					static;
 	font-size:					10rem;
 	width:						1em;
 	height:						1em;
