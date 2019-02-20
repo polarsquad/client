@@ -85,6 +85,10 @@ ic-page a.boxed {
 	padding: 					0.5rem 2rem;
 }
 
+ic-page a.boxed + a.boxed  {
+	margin-left:				1rem;
+}
+
 ic-page .search > * {
 	max-width:					50rem;
 	margin:						auto;

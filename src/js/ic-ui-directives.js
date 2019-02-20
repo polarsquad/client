@@ -842,10 +842,14 @@ angular.module('icUiDirectives', [
 
 .filter('flatten', [
 	function(){
-		return function(obj){
-			var result = []
+		return function(obj, include_keys, exclude_keys){
+			var result 	= [],
+				keys	= include_keys || Object.keys(obj)
 
-			for(var key in obj) result = result.concat(obj[key])
+			if(typeof keys == 'string') keys = [keys]
+			if(exclude_keys) 			keys = keys.filter(function(key){ return exclude_keys.indexOf(key) == -1 })
+
+			keys.forEach(function(key){ result = result.concat(obj[key]) })
 
 			return result
 		}

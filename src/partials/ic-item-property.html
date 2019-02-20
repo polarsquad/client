@@ -15,10 +15,18 @@
 	</div>
 	<div class = "content">		
 		<a 
-			class 	= "active"
-			ng-if	= "link"
-			ng-href = "{{link}}"
-			target	= "_blank"
+			class 			= "active"
+			ng-if			= "link && link.substr(0,4) == 'http'"
+			ng-href 		= "{{link}}"
+			target			= "_blank"
+		>
+			{{icContent}}	
+		</a>
+
+		<a 
+			class 			= "active"
+			ng-if			= "link && link.substr(0,4) != 'http'"
+			ng-href 		= "{{link}}"
 		>
 			{{icContent}}	
 		</a>
