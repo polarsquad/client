@@ -202,7 +202,14 @@ angular.module('icUiDirectives', [
 
 	function(){
 
-		var icScrollSources = new EventTarget()
+
+		var icScrollSources 
+
+		try {
+			icScrollSources = new EventTarget()
+		} catch(e){
+			icScrollSources = document.createElement('div')
+		}
 
 		icScrollSources.sources = {}
 
@@ -274,7 +281,7 @@ angular.module('icUiDirectives', [
 
 	'icScrollSources',
 
-	function(icScrollSources){
+	function(icScrollSources, onScreenFilter){
 		return {
 			link: function(scope, element, attrs){
 
@@ -290,6 +297,8 @@ angular.module('icUiDirectives', [
 
 
 					window.requestAnimationFrame(function(){
+						console.log('checkSource', target, sourceElement)
+
 						if(!sourceElement) return null
 							
 						element.toggleClass(
@@ -312,7 +321,8 @@ angular.module('icUiDirectives', [
 
 
 				function beforeScroll(event){
-				
+					console.log(target, event.detail.sourceName)
+
 					if(event.detail.sourceName != target) return null
 
 					checkSource(event.detail.sourceElement)
@@ -326,7 +336,6 @@ angular.module('icUiDirectives', [
 					if(target) sources[target].scrollTop = sources[target].scrollHeight
 				}
 
-
 				scope.$watch(
 					function(){
 						var t = scope.$eval(attrs.icScrollWatch)
@@ -338,9 +347,10 @@ angular.module('icUiDirectives', [
 					function(result){
 						target	= result || undefined
 
+
 						if(typeof target != 'boolean'){
 							icScrollSources.addEventListener('remote-scroll', beforeScroll, true)
-							if(icScrollSources.sources[target]) checkSource(icScrollSources.sources[target])
+							checkSource(icScrollSources.sources[target])
 						} else {
 							element.toggleClass('ic-scroll-top', target)
 							icScrollSources.removeEventListener('remote-scroll', beforeScroll)
@@ -352,6 +362,9 @@ angular.module('icUiDirectives', [
 				scope.$on('$destroy', function(){
 					icScrollSources.removeEventListener('remote-scroll', beforeScroll)
 				})
+
+
+
 			}
 		}
 	}
@@ -455,8 +468,11 @@ angular.module('icUiDirectives', [
 
 		if(scrollbar_width == 0) return {}
 
+
+
 		addCssRules()
 			
+
 		angular.element(window).on('resize', adjust)
 		$rootScope.$watch(adjust)
 
@@ -787,6 +803,27 @@ angular.module('icUiDirectives', [
 
 
 
+
+.directive('icWatch', [
+
+	function(){
+		return{
+			restrict:		"A",
+
+			link: function(scope, element, attrs, ctrl){
+
+				var config = scope.$eval(attrs.icWatch)
+
+				Object.keys(config).forEach(function(key){
+					scope.$watch(key, function(){
+						scope.$eval(config[key])
+					})
+				})
+
+			}
+		}
+	}
+])
 
 
 .filter('fill', [

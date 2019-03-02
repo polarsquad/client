@@ -52,6 +52,12 @@ ic-main-content > *:not(.ng-hide) + * {
 	margin-left:				-1rem;
 }
 
+ic-main-content > * > * {
+	scroll-behavior: 			smooth;
+	-webkit-overflow-scrolling: touch;
+	max-height:					100%;
+}
+
 /*
 ic-main-content > * {
 	padding-top:				1rem;

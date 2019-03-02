@@ -98,6 +98,9 @@ function bundleScriptsToDst(){
 				"custom.js":					fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
 				"app.js": 						fs.readFile(src+'/js/app.js', 						'utf8'),
 
+				//IOS debug
+				//"inline-console.min.js":		fs.readFile(src+'/js/inline-console.min.js',		'utf8'),		
+
 
 				"qrcode.js": 					fs.readFile(src+'/js/qrcode.js', 					'utf8'),
 				"qrcode_UTF8.js": 				fs.readFile(src+'/js/qrcode_UTF8.js', 				'utf8'),

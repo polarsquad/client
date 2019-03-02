@@ -85,7 +85,8 @@ ic-page a.boxed {
 	padding: 					0.5rem 2rem;
 }
 
-ic-page a.boxed + a.boxed  {
+ic-page a.boxed + a.boxed,
+ic-page a.padding + a.padding{
 	margin-left:				1rem;
 }
 

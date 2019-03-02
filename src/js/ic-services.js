@@ -785,7 +785,13 @@ angular.module('icServices', [
 			}
 
 			icSite.print = function(){
-				window.print()
+				try {
+					document.execCommand('print', true, null)
+				} catch(e) {
+					window.print()
+				}
+
+
 			}
 
 

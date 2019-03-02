@@ -1,0 +1,16 @@
+ic-taxonomy-tag-list {
+	display:				flex;
+	flex-wrap:				wrap;
+	margin:					-0.25rem;
+}
+
+ic-taxonomy-tag-list:after {
+	content:				'';
+	flex:					1000 0 0;
+	height:					0;
+}
+
+ic-taxonomy-tag-list > * {
+	flex:					0 0 auto ;
+	margin:					0.25rem!important;
+}

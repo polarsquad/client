@@ -1,3 +1,10 @@
+.XS .xs-block {
+	display:					block;
+	text-align:					center;
+	margin:						1rem 0 !important;
+}
+
+
 .XS #section-filter {
 	min-width:					0;
 }
@@ -127,7 +134,8 @@
 
 
 .XS ic-item-full-header {
-	left:						0;
+	margin-left:				0 !important;
+	margin-right:				0 !important;
 }
 
 

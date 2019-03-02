@@ -478,6 +478,7 @@
 			}
 		])
 		
+
 		angular.bootstrap(
 			document, 
 			['InfoCompass'],

@@ -7,7 +7,8 @@ ic-overlays {
 	right:					0;
 	bottom:					0;
 	overflow-x:				hidden;
-	overflow-y:				auto;
+	overflow-y:				scroll;
+	-webkit-overflow-scrolling:	touch;
 	z-index:				99999;
 	background:				rgba(0,0,0,0.6);	
 	animation:				overlaysIn 300ms;
