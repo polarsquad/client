@@ -6,7 +6,10 @@ ic-item-full-header {
 	top:						0rem;
 	left:						0rem;
 	right:						0rem;
-	margin:						1rem;
+	margin-top:					1rem;
+	margin-bottom:				1rem;
+	margin-left:				1rem;
+	margin-right:				1rem;
 	z-index:					1000;
 	height:						0;
 }
@@ -14,6 +17,7 @@ ic-item-full-header {
 ic-item-full-header.ic-scroll-top{
 	top:						0;
 	transition:					all 200ms ease-in-out;
+	margin-top:					0rem;
 }
 
 

@@ -68,7 +68,7 @@
 
 
 .ic-tag {
-	display:					inline-block;
+	display:					inline-flex;
 	background-color:			#99999a;
 	color:						#fff;
 	padding: 					0.25em 0.75em;
@@ -84,5 +84,11 @@
 	white-space: 				nowrap;
 	text-overflow:				ellipsis;
 	max-width:					14em;
+	align-items:				center;
+}
+
+
+.ic-tag > * {
+	flex:						0 0 auto;
 }
 

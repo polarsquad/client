@@ -290,17 +290,26 @@ angular.module('icUiDirectives', [
 					to					= undefined,
 					expect_scroll		= false,
 					stop_snapping		= false,
-					threshold			= 0.15
+					threshold			= 0.15,
+					check_requested		= false
 
 
-				function checkSource(sourceElement){
 
+				function check(){
+					if(check_requested) return null
+					check_requested = true
 
 					window.requestAnimationFrame(function(){
-						console.log('checkSource', target, sourceElement)
 
-						if(!sourceElement) return null
-							
+
+						if(typeof target == 'boolean'){
+							element.toggleClass('ic-scroll-top', 	target)
+							element.toggleClass('ic-scroll-bottom',	false)
+							return null
+						}
+						
+						var sourceElement = icScrollSources.sources[target]
+
 						element.toggleClass(
 							'ic-scroll-top', 
 
@@ -315,17 +324,15 @@ angular.module('icUiDirectives', [
 							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
 						)		
 
+						check_requested = false
 					})
 
 				}
 
 
 				function beforeScroll(event){
-					console.log(target, event.detail.sourceName)
-
 					if(event.detail.sourceName != target) return null
-
-					checkSource(event.detail.sourceElement)
+					check()
 				}
 
 				scope.scrollTop = function(){
@@ -340,22 +347,17 @@ angular.module('icUiDirectives', [
 					function(){
 						var t = scope.$eval(attrs.icScrollWatch)
 
-						return 	t === undefined 
-								? attrs.icScrollWatch
-								: t
-					},
-					function(result){
-						target	= result || undefined
+						if(['string', 'boolean'].indexOf(typeof t) == -1) t = attrs.icScrollWatch
 
+						check()
+					
+						if(t === target) return null
 
-						if(typeof target != 'boolean'){
-							icScrollSources.addEventListener('remote-scroll', beforeScroll, true)
-							checkSource(icScrollSources.sources[target])
-						} else {
-							element.toggleClass('ic-scroll-top', target)
-							icScrollSources.removeEventListener('remote-scroll', beforeScroll)
-						}
+						target = t
 
+						typeof target == 'string'
+						?	icScrollSources.addEventListener('remote-scroll', beforeScroll, true)
+						:	icScrollSources.removeEventListener('remote-scroll', beforeScroll)
 					}
 				)
 

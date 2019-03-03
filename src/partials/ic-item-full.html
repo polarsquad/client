@@ -77,10 +77,14 @@
 			<h2 class = "title" >
 				{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
 			</h2>
-			<h3>
+			<h3 ng-if = "ic.layout.mode.name != 'XS'">
 				{{ item.brief[ic.site.currentLanguage] }}
 			</h3>
 		</div>
+
+		<h3 ng-if = "ic.layout.mode.name == 'XS'">
+				{{ item.brief[ic.site.currentLanguage] }}
+		</h3>
 
 		<div>
 			<div 

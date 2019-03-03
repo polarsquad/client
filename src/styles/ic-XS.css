@@ -178,5 +178,10 @@
 
 
 .XS ic-item-full > section > * {
-	padding:					0 1rem 0 2.5rem;
+	padding:					0 1rem 0 2.65rem;
+}
+
+
+.XS ic-item-full ic-mini-map {
+	width:						100%;
 }
