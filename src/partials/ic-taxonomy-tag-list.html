@@ -8,7 +8,7 @@
 	</a><!--
  --><a
 		class		= "ic-tag ic-bg-cat-{{::category.name}}"
-		ng-repeat 	= "category in ic.taxonomy.categories"
+		ng-repeat-start 	= "category in ic.taxonomy.categories"
 		ng-if		= "category.name | in : icTags"
 		ng-href		= "/list/c/{{::category.name}}"
 	>
@@ -17,6 +17,7 @@
  --><a
 		class		= "ic-tag ic-bg-cat-{{::category.name}}"
 		ng-repeat	= "tag in category.tags"
+		ng-repeat-end
 		ng-if		= "tag | in : icTags"
 		ng-href		= "/list/c/{{::tag}}"
 	>
