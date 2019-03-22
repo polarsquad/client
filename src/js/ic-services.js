@@ -448,6 +448,9 @@ angular.module('icServices', [
 							if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
 
 							var utl = icLanguages.translationTable[lang]['UNSORTED_TAGS']['LIST'] || 'UNSORTED_TAGS.LIST'
+
+							console.log(utl)
+							console.dir(icLanguages.translationTable[lang]['UNSORTED_TAGS'])
 							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
 
 							icLanguages.refreshTranslations(lang)

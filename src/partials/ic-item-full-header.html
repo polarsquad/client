@@ -97,6 +97,15 @@
 	</button>
 
 	<button 
+		class 		= "icon round large active icon-interface-save drop-shadow bg-0"
+		ng-click 	= "submit()" 
+		ng-if		= "ic.user.can('edit_items')"
+		title		= "{{ 'INTERFACE.SUBMIT_CHANGES' | translate}}"
+		ic-touch-me
+	>
+	</button>
+
+	<button 
 		class 		= "icon round large bg-3 white icon-interface-cancel_edit drop-shadow"
 		ng-click 	= "cancel()" 
 		ng-if		= "true"

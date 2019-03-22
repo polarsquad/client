@@ -217,6 +217,7 @@ angular.module('icUiDirectives', [
 			var element 	= e.target,
 				source_name	= undefined
 
+
 			for(var key in icScrollSources.sources){
 				if(icScrollSources.sources[key] == element) source_name = key
 			}
@@ -266,6 +267,9 @@ angular.module('icUiDirectives', [
 			link:function(scope, element, attrs){
 
 				var source_name = scope.$eval(attrs.icScrollSource) || attrs.icScrollSource
+
+
+				element.on('scroll', function(){ console.log('scroll')})
 
 				icScrollSources.registerScrollSource(source_name, element)
 

@@ -83,7 +83,6 @@
 	overflow:					hidden;
 	white-space: 				nowrap;
 	text-overflow:				ellipsis;
-	max-width:					14em;
 	align-items:				center;
 }
 
