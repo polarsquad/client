@@ -449,8 +449,6 @@ angular.module('icServices', [
 
 							var utl = icLanguages.translationTable[lang]['UNSORTED_TAGS']['LIST'] || 'UNSORTED_TAGS.LIST'
 
-							console.log(utl)
-							console.dir(icLanguages.translationTable[lang]['UNSORTED_TAGS'])
 							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
 
 							icLanguages.refreshTranslations(lang)
@@ -481,9 +479,8 @@ angular.module('icServices', [
 
 			if(!icTaxonomy.tags.lists) return null
 
-			var index = icTaxonomy.tags.lists.filter(function(tag){ return tag == 'lists_'+list.id})
+			icTaxonomy.tags.lists = icTaxonomy.tags.lists.filter(function(tag){ return tag != 'lists_'+list.id})
 
-			if(index != -1) icTaxonomy.tags.lists.splice(index,1)
 		}
 		
 
