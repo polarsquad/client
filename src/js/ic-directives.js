@@ -772,8 +772,6 @@ angular.module('icDirectives', [
 				scope.validate = function(){
 
 				
-					console.log(scope.icKey, scope.icEdit, scope.icTranslationKey)
-
 					scope.error 	= 	scope.icForceChoice && !(scope.value.edit && scope.value.edit.length)
 										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
 										:	scope.icEdit.getErrors(scope.icKey)

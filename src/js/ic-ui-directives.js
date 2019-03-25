@@ -229,9 +229,10 @@ angular.module('icUiDirectives', [
 
 
 		icScrollSources.registerScrollSource = function(source_name, element){
+
 			element = element[0] || element
 
-			if(icScrollSources.sources[source_name]) icScrollSources.deRegisterScrollSource(source_name, element)
+			if(icScrollSources.sources[source_name]) icScrollSources.deRegisterScrollSource(source_name, icScrollSources.sources[source_name])
 
 			element.addEventListener('scroll', scroll)
 			icScrollSources.sources[source_name] = element
@@ -245,6 +246,7 @@ angular.module('icUiDirectives', [
 
 
 		icScrollSources.deRegisterScrollSource = function(source_name, element){
+
 			element = element[0] || element
 
 			element.removeEventListener('scroll', scroll)
@@ -267,9 +269,6 @@ angular.module('icUiDirectives', [
 			link:function(scope, element, attrs){
 
 				var source_name = scope.$eval(attrs.icScrollSource) || attrs.icScrollSource
-
-
-				element.on('scroll', function(){ console.log('scroll')})
 
 				icScrollSources.registerScrollSource(source_name, element)
 
@@ -304,7 +303,9 @@ angular.module('icUiDirectives', [
 					check_requested = true
 
 					window.requestAnimationFrame(function(){
+						check_requested = false
 
+						if(!element) return null //the animation frame can trigger after the element has been removed
 
 						if(typeof target == 'boolean'){
 							element.toggleClass('ic-scroll-top', 	target)
@@ -313,6 +314,8 @@ angular.module('icUiDirectives', [
 						}
 						
 						var sourceElement = icScrollSources.sources[target]
+
+						if(!sourceElement) return null //the animation frame can trigger after the element has been removed
 
 						element.toggleClass(
 							'ic-scroll-top', 
@@ -328,7 +331,6 @@ angular.module('icUiDirectives', [
 							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
 						)		
 
-						check_requested = false
 					})
 
 				}
