@@ -76,7 +76,8 @@ ic-overlays:after {
 	height:					1rem;
 }
 
-ic-overlays > * > h2 {
+ic-overlays > * > h2,
+ic-overlays > * > h3 {
 	margin-left:			auto;
 	margin-right:			auto;
 	margin-top:				0;
@@ -269,7 +270,9 @@ ic-overlays > .right {
 
 
 ic-overlays > .left h2,
-ic-overlays > .right h2 {
+ic-overlays > .right h2,
+ic-overlays > .left h3,
+ic-overlays > .right h3 {
 	text-align:				left;
 } 
 
