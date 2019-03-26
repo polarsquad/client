@@ -1,37 +1,53 @@
 <h2>{{'INTERFACE.LISTS' | translate}}</h2>
 
+
 <form
-	ng-submit 	= "ic.lists.createList(new_list); new_list = '' "
+	ng-show		= "toggle_new"
+	ng-submit 	= "ic.lists.createList(new_list); new_list = ''; toggle_new = false "
 >
+	<h3>{{'INTERFACE.CREATE_LIST' | translate}}</h3>
 	<input class = "block" type = "text" placeholder = "{{'INTERFACE.CREATE_LIST_PLACEHOLDER' | translate}}" ng-model = "new_list"/>
-	<button 
-		class 		= "bg-3 padding tac"
-		ng-disabled	= "!new_list"
-		type 		= "submit"
-	> 
-		<span class = "icon left icon-interface-lists_add white">{{'INTERFACE.CREATE_LIST' | translate}}</span>
-	</button>
+	<div class = "flex flex-space">
+		<button 
+			class 		= "bg-3 padding tac flex-grow"
+			ng-disabled	= "!new_list"
+			type 		= "submit"
+		> 
+			{{'INTERFACE.OKAY' | translate}}
+		</button>
+
+		<button 
+			class 		= "bg-3 padding tac flex-grow"
+			ng-click	= "new_list = ''; toggle_new = false; $event.preventDefault()"
+			type		= "button"
+		> 
+			{{'INTERFACE.CANCEL' | translate}}
+		</button>
+	</div>
 </form> 
 
+<button 
+	class 		= "bg-0 padding tac bg-3"
+	ng-show		= "!toggle_new"
+	ng-click	= "toggle_new = true"
+> 
+	<span class = "icon left icon-interface-lists_add white"></span>
+	{{'INTERFACE.CREATE_LIST' | translate}}
+</button>
+
+
+<br/>
+<br/>
+<br/>
 
 <ul>
 
 	<li 
-		ng-repeat-start	= "list in ic.lists"
+		ng-repeat-start	= "list in ic.lists | filter : {user: ic.user.id} as results"
 		class			= "flex"
 		ic-touch-me
 		ng-if			= "list.user == ic.user.id"
 	>
-		<span 
-			class 		= "icon icon-interface-checkbox"
-			ng-class 	= "{'checked': ic.lists.itemInList(ic.site.activeItem, list.id)}"
-			ng-click	= "ic.lists.toggleItemInList(ic.site.activeItem, list.id)"
-			ng-show		= "ic.site.activeItem && !confirm"
-			ng-title	= "{{ic.lists.itemInList(ic.site.activeItem, list.id) ? 'INTERFACE.REMOVE_ACTIVE_ITEM_FROM_LIST' : 'INTERFACE.ADD_ACTIVE_ITEM_TO_LIST'"
-		>
-		</span>
-
-
 		<input 
 			type 				= "text"
 			class				= "flex-grow"
@@ -42,7 +58,7 @@
 		/>
 
 		<span 
-			class 		= "icon icon-interface-public"
+			class 		= "icon icon-interface-list_public"
 			ng-show		= "!confirm"
 			ng-class 	= "{'active': list.public}"
 			ng-click	= "ic.lists.togglePublicState(list.id, !list.public)"
@@ -80,6 +96,13 @@
 		ng-show	= "confirm"
 		class	= "flex"
 	>
+	</li>
+
+	<li 
+		ng-if = "results.length == 0"
+		class = "tac"
+	>
+		{{'INTERFACE.NO_LISTS' | translate}}
 	</li>
 	
 </ul>

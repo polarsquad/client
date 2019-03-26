@@ -77,7 +77,11 @@ ic-overlays:after {
 }
 
 ic-overlays > * > h2 {
-	margin:					2rem auto;
+	margin-left:			auto;
+	margin-right:			auto;
+	margin-top:				0;
+	margin-bottom:			1rem;
+	text-align:				center;
 }
 
 
@@ -87,7 +91,10 @@ ic-overlays > * > * {
 	margin:					auto;
 }
 
-
+ic-overlays > * > ul {
+	margin-top:				1rem;
+	margin-bottom:			1rem;
+}
 
 ic-overlays > .full {
 	position:				fixed;
@@ -231,7 +238,7 @@ ic-overlays > .center .buttons button + button {
 
 ic-overlays > .center ul {
 	box-sizing:				border-box;
-	padding-left:			10%;
+	margin:					auto;
 }
 
 ic-overlays > .center li {
@@ -241,6 +248,15 @@ ic-overlays > .center li {
 	align-items:			center;
 	margin-bottom:			1rem;
 }
+
+ic-overlays > .center li.icon.left {
+	padding-left:			2rem;
+}
+
+ic-overlays > .center li.icon.right {
+	padding-right:			2rem;
+}
+
 
 ic-overlays > .center li > *{
 	display:				inline-flex;
@@ -252,6 +268,10 @@ ic-overlays > .right {
 }
 
 
+ic-overlays > .left h2,
+ic-overlays > .right h2 {
+	text-align:				left;
+} 
 
 
 ic-overlays > .left:after,
@@ -452,6 +472,7 @@ ic-overlays ic-sharing-menu {
 
 ic-overlays ic-sharing-menu h2 {
 	margin-left:			3rem;
+	text-align:				left;
 }
 
 ic-overlays ic-sharing-menu  .platform {

@@ -945,14 +945,26 @@ angular.module('icDirectives', [
 
 .directive('icListsMenu', [
 
-	'icLists',
-	'icUser',
-
-	function(icLists){
+	function(){
 		return {
 			templateUrl:	'partials/ic-lists-menu.html',
 
 			link: function(){
+
+			}
+		}
+	}
+])
+
+
+.directive('icListsItem', [
+
+	function(){
+		return {
+			templateUrl:	'partials/ic-lists-item.html',
+
+			link: function(){
+				
 			}
 		}
 	}

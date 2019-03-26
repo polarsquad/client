@@ -175,6 +175,15 @@ textarea:-webkit-autofill:focus{
 	flex:					1 0 0;
 }
 
+.flex-space {
+	margin:					-0.5em;
+}
+
+.flex-space > * {
+	margin:					0.5em;
+}
+
+
 
 .flex-shrink {
 	flex:					0 1 auto;
@@ -193,6 +202,7 @@ textarea:-webkit-autofill:focus{
 
 .tac {
 	text-align:					center;
+	justify-content:			center;
 }
 
 
