@@ -282,6 +282,20 @@ angular.module('icDirectives', [
 
 				}
 
+				/* This function also appears in icItemFullHeader, which os not that elegeant =/ */
+				scope.cancel = function(){
+					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
+
+					if(icSite.activeItem.internal.new &&  icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_CREATION"
+					if(icSite.activeItem.internal.new && !icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_SUGGESTION"
+
+					icOverlays.open('confirmationModal', message)
+					.then(function(){
+						if(icSite.activeItem.internal.new) icSite.activeItem = undefined
+						icSite.editItem = false
+					})
+				}
+
 				scope.submit = function(){
 
 					if(!scope.icEdit) return null
