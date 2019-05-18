@@ -523,6 +523,7 @@ ic-overlays ic-main-menu ul {
 	width:						auto;
 }
 
+ic-overlays ic-main-menu .bg-0.hover:focus,
 ic-overlays ic-main-menu .bg-0.hover:hover {
 	background:					inherit !important;
 	color:						inherit !important;
@@ -568,6 +569,7 @@ ic-overlays ic-main-menu ul > li > ul {
 	box-shadow:					none;
 }
 
+ic-overlays ic-main-menu ul > li > ul > li a:focus,
 ic-overlays ic-main-menu ul > li > ul > li a:hover {
 	background-color:			transparent;
 	color:						inherit;

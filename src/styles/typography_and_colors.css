@@ -34,6 +34,7 @@ ul li {
 input, 
 button, 
 button:active,
+button:focus,
 button:hover {
 	display:			inline-block;
 	border:				none;	
@@ -101,6 +102,7 @@ input {
 }
 
 input:-webkit-autofill,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:active{
 	box-shadow:				0 0 0 1000rem #eeeeee inset;

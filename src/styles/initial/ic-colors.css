@@ -10,6 +10,7 @@
 	color:						#222;
 }
 
+.bg-0.hover:focus,
 .bg-0.hover:hover{
 	background-color:			#802651;
 	color:						#fff !important;
@@ -28,6 +29,7 @@
 	color:						#666;
 }
 
+.bg-1.hover:focus,
 .bg-1.hover:hover{
 	background-color:			#fff;
 }
@@ -46,6 +48,7 @@
 	color:						#000;
 }
 
+.bg-2.hover:focus,
 .bg-2.hover:hover{
 	background-color:			#aaa
 }
@@ -66,6 +69,7 @@
 	color:						#fff;
 }
 
+.bg-3.hover:focus,
 .bg-3.hover:hover{
 	background-color:			#fff;
 	color:						#802651;

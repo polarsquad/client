@@ -190,6 +190,7 @@ ic-page .tiles > * {
 	transition: 				background-color 0.5s ease;
 }
 
+ic-page .tiles > *:focus,
 ic-page .tiles > *:hover {
 	filter:						brightness(1.1)
 }
@@ -259,6 +260,7 @@ ic-page .tiles > .item-tile .image .fallback:before {
 
 
 
+ic-page .tiles > .item-tile:focus .image,
 ic-page .tiles > .item-tile:hover .image{
 	-webkit-filter: 			brightness(1.1);
 	filter: 					brightness(1.1);

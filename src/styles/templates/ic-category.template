@@ -2,6 +2,7 @@
 	background-color:		{{color[0]}};
 }
 
+.ic-bg-cat-{{name}}.hover:focus,
 .ic-bg-cat-{{name}}.hover:hover {
 	background-color:		{{color[1]}};
 }
@@ -10,6 +11,7 @@
 	color:					{{color[0]}};
 }
 
+.ic-col-cat-{{name}}.hover:focus,
 .ic-col-cat-{{name}}.hover:hover {
 	color:					{{color[1]}};
 }
