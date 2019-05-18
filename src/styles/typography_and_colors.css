@@ -9,7 +9,6 @@ select {
 
 /* common  MAYBE outsource to extra css*/
 a {
-	outline:			none !important;
 	text-decoration:	none;
 	color:				inherit;
 	cursor:				pointer;
@@ -49,7 +48,6 @@ button::-moz-focus-inner {
 
 button {
 	cursor:				pointer;
-	outline:			none !important;
 	background-color:	transparent;
 	border-radius:		0;
 	padding:			0;
@@ -126,7 +124,6 @@ input[type=password]{
 input[type=text]:focus,
 input[type=password]:focus,
 textarea:focus {
-	outline: 				none;
 	box-shadow:				0 0 0 1px #000 inset;
 } 
 
