@@ -87,6 +87,7 @@ ic-map-item-marker .content .details  {
 }
 
 ic-map-item-marker:active,
+ic-map-item-marker:focus,
 ic-map-item-marker:hover {
 	z-index:				9999999999 !important;
 }
@@ -94,6 +95,7 @@ ic-map-item-marker:hover {
 
 ic-map-item-marker.active	.content,
 ic-map-item-marker:active 	.content,
+ic-map-item-marker:focus 	.content,
 ic-map-item-marker:hover 	.content {
 	max-width:				14em;
 	padding-left:			0.25em;
@@ -129,11 +131,13 @@ ic-map-cluster-marker {
 }
 
 ic-map-cluster-marker:active,
+ic-map-cluster-marker:focus,
 ic-map-cluster-marker:hover {
 	z-index:				9999999 !important;
 }
 
 ic-map-cluster-marker:active	ic-map-item-marker,
+ic-map-cluster-marker:focus		ic-map-item-marker,
 ic-map-cluster-marker:hover		ic-map-item-marker {
 	z-index:				0;
 }	
@@ -153,6 +157,7 @@ ic-map-cluster-marker ic-map-item-marker {
 	transition:				margin-top 100ms ease-in;
 }
 
+ic-map-cluster-marker ic-map-item-marker:focus,
 ic-map-cluster-marker ic-map-item-marker:hover {
 	z-index:				0 !important;
 }
@@ -164,6 +169,7 @@ ic-map-cluster-marker ic-map-item-marker + ic-map-item-marker {
 
 
 ic-map-cluster-marker:active ic-map-item-marker + ic-map-item-marker,
+ic-map-cluster-marker:focus ic-map-item-marker + ic-map-item-marker,
 ic-map-cluster-marker:hover ic-map-item-marker + ic-map-item-marker {
 	margin-top:			-0.6em
 
@@ -174,6 +180,7 @@ ic-map-cluster-marker ic-map-item-marker + ic-map-item-marker .outer-icon{
 }
 
 
+ic-map-cluster-marker:focus ic-map-item-marker + ic-map-item-marker .outer-icon,
 ic-map-cluster-marker:hover ic-map-item-marker + ic-map-item-marker .outer-icon{
 	box-shadow:				none !important;
 }
@@ -191,9 +198,11 @@ ic-map-expand-control button {
 }
 
 ic-map-switch-control button,
+ic-map-switch-control button:focus,
 ic-map-switch-control button:hover,
 ic-map-switch-control button:active,
 ic-map-expand-control button,
+ic-map-expand-control button:focus,
 ic-map-expand-control button:hover,
 ic-map-expand-control button:active {
 	background-color:		transparent !important;
