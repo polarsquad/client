@@ -41,6 +41,7 @@
 
 
 .XS ic-main-content > *,
+.XS ic-main-content > *:focus,
 .XS ic-main-content > *:hover {
 	padding-left:				0 !important;
 	padding-right:				0 !important;
@@ -130,6 +131,7 @@
 	font-size:					1.25rem;
 }
 
+.XS ic-footer > *:focus,
 .XS ic-footer > *:hover {
 	border-bottom:				none;
 }

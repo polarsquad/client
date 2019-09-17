@@ -44,7 +44,9 @@ ic-header .tools > button {
 	color:							#fff;
 }
 
+ic-header .tools a:focus,
 ic-header .tools a:hover,
+ic-header .tools button:focus,
 ic-header .tools button:hover {
 	background-color:				transparent;
 }
@@ -177,6 +179,7 @@ ic-header ic-main-menu ul > li > ul > li > a {
 	padding: 						0.25rem 1rem;
 }
 
+ic-header ic-main-menu ul > li > ul > li a:focus > .bubble,
 ic-header ic-main-menu ul > li > ul > li a:hover > .bubble {
 	color:							#444 !important;
 	background-color:				#fff !important;
