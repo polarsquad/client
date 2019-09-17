@@ -2011,7 +2011,7 @@ angular.module('icServices', [
 			if(icOverlays.active()) return this
 
 			//reject all promises 
-			for(var key in icOverlays.show){
+			for(var key in icOverlays.deferred){
 				if(icOverlays.deferred[key]){
 					icOverlays.deferred[key].reject()
 					delete icOverlays.deferred[key]
