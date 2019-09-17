@@ -3,6 +3,7 @@ todo
 /node_modules
 /dev
 /dist
+/build
 /map
 /tmp
 /sharing_patch
