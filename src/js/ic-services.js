@@ -785,10 +785,12 @@ angular.module('icServices', [
 			}
 
 			icSite.print = function(){
+				console.log('print')
 				try {
-					document.execCommand('print', true, null)
-				} catch(e) {
 					window.print()
+				} catch(e) {
+					console.log(e)
+					if(!document.execCommand('print', true, null)) console.warn('cannot oen print dialog via execCommand')
 				}
 
 
