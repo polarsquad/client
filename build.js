@@ -186,7 +186,7 @@ function svgMinimize(src_folder, dest_folder){
 			.then( (filenames) => Promise.all(
 				filenames.map( (filename) => {
 					return	fs.readFile(src_folder+'/'+filename, 'utf8')
-							.then( content => new Promise( resolve => svgo.optimize(content, resolve) ) )
+							.then( content => svgo.optimize(content) ) 
 							.then( result => fs.writeFile(dest_folder+'/'+filename, result.data, { flag : 'w', encoding: 'utf8'}))
 				})				
 			))

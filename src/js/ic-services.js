@@ -291,7 +291,7 @@ angular.module('icServices', [
 		var icLists = []
 
 		if(!dpd.lists){
-			console.error('icLists: missing dpd.lists')
+			console.error('icLists: missing dpd.lists. Maybe backend is out of date.')
 			icTiles.ready = icUser.ready
 		}
 
