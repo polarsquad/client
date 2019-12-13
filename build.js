@@ -20,13 +20,13 @@ var copyfiles	= 	require('copyfiles'),
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
 	src			=	'tmp/src',
 
-	taxonomy	= 	fs.existsSync(cst+'/config.json')
+	taxonomy	= 	fs.existsSync(cst+'/js/taxonomy.js')
 					?	require('./'+cst+'/js/taxonomy.js')
 					:	(console.log('\n\nmissing '+ cst+'/js/taxonomy.js') && process.exit(1)),
 
 	config		=	fs.existsSync(cst+'/config.json')
 					?	JSON.parse(fs.readFileSync(cst+'/config.json', 'utf8'))
-					:	(console.log('\n\nmissing '+ cst+'/config.json Copy default/config_example.json to '+ins+'/config.json') && process.exit(1)),
+					:	(console.log('\n\nmissing '+ cst+'/config.json Copy default/config_example.json to '+cst+'/config.json') && process.exit(1)),
 
 	preloadImg	=	[],
 
@@ -38,6 +38,7 @@ var copyfiles	= 	require('copyfiles'),
 
 
 //defaults:
+config.pages = config.pages || []
 if(config.pages.indexOf('home') == -1) config.pages.push('home')
 
 
