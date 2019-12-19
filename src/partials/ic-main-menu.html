@@ -143,9 +143,9 @@
 
 			<li
 				class = "bg-0 hover"
+				ng-if = "!ic.lists.disabled && ic.user.loggedIn"
 			>
 				<a 
-					ng-if		= "ic.user.loggedIn"
 					ng-click 	= "ic.overlays.toggle('listsMenu')" 
 					title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
 				>
@@ -190,16 +190,6 @@
 				</a>	
 			</li>
 
-			<li
-				class = "bg-0 hover"  
-			>
-				<a
-					ng-click = "ic.overlays.open('listsMenu')"
-					ic-touch-me
-				>
-					<span>{{'INTERFACE.MANAGE_LISTS' | translate}}</span>
-				</a>	
-			</li>
 
 			<li
 				class = "bg-0 hover"  

@@ -167,7 +167,11 @@ angular.module('icServices', [
 
 								}
 	
-
+		icInit.ready		= undefined
+		icInit.done			= undefined
+		icInit.readyCount 	= 0
+		icInit.readyMax		= Object.keys(promises).length
+		icInit.errors 		= []
 			
 		Object.keys(promises).forEach(function(key){
 			promises[key]
@@ -187,14 +191,14 @@ angular.module('icServices', [
 						})
 					}
 				},
-				console.error
+				function(e){
+					console.error(e)
+					console.info( (key+'...').padEnd(25,' ')+'[failed]')
+					icInit.errors.push(key)
+				}
 			)
 		})
 
-		icInit.ready		= undefined
-		icInit.done			= undefined
-		icInit.readyCount 	= 0
-		icInit.readyMax		= Object.keys(promises).length
 
 		return icInit
 	}
@@ -285,16 +289,27 @@ angular.module('icServices', [
 	'icItemStorage',
 	'icLanguages',
 	'icTaxonomy',
+	'icConfig',
 
-	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy){
+	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy, icConfig){
 
 		var icLists = []
 
-		if(!dpd.lists){
-			console.error('icLists: missing dpd.lists. Maybe backend is out of date.')
-			icTiles.ready = icUser.ready
+
+
+		if(!dpd.lists && !icConfig.disableLists) console.error('icLists: missing dpd.lists. Maybe backend is out of date.')
+
+		if(!dpd.lists || icConfig.disableLists){
+
+			console.info('icLists disabled.')
+			icLists.disabled = true
+			icLists.ready 	= $q.resolve()
+
+			return icLists
 		}
 
+
+		icLists.disabled = false
 
 		icLists.get = function(id){
 			return 	id
@@ -365,6 +380,8 @@ angular.module('icServices', [
 
 		icLists.update = function(){
 			
+			console.log('UPDATE LIST')
+
 			return 	$q.when(dpd.lists.get())
 					.then(function(lists){
 						while(icLists.length){ icLists.pop() }
@@ -1901,8 +1918,9 @@ angular.module('icServices', [
 	'$rootScope',
 	'icItemStorage',
 	'icTaxonomy',
+	'icConfig',
 
-	function($rootScope, icItemStorage, icTaxonomy){
+	function($rootScope, icItemStorage, icTaxonomy, icConfig){
 
 		var icFavourites = this,
 			items = JSON.parse(localStorage.getItem('icFavourites') || '[]')
@@ -1941,14 +1959,16 @@ angular.module('icServices', [
 			icFavourites.toggleItem(item_or_id, false)
 		}
 
-		icItemStorage.ready
-		.then(function(){
-			icItemStorage.registerFilter('favourite', function(item){
-				return icFavourites.contains(item) 
+		if(!icConfig.disableLists){
+			icItemStorage.ready
+			.then(function(){
+				icItemStorage.registerFilter('favourite', function(item){
+					return icFavourites.contains(item) 
+				})
 			})
-		})
 
-		icTaxonomy.addExtraTag('favourite', 'lists')
+			icTaxonomy.addExtraTag('favourite', 'lists')
+		}
 
 		$rootScope.$watch(
 			function(){

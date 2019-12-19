@@ -7,3 +7,15 @@
 	<div class ="current" style = "width:0" ng-style = "{'width': (( (ic.init.readyCount+1)/ic.init.readyMax)*100 || 0)+'%'}">
 	</div>
 </div>
+
+<div 
+	class = "error" 
+	ng-if = "ic.init.errors.length"
+>
+	[
+	failed to load:
+	<span ng-repeat = "error in ic.init.errors">
+		 {{error}}{{$last ? '' : ','}}
+	</span>
+	]
+</div>
