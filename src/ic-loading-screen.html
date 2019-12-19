@@ -11,6 +11,8 @@
 <div 
 	class = "error" 
 	ng-if = "ic.init.errors.length"
+	style = "display:none"
+	ng-style = "{'display':ic.init.errors.length ? 'block' : 'none'}" 
 >
 	[
 	failed to load:

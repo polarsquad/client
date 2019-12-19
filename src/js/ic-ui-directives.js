@@ -342,11 +342,11 @@ angular.module('icUiDirectives', [
 				}
 
 				scope.scrollTop = function(){
-					if(target) sources[target].scrollTop = 0
+					if(target && sources[target]) sources[target].scrollTop = 0
 				}
 
 				scope.scrollBottom = function(){
-					if(target) sources[target].scrollTop = sources[target].scrollHeight
+					if(target && sources[target]) sources[target].scrollTop = sources[target].scrollHeight
 				}
 
 				scope.$watch(
