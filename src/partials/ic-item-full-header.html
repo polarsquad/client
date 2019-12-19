@@ -56,7 +56,7 @@
 
 	<button 
 		class 		= "icon round large active icon-interface-favourites drop-shadow bg-0"
-		ng-if		= "ic.user.loggedIn && !ic.item.disabled"
+		ng-if		= "ic.user.loggedIn && !ic.lists.disabled"
 		ng-click 	= "ic.overlays.toggle('listsItem')" 
 		title		= "{{'INTERFACE.ADD_ITEM_TO_LIST' | translate}}"
 		ic-touch-me
