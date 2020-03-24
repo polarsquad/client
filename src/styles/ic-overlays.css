@@ -188,6 +188,7 @@ ic-overlays > .center label + label{
 ic-overlays > .center.greedy {
 	width:					90%;
 	max-width:				40rem;
+	padding:				2rem;
 }
 
 ic-overlays > .center.greedy > * {
