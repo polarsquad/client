@@ -393,6 +393,7 @@ angular.module('icServices', [
 					})
 		}
 
+		//TODO: this is where sockets are used and a cookie header is set!:
 
 		dpd.lists.on("creation", function(list_id){
 			$q.when(dpd.lists.get(list_id))
@@ -1922,6 +1923,7 @@ angular.module('icServices', [
 
 	function($rootScope, icItemStorage, icTaxonomy, icConfig){
 
+
 		var icFavourites = this,
 			items = JSON.parse(localStorage.getItem('icFavourites') || '[]')
 
@@ -1959,7 +1961,7 @@ angular.module('icServices', [
 			icFavourites.toggleItem(item_or_id, false)
 		}
 
-		if(!icConfig.disableLists){
+		//if(!icConfig.disableLists){
 			icItemStorage.ready
 			.then(function(){
 				icItemStorage.registerFilter('favourite', function(item){
@@ -1968,7 +1970,9 @@ angular.module('icServices', [
 			})
 
 			icTaxonomy.addExtraTag('favourite', 'lists')
-		}
+		//}
+		
+		
 
 		$rootScope.$watch(
 			function(){
