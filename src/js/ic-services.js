@@ -1961,16 +1961,15 @@ angular.module('icServices', [
 			icFavourites.toggleItem(item_or_id, false)
 		}
 
-		//if(!icConfig.disableLists){
-			icItemStorage.ready
-			.then(function(){
-				icItemStorage.registerFilter('favourite', function(item){
-					return icFavourites.contains(item) 
-				})
+		icItemStorage.ready
+		.then(function(){
+			icItemStorage.registerFilter('favourite', function(item){
+				return icFavourites.contains(item) 
 			})
+		})
 
-			icTaxonomy.addExtraTag('favourite', 'lists')
-		//}
+		if(!icConfig.disableLists) icTaxonomy.addExtraTag('favourite', 'lists')
+	
 		
 		
 
