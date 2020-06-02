@@ -112,7 +112,7 @@
 
 		icItemStorage.clearFilteredList = function(){
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
-			for(var tag in icItemStorage.currentStats.totals)	delete icItemStorage.currentStats.totals[tag]
+			for(var tag in icItemStorage.currentStats.totals)			delete icItemStorage.currentStats.totals[tag]
 			for(var tag in icItemStorage.currentStats.altMatches) 		delete icItemStorage.currentStats.altMatches[tag]
 			for(var tag in icItemStorage.currentStats.subMatches) 		delete icItemStorage.currentStats.subMatches[tag]
 			return icItemStorage

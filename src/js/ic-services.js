@@ -768,12 +768,17 @@ angular.module('icServices', [
 						.updateVisibleSections()
 			}
 
+			var onRegisterSchedule = false
+
 			icSite.onRegister = function(){ 
+				if(onRegisterSchedule) return null
 				// Some providers may register Params before service ic is initialized in .run() causing an error if onRegister is called too early
 				ic.ready.then(function(){
+						onRegisterSchedule = false
 						icSite.updateFromPath()
 						icSite.updateFromSearch()
 				})
+				onRegisterSchedule = true
 			}
 
 			icSite.adjust = function(){
@@ -1017,7 +1022,7 @@ angular.module('icServices', [
 					function(){ return icSite.searchTerm },
 					function(new_search_term, old_search_term){ 
 						if(!checked.search || new_search_term != old_search_term) icStats.statSearch(new_search_term) 
-						checked.item = true	
+						checked.search = true	
 					}
 				)
 			
@@ -1025,7 +1030,7 @@ angular.module('icServices', [
 					function(){ return icSite.currentLanguage },
 					function(new_language, old_language){ 
 						if(!checked.language || new_language != old_language) icStats.statLanguage(new_language) 
-						checked.item = true	
+						checked.language = true	
 					}
 				)
 		
@@ -1355,8 +1360,9 @@ angular.module('icServices', [
 	'icItemStorage',
 	'icTaxonomy',
 	'icLanguages',
+	'icItemConfig',
 
-	function($rootScope, icSite, icItemStorage, icTaxonomy, icLanguages){
+	function($rootScope, icSite, icItemStorage, icTaxonomy, icLanguages, icItemConfig){
 		var icFilterConfig = this
 
 		icSite
