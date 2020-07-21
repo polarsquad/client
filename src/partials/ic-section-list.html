@@ -1,24 +1,36 @@
 <article
 	ic-settle-scrollbar					= "true"
+	ic-scroll-snap-anchor 				= "header"
 	ic-scroll-repeat-limit-container 	= "true"
 	class								= "padding"
 >
 
 	<div 
 		ng-if = "!ic.site.visibleSections.filter"
-		class = "bg-0 padding active"
+		class = "bg-0 padding active flex"
 	>
 		<div 
-			class 		= "block bg-3 padding tac"
+			class 		= "block margin-right flex-grow bg-3 padding tac"
 			ng-click 	= "ic.overlays.toggle('taxonomyFilter')"
 			ic-touch-me 
 		>
 			{{'INTERFACE.FILTER' | translate}}
 		</div>
+
+		<div 
+			class 		= "block margin-left flex-grow bg-3 padding tac"
+			ng-click 	= "ic.site.expandMap = true"
+			ic-touch-me 
+		>
+			{{'INTERFACE.MAP' | translate}}
+		</div>
 		
 	</div>
 
-	<ic-taxonomy-filter-tag-list class = "padding bg-0">
+	<ic-taxonomy-filter-tag-list 
+		class = "bg-0 padding"
+		ng-if = "!ic.site.visibleSections.filter"
+	>
 	</ic-taxonomy-filter-tag-list>
 
 	<ic-sorting class = "padding bg-0">
