@@ -1974,7 +1974,8 @@ angular.module('icServices', [
 			})
 		})
 
-		if(!icConfig.disableLists) icTaxonomy.addExtraTag('favourite', 'lists')
+		//if this is missing the favourite page will allway show all entries!
+		icTaxonomy.addExtraTag('favourite', 'lists')
 	
 		
 		
