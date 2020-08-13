@@ -4,12 +4,12 @@
   "description": "",
   "main": "Gruntfile.js",
   "dependencies": {
-    "angular": "^1.7.9",
+    "angular": "^1.8.0",
     "angular-qrcode": "^6.2.1",
-    "angular-sanitize": "^1.7.9",
-    "angular-translate": "^2.18.2",
+    "angular-sanitize": "^1.8.0",
+    "angular-translate": "^2.18.3",
     "bluebird": "^3.7.2",
-    "browserify": "^16.5.1",
+    "browserify": "^16.5.2",
     "clean-css": "^4.2.3",
     "copyfiles": "^1.2.0",
     "fs-extra": "^4.0.3",
@@ -23,7 +23,7 @@
     "svgo": "^1.3.2",
     "typeface-biryani": "0.0.22",
     "typeface-fira-sans": "0.0.54",
-    "uglify-js": "^3.9.4"
+    "uglify-js": "^3.10.1"
   },
   "scripts": {
     "build": "node build.js",

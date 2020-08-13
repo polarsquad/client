@@ -58,7 +58,7 @@ function setup(){
 				fs.emptyDir(dst),
 				fs.emptyDir('tmp')
 			])
-			.then( ()	=> 	fs.writeFile(dst+'/build', build, 'utf8'))
+			.then( ()	=> 	fs.writeFile(dst+'/build', String(build), 'utf8'))
 			.then( ()	=>	fs.copy('src',  	'tmp/src'))
 			.then( () 	=> 	cst 
 							?	fs.copy(cst,	'tmp/src', {overwrite: true})

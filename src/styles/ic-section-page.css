@@ -323,3 +323,13 @@ ic-footer a {
 }
 
 
+
+ic-page .images {
+	display:					flex;
+	flex-wrap: 					wrap;
+}
+
+ic-page .images > * {
+	flex:						1 1 20rem;
+	padding-top:				100%;
+}
