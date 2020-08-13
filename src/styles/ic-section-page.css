@@ -327,9 +327,17 @@ ic-footer a {
 ic-page .images {
 	display:					flex;
 	flex-wrap: 					wrap;
+	padding:					1rem 0;
 }
 
 ic-page .images > * {
-	flex:						1 1 20rem;
-	padding-top:				100%;
+	width:						30rem;
+	max-width:					100%;
+
+	height:						30rem;
+	max-width:					100%;
+
+	background-repeat:			no-repeat;
+	background-size:			contain;
+	background-position:		50% 50%;
 }
