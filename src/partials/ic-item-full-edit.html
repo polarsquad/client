@@ -412,6 +412,23 @@
 	</article>
 
 
+	<article
+		ng-if = "ic.user.can('edit_items')"
+	>
+		<div> <!-- spacer --> </div>
+		<div>
+			<h4> {{'ITEMS.RESUBMISSION_DATE' | translate}}</h4>
+
+			<ic-item-property-edit
+				ic-item						= "icItem"
+				ic-type						= "string"				
+				ic-key						= "resubmissionDate"
+				ic-date						= "true"
+			></ic-item-property-edit>
+		</div>
+	</article>
+
+
 
 	<article>
 		<div> <!-- spacer --> </div>
