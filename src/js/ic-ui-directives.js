@@ -814,7 +814,7 @@ angular.module('icUiDirectives', [
 	function(){
 		return {
 			restrict: 		"E",
-			template: 		'<div class = "shuttle"><div class ="on">{{on}}</div><div class = "indicator"></div><div class ="off">{{off}}</div></div>',
+			template: 		'<div class = "shuttle"><div class ="on">{{on || ("INTERFACE.ON"|translate) }}</div><div class = "indicator"></div><div class ="off">{{ off || ("INTERFACE.OFF"|translate)}}</div></div>',
 			scope:			{
 								on: 	"@",
 								off:	"@",
@@ -825,8 +825,8 @@ angular.module('icUiDirectives', [
 
 				element.on('click', function(){ scope.value = !scope.value })
 
-				attr.$observe('on', 	function(value) { scope.on 	= value || 'on' })					
-				attr.$observe('off',	function(value) { scope.off = value || 'off' })
+				attr.$observe('on', 	function(value) { scope.on 	= value })					
+				attr.$observe('off',	function(value) { scope.off = value })
 
 				scope.$watch('value', function(value){
 					if(value){
