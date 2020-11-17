@@ -22,14 +22,8 @@
 	</div>
 	
 	<br/>
-
-	<div class  = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
-
-	<br/>
-
+	
 	<div>
-		{{icActivate || ('INTERFACE.ENABLE_DATE' | translate) }}
-
 		<ic-toggle
 			on 		= "{{icToggleOn}}"
 			off 	= "{{icToggleOff}}"
@@ -37,25 +31,55 @@
 		>		
 		</ic-toggle>
 
-	</div>
+		{{icActivate || ('INTERFACE.ENABLE_DATE' | translate) }}
 
-	<input ng-if = "date.date_enabled" type = "date" ng-model = "date.date" required/>
+	</div>
 
 	<br/>
 
 	<div ng-if = "date.date_enabled && !icSkipTime">
-		{{'INTERFACE.ENABLE_TIME' | translate }}
-
 		<ic-toggle
 			on 		= "{{icToggleOn}}"
 			off 	= "{{icToggleOff}}"
 			value	= "date.time_enabled"
 		>		
 		</ic-toggle>
+
+		{{'INTERFACE.ENABLE_TIME' | translate }}
+
+	</div>
+	
+	<br ng-if = "date.date_enabled && !icSkipTime" />
+
+	<div class = "split">
+
+		<div>
+			<input 
+				ng-if		= "date.date_enabled" 
+				type 		= "date" 
+				ng-model	= "date.date" 
+				placeholder	= "YYYY-MM-DD"
+				required
+			/>
+		</div>
+
+		<div>
+			<input 
+				ng-if				= "date.time_enabled && !icSkipTime"	
+				type				= "time"  
+				ng-model			= "date.time" 
+				ng-model-options 	= "{timezone: '+0000', timeSecondsFormat:''}" 
+				required
+			/>
+		</div>
+			
 	</div>
 
-	<input ng-if = "date.time_enabled" type = "time"  ng-model = "date.time" ng-model-options = "{timezone: '+0000', timeSecondsFormat:''}" required/>
-		
+	<br/>
+
+	<div class = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
+
+
 	<div ng-if = "!error || icHideErrors" class = "error"></div>
 	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
 

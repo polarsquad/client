@@ -6,7 +6,9 @@ ic-toggle {
 	line-height:			1.3em;		
 	height:					1.3em;
 	user-select:			none;
-	vertical-align:			middle;
+	vertical-align:			baseline;
+	cursor:					pointer;
+	margin-bottom:			-0.35em;
 }
 
 ic-toggle .shuttle {
