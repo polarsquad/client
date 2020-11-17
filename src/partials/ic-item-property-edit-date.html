@@ -8,7 +8,7 @@
 	<div ng-if 	= "!hideCurrentValue" class = "current-value-parent-box">
 
 		<span class	= "current-value {{diff()? 'diff': ''}}">
-			{{ value.current || ('INTERFACE.PROPERTY_EMPTY' | translate) }}
+			{{ value.current ? (value.current | icDate) : ('INTERFACE.PROPERTY_EMPTY' | translate) }}
 		</span>	
 
 		<button
