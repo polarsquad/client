@@ -809,7 +809,39 @@ angular.module('icUiDirectives', [
 
 ])
 
+.directive('icToggle', [
 
+	function(){
+		return {
+			restrict: 		"E",
+			template: 		'<div class = "shuttle"><div class ="on">{{on}}</div><div class = "indicator"></div><div class ="off">{{off}}</div></div>',
+			scope:			{
+								on: 	"@",
+								off:	"@",
+								value:	"="
+							},
+
+			link: function(scope, element, attr){
+
+				element.on('click', function(){ scope.value = !scope.value })
+
+				attr.$observe('on', 	function(value) { scope.on 	= value || 'on' })					
+				attr.$observe('off',	function(value) { scope.off = value || 'off' })
+
+				scope.$watch('value', function(value){
+					if(value){
+						element.addClass('on')
+						element.removeClass('off')						
+					} else {
+						element.removeClass('on')
+						element.addClass('off')
+					}
+				})					
+			}
+		}
+	}
+
+])
 
 
 .directive('icWatch', [

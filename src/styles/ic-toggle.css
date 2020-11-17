@@ -1,0 +1,58 @@
+ic-toggle {
+	display:				inline-block;
+	overflow:				hidden;
+	border-radius:			1em;
+	border:					1px solid var(--primary-color);
+	line-height:			1.3em;		
+	height:					1.3em;
+	user-select:			none;
+	vertical-align:			middle;
+}
+
+ic-toggle .shuttle {
+	display:				block;	
+	transition:				transform 300ms ease-in-out;
+}
+
+ic-toggle .shuttle > * {
+	display:				block;
+}
+
+ic-toggle .shuttle .indicator {
+	height:					0.9em;
+	width:					0.9em;
+	background-color:		transparent;
+	box-shadow:				0 0 0px 1px inset var(--primary-color);
+	margin:					0.2em;
+	border-radius:			100%;	
+	transform:				translateY(-1.3em);
+	transition:				background-color 200ms ease-in-out;
+}
+
+ic-toggle .shuttle .on,
+ic-toggle .shuttle .off {	
+}
+
+ic-toggle .shuttle .on {
+	text-align:				right;
+	transform:				translateX(-100%);
+	padding-left:			1.8em;
+}
+
+ic-toggle .shuttle .off {
+	transform:				translateY(-2.6em) translateX(1.3em);	
+	text-align:				left;
+	padding-right:			1.8em;
+}
+
+ic-toggle.on .shuttle{
+	transform:				translateX(calc(100% - 1.3em));
+}
+
+ic-toggle.on .shuttle .indicator {
+	background-color:		var(--primary-color);
+}
+
+ic-toggle.off .shuttle{
+	transform:				translateX(0);	
+}

@@ -1,3 +1,7 @@
+:root{
+	--primary-color:			#802651;
+}
+
 
 .bg-t {
 	background-color:			transparent;
@@ -12,7 +16,7 @@
 
 .bg-0.hover:focus,
 .bg-0.hover:hover{
-	background-color:			#802651;
+	background-color:			var(--primary-color);
 	color:						#fff !important;
 }
 
@@ -65,19 +69,19 @@
 
 
 .bg-3 {
-	background-color:			#802651;
+	background-color:			var(--primary-color);
 	color:						#fff;
 }
 
 .bg-3.hover:focus,
 .bg-3.hover:hover{
 	background-color:			#fff;
-	color:						#802651;
+	color:						var(--primary-color);
 }
 
 
 .border-3 {
-	box-shadow:					0 0 0 0.1rem #802651 inset;
+	box-shadow:					0 0 0 0.1rem var(--primary-color) inset;
 }
 
 
@@ -98,7 +102,7 @@
 }
 
 .col-3 {
-	color:						#802651 !important;
+	color:						var(--primary-color) !important;
 }
 
 
@@ -116,7 +120,7 @@
 }
 
 .active {
-	color:						#802651;
+	color:						var(--primary-color);
 }
 
 .drop-shadow {

@@ -473,7 +473,11 @@ angular.module('icDirectives', [
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
 								icForceChoice:			"<?",
-								icDate:					"<?"
+								icDate:					"<?",
+								icSkipTime:				"<?",
+								icActivate:				"@",
+								icToggleOn:				"@",
+								icToggleOff:			"@"
 							},
 
 			templateUrl: 	function(tElement, tAttrs){
@@ -494,11 +498,6 @@ angular.module('icDirectives', [
 											}
 
 				scope.date				=	{
-												year:			undefined,
-												month:			undefined,
-												day:			undefined,
-												hour:			undefined,
-												minute:			undefined,
 												date_enabled:	false,
 												time_enabled:	false,
 											}
@@ -538,32 +537,29 @@ angular.module('icDirectives', [
 				function updateDateData(){
 					if(!scope.value.edit || typeof scope.value.edit != 'string'){
 						scope.date = 	{
-											year:			new Date().getFullYear(),
-											month:			1,
-											day:			1,
-											hour:			0,
-											minute:			0,
+											date:			null,
+											time:			null,
 											date_enabled:	false,
 											time_enabled:	false,
 										}
 						return null
 					}
 
-					var matches = scope.value.edit.match(/^(\d\d\d\d)\-(\d\d)\-(\d\d)($|T(\d\d)\:(\d\d))/)
+					var matches = scope.value.edit.match(/^(\d\d\d\d\-\d\d\-\d\d)($|T(\d\d\:\d\d))/)
 
 
 					if(!matches) return null
 
 					scope.date.date_enabled = true
-					scope.date.year 		= parseInt(matches[1])
-					scope.date.month		= parseInt(matches[2])
-					scope.date.day			= parseInt(matches[3])
+					scope.date.date			= new Date(matches[1])
 
-					scope.date.time_enabled = !!matches[4]
+					if(scope.icSkipTime) return null					
+
+					scope.date.time_enabled = !!matches[3]
+
 
 					if(scope.date.time_enabled){
-						scope.date.hour 		= parseInt(matches[5])
-						scope.date.minute		= parseInt(matches[6])
+						scope.date.time		= new Date("1970-01-01T"+matches[3]+":00.000Z")
 					}
 				}
 
@@ -773,10 +769,25 @@ angular.module('icDirectives', [
 						return null
 					}
 
-					scope.value.edit = 	pad(scope.date.year,4) + '-' + pad(scope.date.month,2,1,12) + '-' + pad(scope.date.day,2,1,31)
+					if(!(scope.date.date instanceof Date) || isNaN(scope.date.date)) return null
 
-					if(scope.date.time_enabled)
-							scope.value.edit +=	'T' + pad(scope.date.hour,2,0,23) + ':' + pad(scope.date.minute, 2,0,59)	
+
+					var date_portion_match 	= scope.date.date.toISOString().match(/^(\d\d\d\d\-\d\d\-\d\d)/),
+						date_portion 		= date_portion_match && date_portion_match[1] || ''
+
+
+					scope.value.edit = 	date_portion
+
+					if(!scope.date.time_enabled) return null
+
+					if(!(scope.date.time instanceof Date) || isNaN(scope.date.time)) return null
+
+
+
+					var time_portion_match 	= scope.date.time && scope.date.time.toISOString().match(/T(\d\d\:\d\d)/),
+						time_portion 		= time_portion_match && time_portion_match[1] || ''	
+					
+					scope.value.edit +=	'T' + time_portion
 
 				}, true)
 
