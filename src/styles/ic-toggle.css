@@ -17,17 +17,27 @@ ic-toggle .shuttle {
 }
 
 ic-toggle .shuttle > * {
-	display:				block;
+	display:				flex;
+	height:					1.3em;
+	line-height:			1.3em;
+	justify-content:		center;
+	align-items: 			center;
 }
 
 ic-toggle .shuttle .indicator {
+	transform:				translateY(-1.3em);	
+	display:				flex;
+	width:					1.3em;
+}
+
+ic-toggle .shuttle .indicator:before {
+	content:				'';
+	box-sizing:				border-box;
 	height:					0.9em;
 	width:					0.9em;
 	background-color:		transparent;
-	box-shadow:				0 0 0px 1px inset var(--primary-color);
-	margin:					0.2em;
+	border:					1px solid var(--primary-color);
 	border-radius:			100%;	
-	transform:				translateY(-1.3em);
 	transition:				background-color 200ms ease-in-out;
 }
 
@@ -51,8 +61,8 @@ ic-toggle.on .shuttle{
 	transform:				translateX(calc(100% - 1.3em));
 }
 
-ic-toggle.on .shuttle .indicator {
-	background-color:		var(--primary-color);
+ic-toggle.on .shuttle .indicator:before {	
+	background-color:		var(--primary-color);;
 }
 
 ic-toggle.off .shuttle{
