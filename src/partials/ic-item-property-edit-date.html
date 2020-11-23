@@ -24,14 +24,14 @@
 	<br/>
 	
 	<div>
+
+		{{icActivate || ('INTERFACE.ENABLE_DATE' | translate) }}
 		<ic-toggle
 			on 		= "{{icToggleOn}}"
 			off 	= "{{icToggleOff}}"
 			value	= "date.date_enabled"
 		>		
 		</ic-toggle>
-
-		{{icActivate || ('INTERFACE.ENABLE_DATE' | translate) }}
 
 	</div>
 
