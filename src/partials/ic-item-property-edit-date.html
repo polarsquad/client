@@ -21,32 +21,34 @@
 		</button>	
 	</div>
 	
-	<br/>
-	
 	<div>
-
 		{{icActivate || ('INTERFACE.ENABLE_DATE' | translate) }}
-		<ic-toggle
-			on 		= "{{icToggleOn}}"
-			off 	= "{{icToggleOff}}"
-			value	= "date.date_enabled"
-		>		
-		</ic-toggle>
-
+		<div>
+			<br/>
+			<ic-toggle
+				on 		= "{{icToggleOn}}"
+				off 	= "{{icToggleOff}}"
+				value	= "date.date_enabled"
+			>		
+			</ic-toggle>
+			<br/>
+		</div>
 	</div>
 
 	<br/>
 
 	<div ng-if = "date.date_enabled && !icSkipTime">
-		<ic-toggle
-			on 		= "{{icToggleOn}}"
-			off 	= "{{icToggleOff}}"
-			value	= "date.time_enabled"
-		>		
-		</ic-toggle>
-
 		{{'INTERFACE.ENABLE_TIME' | translate }}
-
+		<div>
+			<br/>
+				<ic-toggle
+					on 		= "{{icToggleOn}}"
+					off 	= "{{icToggleOff}}"
+					value	= "date.time_enabled"
+				>		
+				</ic-toggle>
+			<br/>
+		</div>
 	</div>
 	
 	<br ng-if = "date.date_enabled && !icSkipTime" />
@@ -75,7 +77,6 @@
 			
 	</div>
 
-	<br/>
 
 	<div class = "note col-1">{{"ITEMS.%s_NOTE" | fill : (icTranslationKey || icKey) | translate }}</div>
 
