@@ -1099,9 +1099,10 @@ angular.module('icServices', [
 
 			icItemStorage.addAsyncTrigger(function(){ $rootScope.$applyAsync() })
 
+
 			icItemStorage.ready 		= 	icUser.ready
 											.then(function(){
-												return 	$q.when(icItemStorage.downloadAll( icConfig.publicItems|| undefined))
+												return 	$q.when(icItemStorage.downloadAll( icConfig.publicItems || undefined))
 											})
 											.then(function(){
 												return icItemStorage.updateFilteredList()

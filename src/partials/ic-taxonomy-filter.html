@@ -1,3 +1,7 @@
+<ic-taxonomy-filter-tag-list class = "bg-0 padding">
+</ic-taxonomy-filter-tag-list>
+
+
 <section class = "types" ng-if = "ic.taxonomy.types && ic.taxonomy.types.length > 0">
 	<ul class = "bg-0">
 		<li
@@ -88,6 +92,7 @@
 <section 
 	class 		= "unsorted"
 	ng-repeat 	= " (key, tagGroup) in ic.taxonomy.tags" 
+	ng-if		= " key != 'lists' || !ic.config.disableLists"
 >
 	<h2 
 		class 		= "bg-0 icon"
