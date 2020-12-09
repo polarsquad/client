@@ -9,7 +9,30 @@
 
 
 
+	function httpGet(url){
 
+		return new Promise(function (resolve, reject) {
+			var xhr = new XMLHttpRequest();
+			xhr.open('get', url);
+			xhr.onload = function () {
+				if(xhr.readyState === 4) {
+					var status = xhr.status;
+					if (status === 0 || (status >= 200 && status < 400)) {
+						try{
+							resolve(JSON.parse(xhr.response))
+						} catch(e) {
+							reject(e)
+						}
+					} else {
+						reject(status)
+					}
+				}
+			}
+			xhr.onerror = reject;
+			xhr.send();
+		});
+
+	}
 
 
 
@@ -395,8 +418,15 @@
 			return item
 		}
 
-		icItemStorage.downloadAll = function(){
-			return 	dpd(ic.itemConfig.collectionName).get()
+		//This seems to be the only place where dpd is actually used! Also on every Item-Object!
+
+		icItemStorage.downloadAll = function(url){
+			return 	(
+						url
+						?	httpGet(url).then( function(result){ return result.items } )
+						:	Promise.reject('no publicItems url')
+					)
+					.catch( function() { return dpd(ic.itemConfig.collectionName).get() })
 					.then(
 						function(data){
 							data.forEach(function(item_data){

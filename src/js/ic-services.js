@@ -1089,8 +1089,9 @@ angular.module('icServices', [
 		'$rootScope',
 		'icUser',
 		'icTaxonomy',
+		'icConfig',
 
-		function($q, $rootScope, icUser, icTaxonomy){
+		function($q, $rootScope, icUser, icTaxonomy, icConfig){
 
 			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
@@ -1100,7 +1101,7 @@ angular.module('icServices', [
 
 			icItemStorage.ready 		= 	icUser.ready
 											.then(function(){
-												return 	$q.when(icItemStorage.downloadAll())
+												return 	$q.when(icItemStorage.downloadAll( icConfig.publicItems|| undefined))
 											})
 											.then(function(){
 												return icItemStorage.updateFilteredList()
@@ -1318,9 +1319,9 @@ angular.module('icServices', [
 			icTaxonomy.getType = function(haystack){
 				if(!haystack) return null
 
-				haystack = 	typeof haystack == 'string'
-							?	[haystack]
-							:	haystack
+				haystack = 	Array.isArray(haystack)
+							?	haystack
+							:	[haystack]
 
 				var result = 	icTaxonomy.types.filter(function(type){
 									return haystack.indexOf(type.name) != -1
