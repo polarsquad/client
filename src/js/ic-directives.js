@@ -567,6 +567,7 @@ angular.module('icDirectives', [
 
 
 					if(!scope.icItem) return null
+					if(scope.icItem.remoteItem) return null
 
 					scope.icEdit = scope.icItem && icItemEdits.get(scope.icItem.id)
 
@@ -710,6 +711,7 @@ angular.module('icDirectives', [
 					}
 
 					if(scope.icTranslatable){
+						scope.icEdit[scope.icKey] = scope.icEdit[scope.icKey] || {}
 						scope.icEdit[scope.icKey][icSite.currentLanguage] = angular.copy(scope.value.edit)
 					} 
 

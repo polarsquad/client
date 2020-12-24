@@ -78,7 +78,13 @@
 			ng-if	= "ic.layout.mode.name == 'XS'"
 		>
 			<h2 class = "title" >
-				{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
+				{{ item.title }} 
+				<span 
+					ng-if 	= "ic.user.can('edit_items')"
+					class	= "screen-only"
+				>
+					[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]
+				</span>
 			</h2>
 			<h3 ng-if = "ic.layout.mode.name != 'XS'">
 				{{ item.brief[ic.site.currentLanguage] }}
@@ -104,7 +110,7 @@
 
 			<div 
 				class 			= "screen-only description  highlight-links lang-{{ic.site.currentLanguage}}" 
-				ng-bind-html 	= "item.description[ic.site.currentLanguage] | trustAsHtml"
+				ng-bind-html 	= "item.description[ic.site.currentLanguage]"
 			>
 			</div>
 

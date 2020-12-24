@@ -48,8 +48,8 @@
 
 [disabled],
 .disabled {
-	opacity:					0.5;
-	cursor:						auto;
+	opacity:					0.4;
+	cursor:						auto !important;
 }
 
 .bubble {
@@ -91,3 +91,6 @@
 	flex:						0 0 auto;
 }
 
+.ic-into-tag {
+	
+}

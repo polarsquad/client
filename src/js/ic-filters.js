@@ -199,7 +199,8 @@ angular.module('icFilters', [
 
 	function($sce){
 		return function(html){
-			return $sce.trustAsHtml(html)
+			console.error('filter trsuAsHTML, do not use')
+			return html//$sce.trustAsHtml(html)
 		}
 	}
 ])

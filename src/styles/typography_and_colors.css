@@ -138,11 +138,6 @@ textarea:-webkit-autofill:focus{
 
 
 
-[disabled] {
-	opacity:				0.4 !important;
-}
-
-
 .nondescript {
 	opacity:				0.5;
 	font-size:				0.8rem;
@@ -299,3 +294,6 @@ textarea:-webkit-autofill:focus{
 }
 
 
+svg {
+	overflow: 				hidden !important;
+}

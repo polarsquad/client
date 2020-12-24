@@ -390,8 +390,9 @@
 
 
 		icItemStorage.getItem = function(item_or_id){
+
 			var id		= item_or_id.id || item_or_id,
-				item 	= icItemStorage.data.filter(function(item){ return item.id == id })[0] 
+				item 	= icItemStorage.data.find(function(item){ return item.id == id })
 
 			if(item) return item
 
@@ -491,15 +492,15 @@
 								return searchable_properties.some(function(property){
 											switch(property.type){
 												case "array": 
-													return item[property.name].some(function(sub){ return accent_fold(sub).match(regex)})
+													return (item[property.name]||[]).some(function(sub){ return accent_fold(sub).match(regex)})
 												break 
 
 												case "object": 
-													return Object.keys(item[property.name]).some(function(key){ return accent_fold(item[property.name][key]).match(regex) })
+													return Object.keys(item[property.name]||{}).some(function(key){ return accent_fold(item[property.name][key]).match(regex) })
 												break 
 
 												default:
-													return accent_fold(String(item[property.name])).match(regex)
+													return accent_fold(String(item[property.name]||'')).match(regex)
 												break
 											}
 										})

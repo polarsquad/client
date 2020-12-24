@@ -1744,7 +1744,9 @@ angular.module('icServices', [
 
 		icItemEdits.get = function(item_or_id){
 
-			if(!item_or_id) return null
+
+			if(!item_or_id) 			return null
+			if(item_or_id.remoteItem)	return null
 
 			var id			= 	item_or_id.id || item_or_id,
 				original	= 	icItemStorage.getItem(id),

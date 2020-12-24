@@ -325,6 +325,7 @@
 					index:			1,
 					adjust:			function(ic){
 										if(!ic.site.activeItem) 				return false
+										if(ic.site.activeItem.remoteItem)		return false
 										if(ic.site.activeItem.internal.failed)	return false
 										if(ic.site.activeItem.internal.new)		return true
 										

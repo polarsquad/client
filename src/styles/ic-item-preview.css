@@ -3,7 +3,8 @@
 
 ic-item-preview {
 	position:				relative;
-	display:				block;
+	display:				flex;
+	align-items:			center;
 	min-height:				5rem;
 	padding:				0.5rem 1rem;
 }
@@ -13,23 +14,49 @@ ic-item-preview.active-item {
 	background-color:		rgba(0,0,0,0.06);
 }
 
-ic-item-preview .content {
+ic-item-preview ic-item-badge {
+	position:				relative;
 	display:				block;
-	margin-left:			4.5rem;
+	flex:					0 0 auto;
+	/*top:					0.5rem;
+	left:					1rem;
+	margin-top:				0.25rem;*/
+	height:					3.5rem;
+	width:					3.5rem;
+	border-radius:			3.5rem;
+}
+
+
+ic-item-preview .content {
+	flex:					1 0 0;	
+	margin-left:			1rem;
+	display:				flex;
+	align-items:			stretch;
+	flex-direction:			column;
 	padding:				0;
 	white-space: 			normal;
 }
 
+ic-item-preview .content .imported {
+	color:					var(--plain-color);
+	border:					solid 1px var(--plain-color);
+	float:					right;
+	border-radius:			1em;
+	font-size:				0.85rem;
+	padding:				0 0.5em;	
+	font-weight:			normal;
+	margin-left:			0.5em;
+}
 
-ic-item-preview .content .title{
-	line-height:			1.2rem;
-	max-height:				2.4rem;
+ic-item-preview .content .title {
+	flex:					1 1 auto;
+	line-height:			1.2rem;	
 	overflow:				hidden;
 	font-weight:			600;
-	padding-right:			1rem;
 } 
 
-ic-item-preview .content .brief{
+ic-item-preview .content .brief {
+	flex:					1 1 auto;
 	font-size:				0.85rem;
 	line-height:			1.25rem;
 	max-height:				2.5rem;
@@ -38,24 +65,8 @@ ic-item-preview .content .brief{
 	font-weight:			400;
 } 
 
-ic-item-preview .content .date {
+ic-item-preview .content .brief .date {
 	color:					#000;
 	padding-right:			0.25rem;
 }
 
-ic-item-preview ic-item-badge {
-	position:				absolute;
-	display:				block;
-	top:					0.5rem;
-	left:					1rem;
-	margin-top:				0.25rem;
-	height:					3.5rem;
-	width:					3.5rem;
-	border-radius:			3.5rem;
-}
-/*
-ic-item-preview .icon {
-	position: 				absolute;
-	right:					0.25rem;
-	top:					0.5rem;
-}*/

@@ -1,16 +1,24 @@
 <ic-item-badge ic-item = "icItem">
 </ic-item-badge>
 
-<!-- <div class = "icon icon-type-{{::icType.name}}"></div> -->
-
 <div 
 	class 	= "content"
 	title 	= "{{icItem.title}}"
 
 >
 		<div class ="title">
+			<span 
+				class	= "imported"
+				ng-if	= "icItem.remoteItem"
+			>
+				{{'INTERFACE.REMOTE' | translate }}
+			</span>
+
 			{{icItem.title}}
+
+
 		</div>
+
 
 		<div class = "brief">
 			<span class = "date heavy" ng-if = "icItem.startDate">
@@ -21,7 +29,7 @@
 				{{icItem.brief[ic.site.currentLanguage]}}
 			</div>
 		</div>
-		<span 
+		<!-- <span 
 			ng-if = "icCategory"
 			class = "category ic-col-cat-{{(icItem|icCategory).name}}"
 		>
@@ -33,5 +41,5 @@
 			class ="type ic-col-type-{{(icItem|icType).name}}"
 		>
 			{{'TYPES.%s' | fill : icType.name | translate }}
-		</span>
+		</span> -->
 </div>

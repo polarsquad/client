@@ -26,8 +26,7 @@
 				// object
 				if(property.type == 'object'){
 					
-
-					if(property.mandatory && !data[property.name]){
+					if(!data[property.name] && (property.mandatory || property.defaultValue === null) ){
 						icItem[property.name] = angular.copy(property.defaultValue)
 						return null
 					}

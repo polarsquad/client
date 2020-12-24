@@ -1,5 +1,6 @@
 :root{
 	--primary-color:			#802651;
+	--plain-color:				#979797;
 }
 
 
@@ -22,7 +23,7 @@
 
 
 .border-0 {
-	box-shadow:					0 0 0 0.1rem 0 #fff inset;
+	box-shadow:					0 0 0 0.1rem #fff inset;
 }
 
 
