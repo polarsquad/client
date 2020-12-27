@@ -18,6 +18,7 @@
 			class		= "bg-0"
 			ng-class 	= "{'active-item': item == ic.site.activeItem}"
 			ic-item 	= "item"
+			ng-if		= "!item.internal.failed"
 		></ic-item-preview>
 	</a>
 	<button ng-if= "noScroll && !noMoreItems" ng-click = "icScrollRepeatLimitIncrease()">more</button>

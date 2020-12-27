@@ -94,9 +94,9 @@ ic-item-full-edit hr {
 	display:				block;
 	height:					0;
 	width:					auto;
-	border-top:				1px solid transparent;
-	margin-top:				0.5rem;
-	margin-bottom:			0.5rem;
+	border:					0;
+	border-top:				1px solid transparent !important;
+	margin:					0.5rem -1px;
 }
 
 ic-item-full-edit .controls {

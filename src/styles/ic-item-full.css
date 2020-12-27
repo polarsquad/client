@@ -20,6 +20,13 @@ ic-item-full .hero-wrapper {
 	align-items:				center;
 }
 
+ic-item-full .hero-wrapper footer {
+	position:					absolute;
+	display:					inline-block;
+	bottom:						0.25rem;
+	right:						0.25rem;
+}
+
 ic-item-full .hero {
 	display:					block;
 	position:					static;

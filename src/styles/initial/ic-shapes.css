@@ -30,20 +30,6 @@
 	height: 					2.5em;		
 }
 
-.shade-light {
-	background-color:			rgba(0,0,0,0.1);
-	color:						#fff;
-}
-
-
-.shade-dark {
-	background-color:			rgba(0,0,0,0.5);
-	color:						#fff;
-}
-
-.drop-shadow {
-	box-shadow:					0 0 0.15em rgba(0,0,0,0.7);
-}
 
 
 [disabled],
@@ -51,7 +37,6 @@
 	opacity:					0.4;
 	cursor:						auto !important;
 }
-
 .bubble {
 	display:					inline-block;
 	font-size:					0.8em;
@@ -64,7 +49,6 @@
 	border-radius:				1em;
 	min-width:					1.75em;
 }
-
 
 
 .ic-tag {
@@ -91,6 +75,3 @@
 	flex:						0 0 auto;
 }
 
-.ic-into-tag {
-	
-}

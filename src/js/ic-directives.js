@@ -1244,6 +1244,63 @@ angular.module('icDirectives', [
 ])
 
 
+.directive('icTransclude', [
+
+	'translateFilter',
+
+	function(translateFilter){
+		return {
+
+			restrict: 'A',
+
+			scope:	{
+						transclude: "<icTransclude"
+					},
+
+			link(scope, element, attrs){
+
+				var transcludedContent
+				var transclusionScope
+
+
+				console.log('SCOPE.TRANSCLUDE', scope.transclude)
+
+				function update(){
+
+					console.log('IC TRANSCLUDE UPDATE: ', typeof scope.transclude)
+
+					if(transcludedContent) 	transcludedContent.remove()
+					if(transclusionScope)	transclusionScope.$destroy()
+
+					if(typeof scope.transclude == 'string'){
+						element.removeClass('transcluded-content')
+						element.append(translateFilter(scope.transclude))
+					}
+
+					if(typeof scope.transclude == 'function'){
+						element.addClass('transcluded-content')				
+						
+						
+						scope.transclude( function(clone, scope) {
+							element.append(clone)
+							transcludedContent 	= clone
+							transclusionScope 	= scope
+						})
+					}
+				}
+
+				scope.$watch("transclude", update)
+
+				scope.$on('$destroy', function() {
+					if(transclusionScope) transclusionScope.$destroy()
+				})
+
+			}
+		}
+	}
+
+])
+
 .directive('icPopup', [
 
 	'icOverlays',
@@ -1437,12 +1494,16 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-help.html',
+			transclude:		true, 
 			scope:			{
-								icMessage: '@'
+								icMessage: 		'@',
+								icIconClass:	'@?'
+
 							},
 
-			link: function(scope, element){
+			link: function(scope, element, attrs, ctrl, transclude){
 				scope.ic = ic
+				scope.transclude = transclude
 			}
 		}
 	}

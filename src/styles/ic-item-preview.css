@@ -37,16 +37,6 @@ ic-item-preview .content {
 	white-space: 			normal;
 }
 
-ic-item-preview .content .imported {
-	color:					var(--plain-color);
-	border:					solid 1px var(--plain-color);
-	float:					right;
-	border-radius:			1em;
-	font-size:				0.85rem;
-	padding:				0 0.5em;	
-	font-weight:			normal;
-	margin-left:			0.5em;
-}
 
 ic-item-preview .content .title {
 	flex:					1 1 auto;

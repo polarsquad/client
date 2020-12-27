@@ -2,20 +2,43 @@
 
 <ic-spinner active = "item.downloading"></ic-spinner>
 
-<div 
-	class 		= "hero-wrapper screen-only {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}} "
->
-	<div
-		ng-if		="!item.image"
-		class		= "hero fallback white {{ (item | icType) && 'icon-type-'+(item | icType).name  || (item | icCategory) && 'icon-category-'+(item | icCategory).name}}" 
-	>
-	</div>
+
+<div class ="bg-0">
 	<div 
-		ng-if		= "item.image"
-		class		= "hero" 
-		ng-style	= "{'background-image' : 'url('+item.image+')'}" 
-	></div>
-</div> 
+		class 		= "hero-wrapper screen-only {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}} "
+	>
+		<div
+			ng-if		="!item.image"
+			class		= "hero fallback white {{ (item | icType) && 'icon-type-'+(item | icType).name  || (item | icCategory) && 'icon-category-'+(item | icCategory).name}}" 
+		>
+		</div>
+		<div 
+			ng-if		= "item.image"
+			class		= "hero" 
+			ng-style	= "{'background-image' : 'url('+item.image+')'}" 
+		>
+		</div>		
+	</div> 
+</div>
+
+
+<div
+	class 	= "bg-neutral padding bold-links underline-links flex"
+	ng-if	= "item.remoteItem"
+>
+	<span class = "icon white icon-interface-remote"></span>
+	&nbsp;
+	{{'INTERFACE.REMOTE_ITEM_FROM'|translate}}
+	<a href = "{{item.remoteItem.sourceUrl}}">{{item.remoteItem.sourceName}}</a>
+
+	<div class ="flex-grow"></div>
+
+	<ic-help ic-icon-class = "white"> 
+		{{"INTERFACE.REMOTE_ITEM_HELP"|translate}}
+		<br/>
+		<a href ="{{item.remoteItem.url}}">{{"INTERFACE.REMOTE_ITEM_ORIGINAL"|translate}}</a>'
+	</ic-help>
+</div>
 
 
 <section class = "bg-0">
@@ -48,7 +71,9 @@
 			<div ng-if  ="item.resubmissionDate">
 				{{'ITEMS.RESUBMISSION_DATE' | translate}}  	({{item.resubmissionDate | icDate}})
 			</div>	
-			<div ng-if = "ic.user.can('edit_items') && ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)">
+			<div 
+				ng-if = "!item.remoteItem && ic.user.can('edit_items') && ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)"
+			>
 				<a class = "active" ng-click ="ic.admin.autoTranslate(item)">{{'INTERFACE.AUTO_TRANSLATE'| translate }}</a>
 			</div>
 		</div>
@@ -97,11 +122,11 @@
 
 		<div>
 			<div 
-				class 	= "xjust"
 				ng-if	= "ic.layout.mode.name != 'XS'"
 			>
 				<h2 class = "title" >
-					{{ item.title }} <span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
+					{{ item.title }}
+					<span ng-if = "ic.user.can('edit_items')">[{{'ITEMS.STATE_%s' | fill: item.state | translate}}]</span>
 				</h2>
 			</div>
 			<h3 ng-if	= "ic.layout.mode.name != 'XS'">
@@ -112,6 +137,7 @@
 				class 			= "screen-only description  highlight-links lang-{{ic.site.currentLanguage}}" 
 				ng-bind-html 	= "item.description[ic.site.currentLanguage]"
 			>
+
 			</div>
 
 			<div 

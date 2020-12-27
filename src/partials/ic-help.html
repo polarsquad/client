@@ -1,5 +1,5 @@
 <button
-	class 		= "icon icon-interface-help active"
-	ng-click	= "ic.overlays.open('popup', icMessage)" 
+	class 		= "icon icon-interface-help {{icIconClass||'active'}}"
+	ng-click	= "ic.overlays.open('popup', icMessage||transclude)" 
 >
 </button>

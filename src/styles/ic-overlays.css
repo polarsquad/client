@@ -419,7 +419,7 @@ ic-overlays ic-lists-menu form {
 
 
 
-ic-overlays  p {
+ic-overlays  p:not(.transcluded-content) {
 	white-space:			pre-wrap !important;
 }
 

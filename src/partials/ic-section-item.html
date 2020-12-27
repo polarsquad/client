@@ -25,10 +25,12 @@
 </ic-item-full-edit>
 
 <div
-	class 					= "bg-0 padding"
+	class 					= "bg-1 padding"
 	ng-if 					= "ic.site.activeItem.internal.failed"
 	ic-settle-scrollbar		= "true"
 	ic-scroll-source 		= "item"
 >
-	{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
+	<div class = "padding bg-0">
+		{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
+	</div>
 </div>

@@ -276,6 +276,13 @@ textarea:-webkit-autofill:focus{
 	font-weight:			500;
 }
 
+.bold-links a {
+	font-weight:			bold;
+}
+
+.underline-links a {
+	text-decoration:		underline;
+}
 
 
 .annotation {
@@ -291,6 +298,18 @@ textarea:-webkit-autofill:focus{
 .no-clip {
 	text-overflow:			initial !important;
 	max-width:				100% !important;
+}
+
+.remote {
+	color:					var(--neutral-color);
+	border:					solid 1px var(--neutral-color);
+	float:					right;
+	line-height:			3ex;
+	border-radius:			1em;
+	font-size:				0.85rem;
+	padding:				0 1em;	
+	font-weight:			normal;
+	margin-left:			0.5em;
 }
 
 

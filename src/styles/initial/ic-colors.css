@@ -1,61 +1,72 @@
 :root{
-	--primary-color:			#802651;
-	--plain-color:				#979797;
-}
+	--primary-color:				#802651;
+	--dark-text-color:				#222;	
+	--light-text-color:				#fff;
+	--plain-text-color:				#666;
 
+	--secondary-background-color:	#e6e6e6;
+	--primary-backgroud-color:		#FFFFFF;
+
+	--neutral-color:				#949494;
+}
 
 .bg-t {
 	background-color:			transparent;
 }
 
 
+.bg-neutral {
+	background-color:			var(--neutral-color);
+	color:						var(--light-text-color);
+}
+
 
 .bg-0 {
-	background-color:			#fff;
-	color:						#222;
+	background-color:			var(--primary-backgroud-color);
+	color:						var(--dark-text-color)
 }
 
 .bg-0.hover:focus,
 .bg-0.hover:hover{
 	background-color:			var(--primary-color);
-	color:						#fff !important;
+	color:						var(--light-text-color) !important;
 }
 
 
 .border-0 {
-	box-shadow:					0 0 0 0.1rem #fff inset;
+	box-shadow:					0 0 0 0.1rem var(--primary-backgroud-color) inset;
 }
 
 
 
 
 .bg-1 {
-	background-color:			#e6e6e6;
+	background-color:			var(--secondary-backgroud-color);
 	color:						#666;
 }
 
 .bg-1.hover:focus,
 .bg-1.hover:hover{
-	background-color:			#fff;
+	background-color:			var(--primary-backgroud-color);
 }
 
 
 
 .border-1 {
-	box-shadow:					0 0 0 0.1rem #e6e6e6 inset;
+	box-shadow:					0 0 0 0.1rem var(--secondary-backgroud-color) inset;
 }
 
 
 
 
 .bg-2 {
-	background-color:			#aaa;
+	background-color:			var(--neutral-color);
 	color:						#000;
 }
 
 .bg-2.hover:focus,
 .bg-2.hover:hover{
-	background-color:			#aaa
+	/*background-color:			#aaa*/
 }
 
 
@@ -71,12 +82,12 @@
 
 .bg-3 {
 	background-color:			var(--primary-color);
-	color:						#fff;
+	color:						var(--light-text-color);
 }
 
 .bg-3.hover:focus,
 .bg-3.hover:hover{
-	background-color:			#fff;
+	background-color:			var(--primary-backgroud-color);
 	color:						var(--primary-color);
 }
 
@@ -87,19 +98,22 @@
 
 
 
+.highlight-links a {
+	color:						var(--primary-color)!important;
+}
 
 
 
 .col-0 {
-	color:						#222 !important;
+	color:						var(--dark-text-color) !important;
 }
 
 .col-1 {
-	color:						#666 !important;
+	color:						var(--plain-text-color) !important;
 }
 
 .col-2 {
-	color:						#fff !important;
+	color:						var(--light-text-color) !important;
 }
 
 .col-3 {
@@ -111,13 +125,13 @@
 
 .shade-light {
 	background-color:			rgba(0,0,0,0.1);
-	color:						#fff;
+	color:						var(--light-text-color);
 }
 
 
 .shade-dark {
 	background-color:			rgba(0,0,0,0.5);
-	color:						#fff;
+	color:						var(--light-text-color);
 }
 
 .active {
