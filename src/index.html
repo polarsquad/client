@@ -30,6 +30,7 @@
 		<link rel="shortcut icon" type="image/png" href="/images/icons/logo_icon.png"/>
 		<link rel="apple-touch-icon" href="/images/icons/logo_icon.png" />
 
+		<script src="https://cdn.jsdelivr.net/npm/rasa-webchat/lib/index.min.js"/>
 
 		<!--BUILD HEAD-->
 
@@ -94,6 +95,9 @@
 			class		= "ic-hide"
 			ng-class	= "{'ic-hide' :!ic.overlays.active()}"
 		></ic-overlays>
+
+		<!-- ChatBot -->
+		<div ng-if = "::ic.config.chatbot" id="webchat"></div>
 
 	</body>
 

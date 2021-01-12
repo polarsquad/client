@@ -2186,6 +2186,9 @@ angular.module('icServices', [
 								if(icInit.ready){
 									ic.deferred.resolve()	
 									delete ic.deferred
+
+									window.dispatchEvent(new CustomEvent('ic-ready', {detail:{ic}} ) )
+
 									stop()
 								} 
 							})

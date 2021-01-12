@@ -80,47 +80,44 @@ function copyQRCodeScriptsSrcToTmp(){
 			]))
 }
 
-function bundleScriptsToDst(){
+async function bundleScriptsToDst(){
 
+	let files = {
 
-	return	Promise.props({
-				"vendor.js":					fs.readFile('vendor.js', 							'utf8'),
-				"taxonomy.js": 					fs.readFile(src+'/js/taxonomy.js', 					'utf8'),
-				"dpd-items.js": 				fs.readFile(src+'/js/dpd/dpd-item.js', 				'utf8'),
-				"dpd-item-storage.js": 			fs.readFile(src+'/js/dpd/dpd-item-storage.js', 		'utf8'),
-				"ic-preload.js": 				fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
-				"ic-layout.js": 				fs.readFile(src+'/js/ic-layout.js', 				'utf8'),
-				"ic-services.js": 				fs.readFile(src+'/js/ic-services.js', 				'utf8'),
-				"ic-directives.js": 			fs.readFile(src+'/js/ic-directives.js',				'utf8'),
-				"ic-filters.js": 				fs.readFile(src+'/js/ic-filters.js', 				'utf8'),
-				"ic-ui-directives.js": 			fs.readFile(src+'/js/ic-ui-directives.js', 			'utf8'),
-				"ic-map-module.js": 			fs.readFile(src+'/js/ic-map-module.js', 			'utf8'),
-				"custom.js":					fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
-				"app.js": 						fs.readFile(src+'/js/app.js', 						'utf8'),
+		"vendor.js" : 			await fs.readFile('vendor.js', 							'utf8'),
+		"taxonomy.js": 			await fs.readFile(src+'/js/taxonomy.js', 				'utf8'),
+		"dpd-items.js": 		await fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
+		"dpd-item-storage.js": 	await fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
+		"ic-preload.js": 		await fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
+		"ic-layout.js": 		await fs.readFile(src+'/js/ic-layout.js', 				'utf8'),
+		"ic-services.js": 		await fs.readFile(src+'/js/ic-services.js', 			'utf8'),
+		"ic-directives.js": 	await fs.readFile(src+'/js/ic-directives.js',			'utf8'),
+		"ic-filters.js": 		await fs.readFile(src+'/js/ic-filters.js', 				'utf8'),
+		"ic-ui-directives.js": 	await fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
+		"ic-map-module.js": 	await fs.readFile(src+'/js/ic-map-module.js', 			'utf8'),
+		"custom.js":			await fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
+		"app.js": 				await fs.readFile(src+'/js/app.js', 					'utf8'),
 
-				//IOS debug
-				//"inline-console.min.js":		fs.readFile(src+'/js/inline-console.min.js',		'utf8'),		
+		"qrcode.js": 			await fs.readFile(src+'/js/qrcode.js', 					'utf8'),
+		"qrcode_UTF8.js": 		await fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
+		"angular-qrcode.js": 	await fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
 
+	}
 
-				"qrcode.js": 					fs.readFile(src+'/js/qrcode.js', 					'utf8'),
-				"qrcode_UTF8.js": 				fs.readFile(src+'/js/qrcode_UTF8.js', 				'utf8'),
-				"angular-qrcode.js": 			fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
-			})
-			.then( files	=> 	minify(files , {
-									sourceMap: {url: "scripts.js.map"}
-								} ))
-			.then( result 	=> 	{
-									if(result.error) return console.log(result.error) 
+	//condtional:	
 
-									return 	fs.ensureDir(dst+'/'+js_dir)
-											.then( () => 	Promise.all([
-																fs.writeFile(dst+'/'+js_dir+'/scripts.js', result.code, 'utf8'),
-																fs.writeFile(dst+'/'+js_dir+'/scripts.js.map', result.map, 'utf8')
-															])
-											)
-								},
-					e		=> console.error(e)
-			)
+	if(config.chatbot){
+		files["rasa_webchat.js"] =	await fs.readFile('node_modules/rasa-webchat/lib/index.js', 'utf8') 
+	}
+									
+	const result = await minify(files , {sourceMap: {url: "scripts.js.map"}	} )
+
+	if(result.error) throw new Error(result.error)
+
+	await fs.ensureDir(dst+'/'+js_dir)
+	await fs.writeFile(dst+'/'+js_dir+'/scripts.js', result.code, 'utf8')
+	await fs.writeFile(dst+'/'+js_dir+'/scripts.js.map', result.map, 'utf8')
+
 }
 
 function compileTaxonomyTemplate(key, template){
@@ -330,7 +327,7 @@ function prepareRoboto(){
 
 	return 	Promise.all([
 				fs.readFile("node_modules/roboto-fontface/css/roboto/roboto-fontface.css",	"utf8"),
-				fs.copy("node_modules/roboto-fontface/fonts/Roboto",		dst+"/fonts/Roboto"),
+				fs.copy("node_modules/roboto-fontface/fonts/roboto",		dst+"/fonts/Roboto"),
 				fs.ensureDir('tmp/styles')
 			])
 			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
@@ -362,18 +359,16 @@ function createConfigJson(){
 
 
 
-function copyReadyFilesToDst(){
-	return 	Promise.all([
+async function copyReadyFilesToDst(){
 
-				fs.copy(src+"/images/large", 	dst+"/images/large"),
-				fs.copy(src+"/js/worker", 		dst+'/worker'),
+	await	fs.copy(src+"/images/large", 	dst+"/images/large")
+	await	fs.copy(src+"/js/worker", 		dst+'/worker')
+	//await	fs.copy("vendor.js", 		dst+"/js/vendor.js")
 
-				// fs.copy("vendor.js", 		dst+"/js/vendor.js"),
-				
-				//tmp
-				fs.copy("tmp/images", 			dst+"/images"),
-				fs.copy("tmp/json",				dst)
-			])
+	//tmp
+	await	fs.copy("tmp/images", 			dst+"/images")
+	await	fs.copy("tmp/json",				dst)
+	
 }
 
 
@@ -574,7 +569,7 @@ setup()
 
 .then(
 	()	=> done(true),
-	e	=> console.trace(e)
+	e	=> { console.log(e) }
 )
 
 
