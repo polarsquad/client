@@ -1,11 +1,10 @@
 "use strcit";
 
-
 var copyfiles	= 	require('copyfiles'),
 	fs 			= 	require('fs-extra'),
 	rimraf		= 	require('rimraf'),
 	CleanCSS	= 	require('clean-css'),
-	UglifyJS 	= 	require("uglify-js"),
+	{ minify }	=	require('terser')
 	SVGO		= 	require('svgo'),
 	Promise		=	require('bluebird'),
 	cleanCSS 	= 	new CleanCSS(),
@@ -107,8 +106,10 @@ function bundleScriptsToDst(){
 				"qrcode_UTF8.js": 				fs.readFile(src+'/js/qrcode_UTF8.js', 				'utf8'),
 				"angular-qrcode.js": 			fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
 			})
-			.then( files	=> UglifyJS.minify(files , { sourceMap: {url: "scripts.js.map"}} ))
-			.then( result 	=> {
+			.then( files	=> 	minify(files , {
+									sourceMap: {url: "scripts.js.map"}
+								} ))
+			.then( result 	=> 	{
 									if(result.error) return console.log(result.error) 
 
 									return 	fs.ensureDir(dst+'/'+js_dir)

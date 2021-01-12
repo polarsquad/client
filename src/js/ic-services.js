@@ -372,8 +372,8 @@ angular.module('icServices', [
 			return $q.when(dpd.lists.put(list_id, { name: name }))
 		}
 
-		icLists.togglePublicState = function(list_id, public){
-			return $q.when(dpd.lists.put(list_id, { public: public }))
+		icLists.togglePublicState = function(list_id, public_state){
+			return $q.when(dpd.lists.put(list_id, { public: public_state }))
 		}
 
 

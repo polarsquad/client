@@ -476,9 +476,9 @@
 													var regex = undefined
 													
 													try {
-														regex = new RegExp(part, 'i') 
+														regex = new RegExp(accent_fold(part), 'i') 
 													} catch(e) {
-														regex = new RegExp(part.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i')
+														regex = new RegExp(accent_fold(part).replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'i')
 													}
 
 													return regex
