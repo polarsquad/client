@@ -1389,8 +1389,9 @@ angular.module('icServices', [
 							},
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)c\/([^\/]*)/)
+								var result	= Array.from( new Set( (matches && matches[2].split('-')) || [] ))	
 
-								return (matches && matches[2].split('-')) || []
+								return result
 							},
 			options:		function(ic){
 
@@ -1422,8 +1423,9 @@ angular.module('icServices', [
 							},
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)t\/([^\/]*)/)
+								var result	= Array.from( new Set( (matches && matches[2].split('-')) || [] ))	
 
-								return (matches && matches[2].split('-')) || []
+								return result
 							},
 			options:		function(ic){
 								return ic.taxonomy.types.map(function(t){ return t.name})
@@ -1440,8 +1442,9 @@ angular.module('icServices', [
 							},
 			decode:			function(path, ic){
 								var matches = path.match(/(^|\/)u\/([^\/]*)/)
+								var result	= Array.from( new Set( (matches && matches[2].split('-')) || [] ))	
 
-								return (matches && matches[2].split('-')) || []
+								return result
 							},
 			options:		function(ic){
 
