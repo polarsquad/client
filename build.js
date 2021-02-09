@@ -84,7 +84,8 @@ async function bundleScriptsToDst(){
 
 	let files = {
 
-		"vendor.js" : 			await fs.readFile('vendor.js', 							'utf8'),
+		"vendor.js": 			await fs.readFile('vendor.js', 							'utf8'),
+		"marked.js":			await fs.readFile('node_modules/marked/marked.min.js', 	'utf8'),
 		"taxonomy.js": 			await fs.readFile(src+'/js/taxonomy.js', 				'utf8'),
 		"dpd-items.js": 		await fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
 		"dpd-item-storage.js": 	await fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),

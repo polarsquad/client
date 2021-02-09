@@ -155,7 +155,7 @@
 .XS ic-item-full > section > * > :nth-child(1){
 	flex:						0 0 auto;
 	padding-right:				0;
-	min-width:					0rem;
+	min-width:					1rem;
 	text-align:					left;
 	margin-right:				0.5rem;
 }

@@ -40,7 +40,7 @@ ic-item-full-edit > section > article {
 }
 
 ic-item-full-edit > section > * > *:nth-child(1){
-	flex:						1 0 0;
+	flex:						1 0 1rem;
 	text-align:					right;
 	padding-right:				2rem;
 }

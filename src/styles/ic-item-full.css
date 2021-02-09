@@ -57,10 +57,18 @@ ic-item-full .hero.fallback:before {
 
 
 
-ic-item-full article .description{
+ic-item-full article .description {
 	color: 						#222;
-	line-height: 				1.57;
-	white-space: 				pre-line;
+	line-height: 				1.4em;
+}
+
+
+ic-item-full article .description ul {
+	padding-left:				1rem;
+}
+
+ic-item-full article .description ul > li {
+	list-style:					inside;
 }
 
 ic-item-full > section {

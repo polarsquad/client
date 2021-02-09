@@ -132,6 +132,10 @@
 	box-shadow:					0 0 0.15em rgba(0,0,0,0.7);
 }
 
+.drop-shadow:hover {
+	box-shadow:					0 0 0 0.15em var(--neutral-color), 0 0 0 0.15em inset var(--primary-background-color);
+}
+
 
 [disabled],
 .disabled {

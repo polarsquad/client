@@ -963,6 +963,17 @@ angular.module('icUiDirectives', [
 ])
 
 
+.filter('markdown', [
+	function(){
+		return function(str){
+			return marked(str||'')
+		}	
+	}
+])
+
+
+
+
 //debug
 
 .filter('consoleLog', [

@@ -135,14 +135,14 @@
 
 			<div 
 				class 			= "screen-only description  highlight-links lang-{{ic.site.currentLanguage}}" 
-				ng-bind-html 	= "item.description[ic.site.currentLanguage]"
+				ng-bind-html 	= "item.description[ic.site.currentLanguage] | markdown"
 			>
 
 			</div>
 
 			<div 
 				class 			= "print-only description highlight-links lang-{{ic.site.currentLanguage}}" 
-				ng-bind-html 	= " item.description[ic.site.currentLanguage]"
+				ng-bind-html 	= "item.description[ic.site.currentLanguage] | markdown"
 			>
 			</div>
 

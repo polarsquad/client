@@ -16,7 +16,6 @@ ic-item-full-header {
 
 ic-item-full-header.ic-scroll-top{
 	top:						0;
-	transition:					all 200ms ease-in-out;
 	margin-top:					0rem;
 }
 
@@ -26,21 +25,21 @@ ic-item-full-header .tools {
 	position:					absolute;
 	display:					flex;
 	font-size:					1rem;
-	top:						1.25em;
-	right:						0.4em;
-	height:						0em;
-	line-height:				2em;
-	transition:					all 200ms ease-in-out;
+	top:						1rem;
+	right:						0;
+	transition:					all 300ms linear;
 	opacity:					1;
 	z-index:					99999;
 }
 
 
 ic-item-full-header.ic-scroll-top .tools {
-	transform:					translateY(-5rem);
-	opacity:					0;
-	pointer-events:				none;
+	transform:					scale(.5) translateY(-1rem);
+	transform-origin: 			100% 0;
 }
+
+
+
 ic-item-full-header .tools > *  {
 	flex:						0 0 auto;
 	margin-right:				0.5em;

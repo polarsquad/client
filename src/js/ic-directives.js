@@ -182,17 +182,13 @@ angular.module('icDirectives', [
 				}
 
 				scope.cancel = function(){
-					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
-
-					if(icSite.activeItem.internal.new &&  icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_CREATION"
-					if(icSite.activeItem.internal.new && !icUser.can('edit_items')) 	message = "INTERFACE.CONFIRM_CANCEL_ITEM_SUGGESTION"
-
-					icOverlays.open('confirmationModal', message)
-					.then(function(){
-						if(icSite.activeItem.internal.new) icSite.activeItem = undefined
-						icSite.editItem = false
-					})
+					scope.$parent.$parent.$broadcast('cancel')
 				}
+
+				scope.submit = function(){
+					scope.$parent.$parent.$broadcast('submit')
+				}
+
 			}
 		}
 	}
@@ -213,7 +209,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full.html',
-			scope:			{},
+			scope:			true,
 
 			link: function(scope, element, attrs){
 				scope.ic 	= ic
@@ -252,7 +248,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full-edit.html',
-			scope:			{},
+			scope:			true,
 
 			link: function(scope, element, attrs){
 				scope.ic = ic
@@ -282,7 +278,7 @@ angular.module('icDirectives', [
 
 				}
 
-				/* This function also appears in icItemFullHeader, which os not that elegeant =/ */
+				/* This function also appears in icItemFullHeader, which is not that elegeant =/ */
 				scope.cancel = function(){
 					var message = "INTERFACE.CONFIRM_CANCEL_EDIT"
 
@@ -411,6 +407,15 @@ angular.module('icDirectives', [
 
 					if(pos != -1) scope.icEdit.tags.splice(pos,1)
 				}
+
+				scope.$on('cancel', function(){
+					scope.cancel()
+				})
+
+				scope.$on('submit', function(){
+					scope.submit()
+				})
+
 
 
 				// keep tag and taxonomy consistency

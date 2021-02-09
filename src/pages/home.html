@@ -1,7 +1,7 @@
 <header 
 	class 		= "image-home"
 >
-	<h2> <span class = "bg-0" ng-bind-html = "('INTERFACE.CLAIM' | translate | trustAsHtml)"></span></h2>
+	<h2> <span class = "bg-0" ng-bind-html = "('INTERFACE.CLAIM' | translate | markdown)"></span></h2>
 	<ic-carousel
 		ic-images  		= "['/images/large/home.jpg', '/images/large/logo-full.svg', '/images/large/logo-text.svg', '/images/large/logo-print.svg']"
 		ic-auto-turn	= "30000"
@@ -26,7 +26,7 @@
 	</div>
 </article>
 
-<article ng-bind-html  = "('CONTENT.HOME' | translate | trustAsHtml)">
+<article ng-bind-html  = "('CONTENT.HOME' | translate | markdown)">
 </article>
 
 <section>
