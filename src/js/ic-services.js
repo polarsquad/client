@@ -182,7 +182,7 @@ angular.module('icServices', [
 					console.info( (key+'...').padEnd(25,' ')+'[ok]')
 
 					if(icInit.readyCount == icInit.readyMax){
-						
+
 						icInit.ready = true; 
 
 						$q.when(icUtils.waitWhileBusy(20))

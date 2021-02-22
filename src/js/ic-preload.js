@@ -31,6 +31,12 @@
 																				img = null
 																			})
 
+																			img.addEventListener('error', function(event){
+																				console.error('icPreload:', url, event)
+																				reject()
+																				img = null
+																			})
+
 																			img.src = url
 
 																		})
