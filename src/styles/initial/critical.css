@@ -57,7 +57,7 @@ ic-loading-screen .progress .current {
 	left:					0;
 	bottom:					0;
 	background-color:		#000;
-	transition:				width 250ms linear;
+	transition:				width 1000ms ease-out;
 }
 
 ic-loading-screen.ic-remove {

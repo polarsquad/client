@@ -3,6 +3,7 @@
 
 ic-page {
 	display:						block;
+	line-height: 					2;	
 }
 
 ic-page  header {
@@ -66,13 +67,6 @@ ic-page h3 {
 }
 
 
-ic-page p{
-	max-width:					50rem;
-	font-size: 					1.25rem;
-	line-height: 				2;
-	margin:						1rem 0;
-
-}
 
 ic-page a.boxed {
 	display:					inline-block;
@@ -340,4 +334,44 @@ ic-page .images > * {
 	background-repeat:			no-repeat;
 	background-size:			contain;
 	background-position:		50% 50%;
+}
+
+
+
+
+/* update due to markdown addition*/
+ic-page h1 {
+	color:						var(--primary-color);
+	font-size: 					1.5em;
+	font-weight: 				600;
+	margin-bottom:				1rem;
+}
+
+
+ic-page h2 {
+	color:						var(--plain-text-color);
+	font-size: 					1.35em;
+	font-weight: 				600;
+	margin-bottom:				0.75rem;
+}
+
+ic-page p{
+	max-width:					50rem;
+	font-size: 					1.25rem;
+	margin:						1em 0;
+}
+
+
+ic-page a {
+	color:						var(--primary-color);
+}
+
+ic-page ul {
+	list-style: 				disc outside;	
+	margin-left:				1rem;
+}
+
+ic-page ul li {
+	margin:						0.5em 0;
+	font-size:					1.25rem;
 }

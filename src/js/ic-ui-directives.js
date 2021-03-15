@@ -1,6 +1,26 @@
 "use strict";
 
 
+/* marked target="_blank" */
+const renderer 		= new marked.Renderer()
+const linkRenderer 	= renderer.link
+
+renderer.link = (href, title, text) => {
+
+	const external	= 	href.startsWith('http')
+
+	const html 		= 	linkRenderer.call(renderer, href, title, text)
+
+	return 	external
+			?	html.replace(/^<a /, `<a target="_blank" rel="noreferrer noopener nofollow" `)
+			:	html 
+}
+
+marked.use({renderer})
+
+/* end marked */
+
+
 angular.module('icUiDirectives', [
 	//translate...
 ])

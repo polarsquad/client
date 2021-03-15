@@ -172,7 +172,17 @@ angular.module('icServices', [
 		icInit.readyCount 	= 0
 		icInit.readyMax		= Object.keys(promises).length
 		icInit.errors 		= []
-			
+	
+		Object.defineProperty(icInit, 'progress', {
+			get: 	() => { 
+
+						const i = icInit.readyCount+1
+						const n = icInit.readyMax
+
+						return i/n
+					}	
+		})
+
 		Object.keys(promises).forEach(function(key){
 			promises[key]
 			.then(

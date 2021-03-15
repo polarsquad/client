@@ -4,16 +4,10 @@ var copyfiles	= 	require('copyfiles'),
 	fs 			= 	require('fs-extra'),
 	rimraf		= 	require('rimraf'),
 	CleanCSS	= 	require('clean-css'),
-	{ minify }	=	require('terser')
-	SVGO		= 	require('svgo'),
+	{minify}	=	require('terser'),
+	{optimize}	= 	require('svgo'),
 	Promise		=	require('bluebird'),
 	cleanCSS 	= 	new CleanCSS(),
-	svgo		= 	new SVGO({
-						plugins: [
-							{removeTitle:					true},
-							{removeDimensions:				true},
-						]
-					}),
 	ins			=	process.argv[2] || 'default',
 	cst			=	'custom/'+ins,
 	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
@@ -185,7 +179,7 @@ function svgMinimize(src_folder, dest_folder){
 			.then( (filenames) => Promise.all(
 				filenames.map( (filename) => {
 					return	fs.readFile(src_folder+'/'+filename, 'utf8')
-							.then( content => svgo.optimize(content) ) 
+							.then( content => optimize(content) ) 
 							.then( result => fs.writeFile(dest_folder+'/'+filename, result.data, { flag : 'w', encoding: 'utf8'}))
 				})				
 			))
