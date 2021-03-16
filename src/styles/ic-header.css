@@ -4,6 +4,7 @@
 ic-header {
 	color:							#fff;
 	z-index:						100;
+	background-color:				var(--secondary-color);
 }
 
 

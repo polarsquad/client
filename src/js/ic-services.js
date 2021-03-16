@@ -195,6 +195,7 @@ angular.module('icServices', [
 
 						icInit.ready = true; 
 
+						//is that in use anywhere?
 						$q.when(icUtils.waitWhileBusy(20))
 						.then(function(){
 							icInit.done = true
@@ -2148,6 +2149,108 @@ angular.module('icServices', [
 
 
 
+.service('icWebfonts', [
+
+	'ic',
+	'icConfig',
+
+	function(ic, icConfig){
+
+		const icWebfonts = {}
+
+		icWebfonts.isAvailable = function(fontFamily){
+
+			if(!fontFamily) return false
+
+			const test_string 	= 	"abcdefghijklmnopqrstuvwxyz"
+
+			const container		=	document.createElement('div')
+			const mono_span 	= 	document.createElement('span')
+			const font_span		= 	document.createElement('span')
+
+			const shared_style	=	{
+										fontSize:	'32px',
+										fontWeight: 500,
+										display:	'inline',
+										position:	'absolute'
+									}
+
+			Object.entries(shared_style).forEach( ([key, value]) => {
+				mono_span.style[key] = value
+				font_span.style[key] = value
+			})
+
+			mono_span.style.fontFamily 	= 'monospace'			
+			font_span.style.fontFamily 	= `${fontFamily}, monospace`
+
+			const mono_text = document.createTextNode(test_string)
+			const font_text = document.createTextNode(test_string)
+
+			mono_span.appendChild(mono_text)
+			font_span.appendChild(font_text)
+
+			container.style.position		= 'fixed'
+			container.style.opacity			= 0
+			container.style.pointerEvents	= 'none'
+
+			container.appendChild(mono_span)
+			container.appendChild(font_span)
+
+			document.body.appendChild(container)
+
+			const mono_width 		= mono_span.clientWidth
+			const font_width		= font_span.clientWidth
+
+			const font_available 	= mono_width != font_width
+
+			mono_span.remove()
+			font_span.remove()
+			container.remove()
+
+			return font_available
+
+		}
+
+
+		icWebfonts.loadCss = function(url){
+
+			var link	= document.createElement('link')
+			
+			link.href	= url
+			link.rel	= 'stylesheet'
+			link.type	= 'text/css'
+
+			const promise = new Promise( (resolve, reject) => { link.onload = resolve; link.onerror = reject })
+
+			document.body.appendChild(link);
+
+			return promise
+		}
+
+		icWebfonts.setup = function() {
+			config = icConfig.webfonts
+
+			if(!Array.isArray(config)) return null
+
+			config.forEach( wfConfig => {
+				if(this.isAvailable(wfConfig.fontFamily)) return null
+
+				//TODO spawn confirmation:
+
+				this.loadCss(wfConfig.url)	
+			})
+		}
+
+		ic.ready.then(icWebfonts.setup() )
+
+		console.log(icWebfonts)
+
+		return icWebfonts
+
+	}
+
+])
+
 
 //updating core Service
 
@@ -2172,9 +2275,11 @@ angular.module('icServices', [
 	'icTiles',
 	'icLists',
 	'icMainMap',
+	'icWebfonts',
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap, $rootScope){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap, icWebfonts, $rootScope, ){
+
 		ic.init			= icInit
 		ic.site			= icSite
 		ic.itemStorage 	= icItemStorage
@@ -2193,7 +2298,7 @@ angular.module('icServices', [
 		ic.mainMap		= icMainMap
 		ic.tiles		= icTiles
 		ic.lists		= icLists
-
+		ic.webfonts		= icWebfonts
 
 		var stop 		= 	$rootScope.$watch(function(){
 								if(icInit.ready){

@@ -10,15 +10,9 @@ ic-item-full-header {
 	margin-bottom:				1rem;
 	margin-left:				1rem;
 	margin-right:				1rem;
-	z-index:					1000;
+	z-index:					2000;
 	height:						0;
 }
-
-ic-item-full-header.ic-scroll-top{
-	top:						0;
-	margin-top:					0rem;
-}
-
 
 
 ic-item-full-header .tools {
@@ -26,24 +20,77 @@ ic-item-full-header .tools {
 	display:					flex;
 	font-size:					1rem;
 	top:						1rem;
-	right:						0;
-	transition:					all 300ms linear;
+	right:						0.5rem;
 	opacity:					1;
 	z-index:					99999;
+	transition:					top 350ms linear;
 }
 
 
-ic-item-full-header.ic-scroll-top .tools {
-	transform:					scale(.5) translateY(-1rem);
-	transform-origin: 			100% 0;
+ic-item-full-header .tools > * {
+	position:					absolute;	
+	z-index:					7777777;
+	transition:					all 350ms ease-in-out;
+	right:						0;
+}
+
+ic-item-full-header .tools > *.switch {
+	position:					static !important;
+	right:						0 !important;
+	z-index:					9999999 !important;
+	pointer-events:				none !important;
+	opacity:					0 !important;
+	transform:					rotate(120deg) !important;
+}
+
+ic-item-full-header.ic-scroll-top .tools > *.switch {
+	position:					static !important;
+	pointer-events:				all !important;
+	opacity:					1 !important;
+	transform:					rotate(0deg)!important;
 }
 
 
+ic-item-full-header.ic-scroll-top .tools > *.switch.active {
+	transform:					rotate(-180deg) !important;	
+} 
 
-ic-item-full-header .tools > *  {
-	flex:						0 0 auto;
-	margin-right:				0.5em;
+ic-item-full-header.ic-scroll-top .tools > *:nth-last-child(n+1){
+	transform:					translateX(-120%);
 }
+
+ic-item-full-header .tools > *:nth-last-child(2) {
+	right:						0%;
+}
+
+ic-item-full-header .tools > *:nth-last-child(3) {
+	right:						125%;
+}
+
+ic-item-full-header .tools > *:nth-last-child(4) {
+	right:						250%;
+}
+
+ic-item-full-header .tools > *:nth-last-child(5) {
+	right:						375%;
+}
+
+ic-item-full-header .tools > *:nth-last-child(6) {
+	right:						500%;
+}
+
+ic-item-full-header .tools > *:nth-last-child(7) {
+	right:						625%;
+}
+
+
+ic-item-full-header.ic-scroll-top .tools:not(.extended) > * {
+	right:						0;	
+	opacity:					0;
+	transform:					none;
+}
+
+
 
 ic-item-full-header nav {
 	position:					absolute;

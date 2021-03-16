@@ -182,7 +182,7 @@ angular.module('icUiDirectives', [
 
 
 				function onScroll(){
-					container.off('scroll', onScroll)
+					container[0].removeEventListener('scroll', onScroll)
 					window.requestAnimationFrame(function(){
 						if(updateLimit()){
 							window.setTimeout(function(){
@@ -190,7 +190,7 @@ angular.module('icUiDirectives', [
 							}, 250)	
 							scope.$apply()
 						} else {
-							container.on('scroll', onScroll)							
+							container[0].addEventListener('scroll', onScroll, {passive:true})
 						}
 					})
 				}
@@ -209,8 +209,11 @@ angular.module('icUiDirectives', [
 					}, true
 				)
 
-				container.on('scroll', onScroll)
+				container[0].addEventListener('scroll', onScroll, {passive:true})
 			
+				scope.$on('$destroy', function(){
+					container[0].removeEventListener('scroll', onScroll)
+				})
 			}
 		}
 	}
@@ -300,11 +303,40 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+
+.directive('icOnScroll',[
+
+	'icScrollSources',
+
+	function(icScrollSources){
+		return {
+			link: function(scope, element, attrs){
+
+				var last_result = undefined
+
+				icScrollSources.addEventListener('remote-scroll', event => {
+					result = scope.$eval(attrs.icOnScroll)
+					
+					if(result !== last_result){
+						scope.$evalAsync(attrs.icOnScroll)
+					}
+					
+				})
+
+				scope.$on('$destroy', function(){
+					icScrollSources.removeEventListener('remote-scroll')
+				})
+	
+			}
+		}
+	}
+])
+
 .directive('icScrollWatch',[
 
 	'icScrollSources',
 
-	function(icScrollSources, onScreenFilter){
+	function(icScrollSources){
 		return {
 			link: function(scope, element, attrs){
 
@@ -315,7 +347,7 @@ angular.module('icUiDirectives', [
 					stop_snapping		= false,
 					threshold			= 0.15,
 					check_requested		= false
-
+					apply_requested		= false
 
 
 				function check(){
@@ -337,19 +369,24 @@ angular.module('icUiDirectives', [
 
 						if(!sourceElement) return null //the animation frame can trigger after the element has been removed
 
-						element.toggleClass(
-							'ic-scroll-top', 
+						var belowTop 	= 	sourceElement.scrollTop > 0 
+											&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
 
-								sourceElement.scrollTop > 0 
-							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
-						)		
+						var aboveBottom	=	sourceElement.scrollTop + sourceElement.clientHeight < sourceElement.scrollHeight 
+											&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
 
-						element.toggleClass(
-							'ic-scroll-bottom', 
 
-								sourceElement.scrollTop + sourceElement.clientHeight < sourceElement.scrollHeight 
-							&& 	element[0].offsetHeight + sourceElement.clientHeight < sourceElement.scrollHeight
-						)		
+						element.toggleClass('ic-scroll-top', belowTop)		
+						element.toggleClass('ic-scroll-bottom', aboveBottom)
+
+						if(apply_requested) return null	
+						if(belowTop == scope.icScrollBelowTop && aboveBottom == scope.icScrollAboveBottom)	return null
+
+						scope.icScrollBelowTop 		= belowTop
+						scope.icScrollAboveBottom 	= aboveBottom
+
+						apply_requested = true
+						scope.$apply( () => apply_requested = false)	
 
 					})
 
@@ -376,7 +413,7 @@ angular.module('icUiDirectives', [
 						if(['string', 'boolean'].indexOf(typeof t) == -1) t = attrs.icScrollWatch
 
 						check()
-					
+
 						if(t === target) return null
 
 						target = t
