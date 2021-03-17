@@ -30,7 +30,9 @@ ic-item-full-header .tools {
 ic-item-full-header .tools > * {
 	position:					absolute;	
 	z-index:					7777777;
-	transition:					all 350ms ease-in-out;
+	transition-property: 		transform, right;
+	transition-duration: 		350ms;
+	transition-timing-function: ease-in-out;
 	right:						0;
 }
 

@@ -29,14 +29,16 @@
 	<span class = "icon white icon-interface-remote"></span>
 	&nbsp;
 	{{'INTERFACE.REMOTE_ITEM_FROM'|translate}}
-	<a href = "{{item.remoteItem.sourceUrl}}">{{item.remoteItem.sourceName}}</a>
+	&nbsp;
+	<a href = "{{item.remoteItem.original}}">{{item.remoteItem.sourceName}}</a>
 
 	<div class ="flex-grow"></div>
 
 	<ic-help ic-icon-class = "white"> 
 		{{"INTERFACE.REMOTE_ITEM_HELP"|translate}}
 		<br/>
-		<a href ="{{item.remoteItem.url}}">{{"INTERFACE.REMOTE_ITEM_ORIGINAL"|translate}}</a>'
+		<br/>
+		<a href ="{{item.remoteItem.original}}">{{"INTERFACE.REMOTE_ITEM_ORIGINAL"|translate}}</a>
 	</ic-help>
 </div>
 
