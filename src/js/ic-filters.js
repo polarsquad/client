@@ -194,16 +194,16 @@ angular.module('icFilters', [
 ])
 
 
-.filter('trustAsHtml',[
-	'$sce',
+// .filter('trustAsHtml',[
+// 	'$sce',
 
-	function($sce){
-		return function(html){
-			console.error('filter trsuAsHTML, do not use')
-			return html//$sce.trustAsHtml(html)
-		}
-	}
-])
+// 	function($sce){
+// 		return function(html){
+// 			console.error('filter trsuAsHTML, do not use')
+// 			return html//$sce.trustAsHtml(html)
+// 		}
+// 	}
+// ])
 
 
 .filter('match', [

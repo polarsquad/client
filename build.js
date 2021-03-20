@@ -10,7 +10,8 @@ var copyfiles	= 	require('copyfiles'),
 	cleanCSS 	= 	new CleanCSS(),
 	ins			=	process.argv[2] || 'default',
 	cst			=	'custom/'+ins,
-	dst			=	process.argv[3] ? "build/"+process.argv[3] : 'dev',
+	dev			= 	!process.argv[3]
+	dst			=	dev ? 'dev' : "build/"+process.argv[3],
 	src			=	'tmp/src',
 
 	taxonomy	= 	fs.existsSync(cst+'/js/taxonomy.js')
@@ -78,24 +79,25 @@ async function bundleScriptsToDst(){
 
 	let files = {
 
-		"vendor.js": 			await fs.readFile('vendor.js', 							'utf8'),
-		"marked.js":			await fs.readFile('node_modules/marked/marked.min.js', 	'utf8'),
-		"taxonomy.js": 			await fs.readFile(src+'/js/taxonomy.js', 				'utf8'),
-		"dpd-items.js": 		await fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
-		"dpd-item-storage.js": 	await fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
-		"ic-preload.js": 		await fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
-		"ic-layout.js": 		await fs.readFile(src+'/js/ic-layout.js', 				'utf8'),
-		"ic-services.js": 		await fs.readFile(src+'/js/ic-services.js', 			'utf8'),
-		"ic-directives.js": 	await fs.readFile(src+'/js/ic-directives.js',			'utf8'),
-		"ic-filters.js": 		await fs.readFile(src+'/js/ic-filters.js', 				'utf8'),
-		"ic-ui-directives.js": 	await fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
-		"ic-map-module.js": 	await fs.readFile(src+'/js/ic-map-module.js', 			'utf8'),
-		"custom.js":			await fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
-		"app.js": 				await fs.readFile(src+'/js/app.js', 					'utf8'),
+		"vendor.js": 				await fs.readFile('vendor.js', 							'utf8'),
+		"marked.js":				await fs.readFile('node_modules/marked/marked.min.js', 	'utf8'),
+		"Leaflet.VectorGrid.min.js":await fs.readFile('node_modules/leaflet.vectorgrid/dist/Leaflet.VectorGrid.bundled.js', 	'utf8'),
+		"taxonomy.js": 				await fs.readFile(src+'/js/taxonomy.js', 				'utf8'),
+		"dpd-items.js": 			await fs.readFile(src+'/js/dpd/dpd-item.js', 			'utf8'),
+		"dpd-item-storage.js": 		await fs.readFile(src+'/js/dpd/dpd-item-storage.js', 	'utf8'),
+		"ic-preload.js": 			await fs.readFile(src+'/js/ic-preload.js', 				'utf8'),
+		"ic-layout.js": 			await fs.readFile(src+'/js/ic-layout.js', 				'utf8'),
+		"ic-services.js": 			await fs.readFile(src+'/js/ic-services.js', 			'utf8'),
+		"ic-directives.js": 		await fs.readFile(src+'/js/ic-directives.js',			'utf8'),
+		"ic-filters.js": 			await fs.readFile(src+'/js/ic-filters.js', 				'utf8'),
+		"ic-ui-directives.js": 		await fs.readFile(src+'/js/ic-ui-directives.js', 		'utf8'),
+		"ic-map-module.js": 		await fs.readFile(src+'/js/ic-map-module.js', 			'utf8'),
+		"custom.js":				await fs.readFile(src+'/js/custom.js',					'utf8').catch( (e) => console.log('skipping custom.js') || ''),
+		"app.js": 					await fs.readFile(src+'/js/app.js', 					'utf8'),
 
-		"qrcode.js": 			await fs.readFile(src+'/js/qrcode.js', 					'utf8'),
-		"qrcode_UTF8.js": 		await fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
-		"angular-qrcode.js": 	await fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
+		"qrcode.js": 				await fs.readFile(src+'/js/qrcode.js', 					'utf8'),
+		"qrcode_UTF8.js": 			await fs.readFile(src+'/js/qrcode_UTF8.js', 			'utf8'),
+		"angular-qrcode.js": 		await fs.readFile(src+'/js/angular-qrcode.js', 			'utf8'),
 
 	}
 
@@ -105,7 +107,15 @@ async function bundleScriptsToDst(){
 		files["rasa_webchat.js"] =	await fs.readFile('node_modules/rasa-webchat/lib/index.js', 'utf8') 
 	}
 									
-	const result = await minify(files , {sourceMap: {url: "scripts.js.map"}	} )
+	const result = 	dev
+					?	{
+							code:	Object.values(files).join(";")
+									.replace(/"use strict";/gi, '')
+									.replace(/"use strict;"/gi, ''),
+							map:	''
+						}
+					:	await minify(files , {sourceMap: {url: "scripts.js.map"}	} )
+	 				
 
 	if(result.error) throw new Error(result.error)
 
@@ -322,10 +332,10 @@ function prepareRoboto(){
 
 	return 	Promise.all([
 				fs.readFile("node_modules/roboto-fontface/css/roboto/roboto-fontface.css",	"utf8"),
-				fs.copy("node_modules/roboto-fontface/fonts/roboto",		dst+"/fonts/Roboto"),
+				fs.copy("node_modules/roboto-fontface/fonts/roboto",		dst+"/fonts/roboto"),
 				fs.ensureDir('tmp/styles')
 			])
-			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/Roboto/g, '/fonts/Roboto'))
+			.then( result	=> result[0].replace(/\.\.\/\.\.\/fonts\/roboto/g, '/fonts/roboto'))
 			.then( css 		=> fs.writeFile('tmp/styles/roboto.css', css, 'utf8'))
 }
 
@@ -423,7 +433,7 @@ function compileIndex(){
 
 	return 	Promise.all([
 				fs.readFile(src+'/index.html', 				'utf8'),
-				fs.readFile(src+'/dev_head.html', 			'utf8'),
+				fs.readFile(src+'/head.html', 				'utf8'),
 				fs.readFile(src+'/ic-loading-screen.html', 	'utf8')
 			])
 			.spread( (index, head, loading_screen, partials, pages) => {

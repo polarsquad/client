@@ -144,29 +144,31 @@ angular.module('icServices', [
 	'icTiles',
 	'icMainMap',
 	'icUtils',
+	'icConsent',
 	'plImages',
 	'plStyles',
 	'plTemplates',
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			deferred		=	$q.defer(),
 			promises 		= 	{
-									icUser: 		icUser.ready,
-									icItemStorage:	icItemStorage.ready,
-									icTiles:		icTiles.ready,
-									icLanguages:	icLanguages.ready,
-									icLists:		icLists.ready,
+									icUser: 			icUser.ready,
+									icItemStorage:		icItemStorage.ready,
+									icTiles:			icTiles.ready,
+									icLanguages:		icLanguages.ready,
+									icLists:			icLists.ready,
 									//icMainMap:		icMainMap.ready,
-									plImages:		plImages.ready,
-									plStyles:		plStyles.ready,
-									plTemplates:	plTemplates.ready,
+									plImages:			plImages.ready,
+									plStyles:			plStyles.ready,
+									plTemplates:		plTemplates.ready,
 
 								}
 	
+
 		icInit.ready		= undefined
 		icInit.done			= undefined
 		icInit.readyCount 	= 0
@@ -195,11 +197,10 @@ angular.module('icServices', [
 
 						icInit.ready = true; 
 
-						//is that in use anywhere?
+						//icInit done is used by the loading screen, i.e. it gets removed when icInit.done == true
 						$q.when(icUtils.waitWhileBusy(20))
-						.then(function(){
-							icInit.done = true
-						})
+						.then( () => icConsent.ready)
+						.then( () => icInit.done = true )
 					}
 				},
 				function(e){
@@ -289,7 +290,72 @@ angular.module('icServices', [
 ])
 
 
+.service('icConsent',[
 
+	'$q',
+
+	function($q){
+
+		const localStoragePrefix = 'ic-consennt-'
+
+		class Consent{
+
+			key 
+
+			constructor(key){
+				this.key = key
+			}
+
+			get given(){
+				return localStorage.getItem(this.localStoragePrefix+this.key)
+			}
+
+			get denied(){
+				return !this.given
+			}
+		}
+
+		class icConsent{
+
+			
+			cases 				= []
+			defer				= $q.defer()
+			ready				= this.defer.promise
+
+
+			add(key, server){
+
+				this.cases.push({key, server})
+
+				return new Consent(key)
+
+			}
+
+			to(key){
+				return new Consent(key)
+			}
+
+			toggleConsent(key, value){
+				const current 	= 	localStorage.getItem(this.localStoragePrefix+key)
+				const new_value	= 	value === undefined	
+									?	!current
+									:	!!value
+
+				localStorage.setItem(this.localStoragePrefix+key, new_value)
+				
+			}
+
+			done(){
+				this.defer.resolve()
+			}
+
+		}
+
+		return new icConsent()
+
+	}
+
+])
 
 .service('icLists', [
 
@@ -2272,13 +2338,14 @@ angular.module('icServices', [
 	'icStats',
 	'icConfig',
 	'icUtils',
+	'icConsent',
 	'icTiles',
 	'icLists',
 	'icMainMap',
 	'icWebfonts',
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icTiles, icLists, icMainMap, icWebfonts, $rootScope, ){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icLists, icMainMap, icWebfonts, $rootScope, ){
 
 		ic.init			= icInit
 		ic.site			= icSite
@@ -2295,6 +2362,7 @@ angular.module('icServices', [
 		ic.stats		= icStats
 		ic.config		= icConfig
 		ic.utils		= icUtils
+		ic.consent		= icConsent
 		ic.mainMap		= icMainMap
 		ic.tiles		= icTiles
 		ic.lists		= icLists

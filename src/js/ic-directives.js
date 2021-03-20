@@ -56,6 +56,67 @@ angular.module('icDirectives', [
 	}
 ])
 
+
+.directive('icConsent',[
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		"AE",
+
+			//inline temaplte required, because this directive will be rednered before plTemplates is done
+			template:		` 
+								cases: {{cases.length}}
+
+								<form 
+									ng-if = "cases.length > 0"
+									ng-submit = "okay()"
+								>
+
+									<ul >
+
+										<li  
+											ng-repeat 	= "case in cases"
+											class		= "confirmation-case"
+										>
+											<h3>{{case.title}}<span class ="server-details"></span></h3>
+											<p class ="description">{{'CONTENT.CONSENT_%1 | fill : case.key}}</p>
+
+											<ic-toggle
+												on		= "INTERFACE.CONSENT_ON"
+												off		= "INTERFACE.CONSENT_OFF"
+												value 	= "cases[key]"
+											></ic-toggle>
+
+										</li>
+
+									</ul>
+
+									<button type = "submit">
+										{{INTERFACE.CONTENT_ALL}}
+									<button>
+
+								</form>
+							`,
+			scope:			{},
+
+			link: function(scope){
+
+				scope.cases 	= ic.consent.cases
+				scope.result 	= {}
+
+				scope.cases.forEach( consent_case => scope.result[consent_case.key] = consent_case.default || true)
+
+				scope.okay = function(){
+					Object.entries ( ([key, value]) => ic.consent.set(key, value) )
+					ic.consent.done() 
+				}
+
+			}
+		}
+	}
+])
+
 // Section directives:
 
 

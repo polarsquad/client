@@ -27,7 +27,7 @@
 
 
 	angular.module('icMap', [
-		'icServices'
+		'icServices',
 	])
 
 
@@ -429,9 +429,10 @@
 	])
 
 
-	.provider('icMainMap', [
+	.provider('icMainMap', [		
 
 		function(){
+
 
 			// adding no Control Position:
 			L.Map.prototype._initControlPos = function ( _initControlPos ) {
@@ -454,6 +455,7 @@
 														],
 									maxClusterRadius: 	40,
 									tiles:				undefined,
+									vectorTiles:		undefined
 								}
 
 			this.setDefaults = function(config){
@@ -470,9 +472,12 @@
 				'icMapItemMarker',
 				'icItemStorage',
 				'icSite',
+				'icConsent',
 
 
-				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite){
+				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite, icConsent){
+
+
 
 					var mapReady 			= 	$q.defer(),
 						markersReady 		= 	$q.defer(),
@@ -496,6 +501,9 @@
 
 					icMainMap.picker		=	angular.copy(defaultPicker)
 					
+
+					icMainMap.consent 		=	icConsent.add('map-tiles', '(mabox.com, USA)')
+
 
 
 					icMainMap.setMapObject = function(obj){
@@ -684,23 +692,43 @@
 					})
 
 
-					//controls
+					/*if(icMainMap.consent.denied){
+						console.warn('icMainMap: consent to map tile loading has been denied.')
+						return null
+					}*/
 
 
-					if(!icMainMap.defaults.tiles){
+
+					if(!icMainMap.defaults.tiles && !icMainMap.defaults.vectorTiles){
 						console.error('icMap: missing tiles! Check config file.')
 						return null
 					}
 
 
 
+					if(icMainMap.defaults.tiles){
+						L.tileLayer(
+							icMainMap.defaults.tiles,
+							{
+								attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							}
+						).addTo(map)
+					}
 
-					L.tileLayer(
-						icMainMap.defaults.tiles, 					
-						{
-							attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-						}
-					).addTo(map)
+
+					if(icMainMap.defaults.vectorTiles){
+
+						L.vectorGrid.protobuf(
+							icMainMap.defaults.vectorTiles,
+							{
+						//		vectorTileLayerStyles: {},
+						//		key: 'abcdefghi01234567890',
+						//		maxNativeZoom: 14,
+								attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+							}
+						).addTo(map);
+					}
+
 
 					map.addLayer(markers)
 
