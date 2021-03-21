@@ -322,6 +322,10 @@ angular.module('icServices', [
 			defer				= $q.defer()
 			ready				= this.defer.promise
 
+			constructor(){
+				this.defer.resolve() //remove
+			}
+
 
 			add(key, server){
 
@@ -348,6 +352,8 @@ angular.module('icServices', [
 			done(){
 				this.defer.resolve()
 			}
+
+
 
 		}
 
