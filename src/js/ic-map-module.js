@@ -455,7 +455,7 @@
 														],
 									maxClusterRadius: 	40,
 									tiles:				undefined,
-									vectorTiles:		undefined
+									//vectorTiles:		undefined
 								}
 
 			this.setDefaults = function(config){
@@ -699,7 +699,7 @@
 
 
 
-					if(!icMainMap.defaults.tiles && !icMainMap.defaults.vectorTiles){
+					if(!icMainMap.defaults.tiles){ // && !icMainMap.defaults.vectorTiles){
 						console.error('icMap: missing tiles! Check config file.')
 						return null
 					}
@@ -716,18 +716,18 @@
 					}
 
 
-					if(icMainMap.defaults.vectorTiles){
+					// if(icMainMap.defaults.vectorTiles){
 
-						L.vectorGrid.protobuf(
-							icMainMap.defaults.vectorTiles,
-							{
-						//		vectorTileLayerStyles: {},
-						//		key: 'abcdefghi01234567890',
-						//		maxNativeZoom: 14,
-								attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							}
-						).addTo(map);
-					}
+					// 	L.vectorGrid.protobuf(
+					// 		icMainMap.defaults.vectorTiles,
+					// 		{
+					// 	//		vectorTileLayerStyles: {},
+					// 	//		key: 'abcdefghi01234567890',
+					// 	//		maxNativeZoom: 14,
+					// 			attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+					// 		}
+					// 	).addTo(map);
+					// }
 
 
 					map.addLayer(markers)
