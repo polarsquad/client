@@ -65,37 +65,37 @@ angular.module('icDirectives', [
 			restrict:		"AE",
 
 			//inline temaplte required, because this directive will be rednered before plTemplates is done
-			template:		` 
-								<form 
-									ng-if = "false||cases.length > 0"
-									ng-submit = "okay()"
-								>
+			// template:		` 
+			// 					<form 
+			// 						ng-if = "cases.length > 0"
+			// 						ng-submit = "okay()"
+			// 					>
 
-									<ul >
+			// 						<ul >
 
-										<li  
-											ng-repeat 	= "case in cases"
-											class		= "confirmation-case"
-										>
-											<h3>{{case.title}}<span class ="server-details"></span></h3>
-											<p class ="description">{{'CONTENT.CONSENT_%1' | fill : case.key}}</p>
+			// 							<li  
+			// 								ng-repeat 	= "case in cases"
+			// 								class		= "confirmation-case"
+			// 							>
+			// 								<h3>{{case.title}}<span class ="server-details"></span></h3>
+			// 								<p class ="description">{{'CONTENT.CONSENT_%1' | fill : case.key}}</p>
 
-											<ic-toggle
-												on		= "INTERFACE.CONSENT_ON"
-												off		= "INTERFACE.CONSENT_OFF"
-												value 	= "cases[key]"
-											></ic-toggle>
+			// 								<ic-toggle
+			// 									on		= "INTERFACE.CONSENT_ON"
+			// 									off		= "INTERFACE.CONSENT_OFF"
+			// 									value 	= "cases[key]"
+			// 								></ic-toggle>
 
-										</li>
+			// 							</li>
 
-									</ul>
+			// 						</ul>
 
-									<button type = "submit">
-										{{INTERFACE.CONTENT_ALL}}
-									<button>
+			// 						<button type = "submit">
+			// 							{{INTERFACE.CONTENT_ALL}}
+			// 						<button>
 
-								</form>
-							`,
+			// 					</form>
+			// 				`,
 			scope:			{},
 
 			link: function(scope){
