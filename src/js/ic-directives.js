@@ -66,10 +66,8 @@ angular.module('icDirectives', [
 
 			//inline temaplte required, because this directive will be rednered before plTemplates is done
 			template:		` 
-								cases: {{cases.length}}
-
 								<form 
-									ng-if = "cases.length > 0"
+									ng-if = "false||cases.length > 0"
 									ng-submit = "okay()"
 								>
 
