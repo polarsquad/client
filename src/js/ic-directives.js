@@ -80,7 +80,7 @@ angular.module('icDirectives', [
 											class		= "confirmation-case"
 										>
 											<h3>{{case.title}}<span class ="server-details"></span></h3>
-											<p class ="description">{{'CONTENT.CONSENT_%1 | fill : case.key}}</p>
+											<p class ="description">{{'CONTENT.CONSENT_%1' | fill : case.key}}</p>
 
 											<ic-toggle
 												on		= "INTERFACE.CONSENT_ON"
