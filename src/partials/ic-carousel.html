@@ -2,32 +2,18 @@
 	class 		= "shuttle"
 	ng-click	= "carousel.position = carousel.position + 1"
 >
-	<div class = "before">
+	<div 
+		ng-repeat 	= "pos in ['before', 'center', 'after']"
+		class		= "{{pos}}"
+	>
 		<div 
 			ng-repeat 	= "image in carousel.images track by $index" 
-			style		= "background-image: url({{image}})"
-			class		= "image"
+			style		= "{{image.style}}"
+			class		= "image {{image.class}}"
 		>
 		</div>
 	</div>
 
-	<div class = "center">
-		<div 
-			ng-repeat 	= "image in carousel.images track by $index" 
-			style		= "background-image: url({{image}})"
-			class		= "image"
-		>
-		</div>
-	</div>
-
-	<div class = "after">
-		<div 
-			ng-repeat 	= "image in carousel.images track by $index" 
-			style		= "background-image: url({{image}})"
-			class		= "image"
-		>
-		</div>
-	</div>
 </div>
 <nav>
 	<button 

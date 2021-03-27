@@ -826,6 +826,7 @@ angular.module('icUiDirectives', [
 					})
 				}
 
+
 				scope.$watch('carousel.position', function(new_pos, old_pos){
 
 					if(scope.carousel.images.length <= 1) 	return null
@@ -844,7 +845,24 @@ angular.module('icUiDirectives', [
 				})
 
 				scope.$watchCollection(attrs.icCarousel || attrs.icImages, function(images){
-					scope.carousel.images = images || []
+
+
+					scope.carousel.images = (images || []).map( image_str => {
+												const is_file 	= !!image_str.match(/\./)
+												const is_class	= !is_file
+
+												return	{
+															file	: 	is_file	
+																		?	'background-image: url(${image_str})' 
+																		:	undefined,
+
+															class 	:	is_class	
+																		?	image_str 							
+																		:	''
+														}
+											})
+					console.log(scope.carousel.images)
+
 					resetToPosition()
 				})
 
