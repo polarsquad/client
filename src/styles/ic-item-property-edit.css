@@ -94,7 +94,8 @@ ic-item-property-edit .options li {
 	line-height:				1.2rem;
 	display:					flex;
 	align-items:				center;
-	margin-bottom:				0.5em;
+	padding-top:				0.25em;
+	padding-bottom:				0.25em;
 }
 
 
