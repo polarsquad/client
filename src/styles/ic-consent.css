@@ -1,0 +1,65 @@
+ic-consent {
+	display:			block;
+	width:				30rem;
+	max-width:			100%;
+	padding:			1rem;
+	box-sizing:			border-box;
+}
+
+ic-consent ul {
+	margin-bottom:		4rem;
+}
+
+ic-consent ul li {
+	display:			block;
+}
+
+ic-consent ul li div {
+	display:			flex;
+	flex-direction:		row;
+	align-items:		center;
+}
+
+ic-consent ul li > div >  :first-child {
+	flex:				1 0 0;
+	font-weight:		bold;
+}
+
+
+ic-consent ul li > div > :last-child {
+	flex:				0 0 4em;
+	padding-left:		1.5em;
+}
+
+ic-consent ul li > * {
+	display:			block;
+}
+
+ic-consent ul li h3 {
+	font-weight:		bold;
+}
+
+ic-consent ul li p {
+	font-weight:		normal;
+	font-size:			0.85em;
+}
+
+ic-consent ul li .server {
+	font-style: 		italic;
+	font-weight:		normal;
+	padding-left:		0.5em;
+}
+
+
+ic-consent .buttons {
+	display:			flex;
+	flex-direction:		row;
+}
+
+ic-consent .buttons > button {
+	flex:				1 0 0;
+}
+
+ic-consent .buttons > button + button {
+	margin-left:		1rem;
+}
