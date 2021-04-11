@@ -1,15 +1,17 @@
 
-<div class = "loading">
-	loading
-</div>
+<div class = "loading-indicator">
+	<div 
+		class 		= "state"
+		ng-class 	= "{ready: ic.init.ready}"
+	>
+		<span>	loading	</span>
+		<span>	ready	</span>
+	</div>
 
-<div class = "progress">
-	<div class ="current" style = "width:0" ng-style = "{'width':  ( ic.init.progress*100 || 0)+'%'}">
+	<div class = "progress">
+		<div class ="current" style = "width:0" ng-style = "{'width':  ( ic.init.progress*100 || 0)+'%'}"></div>
 	</div>
 </div>
-
-<ic-consent>
-</ic-consent>
 
 <div 
 	class = "error" 
@@ -24,3 +26,9 @@
 	</span>
 	]
 </div>
+
+<ic-consent 
+	style 		= "opacity:  0; transform: 400ms opacity ease-in"
+	ng-style 	= "{opacity: (ic.init.plStyles && ic.init.icLanguages) ? 1 : 0}"
+>
+</ic-consent>

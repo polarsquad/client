@@ -65,43 +65,99 @@ angular.module('icDirectives', [
 			restrict:		"AE",
 
 			//inline temaplte required, because this directive will be rednered before plTemplates is done
-			// template:		` 
-			// 					<form 
-			// 						ng-if = "cases.length > 0"
-			// 						ng-submit = "okay()"
-			// 					>
+			template:		` 
+								<form 
+									ng-if = "cases.length > 0"
+									ng-submit = "okay()"
+								>
 
-			// 						<ul >
+									<ul >
 
-			// 							<li  
-			// 								ng-repeat 	= "case in cases"
-			// 								class		= "confirmation-case"
-			// 							>
-			// 								<h3>{{case.title}}<span class ="server-details"></span></h3>
-			// 								<p class ="description">{{'CONTENT.CONSENT_%1' | fill : case.key}}</p>
+										<li  
+											ng-repeat 	= "case in cases"
+											class		= "confirmation-case"
+											ng-class	= "{'consent-refused': !result[case.key]}"
+										>
+											<div>
+												<div>
+													{{'CONTENT.CONSENT_%s' | fill: case.key | translate }}
 
-			// 								<ic-toggle
-			// 									on		= "INTERFACE.CONSENT_ON"
-			// 									off		= "INTERFACE.CONSENT_OFF"
-			// 									value 	= "cases[key]"
-			// 								></ic-toggle>
+													<span ng-if = "case.server" class ="server">({{case.server}})</span>
+												</div>
 
-			// 							</li>
+												<div>
+													<ic-toggle
+														on		= "{{'INTERFACE.CONSENT_ON'		| translate}}"
+														off		= "{{'INTERFACE.CONSENT_OFF'	| translate}}"
+														value 	= "result[case.key]"
+													></ic-toggle>
+												</div>
+											</div>
 
-			// 						</ul>
+											<p class = "description">	
+												{{'CONTENT.CONSENT_%s_DESCRIPTION' | fill : case.key | translate }}
+											</p>
 
-			// 						<button type = "submit">
-			// 							{{INTERFACE.CONTENT_ALL}}
-			// 						<button>
+										</li>
 
-			// 					</form>
-			// 				`,
+										<li>
+											<div>
+												<div>
+													{{'INTERFACE.CONSENT_ALL'| translate}}
+												</div>
+												<div>
+													<ic-toggle
+														on		= "{{'INTERFACE.CONSENT_ON'		| translate}}"
+														off		= "{{'INTERFACE.CONSENT_OFF'	| translate}}"
+														value 	= "confirmAll"
+													></ic-toggle>
+												</div>
+											</div>
+										</li>
+									</ul>
+
+
+									<div class = "buttons">
+
+										<button 
+											type	= "submit"
+											class	= "padding border-1"
+										>
+											{{'INTERFACE.CONSENT_NONE'| translate}}
+										</button>
+
+										<button 
+											type		= "submit"
+											ng-if		= "!confirmAll"
+											class		= "active padding border-3"
+										>
+											{{'INTERFACE.CONSENT_SOME'| translate}}
+										</button>
+
+										<button 
+											type	= "submit"
+											ng-if	= "confirmAll"
+											class	= "bg-3 padding"
+										>
+											{{'INTERFACE.CONSENT_ALL'| translate}}
+										</button>
+
+
+									</div>
+
+								</form>
+							`,
 			scope:			{},
 
 			link: function(scope){
 
-				scope.cases 	= ic.consent.cases
-				scope.result 	= {}
+				scope.cases 		= ic.consent.cases
+				scope.result 		= {}
+				scope.confirmAll	= true
+
+				scope.allConfirmed = function(){
+					return this.cases.every( c => c)
+				}
 
 				scope.cases.forEach( consent_case => scope.result[consent_case.key] = consent_case.default || true)
 
@@ -109,6 +165,22 @@ angular.module('icDirectives', [
 					Object.entries ( ([key, value]) => ic.consent.set(key, value) )
 					ic.consent.done() 
 				}
+
+				scope.$watch(
+					function(){
+						console.log('KKKKKKK', scope.confirmAll)
+						return scope.confirmAll
+					}, 
+					function(new_value){
+						console.log('sdfdsf')
+						scope.confirmAll = new_value
+						if(scope.confirmAll) Object.keys(scope.result).forEach( key => scope.result[key] = true )
+					}
+				)
+
+				scope.$watch(function(){
+					scope.confirmAll = Object.keys(scope.result).every( key => scope.result[key])
+				})
 
 			}
 		}

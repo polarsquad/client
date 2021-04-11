@@ -154,7 +154,6 @@ angular.module('icServices', [
 	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
-			deferred		=	$q.defer(),
 			promises 		= 	{
 									icUser: 			icUser.ready,
 									icItemStorage:		icItemStorage.ready,
@@ -178,7 +177,7 @@ angular.module('icServices', [
 		Object.defineProperty(icInit, 'progress', {
 			get: 	() => { 
 
-						const i = icInit.readyCount+1
+						const i = icInit.readyCount
 						const n = icInit.readyMax
 
 						return i/n
@@ -192,6 +191,8 @@ angular.module('icServices', [
 					icInit.readyCount ++
 
 					console.info( (key+'...').padEnd(25,' ')+'[ok]')
+
+					icInit[key] = true
 
 					if(icInit.readyCount == icInit.readyMax){
 
@@ -323,7 +324,7 @@ angular.module('icServices', [
 			ready				= this.defer.promise
 
 			constructor(){
-				this.defer.resolve() //remove
+				//this.defer.resolve() //remove
 			}
 
 

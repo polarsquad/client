@@ -502,8 +502,7 @@
 					icMainMap.picker		=	angular.copy(defaultPicker)
 					
 
-					icMainMap.consent 		=	icConsent.add('map-tiles', '(mabox.com, USA)')
-
+					icMainMap.consent 		=	icConsent.add('map_tiles', 'mapbox.com, USA')
 
 
 					icMainMap.setMapObject = function(obj){

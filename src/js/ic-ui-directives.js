@@ -898,7 +898,10 @@ angular.module('icUiDirectives', [
 
 			link: function(scope, element, attr){
 
-				element.on('click', function(){ scope.value = !scope.value })
+				element.on('click', function(){ 
+					scope.value = !scope.value 
+					scope.$digest()
+				})
 
 				attr.$observe('on', 	function(value) { scope.on 	= value })					
 				attr.$observe('off',	function(value) { scope.off = value })
