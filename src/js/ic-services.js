@@ -144,6 +144,7 @@ angular.module('icServices', [
 	'icTiles',
 	'icMainMap',
 	'icUtils',
+	'icWebfonts',
 	'icConsent',
 	'plImages',
 	'plStyles',
@@ -151,7 +152,7 @@ angular.module('icServices', [
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, icWebfonts, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			promises 		= 	{
@@ -160,6 +161,7 @@ angular.module('icServices', [
 									icTiles:			icTiles.ready,
 									icLanguages:		icLanguages.ready,
 									icLists:			icLists.ready,
+									icWebfonts:			icWebfonts.ready,
 									//icMainMap:		icMainMap.ready,
 									plImages:			plImages.ready,
 									plStyles:			plStyles.ready,
@@ -297,22 +299,47 @@ angular.module('icServices', [
 
 	function($q){
 
-		const localStoragePrefix = 'ic-consennt-'
+		const storageItemName = 'icConsent'
+
+		function getValue(key){
+			try{	return JSON.parse(localStorage.getItem(storageItemName))[key] }
+			catch{	return undefined }
+		}
+		
+		function setValue(key, value){
+
+			let values 
+
+			try{ 	values = JSON.parse(localStorage.getItem(storageItemName)) || {} }
+			catch{	values = {} }
+
+			values[key] = value
+
+			localStorage.setItem(storageItemName, JSON.stringify(values))
+		}
+		
+		function clear(){
+			localStorage.removeItem(storageItemName)
+		}
 
 		class Consent{
 
-			key 
+			key
 
 			constructor(key){
 				this.key = key
 			}
 
-			get given(){
-				return localStorage.getItem(this.localStoragePrefix+this.key)
+			get isGiven(){
+				return  getValue(this.key) === true
 			}
 
-			get denied(){
-				return !this.given
+			get isKnown(){
+				return typeof getValue(this.key) == 'boolean'
+			}
+
+			get isDenied(){
+				return getValue(this.key) === false
 			}
 		}
 
@@ -322,15 +349,15 @@ angular.module('icServices', [
 			cases 				= []
 			defer				= $q.defer()
 			ready				= this.defer.promise
+			promises			= new Set()
 
 			constructor(){
-				//this.defer.resolve() //remove
 			}
 
 
-			add(key, server){
+			add(key, server, default_value){
 
-				this.cases.push({key, server})
+				this.cases.push({key, server, default: default_value})
 
 				return new Consent(key)
 
@@ -340,20 +367,47 @@ angular.module('icServices', [
 				return new Consent(key)
 			}
 
-			toggleConsent(key, value){
-				const current 	= 	localStorage.getItem(this.localStoragePrefix+key)
-				const new_value	= 	value === undefined	
-									?	!current
-									:	!!value
+			when(key){
 
-				localStorage.setItem(this.localStoragePrefix+key, new_value)
-				
+				if(this.to(key).isGiven) 	return Promise.resolve()
+				if(this.to(key).isDenied)	return Promise.reject()
+
+				let reject
+				let resolve
+
+				const promise = new Promise((s,j) => { resolve = s; reject = j })
+
+				promise.consentKey  = key
+				promise.resolve		= resolve
+				promise.reject		= reject
+
+				this.promises.add(promise)				
+
+				promise.finally( () => this.promises.delete(promise) )
+
+				return $q.resolve(promise)
+
+			}
+
+			set(key, value){
+				setValue(key, value)
+
+				this.promises.forEach( promise => {
+					const key = promise.consentKey
+					if(this.to(key).isGiven) 	promise.resolve()
+					if(this.to(key).isDenied)	promise.reject()					
+				})
+
+			}
+
+			clear(){
+				clear()
+				location.reload()
 			}
 
 			done(){
 				this.defer.resolve()
 			}
-
 
 
 		}
@@ -2224,101 +2278,138 @@ angular.module('icServices', [
 
 .service('icWebfonts', [
 
+	'$q',
 	'ic',
 	'icConfig',
+	'icConsent',
 
-	function(ic, icConfig){
+	function($q, ic, icConfig, icConsent){
 
-		const icWebfonts = {}
+		class icWebfonts {
 
-		icWebfonts.isAvailable = function(fontFamily){
+			ready
 
-			if(!fontFamily) return false
+			constructor(){
+				this.setup()
+			}
 
-			const test_string 	= 	"abcdefghijklmnopqrstuvwxyz"
+			isAvailable(fontFamily){
 
-			const container		=	document.createElement('div')
-			const mono_span 	= 	document.createElement('span')
-			const font_span		= 	document.createElement('span')
+				if(!fontFamily) return false
 
-			const shared_style	=	{
-										fontSize:	'32px',
-										fontWeight: 500,
-										display:	'inline',
-										position:	'absolute'
-									}
+				const test_string 	= 	"abcdefghijklmnopqrstuvwxyz"
 
-			Object.entries(shared_style).forEach( ([key, value]) => {
-				mono_span.style[key] = value
-				font_span.style[key] = value
-			})
+				const container		=	document.createElement('div')
+				const mono_span 	= 	document.createElement('span')
+				const font_span		= 	document.createElement('span')
 
-			mono_span.style.fontFamily 	= 'monospace'			
-			font_span.style.fontFamily 	= `${fontFamily}, monospace`
+				const shared_style	=	{
+											fontSize:	'32px',
+											fontWeight: 500,
+											display:	'inline',
+											position:	'absolute'
+										}
 
-			const mono_text = document.createTextNode(test_string)
-			const font_text = document.createTextNode(test_string)
+				Object.entries(shared_style).forEach( ([key, value]) => {
+					mono_span.style[key] = value
+					font_span.style[key] = value
+				})
 
-			mono_span.appendChild(mono_text)
-			font_span.appendChild(font_text)
+				mono_span.style.fontFamily 	= 'monospace'			
+				font_span.style.fontFamily 	= `${fontFamily}, monospace`
 
-			container.style.position		= 'fixed'
-			container.style.opacity			= 0
-			container.style.pointerEvents	= 'none'
+				const mono_text = document.createTextNode(test_string)
+				const font_text = document.createTextNode(test_string)
 
-			container.appendChild(mono_span)
-			container.appendChild(font_span)
+				mono_span.appendChild(mono_text)
+				font_span.appendChild(font_text)
 
-			document.body.appendChild(container)
+				container.style.position		= 'fixed'
+				container.style.opacity			= 0
+				container.style.pointerEvents	= 'none'
 
-			const mono_width 		= mono_span.clientWidth
-			const font_width		= font_span.clientWidth
+				container.appendChild(mono_span)
+				container.appendChild(font_span)
 
-			const font_available 	= mono_width != font_width
+				document.body.appendChild(container)
 
-			mono_span.remove()
-			font_span.remove()
-			container.remove()
+				const mono_width 		= mono_span.clientWidth
+				const font_width		= font_span.clientWidth
 
-			return font_available
+				const font_available 	= mono_width != font_width
+
+				mono_span.remove()
+				font_span.remove()
+				container.remove()
+
+				return font_available
+
+			}
+
+
+			loadCss(url){
+
+				var link	= document.createElement('link')
+				
+				link.href	= url
+				link.rel	= 'stylesheet'
+				link.type	= 'text/css'
+
+				const promise = new Promise( (resolve, reject) => { link.onload = resolve; link.onerror = reject })
+
+				document.head.appendChild(link);				
+
+				return promise
+			}
+
+			setup() {
+
+				const config = icConfig.webfonts
+
+				if(!Array.isArray(config)) return null
+
+				let ready = Promise.all(config.map( wfConfig => {
+
+					const fontFamily 	= wfConfig.fontFamily
+					const consent		= wfConfig.consent
+					const consentKey	= 'webfont_' + fontFamily
+
+					if(wfConfig.consent){
+
+						icConsent.add(consentKey, consent.server, consent.default)
+
+						if(this.isAvailable(fontFamily)) 		return 	Promise.resolve('icWebfonts: font already available '	+ fontFamily)
+
+						const consentDeniedMsg = 'icWebfonts: consent denied for ' + fontFamily
+							
+						if(icConsent.to(consentKey).isDenied)	return 	Promise.resolve(consentDeniedMsg)
+						if(icConsent.to(consentKey).isGiven)	return 	this.loadCss(wfConfig.url)
+
+
+						icConsent.when(consentKey)
+						.then(
+							() => this.loadCss(wfConfig.url),
+							() => console.info(consentDeniedMsg)
+						)
+
+						return 	Promise.resolve('icWebfonts: loading deferred until consent is given: ' + fontFamily)
+
+					}
+
+					return 	() => this.loadCss(wfConfig.url)
+							
+
+				}))
+				.then( (result) => result.forEach( r => console.info(r) ) )
+
+				this.ready = $q.when(ready)
+			}
+
+			//ic.ready.then(icWebfonts.setup() )
 
 		}
 
-
-		icWebfonts.loadCss = function(url){
-
-			var link	= document.createElement('link')
-			
-			link.href	= url
-			link.rel	= 'stylesheet'
-			link.type	= 'text/css'
-
-			const promise = new Promise( (resolve, reject) => { link.onload = resolve; link.onerror = reject })
-
-			document.body.appendChild(link);
-
-			return promise
-		}
-
-		icWebfonts.setup = function() {
-			config = icConfig.webfonts
-
-			if(!Array.isArray(config)) return null
-
-			config.forEach( wfConfig => {
-				if(this.isAvailable(wfConfig.fontFamily)) return null
-
-				//TODO spawn confirmation:
-
-				this.loadCss(wfConfig.url)	
-			})
-		}
-
-		ic.ready.then(icWebfonts.setup() )
-
-		console.log(icWebfonts)
-
-		return icWebfonts
+		return new icWebfonts()
 
 	}
 

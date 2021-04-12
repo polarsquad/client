@@ -455,6 +455,7 @@
 														],
 									maxClusterRadius: 	40,
 									tiles:				undefined,
+									consent:			undefined,
 									//vectorTiles:		undefined
 								}
 
@@ -502,7 +503,10 @@
 					icMainMap.picker		=	angular.copy(defaultPicker)
 					
 
-					icMainMap.consent 		=	icConsent.add('map_tiles', 'mapbox.com, USA')
+					if(icMainMap.defaults.consent){
+						icMainMap.consent 		=	icConsent.add('map_tiles', icMainMap.defaults.consent.server, icMainMap.defaults.consent.default)
+					}
+
 
 
 					icMainMap.setMapObject = function(obj){
@@ -607,6 +611,7 @@
 		'$timeout',
 		'icSite',
 		'icItemStorage',
+		'icConsent',
 		'icUtils',
 		'icMainMap',
 		'icMapItemMarker',
@@ -616,7 +621,7 @@
 		'icMapCoordinatePickerControl',
 		'icMapMarkerDigestQueue',
 
-		function($rootScope, $timeout, icSite, icItemStorage, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
+		function($rootScope, $timeout, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
 			return {
 				restrict: 'AE',
 
@@ -706,12 +711,21 @@
 
 
 					if(icMainMap.defaults.tiles){
-						L.tileLayer(
-							icMainMap.defaults.tiles,
-							{
-								attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-							}
-						).addTo(map)
+
+						Promise.resolve( !icMainMap.consent || icConsent.when(icMainMap.consent.key) )
+						.then( () => {
+							
+							L.tileLayer(
+								icMainMap.defaults.tiles,
+								{
+									attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+								}
+							).addTo(map)
+
+						})
+
+
+
 					}
 
 

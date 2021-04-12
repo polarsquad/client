@@ -27,8 +27,9 @@
 	]
 </div>
 
+
 <ic-consent 
-	style 		= "opacity:  0; transform: 400ms opacity ease-in"
-	ng-style 	= "{opacity: (ic.init.plStyles && ic.init.icLanguages) ? 1 : 0}"
+	style 		= "opacity:  0; transition: 300ms opacity ease-in"
+	ng-style 	= "{opacity: ic.init.ready ? 1 : 0}"
 >
 </ic-consent>

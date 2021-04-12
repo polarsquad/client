@@ -18,7 +18,7 @@
 			function($q, $http){
 
 
-				this.ready = 	Promise.resolve()
+				let ready = 	Promise.resolve()
 								.then(function()		{ return 	$http.get(jsonFile) } )
 								.then(function(result)	{ return 	result.data })
 								.then(function(images)	{ return 	Promise.all(images.map(function(url){
@@ -43,6 +43,8 @@
 																	}))
 														}
 								)
+
+				this.ready = $q.resolve(ready)
 
 				return this
 
@@ -81,7 +83,7 @@
 								}))
 				}
 				
-				this.ready = 	Promise.resolve()
+				let ready = 	Promise.resolve()
 								.then( function()		{	return 	files ? {data : files} : $http.get(jsonFile) })
 								.then( function(result)	{	return 	result.data })
 								.then( function(styles)	{	
@@ -90,12 +92,12 @@
 									
 									styles = styles.filter(function(filename){ return !!filename})
 
-									var queue = Promise.resolve()
-
 									return loadStyles(styles) 
 
 								})
 								.catch(console.log)
+
+				this.ready = $q.resolve(ready)
 
 				return this
 
@@ -121,7 +123,7 @@
 			function($q, $http, $templateCache){
 
 
-				this.ready = 	Promise.resolve()
+				let ready = 	Promise.resolve()
 								.then(function()			{ return 	$http.get(jsonFile) } )
 								.then(function(result)		{ return 	result.data })
 								.then(function(templates)	{ return 	Promise.all(templates.map(function(template){
@@ -129,6 +131,8 @@
 																		}))
 															}
 								)
+
+				this.ready = $q.resolve(ready)
 
 				return this
 

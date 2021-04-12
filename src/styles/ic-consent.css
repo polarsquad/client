@@ -14,7 +14,7 @@ ic-consent ul li {
 	display:			block;
 }
 
-ic-consent ul li div {
+ic-consent ul li > div {
 	display:			flex;
 	flex-direction:		row;
 	align-items:		center;
@@ -47,7 +47,6 @@ ic-consent ul li p {
 ic-consent ul li .server {
 	font-style: 		italic;
 	font-weight:		normal;
-	padding-left:		0.5em;
 }
 
 

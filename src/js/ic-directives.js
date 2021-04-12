@@ -58,18 +58,15 @@ angular.module('icDirectives', [
 
 
 .directive('icConsent',[
-	'ic',
+	'icConsent',
 
-	function(ic){
+	function(icConsent){
 		return {
 			restrict:		"AE",
 
 			//inline temaplte required, because this directive will be rednered before plTemplates is done
 			template:		` 
-								<form 
-									ng-if = "cases.length > 0"
-									ng-submit = "okay()"
-								>
+								<form ng-if = "consentRequired">
 
 									<ul >
 
@@ -100,16 +97,17 @@ angular.module('icDirectives', [
 
 										</li>
 
-										<li>
+										<li ng-if = "cases.length > 1">
 											<div>
 												<div>
 													{{'INTERFACE.CONSENT_ALL'| translate}}
 												</div>
 												<div>
 													<ic-toggle
-														on		= "{{'INTERFACE.CONSENT_ON'		| translate}}"
-														off		= "{{'INTERFACE.CONSENT_OFF'	| translate}}"
-														value 	= "confirmAll"
+														on			= "{{'INTERFACE.CONSENT_ON'		| translate}}"
+														off			= "{{'INTERFACE.CONSENT_OFF'	| translate}}"
+														value 		= "confirm.all"
+														ng-disabled	= "confirm.all"
 													></ic-toggle>
 												</div>
 											</div>
@@ -120,26 +118,28 @@ angular.module('icDirectives', [
 									<div class = "buttons">
 
 										<button 
-											type	= "submit"
-											class	= "padding border-1"
+											type		= "submit"
+											ng-click 	= "deny()"
+											class		= "padding border-1"
 										>
 											{{'INTERFACE.CONSENT_NONE'| translate}}
 										</button>
 
 										<button 
-											type		= "submit"
-											ng-if		= "!confirmAll"
+											ng-if		= "confirm.some"
+											ng-click	= "okay()"											
 											class		= "active padding border-3"
 										>
 											{{'INTERFACE.CONSENT_SOME'| translate}}
 										</button>
 
 										<button 
-											type	= "submit"
-											ng-if	= "confirmAll"
-											class	= "bg-3 padding"
+											type		= "submit"
+											ng-if		= "confirm.all"
+											ng-click	= "okay()"																						
+											class		= "bg-3 padding"
 										>
-											{{'INTERFACE.CONSENT_ALL'| translate}}
+											{{(cases.length ==1 ? 'INTERFACE.CONSENT_ONE':'INTERFACE.CONSENT_ALL') | translate}}
 										</button>
 
 
@@ -151,36 +151,58 @@ angular.module('icDirectives', [
 
 			link: function(scope){
 
-				scope.cases 		= ic.consent.cases
-				scope.result 		= {}
-				scope.confirmAll	= true
+				scope.cases 		= 	icConsent.cases
+				scope.result 		= 	{}
+				scope.confirm		= 	{
+											none:	undefined,
+											all: 	undefined,
+											some:	undefined
+										}
 
-				scope.allConfirmed = function(){
-					return this.cases.every( c => c)
+				scope.cases.forEach( consent_case => scope.result[consent_case.key] = !!consent_case.default )
+
+				if( Object.keys(scope.result).every( key => icConsent.to(key).isKnown) ){
+					icConsent.done()
+				} else {
+					scope.consentRequired = true
 				}
-
-				scope.cases.forEach( consent_case => scope.result[consent_case.key] = consent_case.default || true)
 
 				scope.okay = function(){
-					Object.entries ( ([key, value]) => ic.consent.set(key, value) )
-					ic.consent.done() 
+					Object.entries(scope.result).forEach( ([key, value]) => icConsent.set(key, value) )
+					icConsent.done() 
 				}
 
-				scope.$watch(
-					function(){
-						console.log('KKKKKKK', scope.confirmAll)
-						return scope.confirmAll
-					}, 
-					function(new_value){
-						console.log('sdfdsf')
-						scope.confirmAll = new_value
-						if(scope.confirmAll) Object.keys(scope.result).forEach( key => scope.result[key] = true )
-					}
-				)
+				scope.deny = function(){
+					Object.keys(scope.result).forEach( key => icConsent.set(key, false) )
+					icConsent.done() 
 
-				scope.$watch(function(){
-					scope.confirmAll = Object.keys(scope.result).every( key => scope.result[key])
+				}
+
+				scope.$watch(() => scope.confirm, function(){									
+					scope.confirm.some	= !scope.confirm.all && !scope.confirm.none	
+				}, true)
+
+				scope.$watch( () => scope.confirm.none, function(){
+					if(!scope.confirm.none) return null
+					
+					Object.keys(scope.result).forEach( key => scope.result[key] = false )
+					scope.confirm.all = false
+
 				})
+
+				scope.$watch( () => scope.confirm.all, function(){
+					if(!scope.confirm.all)	return null
+					
+					Object.keys(scope.result).forEach( key => scope.result[key] = true )
+					scope.confirm.none = false
+				})
+
+
+				scope.$watch( () => scope.result, function(){
+					scope.confirm.all	= Object.keys(scope.result).every( key => scope.result[key])
+					scope.confirm.none	= Object.keys(scope.result).every( key => !scope.result[key])					
+					scope.confirm.some	= !scope.confirm.all && !scope.confirm.none
+				}, true)
 
 			}
 		}
