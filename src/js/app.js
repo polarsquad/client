@@ -206,6 +206,7 @@
 											if(ic.layout.mode.name == 'XS')		return false
 											if(ic.layout.mode.name == 'S')		return false
 											if(ic.layout.mode.name == 'M')		return false
+											if(ic.layout.mode.name == 'L')		return false
 										}
 
 
@@ -230,6 +231,7 @@
 											if(ic.layout.mode.name == 'XS')		return false
 											if(ic.layout.mode.name == 'S')		return false
 											if(ic.layout.mode.name == 'M')		return false
+											if(ic.layout.mode.name == 'L')		return false
 										}
 
 
@@ -256,6 +258,7 @@
 											if(ic.layout.mode.name == 'XS')		return false
 											if(ic.layout.mode.name == 'S')		return false
 											if(ic.layout.mode.name == 'M')		return false
+											if(ic.layout.mode.name == 'L')		return false
 										}
 
 
@@ -282,7 +285,6 @@
 										if(ic.site.pickCoordinates){
 											if(ic.layout.mode.name == 'XS')		return false
 											if(ic.layout.mode.name == 'S')		return false
-											if(ic.layout.mode.name == 'M')		return false
 										}
 
 										if(ic.site.expandMap) 				return ic.layout.mode.name == 'XL'	

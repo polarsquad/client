@@ -1,23 +1,23 @@
-<span>{{ic.mainMap.picker.latitude}}<span>
-/
-<span>{{ic.mainMap.picker.longitude}}<span>
+<div>
+	<span>{{ic.mainMap.picker.latitude}}<span>
+	/
+	<span>{{ic.mainMap.picker.longitude}}<span>
+</div>
 
-&nbsp;
-&nbsp;
-&nbsp;
+<button 
+	class 		= "padding"
+	ng-click 	= "ic.mainMap.pickCancel()"
+	ic-touch-me
+>
+	{{'INTERFACE.CANCEL' | translate}}
+</button>
 
-<span 
-	class 		= ""
+<button 
+	class 		= "padding active"
 	ng-click 	= "ic.mainMap.pickOkay()"
 	ic-touch-me
 >
 	{{'INTERFACE.OKAY' | translate}}
-</span>
+</button>
 
-<span 
-	class 		= "icon icon-interface-close white"
-	ng-click 	= "ic.mainMap.pickCancel()"
-	ic-touch-me
->
-</span>
 

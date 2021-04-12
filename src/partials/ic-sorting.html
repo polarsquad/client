@@ -6,7 +6,7 @@
 	>
 		<span 
 			class 		= "icon left icon-interface-radio" 
-			ng-class	= "{'checked': ic.site.sortOrder.match('alphabetical_')}">
+			ng-class	= "{'checked active': ic.site.sortOrder.match('alphabetical_')}">
 		</span>
 
 		<span 
@@ -22,7 +22,7 @@
 	>
 		<span
 			class 		= "icon left icon-interface-radio"
-			ng-class	= "{'checked': ic.site.sortOrder == 'last_change'}"
+			ng-class	= "{'checked active': ic.site.sortOrder == 'last_change'}"
 		>
 		</span>
 		<span 
@@ -34,7 +34,7 @@
 
 <div>
 	<button	
-		class		= "padding icon large icon-interface-sortorder round {{ic.site.sortDirection == 1 ? 'asc' : 'desc'}}" 
+		class		= "padding icon large icon-interface-sortorder active round {{ic.site.sortDirection == 1 ? 'asc' : 'desc'}}" 
 		ng-click 	= "ic.filterConfig.toggleSortDirection()"
 		title		= "{{'INTERFACE.REVERSE_SORTING_ORDER' | translate}}"
 		ic-touch-me

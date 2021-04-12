@@ -50,7 +50,7 @@ ic-taxonomy-filter section .unsorted li.disabled {
 ic-taxonomy-filter section li div {
 	flex:						1 1 auto;
 	display:					inline-block;
-	vertical-align:				middle;
+	line-height:				1.2;
 }
 
 ic-taxonomy-filter section li .bubble {

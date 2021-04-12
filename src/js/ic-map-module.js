@@ -549,7 +549,7 @@
 					}
 
 
-					// ensure pickingMode is off when site loads, ven if the switch is on
+					// ensure pickingMode is off when site loads, even if the switch is on
 					icSite.pickCoordinates = false
 					$rootScope.$evalAsync(function(){ icSite.pickCoordinates = pickingDeferred && icSite.pickCoordinates })
 

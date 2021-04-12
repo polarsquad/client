@@ -471,7 +471,6 @@ ic-overlays .qrcode > div {
 
 
 ic-overlays ic-sharing-menu {
-
 }
 
 ic-overlays ic-sharing-menu h2 {
@@ -502,7 +501,11 @@ ic-overlays ic-sharing-menu  .platform .icon + * {
 
 
 ic-overlays ic-sharing-menu textarea {
-	margin-top:				2rem;
+	margin-top:			2rem;
+	box-sizing:			border-box;
+	height:				6.8em;
+	line-height:		1.2em;
+	padding:			1rem;
 }
 
 
@@ -522,6 +525,7 @@ ic-overlays ic-main-menu ul {
 	flex-direction:				column;
 	z-index:					0;
 	width:						auto;
+	margin-top:					0;
 }
 
 ic-overlays ic-main-menu .bg-0.hover:focus,

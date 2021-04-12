@@ -248,18 +248,30 @@ ic-map ic-spinner {
 }
 
 ic-map-coordinate-picker-control {
-	display:				inline-block;
-	padding:				0.25rem 0.5rem;
-	background-color:		rgba(0,0,0,0.5);
+	display:				flex;
+	width:					25rem;
+	box-sizing:				border-box;
+	max-width:				95%;
+	padding:				0.5rem 0.5rem;
+	background-color:		rgba(255,255,255,1);
+	color:					var(--plain-text-color);
 	border-radius:			0.3rem;
-	color:					#fff;
 	font-size:				1rem;
-	transition:				all 300ms ease-in;
+	justify-content: 		space-between;
+	flex-wrap:				wrap;
 }
 
+ic-map-coordinate-picker-control > *{
+	flex:					1 0 1rem;
+	text-align:				center;
+}
+
+ic-map-coordinate-picker-control > :first-child {
+	flex:					1 0 100%;
+}
+
+
 ic-map-coordinate-picker-control.changed {
-	background-color:		rgba(255,255,255,1);
-	transition:				none;
 }
 
 
