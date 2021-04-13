@@ -477,9 +477,10 @@
 				'icItemStorage',
 				'icSite',
 				'icConsent',
+				'plTemplates',
 
 
-				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite, icConsent){
+				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite, icConsent, plTemplates){
 
 
 
@@ -594,7 +595,10 @@
 
 
 
-					icItemStorage.ready
+					$q.all([
+						icItemStorage.ready,
+						plTemplates.ready
+					])
 					.then(function(){
 						icItemStorage.data.forEach(function(item){
 							if(hasValidGeoCoordinates(item)) icMainMap.getMarker(item)
