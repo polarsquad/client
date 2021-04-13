@@ -124,8 +124,6 @@
 
 				scope.item 	= 	item
 
-				console.log('icMapItemMaker')
-				
 				var element = 	$compile('<ic-map-item-marker ic-item = "item"></ic-map-item-marker')(scope)
 					//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')
 
@@ -164,7 +162,6 @@
 								},
 
 				link: function(scope, element){
-					console.log($templateCache.get('partials/ic-map-marker-item.html'))
 					scope.ic = ic
 				}
 
@@ -628,18 +625,12 @@
 		'icMapSpinnerControl',
 		'icMapCoordinatePickerControl',
 		'icMapMarkerDigestQueue',
-		'icInit', //remove
 
-		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue, icInit){
+		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
 			return {
 				restrict: 'AE',
 
 				link: function(scope, element, attrs){
-
-					console.log('#####################')
-					console.log('icMapDirective linking')
-					console.log('icInit.ready', icInit.ready)
-
 
 
 					if(!window.L) console.error('icMap: missing Leaflet!')
@@ -767,8 +758,6 @@
 
 
 					function updateListMarkers(){
-
-						console.log('updatListMarkers')
 
 						markers.clearLayers()
 

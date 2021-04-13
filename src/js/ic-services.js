@@ -162,7 +162,7 @@ angular.module('icServices', [
 									icLanguages:		icLanguages.ready,
 									icLists:			icLists.ready,
 									icWebfonts:			icWebfonts.ready,
-									//icMainMap:		icMainMap.ready,
+									icMainMap:			icMainMap.markersReady,
 									plImages:			plImages.ready,
 									plStyles:			plStyles.ready,
 									plTemplates:		plTemplates.ready,
@@ -2396,7 +2396,6 @@ angular.module('icServices', [
 							() => this.loadCss(wfConfig.url),
 							() => console.info(consentDeniedMsg)
 						)
-						.catch( () => console.log('SDFSDFSDFDSF'))
 
 						return 	Promise.resolve('icWebfonts: loading deferred until consent is given: ' + fontFamily)
 
