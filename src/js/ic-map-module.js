@@ -624,12 +624,19 @@
 		'icMapSpinnerControl',
 		'icMapCoordinatePickerControl',
 		'icMapMarkerDigestQueue',
+		'icInit', //remove
 
-		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
+		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue, icInit){
 			return {
 				restrict: 'AE',
 
 				link: function(scope, element, attrs){
+
+					console.log('#####################')
+					console.log('icMapDirective linking')
+					console.log('icInit.ready', icInit.ready)
+
+
 
 					if(!window.L) console.error('icMap: missing Leaflet!')
 
