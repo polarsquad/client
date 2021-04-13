@@ -609,6 +609,7 @@
 
 		'$rootScope',
 		'$timeout',
+		'$q',
 		'icSite',
 		'icItemStorage',
 		'icConsent',
@@ -621,7 +622,7 @@
 		'icMapCoordinatePickerControl',
 		'icMapMarkerDigestQueue',
 
-		function($rootScope, $timeout, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
+		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
 			return {
 				restrict: 'AE',
 
@@ -695,14 +696,6 @@
 						if(e.layer.scope) e.layer.scope.$destroy()
 					})
 
-
-					/*if(icMainMap.consent.denied){
-						console.warn('icMainMap: consent to map tile loading has been denied.')
-						return null
-					}*/
-
-
-
 					if(!icMainMap.defaults.tiles){ // && !icMainMap.defaults.vectorTiles){
 						console.error('icMap: missing tiles! Check config file.')
 						return null
@@ -712,7 +705,7 @@
 
 					if(icMainMap.defaults.tiles){
 
-						Promise.resolve( !icMainMap.consent || icConsent.when(icMainMap.consent.key) )
+						$q.resolve( !icMainMap.consent || icConsent.when(icMainMap.consent.key) )
 						.then( () => {
 							
 							L.tileLayer(
@@ -720,7 +713,7 @@
 								{
 									attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 								}
-							).addTo(map)
+							).addTo(map)				
 
 						})
 
