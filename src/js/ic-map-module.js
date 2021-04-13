@@ -123,6 +123,8 @@
 				var scope 	=  	parentScope.$new()
 
 				scope.item 	= 	item
+
+				console.log('icMapItemMaker')
 				
 				var element = 	$compile('<ic-map-item-marker ic-item = "item"></ic-map-item-marker')(scope)
 					//shadow	=	angular.element('<div class = "ic-map-marker-shadow"></div>')
@@ -162,6 +164,7 @@
 								},
 
 				link: function(scope, element){
+					console.log('directive ic-map-item-marker')
 					scope.ic = ic
 				}
 
