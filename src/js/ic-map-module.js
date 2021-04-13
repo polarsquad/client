@@ -706,16 +706,19 @@
 					if(icMainMap.defaults.tiles){
 
 						$q.resolve( !icMainMap.consent || icConsent.when(icMainMap.consent.key) )
-						.then( () => {
+						.then( 
+							() => {
 							
-							L.tileLayer(
-								icMainMap.defaults.tiles,
-								{
-									attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-								}
-							).addTo(map)				
+								L.tileLayer(
+									icMainMap.defaults.tiles,
+									{
+										attribution: '&copy; <a href ="https://www.mapbox.com/about/maps/">Mapbox</a> &copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+									}
+								).addTo(map)											
+							},
 
-						})
+							() => console.info('icMainMap: tile consent denied')
+						)
 
 
 
@@ -750,6 +753,8 @@
 
 
 					function updateListMarkers(){
+
+						console.log('updatListMarkers')
 
 						markers.clearLayers()
 

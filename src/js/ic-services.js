@@ -383,8 +383,6 @@ angular.module('icServices', [
 
 				this.promises.add(promise)				
 
-				promise.finally( () => this.promises.delete(promise) )
-
 				return $q.resolve(promise)
 
 			}
@@ -394,8 +392,15 @@ angular.module('icServices', [
 
 				this.promises.forEach( promise => {
 					const key = promise.consentKey
+
+					if(!this.to(key).isKnown) return null
+
+					this.promises.delete(promise)	
+				
 					if(this.to(key).isGiven) 	promise.resolve()
-					if(this.to(key).isDenied)	promise.reject()					
+					if(this.to(key).isDenied)	promise.reject('consent denied: '+key)					
+
+
 				})
 
 			}
@@ -2391,6 +2396,7 @@ angular.module('icServices', [
 							() => this.loadCss(wfConfig.url),
 							() => console.info(consentDeniedMsg)
 						)
+						.catch( () => console.log('SDFSDFSDFDSF'))
 
 						return 	Promise.resolve('icWebfonts: loading deferred until consent is given: ' + fontFamily)
 
