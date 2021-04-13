@@ -396,7 +396,7 @@ angular.module('icServices', [
 					if(!this.to(key).isKnown) return null
 
 					this.promises.delete(promise)	
-				
+
 					if(this.to(key).isGiven) 	promise.resolve()
 					if(this.to(key).isDenied)	promise.reject('consent denied: '+key)					
 
@@ -2360,7 +2360,7 @@ angular.module('icServices', [
 				link.rel	= 'stylesheet'
 				link.type	= 'text/css'
 
-				const promise = new Promise( (resolve, reject) => { link.onload = resolve; link.onerror = reject })
+				const promise = new Promise( (resolve, reject) => { link.onload = () => resolve(); link.onerror = reject })
 
 				document.head.appendChild(link);				
 

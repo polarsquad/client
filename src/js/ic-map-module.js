@@ -164,7 +164,7 @@
 								},
 
 				link: function(scope, element){
-					console.log('directive ic-map-item-marker')
+					console.log($templateCache.get('partials/ic-map-marker-item.html'))
 					scope.ic = ic
 				}
 
