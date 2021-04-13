@@ -67,7 +67,8 @@ angular.module('icLayout', [])
 							$_body		=	angular.element(body)
 						
 
-						icLayout.defaultRem	= 	undefined
+						icLayout.defaultRem		= 	undefined
+						icLayout.adjustRem		=	undefined
 						icLayout.modes			= 	modes.sort(function(mode1, mode2){
 														return mode1.width > mode2.width
 													})
@@ -94,6 +95,17 @@ angular.module('icLayout', [])
 						}
 
 
+						icLayout.toggleFontSize = function(){
+
+							console.log(this.adjustRem)
+
+							this.adjustRem = 	!this.adjustRem || this.adjustRem == 1
+												?	1.5
+												:	undefined
+
+							this.adjust()
+						}
+
 						icLayout.getRem = function(resetFontSize){
 							var rem, old_font_size
 
@@ -114,12 +126,13 @@ angular.module('icLayout', [])
 
 
 						icLayout.setRem = function(size){
-							html.style.fontSize = 	size
-													?	size+'px'
-													:	'initial'
+
+							if(size) return html.style.fontSize = size+'px'
+							
+							html.style.fontSize = 	(!icLayout.adjustRem  || icLayout.adjustRem ==1) 
+													?	'initial'
+													:	icLayout.adjustRem +'em' 
 						}
-
-
 
 						icLayout.adjust = function(){
 
@@ -152,8 +165,7 @@ angular.module('icLayout', [])
 								$_html.removeClass('modified-rem')
 							}
 
-
-							$rootScope.$digest() //Todo ist das nötig?
+							
 						}
 
 						icLayout.getScrollbarWidth() 
@@ -162,7 +174,10 @@ angular.module('icLayout', [])
 
 						$_window.on('resize', function(){ 
 							if($window.innerWidth == last_width) return null
-							$window.requestAnimationFrame(icLayout.adjust)
+							$window.requestAnimationFrame( () => {
+								icLayout.adjust()
+								$rootScope.$digest() //Todo ist das nötig?
+							})
 							last_width = $window.innerWidth
 							//icLayout.defaultWidth = last_width
 						})

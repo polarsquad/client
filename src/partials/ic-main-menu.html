@@ -215,14 +215,21 @@
 		</ul>
 	</li>
 
-	<li>
+	<li ng-if = "ic.consent.cases.length > 0" >
 		<a 
-			ng-if		= "ic.consent.cases.length > 0" 
+			ng-if		= "!icPlain"			
 			ng-click 	= "ic.consent.clear()"
 			class		= "icon icon-interface-consent_revoke white"
-			title		= "Revoke consent and reload"
+			title		= "{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}"
 		>
-
 		</a>
+
+		<a 
+			ng-if		= "icPlain"			
+			ng-click 	= "ic.consent.clear()"
+		>
+			{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}
+		</a>
+
 	</li>
 </ul>

@@ -310,6 +310,8 @@ angular.module('icDirectives', [
 			link: function(scope, element, attr){
 
 				scope.ic = ic
+
+				scope.showTools = true
 				
 				scope.delete = function(){
 					icOverlays.open('confirmationModal', 'INTERFACE.DELETE_ITEM_CONFIRMATION')

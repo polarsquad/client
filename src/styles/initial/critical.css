@@ -25,6 +25,7 @@ ic-loading-screen{
 	flex-direction:			column;
 	justify-content: 		flex-start;
 	align-items:			center;
+	overflow:				auto;	
 }
 
 /*ic-loading-screen.ic-hide {
@@ -42,6 +43,11 @@ ic-loading-screen .loading-indicator {
 	padding:				1rem;
 	margin-top:				4rem;
 	margin-bottom:			2rem;
+}
+
+
+.XS ic-loading-screen .loading-indicator {
+	margin:					0;
 }
 
 ic-loading-screen .state {
