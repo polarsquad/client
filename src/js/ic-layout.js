@@ -97,11 +97,13 @@ angular.module('icLayout', [])
 
 						icLayout.toggleFontSize = function(){
 
-							console.log(this.adjustRem)
+							const fontSizeAdjusted = this.adjustRem && this.adjustRem != 1
 
-							this.adjustRem = 	!this.adjustRem || this.adjustRem == 1
-												?	1.5
-												:	undefined
+							this.adjustRem = 	fontSizeAdjusted
+												?	undefined
+												:	1.5
+
+							if(fontSizeAdjusted) html.classList.toggle('ic-font-size-adjusted', fontSizeAdjusted)					
 
 							this.adjust()
 						}
