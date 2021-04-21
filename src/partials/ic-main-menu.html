@@ -85,10 +85,22 @@
 				ic-touch-me
 			>
 				<a  
-					ic-touch-me
 					ng-click = "ic.overlays.toggle('login')"
 				>{{'INTERFACE.LOGIN' | translate }}
 				</a>
+			</li>
+
+			<li 
+				ng-if = "ic.consent.cases.length > 0" 
+				class = "bg-0 hover"
+				ic-touch-me
+			>
+				<a 
+					ng-click 	= "ic.consent.clear()"
+				>
+					{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}
+				</a>
+
 			</li>
 		</ul>
 	</li>
@@ -215,21 +227,5 @@
 		</ul>
 	</li>
 
-	<li ng-if = "ic.consent.cases.length > 0" >
-		<a 
-			ng-if		= "!icPlain"			
-			ng-click 	= "ic.consent.clear()"
-			class		= "icon icon-interface-consent_revoke white"
-			title		= "{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}"
-		>
-		</a>
-
-		<a 
-			ng-if		= "icPlain"			
-			ng-click 	= "ic.consent.clear()"
-		>
-			{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}
-		</a>
-
-	</li>
+	
 </ul>

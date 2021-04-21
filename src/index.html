@@ -69,8 +69,9 @@
 		<noscript>Please enable javascript.</noscript>
 
 		<ic-loading-screen 
+			ng-class	= "{ready: ic.init.ready}"
 			ic-remove 	= "ic.init.done" 
-			ic-delay	= "0"
+			ic-delay	= "500"
 		> 
 			<!--BUILD LOADING-SCREEN-->
 		</ic-loading-screen>

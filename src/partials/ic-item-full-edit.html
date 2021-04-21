@@ -37,14 +37,23 @@
 		<!-- EDIT -->
 		<h3 ng-if = "!icItem.internal.new && !ic.user.can('edit_items')">{{'INTERFACE.SUGGEST_ITEM_EDIT'| translate}}</h3>
 
+
 		<!-- NEW -->
 		<h3 ng-if = "icItem.internal.new && ic.user.can('edit_items')">{{'INTERFACE.CREATE_NEW_ITEM'| translate}}</h3>
 
 		<!-- SUGGESTION -->
 		<h3 ng-if = "icItem.internal.new && !ic.user.can('edit_items')">{{'INTERFACE.SUGGEST_NEW_ITEM'| translate}}</h3>
-
 	</div>
 
+	<div 
+		ng-if = "!icItem.internal.new && !ic.user.can('edit_items')"
+		ng-bind-html ="'INTERFACE.SUGGEST_ITEM_EDIT_NOTE' | translate | markdown">
+	</div>
+
+	<div 
+		ng-if = "icItem.internal.new && !ic.user.can('edit_items')" 
+		ng-bind-html ="'INTERFACE.SUGGEST_NEW_ITEM_NOTE' | translate | markdown">
+	</div>
 
 	<div><div> <!-- spacer --> </div><hr class  = "bg-2"/></div>
 

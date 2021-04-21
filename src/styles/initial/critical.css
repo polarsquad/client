@@ -12,7 +12,7 @@ html{
 
 /*loading screen */
 
-ic-loading-screen{
+ic-loading-screen {
 	display:				flex;
 	position:				fixed;
 	top:					0;
@@ -21,34 +21,55 @@ ic-loading-screen{
 	right:					0;
 	font-size:				initial;
 	z-index:				999999;	
-	background-color:		#fff;
+	background-color:		rgba(255,255,255,1);
 	flex-direction:			column;
 	justify-content: 		flex-start;
 	align-items:			center;
 	overflow:				auto;	
 }
 
-/*ic-loading-screen.ic-hide {
-	transition-property:	transform;
-	transform:				translateX(-100%);
+ic-loading-screen.ready {
+	background-color:		rgba(255,255,255,0.85);
+	transition:				background-color 3000ms linear;
 }
-*/
+
+
+ic-loading-screen > * {
+	box-sizing:				border-box;
+	width:					30rem;
+	max-width:				100%;	
+	background-color:		rgba(255,255,255,1);
+	border-radius:			0.25rem;
+	border-width:			0.1rem;
+	border-style:			solid;
+	border-color:			rgba(0,0,0,0);
+	margin-top:				4rem;
+	margin-bottom:			2rem;
+	padding:				1rem;	
+}
+
+ic-loading-screen.ready > *{
+	box-shadow:				0 0 1rem 0 rgba(0,0,0,0.3);
+}
+
+ic-loading-screen.ready .consent  {
+	border-color:			rgba(0,0,0,0.3);	
+	transition:				border-color 300ms ease-out;
+}
+
+
+.XS ic-loading-screen > * {
+	margin:					0;
+}
 
 
 ic-loading-screen .loading-indicator {
 	box-sizing:				border-box;
 	position:				relative;
-	width:					30rem;
-	max-width:				100%;
 	padding:				1rem;
-	margin-top:				4rem;
-	margin-bottom:			2rem;
+	margin-bottom:			1rem;
 }
 
-
-.XS ic-loading-screen .loading-indicator {
-	margin:					0;
-}
 
 ic-loading-screen .state {
 	position:				relative;
@@ -91,9 +112,7 @@ ic-loading-screen .state.ready > :last-child {
 }
 
 
-ic-loading-screen .state .ready {
 
-}
 
 ic-loading-screen .progress {
 	position:				relative;
@@ -122,6 +141,18 @@ ic-loading-screen.ic-remove {
 	transition:				all 350ms cubic-bezier(0.755, 0.05, 0.855, 0.06);
 	*/
 }
+
+ic-loading-screen ic-consent {
+	opacity:  				0; 
+}
+
+
+ic-loading-screen.ready  ic-consent{
+	opacity:				1 !important;
+	transition: 			300ms opacity ease-in
+}
+
+
 
 
 /*ic-spinner*/

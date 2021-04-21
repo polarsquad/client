@@ -79,7 +79,7 @@ ic-header .logo {
 	height:							10rem;
 	padding-right:					0;
 	opacity:						1;
-	transition:						all 200ms ease-out;
+	transition:						all 200ms linear;
 }
 
 

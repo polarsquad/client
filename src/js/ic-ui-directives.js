@@ -314,17 +314,19 @@ angular.module('icUiDirectives', [
 
 				var last_result = undefined
 
-				icScrollSources.addEventListener('remote-scroll', event => {
+				onScroll = event => {
 					result = scope.$eval(attrs.icOnScroll)
 					
 					if(result !== last_result){
 						scope.$evalAsync(attrs.icOnScroll)
 					}
 					
-				})
+				}
+
+				icScrollSources.addEventListener('remote-scroll', onScroll)
 
 				scope.$on('$destroy', function(){
-					icScrollSources.removeEventListener('remote-scroll')
+					icScrollSources.removeEventListener('remote-scroll', onScroll)
 				})
 	
 			}
@@ -906,7 +908,9 @@ angular.module('icUiDirectives', [
 					scope.$digest()
 				})
 
-				attr.$observe('on', 	function(value) { scope.on 	= value })					
+				console.log('TOGLELEL', scope.on)
+
+				attr.$observe('on', 	function(value) { console.log('icTOGLLE', value); scope.on 	= value })					
 				attr.$observe('off',	function(value) { scope.off = value })
 
 				scope.$watch('value', function(value){

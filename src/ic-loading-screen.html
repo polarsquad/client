@@ -1,35 +1,36 @@
+<article ng-class = "{consent: ic.consent.cases.length > 0}">
 
-<div class = "loading-indicator">
+	<div class 		= "loading-indicator">
+		<div 
+			class 		= "state"
+			ng-class 	= "{ready: ic.init.ready}"
+		>
+			<span>	loading	</span>
+			<span>	ready	</span>
+		</div>
+
+		<div class = "progress">
+			<div class ="current" style = "width:0" ng-style = "{'width':  ( ic.init.progress*100 || 0)+'%'}"></div>
+		</div>
+	</div>
+
 	<div 
-		class 		= "state"
-		ng-class 	= "{ready: ic.init.ready}"
+		class = "error" 
+		ng-if = "ic.init.errors.length"
+		style = "display:none"
+		ng-style = "{'display':ic.init.errors.length ? 'block' : 'none'}" 
 	>
-		<span>	loading	</span>
-		<span>	ready	</span>
+		[
+		failed to load:
+		<span ng-repeat = "error in ic.init.errors">
+			 {{error}}{{$last ? '' : ','}}
+		</span>
+		]
 	</div>
 
-	<div class = "progress">
-		<div class ="current" style = "width:0" ng-style = "{'width':  ( ic.init.progress*100 || 0)+'%'}"></div>
-	</div>
-</div>
+	<ic-consent
+		style 		= "opacity: 0" 
+		ng-if		= "ic.init.icLanguages && ic.init.plTemplates && ic.init.plStyles"
+	></ic-consent>
 
-<div 
-	class = "error" 
-	ng-if = "ic.init.errors.length"
-	style = "display:none"
-	ng-style = "{'display':ic.init.errors.length ? 'block' : 'none'}" 
->
-	[
-	failed to load:
-	<span ng-repeat = "error in ic.init.errors">
-		 {{error}}{{$last ? '' : ','}}
-	</span>
-	]
-</div>
-
-
-<ic-consent 
-	style 		= "opacity:  0; transition: 300ms opacity ease-in"
-	ng-style 	= "{opacity: ic.init.ready ? 1 : 0}"
->
-</ic-consent>
+</article>

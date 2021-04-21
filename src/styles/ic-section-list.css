@@ -18,3 +18,9 @@ ic-sorting li {
 	padding-bottom:				0.25em !important;
 	border-radius:				0.25em;
 }
+
+
+.XS ic-sorting {
+	padding-left:				1rem !important;
+	padding-right:				1rem !important;
+}

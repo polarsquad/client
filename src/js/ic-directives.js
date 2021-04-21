@@ -1363,7 +1363,7 @@ angular.module('icDirectives', [
 				body.on('keydown',	bodyClose)
 
 				scope.$on('$destroy', function(){
-					body.off(bodyClose)
+					body.off('keydown', bodyClose)
 				})
 
 			}
