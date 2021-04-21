@@ -48,7 +48,7 @@ ic-loading-screen > * {
 	padding:				1rem;	
 }
 
-ic-loading-screen.ready > *{
+ic-loading-screen.ready > .consent {
 	box-shadow:				0 0 1rem 0 rgba(0,0,0,0.3);
 }
 
