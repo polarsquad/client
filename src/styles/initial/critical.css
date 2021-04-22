@@ -52,7 +52,7 @@ ic-loading-screen.ready > .consent {
 	box-shadow:				0 0 1rem 0 rgba(0,0,0,0.3);
 }
 
-ic-loading-screen.ready .consent  {
+ic-loading-screen.ready > .consent  {
 	border-color:			rgba(0,0,0,0.3);	
 	transition:				border-color 300ms ease-out;
 }
