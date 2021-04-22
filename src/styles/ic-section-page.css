@@ -51,13 +51,23 @@ ic-page h2 {
 }
 
 
-ic-page  article {
+ic-page article {
 	display:						block;
 	background-color:				#fff;
 	color:							#666;
 	margin:							auto;
 	margin-bottom:					1rem;
-	padding:						2rem 5rem;
+	padding:						4rem 1rem;
+}
+
+ic-page article > * {
+	max-width:					50rem;
+	margin-left:				auto;	
+	margin-right:				auto;
+}
+
+ic-page article > ic-search {
+	margin-bottom:				4rem;
 }
 
 ic-page h3 {
@@ -82,11 +92,6 @@ ic-page a.boxed {
 ic-page a.boxed + a.boxed,
 ic-page a.padding + a.padding {
 	margin-left:				1rem;
-}
-
-ic-page .search > * {
-	max-width:					50rem;
-	margin:						auto;
 }
 
 
@@ -120,17 +125,18 @@ ic-page ic-search form button {
 	position:					relative;
 	flex:						0 0 auto;
 	box-sizing:					border-box;
-	font-size:					inherit;
-	background-size:			3rem !important;
-	background-position:		0 50% !important;
-	padding-left:				3rem;
+	font-size:					inherit;	
+	padding-left:				1rem;
 	padding-right:				1rem;
 	line-height:				3rem;
 	height:						3rem;
 	width:						auto;
 	min-width:					12rem !important;
-	text-align:					left;
+	text-align:					center;
 }
+
+
+
 
 ic-page .types {
 	display:					flex;
@@ -356,9 +362,9 @@ ic-page h2 {
 }
 
 ic-page p{
-	max-width:					50rem;
 	font-size: 					1.25rem;
-	margin:						1em 0;
+	margin-top:					1rem;
+	margin-bottom:				1rem;
 }
 
 
@@ -380,7 +386,7 @@ ic-page p em:first-child > a {
 
 ic-page ul {
 	list-style: 				disc outside;	
-	margin-left:				3rem;
+	padding-left:				4rem;
 }
 
 ic-page ul li {

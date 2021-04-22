@@ -79,17 +79,6 @@
 			> 
 				<a ic-touch-me a ng-href="/p/{{page}}">	{{'INTERFACE.%s' | fill : page| translate}}</a>	
 			</li>
-			<li  
-				class = "bg-0 hover"
-				ng-if	= "!ic.user.loggedIn && !icPlain"
-				ic-touch-me
-			>
-				<a  
-					ng-click = "ic.overlays.toggle('login')"
-				>{{'INTERFACE.LOGIN' | translate }}
-				</a>
-			</li>
-
 			<li 
 				ng-if = "ic.consent.cases.length > 0" 
 				class = "bg-0 hover"
@@ -102,6 +91,17 @@
 				</a>
 
 			</li>
+			<li  
+				class = "bg-0 hover"
+				ng-if	= "!ic.user.loggedIn && !icPlain"
+				ic-touch-me
+			>
+				<a  
+					ng-click = "ic.overlays.toggle('login')"
+				>{{'INTERFACE.LOGIN' | translate }}
+				</a>
+			</li>
+
 		</ul>
 	</li>
 	<li  ng-if = "!icPlain" class 	= "spacer"></li>

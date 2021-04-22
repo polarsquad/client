@@ -9,8 +9,12 @@
 		placeholder			= "{{'INTERFACE.SEARCH_TERM' | translate }}"
 		focus-me			= "icFocus"
 	/>
-	<button 
-		class 	= "icon {{icButtonLabel ? 'icon-interface-search white bg-3' : 'icon-interface-right bg-t'}}"
-		type	= "submit"	 
-	>{{ icButtonLabel.length ? icButtonLabel : ''}}</button>
+	<button 		
+		class	= "{{icButtonLabel ? 'bg-3' : 'bg-t'}}"
+		type	= "submit"	 		
+	>
+		<span class = "icon {{icButtonLabel ? 'icon-interface-search large white' : 'icon-interface-right bg-t'}}" >
+		</span>
+		{{ icButtonLabel.length ? icButtonLabel : ''}}
+	</button>
 </form>
