@@ -161,7 +161,7 @@ angular.module('icServices', [
 									icTiles:			icTiles.ready,
 									icLanguages:		icLanguages.ready,
 									icLists:			icLists.ready,
-									icWebfonts:			icWebfonts.ready || Promise.resolve(),
+									icWebfonts:			icWebfonts.ready,
 									icMainMap:			icMainMap.markersReady,
 									plImages:			plImages.ready,
 									plStyles:			plStyles.ready,
@@ -202,7 +202,7 @@ angular.module('icServices', [
 
 						//icInit done is used by the loading screen, i.e. it gets removed when icInit.done == true
 						$q.when(icUtils.waitWhileBusy(20))
-						//.then( () => icConsent.ready)
+						.then( () => icConsent.ready)
 						.then( () => icInit.done = true )
 					}
 				},
@@ -2369,7 +2369,7 @@ angular.module('icServices', [
 
 			setup() {
 
-				const config = icConfig.webfonts
+				const config = icConfig.webfonts || []
 
 				if(!Array.isArray(config)) return null
 
