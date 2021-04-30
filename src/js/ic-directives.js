@@ -662,7 +662,7 @@ angular.module('icDirectives', [
 												time_enabled:	false,
 											}
 
-				scope.icProperty		=	icItemConfig.properties.filter(function(property){ return property.name == scope.icKey })[0]
+				scope.icProperty		=	icItemConfig.properties.find( property => property.name == scope.icKey )
 				
 				if(scope.icOptions === true){
 					scope.icOptions	 =	scope.icProperty.options
@@ -683,9 +683,7 @@ angular.module('icDirectives', [
 
 
 					var matching_options = 	scope.icOptions
-											?	scope.icOptions.filter(function(option){
-													return array.indexOf(option) != -1
-												})
+											?	scope.icOptions.filter( option => array.includes(option) )
 											:	[]
 
 					return 	scope.icType == 'array'
@@ -745,8 +743,21 @@ angular.module('icDirectives', [
 
 					scope.untouched		= 	true
 					scope.error			=	null
+
+
+					scope.refreshProposals()
 				})
 
+
+				scope.getValueFromItem = function( item ){
+
+					if(scope.icOptions) 		return copyOptions(item[scope.icKey])
+						
+					if(scope.icTranslatable) 	return angular.copy(item[scope.icKey][icSite.currentLanguage])
+					
+					return angular.copy(item[scope.icKey])
+
+				}
 
 
 				// update local value, when the original changes (most likely because it finshed downloading, i.e. after storing to the backend)
@@ -759,13 +770,7 @@ angular.module('icDirectives', [
 
 						if(!scope.icItem || !scope.icEdit) return null
 
-						if(scope.icOptions){
-							scope.value.current = copyOptions(scope.icItem[scope.icKey])
-						}else{
-							scope.value.current = 	scope.icTranslatable 
-													?	angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
-													:	angular.copy(scope.icItem[scope.icKey])
-						}
+						scope.value.current = scope.getValueFromItem(scope.icItem)
 
 						//reset local edit value, if it was undefined. Should only happen when the property is edited for the first time:
 						if(scope.value.edit === undefined) scope.value.edit = angular.copy(scope.value.current)
@@ -774,7 +779,7 @@ angular.module('icDirectives', [
 					true
 				)
 
-				// update local value, when the edit changes (most likely different property changed the current one depends on)
+				// update local value, when the edit changes (most likely a different property changed the current one depends on)
 				scope.$watch(
 					function(){
 						return scope.icEdit && scope.icEdit[scope.icKey]
@@ -785,15 +790,7 @@ angular.module('icDirectives', [
 						if(!scope.icItem || !scope.icEdit) return null
 						
 
-						if(scope.icOptions){
-							scope.value.edit = 	copyOptions(scope.icEdit[scope.icKey])
-							return undefined
-						} 
-
-
-						scope.value.edit = 	scope.icTranslatable 
-											?	angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
-											:	angular.copy(scope.icEdit[scope.icKey])
+						scope.value.edit = 	scope.getValueFromItem(scope.icEdit)
 
 					},
 					true
@@ -836,6 +833,8 @@ angular.module('icDirectives', [
 							scope.value.edit 	= angular.copy(scope.icEdit[scope.icKey][icSite.currentLanguage])
 							scope.value.current = angular.copy(scope.icItem[scope.icKey][icSite.currentLanguage])
 						}
+
+						scope.refreshProposals()
 					}
 				)
 
@@ -975,36 +974,36 @@ angular.module('icDirectives', [
 					if(scope.icDate) updateDateData()
 				}
 
-				scope.diff = function(){
+				scope.diff = function(counterpart, counterpart_may_be_undefined){		
+
+					if(counterpart === undefined && !counterpart_may_be_undefined) counterpart = scope.value.current
 
 					switch(scope.icType){
-						case "string": 	return 	typeof(scope.value.current) == 'string'
-												?	scope.value.edit != scope.value.current
+						case "string": 	return 	typeof(counterpart) == 'string'
+												?	scope.value.edit != counterpart
 												:	!(
 														(
-																isNaN(scope.value.edit)
-															||	scope.value.edit === null
+																scope.value.edit === null
 															||	scope.value.edit === undefined
 															||	scope.value.edit === ""
 														)
 														&&
 														(
-																isNaN(scope.value.current)
-															||	scope.value.current === null
-															||	scope.value.current === undefined
+																counterpart === null
+															||	counterpart === undefined
 														)
 													)
-													&& String(scope.value.edit) != String(scope.value.current)
+													&& String(scope.value.edit) != String(counterpart)
 										break;
 						
-						case "text": 	return 	scope.value.edit != scope.value.current; 
+						case "text": 	return 	scope.value.edit != counterpart; 
 										break;
 						
-						case "array": 	return 		!scope.value.current
+						case "array": 	return 		!counterpart
 												||	!scope.value.edit
-												||	(scope.value.current.length != scope.value.edit.length)
-												||	scope.value.current.some(function(option){ return scope.value.edit.indexOf(option) == -1 })
-												||	scope.value.edit.some(function(option){ return scope.value.current.indexOf(option) == -1 })
+												||	(counterpart.length != scope.value.edit.length)
+												||	counterpart.some( option => !scope.value.edit.includes(option) )
+												||	scope.value.edit.some( option => !counterpart.includes(option) )
 										break;
 					}
 				}
@@ -1035,11 +1034,72 @@ angular.module('icDirectives', [
 
 				}
 
+
+				//proposals:
+
+
+				scope.updateEditWithProposal = function(proposal){
+					scope.value.edit = scope.getValueFromItem(proposal)
+				}
+
+				scope.editMatchesProposal = function(proposal){
+
+					return 		!scope.diff(scope.getValueFromItem(proposal), true)
+							&&	scope.isApplicable(proposal)
+				}
+
+				scope.isApplicable = function(proposal){
+					if( 
+
+							scope.icType == 'string'
+						&&	scope.icOptions
+						&&	scope.getValueFromItem(proposal) == undefined 
+
+					) return false
+
+
+					return true
+
+				}
+
+				scope.refreshProposals = function(){
+
+					console.log(scope.icItem.proposals)
+
+					scope.otherLanguages	= 	[]
+
+					scope.proposals		=	scope.icItem.proposals
+											.map( (proposal, index) => ({...proposal, index }))
+											.map( proposal => {
+
+												if(scope.icProperty.translatable && proposal[scope.icKey]){
+
+													let otherLanguagesSet = new Set([
+																					...	Object.keys(proposal[scope.icKey])
+																						.filter( lang => lang != icSite.currentLanguage),
+																					...	scope.otherLanguages
+																				])
+														
+
+													scope.otherLanguages = Array.from(otherLanguagesSet)
+												}
+
+
+												return proposal
+											})
+											.filter( 
+												proposal =>	scope.icProperty.translatable
+															?	proposal[scope.icKey] && typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
+															:	(proposal[scope.icKey] !== undefined && proposal[scope.icKey] !== null)
+											)
+											
+				}
+
+
 			}
 		}
 	}
 ])
-
 
 
 .directive('icItemProperty', [

@@ -241,6 +241,10 @@ textarea:-webkit-autofill:focus{
 	text-align:				left;
 }
 
+.vbottom {
+	vertical-align:			bottom;
+}
+
 .xjust{
 	display:				flex !important;
 	justify-content:		space-between;

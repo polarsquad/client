@@ -145,7 +145,24 @@ ic-item-property-edit .time label > *{
 }
 
 
+/* proposals */
 
+ic-item-property-edit .proposals {
+	display:		block;
+	white-space:	nowrap;
+	overflow-x:		ellipsis;
+	margin:			0.5rem 0;
+}
+
+ic-item-property-edit .proposals button {
+
+	min-width:		2.5em;
+	line-height:	1.3em;
+	padding:		0 0.15em;
+	margin:			0 0.25em;
+	text-transform: uppercase;
+	text-align:		center;	
+}
 
 
 

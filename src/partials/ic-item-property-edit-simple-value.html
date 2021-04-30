@@ -3,7 +3,7 @@
 	ng-submit 	= "allowLocalEdit && update()"
 	ng-class	= "{invalid: errors}"
 >
-	
+		
 	<div ng-if 	= "!hideCurrentValue" class = "current-value-parent-box">
 		
 		<span class	= "current-value {{diff()? 'diff': ''}}">
@@ -19,6 +19,32 @@
 		>			
 		</button>	
 	</div>
+
+
+
+
+	<!-- property proposals  start -->
+	<div
+		ng-if			= "proposals.length"		
+		class			= "proposals screen-only"		
+	>
+		<span class ="round mini vbottom icon icon-interface-proposals bg-3 white"></span>
+		{{'ITEMS.EDIT_SUGGESTIONS' | translate}}:
+
+		<button
+			ng-repeat 	= "proposal in proposals"	
+			ng-class	= "{'bg-3 white': editMatchesProposal(proposal), 'active border-3': !editMatchesProposal(proposal), 'disabled': !isApplicable(proposal)}"
+			ng-click	= "isApplicable(proposal) && updateEditWithProposal(proposal)"			
+		>
+			<span>{{proposal.index}}</span>
+		</button>	
+	</div>
+	<!-- property proposals  end -->
+
+
+
+
+
 	
 	<div 
 		class 		= "input-wrapper"
@@ -68,3 +94,4 @@
 	</buton>
 
 </form>
+

@@ -139,8 +139,8 @@ angular.module('icServices', [
 	'ic',
 	'icUser',
 	'icItemStorage',
-	'icLanguages',
 	'icLists',
+	'icLanguages',
 	'icTiles',
 	'icMainMap',
 	'icUtils',
@@ -186,9 +186,9 @@ angular.module('icServices', [
 					}	
 		})
 
-		Object.keys(promises).forEach(function(key){
-			promises[key]
-			.then(
+		Object.entries(promises).forEach( ([key, promise]) => 
+			promise.then(
+
 				function(){
 					icInit.readyCount ++
 
@@ -206,13 +206,14 @@ angular.module('icServices', [
 						.then( () => icInit.done = true )
 					}
 				},
+				
 				function(e){
 					console.error(e)
 					console.info( (key+'...').padEnd(25,' ')+'[failed]')
 					icInit.errors.push(key)
 				}
 			)
-		})
+		)
 
 
 		return icInit
@@ -437,8 +438,6 @@ angular.module('icServices', [
 	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy, icConfig){
 
 		var icLists = []
-
-
 
 		if(!dpd.lists && !icConfig.disableLists) console.error('icLists: missing dpd.lists. Maybe backend is out of date.')
 
@@ -1233,8 +1232,9 @@ angular.module('icServices', [
 		'icUser',
 		'icTaxonomy',
 		'icConfig',
+		'icItemConfig',
 
-		function($q, $rootScope, icUser, icTaxonomy, icConfig){
+		function($q, $rootScope, icUser, icTaxonomy, icConfig, icItemConfig){
 
 			if(!itemStorage) console.error('Service icItemStorage:  itemStorage missing.')
 
@@ -1268,20 +1268,32 @@ angular.module('icServices', [
 
 
 			icUser.ready.then(function(){
+
 				if(icUser.can('edit_items')){
+
 					icItemStorage.ready
 					.then(function(){
-						icItemStorage.registerFilter('state_public', 		function(item){ return item.state == 'public' 		})
-						icItemStorage.registerFilter('state_draft', 		function(item){ return item.state == 'draft' 		})
-						icItemStorage.registerFilter('state_suggestion', 	function(item){ return item.state == 'suggestion' 	})
-						icItemStorage.registerFilter('state_archived', 		function(item){ return item.state == 'archived' 	})
+						icItemStorage.registerFilter('state_public', 			function(item){ return item.state == 'public' 		})
+						icItemStorage.registerFilter('state_draft', 			function(item){ return item.state == 'draft' 		})
+						icItemStorage.registerFilter('state_suggestion',	 	function(item){ return item.state == 'suggestion' 	})
+						icItemStorage.registerFilter('state_archived', 			function(item){ return item.state == 'archived' 	})
+
+						if(icItemConfig.properties.map(property => property.name).includes('proposals')){						
+							icItemStorage.registerFilter('state_has_proposals', item => item.proposals && item.proposals.length)
+						}
 					})
 
-					icTaxonomy.addExtraTag('state_public')
-					icTaxonomy.addExtraTag('state_draft')
-					icTaxonomy.addExtraTag('state_suggestion')
-					icTaxonomy.addExtraTag('state_archived')
+					icTaxonomy.addExtraTag('state_public', 			'state')
+					icTaxonomy.addExtraTag('state_draft', 			'state')
+					icTaxonomy.addExtraTag('state_suggestion',		'state')
+					icTaxonomy.addExtraTag('state_archived', 		'state')
+
+					if(icItemConfig.properties.map(property => property.name).includes('proposals')){
+						icTaxonomy.addExtraTag('state_has_proposals', 	'state')
+					}
+
 				}				
+
 			})
 
 

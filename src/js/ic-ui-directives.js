@@ -908,9 +908,8 @@ angular.module('icUiDirectives', [
 					scope.$digest()
 				})
 
-				console.log('TOGLELEL', scope.on)
 
-				attr.$observe('on', 	function(value) { console.log('icTOGLLE', value); scope.on 	= value })					
+				attr.$observe('on', 	function(value) { scope.on 	= value })					
 				attr.$observe('off',	function(value) { scope.off = value })
 
 				scope.$watch('value', function(value){

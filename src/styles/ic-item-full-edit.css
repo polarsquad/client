@@ -42,6 +42,10 @@ ic-item-full-edit > section  > * > *:nth-child(2) .split > * {
 	margin:						0 1rem;
 }
 
+ic-item-full-edit > section  > * > *:nth-child(2) .split > *.full {
+	flex:						1 1 100%;
+}
+
 
 ic-item-full-edit > section > *:after {
 	content:					'';
