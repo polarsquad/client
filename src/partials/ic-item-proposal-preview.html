@@ -9,14 +9,6 @@
 
 <div
 	ng-repeat 	= 	"property in properties"
-	ng-if		= 	"
-							icProposal[property.name] != undefined
-						&&	!(property.name| in : ['lists', 'state', 'proposals', 'proposalFor', 'creator', 'creationDate', 'lastEditor', 'lastEditDate'])
-						&&	icProposal[property.name] !== undefined
-						&&	icProposal[property.name] !== null
-						&&	!property.internal
-					"
-
 	ng-class	=	"{'multi-language': ic.languages.availableLanguages.length > 1}"
 >
 

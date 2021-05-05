@@ -659,10 +659,13 @@ angular.module('icDirectives', [
 
 					if(!scope.icEdit) return null
 
+					scope.icEdit.importData(scope.icItem.exportData())						
+
 					icItemConfig.properties
 					.forEach( property => {
 
-						if(!(property.name in proposal) ) return null
+						if(!(property.name in proposal) ) 	return null
+						if(property.internal)				return null
 
 						const value = proposal[property.name]		
 
@@ -690,57 +693,24 @@ angular.module('icDirectives', [
 					.then( () => scope.icItem.proposals = scope.icItem.proposals.filter( p => p != proposal))
 				}
 
-				scope.fullMatch = function(proposal, lang){
+				scope.diff = function(proposal, lang){
 
-					if(!scope.icEdit) return false
-
-					let match = true
-
-					icItemConfig.properties
-					.forEach( property => {
-
-						if(!(property.name in proposal) ) return null
-
-						const value = proposal[property.name]		
-
-						if(value === undefined) return null
-						if(value === null)		return null
-
-						if(property.translatable){
-
-							if(typeof value[lang] != 'string') return null
-
-							if(!scope.icEdit[property.name] || scope.icEdit[property.name][lang] != value[lang]) return match = false
-						}
+					if(!scope.icEdit) return true
 
 
-						if(property.type == 'object'){
-							match = 	match 
-									&& 	Object.entries(proposal[property.name])
-										.every( 
-											([key, value]) => 		value === undefined 
-																||		value == scope.icEdit[property.name] 
-																	&& 	scope.icEdit[property.name][key]
-										)
-							return;			
-						}
+					return	icItemConfig.properties
+							.some( property => {
 
-						if(property.type == 'array'){
-							if(!Array.isArray(proposal[property.name])) 	return null
-							if(!Array.isArray(scope.icEdit[property.name])) return match = false
+								if(!(property.name in proposal) ) 	return false
+								if(property.internal)				return false
 
-							match = 	match
-									&&	proposal[property.name].every( 		value => scope.icEdit[property.name].includes(value))
-									&&	scope.icEdit[property.name].every( 	value => proposal[property.name].includes(value))
+								const value = proposal[property.name]		
+								
+								if(scope.icEdit.diff(property.name, value, lang)){
+									return true
+								}
 
-							return;		
-						}
-
-
-						match = scope.icEdit[property.name] == proposal[property.name]
-					})
-
-					return match
+							})
 
 				}
 
@@ -768,13 +738,15 @@ angular.module('icDirectives', [
 
 	'ic',
 	'icItemConfig',
+	'icSite',
 
-	function(ic, icItemConfig){
+	function(ic, icItemConfig, icSite){
 		return 	{
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-proposal-preview.html',
 			scope:			{
-								icProposal : '<'
+								icProposal:	'<',
+								icItem:		'<'
 							},
 
 
@@ -782,22 +754,42 @@ angular.module('icDirectives', [
 
 				scope.ic = ic
 
-				scope.properties = [...icItemConfig.properties]
-				scope.properties.sort( (p1, p2) => {
+				function update(){
 
-					if(p1.name == 'editingNote') return -1
-					if(p2.name == 'editingNote') return  1
+					scope.properties 	=	[...icItemConfig.properties]
+											.filter( property => {
+												const value = scope.icProposal[property.name]
 
-					if(p1.name == 'title') return -1
-					if(p2.name == 'title') return  1
+												if(property.name == 'state')	return false	
+												if(property.internal)			return false											
+												if(value == undefined) 			return false
+												if(value == null)				return false
 
-					
-					if(p1.translatable)	return -1
-					if(p2.translatable)	return 1
+												if(!scope.icItem.diff(property.name, scope.icProposal[property.name], icSite.currentLanguage)) return false
 
-					return icItemConfig.properties.indexOf(p1)	> icItemConfig.properties.indexOf(p2)
+												return true	
+											})
 
-				})
+					scope.properties.sort( (p1, p2) => {
+
+						if(p1.name == 'editingNote') return -1
+						if(p2.name == 'editingNote') return  1
+
+						if(p1.name == 'title') return -1
+						if(p2.name == 'title') return  1
+
+						
+						if(p1.translatable)	return -1
+						if(p2.translatable)	return 1
+
+						return icItemConfig.properties.indexOf(p1)	> icItemConfig.properties.indexOf(p2)
+
+					})
+				}
+
+				scope.$watch( () => scope.icProposal, 		update)
+				scope.$watch( () => scope.icItem, 			update)
+				scope.$watch( () => icSite.currentLanguage,	update)
 
 			}
 		}
@@ -1050,7 +1042,7 @@ angular.module('icDirectives', [
 					if(!scope.icItem || !scope.icEdit) return null
 
 					if(typeof scope.value.edit == 'string'){
-						scope.value.edit = scope.value.edit.replace(/(^\s+|\s{2,}$)/g, '')
+						scope.value.edit = scope.value.edit.trim()
 					}
 
 					if(scope.icProperty.type == 'number'){
@@ -1200,7 +1192,7 @@ angular.module('icDirectives', [
 													&& String(scope.value.edit) != String(counterpart)
 										break;
 						
-						case "text": 	return 	scope.value.edit != counterpart; 
+						case "text": 	return 	(scope.value.edit && scope.value.edit.trim()) != (counterpart && counterpart.trim()) 
 										break;
 						
 						case "array": 	return 		!counterpart

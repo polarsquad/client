@@ -71,6 +71,50 @@
 		}
 
 
+		icItem.diff = function(key, data, lang){
+			const property = ic.itemConfig.properties.find( property => property.name == key)
+
+			if(!property) return true			
+
+			const value = icItem[key]
+
+			if(!value && !data) return false
+			if( value && !data)	return true
+			if(!value &&  data) return true
+
+			if(property.translatable){
+				
+				const langs = 	lang
+								?	[lang]
+								:	[...Object.keys(value), ... Object.keys(data) ]
+
+				return 	langs.some( l => {
+
+							if(typeof value[l] != 'string' && typeof data[l] != 'string') return false
+							if(typeof value[l] == 'string' && typeof data[l] != 'string') return true
+							if(typeof value[l] != 'string' && typeof data[l] == 'string') return true
+
+							return value[l].trim() != data[l].trim()
+
+						})
+			}
+
+			if(property.type == 'string'){
+
+				if(typeof value != 'string' && typeof data != 'string') return false
+				if(typeof value == 'string' && typeof data != 'string') return true
+				if(typeof value != 'string' && typeof data == 'string') return true
+
+				return value.trim() != data.trim()
+			} 	
+
+			if(property.type == 'array')	return value.some( v => !data.includes(v)) && data.some( d => !value.includes(d) )		
+
+			if(property.type == 'number')	return parseFloat(value) != parseFloat(data)
+
+			return value != data	
+		}
+
 		icItem.exportData = function(name, key){
 			var data = {}
 

@@ -1,12 +1,12 @@
 <div
 	ng-repeat 	= "proposal in icItem.proposals"
-	ng-class	= "{'multi-language': ic.languages.availableLanguages.length > 1}"
+	ng-class	= "{'multi-language': ic.languages.availableLanguages.length > 1}"	
 >
 
 	<div>		
 		<span 
 			class 		= "proposal-indicator border-3"
-			ng-class 	= "{'bg-3 white': fullMatch(proposal, ic.site.currentLanguage), 'active': !fullMatch(proposal, ic.site.currentLanguage)}"
+			ng-class 	= "{'bg-3 white': !diff(proposal, ic.site.currentLanguage), 'active': diff(proposal, ic.site.currentLanguage)}"
 			title		= "{{'INTERFACE.PROPOSAL' | translate}} {{$index}}"
 		> 
 			{{$index}}
