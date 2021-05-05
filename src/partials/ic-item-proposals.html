@@ -1,0 +1,56 @@
+<div
+	ng-repeat 	= "proposal in icItem.proposals"
+	ng-class	= "{'multi-language': ic.languages.availableLanguages.length > 1}"
+>
+
+	<div>		
+		<span 
+			class 		= "proposal-indicator border-3"
+			ng-class 	= "{'bg-3 white': fullMatch(proposal, ic.site.currentLanguage), 'active': !fullMatch(proposal, ic.site.currentLanguage)}"
+			title		= "{{'INTERFACE.PROPOSAL' | translate}} {{$index}}"
+		> 
+			{{$index}}
+		</span>
+		[ {{proposal.creationDate | icDate }} ]
+	</div>
+
+	<div>
+		<span 
+			ng-repeat 	= "lang in getLanguages(proposal)"
+			class		= "language"
+		>
+			{{'LANGUAGES.%s' | fill : lang | translate }}
+			{{$last ? '' :','}}
+		</span>	
+	</div>
+
+	<div>
+
+		<button 
+			class = "active"
+			ng-click = "ic.overlays.open('itemProposalPreview', proposal)"
+		>
+			{{'INTERFACE.PROPOSAL_PREVIEW' | translate}}
+		</button>
+
+		<span>&nbsp;|&nbsp;</span>
+
+		<button 
+			class 		= "active"
+			ng-click 	= "applyAll(proposal, ic.site.currentLanguage)"
+		>
+			{{'INTERFACE.PROPOSAL_APPLY_ALL' | translate}} <span class ="language">({{'LANGUAGES.%s' | fill : ic.site.currentLanguage | translate }})</span>
+		</button>
+
+		<span>&nbsp;|&nbsp;</span>
+
+		<button 
+			class		= "active"
+			ng-click	= "delete(proposal)"
+		>
+			{{'INTERFACE.PROPOSAL_DELETE' | translate}}
+		</button>
+	</div>
+
+
+</div>

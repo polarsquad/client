@@ -1503,6 +1503,36 @@ angular.module('icServices', [
 				return	haystack.filter(function(tag){ return tags.indexOf(tag) != -1 })
 			}
 
+			icTaxonomy.isType = function(tag){
+				return 	icTaxonomy.types
+						.map( category => category.name)
+						.includes(tag)
+			}
+
+			icTaxonomy.isCategory = function (tag){
+				return 	!!icTaxonomy.categories
+						.map( category => category.name)
+						.includes(tag)
+			}
+
+
+			icTaxonomy.isUnsortedTag = function(tag){
+				return 	Object.values(icTaxonomy.tags)
+						.flat()
+						.includes(tag)
+			}
+
+			icTaxonomy.getTagKind = function(tag){
+				if(icTaxonomy.isType(tag)) 			return 'types'
+				if(icTaxonomy.isCategory(tag)) 		return 'categories'
+				if(icTaxonomy.isUnsortedTag(tag)) 	return 'unsorted_tags'
+
+				return undefined	
+			}
+
+			icTaxonomy.isTag = function(tag){				
+				return !!icTaxonomy.getTagKind(tag)
+			}
 
 			return icTaxonomy
 		}

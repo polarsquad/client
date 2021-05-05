@@ -35,7 +35,6 @@
 
 
 
-
 	<!-- property proposals  start -->
 	<div
 		ng-if			= "proposals.length"		
@@ -46,6 +45,7 @@
 
 		<button
 			ng-repeat 	= "proposal in proposals"	
+			class		= "proposal-indicator"
 			ng-class	= "{'bg-3 white': editMatchesProposal(proposal), 'active border-3': !editMatchesProposal(proposal), 'disabled': !isApplicable(proposal)}"
 			ng-click	= "isApplicable(proposal) && updateEditWithProposal(proposal)"
 		>
@@ -53,7 +53,6 @@
 		</button>	
 	</div>
 	<!-- property proposals  end -->
-
 
 
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="24"
+   height="24"
+   viewBox="0 0 6.3499999 6.3500001"
+   version="1.1"
+>
+  
+
+  <g transform="translate(-69.179909,-111.2052)">
+    <g transform="matrix(1.5461538,0,0,1.5461538,-39.516903,-62.469173)">
+      <path
+         d="m 72.177882,115.23916 h 0.354049 v 0.44299 h -0.354049 z m 0,-2.16092 h 0.354049 v 1.14237 l -0.03488,0.62264 H 72.21451 l -0.03663,-0.62264 z"
+         style="stroke-width:0.26458332"
+         fill   = "#000000"
+      />
+    </g>
+  </g>
+</svg>

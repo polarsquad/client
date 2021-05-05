@@ -1,0 +1,105 @@
+
+ic-item-property-edit .proposals {
+	display:				block;
+	white-space:			nowrap;
+	overflow-x:				ellipsis;
+	margin:					0.5rem 0;
+}
+
+ic-item-proposals > *:not(.multi-language) .language {
+	display:				none;
+}
+
+
+ic-item-proposals > * {
+	display:				flex;
+	flex-direction:			row;
+	flex-wrap:				wrap;
+	justify-content: 		space-between;
+	line-height:			2rem;
+	margin-bottom:			2rem;
+}
+
+ic-item-proposals > * > * {
+	flex:					1 0 auto;
+}
+
+
+ic-item-proposals > * > *:nth-child(1){
+	flex:					1 1 10rem;
+}
+ic-item-proposals > * > *:nth-child(2){
+	text-align:				right;
+}
+
+ic-item-proposals > * > *:last-child {
+	box-sizing:				border-box;
+	display:				flex;
+	justify-content: 		flex-end;
+	padding-left:			1rem;
+}
+
+
+.XS ic-item-proposals > * > *:last-child{
+	flex:					1 0 100%;
+	flex-direction:			column;
+	align-items:			flex-end;
+}
+
+.XS ic-item-proposals > * > *:last-child > * {
+	height:					2rem;
+}
+
+.XS ic-item-proposals > * > *:last-child > span {
+	display:				none;
+}
+
+.proposal-indicator {
+	display:				inline-block;
+	min-width:				2.5em;
+	line-height:			1.3em;
+	padding:				0 0.15em;
+	margin:					0 0.25em;
+	text-transform: 		uppercase;
+	text-align:				center;	
+}
+
+
+
+ic-item-proposal-preview .editing-note{
+	font-style: 			italic;
+}
+
+ic-item-proposal-preview h4 {
+	display:				inline;
+	font-weight:			bold;
+	margin:					0;
+}
+
+ic-item-proposal-preview h4:after {
+	display:				inline;
+	content:				':';
+}
+
+ic-item-proposal-preview p {
+	display:				inline;
+}
+
+ic-item-proposal-preview article {
+	margin-bottom:			1.5rem;
+}
+
+ic-item-proposal-preview > *:not(.multi-language) .language {
+	display:				none;
+}
+
+
+
+ic-overlays > ic-item-proposal-preview > * {
+	width:					35rem;
+	max-width:				95%;
+}
+
+ic-overlays > ic-item-proposal-preview article p:not(.transcluded-content) {
+	white-space:			normal !important;
+}

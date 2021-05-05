@@ -1,0 +1,117 @@
+<button 
+	class 		= "icon icon-interface-close large close"
+	ng-click	= "ic.overlays.toggle()" 
+>
+</button>
+
+
+<h2>{{'INTERFACE.PROPOSAL' | translate}}</h2>
+
+<div
+	ng-repeat 	= 	"property in properties"
+	ng-if		= 	"
+							icProposal[property.name] != undefined
+						&&	!(property.name| in : ['lists', 'state', 'proposals', 'proposalFor', 'creator', 'creationDate', 'lastEditor', 'lastEditDate'])
+						&&	icProposal[property.name] !== undefined
+						&&	icProposal[property.name] !== null
+						&&	!property.internal
+					"
+
+	ng-class	=	"{'multi-language': ic.languages.availableLanguages.length > 1}"
+>
+
+	<article 
+		ng-if = "property.name == 'editingNote' && icProposal.editingNote"
+		class = "editing-note bg-1 col-0 padding"
+	>
+		<h4>{{'ITEMS.EDITING_NOTE' | translate }}</h4>		
+
+		<p>
+			{{icProposal[property.name]}}
+		</p>
+	</article>
+
+
+	<article 
+		ng-if = "property.name == 'tags' && (icProposal | icType)"		
+	>
+		
+		<h4>{{'ITEMS.TYPE'}}</h4>
+	
+		<p>{{'TYPES.%s' | fill : (icProposal | icType) }}</p>
+
+	</article>
+
+
+	<article 
+		ng-if = "property.name == 'tags' && (icProposal | icCategory).name != 'unknown'"		
+	>
+		
+		<h4>{{'ITEMS.CATEGORY' | translate}}</h4>
+	
+		<p>
+			<span
+				ng-repeat 	= "tag in ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags"
+			>
+				{{'CATEGORIES.%s' | fill : tag | translate}}
+				{{$last ? '': ', '}}
+			</span>
+		</p>
+
+	</article>
+
+	<article 
+		ng-repeat	= "(key, tagGroup) in ic.taxonomy.tags"	
+		ng-if 		= "
+							property.name == 'tags' 
+						&&	ic.taxonomy.getUnsortedTags(icProposal.tags, tagGroup).length > 0
+					"
+	>
+		
+		<h4>{{'ITEMS.%s' | fill : key | translate }}</h4>
+	
+		<p>
+			<span
+				ng-repeat 	= "tag in tagGroup | section : icProposal.tags"
+			>
+				{{'UNSORTED_TAGS.%s' | fill : tag | translate}}
+			</span>
+			{{$last ? '': ', '}}
+		</p>
+
+	</article>
+
+
+	<article
+		ng-if 	= "property.name != 'tags' && property.translatable && icProposal[property.name][ic.site.currentLanguage] != undefined"
+	>
+		<h4>
+			{{'ITEMS.%s' | fill : property.name | translate }} 
+			<span class ="language">({{'LANGUAGES.%s' | fill : ic.site.currentLanguage | translate}})</span>
+		</h4>		
+
+		<p>{{icProposal[property.name][ic.site.currentLanguage]}}</p>
+
+	</article>
+
+
+	<article
+		ng-if = "!['editingNote', 'tags'].includes(property.name) && !property.translatable"
+	>
+		<h4>{{'ITEMS.%s' | fill : property.name | translate }}</h4>		
+
+
+		<p ng-if = "ic.taxonomy.isTag(icProposal[property.name])">
+			{{ ('%s.%s' | fill : [ic.taxonomy.getTagKind(icProposal[property.name]), icProposal[property.name]] | translate ) }}
+		</p>
+
+		<p 
+			ng-if = "!ic.taxonomy.isTag(icProposal[property.name])"
+		>
+			{{icProposal[property.name]}}
+		</p>
+
+	</article>
+
+</div>
+

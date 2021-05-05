@@ -3,7 +3,7 @@ ic-item-full-edit {
 	position:					relative;
 }
 
-ic-item-full-edit >section:first-child:before {
+ic-item-full-edit > section:first-of-type:before {
 	content:					'';
 	display:					block;
 	height:						4rem;

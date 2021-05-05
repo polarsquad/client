@@ -364,7 +364,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full.html',
-			scope:			true,
+			scope:			{},
 
 			link: function(scope, element, attrs){
 				scope.ic 	= ic
@@ -558,6 +558,9 @@ angular.module('icDirectives', [
 				) 
 
 				function removeTagFromEdit(tag){
+
+					if(!scope.icEdit.tags) return null
+
 					var pos = scope.icEdit.tags.indexOf(tag)
 
 					if(pos != -1) scope.icEdit.tags.splice(pos,1)
@@ -584,7 +587,7 @@ angular.module('icDirectives', [
 					icTaxonomy.types.forEach(function(tag){ if(tag != (type && type.name)) removeTagFromEdit(tag) })
 
 					icTaxonomy.categories.forEach(function(c){ 	
-						if(scope.icEdit.tags.indexOf(c.name) == -1) c.tags.forEach(removeTagFromEdit)
+						if(!scope.icEdit.tags || scope.icEdit.tags.indexOf(c.name) == -1) c.tags.forEach(removeTagFromEdit)
 					})
 
 
@@ -608,6 +611,199 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icItemProposals',[
+
+	'ic',
+	'icItemConfig',
+	'icItemEdits',
+	'icOverlays', 
+	'icLanguages',
+	'icOverlays',
+
+
+	function(ic, icItemConfig, icItemEdits, icOverlays, icLanguages, icOverlays){
+
+		return {
+			restrict: 		'AE',
+			templateUrl:	'partials/ic-item-proposals.html',
+			scope:			{
+								icItem: '<',
+							},
+
+
+			link: function(scope, element, attrs){
+
+				scope.ic = ic			
+
+				scope.getLanguages = function(proposal){
+
+					const translatableProperties = 	icItemConfig.properties
+													.filter( 	property => property.translatable)
+													.map(		property => property.name)
+
+					const languages = new Set()
+					
+					translatableProperties.forEach( property_name => {
+
+						if(!(property_name in proposal)) return null
+						
+						Object.keys(proposal[property_name])
+						.forEach( lang => languages.add(lang) )						
+
+					})
+
+					return Array.from(languages)
+
+				}
+
+				scope.applyAll = function(proposal, lang){
+
+					if(!scope.icEdit) return null
+
+					icItemConfig.properties
+					.forEach( property => {
+
+						if(!(property.name in proposal) ) return null
+
+						const value = proposal[property.name]		
+
+						if(value === undefined) return null
+						if(value === null)		return null
+
+						if(property.translatable){
+
+							if(typeof value[lang] != 'string') return null
+
+							scope.icEdit[property.name]			= scope.icEdit[property.name] || {}
+							scope.icEdit[property.name][lang] 	= value[lang]
+							return;
+						}
+
+
+						scope.icEdit[property.name] = angular.copy(proposal[property.name])
+					})
+
+				}
+
+				scope.delete = function(proposal){
+					icOverlays.open('confirmationModal', 'INTERFACE.PROPOSAL_CONFIRM_DELETE')
+					.then( () => icItemEdits.get(proposal.id).delete() )
+					.then( () => scope.icItem.proposals = scope.icItem.proposals.filter( p => p != proposal))
+				}
+
+				scope.fullMatch = function(proposal, lang){
+
+					if(!scope.icEdit) return false
+
+					let match = true
+
+					icItemConfig.properties
+					.forEach( property => {
+
+						if(!(property.name in proposal) ) return null
+
+						const value = proposal[property.name]		
+
+						if(value === undefined) return null
+						if(value === null)		return null
+
+						if(property.translatable){
+
+							if(typeof value[lang] != 'string') return null
+
+							if(!scope.icEdit[property.name] || scope.icEdit[property.name][lang] != value[lang]) return match = false
+						}
+
+
+						if(property.type == 'object'){
+							match = 	match 
+									&& 	Object.entries(proposal[property.name])
+										.every( 
+											([key, value]) => 		value === undefined 
+																||		value == scope.icEdit[property.name] 
+																	&& 	scope.icEdit[property.name][key]
+										)
+							return;			
+						}
+
+						if(property.type == 'array'){
+							if(!Array.isArray(proposal[property.name])) 	return null
+							if(!Array.isArray(scope.icEdit[property.name])) return match = false
+
+							match = 	match
+									&&	proposal[property.name].every( 		value => scope.icEdit[property.name].includes(value))
+									&&	scope.icEdit[property.name].every( 	value => proposal[property.name].includes(value))
+
+							return;		
+						}
+
+
+						match = scope.icEdit[property.name] == proposal[property.name]
+					})
+
+					return match
+
+				}
+
+				scope.showPreview = function(proposal){
+
+				}
+
+
+				scope.$watch('icItem', function(a, b){
+
+					if(!scope.icItem) return null
+
+					scope.icEdit = icItemEdits.get(scope.icItem.id)
+
+				})
+
+			}
+		}
+
+	}
+
+])
+
+.directive('icItemProposalPreview',[
+
+	'ic',
+	'icItemConfig',
+
+	function(ic, icItemConfig){
+		return 	{
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-proposal-preview.html',
+			scope:			{
+								icProposal : '<'
+							},
+
+
+			link: function(scope, element){
+
+				scope.ic = ic
+
+				scope.properties = [...icItemConfig.properties]
+				scope.properties.sort( (p1, p2) => {
+
+					if(p1.name == 'editingNote') return -1
+					if(p2.name == 'editingNote') return  1
+
+					if(p1.name == 'title') return -1
+					if(p2.name == 'title') return  1
+
+					
+					if(p1.translatable)	return -1
+					if(p2.translatable)	return 1
+
+					return icItemConfig.properties.indexOf(p1)	> icItemConfig.properties.indexOf(p2)
+
+				})
+
+			}
+		}
+	}
+])
 
 
 .directive('icItemPropertyEdit', [
@@ -664,6 +860,11 @@ angular.module('icDirectives', [
 
 				scope.icProperty		=	icItemConfig.properties.find( property => property.name == scope.icKey )
 				
+				if(!scope.icProperty){
+					console.log('icItemPropertyEdit: unknown property.', scope.icKey)
+					return null
+				}
+
 				if(scope.icOptions === true){
 					scope.icOptions	 =	scope.icProperty.options
 				}
@@ -748,6 +949,8 @@ angular.module('icDirectives', [
 					scope.refreshProposals()
 				})
 
+
+				scope.$watch('icItem.proposals', () => scope.refreshProposals())	
 
 				scope.getValueFromItem = function( item ){
 
@@ -876,9 +1079,11 @@ angular.module('icDirectives', [
 
 					else if(scope.icOptions && scope.icType == 'array') {
 
+						scope.icEdit[scope.icKey] = scope.icEdit[scope.icKey] || []
+
 						scope.icOptions.forEach(function(option){
 							var pos_1 = scope.icEdit[scope.icKey].indexOf(option),
-								pos_2 = scope.value.edit.indexOf(option)
+								pos_2 = scope.value.edit ? scope.value.edit.indexOf(option) : -1
 
 							if(pos_1 != -1) scope.icEdit[scope.icKey].splice(pos_1, 1)
 							if(pos_2 != -1) scope.icEdit[scope.icKey].push(option)
@@ -1064,11 +1269,9 @@ angular.module('icDirectives', [
 
 				scope.refreshProposals = function(){
 
-					console.log(scope.icItem.proposals)
-
 					scope.otherLanguages	= 	[]
 
-					scope.proposals		=	scope.icItem.proposals
+					scope.proposals		=	(scope.icItem && scope.icItem.proposals || [])
 											.map( (proposal, index) => ({...proposal, index }))
 											.map( proposal => {
 
