@@ -618,10 +618,9 @@ angular.module('icDirectives', [
 	'icItemEdits',
 	'icOverlays', 
 	'icLanguages',
-	'icOverlays',
 
 
-	function(ic, icItemConfig, icItemEdits, icOverlays, icLanguages, icOverlays){
+	function(ic, icItemConfig, icItemEdits, icOverlays, icLanguages){
 
 		return {
 			restrict: 		'AE',
