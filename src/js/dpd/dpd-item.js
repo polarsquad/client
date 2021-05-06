@@ -166,12 +166,42 @@
 					})
 		}
 
-		icItem.submitAsEditSuggestion = function(){
-			var data = icItem.exportData()
+		icItem.getDiffData = function(original){
+
+			var raw_data 		= icItem.exportData()
+				diff_data	= {}
+
+			Object.keys(raw_data).forEach( key => {
+
+				const property = ic.itemConfig.properties.find( prop => prop.name == key)
+
+				if(!property) 			return null
+				if(property.internal)	return null
+		
+				if(!icItem.diff(key, original[key]))	return null
+
+				diff_data[key] = raw_data[key]
+
+			})
+
+			return diff_data
+	
+		}
 
 
-			data.state			= "suggestion"
-			data.proposalFor 	= icItem.id
+		icItem.submitAsEditSuggestion = function(original){
+
+			
+			data				= 	original
+									?	icItem.getDiffData(original)
+									:	icItem.exportData()
+
+			data.state			= 	"suggestion"
+			data.proposalFor 	= 	original 
+									?	original.id
+									:	icItem.id
+
+
 
 
 			return	dpd(ic.itemConfig.collectionName)

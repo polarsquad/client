@@ -483,7 +483,7 @@ angular.module('icDirectives', [
 					//suggesting edit 
 					if(!item.internal.new && !icUser.can('edit_items')){
 						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
-						return 	$q.when(edit.submitAsEditSuggestion())
+						return 	$q.when(edit.submitAsEditSuggestion(item))
 								.then(
 									function(){
 										icItemEdits.clear(edit)
@@ -703,6 +703,8 @@ angular.module('icDirectives', [
 
 								if(!(property.name in proposal) ) 	return false
 								if(property.internal)				return false
+								if(property.name == 'state')		return false
+								if(property.name == 'editingNote')	return false
 
 								const value = proposal[property.name]		
 								
@@ -1234,6 +1236,8 @@ angular.module('icDirectives', [
 				//proposals:
 
 
+				scope.showProposals = false
+
 				scope.updateEditWithProposal = function(proposal){
 					scope.value.edit = scope.getValueFromItem(proposal)
 				}
@@ -1262,7 +1266,12 @@ angular.module('icDirectives', [
 
 					scope.otherLanguages	= 	[]
 
-					scope.proposals		=	(scope.icItem && scope.icItem.proposals || [])
+					scope.proposals		=	(	
+													!['state', 'editingNote'].includes(scope.icKey) 
+												&&	scope.icItem 
+												&&	scope.icItem.proposals 
+												|| 	[]
+											)
 											.map( (proposal, index) => ({...proposal, index }))
 											.map( proposal => {
 
@@ -1284,8 +1293,11 @@ angular.module('icDirectives', [
 											.filter( 
 												proposal =>	scope.icProperty.translatable
 															?	proposal[scope.icKey] && typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
-															:	(proposal[scope.icKey] !== undefined && proposal[scope.icKey] !== null)
+															:	((proposal[scope.icKey] !== undefined && proposal[scope.icKey] !== null))
 											)
+
+
+					scope.showProposals = scope.proposals.length > 1
 											
 				}
 
