@@ -1266,12 +1266,15 @@ angular.module('icDirectives', [
 
 					scope.otherLanguages	= 	[]
 
+					console.log(scope.icKey, scope.icItem && scope.icItem.proposals, scope.icProperty.translatable)
+
 					scope.proposals		=	(	
 													!['state', 'editingNote'].includes(scope.icKey) 
 												&&	scope.icItem 
 												&&	scope.icItem.proposals 
 												|| 	[]
 											)
+											.filter( proposal => proposal[scope.icKey] !== undefined)
 											.map( (proposal, index) => ({...proposal, index }))
 											.map( proposal => {
 
@@ -1291,13 +1294,13 @@ angular.module('icDirectives', [
 												return proposal
 											})
 											.filter( 
-												proposal =>	scope.icProperty.translatable
-															?	proposal[scope.icKey] && typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
-															:	((proposal[scope.icKey] !== undefined && proposal[scope.icKey] !== null))
+												proposal =>		!scope.icProperty.translatable
+															||		proposal[scope.icKey] 
+																&& 	typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
 											)
 
 
-					scope.showProposals = scope.proposals.length > 1
+					scope.showProposals = scope.proposals.length > 0
 											
 				}
 
