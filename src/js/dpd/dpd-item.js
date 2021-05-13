@@ -158,8 +158,22 @@
 
 
 		icItem.submitAsNew = function(){
+
+			const raw_data 		= icItem.exportData() 
+			
+			let clean_data		= {}
+
+			Object.entries(raw_data).forEach( ([key, value]) => {
+				const property = ic.itemConfig.properties.find( prop => prop.name == key)
+
+				if(!property) 			return null
+				if(property.internal) 	return null
+
+				clean_data[key] = value
+			})
+
 			return	dpd(ic.itemConfig.collectionName)
-					.post(icItem.exportData())
+					.post(clean_data)
 					.then(function(data){
 						icItem.importData(data)
 						return data
