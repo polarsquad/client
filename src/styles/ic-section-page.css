@@ -367,6 +367,18 @@ ic-page p{
 	margin-bottom:				1rem;
 }
 
+ic-page p > img {
+	display:					inline-block;
+	height:						10rem;
+	width:						20rem;
+	max-width:					100%;
+	object-fit:					contain;
+}
+
+ic-page p > img + img {
+	margin-left:				1rem;
+}
+
 
 ic-page a {
 	color:						var(--primary-color);
