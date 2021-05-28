@@ -999,6 +999,9 @@ angular.module('icDirectives', [
 					},
 
 					function(v){
+
+						console.log(scope.icKey, v)
+
 						if(!scope.icItem || !scope.icEdit) return null
 
 						if(!scope.icOptions) return null

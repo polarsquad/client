@@ -1046,6 +1046,33 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.filter('filterByKey',[
+	function(){
+		return function(array, key, values){	
+
+			values = 	Array.isArray(values)
+						?	values
+						:	[values]
+
+			return 	array
+					?	array.filter( x => values.includes(x[key]))
+					:	null
+		}
+	}
+])
+
+
+
+.filter('flat',[
+	function(){
+		return function(array){	
+			return 	array
+					?	array.flat()
+					:	null
+		}
+	}
+])
+
 
 .filter('markdown', [
 	function(){

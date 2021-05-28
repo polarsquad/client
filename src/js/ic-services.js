@@ -1366,6 +1366,7 @@ angular.module('icServices', [
 			icTaxonomy.categories 	= []
 			icTaxonomy.types		= []
 			icTaxonomy.tags 		= taxonomy.tags
+			icTaxonomy.lor			= taxonomy.lor
 			icTaxonomy.extraTags	= []
 
 			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
