@@ -35,8 +35,9 @@ ul li {
 input, 
 button, 
 button:active,
+button:hover,
 button:focus,
-button:hover {
+button:focus-visible {
 	display:			inline-block;
 	border:				none;	
 	font-size:			inherit;

@@ -1,12 +1,24 @@
 <article ng-class = "{consent: ic.consent.cases.length > 0}">
 
+	<h2 
+		style		= "opacity:0"
+		ng-if		= "ic.consent.cases.length > 0"
+	>
+		<span
+			ng-if		= "ic.init.icLanguages && ic.init.plTemplates && ic.init.plStyles"
+		>
+			{{'INTERFACE.CONSENT_HEADING' | translate}}
+		</span>
+	</h2>
+
 	<div class 		= "loading-indicator">
 		<div 
 			class 		= "state"
 			ng-class 	= "{ready: ic.init.ready}"
 		>
+			
 			<span>	loading	</span>
-			<span>	ready	</span>
+			<span>	{{'INTERFACE.READY'|translate}}	</span>
 		</div>
 
 		<div class = "progress">

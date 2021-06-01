@@ -1,9 +1,16 @@
-<article>
+<article ng-if = "ic.site.filterByUnsortedTag == 'favourite'">
+
 	<h2>{{'INTERFACE.FAVOURITES' | translate}}</h2>
 
-	<p ng-if = "ic.itemStorage.filteredList.length == 0">
-		{{'INTERFACE.NO_ITEMS' |translate}}
+	<p ng-if = "ic.itemStorage.filteredList.length != 0">
+		{{'INTERFACE.FAVOURITES.DESCRIPTION' |translate}}
 	</p>
+
+
+	<p ng-if = "ic.itemStorage.filteredList.length == 0">
+		{{'INTERFACE.NO_ITEMS' |translate}}		
+	</p>
+
 </article>
 
 <section class = "tiles">

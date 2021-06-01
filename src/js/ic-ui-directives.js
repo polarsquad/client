@@ -739,6 +739,7 @@ angular.module('icUiDirectives', [
 	function($interval){
 		return {
 			restrict:		"AE",
+			transclude:		"true",
 			scope:			true,
 			templateUrl:	"partials/ic-carousel.html",
 

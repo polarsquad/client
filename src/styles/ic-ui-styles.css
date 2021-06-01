@@ -81,3 +81,11 @@ ic-carousel 	nav button + button,
 [ic-carousel]	nav button + button {
 	margin-left:			0.25rem;
 }
+
+
+ic-carousel 	ng-transclude {
+	display:				flex;
+	position:				absolute;
+	left:					0;
+	bottom:					4rem;
+}

@@ -4,11 +4,8 @@ ic-item-property {
 	margin:					2rem 0;
 }
 
-ic-item-property .icon img{
-	height:					2rem;
-	width:					2rem;
-	display:				inline-block;
-	margin:					0;
+ic-item-property .icon {
+	background-position:	calc(100% - 1rem) 0;
 }
 
 ic-item-property .title {

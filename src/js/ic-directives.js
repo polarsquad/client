@@ -120,7 +120,7 @@ angular.module('icDirectives', [
 										<button 
 											type		= "submit"
 											ng-click 	= "deny()"
-											class		= "padding border-1"
+											class		= "active padding border-3"
 										>
 											{{'INTERFACE.CONSENT_NONE'| translate}}
 										</button>
@@ -137,7 +137,7 @@ angular.module('icDirectives', [
 											type		= "submit"
 											ng-if		= "confirm.all"
 											ng-click	= "okay()"																						
-											class		= "bg-3 padding"
+											class		= "active padding border-3"
 										>
 											{{(cases.length ==1 ? 'INTERFACE.CONSENT_ONE':'INTERFACE.CONSENT_ALL') | translate}}
 										</button>
@@ -576,7 +576,7 @@ angular.module('icDirectives', [
 
 
 
-				// keep tag and taxonomy consistency
+				// keep tags and taxonomy consistency
 				scope.$watch('icEdit.tags', function(){
 
 					if(!scope.icEdit) return null
@@ -587,9 +587,28 @@ angular.module('icDirectives', [
 					icTaxonomy.types.forEach(function(tag){ if(tag != (type && type.name)) removeTagFromEdit(tag) })
 
 					icTaxonomy.categories.forEach(function(c){ 	
-						if(!scope.icEdit.tags || scope.icEdit.tags.indexOf(c.name) == -1) c.tags.forEach(removeTagFromEdit)
+						if(scope.icEdit.tags && scope.icEdit.tags.indexOf(c.name) == -1) c.tags.forEach(removeTagFromEdit)
 					})
 
+
+					//LOR
+
+					icTaxonomy.lor.forEach( district => {
+
+						if(scope.icEdit.tags && scope.icEdit.tags.indexOf(district.tag) == -1){
+							district.pgr
+							.map(pgr => pgr.tag)
+							.forEach(removeTagFromEdit)	
+						}
+
+						district.pgr.forEach( pgr => {
+							if(scope.icEdit.tags && scope.icEdit.tags.indexOf(pgr.tag) == -1){
+								pgr.bzr
+								.map( bzr => bzr.tag)
+								.forEach(removeTagFromEdit)
+							}
+						})
+					})
 
 				},
 				true)
@@ -821,6 +840,7 @@ angular.module('icDirectives', [
 								icOptions:				"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
+								icCheckAll:				"<?",
 								icForceChoice:			"<?",
 								icDate:					"<?",
 								icSkipTime:				"<?",
@@ -915,6 +935,7 @@ angular.module('icDirectives', [
 					}
 				}
 
+
 				scope.$watch('icItem', function(a, b){
 
 
@@ -999,8 +1020,6 @@ angular.module('icDirectives', [
 					},
 
 					function(v){
-
-						console.log(scope.icKey, v)
 
 						if(!scope.icItem || !scope.icEdit) return null
 
@@ -1209,7 +1228,12 @@ angular.module('icDirectives', [
 					}
 				}
 
+				scope.allChecked = function(){
+					return scope.value.edit.length == scope.icOptions.length
+				}
+
 				scope.toggleOption = function(option){
+
 
 					if(scope.icType == 'string'){
 						scope.value.edit = 	scope.value.edit == option 
@@ -1219,6 +1243,12 @@ angular.module('icDirectives', [
 					}
 
 
+					if(!option){
+						scope.value.edit = 	scope.allChecked()
+											?	[]
+											:	copyOptions(scope.icOptions)
+						return undefined					
+					}
 
 					var pos = scope.value.edit.indexOf(option)
 
@@ -1267,9 +1297,7 @@ angular.module('icDirectives', [
 
 				scope.refreshProposals = function(){
 
-					scope.otherLanguages	= 	[]
-
-					console.log(scope.icKey, scope.icItem && scope.icItem.proposals, scope.icProperty.translatable)
+					scope.otherLanguages	= 	[]				
 
 					scope.proposals		=	(	
 													!['state', 'editingNote'].includes(scope.icKey) 

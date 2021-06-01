@@ -2,7 +2,9 @@
 	background-image: 	url("data:image/svg+xml,{{svg}}");
 }
 
+/*
 .icon{{-name[0]}}{{-name[1]}}{{.name[2]}}{{.name[3]}}:before {
 	content:			url("data:image/svg+xml,{{svg}}")
 }
 
+*/

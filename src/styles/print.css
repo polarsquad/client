@@ -1,7 +1,9 @@
 @media print{
 
 	* {
-		color:	#000 !important;
+		color:							#000 !important;
+		-webkit-print-color-adjust: 	exact !important;	/* Chrome, Safari */
+		color-adjust: 					exact !important;	/*Firefox*/
 	}
 
 	.screen-only {
@@ -87,8 +89,12 @@
 		padding-bottom:		0;
 	}
 
+	ic-item-full {
+		padding:			0 !important;
+	}
+
 	ic-item-full .spacer {
-		height:						5rem;
+		height:				5rem;
 	}
 
 	ic-item-full .main,
@@ -100,9 +106,6 @@
 		top:				8rem;
 	}
 
-	ic-item-full .category {
-		width:				40% !important;
-	}
 
 
 	ic-item-full header{
@@ -114,10 +117,12 @@
 	}
 
 	ic-item-full > section {
-		padding-top:		8rem;
+		padding-top:		5rem;
 	}
 
-
+	ic-item-full > section > * {
+		padding:			0;
+	}
 
 	ic-item-full > section > * > :nth-child(1) {
 		text-align:			right !important;
@@ -136,7 +141,9 @@
 	}
 
 
+
 	ic-item-full .category{
+		width:				40% !important;		
 		display:			block;
 		position:			absolute;
 		top:				3rem;
@@ -150,17 +157,9 @@
 		color:				#000 !important;
 	}
 
-	ic-item-full .category .img{
-		display:			block;
-		text-align:			center !important;
-		padding-top:		1rem;
-	}
-
-	ic-item-full .category .img:before{
-		position:			relative;
-		display:			inline-block;
-		width:				8rem;
-		height:				8rem;
+	ic-item-full .category .icon {
+		background-size:	contain;
+		height:				5rem;
 	}
 
 	ic-item-full .main {
@@ -188,7 +187,8 @@
 
 	ic-item-full ic-item-property {
 		padding-right:		0;
-		font-size:			9pt;
+		font-size:			1em; /*9pt;*/
+		margin:				1rem 0;
 	}
 	
 	ic-item-full ic-item-property .content{
@@ -208,11 +208,10 @@
 		padding-top:		0.5rem;
 	}
 
-	ic-item-property .icon img {
-		transform:			scale(0.8);
-	}
+
 	ic-item-property .icon {
-		padding-right:		0.5rem !important;
+		background-position:	calc(100% - 1rem) 0.8rem;
+		background-size:		1.25rem;
 	}
 
 
@@ -224,6 +223,14 @@
 		margin:				0;
 		width:				40%;
 	}
+
+	ic-item-full .qrcode qrcode {
+		display:			block;
+		margin-left:		auto;
+		padding:			0;
+		padding-right:		0.5rem;
+	}
+
 	ic-item-full .qrcode canvas {
 		height:				4cm;
 		width:				4cm;
@@ -232,7 +239,7 @@
 	ic-item-full footer {
 		position:			absolute;
 		display:			flex !important;
-		align-items:		right;
+		align-items:		center;
 		bottom:				0;
 		left:				0;
 		right:				0;
@@ -240,12 +247,13 @@
 
 	ic-item-full footer .logo {
 		flex:				0 0 auto;
-		font-size:			3rem;
+		font-size:			4rem;
+		line-height:		0;
 	}
 
 
 	ic-item-full footer .link-to-item {
-		display:			none;
+		display:			none !important;
 	}
 
 

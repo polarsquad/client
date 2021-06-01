@@ -53,7 +53,7 @@
 	<div class = "category print-only">
 		{{ 'CATEGORIES.%s' | fill :  (item | icCategory).name | translate }}
 		<div 
-			class	= "img print-only icon-category-{{ (item | icCategory).name}}"
+			class	= "icon print-only icon-category-{{ (item | icCategory).name}}"
 		></div>
 	</div>
 
@@ -164,7 +164,7 @@
 		ic-content		= "item.location"
 		ic-extra-lines	= "[item.address|| '-', (item.zip||'') + ' ' + (item.city||''), item.country ||'']"
 		ic-extra-links	= "{'Google Maps' : (item | gmLink), 'OpenStreetMap' : (item | osmLink)}"
-		ic-icon			= "'/images/icons/property-location.svg'"
+		ic-icon			= "'property-location'"
 	>
 	</ic-item-property>
 
@@ -187,7 +187,7 @@
 		ng-if			= "item.longitude && item.latitude && !item.address"
 		ic-title 		= "'ITEMS.GEO_COORDINATES' | translate"
 		ic-content		= "item.latitude + ', ' +item.longitude"
-		ic-icon			= "'/images/icons/property-location.svg'"
+		ic-icon			= "'property-location'"
 		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
 	>
 	</ic-item-property>
@@ -202,7 +202,7 @@
 		ng-if		= "item[key]"
 		ic-title 	= "'ITEMS.%s' | fill : key | translate"
 		ic-content	= "item[key]"
-		ic-icon		= "'/images/icons/property-'+key+'.svg'"
+		ic-icon		= "'property-'+key+''"
 		ic-link		= "::key | icLinkPrefix"
 	>
 	</ic-item-property>
@@ -213,7 +213,7 @@
 		ng-if		= "item[key]"
 		ic-title 	= "'ITEMS.%s' | fill : key | translate"
 		ic-content	= "item[key]"
-		ic-icon		= "'/images/icons/property-'+key+'.svg'"
+		ic-icon		= "'property-'+key+''"
 		ic-link		= "::key | icLinkPrefix"
 		class		= "screen-only"
 	>
@@ -225,7 +225,7 @@
 		ng-if		= "item.startDate && item.endDate"
 		ic-title 	= "'ITEMS.DATES' | translate"
 		ic-content	= "(item.startDate | icDate : item.startDate.match('T')) +' – '+ (item.endDate | icDate : !!item.startDate.match('T'))"
-		ic-icon		= "'/images/icons/property-time.svg'"
+		ic-icon		= "'property-time'"
 	>
 	</ic-item-property>
 
@@ -234,7 +234,7 @@
 		ng-if		= "item.startDate && !item.endDate"
 		ic-title 	= "'ITEMS.START_DATE' | translate"
 		ic-content	= "item.startDate | icDate : item.startDate.match('T')"
-		ic-icon		= "'/images/icons/property-time.svg'"
+		ic-icon		= "'property-time'"
 	>
 	</ic-item-property>
 
@@ -242,7 +242,7 @@
 		ng-if		= "item.endDate && !item.startDate"
 		ic-title 	= "'ITEMS.END_DATE' | translate"
 		ic-content	= "item.endDate | icDate : item.startDate.match('T')"
-		ic-icon		= "'/images/icons/property-time.svg'"
+		ic-icon		= "'property-time'"
 	>
 	</ic-item-property>
 
@@ -255,7 +255,7 @@
 	<ic-item-property
 		ng-if			= "item.hours[ic.site.currentLanguage]"
 		ic-title 		= "'ITEMS.HOURS' | translate"
-		ic-icon			= "'/images/icons/property-time.svg'"
+		ic-icon			= "'property-time'"
 		ic-content		= "item.hours[ic.site.currentLanguage]"
 	>
 	</ic-item-property>

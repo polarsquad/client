@@ -54,10 +54,19 @@
 	</div>
 	<!-- property proposals  end -->
 
+	<div ng-if = "icCheckAll">
+		<span>{{'INTERFACE.CHECK_ALL' | translate}}</span>:
+		<ic-toggle
+			ng-if		= "icCheckAll"
+			on			= "{{'INTERFACE.ON'  |translate}}"
+			off			= "{{'INTERFACE.OFF' |translate}}"
+			value		= "allChecked()"
+			ng-click	= "toggleOption()"
+		>			
+		</ic-toggle>
+	</div>
 
-
-
-	<ul class = "options">
+	<ul class = "options">		
 		<li 
 			ng-repeat 	= "option in icOptions"
 			ng-click	= "toggleOption(option)"

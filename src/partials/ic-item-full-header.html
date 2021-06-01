@@ -48,7 +48,7 @@
 
 	<button 
 		class 		= "icon round large icon-interface-favourites drop-shadow"
-		ng-if		= "!ic.user.loggedIn"
+		ng-if		= "!ic.user.loggedIn || ic.lists.disabled"
 		ng-class	= "{'bg-3 white': ic.favourites.contains(ic.site.activeItem), 'bg-0  active': !ic.favourites.contains(ic.site.activeItem)}"
 		ng-click 	= "ic.favourites.toggleItem(ic.site.activeItem)" 
 		title		= "{{'INTERFACE.FAVOURITE_%s' | fill : ic.favourites.contains(ic.site.activeItem) ? 'remove': 'add' | translate}}"
