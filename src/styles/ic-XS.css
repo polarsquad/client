@@ -96,18 +96,6 @@
 }
 
 
-
-.XS ic-page .tiles {
-	justify-content:			center;
-	margin:						0 !important;
-	margin-bottom:				1rem !important;
-}
-
-.XS ic-page .tiles > * {
-	margin:						0.5rem 0 !important;
-}
-
-
 .XS ic-category > *:first-child {
 	margin-left:				0;
 	margin-right:				1rem;
