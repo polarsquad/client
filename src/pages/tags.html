@@ -1,5 +1,5 @@
 <article>
-	<h2>{{'INTERFACE.CATEGORIES' | translate}}</h2>
+	<h1>{{'INTERFACE.CATEGORIES' | translate}}</h1>
 
 	<ic-category
 		ng-repeat 	= "category in ic.taxonomy.categories | orderBy : ic.utils.evalItems('item.name.substr(0,4) == \'misc\' ? null : (\'CATEGORIES.%s\' | fill : item.name | translate)')"

@@ -5,7 +5,7 @@ ic-category {
 
 ic-category .icon {
 	flex:							0 0 auto;
-	margin:							0 2rem;
+	margin-right:					2rem;
 }
 
 ic-category .content {
@@ -16,6 +16,10 @@ ic-category .content h3 {
 	margin:							0;
 	margin-bottom:					1rem;
 	margin-top:						0;
+}
+
+ic-category .content h3 > a {
+	color:							inherit !important;
 }
 
 ic-category .content ic-tag {

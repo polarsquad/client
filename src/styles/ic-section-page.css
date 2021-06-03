@@ -165,8 +165,10 @@ ic-page .third-party-logo{
 
 
 ic-page ic-category {
-	margin:						1rem 0;
-	margin-bottom:				4rem;
+	margin-top:					2rem;
+	margin-left:				auto;
+	margin-right:				auto;
+	margin-bottom:				3rem;
 }
 
 
@@ -214,8 +216,8 @@ ic-page .images > * {
 /* update due to markdown addition*/
 ic-page h1 {
 	color:						var(--primary-color);
-	font-size: 					1.5em;
-	font-weight: 				600;
+	font-size: 					1.6em;
+	font-weight: 				bold;
 	margin-bottom:				1rem;
 }
 
