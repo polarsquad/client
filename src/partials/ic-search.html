@@ -1,5 +1,6 @@
 <form
-	ng-submit = "update(searchTerm)"
+	ng-submit 	= "update(searchTerm)"
+	class		= "normal"
 >
 	<input
 		id					= "search-term" 			
@@ -10,11 +11,14 @@
 		focus-me			= "icFocus"
 	/>
 	<button 		
-		class	= "{{icButtonLabel ? 'bg-3' : 'bg-t'}}"
+		class	= "{{icButtonLabel ? 'bg-3' : 'bg-t'}} icon {{icButtonLabel ? 'icon-interface-search large white left' : 'icon-interface-right bg-t'}}"
 		type	= "submit"	 		
 	>
-		<span class = "icon {{icButtonLabel ? 'icon-interface-search large white' : 'icon-interface-right bg-t'}}" >
+		<span 
+			ng-if = "icButtonLabel.length"
+			class = "normal"
+		>
+			{{icButtonLabel}}
 		</span>
-		{{ icButtonLabel.length ? icButtonLabel : ''}}
 	</button>
 </form>

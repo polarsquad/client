@@ -168,12 +168,6 @@ ic-main-content > *:nth-child(5){
 	max-width:					100%;
 }
 
-#section-page > article {
-	padding-bottom:				15rem;
-}
-
-
-
 .print-only {
 	display:					none;
 }
