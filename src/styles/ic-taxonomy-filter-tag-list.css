@@ -2,6 +2,7 @@ ic-taxonomy-filter-tag-list {
 	display:					flex;
 	flex-wrap:					wrap;
 	line-height:				2.5rem;
+	box-sizing:					border-box;
 }
 
 ic-taxonomy-filter-tag-list > a {

@@ -514,6 +514,7 @@
 				class 		= "active border-3 bg-0 padding"
 				ng-click 	= "validate() ? ic.overlays.open('popup', 'INTERFACE.VALIDATION_SUCCESSFUL') : ic.overlays.open('popup', 'INTERFACE.VALIDATION_FAILED')"	 
 				ic-touch-me
+				ng-if		= "!ic.user.can('edit_items') || ic-lists.disabled"
 			>
 				{{"INTERFACE.ITEM_VALIDATE" | translate}}
 			</button>
