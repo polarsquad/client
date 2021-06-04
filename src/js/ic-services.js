@@ -200,7 +200,7 @@ angular.module('icServices', [
 
 						icInit.ready = true; 
 
-						//icInit done is used by the loading screen, i.e. it gets removed when icInit.done == true
+						//icInit.done is used by the loading screen, i.e. it gets removed when icInit.done == true
 						$q.when(icUtils.waitWhileBusy(20))
 						.then( () => icConsent.ready)
 						.then( () => icInit.done = true )
@@ -358,7 +358,7 @@ angular.module('icServices', [
 			constructor(){}
 
 			get confirmationRequired(){
-				return this.cases.some( key => !this.to(key).isKnown) 
+				return this.cases.some( consent_case => !this.to(consent_case.key).isKnown) 
 			}
 
 			add(key, server, default_value){
@@ -394,6 +394,7 @@ angular.module('icServices', [
 			}
 
 			set(key, value){
+				console.log('set')
 				setValue(key, value)
 
 				this.promises.forEach( promise => {
