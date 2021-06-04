@@ -66,7 +66,9 @@ angular.module('icDirectives', [
 
 			//inline temaplte required, because this directive will be rednered before plTemplates is done
 			template:		` 
-								<form ng-if = "consentRequired">
+								<form ng-if = "confirmationRequired">
+
+									<h1>{{'INTERFACE.CONSENT_HEADING' | translate}}</h1>
 
 									<ul >
 
@@ -161,11 +163,10 @@ angular.module('icDirectives', [
 
 				scope.cases.forEach( consent_case => scope.result[consent_case.key] = !!consent_case.default )
 
-				if( Object.keys(scope.result).every( key => icConsent.to(key).isKnown) ){
-					icConsent.done()
-				} else {
-					scope.consentRequired = true
-				}
+				icConsent.confirmationRequired
+				?	scope.confirmationRequired = true
+				:	icConsent.done()
+				
 
 				scope.okay = function(){
 					Object.entries(scope.result).forEach( ([key, value]) => icConsent.set(key, value) )

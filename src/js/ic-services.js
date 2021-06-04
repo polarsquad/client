@@ -344,6 +344,9 @@ angular.module('icServices', [
 			}
 		}
 
+
+
+
 		class icConsent{
 
 			
@@ -352,9 +355,11 @@ angular.module('icServices', [
 			ready				= this.defer.promise
 			promises			= new Set()
 
-			constructor(){
-			}
+			constructor(){}
 
+			get confirmationRequired(){
+				return this.cases.some( key => !this.to(key).isKnown) 
+			}
 
 			add(key, server, default_value){
 

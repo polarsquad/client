@@ -1,5 +1,37 @@
-<article ng-class = "{consent: ic.consent.cases.length > 0}">
+<article 
+	ng-class = 	"
+					{
+						'consent-confirmation-required': 	ic.consent.confirmationRequired,
+						'icons-ready':						ic.init.plImages,
+						'styles-ready':						ic.init.plStyles,
+						'ready': 							ic.init.ready,
+						'loading':							!ic.init.ready
+					}
+				"
+>
 
+	<div class = "loading-indicator">
+
+		<div class = "progress-bar">
+
+			<div
+				ng-repeat 	= 	"category in ic.taxonomy.categories | limitTo: 6"
+				class		= 	"white icon icon-category-{{category.name}} ic-bg-cat-{{category.name}}"
+				ng-class	=	"
+									{
+										ready:	$index < ic.init.progress * (ic.taxonomy.categories | limitTo: 6).length
+									}	
+								"
+			>
+				
+			</div>
+
+		</div>
+	</div> 
+	
+	
+
+<!-- 
 	<h2 
 		style		= "opacity:0"
 		ng-if		= "ic.consent.cases.length > 0"
@@ -7,7 +39,7 @@
 		<span
 			ng-if		= "ic.init.icLanguages && ic.init.plTemplates && ic.init.plStyles"
 		>
-			{{'INTERFACE.CONSENT_HEADING' | translate}}
+			
 		</span>
 	</h2>
 
@@ -24,7 +56,8 @@
 		<div class = "progress">
 			<div class ="current" style = "width:0" ng-style = "{'width':  ( ic.init.progress*100 || 0)+'%'}"></div>
 		</div>
-	</div>
+	</div> 
+-->
 
 	<div 
 		class = "error" 
@@ -39,6 +72,10 @@
 		</span>
 		]
 	</div>
+
+
+
+
 
 	<ic-consent
 		style 		= "opacity: 0" 
