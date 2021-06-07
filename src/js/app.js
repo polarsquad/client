@@ -183,10 +183,12 @@
 										return matches && matches[2]
 									},
 					adjust:			function(ic){
-										return		ic.site.activeItem
-												||	ic.site.list
-												?	this.defaultValue 
-												:	ic.site.page
+
+										if(ic.site.page == 'options' && !ic.user.can('edit_items'))  	return this.defaultValue
+										if(ic.site.activeItem)											return this.defaultValue
+										if(ic.site.list)												return this.defaultValue
+						
+										return ic.site.page
 									},
 					options:		icConfig.pages || ['home'],
 					defaultValue:	'home'
@@ -216,7 +218,8 @@
 										if(ic.site.expandMap)			return false
 
 										return true
-									}				
+									},
+
 				})
 				.registerSection({
 					name:			'filter',
