@@ -82,6 +82,9 @@ ic-header .logo {
 	transition:						all 200ms linear;
 }
 
+ic-header .logo > a {
+	display:						contents;
+}
 
 ic-header .logo ic-logo-full {
 	font-size:						4rem;
