@@ -6,11 +6,16 @@
 >
 	<div ng-if 	= "!hideCurrentValue"  class = "current-value-parent-box">
 		
-		<span class	= "current-value {{diff()? 'diff': ''}}">
+
+		<span 
+			class	= "current-value {{diff()? 'diff': ''}}"
+		>
+
 			<span
 				ng-repeat 	= "option in icOptions | section : value.current"
 			>
-				{{icOptionLabel({option:option})+ ($last ? '' : ', ') }}
+				{{icOptionLabel 		&& icOptionLabel({option:option})+ ($last ? '' : ', ') }}
+				{{icOptionFilterKey 	&& icOptionFilterKey({option:option})+ ($last ? '' : ', ') }}
 			</span>
 
 			<span ng-if = "!value.current.length">
@@ -18,6 +23,7 @@
 			</span>
 
 		</span>	
+
 
 		<button
 			ng-click	= "revert()" 
@@ -54,6 +60,9 @@
 	</div>
 	<!-- property proposals  end -->
 
+
+
+
 	<div ng-if = "icCheckAll">
 		<span>{{'INTERFACE.CHECK_ALL' | translate}}</span>:
 		<ic-toggle
@@ -66,9 +75,21 @@
 		</ic-toggle>
 	</div>
 
+	<input
+		ng-if 		= "icOptionFilterKey"
+		ng-model 	= "filter.str"
+		ng-change	= "toggleOption(undefined, false)"
+	/>
+
 	<ul class = "options">		
+
+		<li ng-if = "icOptionFilterKey && filteredOptions().length == 0">
+			{{'INTERFACE.PROPERTY_FILTER_EMPTY' | translate}}
+		</li>
+
 		<li 
-			ng-repeat 	= "option in icOptions"
+			ng-if		= "!icOptionsItemRef"
+			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{(option|in : value.edit) ? 'checked active' : ''}}"
 			ic-touch-me
@@ -77,8 +98,32 @@
 				class 	= "icon {{icOptionIconClass({option:option})}}"
 				ng-if	= "icOptionIconClass"
 			></span>
-			<span>{{icOptionLabel({option:option})}}</span>
+
+			<span
+				ng-if	= "icOptionLabel"
+			>
+				{{icOptionLabel({option:option})}}
+			</span>
+
 		</li>
+
+		<li 
+			ng-if		= "icOptionsItemRef && filter.str.length >= 2"
+			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
+			ng-click	= "toggleOption(option, true)"
+			ic-touch-me
+		>
+			<ic-item-preview				
+				ic-item 	= "ic.itemStorage.getItem(option)"
+				ng-if		= "icOptionsItemRef"
+			></ic-item-preview>
+		</li>
+
+		<li ng-if = "icOptionFilterKey  && filter.str.length >= 2 && filteredOptions().length > icOptionsFilterLimit">
+			{{'INTERFACE.PROPERTY_FILTER_TOO_MANY_RESULTS'}}	
+		</li>
+
+
 	</ul>
 
 	<div ng-if = "!error || icHideErrors" class = "error"></div>

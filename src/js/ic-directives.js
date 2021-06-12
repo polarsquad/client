@@ -839,6 +839,9 @@ angular.module('icDirectives', [
 
 								icTranslationKey:		"@?",
 								icOptions:				"<?",
+								icOptionsItemRef:		"<?",
+								icOptionFilterKey:		"&?",
+								icOptionsFilterLimit:	"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
 								icCheckAll:				"<?",
@@ -873,6 +876,10 @@ angular.module('icDirectives', [
 											}
 
 				scope.icProperty		=	icItemConfig.properties.find( property => property.name == scope.icKey )
+
+				scope.filter			=	{
+												str:		'',
+											}
 				
 				if(!scope.icProperty){
 					console.log('icItemPropertyEdit: unknown property.', scope.icKey)
@@ -1063,7 +1070,6 @@ angular.module('icDirectives', [
 				// update global edit and check for errors, when local edit changes
 				scope.$watch('value.edit', function(){
 
-
 					if(!scope.icItem || !scope.icEdit) return null
 
 					if(typeof scope.value.edit == 'string'){
@@ -1108,8 +1114,19 @@ angular.module('icDirectives', [
 					}
 
 					else {
-						scope.icEdit[scope.icKey] = angular.copy(scope.value.edit)
+						scope.icEdit[scope.icKey] 	= angular.copy(scope.value.edit)
 					}
+
+					if(scope.icOptionFilterKey && !scope.icAllowMultipleChoices){
+
+						let option 	= 	Array.isArray(scope.value.edit)
+										?	scope.value.edit[0]
+										:	scope.value.edit
+
+
+						if(option)	scope.filter.str = 	scope.icOptionFilterKey({option}).trim() 
+							
+					}	
 
 					if(scope.untouched){
 						scope.untouched = false
@@ -1176,6 +1193,26 @@ angular.module('icDirectives', [
 
 
 
+
+				scope.filteredOptions = function(){					
+
+					if(!scope.icOptionFilterKey) return scope.icOptions || []
+
+					const regex = 	scope.filter.str
+									.replace(/[,.;?!]/g,' ')
+									.split(/\s/g).map(part =>  new RegExp(part, 'gi'))
+
+					const filtered_options =  	(scope.icOptions || []).filter( option => {						
+													return 	regex.every( rx => scope.icOptionFilterKey({option}).match(rx) )
+												})	
+
+					return filtered_options
+
+				}
+
+
+
+
 				scope.validate = function(){
 
 				
@@ -1233,29 +1270,40 @@ angular.module('icDirectives', [
 					return scope.value.edit.length == scope.icOptions.length
 				}
 
-				scope.toggleOption = function(option){
+				scope.toggleOption = function(option, state){
 
 
 					if(scope.icType == 'string'){
-						scope.value.edit = 	scope.value.edit == option 
-											?	scope.icProperty.defaultValue
-											:	option 
+
+						const add_option 	=	typeof state == 'boolean'
+												?	state
+												:	scope.value.edit != option 
+
+						scope.value.edit 	= 	add_option
+												?	option 
+												:	undefined
+
 						return undefined
 					}
 
 
 					if(!option){
-						scope.value.edit = 	scope.allChecked()
-											?	[]
-											:	copyOptions(scope.icOptions)
+
+						const add_options 	= 	typeof state == 'boolean'
+												?	state
+												:	!scope.allChecked() 
+
+						scope.value.edit	= 	add_options
+												?	copyOptions(scope.icOptions)
+												:	[]
 						return undefined					
 					}
 
 					var pos = scope.value.edit.indexOf(option)
 
-					pos == -1
-					?	scope.value.edit.push(option)
-					:	scope.value.edit.splice(pos,1)	
+					pos == -1 
+					?	(state === false) 	|| scope.value.edit.push(option)
+					:	(state === true)	|| scope.value.edit.splice(pos,1)	
 
 
 					if(!scope.icAllowMultipleChoices){
@@ -1933,7 +1981,7 @@ angular.module('icDirectives', [
 
 .directive('icTiles',[
 	
-	function(icUser, icOverlays, icItemStorage, ic){
+	function(){
 		return {
 			restrict:		'E',
 			templateUrl:	'partials/ic-tiles.html',
@@ -1944,7 +1992,6 @@ angular.module('icDirectives', [
 		}
 	}
 ])
-
 
 
 .directive('icHelp', [

@@ -142,6 +142,7 @@ angular.module('icServices', [
 	'icLists',
 	'icLanguages',
 	'icTiles',
+	'icOptions',
 	'icMainMap',
 	'icUtils',
 	'icWebfonts',
@@ -152,13 +153,14 @@ angular.module('icServices', [
 	'$timeout',
 	'$rootScope', 
 
-	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icMainMap, icUtils, icWebfonts, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
+	function($q, ic, icUser, icItemStorage, icLists, icLanguages, icTiles, icOptions, icMainMap, icUtils, icWebfonts, icConsent, plImages, plStyles, plTemplates, $timeout, $rootScope){
 
 		var icInit 			= 	{},
 			promises 		= 	{
 									icUser: 			icUser.ready,
 									icItemStorage:		icItemStorage.ready,
 									icTiles:			icTiles.ready,
+									icOptions:			icOptions.ready,	
 									icLanguages:		icLanguages.ready,
 									icLists:			icLists.ready,
 									icWebfonts:			icWebfonts.ready,
@@ -169,6 +171,8 @@ angular.module('icServices', [
 
 								}
 	
+		console.log(icOptions)
+
 
 		icInit.ready		= undefined
 		icInit.done			= undefined
@@ -1348,6 +1352,49 @@ angular.module('icServices', [
 
 
 
+
+.service('icItemRef', [
+
+	'icItemConfig',
+	'icItemStorage',
+
+	function(icItemConfig, icItemStorage){
+
+		class icItemRef{
+
+			project(item, keys){
+
+				if(!item) 	return null
+				if(!keys) 	return null
+
+				if( Array.isArray(keys) ) return Object.fromEntries( keys.map ( key => ([key, this.project(item, key)]) ))					 	
+
+				const key =	keys
+
+				if(!key)	return null
+
+				if(typeof key != 'string') console.log('icItemRef.project: key is not a string', key)
+
+
+				const property = icItemConfig.properties.find( prop => prop.name == key )
+
+				if(!property) 					return item[key]
+				if(!property.project)			return item[key]
+				if(!item[property.project])		return item[key]
+
+				const referredItem = icItemStorage.getItem(item[property.project])
+
+				return referredItem[key]
+
+			}	
+
+		}
+
+		return new icItemRef()
+
+	}
+])
+
 .provider('icTaxonomy',function(){
 
 	var taxonomy	= undefined
@@ -2329,6 +2376,155 @@ angular.module('icServices', [
 ])
 
 
+.service('icOptions', [
+
+	'$q',
+	'icUser',
+
+	function($q, icUser){
+
+
+		class icOptions extends Array {
+			
+			constructor(){
+
+				super()
+
+				if(!dpd.options){
+					console.warn('icOptions: missing dpd.options')
+					this.ready = $q.resolve()
+					return;
+				} 
+
+				this.ready = this.setup()
+
+			}
+
+			setup(){
+				return 	$q.when(dpd.options.get())
+						.then( options => {
+							if(!options.length) console.warn('icOptions: no options defined.')
+							this.push(...options)
+							this.keys = Array.from( new Set( options.map( option => option.key )))
+						})	
+			}
+
+			addKey(...keys){
+				keys.forEach( key => {
+					if(!this.keys.includes(keys)) this.keys.push(key)
+				})
+			}
+
+			generateTag(option){
+
+				option = option || {}
+
+				let clean = (option.label||'')
+							.replace(/[^a-zA-Z\s]/gi, '')
+							.replace(/([A-Z])/g,' $1')
+							.split(/\s/)
+							.filter( s => !!s)
+
+				let str_1 	= 	clean
+								.filter( s => s.length > 3)
+								.map( (s, i) => s.substr(0, i ? 1 : 3) )
+								.join('')
+								.substr(0,10)
+
+				
+				let str_2 	= 	clean
+								.filter( s => s.length > 3)
+								.map( (s, i) => s.substr(0, 3) )
+								.join('')
+								.substr(0,10)
+
+
+				let str_3 	= 	clean
+								.map( s => s.substr(0,2) )
+								.join('')				
+								.substr(0,10)							
+
+				let str_4 	= 	clean
+								.join('')
+								.substr(0,10)
+										
+				let str		=	str_1
+
+				if(str.length < 6) str = str_2
+				if(str.length < 6) str = str_3
+				if(str.length < 6) str = str_4
+				
+
+				return `o-${option.key||''}-${str}`.toLowerCase()			
+			}
+
+			sanitizeTag(tag){
+				if(!tag) return tag
+				return tag.replace(/[^a-zA-Z_-]/g,'').toLowerCase()
+			}
+
+			sanitizeKey(key){
+				if(!tag) return tag
+				return key.replace(/[^a-zA-Z_-]/g,'').toLowerCase()
+			}
+
+			sanitizeLink(link){
+				if(!link) return link
+
+				
+				if(!link.match(/^http/)) link = `https://${link}`
+
+				return link
+			}
+
+			sanitizeOption(option){
+				option.tag 	= this.sanitizeTag(option.tag)
+				option.key 	= this.sanitizeTag(option.key)
+				option.link = this.sanitizeLink(option.link)
+			}
+
+			addOption(option){
+				if(!icUser.can('edit_options')) return $q.reject('icOptions.addOption: unauthorized')
+
+
+				
+
+				return 	$q.when(dpd.options.post(option))
+						.then( option => {
+							this.push(option) 
+							this.addKey(option.key)
+						})
+			}
+
+			updateOption(option){
+				if(!icUser.can('edit_options')) return $q.reject('icOptions.updateOption: unauthorized')
+
+				return 	$q.when(dpd.options.put(option))
+						.then( option => this.push(option) )
+			}
+
+			removeOption(option){
+				if(!icUser.can('edit_options')) return $q.reject('icOptions.removeOption: unauthorized')
+
+				return 	$q.when(dpd.options.delete(option.id || option))
+						.then( () =>  {
+							const pos = this.indexIndex( o => o.id == option.id)
+							this.splice(pos,1)
+						})
+			}
+
+		}
+
+		
+			
+		return 	new icOptions()
+				
+
+	}
+])
+
+
+
 
 .service('icWebfonts', [
 
@@ -2492,12 +2688,14 @@ angular.module('icServices', [
 	'icUtils',
 	'icConsent',
 	'icTiles',
+	'icOptions',
 	'icLists',
 	'icMainMap',
 	'icWebfonts',
+	'icItemRef',
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icLists, icMainMap, icWebfonts, $rootScope, ){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, $rootScope ){
 
 		ic.init			= icInit
 		ic.site			= icSite
@@ -2517,8 +2715,10 @@ angular.module('icServices', [
 		ic.consent		= icConsent
 		ic.mainMap		= icMainMap
 		ic.tiles		= icTiles
+		ic.options		= icOptions
 		ic.lists		= icLists
 		ic.webfonts		= icWebfonts
+		ic.itemRef		= icItemRef
 
 		var stop 		= 	$rootScope.$watch(function(){
 								if(icInit.ready){

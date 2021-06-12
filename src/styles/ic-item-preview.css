@@ -3,10 +3,12 @@
 
 ic-item-preview {
 	position:				relative;
-	display:				flex;
+	display:				flex !important;
+	flex:					1 1 0;
 	align-items:			center;
 	min-height:				5rem;
 	padding:				0.5rem 1rem;
+	margin:					0 !important;
 }
 
 ic-item-preview:active,
@@ -15,12 +17,8 @@ ic-item-preview.active-item {
 }
 
 ic-item-preview ic-item-badge {
-	position:				relative;
-	display:				block;
-	flex:					0 0 auto;
-	/*top:					0.5rem;
-	left:					1rem;
-	margin-top:				0.25rem;*/
+	position:				relative;	
+	flex:					0 0 auto;	
 	height:					3.5rem;
 	width:					3.5rem;
 	border-radius:			3.5rem;

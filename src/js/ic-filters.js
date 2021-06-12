@@ -64,6 +64,46 @@ angular.module('icFilters', [
 	}
 ])
 
+.filter('icTags',[
+
+	function(){
+
+		return function(array_of_items, tags){
+			return array_of_items.filter( item => item.tags && tags.some( tag => item.tags.includes(tag)))
+		}
+
+	}
+
+])
+
+.filter('project',[
+
+	'icItemRef',
+
+	function(icItemRef){
+
+		return function(item, keys){
+
+			return icItemRef.project(item, keys)
+
+		}
+
+	}
+])
+
+
+.filter('icItem', [
+
+	'icItemStorage',
+
+	function(icItemStorage){
+
+		return function(id){
+			return icItemStorage.getItem(id)
+		}
+	}
+
+])
 
 .filter('osmLink', [
 	function(){

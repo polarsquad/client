@@ -99,6 +99,27 @@ ic-item-property-edit .options li {
 }
 
 
+
+ic-item-property-edit.long-labels .options {
+	display:					flex;
+	flex-direction:				column;
+	flex-wrap:					nowrap;
+	margin-top:					0.5rem;
+}
+
+ic-item-property-edit.long-labels .options li {
+	flex:						0 0 auto;
+	line-height:				1.2rem;
+	display:					flex;
+	align-items:				center;
+	padding-top:				0.25em;
+	padding-bottom:				0.25em;
+}
+
+
+
+
+
 ic-item-property-edit .options li > *:first-child {
 	display:					inline-block;
 	margin:						0 0.5rem;
@@ -107,11 +128,23 @@ ic-item-property-edit .options li > *:first-child {
 
 ic-item-property-edit.invalid input[type="text"],
 ic-item-property-edit.invalid textarea {
-	box-shadow:					0 0 0 2px red;
+	box-shadow:					0 0 0 2px var(--error-color);
 }
 
-ic-item-property-edit[ic-options].invalid {
-	box-shadow:					2px 0 0 0px red;
+ic-item-property-edit[ic-options].invalid{
+	position:					relative;
+	overflow:					visible !important;
+}
+
+ic-item-property-edit[ic-options].invalid:before {
+	content:					'';
+	display:					block;
+	position:					absolute;
+	right:						-1rem;
+	top:						0;
+	bottom:						0;
+	background-color:			var(--error-color);
+	width:						0.15rem;
 }
 
 ic-item-property-edit .error {

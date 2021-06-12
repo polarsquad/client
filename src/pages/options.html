@@ -1,1 +1,93 @@
-OPtions
+<article 
+	class	= "ic-options-edit"
+	ng-init = "key = ic.options.keys[0]; new_option = {key: key}"
+>
+
+	<div>
+
+		<div>
+
+			<select
+				ng-model  = "key"
+				ng-change = "new_option.key = key; sanitizeOption(new_option);"
+			>
+
+				<option 
+					ng-repeat 	= "k in ic.options.keys"
+					value		= "{{k}}"							
+				>
+					{{'INTERFACE.OPTIONS_KEY_%s' | fill : k | translate}}
+				</option>
+
+			</select>
+
+		</div>
+
+
+		<div 
+			class 	= "option add"
+		>
+
+			<input 
+				class				=	"label"
+				ng-model 			=	"new_option.label" 
+				ng-change			=	"ic.options.sanitizeOption(new_option); new_option.tag = ic.options.generateTag(new_option)"
+				ng-model-options	=	"{ debounce: 500 }"				
+				placeholder			=	"{{'INERFACE.OPTION_LABEL'|translate}}"
+			/>
+
+			<input 
+				class				=	"link"
+				ng-model 			=	"new_option.link"
+				ng-change			=	"ic.options.sanitizeOption(new_option)"
+				ng-model-options	=	"{ debounce: 500 }"				
+				placeholder			=	"{{'INERFACE.OPTION_LINK'|translate}}"
+
+			/>		
+
+			<input 
+				class				=	"tag"
+				ng-model 			=	"new_option.tag"
+				ng-change			=	"ic.options.sanitizeOption(new_option)"
+				ng-model-options	=	"{ debounce: 500 }"				
+				placeholder			=	"{{'INERFACE.OPTION_TAG'|translate}}"
+
+			/>		
+
+			<button 
+				class		= "bg-3 padding"
+				ng-click 	= "ic.options.addOption(new_option)"
+			>
+				{{'INTERFACE.OPTION_ADD' | translate}}
+			</button>
+		</div>
+
+		<div
+			class		= "option edit" 
+			ng-repeat	= "option in ic.options "
+		>
+
+			<div class = "label">
+				{{option.label}}
+			</div>
+
+			<div class = "link">
+				{{option.link}}
+			</div>
+
+			<div class = "tag">
+				{{option.tag}}
+			</div>
+
+			<button 
+				class		= "bg-3 padding"
+				ng-click 	= "ic.options.addOption(new_option)"
+			>
+				{{'INTERFACE.OPTION_UPDATE' | translate}}
+			</button>
+
+		</div>
+
+	</div>
+
+</article>

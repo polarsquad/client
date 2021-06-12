@@ -1,0 +1,35 @@
+.ic-options-edit {
+
+}
+
+.ic-options-edit .option {
+	display:				flex;
+	margin:					0.5rem -0.5rem;
+	align-items:			center;
+}
+
+
+.ic-options-edit .option > * {
+	flex:					1 0 0;
+	display:				block;
+	margin:					0.5rem;
+}
+
+
+.ic-options-edit .option .label, 
+.ic-options-edit .option .link,
+.ic-options-edit .option .tag {
+	flex:					3 0 0;
+}
+
+
+.ic-options-edit .option button {
+	flex:					0 0 6rem;
+	width:					10rem;	
+}
+
+
+.XS .ic-options-edit .option {
+	flex-direction:			column;
+}
+

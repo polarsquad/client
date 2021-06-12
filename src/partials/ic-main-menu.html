@@ -77,7 +77,7 @@
 			<li 
 				ng-repeat 	= "page in ic.config.pages"
 				class 		= "bg-0 hover" 
-				ng-if 		= "['home', 'tiles', 'tags'].indexOf(page) == -1"
+				ng-if 		= "['home', 'tiles', 'tags', 'options'].indexOf(page) == -1"
 			> 
 				<a ic-touch-me a ng-href="/p/{{page}}">	{{'INTERFACE.%s' | fill : page| translate}}</a>	
 			</li>
@@ -211,6 +211,17 @@
 				>
 					<span>{{'INTERFACE.LIST_ARCHIVED' | translate}}</span>
 					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_archived'] || 0}}</span>
+				</a>	
+			</li>
+
+			<li
+				class = "bg-0 hover"  
+			>
+				<a
+					href = "/p/options"
+					ic-touch-me
+				>
+					<span>{{'INTERFACE.OPTIONS' | translate}}</span>					
 				</a>	
 			</li>
 

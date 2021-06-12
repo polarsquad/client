@@ -887,6 +887,7 @@ angular.module('icUiDirectives', [
 
 ])
 
+
 .directive('icToggle', [
 
 	function(){
@@ -995,6 +996,9 @@ angular.module('icUiDirectives', [
 .filter('section', [
 	function(){
 		return function(arr_1, arr_2){
+
+			Array.isArray(arr_2) || (arr_2 = [arr_2])
+
 			return 	arr_1
 					?	arr_1.filter(function(item){ return arr_2 && arr_2.indexOf(item) != -1})
 					:	[]

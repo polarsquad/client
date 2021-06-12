@@ -394,9 +394,10 @@
 
 		'icSite',
 		'icMainMap',
+		'icItemRef',
 		'ic',
 
-		function(icSite, icMainMap, ic){
+		function(icSite, icMainMap, icItemRef, ic){
 			return {
 				restrict : 		'E',
 				scope:			{
@@ -410,7 +411,10 @@
 					scope.ic = ic
 
 					scope.focusItem = function(){
-						if(!hasValidGeoCoordinates(scope.icItem)){
+
+						const projected = icItemRef.project(scope.icItem, ['latitude', 'longitude'])
+
+						if(!hasValidGeoCoordinates(projected)){
 							console.warn('icMiniMap: focusItemOnMap: missing coordinates.')
 							return null
 						}
@@ -419,7 +423,7 @@
 
 						icMainMap.ready
 						.then(function(map){
-							map.setView([scope.icItem.latitude, scope.icItem.longitude], icMainMap.defaults.maxZoom)	
+							map.setView([projected.latitude, projected.longitude], icMainMap.defaults.maxZoom)	
 						})
 
 					}
@@ -473,11 +477,12 @@
 				'icMapItemMarker',
 				'icItemStorage',
 				'icSite',
+				'icItemRef',
 				'icConsent',
 				'plTemplates',
 
 
-				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite, icConsent, plTemplates){
+				function($rootScope, $q ,icMapItemMarker, icItemStorage, icSite, icItemRef, icConsent, plTemplates){
 
 
 
@@ -525,7 +530,9 @@
 
 					icMainMap.getMarker = function(item, options){
 
-						if(!hasValidGeoCoordinates(item)){
+						const projected = icItemRef.project(item, ['latitude', 'longitude'])	
+
+						if(!hasValidGeoCoordinates(projected)){
 							console.warn('icMainMap: getMarker() missing coordinates at ', item)
 							return null
 						}
@@ -543,8 +550,10 @@
 						options.riseOnHover	= false
 						options.icon 		= icMainMap.markerCache[item.id] || new icMapItemMarker(item, icMainMap.scope)
 
+						
+
 						return 	new L.marker(
-									[item.latitude, item.longitude], 
+									[projected.latitude, projected.longitude], 
 									options
 								)
 					}
@@ -598,7 +607,11 @@
 					])
 					.then(function(){
 						icItemStorage.data.forEach(function(item){
-							if(hasValidGeoCoordinates(item)) icMainMap.getMarker(item)
+
+							const projected = icItemRef.project(item, ['latitude', 'longitude'])
+
+							if(hasValidGeoCoordinates(projected)) icMainMap.getMarker(item)
+
 						})
 						markersReady.resolve()
 					})
@@ -616,6 +629,7 @@
 		'$q',
 		'icSite',
 		'icItemStorage',
+		'icItemRef',
 		'icConsent',
 		'icUtils',
 		'icMainMap',
@@ -626,7 +640,7 @@
 		'icMapCoordinatePickerControl',
 		'icMapMarkerDigestQueue',
 
-		function($rootScope, $timeout, $q, icSite, icItemStorage, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
+		function($rootScope, $timeout, $q, icSite, icItemStorage, icItemRef, icConsent, icUtils, icMainMap, icMapItemMarker, icMapClusterMarker, icMapExpandControl, icMapSpinnerControl, icMapCoordinatePickerControl, icMapMarkerDigestQueue){
 			return {
 				restrict: 'AE',
 
@@ -762,7 +776,7 @@
 						markers.clearLayers()
 
 						var	additional_items	=	icItemStorage.filteredList
-													.filter(hasValidGeoCoordinates)
+													.filter( item => hasValidGeoCoordinates(icItemRef.project(item, ['latitude', 'longitude'])) )
 
 						markers.addLayers(additional_items.map(icMainMap.getMarker))
 
@@ -791,7 +805,8 @@
 						//add active item marker
 						if(
 								icSite.activeItem
-							&&	hasValidGeoCoordinates(icSite.activeItem)
+							&&	hasValidGeoCoordinates(icItemRef.project(icSite.activeItem, ['latitude', 'longitude']))
+								
 						){
 							markers.addLayer(icMainMap.getMarker(icSite.activeItem))
 						}
@@ -849,11 +864,14 @@
 
 
 					scope.$watchCollection(
-						function(){ 
+						function(){
+
+							const projected = icItemRef.project(icSite.activeItem, ['latitude', 'longitude'])
+
 							return 	[
 											icSite.activeItem && icSite.activeItem.id, 
-											icSite.activeItem && icSite.activeItem.longitude, 
-											icSite.activeItem && icSite.activeItem.latitude
+											projected && projected.longitude, 
+											projected && projected.latitude
 									]
 						}, 
 						function(p,c){
@@ -908,8 +926,9 @@
 		'icMainMap',
 		'icMapItemMarker',
 		'icMapSwitchControl',
+		'icItemRef',
 
-		function(icMainMap, icMapItemMarker, icMapSwitchControl){
+		function(icMainMap, icMapItemMarker, icMapSwitchControl, icItemRef){
 			return {
 				restrict: 	'AE',
 				scope:		{
@@ -962,21 +981,24 @@
 					scope.$watch('icItem', function(icItem){
 						if(marker) marker.remove()
 
+						const projected = icItemRef.project(icItem, ['latitude', 'longitude'])
+
+
 						if(
-								!scope.icItem
-							||	!scope.icItem.latitude
-							||	!scope.icItem.longitude
-							||	typeof scope.icItem.latitude	!=  'number'
-							||	typeof scope.icItem.longitude 	!=  'number'
-							||  Math.abs(scope.icItem.latitude) 	> 90
-							||  Math.abs(scope.icItem.longitude)	> 180
+								!projected
+							||	!projected.latitude
+							||	!projected.longitude
+							||	typeof projected.latitude		!=  'number'
+							||	typeof projected.longitude 		!=  'number'
+							||  Math.abs(projected.latitude) 	> 90
+							||  Math.abs(projected.longitude)	> 180
 						){
 							return null
 						}
 
 
 						marker = L.marker(
-							[scope.icItem.latitude, scope.icItem.longitude], 
+							[projected.latitude, projected.longitude], 
 							{
 								icon: new icMapItemMarker(icItem, scope),
 								item: icItem,
@@ -984,7 +1006,7 @@
 						)
 						.addTo(map)
 
-						map.setView([icItem.latitude, icItem.longitude])
+						map.setView([projected.latitude, projected.longitude])
 					})
 
 

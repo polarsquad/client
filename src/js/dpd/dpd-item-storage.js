@@ -389,32 +389,38 @@
 		}
 
 
-		icItemStorage.getItem = function(item_or_id){
+		icItemStorage.getItem = function(item_or_id, force_download){
 
-			var id		= item_or_id.id || item_or_id,
-				item 	= icItemStorage.data.find(function(item){ return item.id == id })
+			if(!item_or_id) return null
+
+			const id		= item_or_id.id || item_or_id
+			let	item 		= icItemStorage.data.find(function(item){ return item.id == id })
 
 			if(item) return item
 
 			item = icItemStorage.storeItem({id: id})
 			
-			item.download()
-			.then(
-				function(){
-					icItemStorage.runAsyncTriggers()
-					
-					return item
-				},
-				function(reason){
-					console.warn('icItemStorage.getItem: update failed.', reason)
-					
-					item.internal.failed = true
+			
 
-					icItemStorage.runAsyncTriggers()
+			//if(force_download){
+				item.download()
+				.then(
+					function(){
+						icItemStorage.runAsyncTriggers()
+						
+						return item
+					},
+					function(reason){
+						console.warn('icItemStorage.getItem: update failed.', reason)
+						
+						item.internal.failed = true
 
-					return Promise.reject(reason)
-				}
-			)
+						icItemStorage.runAsyncTriggers()
+
+						return Promise.reject(reason)
+					}
+				)
+			//}
 
 			return item
 		}
