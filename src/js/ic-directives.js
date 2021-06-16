@@ -375,7 +375,7 @@ angular.module('icDirectives', [
 						return icSite.activeItem
 					},
 					function(item){
-						scope.item = item
+						scope.item 			= 	item
 					}
 				) 
 			

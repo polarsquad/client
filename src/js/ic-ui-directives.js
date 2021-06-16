@@ -401,11 +401,16 @@ angular.module('icUiDirectives', [
 				}
 
 				scope.scrollTop = function(){
-					if(target && sources[target]) sources[target].scrollTop = 0
+					window.requestAnimationFrame( () => {
+						if(target && sources[target]) sources[target].scrollTop = 0
+
+					})
 				}
 
 				scope.scrollBottom = function(){
-					if(target && sources[target]) sources[target].scrollTop = sources[target].scrollHeight
+					window.requestAnimationFrame( () => {
+						if(target && sources[target]) sources[target].scrollTop = sources[target].scrollHeight
+					})
 				}
 
 				scope.$watch(

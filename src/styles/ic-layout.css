@@ -102,14 +102,6 @@ ic-main-content > *:nth-child(5){
 	max-width:					20rem;
 }
 
-
-.S #section-filter {
-	max-width:					40%;
-}
-
-
-
-
 #section-list {
 	flex:						3 1 auto;
 	min-width:					30rem;
