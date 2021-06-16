@@ -11,9 +11,20 @@ ic-item-preview {
 	margin:					0 !important;
 }
 
-ic-item-preview:active,
-ic-item-preview.active-item {
-	background-color:		rgba(0,0,0,0.06);
+ic-item-preview:active:before,
+ic-item-preview.active-item:before {
+
+	content:				'';
+	display:				block;
+	position:				absolute;
+	z-index:				0;
+	top:					0;
+	bottom:					0;
+	left:					0;
+	right:					0;
+
+	background-color:		var(--primary-color);
+	opacity:				0.25;
 }
 
 ic-item-preview ic-item-badge {

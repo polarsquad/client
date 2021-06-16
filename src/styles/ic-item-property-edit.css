@@ -100,6 +100,7 @@ ic-item-property-edit .options li {
 
 
 
+
 ic-item-property-edit.long-labels .options {
 	display:					flex;
 	flex-direction:				column;
@@ -117,6 +118,10 @@ ic-item-property-edit.long-labels .options li {
 }
 
 
+ic-item-property-edit .options.item-list li{
+	padding-top:				0;
+	padding-bottom:				0;
+}
 
 
 

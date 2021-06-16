@@ -13,8 +13,10 @@ ic-search-result-list header ic-spinner {
 }
 
 
-.item-list a,
-ic-search-result-list a {
+.item-list  a,
+.item-list  li,
+ic-search-result-list  a,
+ic-search-result-list  li {
 	display:					block;
 	margin:						1px 0;
 }

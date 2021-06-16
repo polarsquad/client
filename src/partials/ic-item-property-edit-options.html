@@ -81,7 +81,10 @@
 		ng-change	= "toggleOption(undefined, false)"
 	/>
 
-	<ul class = "options">		
+	<ul 
+		class 		= "options"
+		ng-class 	= "{'bg-1 item-list padding': icOptionsItemRef}" 
+	>		
 
 		<li ng-if = "icOptionFilterKey && filteredOptions().length == 0">
 			{{'INTERFACE.PROPERTY_FILTER_EMPTY' | translate}}
@@ -107,20 +110,50 @@
 
 		</li>
 
+		<!-- itmes -->
+
+		<li
+			ic-touch-me
+			ng-if		= "icOptionsItemRef"
+			ng-click	= "toggleOption(null, false); filter.str =''"
+			class		= "bg-0 padding"
+		>
+			<span
+				class		= "icon icon-interface-checkbox left"
+				ng-class	= "{'checked': !value.edit.length}"
+			> 
+				{{'INTERFACE.PROPERTY_EMPTY' | translate}}
+			</span>
+		</li>
+
+
 		<li 
-			ng-if		= "icOptionsItemRef && filter.str.length >= 2"
-			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
+			ng-if		= "icOptionsItemRef"
+			ng-repeat 	= "option in value.current"
 			ng-click	= "toggleOption(option, true)"
+			class		= "bg-0"			
 			ic-touch-me
 		>
 			<ic-item-preview				
 				ic-item 	= "ic.itemStorage.getItem(option)"
 				ng-if		= "icOptionsItemRef"
+				ng-class	= "{'active-item': (option | in: value.edit)}"
 			></ic-item-preview>
 		</li>
 
-		<li ng-if = "icOptionFilterKey  && filter.str.length >= 2 && filteredOptions().length > icOptionsFilterLimit">
-			{{'INTERFACE.PROPERTY_FILTER_TOO_MANY_RESULTS'}}	
+
+		<li 
+			ng-if		= "icOptionsItemRef && filter.str.length >= 2"
+			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
+			ng-click	= "toggleOption(option, true)"
+			class		= "bg-0"			
+			ic-touch-me
+		>
+			<ic-item-preview				
+				ic-item 	= "ic.itemStorage.getItem(option)"
+				ng-if		= "icOptionsItemRef"
+				ng-class	= "{'active-item': (option | in: value.edit)}"
+			></ic-item-preview>
 		</li>
 
 
