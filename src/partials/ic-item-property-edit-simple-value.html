@@ -29,7 +29,7 @@
 		class			= "proposals screen-only"		
 	>
 		<span class ="round mini vbottom icon icon-interface-proposals bg-3 white"></span>
-		{{'ITEMS.EDIT_SUGGESTIONS' | translate}}:
+		{{'ITEMS.PROPOSED_EDIT' | translate}}:
 
 		<button
 			ng-repeat 	= "proposal in proposals"	
@@ -37,7 +37,7 @@
 			ng-class	= "{'bg-3 white': editMatchesProposal(proposal), 'active border-3': !editMatchesProposal(proposal), 'disabled': !isApplicable(proposal)}"
 			ng-click	= "isApplicable(proposal) && updateEditWithProposal(proposal)"
 		>
-			<span>{{proposal.index}}</span>
+			<span>{{proposal.index+1}}</span>
 		</button>	
 	</div>
 	<!-- property proposals  end -->

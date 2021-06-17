@@ -1192,9 +1192,11 @@ angular.module('icDirectives', [
 									.replace(/[,.;?!]/g,' ')
 									.split(/\s/g).map(part =>  new RegExp(part, 'gi'))
 
-					let filtered_options =  	(scope.icOptions || []).filter( option => {						
-													return 	regex.every( rx => scope.icOptionFilterKey({option}).match(rx) )
-												})	
+					let filtered_options =  	scope.filter.str.length > 1
+												?	(scope.icOptions || []).filter( option => {						
+														return 	regex.every( rx => scope.icOptionFilterKey({option}).match(rx) )
+													})	
+												:	[]
 
 					if(scope.icAllowMultipleChoices){
 						filtered_options.unshift(...scope.value.edit)
@@ -1359,7 +1361,7 @@ angular.module('icDirectives', [
 												|| 	[]
 											)
 											.filter( proposal => proposal[scope.icKey] !== undefined)
-											.map( (proposal, index) => ({...proposal, index }))
+											.map( (proposal, index) => ({...proposal, index}))
 											.map( proposal => {
 
 												if(scope.icProperty.translatable && proposal[scope.icKey]){

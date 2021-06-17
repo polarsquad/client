@@ -119,6 +119,8 @@
 			var data = {}
 
 			ic.itemConfig.properties.forEach(function(property){ 
+				if(property.internal) return null
+
 				if(!name || name == property.name){
 					if(!key){
 						data[property.name] 		=  	icItem[property.name] || null

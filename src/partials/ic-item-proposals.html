@@ -7,9 +7,9 @@
 		<span 
 			class 		= "proposal-indicator border-3"
 			ng-class 	= "{'bg-3 white': !diff(proposal, ic.site.currentLanguage), 'active': diff(proposal, ic.site.currentLanguage)}"
-			title		= "{{'INTERFACE.PROPOSAL' | translate}} {{$index}}"
+			title		= "{{'INTERFACE.PROPOSAL' | translate}} {{$index+1}}"
 		> 
-			{{$index}}
+			{{$index+1}}
 		</span>
 		[ {{proposal.creationDate | icDate }} ]
 	</div>
