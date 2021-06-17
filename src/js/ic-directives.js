@@ -1116,17 +1116,7 @@ angular.module('icDirectives', [
 					else {
 						scope.icEdit[scope.icKey] 	= angular.copy(scope.value.edit)
 					}
-
-					if(scope.icOptionFilterKey && !scope.icAllowMultipleChoices){
-
-						let option 	= 	Array.isArray(scope.value.edit)
-										?	scope.value.edit[0]
-										:	scope.value.edit
-
-
-						if(option)	scope.filter.str = 	scope.icOptionFilterKey({option}).trim() 
-							
-					}	
+					
 
 					if(scope.untouched){
 						scope.untouched = false
@@ -1202,12 +1192,26 @@ angular.module('icDirectives', [
 									.replace(/[,.;?!]/g,' ')
 									.split(/\s/g).map(part =>  new RegExp(part, 'gi'))
 
-					const filtered_options =  	(scope.icOptions || []).filter( option => {						
+					let filtered_options =  	(scope.icOptions || []).filter( option => {						
 													return 	regex.every( rx => scope.icOptionFilterKey({option}).match(rx) )
 												})	
 
-					return filtered_options
+					if(scope.icAllowMultipleChoices){
+						filtered_options.unshift(...scope.value.edit)
+						filtered_options.unshift(...scope.value.current)
+					}else {
+						scope.value.edit 	&& filtered_options.unshift(scope.value.edit)
+						scope.value.current && filtered_options.unshift(scope.value.current)
+					}
 
+					filtered_options = filtered_options.filter( (o, index) => filtered_options.indexOf(o) == index )
+
+					return filtered_options.slice(0,scope.icOptionsFilterLimit)
+
+				}
+
+				scope.getOptionLabel = function(option){
+					return scope.icOptionLabel({option})
 				}
 
 

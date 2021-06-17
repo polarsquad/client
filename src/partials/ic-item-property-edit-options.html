@@ -78,12 +78,10 @@
 	<input
 		ng-if 		= "icOptionFilterKey"
 		ng-model 	= "filter.str"
-		ng-change	= "toggleOption(undefined, false)"
 	/>
 
 	<ul 
 		class 		= "options"
-		ng-class 	= "{'bg-1 item-list padding': icOptionsItemRef}" 
 	>		
 
 		<li ng-if = "icOptionFilterKey && filteredOptions().length == 0">
@@ -91,8 +89,7 @@
 		</li>
 
 		<li 
-			ng-if		= "!icOptionsItemRef"
-			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
+			ng-repeat 	= "option in filteredOptions() | preventLoop | orderBy : getOptionLabel"
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{(option|in : value.edit) ? 'checked active' : ''}}"
 			ic-touch-me
@@ -105,57 +102,17 @@
 			<span
 				ng-if	= "icOptionLabel"
 			>
-				{{icOptionLabel({option:option})}}
+				{{getOptionLabel(option)}}
 			</span>
 
 		</li>
-
-		<!-- itmes -->
 
 		<li
-			ic-touch-me
-			ng-if		= "icOptionsItemRef"
-			ng-click	= "toggleOption(null, false); filter.str =''"
-			class		= "bg-0 padding"
+			ng-if 	= "icOptions.length > icOptionsFilterLimit"
+			class	= "tac"
 		>
-			<span
-				class		= "icon icon-interface-checkbox left"
-				ng-class	= "{'checked': !value.edit.length}"
-			> 
-				{{'INTERFACE.PROPERTY_EMPTY' | translate}}
-			</span>
+			&#8942;
 		</li>
-
-
-		<li 
-			ng-if		= "icOptionsItemRef"
-			ng-repeat 	= "option in value.current"
-			ng-click	= "toggleOption(option, true)"
-			class		= "bg-0"			
-			ic-touch-me
-		>
-			<ic-item-preview				
-				ic-item 	= "ic.itemStorage.getItem(option)"
-				ng-if		= "icOptionsItemRef"
-				ng-class	= "{'active-item': (option | in: value.edit)}"
-			></ic-item-preview>
-		</li>
-
-
-		<li 
-			ng-if		= "icOptionsItemRef && filter.str.length >= 2"
-			ng-repeat 	= "option in filteredOptions() | preventLoop | limitTo: icOptionsFilterLimit"
-			ng-click	= "toggleOption(option, true)"
-			class		= "bg-0"			
-			ic-touch-me
-		>
-			<ic-item-preview				
-				ic-item 	= "ic.itemStorage.getItem(option)"
-				ng-if		= "icOptionsItemRef"
-				ng-class	= "{'active-item': (option | in: value.edit)}"
-			></ic-item-preview>
-		</li>
-
 
 	</ul>
 

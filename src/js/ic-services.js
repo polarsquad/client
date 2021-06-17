@@ -2031,123 +2031,121 @@ angular.module('icServices', [
 
 
 
-.provider('icLanguages', function(){
+.service('icLanguages', [
 
-	var translationTableUrl = '',
-		availableLanguages	= [],
-		fallbackLanguage	= undefined
+	'$window',
+	'$rootScope',
+	'$q',
+	'$http',
+	'$translate',
+	'icSite',
+	'icUser',
+	'icConfig',
+	'onScreenFilter',
 
-	this.setAvailableLanguages = function(languages){
-		Array.prototype.push.apply(availableLanguages, languages)
-		return this
-	}
+	function($window, $rootScope, $q, $http, $translate, icSite, icUser, icConfig, onScreenFilter){
 
-	this.setTranslationTableUrl = function(url){
-		translationTableUrl = url
-		return this
-	}
+		var icLanguages 				= 	this
 
-	this.setFallbackLanguage = function(lang){
-		fallbackLanguage = lang
-	}
+		console.log(icUser)
+		console.log(icUser.can('update_translations'))
+		console.log(icConfig.adminLanguages )
 
+		icLanguages.availableLanguages	=	[]
 
-	this.$get = [
+		icLanguages.fallbackLanguage	= 	'de'
 
-		'$window',
-		'$rootScope',
-		'$q',
-		'$http',
-		'$translate',
-		'icSite',
-		'onScreenFilter',
+		icLanguages.translationTable	=	{}
 
-		function($window, $rootScope, $q, $http, $translate, icSite, onScreenFilter){
+		icLanguages.ready 				= 	$http.get(icConfig.backendLocation+'/translations.json')
+											.then(
+												function(result){
+													return icLanguages.translationTable = objectKeysToUpperCase(result.data)
+												},
+												function(){
+													return $q.reject("Unable to load language data.")
+												}
+											)
+											.then( () => icUser.ready )
+											.then( () => {
+												icLanguages.availableLanguages	=	[
+																						...(icConfig.languages ? icConfig.languages : []),
+																						...(icUser.can('update_translations') && icConfig.adminLanguages ? icConfig.adminLanguages : []),
+																					]
 
-			var icLanguages 			= 	this
-
-			icLanguages.availableLanguages	=	availableLanguages
-
-			icLanguages.fallbackLanguage	= 	fallbackLanguage
-
-			icLanguages.translationTable	=	{}
-
-			icLanguages.ready = 	$http.get(translationTableUrl)
-									.then(
-										function(result){
-											return icLanguages.translationTable = objectKeysToUpperCase(result.data)
-										},
-										function(){
-											return $q.reject("Unable to load language data.")
-										}
-									)
+												if(icLanguages.availableLanguages.length == 0){
+													icLanguages.availableLanguages = ['de', 'en', 'none']
+													console.warn('icLanguages: config does not provide available languages!')
+												}
+											})
 
 
-			function objectKeysToUpperCase(obj){
-				var up = {}
 
-					for(var key in obj){
+		function objectKeysToUpperCase(obj){
+			var up = {}
 
-						up[key.toUpperCase()] = typeof obj[key] == 'object'
-												?	objectKeysToUpperCase(obj[key])
-												:	obj[key]
-					}
+				for(var key in obj){
 
-				return up
-			}
-
-			icLanguages.refreshTranslations = function(){
-				$translate.refresh()
-			}
-
-			icLanguages.getStoredLanguage = function(){
-				var l = $window.localStorage.getItem('language') 
-
-				return	icLanguages.availableLanguages.indexOf(l) != -1
-						?	l
-						:	null
-			}
-
-			icSite.registerParameter({
-				name: 			'currentLanguage',
-				encode:			function(value,ic){
-									if(!value) return ''
-									return 'l/'+value 
-								},
-
-				decode:			function(path,ic){
-									var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
-										best_guess 	= 	(matches && matches[2])
-														|| 	ic.site.currentLanguage 
-														|| 	icLanguages.getStoredLanguage()
-														|| 	(navigator.language && navigator.language.substr(0,2) )
-														|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
-														|| 	icLanguages.fallbackLanguage
-
-									return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
-											|| 	icLanguages.availableLanguages[0] || 'en'
-								},
-				defaultValue:	icLanguages.availableLanguages[0] || 'en'
-
-			})
-
-
-			$rootScope.$watch(
-				function(){ return icSite.currentLanguage }, 
-				function(){
-
-					if(!icSite.currentLanguage) return null
-
-					$translate.use(icSite.currentLanguage)
-					$window.localStorage.setItem('language',icSite.currentLanguage)
+					up[key.toUpperCase()] = typeof obj[key] == 'object'
+											?	objectKeysToUpperCase(obj[key])
+											:	obj[key]
 				}
-			)
 
-
-			return	icLanguages
+			return up
 		}
-	]
-})
+
+		icLanguages.refreshTranslations = function(){
+			$translate.refresh()
+		}
+
+		icLanguages.getStoredLanguage = function(){
+			var l = $window.localStorage.getItem('language') 
+
+			return	icLanguages.availableLanguages.indexOf(l) != -1
+					?	l
+					:	null
+		}
+
+		icSite.registerParameter({
+			name: 			'currentLanguage',
+			encode:			function(value,ic){
+								if(!value) return ''
+								return 'l/'+value 
+							},
+
+			decode:			function(path,ic){
+								var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
+									best_guess 	= 	(matches && matches[2])
+													|| 	ic.site.currentLanguage 
+													|| 	icLanguages.getStoredLanguage()
+													|| 	(navigator.language && navigator.language.substr(0,2) )
+													|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
+													|| 	icLanguages.fallbackLanguage
+
+								return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
+										|| 	icLanguages.availableLanguages[0] || 'en'
+							},
+			defaultValue:	icLanguages.availableLanguages[0] || 'en'
+
+		})
+
+
+		$rootScope.$watch(
+			function(){ return icSite.currentLanguage }, 
+			function(){
+
+				if(!icSite.currentLanguage) return null
+
+				$translate.use(icSite.currentLanguage)
+				$window.localStorage.setItem('language',icSite.currentLanguage)
+			}
+		)
+
+
+		return	icLanguages
+	}
+
+])
 
 
 

@@ -36,10 +36,6 @@ ic-item-property-edit .current-value + button {
 	vertical-align:				top;
 }
 
-ic-item-property-edit:not([ic-type="array"]) .current-value {
-	padding-left:				1rem;
-}
-
 ic-item-property-edit .current-value.diff {
 	text-decoration:			line-through;
 	white-space:				no-wrap;
