@@ -1056,6 +1056,18 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.filter('mapExpression', [
+
+	function(){
+
+		return function(array, expression, scope){
+			return array.map( x => scope.$eval(expression, {x}) )
+		}
+
+	}
+
+])
+
 .filter('filterByKey',[
 	function(){
 		return function(array, key, values){	

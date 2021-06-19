@@ -95,6 +95,7 @@ ic-header .logo ic-logo-full {
 ic-header ic-main-menu {
 	font-weight: 					600;	
 	display:						block;
+	box-sizing:						border-box;
 	background-color:				rgba(0,0,0,0.2);
 	width:							100%;
 	line-height:					3rem;

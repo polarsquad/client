@@ -41,6 +41,7 @@ angular.module('icFilters', [
 ])
 
 
+
 .filter('icSubCategories', [
 
 	'icTaxonomy',
@@ -73,8 +74,45 @@ angular.module('icFilters', [
 		}
 
 	}
-
 ])
+
+
+
+.filter('icDistrict', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getDistrict(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
+
+.filter('icPrognoseRaum', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getPrognoseRaum(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
+
+.filter('icBezirksregion', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getBezirksregion(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
 
 .filter('project',[
 

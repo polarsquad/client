@@ -167,12 +167,9 @@ angular.module('icServices', [
 									icMainMap:			icMainMap.markersReady,
 									plImages:			plImages.ready,
 									plStyles:			plStyles.ready,
-									plTemplates:		plTemplates.ready,
-
+									plTemplates:		plTemplates.ready
 								}
 	
-		console.log(icOptions)
-
 
 		icInit.ready		= undefined
 		icInit.done			= undefined
@@ -190,8 +187,9 @@ angular.module('icServices', [
 					}	
 		})
 
-		Object.entries(promises).forEach( ([key, promise]) => 
-			promise.then(
+		Object.entries(promises).forEach( ([key, promise]) => {
+
+			return promise.then(
 
 				function(){
 					icInit.readyCount ++
@@ -217,7 +215,7 @@ angular.module('icServices', [
 					icInit.errors.push(key)
 				}
 			)
-		)
+		})
 
 
 		return icInit
@@ -1557,6 +1555,58 @@ angular.module('icServices', [
 				return	haystack.filter(function(tag){ return tags.indexOf(tag) != -1 })
 			}
 
+			icTaxonomy.getDistrict = function(haystack){
+				if(!haystack) return null
+
+				haystack = 	Array.isArray(haystack)
+							?	haystack
+							:	[haystack]
+
+				return 	icTaxonomy.lor.find(function(district){
+							return haystack.indexOf(district.tag) != -1
+						})
+				
+			}
+
+			icTaxonomy.getPrognoseRaum = function(haystack){
+				if(!haystack) return null
+
+				haystack = 	Array.isArray(haystack)
+							?	haystack
+							:	[haystack]
+
+				let result
+
+				icTaxonomy.lor.forEach(function(district){
+					district.pgr.forEach( pgr => {
+						if(haystack.includes(pgr.tag) ) result = pgr
+					})
+				})
+				
+				return result
+			}
+
+			icTaxonomy.getBezirksregion = function(haystack){
+				if(!haystack) return null
+
+				haystack = 	Array.isArray(haystack)
+							?	haystack
+							:	[haystack]
+
+				let result
+
+				icTaxonomy.lor.forEach(function(district){
+					district.pgr.forEach( pgr => {
+						pgr.bzr.forEach( bzr => {
+							if(haystack.includes(bzr.tag) ) result = bzr
+						})
+					})
+				})
+				
+				return result
+			}
+
+
 			icTaxonomy.isType = function(tag){
 				return 	icTaxonomy.types
 						.map( category => category.name)
@@ -2047,10 +2097,6 @@ angular.module('icServices', [
 
 		var icLanguages 				= 	this
 
-		console.log(icUser)
-		console.log(icUser.can('update_translations'))
-		console.log(icConfig.adminLanguages )
-
 		icLanguages.availableLanguages	=	[]
 
 		icLanguages.fallbackLanguage	= 	'de'
@@ -2382,11 +2428,10 @@ angular.module('icServices', [
 	function($q, icUser){
 
 
-		class icOptions extends Array {
+		class icOptions {
+
 			
 			constructor(){
-
-				super()
 
 				if(!dpd.options){
 					console.warn('icOptions: missing dpd.options')
@@ -2402,14 +2447,14 @@ angular.module('icServices', [
 				return 	$q.when(dpd.options.get())
 						.then( options => {
 							if(!options.length) console.warn('icOptions: no options defined.')
-							this.push(...options)
+							this.options= options
 							this.keys = Array.from( new Set( options.map( option => option.key )))
 						})	
 			}
 
 			addKey(...keys){
 				keys.forEach( key => {
-					if(!this.keys.includes(keys)) this.keys.push(key)
+					if(!this.keys.includes(key)) this.keys.push(key)
 				})
 			}
 
@@ -2484,39 +2529,37 @@ angular.module('icServices', [
 			addOption(option){
 				if(!icUser.can('edit_options')) return $q.reject('icOptions.addOption: unauthorized')
 
-
-				
-
 				return 	$q.when(dpd.options.post(option))
-						.then( option => {
-							this.push(option) 
-							this.addKey(option.key)
+						.then( o => {
+							this.options.push(o) 
+							this.addKey(o.key)
+							return o
 						})
 			}
 
 			updateOption(option){
-				if(!icUser.can('edit_options')) return $q.reject('icOptions.updateOption: unauthorized')
+				if(!icUser.can('edit_options')) return $q.reject('icOptions.updateOption: unauthorized')	
 
 				return 	$q.when(dpd.options.put(option))
-						.then( option => this.push(option) )
+						.then( o => {							
+							this.options.splice(this.findIndex(o), 1, o)
+							return o
+						 })
 			}
 
 			removeOption(option){
 				if(!icUser.can('edit_options')) return $q.reject('icOptions.removeOption: unauthorized')
 
-				return 	$q.when(dpd.options.delete(option.id || option))
+				return 	$q.when(dpd.options.del(option.id || option))
 						.then( () =>  {
-							const pos = this.indexIndex( o => o.id == option.id)
-							this.splice(pos,1)
+							const pos = this.options.findIndex( o => o.id == option.id)
+							this.options.splice(pos,1)
 						})
 			}
 
 		}
 
-		
-			
 		return 	new icOptions()
-				
 
 	}
 ])
@@ -2612,48 +2655,49 @@ angular.module('icServices', [
 
 			setup() {
 
-				const config = icConfig.webfonts || []
+				const config = icConfig.webfonts
 
-				if(!Array.isArray(config)) return null
+				if(!Array.isArray(config)){
+					this.ready = $q.resolve()
+					return null					
+				}
 
-				let ready = Promise.all(config.map( wfConfig => {
+				let ready = 	Promise.all(config.map( wfConfig => {
 
-					const fontFamily 	= wfConfig.fontFamily
-					const consent		= wfConfig.consent
-					const consentKey	= 'webfont_' + fontFamily
+									const fontFamily 	= wfConfig.fontFamily
+									const consent		= wfConfig.consent
+									const consentKey	= 'webfont_' + fontFamily
 
-					if(wfConfig.consent){
+									if(wfConfig.consent){
 
-						icConsent.add(consentKey, consent.server, consent.default)
+										icConsent.add(consentKey, consent.server, consent.default)
 
-						if(this.isAvailable(fontFamily)) 		return 	Promise.resolve('icWebfonts: font already available '	+ fontFamily)
+										if(this.isAvailable(fontFamily)) 		return 	Promise.resolve('icWebfonts: font already available '	+ fontFamily)
 
-						const consentDeniedMsg = 'icWebfonts: consent denied for ' + fontFamily
-							
-						if(icConsent.to(consentKey).isDenied)	return 	Promise.resolve(consentDeniedMsg)
-						if(icConsent.to(consentKey).isGiven)	return 	this.loadCss(wfConfig.url)
+										const consentDeniedMsg = 'icWebfonts: consent denied for ' + fontFamily
+											
+										if(icConsent.to(consentKey).isDenied)	return 	Promise.resolve(consentDeniedMsg)
+										if(icConsent.to(consentKey).isGiven)	return 	this.loadCss(wfConfig.url).then( () => 'icWebfonts: '+fontFamily+' [ok]')
 
 
-						icConsent.when(consentKey)
-						.then(
-							() => this.loadCss(wfConfig.url),
-							() => console.info(consentDeniedMsg)
-						)
+										icConsent.when(consentKey)
+										.then(
+											() => this.loadCss(wfConfig.url),
+											() => console.info(consentDeniedMsg)
+										)
 
-						return 	Promise.resolve('icWebfonts: loading deferred until consent is given: ' + fontFamily)
+										return 	Promise.resolve('icWebfonts: loading deferred until consent is given: ' + fontFamily)
 
-					}
+									}
 
-					return 	() => this.loadCss(wfConfig.url)
-							
+									return 	() => this.loadCss(wfConfig.url)
+											
 
-				}))
-				.then( (result) => result.forEach( r => console.info(r) ) )
+								}))
+								.then( (result) => result.forEach( r => console.info(r) ) )
 
 				this.ready = $q.when(ready)
 			}
-
-			//ic.ready.then(icWebfonts.setup() )
 
 		}
 

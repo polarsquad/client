@@ -1,35 +1,62 @@
-.ic-options-edit {
-
-}
-
-.ic-options-edit .option {
-	display:				flex;
-	margin:					0.5rem -0.5rem;
-	align-items:			center;
-}
-
-
-.ic-options-edit .option > * {
-	flex:					1 0 0;
+ic-options-edit {
 	display:				block;
-	margin:					0.5rem;
 }
 
-
-.ic-options-edit .option .label, 
-.ic-options-edit .option .link,
-.ic-options-edit .option .tag {
-	flex:					3 0 0;
+ic-options-edit .row {
+	display:				flex;
+	position:				relative;
+	margin:					0 -0.5rem;
+	align-items:			center;
+	padding:				0.25rem 0;
 }
 
+ic-options-edit .row.just-added:before {
+	content: 				'';	
+	display:				block;
+	position:				absolute;
+	top:					0;
+	bottom:					0;
+	left:					0;
+	right:					0;
+	background-color:		var(--primary-color);
+	opacity:				0.35;
+	z-index:				0;
 
-.ic-options-edit .option button {
-	flex:					0 0 6rem;
-	width:					10rem;	
 }
 
-
-.XS .ic-options-edit .option {
+.XS ic-options-edit .row {
 	flex-direction:			column;
 }
+
+
+ic-options-edit .row > * {
+	flex:					3 0 0;
+	display:				block;
+	margin:					0 0.5rem;
+	overflow:				hidden;
+	text-overflow:			ellipsis;
+	z-index:				1;
+}
+
+
+.XS ic-options-edit .row > * {
+	flex:					1 0 auto;
+}
+
+ic-options-edit .row .label, 
+ic-options-edit .row .link,
+ic-options-edit .row .tag {
+	padding:				0 0.5rem;
+}
+
+ic-options-edit .row > :nth-child(3) {
+	flex:					2 0 0;
+}
+
+
+ic-options-edit .row .buttons {
+	flex:					0 0 5rem;
+	width:					5rem;	
+}
+
 

@@ -55,6 +55,9 @@ ic-item-full .hero.fallback:before {
 	display:					none;
 }
 
+ic-item-full .main {
+	margin-top:					2rem;
+}
 
 
 ic-item-full article .description {

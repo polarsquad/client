@@ -1400,8 +1400,9 @@ angular.module('icDirectives', [
 .directive('icItemProperty', [
 
 	'ic',
+	'icTaxonomy',
 
-	function(ic){
+	function(ic, icTaxonomy){
 
 		return {
 			restrict:		'AE',
@@ -1411,6 +1412,7 @@ angular.module('icDirectives', [
 								icContent:		"<",
 								icIcon:			"<",
 								icLink:			"<",
+								icLor:			"<"
 							},
 
 			link: function(scope, element, attrs){
@@ -1421,6 +1423,17 @@ angular.module('icDirectives', [
 					if(typeof scope.icLink == "string"){
 						scope.link = scope.icLink + scope.icContent
 					}
+				})
+
+				scope.$watch('icLor', tags => {
+
+					const dst = icTaxonomy.getDistrict(tags)
+					const pgr = icTaxonomy.getPrognoseRaum(tags)
+					const bzr = icTaxonomy.getBezirksregion(tags)
+
+
+					scope.lor = [dst, pgr, bzr].filter( x => !!x)
+
 				})
 
 				scope.$parent.$watch(attrs.icExtraLinks, function(value){ scope.icExtraLinks = value}, true)
@@ -1677,6 +1690,120 @@ angular.module('icDirectives', [
 	}
 ])
 	
+
+
+
+
+
+
+
+.directive('icOptionsEdit',[
+
+	'icOptions',
+
+	function(icOptions){
+
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-options-edit.html',
+
+			link(scope){
+
+
+				scope.key 			= {}
+				scope.new_option 	= {}
+
+				scope.key.value 	= icOptions.keys[0]
+
+				scope.addOption = async function(option){
+					icOptions.sanitizeOption(option)
+					let o = await icOptions.addOption(option)
+
+					o._just_added = true
+
+					scope.new_option = {key: scope.key.value}
+
+					this.update()
+
+					scope.$digest()
+
+
+				}
+
+				scope.updateOption = async function(option){
+					icOptions.sanitizeOption(option)
+
+					let o = await icOptions.updateOption(option)
+
+					if(option._just_added) o._just_added = true
+
+					this.update()
+
+					scope.$digest()
+
+				}
+
+				scope.removeOption = async function(option){
+					await icOptions.removeOption(option)					
+					
+
+					console.log('removed', option.label)
+
+					this.update()
+
+					scope.$digest()					
+
+				}
+
+				scope.update = function(){
+					scope.filteredOptions = icOptions.options.filter( o => o.key == scope.key.value)					
+					scope.filteredOptions.sort( (a,b) => {
+						if(!a._just_added || !b._just_added){
+							if(a._just_added) return -1
+							if(b._just_added) return  1
+						}
+
+						return a.label.toLowerCase() > b.label.toLowerCase()
+					})
+				}
+
+				scope.$watch( 
+					() => scope.key.value,
+					() => {
+						scope.new_option.key = scope.key.value
+						scope.update()
+					}
+				)				
+
+				scope.$watch(
+					() => scope.new_option.key,
+					() => { 
+						scope.new_option.tag = icOptions.generateTag(scope.new_option); 
+						icOptions.sanitizeOption(scope.new_option)
+					}
+				)
+
+				scope.$watch(
+					() => scope.new_option.label,
+					() => { 
+						scope.new_option.tag = icOptions.generateTag(scope.new_option); 
+						icOptions.sanitizeOption(scope.new_option)
+					}
+				)
+
+				scope.$watch(
+					() => scope.new_option.link,
+					() => icOptions.sanitizeOption(scope.new_option)
+				)
+
+			}
+		}
+
+	}
+
+])
+
+
 
 
 

@@ -1,0 +1,128 @@
+<form 
+	class 		= "row"
+	ng-submit 	= "addKey(key.add); key.value = key.add; key.add = ''"			
+>
+
+	<select ng-model  = "key.value"	>
+
+		<option 
+			ng-repeat 	= "k in ic.options.keys"
+			value		= "{{k}}"							
+		>
+			{{'INTERFACE.OPTIONS_KEY_%s' | fill : k | translate}}
+		</option>
+
+	</select>
+
+	<input
+		ng-model 	= "key.add"				
+		placeholder = "{{'INTERFACE.OPTIONS_NEW_KEY' | translate}}"
+	/>
+
+	<div></div>
+
+	<div class = "buttons">				
+		<button
+			type		= "submit"
+			class 		= "bg-3 icon icon-interface-add round white"
+			title 		= "{{'INTERFACE.OPTIONS_ADD_KEY' | translate}}"
+		>
+		</button>
+	</div>
+	
+
+</form>
+
+
+<br/>
+
+
+<form 
+	class 		= "row add"
+	ng-submit 	= "addOption(new_option)"
+>
+
+	<input 
+		class				=	"label"
+		ng-model 			=	"new_option.label" 
+		ng-model-options	=	"{ debounce: 200 }"				
+		placeholder			=	"{{'INTERFACE.OPTIONS_LABEL'|translate}}"
+	/>
+
+	<input 
+		class				=	"link"
+		ng-model 			=	"new_option.link"
+		ng-model-options	=	"{ debounce: 500 }"				
+		placeholder			=	"{{'INTERFACE.OPTIONS_LINK'|translate}}"
+
+	/>		
+
+	<input 
+		class				=	"tag"
+		ng-model 			=	"new_option.tag"
+		ng-model-options	=	"{ debounce: 500 }"				
+		placeholder			=	"{{'INTERFACE.OPTIONS_TAG'|translate}}"
+
+	/>		
+
+	<div class = "buttons">
+
+		<button 
+			class		= "bg-3 icon icon-interface-add round bg-3 white"
+			type		= "submit"
+			title		= "{{'INTERFACE.OPTIONS_ADD' | translate}}"
+		>
+		</button>
+	</div>
+
+</form>
+
+
+
+<hr/>
+
+
+
+<form
+	class		= "row edit" 
+	ng-repeat	= "option in filteredOptions"
+	ng-submit	= "updateOption(option)"
+	ng-class	= "{'just-added': option._just_added}"
+>
+
+	<input 
+		class				=	"label"
+		ng-model 			=	"option.label" 
+		placeholder			=	"{{'INTERFACE.OPTIONS_LABEL' | translate}}"
+	/>
+
+	<input
+		class 		= "link"
+		ng-model 	= "option.link"
+		placeholder = "{{'INTERFACE.OPTIONS_LINK' | translate}}"
+	/>
+
+	<div class = "tag">
+		{{option.tag}}
+	</div>
+
+
+	<div class = "buttons">
+		<button 
+			type		= "submit"
+			class		= "bg-3 icon icon-interface-save round white"			
+			title		= "{{'INTERFACE.OPTIONS_UPDATE' | translate}}"
+		>
+		</button>
+
+		<button 
+			type		= "button"
+			class		= "bg-3 icon icon-interface-delete round white"
+			ng-click 	= "removeOption(option)"
+			title		= "{{'INTERFACE.OPTIONS_REMOVE' | translate}}"
+		>
+		</button>
+	</div>
+
+</form>
+

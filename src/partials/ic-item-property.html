@@ -41,7 +41,7 @@
 			ng-if		= "line | trim"
 			class		= "extra-line"
 		>
-			{{line}}
+			{{ line }}
 		</div>
 
 		<div 
@@ -51,5 +51,21 @@
 		>
 			<a class ="active" ng-href = "{{href}}">{{name}}</a>
 		</div>
+
+		<div ng-if = "lor && lor.length > 0">
+			<a 
+				ng-repeat-start	= "l in lor"
+
+			>
+				<a ng-href = "">{{l.name}}</a>
+			</a>
+			<span 
+				ng-repeat-end
+				ng-if = "!$last">/
+			</span>
+		</div>
+
+
+
 	</div>
 </div>
