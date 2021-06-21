@@ -435,14 +435,13 @@ angular.module('icServices', [
 
 	'$rootScope',
 	'$q',
-	'$translationCache',
 	'icUser',
 	'icItemStorage',
 	'icLanguages',
 	'icTaxonomy',
 	'icConfig',
 
-	function($rootScope, $q, $translationCache, icUser, icItemStorage, icLanguages, icTaxonomy, icConfig){
+	function($rootScope, $q, icUser, icItemStorage, icLanguages, icTaxonomy, icConfig){
 
 		var icLists = []
 
@@ -1454,6 +1453,38 @@ angular.module('icServices', [
 				return icTaxonomy
 			}
 
+			taxonomy.lor.forEach( district => {
+				icTaxonomy.addExtraTag(district.tag, 'districts')
+				district.pgr.forEach( pgr =>{
+					icTaxonomy.addExtraTag(pgr.tag, 'pgr')
+					pgr.bzr.forEach( bzr => {
+						icTaxonomy.addExtraTag(bzr.tag, 'bzr')
+					})
+				})
+			})
+
+
+// function updateTranslations(list){
+// 			return 	icLanguages.ready
+// 					.then(function(){
+// 						icLanguages.availableLanguages.forEach(function(lang){
+// 							lang = lang.toUpperCase()
+// 							if(!icLanguages.translationTable[lang]) return null
+// 							if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
+
+// 							var utl = icLanguages.translationTable[lang]['UNSORTED_TAGS']['LIST'] || 'UNSORTED_TAGS.LIST'
+
+// 							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
+
+// 							icLanguages.refreshTranslations(lang)
+// 						})
+// 					})
+// 		}
+
+
+
+
+
 
 			//Todo: move this into build script:
 			//check if all tags are accounted for in categories:
@@ -1741,42 +1772,6 @@ angular.module('icServices', [
 								for(group in ic.taxonomy.tags){
 									result.push.apply(result, ic.taxonomy.tags[group])
 								}
-
-								return result
-							},
-			defaultValue:	[]
-		})
-
-		.registerParameter({
-			name:			'filterByLor',
-			encode:			function(value, ic){
-								var j = value && value.join && value.join('-')								
-
-								return j ? 'lor/'+value.join('-')	: ''
-							},
-			decode:			function(path, ic){
-								var matches = path.match(/(^|\/)lor\/([^\/]*)/)
-								var result	= Array.from( new Set( (matches && matches[2].split('-')) || [] ))	
-
-								return result
-							},
-			options:		function(ic){
-
-								var result = []
-
-								ic.taxonomy.lor.forEach( dst => {
-
-									result.push(dst.tag)
-
-									dst.pgr.forEach( prg => {
-										result.push(prg.tag)
-
-										prg.bzr.forEach( bzr => {
-											result.push(bzr.tag)
-										})
-
-									})
-								})
 
 								return result
 							},
