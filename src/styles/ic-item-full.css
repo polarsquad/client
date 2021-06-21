@@ -89,9 +89,10 @@ ic-item-full > section > * {
 ic-item-full > section > * > *:nth-child(1){
 	flex:						1 0 0;
 	text-align:					right;
-	padding-right:				1rem;
 	margin-right:				1rem;
+	padding:					0 !important;
 	min-width:					3rem;
+	box-sizing:					border-box;
 }
 
 ic-item-full > section  > *	> *:nth-child(2){
@@ -110,11 +111,6 @@ ic-item-full > section > *:after {
 }
 
 
-ic-item-full > section hr {
-	margin-left:				-3rem;
-}
-
-
 
 ic-item-full h2 {
 	font-size:					1.3rem;
@@ -125,14 +121,25 @@ ic-item-full h2 {
 }
 
 
-
-
 ic-item-full h3 {
 	font-size:					1.3rem;
 	font-weight:				300;
 	margin:						0;
 	margin-bottom:				1rem;
 	color:						#222;
+}
+
+ic-item-full h4 {
+	font-size:					1rem;
+	font-weight:				600;
+	margin:						0;
+	margin-top:					0rem;
+	color:						#222;
+}
+
+ic-item-full hr {
+	margin-top:					1rem;
+	margin-bottom:				1rem;
 }
 
 

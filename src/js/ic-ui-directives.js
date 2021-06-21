@@ -1068,6 +1068,17 @@ angular.module('icUiDirectives', [
 
 ])
 
+
+.filter('some',[
+
+	function(){
+		return function(array){
+			return array.some( x => !!x)
+		}
+	}
+
+])
+
 .filter('filterByKey',[
 	function(){
 		return function(array, key, values){	

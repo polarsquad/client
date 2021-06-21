@@ -40,6 +40,7 @@ button:focus,
 button:focus-visible {
 	display:			inline-block;
 	border:				none;	
+	border-style:		none;
 	font-size:			inherit;
 }
 

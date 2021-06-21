@@ -147,10 +147,6 @@
 	word-wrap:					break-word;
 }
 
-.XS ic-item-full > section hr {
-	margin-left:				0rem;
-}
-
 .XS ic-item-full > section ic-mini-map {
 	margin:						0 !important;
 	padding:					0 !important;

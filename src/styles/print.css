@@ -18,7 +18,7 @@
 	body, 
 	html {
 		overflow:			auto;
-		font-size:			12pt !important;
+		font-size:			12px !important;
 		height:				100%;
 	}
 
@@ -121,6 +121,7 @@
 
 	ic-item-full > section {
 		padding-top:		3rem;
+		padding-left:		calc(60% - 4rem);
 	}
 
 	ic-item-full > section > * {
@@ -129,7 +130,8 @@
 
 
 	ic-item-full > section > * > :nth-child(1) {
-		text-align:			right !important;
+		flex:				0 0 0;
+		width:				3rem ;
 	}
 
 	ic-item-full .type {
@@ -164,11 +166,14 @@
 	ic-item-full .category .icon {
 		background-size:	contain;
 		height:				5rem;
+		width:				5rem;
+		margin:				auto;
 	}
 
 	ic-item-full .main {
 		position:			absolute;
 		display:			block;
+		left:				0;
 		line-height:		1.4;
 		font-weight:		300;
 	}
@@ -180,10 +185,6 @@
 	ic-item-full .main .description {
 		font-size:			14px;
 		line-height:		1.3 !important;
-	}
-
-	ic-item-full hr {
-		display:			none;
 	}
 
 	ic-item-property.print-only {
@@ -211,14 +212,6 @@
 		padding-top:		0.5rem;
 	}
 
-	ic-item-full ic-item-property > *:nth-child(2){
-		flex:				0 0 40%;
-	}
-
-	ic-item-full ic-item-property:not(.short) .title{
-		border-top:			1px solid #000;
-		padding-top:		0.5rem;
-	}
 
 
 	ic-item-property:not(.short) .icon {
@@ -242,6 +235,8 @@
 		margin-left:		auto;
 		padding:			0;
 		padding-right:		0.5rem;
+		height:				3cm;
+		width:				3cm;
 	}
 
 	ic-item-full .qrcode canvas {

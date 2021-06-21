@@ -72,3 +72,14 @@
 	padding-top:			1.5em;
 }
 
+
+.icon.top.right {
+	background-position:	100% 0;
+}
+
+
+.icon.bottom.right {
+	background-position:	100% 100%;
+}
+
+
