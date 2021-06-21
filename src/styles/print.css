@@ -18,7 +18,7 @@
 	body, 
 	html {
 		overflow:			auto;
-		font-size:			initial !important;
+		font-size:			12pt !important;
 		height:				100%;
 	}
 
@@ -30,7 +30,6 @@
 	ic-overlays {
 		display:			none;
 	}
-
 
 	 
 	ic-main-content {
@@ -89,6 +88,10 @@
 		padding-bottom:		0;
 	}
 
+	ic-spinner {
+		display:			none;
+	}
+
 	ic-item-full {
 		padding:			0 !important;
 	}
@@ -103,7 +106,7 @@
 	}
 
 	ic-item-full .main {
-		top:				8rem;
+		top:				2rem;
 	}
 
 
@@ -117,12 +120,13 @@
 	}
 
 	ic-item-full > section {
-		padding-top:		5rem;
+		padding-top:		3rem;
 	}
 
 	ic-item-full > section > * {
 		padding:			0;
 	}
+
 
 	ic-item-full > section > * > :nth-child(1) {
 		text-align:			right !important;
@@ -131,7 +135,7 @@
 	ic-item-full .type {
 		position:			absolute;
 		display:			block;
-		top:				3rem;
+		top:				0rem;
 		left:				0;
 		border-top:			0.3rem solid #000;
 		line-height:		2rem;
@@ -146,7 +150,7 @@
 		width:				40% !important;		
 		display:			block;
 		position:			absolute;
-		top:				3rem;
+		top:				0;
 		right:				0;
 		line-height:		2rem;
 		font-size:			1.1rem;
@@ -174,8 +178,16 @@
 	}
 
 	ic-item-full .main .description {
-		font-size:			12pt;
+		font-size:			14px;
 		line-height:		1.3 !important;
+	}
+
+	ic-item-full hr {
+		display:			none;
+	}
+
+	ic-item-property.print-only {
+		display:			flex !important;
 	}
 
 	ic-item-property:after,
@@ -203,14 +215,14 @@
 		flex:				0 0 40%;
 	}
 
-	ic-item-full ic-item-property .title{
+	ic-item-full ic-item-property:not(.short) .title{
 		border-top:			1px solid #000;
 		padding-top:		0.5rem;
 	}
 
 
-	ic-item-property .icon {
-		background-position:	calc(100% - 1rem) 0.8rem;
+	ic-item-property:not(.short) .icon {
+		background-position:	100% 0.7rem;
 		background-size:		1.25rem;
 	}
 
@@ -219,9 +231,10 @@
 		position:			absolute;
 		text-align:			center;
 		bottom:				0;
-		right:				0;
+		right:				52%;
 		margin:				0;
-		width:				40%;
+		width:				3cm;
+		height:				3cm;
 	}
 
 	ic-item-full .qrcode qrcode {
@@ -232,8 +245,8 @@
 	}
 
 	ic-item-full .qrcode canvas {
-		height:				4cm;
-		width:				4cm;
+		height:				3cm;
+		width:				3cm;
 	}
 
 	ic-item-full footer {

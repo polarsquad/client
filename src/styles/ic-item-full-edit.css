@@ -72,15 +72,6 @@ ic-item-full-edit  h4 + ic-help {
 	right:					0;
 }
 
-ic-item-full-edit hr {
-	display:				block;
-	height:					0;
-	width:					auto;
-	border:					0;
-	border-top:				1px solid transparent !important;
-	margin:					0.5rem -1px;
-}
-
 ic-item-full-edit .controls {
 	display:				flex;
 	flex-wrap:				wrap;

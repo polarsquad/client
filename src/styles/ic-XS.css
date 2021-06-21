@@ -139,17 +139,41 @@
 	margin-right:				0.5rem;
 }
 
+.XS ic-item-full > section  .main  ic-item-badge {
+	margin-left:				2rem;
+}
 
-.XS ic-item-full > section > * > :nth-child(1){
+.XS ic-item-full > section  h2 {
+	word-wrap:					break-word;
+}
+
+.XS ic-item-full > section hr {
+	margin-left:				0rem;
+}
+
+.XS ic-item-full > section ic-mini-map {
+	margin:						0 !important;
+	padding:					0 !important;
+	width:						100%;
+}
+
+
+.XS ic-item-full > section > * > :nth-child(1) {
 	flex:						0 0 auto;
 	padding-right:				0;
-	min-width:					1rem;
+	min-width:					1.5rem;
 	text-align:					left;
 	margin-right:				0.5rem;
+	margin-left:				-2rem;
+	background-position:		0 0;
 }
 
 .XS ic-item-full > section > * > :nth-child(2){
 	align-self:					center;
+}
+
+.XS ic-item-full > section > * > :nth-child(3){
+	flex:						1 0 100%;
 }
 
 

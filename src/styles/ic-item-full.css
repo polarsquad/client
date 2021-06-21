@@ -89,13 +89,15 @@ ic-item-full > section > * {
 ic-item-full > section > * > *:nth-child(1){
 	flex:						1 0 0;
 	text-align:					right;
-	padding-right:				2rem;
+	padding-right:				1rem;
+	margin-right:				1rem;
+	min-width:					3rem;
 }
 
 ic-item-full > section  > *	> *:nth-child(2){
 	flex:						10 0 0;
-	max-width: 					40rem;
-	min-width:					0;
+	max-width: 					100%;
+	min-width:					15rem;
 }
 
 ic-item-full > section  > *	> *:nth-child(3){
@@ -107,6 +109,13 @@ ic-item-full > section > *:after {
 	flex:						1 0 0;
 }
 
+
+ic-item-full > section hr {
+	margin-left:				-3rem;
+}
+
+
+
 ic-item-full h2 {
 	font-size:					1.3rem;
 	font-weight:				600;
@@ -114,6 +123,7 @@ ic-item-full h2 {
 	margin-bottom:				0.25rem;
 	color:						#222;
 }
+
 
 
 

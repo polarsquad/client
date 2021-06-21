@@ -78,3 +78,12 @@
 	flex:						0 0 auto;
 }
 
+
+hr {
+	display:				block;
+	height:					0;
+	width:					auto;
+	border:					0;
+	border-top:				1px solid transparent !important;
+	margin:					0.5rem -1px;
+}

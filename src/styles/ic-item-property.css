@@ -1,11 +1,16 @@
 ic-item-property {
 	display:				block;
 	position:				relative;
-	margin:					2rem 0;
+	margin:					1.5rem 0;
+}
+
+ic-item-property.short {
+	margin-top:				0.5rem;
+	margin-bottom:			0.5rem;
 }
 
 ic-item-property .icon {
-	background-position:	calc(100% - 1rem) 0;
+	background-position:	100% 0;
 }
 
 ic-item-property .title {
@@ -13,9 +18,23 @@ ic-item-property .title {
 	line-height:			1.5rem;
 } 
 
+ic-item-property.short .title {
+	display:				inline;
+}
+
+ic-item-property.short .title::after {
+	content:				':';
+}
+
 ic-item-property .content {
 	line-height:			1.5rem;
 }
+
+
+ic-item-property.short .content {
+	display:				inline;
+}
+
 
 ic-item-property .content a {
 	display:				inline-block;
@@ -25,5 +44,22 @@ ic-item-property .content a {
 
 /* fallback for links in external html */
 ic-item-property a:not(.active) {
-	text-decoration:	underline rgba(0,0,0,0.5);
+	text-decoration:		underline rgba(0,0,0,0.5);
+}
+
+
+ic-item-property .extra-line span,
+ic-item-property .extra-link span {
+	display:				none;
+}
+
+
+ic-item-property.short .extra-line,
+ic-item-property.short .extra-link {
+	display: 				inline;
+}
+
+ic-item-property.short .extra-line span,
+ic-item-property.short .extra-link span {
+	display:				inline;
 }

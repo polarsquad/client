@@ -96,13 +96,17 @@ ic-item-full-header.ic-scroll-top .tools:not(.extended) > * {
 
 ic-item-full-header nav {
 	position:					absolute;
-	top:						0;
+	top:						0rem;
 	left:						0;
 	display:					inline-flex;
 	flex-direction:				column;
 	transition:					all 200ms ease-in-out;
 }
 
+
+ic-item-full-header.ic-scroll-top nav {
+	top:						-1rem;
+}
 
 ic-item-full-header nav .up,
 ic-item-full-header nav .down {

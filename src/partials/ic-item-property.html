@@ -1,7 +1,7 @@
 <div class = "icon icon-{{icIcon}}"></div>
 <div 
 	class 	= "title"
-	ng-if	= "ic.layout.mode.name == 'XS'"
+	ng-if	= "icTitle && ic.layout.mode.name == 'XS'"
 > 
 	{{icTitle}} 
 </div>
@@ -9,10 +9,10 @@
 <div>
 	<div 
 		class 	= "title"
-		ng-if	= "ic.layout.mode.name != 'XS'"
-	> 
-		{{icTitle}} 
-	</div>
+		ng-if	= "icTitle && ic.layout.mode.name != 'XS'"
+	>{{icTitle}}</div><!--no spaces!! -->
+
+
 	<div class = "content">		
 		<a 
 			class 			= "active"
@@ -25,14 +25,14 @@
 
 		<a 
 			class 			= "active"
-			ng-if			= "link && link.substr(0,4) != 'http'"
-			ng-href 		= "{{link}}"
+			ng-if			= "icContentLink || (link && link.substr(0,4) != 'http')"
+			ng-href 		= "{{icContentLink || link}}"
 		>
 			{{icContent}}	
 		</a>
 
 		<span
-			ng-if 	= "!link"
+			ng-if 	= "!icContentLink && !link"
 			class	= "ws-pre-line"
 		>{{icContent}}</span>
 
@@ -50,18 +50,22 @@
 			class		= "extra-link screen-only"
 		>
 			<a class ="active" ng-href = "{{href}}">{{name}}</a>
+			<span ng-if ="!$last">|</span>
 		</div>
+
+
 
 		<div ng-if = "lor && lor.length > 0">
 			<a 
+				class 			= "active"
 				ng-repeat-start	= "l in lor"
-
+				ng-href 		= "{{ ({'filterByLor': [l.tag] } | icLink) }}"
 			>
-				<a ng-href = "">{{l.name}}</a>
+				{{ l.name }}
 			</a>
 			<span 
 				ng-repeat-end
-				ng-if = "!$last">/
+				ng-if = "!$last">|
 			</span>
 		</div>
 

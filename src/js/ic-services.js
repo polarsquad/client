@@ -396,7 +396,6 @@ angular.module('icServices', [
 			}
 
 			set(key, value){
-				console.log('set')
 				setValue(key, value)
 
 				this.promises.forEach( promise => {
@@ -780,7 +779,7 @@ angular.module('icServices', [
 				 	default_value 	=	typeof param.defaultValue == 'function'
 										?	param.defaultValue(ic)
 										:	param.defaultValue
-				
+
 				if(options && Array.isArray(value)){
 					value.forEach(function(x, index){
 						if(options.indexOf(x) == -1) value.splice(index,1)
@@ -1742,6 +1741,42 @@ angular.module('icServices', [
 								for(group in ic.taxonomy.tags){
 									result.push.apply(result, ic.taxonomy.tags[group])
 								}
+
+								return result
+							},
+			defaultValue:	[]
+		})
+
+		.registerParameter({
+			name:			'filterByLor',
+			encode:			function(value, ic){
+								var j = value && value.join && value.join('-')								
+
+								return j ? 'lor/'+value.join('-')	: ''
+							},
+			decode:			function(path, ic){
+								var matches = path.match(/(^|\/)lor\/([^\/]*)/)
+								var result	= Array.from( new Set( (matches && matches[2].split('-')) || [] ))	
+
+								return result
+							},
+			options:		function(ic){
+
+								var result = []
+
+								ic.taxonomy.lor.forEach( dst => {
+
+									result.push(dst.tag)
+
+									dst.pgr.forEach( prg => {
+										result.push(prg.tag)
+
+										prg.bzr.forEach( bzr => {
+											result.push(bzr.tag)
+										})
+
+									})
+								})
 
 								return result
 							},

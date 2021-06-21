@@ -1412,6 +1412,7 @@ angular.module('icDirectives', [
 								icContent:		"<",
 								icIcon:			"<",
 								icLink:			"<",
+								icContentLink:	"<",
 								icLor:			"<"
 							},
 
