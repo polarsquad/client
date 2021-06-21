@@ -36,8 +36,15 @@ input,
 button, 
 button:active,
 button:hover,
-button:focus,
-button:focus-visible {
+button:focus {
+	display:			inline-block;
+	border:				none;	
+	border-style:		none;
+	font-size:			inherit;
+}
+
+
+button:focus-visible{
 	display:			inline-block;
 	border:				none;	
 	border-style:		none;
