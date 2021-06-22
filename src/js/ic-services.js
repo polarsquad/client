@@ -1409,7 +1409,11 @@ angular.module('icServices', [
 	this.setTaxonomy	= function(tx){ taxonomy 	= tx; return this}
 
 	this.$get = [
-		function(){
+
+		'icLanguages',
+
+		function(icLanguages){
+
 			var icTaxonomy = this
 
 			icTaxonomy.categories 	= []
@@ -1453,34 +1457,40 @@ angular.module('icServices', [
 				return icTaxonomy
 			}
 
-			taxonomy.lor.forEach( district => {
-				icTaxonomy.addExtraTag(district.tag, 'districts')
-				district.pgr.forEach( pgr =>{
-					icTaxonomy.addExtraTag(pgr.tag, 'pgr')
+			taxonomy.lor.forEach( dst => {
+				icTaxonomy.addExtraTag(dst.tag, 'lor_dst')
+				dst.pgr.forEach( pgr =>{
+					icTaxonomy.addExtraTag(pgr.tag, 'lor_pgr')
 					pgr.bzr.forEach( bzr => {
-						icTaxonomy.addExtraTag(bzr.tag, 'bzr')
+						icTaxonomy.addExtraTag(bzr.tag, 'lor_bzr')
 					})
 				})
 			})
 
 
-// function updateTranslations(list){
-// 			return 	icLanguages.ready
-// 					.then(function(){
-// 						icLanguages.availableLanguages.forEach(function(lang){
-// 							lang = lang.toUpperCase()
-// 							if(!icLanguages.translationTable[lang]) return null
-// 							if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
+			icLanguages.ready
+			.then(function(){
+				icLanguages.availableLanguages.forEach(function(lang){
+					lang = lang.toUpperCase()
+					if(!icLanguages.translationTable[lang]) return null
+					if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
 
-// 							var utl = icLanguages.translationTable[lang]['UNSORTED_TAGS']['LIST'] || 'UNSORTED_TAGS.LIST'
+					icTaxonomy.tags.lor_dst.forEach( dst => {
+						icLanguages.translationTable[lang]['UNSORTED_TAGS'][dst.toUpperCase()] = icTaxonomy.getDistrict(dst).name
+					})
 
-// 							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
+					icTaxonomy.tags.lor_pgr.forEach( pgr => {
+						icLanguages.translationTable[lang]['UNSORTED_TAGS'][pgr.toUpperCase()] = icTaxonomy.getPrognoseraum(pgr).name
+					})
 
-// 							icLanguages.refreshTranslations(lang)
-// 						})
-// 					})
-// 		}
+					icTaxonomy.tags.lor_bzr.forEach( bzr => {
+						icLanguages.translationTable[lang]['UNSORTED_TAGS'][bzr.toUpperCase()] = icTaxonomy.getBezirksregion(bzr).name
+					})
 
+
+					icLanguages.refreshTranslations(lang)
+				})
+			})
 
 
 
@@ -1598,7 +1608,7 @@ angular.module('icServices', [
 				
 			}
 
-			icTaxonomy.getPrognoseRaum = function(haystack){
+			icTaxonomy.getPrognoseraum = function(haystack){
 				if(!haystack) return null
 
 				haystack = 	Array.isArray(haystack)

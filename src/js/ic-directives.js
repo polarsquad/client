@@ -1429,7 +1429,7 @@ angular.module('icDirectives', [
 				scope.$watch('icLor', tags => {
 
 					const dst = icTaxonomy.getDistrict(tags)
-					const pgr = icTaxonomy.getPrognoseRaum(tags)
+					const pgr = icTaxonomy.getPrognoseraum(tags)
 					const bzr = icTaxonomy.getBezirksregion(tags)
 
 
@@ -1673,8 +1673,6 @@ angular.module('icDirectives', [
 	}
 ])
 
-
-
 .directive('icSorting', [
 
 	'ic',
@@ -1691,8 +1689,6 @@ angular.module('icDirectives', [
 	}
 ])
 	
-
-
 
 
 

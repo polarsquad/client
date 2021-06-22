@@ -1061,6 +1061,7 @@ angular.module('icUiDirectives', [
 	function(){
 
 		return function(array, expression, scope){
+			if(!array) return null
 			return array.map( x => scope.$eval(expression, {x}) )
 		}
 

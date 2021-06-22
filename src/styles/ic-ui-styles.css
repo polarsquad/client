@@ -89,3 +89,31 @@ ic-carousel 	ng-transclude {
 	left:					0;
 	bottom:					4rem;
 }
+
+
+
+
+.selects {
+	margin:					auto;
+	text-align:				center;	
+	display:				flex;
+	flex-direction:			column;
+	align-items:			stretch;
+	justify-content: 		stretch;
+	max-width:				100%;
+	width:					18rem;
+}
+
+.selects select + label {
+	margin-top:				1.5rem;
+}
+
+.selects label + select {
+	margin-top:				0.5rem;
+}
+
+.selects label {
+}
+
+.selects select {
+}

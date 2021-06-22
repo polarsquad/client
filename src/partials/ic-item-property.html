@@ -59,7 +59,7 @@
 			<a 
 				class 			= "active"
 				ng-repeat-start	= "l in lor"
-				ng-href 		= "{{ ({'filterByLor': [l.tag] } | icLink) }}"
+				ng-href 		= "{{ ({'filterByUnsortedTag': [l.tag], 'activeItem': null } | icLink) }}"
 			>
 				{{ l.name }}
 			</a>

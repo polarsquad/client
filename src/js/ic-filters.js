@@ -90,13 +90,13 @@ angular.module('icFilters', [
 ])
 
 
-.filter('icPrognoseRaum', [
+.filter('icPrognoseraum', [
 
 	'icTaxonomy',
 
 	function(icTaxonomy){
 		return function(item_or_tags){
-			return item_or_tags && icTaxonomy.getPrognoseRaum(item_or_tags.tags || item_or_tags)
+			return item_or_tags && icTaxonomy.getPrognoseraum(item_or_tags.tags || item_or_tags)
 		}
 	}
 ])
