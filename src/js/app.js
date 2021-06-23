@@ -184,13 +184,19 @@
 									},
 					adjust:			function(ic){
 
-										if(ic.site.page == 'options' && !ic.user.can('edit_items'))  	return this.defaultValue
-										if(ic.site.activeItem)											return this.defaultValue
-										if(ic.site.list)												return this.defaultValue
+										if(		
+												(icConfig.adminPages||[]).includes(ic.site.page) 
+											&& 	!ic.user.can('edit_items')
+
+										)  								return this.defaultValue
+
+										if(ic.site.activeItem)			return this.defaultValue
+										if(ic.site.list)				return this.defaultValue
 						
+
 										return ic.site.page
 									},
-					options:		icConfig.pages || ['home'],
+					options:		[...icConfig.pages||[], ...icConfig.adminPages||[], 'home'],
 					defaultValue:	'home'
 				})
 

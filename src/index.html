@@ -79,8 +79,14 @@
 
 		<!-- header -->
 		<ic-header 
-			ng-if 					= "::ic.init.ready"
-			ic-scroll-watch		 	= "(ic.layout.mode.name != 'XS' && ic.site.visibleSections.page ? 'page' : true)" 
+			ng-if 					= 	"::ic.init.ready"
+			ic-scroll-watch		 	= 	"
+												ic.layout.mode.name != 'XS' 
+											&& 	ic.site.visibleSections.page 
+											&&	ic.config.pages.includes(ic.site.page)
+											? 	'page' 
+											: 	true
+										" 
 		></ic-header>
 		
 		<!-- content -->

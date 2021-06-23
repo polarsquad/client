@@ -254,7 +254,7 @@ async function preloadNgTemplatesTmp(){
 									})
 				),				
 				Promise.map(
-					config.pages,
+					[...config.pages || [], ...config.adminPages ||[]],
 					page		=> 	Promise.props({
 										name: 		'pages/'+page+'.html',
 										content:	fs.readFile(src+'/pages/'+page+'.html', 'utf8').catch( e => default_page.replace(/DEFAULT/, page.toUpperCase() ) )

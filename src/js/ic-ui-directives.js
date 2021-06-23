@@ -1074,6 +1074,7 @@ angular.module('icUiDirectives', [
 
 	function(){
 		return function(array){
+			if(!array) return false
 			return array.some( x => !!x)
 		}
 	}

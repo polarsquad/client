@@ -1712,6 +1712,11 @@ angular.module('icDirectives', [
 
 				scope.key.value 	= icOptions.keys[0]
 
+				scope.block			= ""
+				scope.show			= {}
+
+				scope.filteredOptions = []
+
 				scope.addOption = async function(option){
 					icOptions.sanitizeOption(option)
 					let o = await icOptions.addOption(option)
@@ -1727,7 +1732,60 @@ angular.module('icDirectives', [
 
 				}
 
+				scope.removeAllRecentlyAdded = function(){
+					
+					scope.filteredOptions
+					.filter( o => o._just_added)
+					.forEach( o => icOptions.removeOption(o))
+
+					this.update()
+
+				}
+
+				scope.addKey = function(key){
+					icOptions.addKey(key)
+				}
+
+
+				scope.addBlock = function(data, key){
+
+					if(!key) console.log('Options, addBlock(): No key selected!')
+
+					const lines = 	data.split('\n').map(l => l.trim())
+					const rows	= 	lines.map( line => {
+										let row = []
+										const match = line.match(/^"(.*)"/)
+
+										if(match){
+											row.push(match[1])
+											line.replace(/^"(.*)"/, '')
+										} else {
+											row.push(line.split(',')[0])
+										}
+
+										row.push(line.split(',')[1] || undefined)
+										row.push(line.split(',')[2] || undefined)
+
+										return row
+									})
+
+					console.log(rows)
+
+					rows.forEach( row => {
+						let option = 	{
+											label: 	row[0],
+											link:	row[1],	
+											key						
+										}
+						option.tag = icOptions.generateTag(option)
+
+						this.addOption(option)
+					})
+
+				}
+
 				scope.updateOption = async function(option){
+
 					icOptions.sanitizeOption(option)
 
 					let o = await icOptions.updateOption(option)
@@ -2162,6 +2220,46 @@ angular.module('icDirectives', [
 
 			link: function(scope, element){
 				scope.ic = ic
+			}
+		}
+	}
+])
+
+
+.directive('icOneTimePopup',[
+
+	'ic',
+
+	function(ic){
+		return {
+			restrict:	'A',
+			scope: 		{
+							icPopupId: 		"@",
+							icPopupName: 	"@",
+							icPopupMessage: "<?"
+						},
+
+			link: function(scope, element, attrs){
+				scope.ic = ic
+
+				if(!scope.icPopupId){
+					console.warn('icOneTimePopup: missing icPopupId')
+					return null
+				}
+				var seen = {}
+
+				try{
+					seen = JSON.parse(localStorage.getItem('seenOneTimePopups')) || {}
+				} catch(e) { console.log(e) }
+
+				if(seen && seen[scope.icPopupId]) return true
+
+				ic.overlays.open(scope.icPopupName, scope.icPopupMessage || undefined)
+				.finally(function(){
+					seen[scope.icPopupId] = true
+
+					localStorage.setItem('seenOneTimePopups', JSON.stringify(seen))
+				})
 			}
 		}
 	}

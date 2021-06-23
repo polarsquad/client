@@ -29,8 +29,31 @@
 		>
 		</button>
 	</div>
-	
 
+</form>
+
+
+<form
+	class		= "row" 
+	ng-submit 	= "addBlock(block, key.value)"
+	ng-if		= "key.value"
+>
+	<textarea
+		ng-model 	= "block"
+		placeholder = "{{'INTERFACE.OPTIONS_BLOCK_NOTE' | translate}}" 
+		style		= "height: 4rem; overflow-y: scroll"
+	>
+	</textarea>
+
+	<div class = "buttons">
+		<button
+			type		= "submit"
+			class 		= "bg-3 icon icon-interface-add round white"
+			title 		= "{{'INTERFACE.OPTIONS_ADD_BLOCK' | translate}}"
+			ng-disabled = "!key.value || !block"
+		>
+		</button>
+	</div>
 </form>
 
 
@@ -40,6 +63,7 @@
 <form 
 	class 		= "row add"
 	ng-submit 	= "addOption(new_option)"
+	ng-if		= "key.value"
 >
 
 	<input 
@@ -71,8 +95,10 @@
 			class		= "bg-3 icon icon-interface-add round bg-3 white"
 			type		= "submit"
 			title		= "{{'INTERFACE.OPTIONS_ADD' | translate}}"
+			ng-disabled = "!key.value || !new_option.label"
 		>
 		</button>
+
 	</div>
 
 </form>
@@ -81,6 +107,25 @@
 
 <hr/>
 
+
+<form 
+	class 	= "row just-added"
+	ng-if	= "(filteredOptions | mapToKey: '_just_added' | some)"
+>
+	<div></div>
+	<div></div>
+	<div></div>
+
+	<div class ="buttons">
+		<button 
+			type		= "button"
+			class		= "bg-3 icon icon-interface-delete round white"			
+			title		= "{{'INTERFACE.OPTIONS_DELETE_RECENT' | translate}}"
+			ng-click 	= "removeAllRecentlyAdded()"
+		>
+		</button>
+	</div>
+</form>
 
 
 <form

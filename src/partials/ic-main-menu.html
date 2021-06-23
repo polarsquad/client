@@ -215,14 +215,16 @@
 			</li>
 
 			<li
-				ng-if = "ic.config.pages.includes('options')"
-				class = "bg-0 hover"  
+				ng-repeat	= "page in ic.config.adminPages"
+				class		= "bg-0 hover"
 			>
 				<a
-					href = "/p/options"
+					href = "/p/{{page}}"
 					ic-touch-me
 				>
-					<span>{{'INTERFACE.OPTIONS' | translate}}</span>					
+					<span class = "icon right icon-interface-cogwheel">
+						{{'INTERFACE.%s' | fill: page | translate}}
+					</span>					
 				</a>	
 			</li>
 

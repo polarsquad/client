@@ -617,8 +617,8 @@ angular.module('icServices', [
 
 							icLanguages.translationTable[lang]['UNSORTED_TAGS'][('list_'+list.id).toUpperCase()] = utl+' '+list.name
 
-							icLanguages.refreshTranslations(lang)
 						})
+						icLanguages.refreshTranslations()
 					})
 		}
 
@@ -1038,6 +1038,7 @@ angular.module('icServices', [
 				return 	$q.when(dpd.actions.exec('updateTranslations'))
 						.then(
 							function(){
+								icLanguages.refreshTranslations()
 								return icOverlays.open('popup', 'INTERFACE.TRANSLATION_UPDATED')
 							},
 
@@ -1457,7 +1458,8 @@ angular.module('icServices', [
 				return icTaxonomy
 			}
 
-			taxonomy.lor.forEach( dst => {
+			
+			icTaxonomy.lor.forEach( dst => {
 				icTaxonomy.addExtraTag(dst.tag, 'lor_dst')
 				dst.pgr.forEach( pgr =>{
 					icTaxonomy.addExtraTag(pgr.tag, 'lor_pgr')
@@ -1475,21 +1477,21 @@ angular.module('icServices', [
 					if(!icLanguages.translationTable[lang]) return null
 					if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
 
-					icTaxonomy.tags.lor_dst.forEach( dst => {
+					(icTaxonomy.tags.lor_dst || [] ).forEach( dst => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][dst.toUpperCase()] = icTaxonomy.getDistrict(dst).name
 					})
 
-					icTaxonomy.tags.lor_pgr.forEach( pgr => {
+					(icTaxonomy.tags.lor_pgr || [] ).forEach( pgr => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][pgr.toUpperCase()] = icTaxonomy.getPrognoseraum(pgr).name
 					})
 
-					icTaxonomy.tags.lor_bzr.forEach( bzr => {
+					(icTaxonomy.tags.lor_bzr || [] ).forEach( bzr => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][bzr.toUpperCase()] = icTaxonomy.getBezirksregion(bzr).name
 					})
 
 
-					icLanguages.refreshTranslations(lang)
 				})
+				icLanguages.refreshTranslations()
 			})
 
 
@@ -2512,24 +2514,24 @@ angular.module('icServices', [
 								.filter( s => s.length > 3)
 								.map( (s, i) => s.substr(0, i ? 1 : 3) )
 								.join('')
-								.substr(0,10)
+								.substr(0,8)
 
 				
 				let str_2 	= 	clean
 								.filter( s => s.length > 3)
 								.map( (s, i) => s.substr(0, 3) )
 								.join('')
-								.substr(0,10)
+								.substr(0,8)
 
 
 				let str_3 	= 	clean
 								.map( s => s.substr(0,2) )
 								.join('')				
-								.substr(0,10)							
+								.substr(0,8)							
 
 				let str_4 	= 	clean
 								.join('')
-								.substr(0,10)
+								.substr(0,8)
 										
 				let str		=	str_1
 
