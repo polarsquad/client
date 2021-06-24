@@ -2,6 +2,18 @@ ic-options-edit {
 	display:				block;
 }
 
+ic-options-edit p {
+	font-size:				0.9em !important;
+}
+
+ic-options-edit pre {
+	font-family: 			monospace;
+	white-space: 			pre;
+	background-color:		rgba(0,0,0,0.05);
+	padding:				0.5rem;
+	padding-left:			1rem;
+} 
+
 ic-options-edit .row {
 	display:				flex;
 	position:				relative;

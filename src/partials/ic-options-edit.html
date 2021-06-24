@@ -32,6 +32,10 @@
 
 </form>
 
+<hr/>
+
+
+<h4>{{'INTERFACE.OPTIONS_ADD_BLOCK' | translate}}</h4>
 
 <form
 	class		= "row" 
@@ -40,7 +44,7 @@
 >
 	<textarea
 		ng-model 	= "block"
-		placeholder = "{{'INTERFACE.OPTIONS_BLOCK_NOTE' | translate}}" 
+		placeholder = "{{'INTERFACE.OPTIONS_BLOCK_PLACEHOLDER' | translate}}" 
 		style		= "height: 4rem; overflow-y: scroll"
 	>
 	</textarea>
@@ -65,7 +69,12 @@
 </form>
 
 
-<br/>
+<div ng-bind-html = "'INTERFACE.OPTIONS_BLOCK_NOTE' | translate | markdown"></div>
+
+
+<hr/>
+
+<h4>{{'INTERFACE.OPTIONS_ADD_SINGLE' | translate}}</h4>
 
 
 <form 
@@ -111,9 +120,11 @@
 
 </form>
 
-
-
 <hr/>
+
+<h4>{{'INTERFACE.OPTIONS_EDIT' | translate}}</h4>
+
+<div ng-bind-html = "'INTERFACE.OPTIONS_EDIT_NOTE' | translate | markdown"></div>
 
 
 <form 
@@ -177,7 +188,7 @@
 			type		= "button"
 			class		= "bg-3 icon icon-interface-item_revert round white"
 			ng-click 	= "undo(option)"
-			title		= "{{'INTERFACE.OPTIONS_REMOVE' | translate}}"
+			title		= "{{'INTERFACE.OPTIONS_REVERT' | translate}}"
 			ng-disabled	= "!diff(option)"
 		>
 		</button>

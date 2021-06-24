@@ -66,11 +66,14 @@ ic-item-full-edit  h4 {
 	line-height:			1.5rem;
 }
 
+ic-item-full-edit h4 + a,
 ic-item-full-edit  h4 + ic-help {
 	position:				absolute;
 	top:					0;
 	right:					0;
 }
+
+
 
 ic-item-full-edit .controls {
 	display:				flex;

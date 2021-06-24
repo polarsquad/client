@@ -50,6 +50,9 @@ ic-page h2 {
 	margin:							2rem 0;
 }
 
+ic-page hr {
+	background-color:				var(--neutral-color);
+}
 
 ic-page article {
 	display:						block;
