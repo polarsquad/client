@@ -36,6 +36,15 @@ ic-options-edit .row > * {
 	overflow:				hidden;
 	text-overflow:			ellipsis;
 	z-index:				1;
+	transition: 			all 300ms;
+}
+	
+ic-options-edit .row > input {
+	white-space:			nowrap;
+}
+
+ic-options-edit .row.edit > *:focus {
+	flex:					10 0 0;
 }
 
 
@@ -55,8 +64,5 @@ ic-options-edit .row > :nth-child(3) {
 
 
 ic-options-edit .row .buttons {
-	flex:					0 0 5rem;
-	width:					5rem;	
+	flex:					0 0 10rem;
 }
-
-

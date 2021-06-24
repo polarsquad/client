@@ -53,6 +53,14 @@
 			ng-disabled = "!key.value || !block"
 		>
 		</button>
+		<button
+			type		= "button"
+			class 		= "bg-3 icon tac round white"
+			title 		= "{{'INTERFACE.OPTIONS_ADD_BLOCK' | translate}}"
+			ng-click	= "logRaw()"
+		>
+			{ }
+		</button>
 	</div>
 </form>
 
@@ -128,35 +136,49 @@
 </form>
 
 
+
+
 <form
 	class		= "row edit" 
 	ng-repeat	= "option in filteredOptions"
-	ng-submit	= "updateOption(option)"
+	ng-submit	= "updateOption(edit(option))"
 	ng-class	= "{'just-added': option._just_added}"
 >
 
 	<input 
 		class				=	"label"
-		ng-model 			=	"option.label" 
+		ng-model 			=	"edit(option).label" 
 		placeholder			=	"{{'INTERFACE.OPTIONS_LABEL' | translate}}"
 	/>
 
 	<input
 		class 		= "link"
-		ng-model 	= "option.link"
+		ng-model 	= "edit(option).link"
 		placeholder = "{{'INTERFACE.OPTIONS_LINK' | translate}}"
 	/>
 
-	<div class = "tag">
-		{{option.tag}}
-	</div>
+	<input class = "tag"
+		value = "{{edit(option).tag}}"
+		disabled
+	/>
 
 
 	<div class = "buttons">
+
 		<button 
 			type		= "submit"
 			class		= "bg-3 icon icon-interface-save round white"			
 			title		= "{{'INTERFACE.OPTIONS_UPDATE' | translate}}"
+			ng-disabled	= "!diff(option)"
+		>
+		</button>
+
+		<button 
+			type		= "button"
+			class		= "bg-3 icon icon-interface-item_revert round white"
+			ng-click 	= "undo(option)"
+			title		= "{{'INTERFACE.OPTIONS_REMOVE' | translate}}"
+			ng-disabled	= "!diff(option)"
 		>
 		</button>
 
@@ -164,9 +186,20 @@
 			type		= "button"
 			class		= "bg-3 icon icon-interface-delete round white"
 			ng-click 	= "removeOption(option)"
-			title		= "{{'INTERFACE.OPTIONS_REMOVE' | translate}}"
+			ng-disabled = "numberOfItems(option) > 0"
+			title		= "{{ (numberOfItems(option) ? 'INTERFACE.OPTIONS_NO_REMOVE_ITEMS' : 'INTERFACE.OPTIONS_REMOVE') | translate}}"
 		>
 		</button>
+
+		<a
+			class		= "bubble bg-3 white"
+			ng-href 	= "{{ numberOfItems(option) ? '/list/u/'+option.tag : ''}}"
+			ng-class 	= "{'disabled': !numberOfItems(option)}"
+			title		= "{{'INTERFACE.OPTIONS_NUMBER_ITEMS' | translate}}"
+		>
+			{{ numberOfItems(option) }}
+		</a>		
+
 	</div>
 
 </form>

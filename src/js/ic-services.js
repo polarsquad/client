@@ -2194,6 +2194,37 @@ angular.module('icServices', [
 					:	null
 		}
 
+		icLanguages.addUniformTranslations = async function(path, map){
+
+			await	icLanguages.ready
+
+			path = 	Array.isArray(path)
+					?	path
+					:	[path]
+
+			icLanguages.availableLanguages.forEach(function(lang){
+				lang = lang.toUpperCase()
+
+				let subTable = icLanguages.translationTable[lang]
+				
+				if(!subTable) return null
+
+				path.forEach( part => {					
+					subTable[part.toUpperCase()] = subTable[part.toUpperCase()] || {}
+					subTable = subTable[part.toUpperCase()]
+				})
+
+				Object.entries(map).forEach( ([key, value]) => subTable[key.toUpperCase()] = value)
+
+
+			})
+
+			console.log(icLanguages.translationTable.de)
+
+			icLanguages.refreshTranslations()
+
+		}
+
 		icSite.registerParameter({
 			name: 			'currentLanguage',
 			encode:			function(value,ic){
@@ -2466,8 +2497,10 @@ angular.module('icServices', [
 
 	'$q',
 	'icUser',
+	'icTaxonomy',
+	'icLanguages',
 
-	function($q, icUser){
+	function($q, icUser, icTaxonomy, icLanguages){
 
 
 		class icOptions {
@@ -2491,6 +2524,15 @@ angular.module('icServices', [
 							if(!options.length) console.warn('icOptions: no options defined.')
 							this.options= options
 							this.keys = Array.from( new Set( options.map( option => option.key )))
+
+							const map = {}
+							this.options.forEach( option => {
+								icTaxonomy.addExtraTag(option.tag, 'options_'+option.key) 
+								map[option.tag] = option.label
+							})
+
+							return icLanguages.addUniformTranslations('UNSORTED_TAGS', map)
+
 						})	
 			}
 
@@ -2540,17 +2582,17 @@ angular.module('icServices', [
 				if(str.length < 6) str = str_4
 				
 
-				return `o-${option.key||''}-${str}`.toLowerCase()			
+				return `o_${option.key||''}_${str}`.toLowerCase()			
 			}
 
 			sanitizeTag(tag){
 				if(!tag) return tag
-				return tag.replace(/[^a-zA-Z_-]/g,'').toLowerCase()
+				return tag.replace(/[^a-zA-Z0-9_-]/g,'').toLowerCase().trim()
 			}
 
 			sanitizeKey(key){
 				if(!tag) return tag
-				return key.replace(/[^a-zA-Z_-]/g,'').toLowerCase()
+				return key.replace(/[^a-zA-Z0-9_-]/g,'').toLowerCase().trim()
 			}
 
 			sanitizeLink(link){
@@ -2559,7 +2601,7 @@ angular.module('icServices', [
 				
 				if(!link.match(/^http/)) link = `https://${link}`
 
-				return link
+				return link.trim()
 			}
 
 			sanitizeOption(option){
@@ -2584,7 +2626,7 @@ angular.module('icServices', [
 
 				return 	$q.when(dpd.options.put(option))
 						.then( o => {							
-							this.options.splice(this.findIndex(o), 1, o)
+							this.options.splice(this.options.findIndex( x => x.id == o.id), 1, o)
 							return o
 						 })
 			}
@@ -2597,6 +2639,12 @@ angular.module('icServices', [
 							const pos = this.options.findIndex( o => o.id == option.id)
 							this.options.splice(pos,1)
 						})
+			}
+
+			getLabel(tag){
+				const option = this.options.find( o => o.tag == tag)
+
+				return option && option.label
 			}
 
 		}

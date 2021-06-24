@@ -1198,9 +1198,11 @@ angular.module('icDirectives', [
 													})	
 												:	[]
 
+					filtered_options = filtered_options.slice(0,scope.icOptionsFilterLimit)							
+
 					if(scope.icAllowMultipleChoices){
-						filtered_options.unshift(...scope.value.edit)
-						filtered_options.unshift(...scope.value.current)
+						filtered_options.unshift(... scope.value.edit || [])
+						filtered_options.unshift(... scope.value.current || [])
 					}else {
 						scope.value.edit 	&& filtered_options.unshift(scope.value.edit)
 						scope.value.current && filtered_options.unshift(scope.value.current)
@@ -1208,7 +1210,7 @@ angular.module('icDirectives', [
 
 					filtered_options = filtered_options.filter( (o, index) => filtered_options.indexOf(o) == index )
 
-					return filtered_options.slice(0,scope.icOptionsFilterLimit)
+					return filtered_options
 
 				}
 
@@ -1697,8 +1699,9 @@ angular.module('icDirectives', [
 .directive('icOptionsEdit',[
 
 	'icOptions',
+	'icItemStorage',
 
-	function(icOptions){
+	function(icOptions, icItemStorage){
 
 		return {
 			restrict:		'E',
@@ -1717,8 +1720,60 @@ angular.module('icDirectives', [
 
 				scope.filteredOptions = []
 
+				scope.edits			= []
+
+
+
+				scope.logRaw = function(){
+
+					console.log(scope.filteredOptions)
+
+					const map = {}
+
+					scope.filteredOptions.forEach( o => {
+						map[o.label] = o.tag
+					})
+
+					console.log(map)
+				}
+
+				scope.edit = function(option){
+					const e = scope.edits.find( o => o.id == option.id)
+
+					if(!e) scope.edits.push(angular.copy(option))
+
+					return e	
+				}
+
+				scope.diff = function(option){
+
+					const e = scope.edit(option)
+
+
+					const diff =		e.label != option.label
+									||	e.link	!= option.link
+									||	e.tag	!= option.tag
+
+
+					return diff
+				}
+
+				scope.undo = function(option){
+					const pos = scope.edits.find( o => o.id == option.id)
+
+					if(pos != -1) scope.edits.splice(pos,1)
+
+					return scope.edit(option)
+				}
+
+
+				scope.numberOfItems = function(option){
+					return icItemStorage.data.filter( i => i.tags.includes(option.tag) ).length
+				}
+
 				scope.addOption = async function(option){
 					icOptions.sanitizeOption(option)
+
 					let o = await icOptions.addOption(option)
 
 					o._just_added = true
@@ -1736,9 +1791,7 @@ angular.module('icDirectives', [
 					
 					scope.filteredOptions
 					.filter( o => o._just_added)
-					.forEach( o => icOptions.removeOption(o))
-
-					this.update()
+					.forEach( o => scope.removeOption(o))
 
 				}
 
@@ -1768,19 +1821,38 @@ angular.module('icDirectives', [
 
 										return row
 									})
-
-					console.log(rows)
+					
+					const options = []
 
 					rows.forEach( row => {
 						let option = 	{
-											label: 	row[0],
-											link:	row[1],	
+											label: 	(row[0]||'').trim(),
+											link:	(row[1]||'').trim(),	
 											key						
 										}
+
+						if(!option.label) return null
+
 						option.tag = icOptions.generateTag(option)
 
-						this.addOption(option)
+						icOptions.sanitizeOption(option)				
+
+						if(options.find( o => o.label 	== option.label) ) return null
+
+						let count = 2
+
+						while(options.find( o => o.tag 	== option.tag)){
+							option.tag = 	count == 2
+											?	option.tag + '_2' 
+											:	option.tag.replace(new RegExp(count+'$'), String(count+1) )											
+							count++				
+
+						} 
+
+						options.push(option)
 					})
+					
+					options.forEach( option => scope.addOption(option) )
 
 				}
 
@@ -1792,7 +1864,7 @@ angular.module('icDirectives', [
 
 					if(option._just_added) o._just_added = true
 
-					this.update()
+					scope.update()
 
 					scope.$digest()
 
@@ -1801,8 +1873,6 @@ angular.module('icDirectives', [
 				scope.removeOption = async function(option){
 					await icOptions.removeOption(option)					
 					
-
-					console.log('removed', option.label)
 
 					this.update()
 
