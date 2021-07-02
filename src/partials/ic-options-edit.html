@@ -146,12 +146,40 @@
 	</div>
 </form>
 
+<div 
+	ng-if = "filteredOptions.length > page.size || filter.term"
+	class = "row" 
+>
+
+	<input 
+		ng-model 	= "filter.term"	
+		ng-change 	= "update()"
+	/>
+
+	<div class ="buttons">		
+		<button 
+			class			= "bg-3 white icon icon-interface-left round"
+			ng-click 		= "page.current = page.current - 1"
+			ng-disabled 	= "page.current < 1" 
+		></button>
+
+		&nbsp;{{page.current+1}} / {{ (filteredOptions.length / page.size) | ceil }}&nbsp;
+
+		<button 
+			class			= "bg-3 white icon icon-interface-right round"
+			ng-click 		= "page.current = page.current + 1"
+			ng-disabled 	= "page.current +1 >= (filteredOptions.length / page.size) | ceil" 
+		></button>
+	</div>
 
 
+</div>
+
+<br/>
 
 <form
 	class		= "row edit" 
-	ng-repeat	= "option in filteredOptions"
+	ng-repeat	= "option in filteredOptions | limitTo: page.size : page.current*page.size"
 	ng-submit	= "updateOption(edit(option))"
 	ng-class	= "{'just-added': option._just_added}"
 >

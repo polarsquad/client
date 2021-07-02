@@ -214,6 +214,8 @@ ic-header.ic-scroll-top .logo {
 ic-header.ic-scroll-top .tools .logo-line{
 	display:						inline-block;
 	flex-grow:						1;
+	display:						flex;
+	align-items: 					center;
 }
 
 ic-header.ic-scroll-top .tools button span{

@@ -87,6 +87,10 @@ ic-page .tiles > .bottom > .content {
 	color:						var(--dark-text-color);
 }
 
+ic-page .tiles > .bottom > .content  p {
+	color:						var(--plain-text-color);
+}
+
 ic-page .tiles > * .background.icon {
 	background-size:			4rem;
 	background-position:		calc(100% - 1rem) calc(100% - 1rem) !important;
@@ -178,7 +182,7 @@ ic-page .tiles > .item-tile .image > * {
 
 
 ic-page .tiles > .item-tile .image .fallback {
-	font-size:					10rem;
+	font-size:					5rem;
 	width:						1em;
 	height:						1em;
 	opacity:					0.5;

@@ -316,6 +316,29 @@ angular.module('icFilters', [
 	}
 ])
 
+
+
+.filter('floor', [
+
+	function(){
+
+		return function(x){
+			return Math.floor(x)
+		}
+	}
+])
+
+.filter('ceil', [
+
+	function(){
+
+		return function(x){
+			return Math.ceil(x)
+		}
+	}
+])
+
+
 .filter('range', [
 
 	function(){

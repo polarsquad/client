@@ -147,7 +147,6 @@ ic-item-full .qrcode {
 	display:					block;
 	margin-top:					3rem;
 	text-align:					center;
-	cursor:						pointer;
 }
 
 ic-item-full .qrcode qrcode {
@@ -159,6 +158,7 @@ ic-item-full .qrcode qrcode {
 ic-item-full .qrcode qrcode canvas{
 	display:					inline-block;
 	position:					static;
+	cursor:						pointer;
 }
 
 ic-item-full footer.screen-only {

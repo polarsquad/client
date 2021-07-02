@@ -1717,19 +1717,25 @@ angular.module('icDirectives', [
 			link(scope){
 
 
-				scope.key 			= {}
-				scope.new_option 	= {}
+				scope.key 				=	{}
+				scope.new_option 		=	{}
 
-				scope.key.value 	= icOptions.keys[0]
+				scope.key.value 		=	icOptions.keys[0]
 
-				scope.block			= ""
-				scope.show			= {}
+				scope.block				= 	""
+				scope.show				= 	{}
 
-				scope.filteredOptions = []
+				scope.filteredOptions	=	[]
 
-				scope.edits			= []
+				scope.edits				=	[]
 
 
+				scope.page				= 	{
+												size: 		20,
+												current: 	0
+											}
+
+				scope.filter			=	{ term: '' }
 
 				scope.logRaw = function(){
 
@@ -1887,8 +1893,22 @@ angular.module('icDirectives', [
 
 				}
 
+				scope.matchFilter = function(str){
+
+					if(!scope.filter.term) return true
+
+					return	scope.filter.term.split(/s/).every( part => {
+								return str.match(new RegExp(part,'i'))
+							})
+				}
+
 				scope.update = function(){
-					scope.filteredOptions = icOptions.options.filter( o => o.key == scope.key.value)					
+
+					scope.filteredOptions =	icOptions.options.filter( o => {
+												if(o.key != scope.key.value) return false
+												return scope.matchFilter(o.label) || scope.matchFilter(o.tag)
+											})				
+
 					scope.filteredOptions.sort( (a,b) => {
 						if(!a._just_added || !b._just_added){
 							if(a._just_added) return -1
