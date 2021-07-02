@@ -1,12 +1,21 @@
 <a 
 	ng-repeat 	= "tile in ic.tiles"
 	ng-href		= "{{tile.link}}"
-	class 		= "icon {{tile.icon ?  'icon-'+tile.icon : ''}} white {{tile.bottom ? 'bottom' : ''}} {{tile.background ? 'background-image image-'+tile.background : ''}}"
 	style		= "{{tile.stretch ? 'width:100%' : ''}}"
-	ng-style	= "{'background-color': tile.color, 'order': tile.order}"
+	ng-class	= "{bottom: tile.bottom}"
+	ng-style	= "{'order': tile.order}"
+	
 >
-	<span>{{tile.label | translate}}</span>
-	<small>{{tile.description | translate}}</small>
+	<div
+		class 		= "background {{tile.icon ?  ' icon icon-'+tile.icon : ''}} white {{tile.background ? 'background-image image-'+tile.background : ''}}"
+		ng-style	= "{'background-color': tile.color}"
+	>
+	</div>
+
+	<div class ="content">
+		<h3>{{tile.label | translate}}</h3>
+		<p>{{tile.description | translate}}</p>
+	</div>
 </a>
 
 

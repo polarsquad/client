@@ -1439,8 +1439,15 @@ angular.module('icDirectives', [
 
 				})
 
-				scope.$parent.$watch(attrs.icExtraLinks, function(value){ scope.icExtraLinks = value}, true)
-				scope.$parent.$watch(attrs.icExtraLines, function(value){ scope.icExtraLines = value}, true)
+				scope.$parent.$watch(attrs.icExtraLinks, function(value){ 
+					scope.icExtraLinks 	= 	Array.isArray(value)
+											?	value
+											:	Object.entries(value||{})
+				}, true)
+
+				scope.$parent.$watch(attrs.icExtraLines, function(value){ 
+					scope.icExtraLines = 	value
+				}, true)
 
 			}
 		}

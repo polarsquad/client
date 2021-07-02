@@ -77,6 +77,20 @@ angular.module('icFilters', [
 ])
 
 
+.filter('icOptions',[
+
+	'icOptions',
+
+	function(icOptions){
+
+		return function(item_or_tags, key){
+			if(!item_or_tags) return null
+			return icOptions.getOptions(item_or_tags.tags || item_or_tags, key)
+		}
+	}
+
+])
+
 
 .filter('icDistrict', [
 

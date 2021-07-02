@@ -2641,6 +2641,14 @@ angular.module('icServices', [
 						})
 			}
 
+			getOptions(item_or_tags, key){
+
+				const tags = item_or_tags.tags || item_or_tags
+
+				return this.options.filter( option => tags.includes(option.tag) && (!key || option.key == key))
+
+			}
+
 			getLabel(tag){
 				const option = this.options.find( o => o.tag == tag)
 

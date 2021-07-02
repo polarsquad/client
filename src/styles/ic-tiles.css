@@ -11,6 +11,8 @@ ic-page .tiles {
 
 ic-page .tiles > * {
 	display:					flex;
+	position:					relative;
+	flex:						1 1 auto;
 	box-sizing:					border-box;
 
 	flex-direction:				column;
@@ -18,35 +20,120 @@ ic-page .tiles > * {
 
 	font-weight: 				600;
 	font-size: 					1.25rem;
-	padding: 					1rem;	
+	padding: 					0rem;	
 
-	width:						15rem;
-	height:						15rem;
-	
+	width:						18rem;
+
+	min-width:					18rem;
+	min-height:					18rem;
+
 	margin:						0.5rem;
-	flex-grow:					1;
 	border:						none;
 	border-radius:				0;
 	color:						#fff;
-	background-position:		right 1rem bottom 1rem;
-	background-size:			5rem 5rem;
-	background-repeat:			no-repeat;
-	line-height:				1.2em;
-	transition: 				background-color 0.5s ease;
+	
+	line-height:				1.2em;	
 }
+
 
 ic-page .tiles > *:focus,
 ic-page .tiles > *:hover {
 	filter:						brightness(1.1)
+
+}
+ic-page .tiles > * > .background {
+	display:					block;
+	position:					absolute;
+	z-index:					-1;
+	transition: 				background-color 0.5s ease;
+	background-repeat:			no-repeat;
+
+	height:						100%;
+	width:						100%;
+
+	max-width:					100%;
+
+	padding:					0 !important;
 }
 
-ic-page .tiles > * > small {
-	display: 					inline-block;
-	margin-top: 				0.5rem;
-	font-weight: 				400;	
-	font-size: 					1.1rem;
+
+ic-page .tiles > *.bottom > .background {
+	position:					static;	
+	z-index:					0;
+
+	height:						15rem;
 }
 
+
+
+
+
+ic-page .tiles > * > .content {
+	flex:						1 0 0;
+	margin:						0;
+	padding:					1rem;
+	background-color:			transparent;
+	color:						var(--light-text-color);
+	height:						100%;
+	padding-bottom:				6rem;
+}
+
+ic-page .tiles > .bottom > .content {
+	margin:						0;
+	padding:					1rem;
+	padding-bottom:				1rem;
+	height:						auto;
+	background-color:			var(--primary-background-color);
+	color:						var(--dark-text-color);
+}
+
+ic-page .tiles > * .background.icon {
+	background-size:			4rem;
+	background-position:		calc(100% - 1rem) calc(100% - 1rem) !important;
+}
+
+ic-page .tiles > .bottom .background.icon {
+	background-size:			8rem;
+	background-position:		50% 50% !important;
+}
+
+ic-page .tiles > * .background.image {
+	background-size:			cover;
+}
+
+ic-page .tiles > * > .content > h3 {
+	margin:						1rem 0;
+	font-weight:				normal;
+	font-size:					1.3rem;
+}
+
+ic-page .tiles > * > .content > p {
+	font-size:					1rem;
+}
+
+
+
+
+
+
+.XS ic-page .tiles {
+	justify-content:			center;
+	margin:						0 !important;
+	margin-bottom:				1rem !important;
+}
+
+.XS ic-page .tiles > * {
+	margin:						0.5rem 0 !important;
+}
+
+
+
+
+
+
+
+
+/* item tiles start */
 
 ic-page .tiles > .item-tile {
 	position:					relative;
@@ -124,24 +211,5 @@ ic-page .tiles > .item-tile .body {
 	padding-top:				1rem;
 }
 
-ic-page .tiles > .bottom {
-	flex-direction:				column;
-	justify-content: 			flex-end;
-	background-position:		right 1rem top 1rem;
-}
+/* item tiles end */
 
-
-
-
-
-
-
-.XS ic-page .tiles {
-	justify-content:			center;
-	margin:						0 !important;
-	margin-bottom:				1rem !important;
-}
-
-.XS ic-page .tiles > * {
-	margin:						0.5rem 0 !important;
-}

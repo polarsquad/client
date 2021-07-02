@@ -13,7 +13,7 @@ ic-item-property .icon {
 }
 
 ic-item-property .title {
-	font-weight:			500;
+	font-weight:			bold;
 	line-height:			1.5rem;
 } 
 
@@ -47,8 +47,8 @@ ic-item-property a:not(.active) {
 }
 
 
-ic-item-property .extra-line span,
-ic-item-property .extra-link span {
+ic-item-property .extra-line .separator,
+ic-item-property .extra-link .separator {
 	display:				none;
 }
 
@@ -58,7 +58,7 @@ ic-item-property.short .extra-link {
 	display: 				inline;
 }
 
-ic-item-property.short .extra-line span,
-ic-item-property.short .extra-link span {
+ic-item-property.short .extra-line .separator,
+ic-item-property.short .extra-link .separator {
 	display:				inline;
 }

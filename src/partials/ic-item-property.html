@@ -45,12 +45,23 @@
 		</div>
 
 		<div 
-			ng-repeat 	= "(name, href) in icExtraLinks"
-			ng-if		= "name | trim"
+			ng-repeat 	= "pair in icExtraLinks"
+			
 			class		= "extra-link screen-only"
 		>
-			<a class ="active" ng-href = "{{href}}">{{name}}</a>
-			<span ng-if ="!$last">|</span>
+			<a 
+				class 	= "active" 
+				ng-if	= "pair[1]"
+				ng-href = "{{pair[1]}}"
+			>
+				{{pair[0]}}
+			</a>
+			
+			<span ng-if = "!pair[1]">
+				{{pair[0]}}
+			</span>
+
+			<span class ="separator" ng-if ="!$last">|</span>
 		</div>
 
 
