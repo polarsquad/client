@@ -2156,10 +2156,10 @@ angular.module('icServices', [
 											)
 											.then( () => icUser.ready )
 											.then( () => {
-												icLanguages.availableLanguages	=	[
+												icLanguages.availableLanguages	=	Array.from(new Set([
 																						...(icConfig.languages ? icConfig.languages : []),
 																						...(icUser.can('update_translations') && icConfig.adminLanguages ? icConfig.adminLanguages : []),
-																					]
+																					]))
 
 												if(icLanguages.availableLanguages.length == 0){
 													icLanguages.availableLanguages = ['de', 'en', 'none']
