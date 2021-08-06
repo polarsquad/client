@@ -1401,10 +1401,11 @@ angular.module('icDirectives', [
 
 .directive('icItemProperty', [
 
+	'$sce',
 	'ic',
 	'icTaxonomy',
 
-	function(ic, icTaxonomy){
+	function($sce, ic, icTaxonomy){
 
 		return {
 			restrict:		'AE',
@@ -1415,6 +1416,7 @@ angular.module('icDirectives', [
 								icIcon:			"<",
 								icLink:			"<",
 								icContentLink:	"<",
+								icPhone:		"<",
 								icLor:			"<"
 							},
 
@@ -1425,6 +1427,22 @@ angular.module('icDirectives', [
 				scope.$watch('icContent', function(){
 					if(typeof scope.icLink == "string"){
 						scope.link = scope.icLink + scope.icContent
+					}
+					if(scope.icPhone){
+
+						const 	matches 	= scope.icContent.match(/(\+?[\d\s-\/]{6,}\d)/g)													
+						let		html 		= scope.icContent
+
+						;(matches||[]).forEach( match => {
+							console.log('match: ', match)
+							const number 	= match.replace(/[-\s\/]/g,'')
+							const link		= `<a class = "active" href = "tel:${number}">${match}</a>`
+							html = html.replace(match, link)
+						})
+
+						console.log(scope.icContent, html)
+
+						scope.phoneNumbers = html
 					}
 				})
 

@@ -16,7 +16,7 @@
 	<div class = "content">		
 		<a 
 			class 			= "active"
-			ng-if			= "link && link.substr(0,4) == 'http'"
+			ng-if			= "!icPhone && link && link.substr(0,4) == 'http'"
 			ng-href 		= "{{link}}"
 			target			= "_blank"
 		>
@@ -25,16 +25,25 @@
 
 		<a 
 			class 			= "active"
-			ng-if			= "icContentLink || (link && link.substr(0,4) != 'http')"
+			ng-if			= "!icPhone && (icContentLink || (link && link.substr(0,4) != 'http'))"
 			ng-href 		= "{{icContentLink || link}}"
 		>
 			{{icContent}}	
 		</a>
 
+		<div
+			ng-if		 = "icPhone" 
+			ng-bind-html = "phoneNumbers"
+		></div>
+
 		<span
-			ng-if 	= "!icContentLink && !link"
+			ng-if 	= "!icPhone && !icContentLink && !link"
 			class	= "ws-pre-line"
-		>{{icContent}}</span>
+		>
+			{{icContent}}
+		</span>
+
+
 
 		<div 
 			ng-repeat 	= "line in icExtraLines"
