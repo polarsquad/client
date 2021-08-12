@@ -197,8 +197,6 @@ angular.module('icLayout', [])
 						//icLayout.defaultWidth = $window.innerWidth //todo
 
 
-						console.log($window.localStorage.getItem(localStorageFontSizeItem), typeof $window.localStorage.getItem(localStorageFontSizeItem))
-
 						if($window.localStorage.getItem(localStorageFontSizeItem) == 'true') icLayout.toggleFontSize()
 
 						$rootScope.icLayout = icLayout
