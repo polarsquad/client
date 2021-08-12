@@ -153,7 +153,7 @@ button {
 	border:				none;	
 	border-style:		none;
 	font-size:			inherit;
-	box-shadow: 		0 0 0 0.1rem \var(--primary-background-color), 0 0 0 0.33rem \var(--focus-color);
+	box-shadow: 		0 0 0 0.1rem var(--primary-background-color), 0 0 0 0.33rem var(--focus-color);
 	outline: 			none;
 	transform: 			scale(1.2);
 	z-index: 			99999;
