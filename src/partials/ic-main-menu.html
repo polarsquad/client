@@ -7,27 +7,41 @@
 		<a href = "/"><ic-logo-line></ic-logo-line></a>
 	</li>
 
-	<li class = "bg-3"><a href="/" 		 ic-touch-me>	{{'INTERFACE.HOME' 			| translate}}</a>	</li>
+	<li class = "bg-3">
+		<a href="/" ic-touch-me>	
+			{{'INTERFACE.HOME' | translate}}
+		</a>	
+	</li>
 	
 
 	<li class = "bg-3">
 		<a 
 			ic-touch-me
-			ng-click = "ic.site.expandMap = true; ic.site.list = true; ic.site.activeItem = null"
+			ng-href = "{{ {expandMap: true, list: true, activeItem : null} | icLink }}"
 		>
 			{{'INTERFACE.MAP' | translate}}
 		</a>	
 	</li>
-	
-	<li class = "bg-3"><a href="/p/tags" ic-touch-me>	{{'INTERFACE.CATEGORIES' 	| translate}}</a>	</li>
+	 
+
+
+	<li class = "bg-3">
+
+		<a href="/p/tags" ic-touch-me>	
+			{{'INTERFACE.CATEGORIES' 	| translate}}
+		</a>	
+
+	</li>
 		
 	<li class = "bg-3">
+
 		<a 
 			ic-touch-me
 			ng-href = "/list"
 		>
 			{{'INTERFACE.FULL_LIST' | translate}}
 		</a>	
+
 	</li>
 
 
@@ -58,14 +72,18 @@
 
 	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
 	<li
+		ng-focus-visible	= "showMore = true"
+		ng-blur-visible		= "showMore = false"
 		ng-mouseenter 		= "showMore = true" 
 		ng-mouseleave		= "showMore	= false"
 		ng-click			= "showMore = !showMore"
 		ic-click-outside 	= "showMore = false" 
+		class				= "bg-3"
 	>
 		<a 
 			class 			= "icon right icon-interface-down white"
 			ng-if			= "!icPlain"
+			tabindex			= "0"
 		>
 			{{'INTERFACE.MORE' | translate}}
 		</a>		
@@ -136,6 +154,7 @@
 		</a>	
 		<ul 
 			ng-show = "icPlain || showAdmin"
+			class	= "bg-0"
 		>
 			<li
 				ng-if = "ic.user.can('edit_items')"

@@ -857,7 +857,10 @@ angular.module('icServices', [
 
 			}
 
-			function switches2Search(){
+			icSite.getNewSearch = function(config){
+
+				var config = config || {}
+
 				if(!icSite.config.switches.length) return null
 
 				var length = 1 + icSite.config.switches.reduce(function(max, swt){ return Math.max(max, swt.index) },0 ),
@@ -865,7 +868,12 @@ angular.module('icServices', [
 					s	= '0'
 
 				icSite.config.switches.forEach(function(swt){
-					arr[length-swt.index-1] = icSite[swt.name] ? 1 : 0
+
+					var value = swt.name in config
+								?	config[swt.name]
+								:	icSite[swt.name]
+
+					arr[length-swt.index-1] = value ? 1 : 0
 				})
 
 				s = parseInt(arr.join('') , 2).toString(36)
@@ -878,7 +886,7 @@ angular.module('icServices', [
 
 			icSite.updateSearch = function(){
 				var current_s 	= $location.search().s,
-					new_s		= switches2Search()
+					new_s		= icSite.getNewSearch()
 				
 				if(current_s != new_s) $location.search('s', new_s)
 

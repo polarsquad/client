@@ -1,6 +1,7 @@
 :root{
 	--primary-color:				#802651;
 	--secondary-color:				var(--primary-color);
+	
 	--dark-text-color:				#222;	
 	--light-text-color:				#fff;
 	--plain-text-color:				#666;
@@ -9,6 +10,6 @@
 	--secondary-background-color:	#e6e6e6;
 
 	--neutral-color:				#949494;
-
+	--focus-color: 					rgba(255,50,50,0.8);
 	--error-color:					red;
 }

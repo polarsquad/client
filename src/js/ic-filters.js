@@ -12,7 +12,9 @@ angular.module('icFilters', [
 
 	function(icSite){
 		return function(config){
-			return icSite.getNewPath(config)
+			var path 	= icSite.getNewPath(config)
+			var search 	= icSite.getNewSearch(config)
+			return path + (search ? '?s='+search : '')
 		}
 	}
 	

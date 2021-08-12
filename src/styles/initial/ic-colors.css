@@ -11,7 +11,9 @@
 }
 
 
-.bg-0 {
+.bg-0,
+.bg-0>:focus-visible,
+.bg-0:focus-visible {
 	background-color:			var(--primary-background-color);
 	color:						var(--dark-text-color)
 }
@@ -30,7 +32,9 @@
 
 
 
-.bg-1 {
+.bg-1,
+.bg-1>:focus-visible,
+.bg-1:focus-visible {
 	background-color:			var(--secondary-background-color);
 	color:						#666;
 }
@@ -49,7 +53,9 @@
 
 
 
-.bg-2 {
+.bg-2,
+.bg-2>:focus-visible,
+.bg-2:focus-visible {
 	background-color:			var(--neutral-color);
 	color:						#000;
 }
@@ -70,7 +76,9 @@
 
 
 
-.bg-3 {
+.bg-3,
+.bg-3>:focus-visible,
+.bg-3:focus-visible {
 	background-color:			var(--primary-color);
 	color:						var(--light-text-color);
 }
