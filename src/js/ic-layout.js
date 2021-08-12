@@ -66,7 +66,7 @@ angular.module('icLayout', [])
 							$_html		=	angular.element(html),
 							$_body		=	angular.element(body)
 						
-						const localStorageItem = 'icFontSiteAdjusted'
+						const localStorageFontSizeItem = 'icFontSizeAdjusted'
 						
 
 						icLayout.defaultRem		= 	undefined
@@ -109,7 +109,7 @@ angular.module('icLayout', [])
 
 							html.classList.toggle('ic-font-size-adjusted', !fontSizeWasAdjusted)					
 
-							$window.localStorage.setItem(localStorageItem, !fontSizeWasAdjusted) 
+							$window.localStorage.setItem(localStorageFontSizeItem, !fontSizeWasAdjusted) 
 
 							this.adjust()
 						}
@@ -197,7 +197,9 @@ angular.module('icLayout', [])
 						//icLayout.defaultWidth = $window.innerWidth //todo
 
 
-						if($window.localStorage.getItem(localStorageItem) === true) icLayout.toggleFontSize()
+						console.log($window.localStorage.getItem(localStorageFontSizeItem), typeof $window.localStorage.getItem(localStorageFontSizeItem))
+
+						if($window.localStorage.getItem(localStorageFontSizeItem) == 'true') icLayout.toggleFontSize()
 
 						$rootScope.icLayout = icLayout
 
