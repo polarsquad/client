@@ -141,12 +141,12 @@ textarea:-webkit-autofill:focus{
 }
 
 
-a,
+/*a,
 button {
 	transition: 		all 150ms ease-in;
 	transform: 			scale(1);
 } 
-
+*/
 /*
 :focus-visible {
 	display:			inline-block;
