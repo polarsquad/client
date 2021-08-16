@@ -1842,7 +1842,7 @@ angular.module('icDirectives', [
 
 										if(match){
 											row.push(match[1])
-											line.replace(/^"(.*)"/, '')
+											line = line.replace(/^"(.*)"/, '')
 										} else {
 											row.push(line.split(',')[0])
 										}

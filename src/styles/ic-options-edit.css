@@ -50,6 +50,10 @@ ic-options-edit .row > * {
 	z-index:				1;
 	transition: 			all 300ms;
 }
+
+ic-options-edit .row > .label {
+	flex: 					5 0 0;
+} 
 	
 ic-options-edit .row > input {
 	white-space:			nowrap;
