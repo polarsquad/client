@@ -3,42 +3,33 @@
 <div class ="tools">
 
 	<a 
-		ng-if	= "ic.layout.mode.name != 'XS'"
-		href 	= "/p/home" 
-		class	= "logo-line"
+		ng-if		= "ic.layout.mode.name != 'XS'"
+		href 		= "/p/home" 
+		class		= "logo-line"
+		tabindex	= "-1"
 	> 
 		<ic-logo-line></ic-logo-line>
 	</a>
 
-	<a
+	<button
 		ng-if		= "ic.layout.mode.name == 'XS'"
 		ng-click	= "ic.overlays.open('mainMenu')"
 		class		= "icon large left icon-interface-menu white"
 	>
-	</a>
+	</button>
 
 	<div class = "spacer"></div>
 
-	<a 
+	<button 
 		class 		= "white"
 		ng-click 	= "ic.site.expandMap = true; ic.site.list = true"
 		ng-if		= "ic.layout.mode.name == 'XS' && !show.search"
 	>
 		<span class = "normal">{{'INTERFACE.MAP' | translate}}</span>
-	</a>
+	</button>
 
-	<a 
-		class 		= "icon large left icon-interface-search white"
-		ic-click 	= "show.search = !show.search"
-	>
-		<span class = "normal">{{'INTERFACE.SEARCH' | translate}}</span>
-	</a>
 	
-	<ic-search 
-		ng-if 			= "show.search"
-		ic-focus		= "true"
-		ic-on-submit	= "show.search = false"
-	></ic-search>
+	<ic-search ic-mini = "true"></ic-search>
 
 	<a 
 		ng-if		= "true || !ic.user.loggedIn"
@@ -57,21 +48,21 @@
  -->
  
   
-	<a
+	<button
 		class		= "icon large left icon-interface-languages white"
 		ng-click	= "ic.overlays.open('languageMenu')" 
 		ng-if		= "ic.user.can('update_translations') || ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)"
 	>
 		<span class = "normal">{{'INTERFACE.LANGUAGES' | translate}}</span>
-	</a>
+	</button>
 
-	<a	
+	<button	
 		ng-if		= "ic.layout.mode.name != 'XS'"		
 		class		= "icon large icon-interface-font_size white"
 		ng-click	= "ic.layout.toggleFontSize()"
 		title		= "{{'INTERFACE.FONT_SIZE' | translate}}"
 	>
-	</a>
+	</button>
 
 </div>
 

@@ -72,25 +72,19 @@
 
 	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
 	<li
-		ng-focus-visible	= "showMore = true"
-		ng-blur-visible		= "showMore = false"
-		ng-mouseenter 		= "showMore = true" 
-		ng-mouseleave		= "showMore	= false"
-		ng-click			= "showMore = !showMore"
-		ic-click-outside 	= "showMore = false" 
 		class				= "bg-3"
 	>
 		<a 
 			class 			= "icon right icon-interface-down white"
 			ng-if			= "!icPlain"
-			tabindex			= "0"
+			tabindex		= "0"
 		>
 			{{'INTERFACE.MORE' | translate}}
 		</a>		
 
 		<ul 
 			class	= "bg-0"
-			ng-show = "icPlain || showMore"
+			style	= "{{icPlain ? 'display: block;' : ''}}"
 		>
 			<li 
 				ng-repeat 	= "page in ic.config.pages"
@@ -104,11 +98,11 @@
 				class = "bg-0 hover"
 				ic-touch-me
 			>
-				<a 
+				<button 
 					ng-click 	= "ic.consent.clear()"
 				>
 					{{'INTERFACE.REVOKE_AND_RELOAD' | translate}}
-				</a>
+				</button>
 
 			</li>
 			<li  
@@ -116,84 +110,89 @@
 				ng-if	= "!ic.user.loggedIn && !icPlain"
 				ic-touch-me
 			>
-				<a  
+				<button  
 					ng-click = "ic.overlays.toggle('login')"
 				>{{'INTERFACE.LOGIN' | translate }}
-				</a>
+				</button>
 			</li>
 
 		</ul>
 	</li>
+
 	<li  ng-if = "!icPlain" class 	= "spacer"></li>
 
 	<li
 		ng-if = "!ic.user.can('edit_items') && !icPlain"
+		class = "bg-3"
 	>
-		<a 	
-		 	ic-touch-me		
+		<button	
 			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true; ic.site.list = false; ic.site.expandMap=false"
+		 	ic-touch-me		
 		>
 			<span class	= "icon large left icon-interface-plus white"></span>
 			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
-		</a>
+		</button>
 	</li>
 
 	<li 
-		ng-if				= "ic.user.loggedIn"
-		ng-mouseenter 		= "showAdmin = true" 
-		ng-mouseleave		= "showAdmin = false"
-		ng-click			= "showAdmin = !showAdmin"
-		ic-click-outside 	= "showAdmin = false" 
+		ng-if = "ic.user.loggedIn"
 	>
 		<a 
-			ng-if = "!icPlain"
-			class = "icon right icon-interface-down white"
+			ng-if 		= "!icPlain"
+			class 		= "icon right icon-interface-down white"
+			tabindex	= "0" 
 			ic-touch-me
 		>
 			{{ic.user.displayName}}
 		</a>	
 		<ul 
-			ng-show = "icPlain || showAdmin"
+			style	= "{{icPlain ? 'display: block;': ''}}"
 			class	= "bg-0"
 		>
 			<li
 				ng-if = "ic.user.can('edit_items')"
 				class = "bg-0 hover"  
 			>
-				<a 
+				<button 
 					
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
-				>{{'INTERFACE.CREATE_NEW_ITEM' | translate}}</a>	
+				>
+					{{'INTERFACE.CREATE_NEW_ITEM' | translate}}
+				</button>	
 			</li>
 			<li 
 				ng-if = "!ic.user.can('edit_items')"
 				class = "bg-0 hover"  
 			>
-				<a 
+				<button 
 					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
 					ic-touch-me
-				>{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}</a>	
+				>
+					{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}
+				</button>	
 			</li>
 			<li
 				class = "bg-0 hover"  
 			>
-				<a
+				<button
 					ng-click = "ic.admin.updateTranslations()"
 					ic-touch-me
-				>{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}</a>	
+				>
+					{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}
+				</button>	
 			</li>
 
 			<li
 				class = "bg-0 hover"
 				ng-if = "!ic.lists.disabled && ic.user.loggedIn"
 			>
-				<a 
+				<button 
 					ng-click 	= "ic.overlays.toggle('listsMenu')" 
 					title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
 				>
 					{{'INTERFACE.MANAGE_LISTS' | translate}}
-				</a>
+				</button>
 			</li>
 
 			<li
@@ -241,9 +240,10 @@
 					href = "/p/{{page}}"
 					ic-touch-me
 				>
-					<span class = "icon right icon-interface-cogwheel">
+					<span >
 						{{'INTERFACE.%s' | fill: page | translate}}
-					</span>					
+					</span>				
+					<span class = "icon right icon-interface-cogwheel"></span>	
 				</a>	
 			</li>
 
@@ -251,12 +251,12 @@
 			<li
 				class = "bg-0 hover"  
 			>
-				<a 
+				<button
 					ng-click = "ic.user.logout()"
 					ic-touch-me
 				>
 					{{('INTERFACE.LOGOUT' | translate) + (icPlain ? ': '+ic.user.displayName :'')}}
-				</a>
+				</button>
 			</li>
 
 		</ul>

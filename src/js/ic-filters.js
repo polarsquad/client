@@ -11,11 +11,17 @@ angular.module('icFilters', [
 	'icSite',
 
 	function(icSite){
-		return function(config){
+
+		var fn =  function(config, blub){
+
 			var path 	= icSite.getNewPath(config)
 			var search 	= icSite.getNewSearch(config)
 			return path + (search ? '?s='+search : '')
 		}
+
+		fn.$stateful = true
+
+		return fn
 	}
 	
 ])

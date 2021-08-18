@@ -17,7 +17,7 @@
 }
 
 .bg-0.hover:focus,
-.bg-0.hover:hover{
+.bg-0.hover:hover {
 	background-color:			var(--primary-color);
 	color:						var(--light-text-color) !important;
 }

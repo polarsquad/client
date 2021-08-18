@@ -1,22 +1,33 @@
+<label 
+	ng-if		= "icMini"
+	class 		= "icon large left icon-interface-search white"
+	for			= "search-term-{{searchId}}"
+
+>
+	<span class = "normal">{{'INTERFACE.SEARCH' | translate}}</span>
+</label>
+
 <form
 	ng-submit 	= "update(searchTerm)"
 	class		= "normal"
 >
+
 	<input
-		id					= "search-term" 			
-		tabindex			= "1"
+		id					= "search-term-{{searchId}}" 			
+		tabindex			= "0"
 		type 				= "text" 
 		ng-model 			= "searchTerm"
 		placeholder			= "{{'INTERFACE.SEARCH_TERM' | translate }}"
 		focus-me			= "icFocus"
 	/>
 	<button 		
-		class	= "{{icButtonLabel ? 'bg-3' : 'bg-t'}} icon {{icButtonLabel ? 'icon-interface-search large white left' : 'icon-interface-right bg-t'}}"
-		type	= "submit"	 		
+		class		= "{{icButtonLabel ? 'bg-3' : 'bg-t'}} icon {{icButtonLabel ? 'icon-interface-search large white left' : 'icon-interface-right bg-t'}}"
+		type		= "submit"	
+		tabindex 	= "-1" 		
 	>
 		<span 
 			ng-if = "icButtonLabel.length"
-			class = "normal"
+			class = "normal white"
 		>
 			{{icButtonLabel}}
 		</span>

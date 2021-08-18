@@ -585,7 +585,29 @@ angular.module('icUiDirectives', [
 			restrict: 'A',
 
 			link: function(scope, element, attrs){
-				if(attrs.focusMe === undefined || attrs.focusMe === "" || scope.$eval(attrs.focusMe) ) element[0].focus()
+
+				if(attrs.focusMe === undefined || attrs.focusMe === "") element[0].focus()
+				
+				function getFirstTabbable(){
+					if(element[0].hasAttribute('tabindex') && element[0].getAttribute('tabindex') != '-1') return element[0]
+
+					var tabbable = element[0].querySelector('a[href], button, input, [tabindex]:not([tabindex="-1"])')
+
+					if(tabbable) return tabbable
+
+					return element[0]	
+				}
+
+				scope.$watch(attrs.focusMe,  (new_value) => {		
+
+					if(new_value){
+
+						var tabbable = getFirstTabbable()
+
+						window.requestAnimationFrame( () => tabbable.focus({preventScroll: true}) )
+					}
+				})
+
 			}
 		}
 	}

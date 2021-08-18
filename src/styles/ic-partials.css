@@ -4,17 +4,33 @@
 /* ic-search */
 
 ic-search {
-	display:						inline-block;
+	display:						inline-flex;
 	margin:							0;
 	height:							2em;
+	align-items: 					center;
+	flex-wrap: 						nowrap;
+}
+
+ic-search > * {
+	flex: 							1 0 auto;
+	display: 						inline-flex;
+}
+
+
+ic-search:focus-within label {
+	display: 						none;
+} 
+
+ic-search:not(:focus-within) label + form {
+	flex: 							0 0 0;
+	overflow: 						hidden;
+	width: 							0;
 }
 
 ic-search form {
-	display:						inline-block;
 	position:						relative;
-	background:						#fff;
 	height:							1.75em;
-	vertical-align:					middle;
+	align-items: 					center;
 }
 
 
@@ -26,22 +42,28 @@ ic-search form input[type=text]{
 	padding-right:					2.5em;
 	padding-left:					0.5em;
 	margin:							0;
-	flex:							1 0 auto;
 	font-size:						1em;
 	line-height:					1.75em;
-	height:							1.75em;
 	background:						#fff;
+	color: 							var(--dark-text-color);
 }
 
 ic-search form button {
-	position:						absolute;
-	display:						inline-block;
-	right:							0;
-	top:							0;
-	height:							100%;
+	position: 						absolute;
+	display:						inline-block;	
+	right: 							0;
 	width:							2em;
 	background-color:				transparent;
+	z-index: 						999999;
 }
+
+
+
+
+
+
+
+
 
 
 ic-item-badge {

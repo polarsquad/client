@@ -1591,16 +1591,19 @@ angular.module('icDirectives', [
 			scope:			{
 								icOnSubmit: 	'&',
 								icOnUpdate: 	'&',
-								icButtonLabel:	'<'	,
-								icFocus:		'<'
+								icButtonLabel:	'<',
+								icFocus:		'<',
+								icMini:			'@'
 							},
 
 			link: function(scope, element, attrs){
 
 				scope.ic		= ic
 
+				scope.searchId	= scope.$id
+
 				scope.update = function(search_term){
-					var input = element[0].querySelector('#search-term')
+					var input = element[0].querySelector('input')
 					
 					search_term = search_term.replace(/[\/?#]+/g,' ')
 

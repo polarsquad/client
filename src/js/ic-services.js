@@ -779,6 +779,7 @@ angular.module('icServices', [
 										?	param.defaultValue(ic)
 										:	param.defaultValue
 
+
 				if(options && Array.isArray(value)){
 					value.forEach(function(x, index){
 						if(options.indexOf(x) == -1) value.splice(index,1)
@@ -2153,6 +2154,8 @@ angular.module('icServices', [
 
 		icLanguages.translationTable	=	{}
 
+		icLanguages.defaultLanguage		=	undefined
+
 		icLanguages.ready 				= 	$http.get(icConfig.backendLocation+'/translations.json')
 											.then(
 												function(result){
@@ -2164,15 +2167,26 @@ angular.module('icServices', [
 											)
 											.then( () => icUser.ready )
 											.then( () => {
-												icLanguages.availableLanguages	=	Array.from(new Set([
+												icLanguages.availableLanguages	=	[
 																						...(icConfig.languages ? icConfig.languages : []),
 																						...(icUser.can('update_translations') && icConfig.adminLanguages ? icConfig.adminLanguages : []),
-																					]))
+																					].filter( (x, index, arr) =>  arr.indexOf(x) == index)
 
 												if(icLanguages.availableLanguages.length == 0){
 													icLanguages.availableLanguages = ['de', 'en', 'none']
 													console.warn('icLanguages: config does not provide available languages!')
 												}
+
+											})
+											.then( () => {
+												icLanguages.defaultLanguage = 		icLanguages.getStoredLanguage()
+																				|| 	(navigator.language && navigator.language.substr(0,2) )
+																				|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
+																				|| 	icLanguages.fallbackLanguage
+																				||	icLanguages.availableLanguages[0] 
+																				||	'en'
+
+												console.log(icLanguages.defaultLanguage)
 											})
 
 
@@ -2235,24 +2249,20 @@ angular.module('icServices', [
 
 		icSite.registerParameter({
 			name: 			'currentLanguage',
-			encode:			function(value,ic){
+			encode:			function(value, ic){
 								if(!value) return ''
 								return 'l/'+value 
 							},
 
 			decode:			function(path,ic){
-								var matches 	=	 path.match(/(^|\/)l\/([^\/]*)/),
-									best_guess 	= 	(matches && matches[2])
-													|| 	ic.site.currentLanguage 
-													|| 	icLanguages.getStoredLanguage()
-													|| 	(navigator.language && navigator.language.substr(0,2) )
-													|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
-													|| 	icLanguages.fallbackLanguage
+								var matches = path.match(/(^|\/)l\/([^\/]*)/)
+								
+								return matches && matches[2]
 
-								return 	( (icLanguages.availableLanguages.indexOf(best_guess) != -1) && best_guess)
-										|| 	icLanguages.availableLanguages[0] || 'en'
 							},
-			defaultValue:	icLanguages.availableLanguages[0] || 'en'
+
+			options:		() => icLanguages.availableLanguages,				
+			defaultValue:	() => icLanguages.defaultLanguage
 
 		})
 
