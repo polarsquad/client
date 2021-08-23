@@ -1760,7 +1760,6 @@ angular.module('icDirectives', [
 
 				scope.logRaw = function(){
 
-					console.log(scope.filteredOptions)
 
 					const map = {}
 
@@ -1768,7 +1767,6 @@ angular.module('icDirectives', [
 						map[o.label] = o.tag
 					})
 
-					console.log(map)
 				}
 
 				scope.edit = function(option){
@@ -2078,11 +2076,8 @@ angular.module('icDirectives', [
 				var transclusionScope
 
 
-				console.log('SCOPE.TRANSCLUDE', scope.transclude)
 
 				function update(){
-
-					console.log('IC TRANSCLUDE UPDATE: ', typeof scope.transclude)
 
 					if(transcludedContent) 	transcludedContent.remove()
 					if(transclusionScope)	transclusionScope.$destroy()

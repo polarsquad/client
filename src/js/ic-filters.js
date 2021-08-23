@@ -12,7 +12,7 @@ angular.module('icFilters', [
 
 	function(icSite){
 
-		var fn =  function(config, blub){
+		var fn =  function(config){
 
 			var path 	= icSite.getNewPath(config)
 			var search 	= icSite.getNewSearch(config)

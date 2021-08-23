@@ -809,7 +809,7 @@ angular.module('icServices', [
 					}
 				})
 
-				return path
+				return path || '/'
 			}
 
 

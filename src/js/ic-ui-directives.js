@@ -891,7 +891,6 @@ angular.module('icUiDirectives', [
 																		:	''
 														}
 											})
-					console.log(scope.carousel.images)
 
 					resetToPosition()
 				})
