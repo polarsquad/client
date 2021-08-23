@@ -1,3 +1,8 @@
+.image {
+	background-position: 				50% 50%;
+	background-size: 					contain;
+}
+
 .background-image {
 	background-size:					cover !important;
 	background-position:				50% 50% !important;
@@ -21,3 +26,4 @@
 .background-image.left{
 	background-position:				0% 50% !important;
 }
+
