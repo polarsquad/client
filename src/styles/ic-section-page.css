@@ -236,6 +236,7 @@ ic-page p{
 	font-size: 					1.25rem;
 	margin-top:					1rem;
 	margin-bottom:				1rem;
+	line-height: 				2;
 }
 
 ic-page p > img {

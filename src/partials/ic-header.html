@@ -48,6 +48,15 @@
  -->
  
   
+	<button	
+		ng-if		= "ic.layout.mode.name != 'XS'"		
+		class		= "icon large left icon-interface-font_size white"
+		ng-click	= "ic.layout.toggleFontSize()"
+		title		= "{{'INTERFACE.FONT_SIZE' | translate}}"
+	>
+		<span class = "normal">{{'INTERFACE.FONT_SIZE' | translate}}</span>
+	</button>
+	
 	<button
 		class		= "icon large left icon-interface-languages white"
 		ng-click	= "ic.overlays.open('languageMenu')" 
@@ -56,13 +65,6 @@
 		<span class = "normal">{{'INTERFACE.LANGUAGES' | translate}}</span>
 	</button>
 
-	<button	
-		ng-if		= "ic.layout.mode.name != 'XS'"		
-		class		= "icon large icon-interface-font_size white"
-		ng-click	= "ic.layout.toggleFontSize()"
-		title		= "{{'INTERFACE.FONT_SIZE' | translate}}"
-	>
-	</button>
 
 </div>
 

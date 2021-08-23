@@ -13,7 +13,7 @@ ic-search {
 
 ic-search > * {
 	flex: 							1 0 auto;
-	display: 						inline-flex;
+	display: 						inline-flex !important;
 }
 
 

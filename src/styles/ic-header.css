@@ -91,6 +91,7 @@ ic-header .logo > a {
 ic-header .logo ic-logo-full {
 	font-size:						4rem;
 	margin-right:					1.5rem;
+	margin-top: 					-1.5rem;
 }
 
 

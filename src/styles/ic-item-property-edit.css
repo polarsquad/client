@@ -21,6 +21,7 @@ ic-item-property-edit .current-value{
 	font-size:					1em;
 	opacity:					0.4;
 	line-height:				1.5rem;
+	margin-bottom: 				1rem;
 }
 
 ic-item-property-edit .current-value .list {
