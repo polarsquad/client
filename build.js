@@ -187,7 +187,7 @@ function svgMinimize(src_folder, dest_folder){
 			.then( () => fs.readdir(src_folder) )
 			.then( result => result.filter( (filename) => filename.match(/\.svg$/) && fs.lstatSync(src_folder+'/'+filename).isFile()) )
 			.then( (filenames) => Promise.all(
-				filenames.map( (filename) => {
+				filenames.map( (filename) => {					
 					return	fs.readFile(src_folder+'/'+filename, 'utf8')
 							.then( content => optimize(content) ) 
 							.then( result => fs.writeFile(dest_folder+'/'+filename, result.data, { flag : 'w', encoding: 'utf8'}))

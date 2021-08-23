@@ -132,7 +132,8 @@
 	color:						var(--light-text-color);
 }
 
-.active {
+.active,
+.active:hover {
 	color:						var(--primary-color);
 }
 

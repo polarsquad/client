@@ -228,22 +228,19 @@
 		bottom:				0;
 		right:				52%;
 		margin:				0;
-		width:				3cm;
-		height:				3cm;
+		width:				4cm;
+		height:				4cm;
 	}
 
 	ic-item-full .qrcode qrcode {
 		display:			block;
-		margin-left:		auto;
+		margin:				0;
 		padding:			0;
-		padding-right:		0.5rem;
-		height:				3cm;
-		width:				3cm;
+		height:				100%;
+		width:				100%;
 	}
 
 	ic-item-full .qrcode canvas {
-		height:				3cm;
-		width:				3cm;
 	}
 
 	ic-item-full footer {

@@ -293,6 +293,25 @@ angular.module('icDirectives', [
 ])
 
 
+.directive('icItemFullFooter',[
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-item-full-footer.html',
+			scope:			{
+								icItem: '<'
+							},
+
+			link: function(scope, element, attr){
+				scope.ic = ic
+			}
+		}
+	}
+
+])
+
 .directive('icItemFullHeader',[
 	'icOverlays',
 	'icSite',

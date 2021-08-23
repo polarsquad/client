@@ -60,7 +60,7 @@ angular.module('icServices', [
 													var resolve = scheduled_calls[id].resolve
 														reject 	= scheduled_calls[id].reject
 
-														delete scheduled_calls[id]
+													delete scheduled_calls[id]
 
 													Promise
 													.resolve(callback())
@@ -528,8 +528,6 @@ angular.module('icServices', [
 
 		icLists.update = function(){
 			
-			console.log('UPDATE LIST')
-
 			return 	$q.when(dpd.lists.get())
 					.then(function(lists){
 						while(icLists.length){ icLists.pop() }
@@ -816,6 +814,7 @@ angular.module('icServices', [
 			icSite.updateFromPath = function(e,n,o){
 
 				path2Params($location.path())
+				icSite.updateUrl()
 
 				return icSite
 			}
@@ -828,9 +827,6 @@ angular.module('icServices', [
 				if(current_path != new_path){
 					$location.path(new_path).replace()
 				}
-
-
-
 				return icSite
 			}
 
@@ -965,7 +961,6 @@ angular.module('icServices', [
 			}
 
 			icSite.print = function(){
-				console.log('print')
 				try {
 					window.print()
 				} catch(e) {
@@ -983,7 +978,6 @@ angular.module('icServices', [
 
 					icSite.config.params.forEach(function(param){ state[param.name] = icSite[param.name]	})
 					icSite.config.switches.forEach(function(swt){ state[swt.name]	= icSite[swt.name]		})
-
 
 					state.layoutMode = icLayout.mode.name
 
@@ -1012,8 +1006,8 @@ angular.module('icServices', [
 				}
 			)
 
-			$rootScope.$on('$locationChangeSuccess', function(){
-				ic.ready.then(icSite.updateFromPath)
+			$rootScope.$on('$locationChangeSuccess', function(){		
+				icSite.updateFromPath()						
 			})
 
 
@@ -2150,11 +2144,9 @@ angular.module('icServices', [
 
 		icLanguages.availableLanguages	=	[]
 
-		icLanguages.fallbackLanguage	= 	'de'
-
 		icLanguages.translationTable	=	{}
 
-		icLanguages.defaultLanguage		=	undefined
+		icLanguages.guessedLanguage		=	undefined
 
 		icLanguages.ready 				= 	$http.get(icConfig.backendLocation+'/translations.json')
 											.then(
@@ -2179,16 +2171,26 @@ angular.module('icServices', [
 
 											})
 											.then( () => {
-												icLanguages.defaultLanguage = 		icLanguages.getStoredLanguage()
+												icLanguages.guessedLanguage = 		icLanguages.getStoredLanguage()
 																				|| 	(navigator.language && navigator.language.substr(0,2) )
 																				|| 	(navigator.userLanguage && navigator.userLanguage.substr(0,2) )
-																				|| 	icLanguages.fallbackLanguage
-																				||	icLanguages.availableLanguages[0] 
-																				||	'en'
+												
+												if(icLanguages.availableLanguages.includes(icLanguages.guessedLanguage)) return;
 
-												console.log(icLanguages.defaultLanguage)
+												icLanguages.guessedLanguage = icLanguages.getDefaultLanguage()
+
+												if(icLanguages.availableLanguages.includes(icLanguages.guessedLanguage)) return;
+
+												icLanguages.guessedLanguage = null												
+
+
 											})
 
+
+		icLanguages.getDefaultLanguage = function() {
+			//must only depend on icConfig!
+			return icConfig.defaultLanguage || (icConfig.languages||[])[0] || 'en'
+		}
 
 
 		function objectKeysToUpperCase(obj){
@@ -2216,6 +2218,10 @@ angular.module('icServices', [
 					:	null
 		}
 
+		icLanguages.setStoredLanguage = function(language){
+			$window.localStorage.setItem('language', language)			
+		}
+
 		icLanguages.addUniformTranslations = async function(path, map){
 
 			await	icLanguages.ready
@@ -2241,8 +2247,6 @@ angular.module('icServices', [
 
 			})
 
-			console.log(icLanguages.translationTable.de)
-
 			icLanguages.refreshTranslations()
 
 		}
@@ -2256,13 +2260,12 @@ angular.module('icServices', [
 
 			decode:			function(path,ic){
 								var matches = path.match(/(^|\/)l\/([^\/]*)/)
-								
-								return matches && matches[2]
+
+								return matches && matches[2] || ic.site.currentLanguage || icLanguages.guessedLanguage
 
 							},
 
-			options:		() => icLanguages.availableLanguages,				
-			defaultValue:	() => icLanguages.defaultLanguage
+			options:		() => icLanguages.availableLanguages,			
 
 		})
 
@@ -2274,7 +2277,7 @@ angular.module('icServices', [
 				if(!icSite.currentLanguage) return null
 
 				$translate.use(icSite.currentLanguage)
-				$window.localStorage.setItem('language',icSite.currentLanguage)
+				icLanguages.setStoredLanguage(icSite.currentLanguage)
 			}
 		)
 
@@ -2444,6 +2447,10 @@ angular.module('icServices', [
 
 			icOverlays.deferred[overlay_name] = deferred || $q.defer()
 			
+			// It's okay if noone else catches the cancelation of the overlay, that's actually happens alot.g
+			// This way js wont throw an error for an uncaught rejection:
+			icOverlays.deferred[overlay_name].promise.catch( () => {} )
+
 
 			icOverlays.toggle(overlay_name, true)
 

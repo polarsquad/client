@@ -105,7 +105,7 @@ ic-page ic-search {
 }
 
 ic-page ic-search form {
-	display:					flex;
+	display:					flex !important;
 	height:						auto;
 }
 
@@ -271,8 +271,10 @@ ic-page p em:first-child > a {
 }
 
 ic-page ul {
+	box-sizing: 				border-box;
 	list-style: 				disc outside;	
 	padding-left:				4rem;
+	font-size: 					1.25rem;	
 }
 
 ic-page ul li {
@@ -280,6 +282,12 @@ ic-page ul li {
 }
 
 ic-page ol {
+	box-sizing: 				border-box;	
 	padding-left: 				4rem;
-	
+
+}
+
+ic-page ol li::marker {
+	font-family: 				inherit;
+	font-size: 					1.25rem;
 }
