@@ -277,5 +277,9 @@ ic-page ul {
 
 ic-page ul li {
 	margin:						0.25em 0;
-	font-size:					1.25rem;
+}
+
+ic-page ol {
+	padding-left: 				4rem;
+	
 }

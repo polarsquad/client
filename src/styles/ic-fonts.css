@@ -7,13 +7,13 @@ h4,h5,h6
 	font-family:				Roboto, sans-serif;
 }
 
-h1,h2,h3
+h1,h2,h3,
 ic-page p,
 ic-page a.boxed,
 ic-page .tiles > *,
 ic-page p,
-ic-page a.boxed
-{
+ic-page a.boxed,
+ic-page {
 	font-family: 				Biryani, Roboto, sans-serif;
 }
 
