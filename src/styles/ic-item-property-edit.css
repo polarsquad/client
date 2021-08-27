@@ -1,5 +1,7 @@
 ic-item-property-edit {
 	display:					block;
+	position: 					relative;
+	z-index: 					0;
 }
 
 ic-item-property-edit h4 {
@@ -133,20 +135,33 @@ ic-item-property-edit.invalid textarea {
 	box-shadow:					0 0 0 2px var(--error-color);
 }
 
-ic-item-property-edit[ic-options].invalid{
+ic-item-property-edit.invalid{
 	position:					relative;
 	overflow:					visible !important;
 }
 
-ic-item-property-edit[ic-options].invalid:before {
+ic-item-property-edit.invalid:after {
 	content:					'';
 	display:					block;
 	position:					absolute;
 	right:						-1rem;
-	top:						0;
+	top:						-0.25rem;
 	bottom:						0;
 	background-color:			var(--error-color);
 	width:						0.15rem;
+}
+
+ic-item-property-edit.invalid:before {
+	content:					'';
+	display:					block;
+	position:					absolute;
+	top:						-0.25rem;
+	bottom:						0rem;
+	left:						-0.5rem;
+	right: 						-1rem;
+	z-index: 					-1;
+	background-color:			var(--error-color);
+	opacity: 					0.05;
 }
 
 ic-item-property-edit .error {

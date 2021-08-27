@@ -467,7 +467,11 @@ angular.module('icDirectives', [
 					})
 				}
 
-				scope.submit = function(){
+				scope.focusEditingNote = function(){
+					element[0].querySelector('[ic-key=editingNote] input, [ic-key=editingNote] textarea')?.focus()
+				}
+
+				scope.submit = function(ignore_missing_note){
 
 					if(!scope.icEdit) return null
 
@@ -478,47 +482,62 @@ angular.module('icDirectives', [
 					icOverlays.toggle('spinner', true)
 
 
-					//suggesting new item
-					if(item.internal.new && !icUser.can('edit_items')){
-						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
-						return 	$q.when(edit.submitAsNew())
-								.then(
-									function(){
-										icItemEdits.clear(edit)
-										icItemStorage.removeItem(item)
+					if(!icUser.can('edit_items')){
 
-										icSite.activeItem 	= null
-										icSite.editItem 	= false
+						if(!scope.validate()) 	return 	icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
 
-										icSite.updateUrl()
 
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
-									},
-									function(){
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
-									}
-								)
+						if(!edit.editingNote && !ignore_missing_note) 
+
+												return 	icOverlays.open('confirmationModal', 'INTERFACE.MISSING_EDITING_NOTE')	
+														.then( 
+															() => scope.submit(true),
+															() => scope.focusEditingNote() 
+														)
+
+
+						//suggesting new item
+						if(item.internal.new){
+							
+							return 	$q.when(edit.submitAsNew())
+									.then(
+										function(){
+											icItemEdits.clear(edit)
+											icItemStorage.removeItem(item)
+
+											icSite.activeItem 	= null
+											icSite.editItem 	= false
+
+											icSite.updateUrl()
+
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+										},
+										function(){
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
+										}
+									)
+						}
+
+						//suggesting edit 
+						if(!item.internal.new){
+						
+							return 	$q.when(edit.submitAsEditSuggestion(item))
+									.then(
+										function(){
+											icItemEdits.clear(edit)
+
+											icSite.editItem = false
+											icSite.updateUrl()
+
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+										},
+										function(){
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
+										}
+									)
+						}
+
 					}
-
-					//suggesting edit 
-					if(!item.internal.new && !icUser.can('edit_items')){
-						if(!scope.validate()) return icOverlays.open('popup', 'INTERFACE.EDIT_ERRORS')	
-						return 	$q.when(edit.submitAsEditSuggestion(item))
-								.then(
-									function(){
-										icItemEdits.clear(edit)
-
-										icSite.editItem = false
-										icSite.updateUrl()
-
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
-									},
-									function(){
-										return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')
-									}
-								)
-					}
-
 
 					//adding new item
 					if(item.internal.new && icUser.can('edit_items')){
@@ -545,25 +564,25 @@ angular.module('icDirectives', [
 								)
 					}
 
-					$q.when(edit.update())
-					.then(
-						function(item_data){
+					return	$q.when(edit.update())
+							.then(
+								function(item_data){
 
-							icItemEdits.clear(edit)
+									icItemEdits.clear(edit)
 
-							icItemStorage.storeItem(item_data)
-							icItemStorage.refreshFilteredList()
+									icItemStorage.storeItem(item_data)
+									icItemStorage.refreshFilteredList()
 
-							icSite.editItem = false
-							icSite.updateUrl()
+									icSite.editItem = false
+									icSite.updateUrl()
 
 
-							return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')
-						},
-						function(){
-							return icOverlays.open('popup', 'INTERFACE.UPDATE_FAILED')
-						}
-					)
+									return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')
+								},
+								function(){
+									return icOverlays.open('popup', 'INTERFACE.UPDATE_FAILED')
+								}
+							)
 
 				}
 
@@ -2070,6 +2089,9 @@ angular.module('icDirectives', [
 					icOverlays.deferred.confirmationModal.resolve()
 					icOverlays.toggle('confirmationModal')
 				}
+
+
+
 			}
 		}
 	}
