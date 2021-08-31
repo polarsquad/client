@@ -34,9 +34,13 @@ ul li {
 
 input, 
 button, 
+select,
 button:active,
 button:hover,
-button:focus {
+button:focus,
+select:active,
+select:hover,
+select:focus {
 	display:			inline-block;
 	border:				none;	
 	border-style:		none;
@@ -45,13 +49,14 @@ button:focus {
 
 
 
-
+select::-moz-focus-inner,
 button::-moz-focus-inner {
     padding:0;
     border:0;
 }
 
 
+select,
 button {
 	cursor:				pointer;
 	background-color:	transparent;
@@ -60,11 +65,10 @@ button {
 	margin:				0;
 }
 
-button::-moz-focus-inner {
-	border:				0;
-	padding:			0;
+select {
+	appearance: 		none;
+	padding: 			0.5rem;
 }
-
 
 
 h1,h2,h3,h4,h5,h6 {

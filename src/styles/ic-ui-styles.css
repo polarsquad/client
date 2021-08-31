@@ -95,7 +95,7 @@ ic-carousel 	ng-transclude {
 
 .selects {
 	margin:					auto;
-	text-align:				center;	
+	text-align:				left;	
 	display:				flex;
 	flex-direction:			column;
 	align-items:			stretch;
