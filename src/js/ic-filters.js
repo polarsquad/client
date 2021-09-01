@@ -48,6 +48,22 @@ angular.module('icFilters', [
 	}
 ])
 
+.filter('icFullCategory', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+
+		return function(names){
+			if(typeof names == 'string') names = [names]
+
+			return names.map( name => icTaxonomy.categories.find( category => category.name == name) )	
+		}
+
+	}
+
+])
+
 
 
 .filter('icSubCategories', [

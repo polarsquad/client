@@ -814,6 +814,7 @@ angular.module('icServices', [
 			icSite.updateFromPath = function(e,n,o){
 
 				path2Params($location.path())
+				search2Switches($location.search().s)
 				icSite.updateUrl()
 
 				return icSite
@@ -827,6 +828,7 @@ angular.module('icServices', [
 				if(current_path != new_path){
 					$location.path(new_path).replace()
 				}
+
 				return icSite
 			}
 
@@ -842,13 +844,12 @@ angular.module('icServices', [
 			//Switches:
 
 
-			function search2Switches(){
-				var binary_str 	= parseInt($location.search().s || 0, 36).toString(2),
+			function search2Switches(search){
+				var binary_str 	= parseInt(search || 0, 36).toString(2),
 					length		= binary_str.length
 
 				icSite.config.switches.forEach(function(swt){
 					icSite[swt.name] = !!parseInt(binary_str[length-swt.index-1])
-
 				})
 
 
@@ -891,7 +892,7 @@ angular.module('icServices', [
 			}
 
 			icSite.updateFromSearch = function(){
-				search2Switches()
+				search2Switches($location.search().s)
 				return icSite
 			}
 

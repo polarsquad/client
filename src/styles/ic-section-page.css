@@ -226,7 +226,7 @@ ic-page h1 {
 
 
 ic-page h2 {
-	color:						var(--plain-text-color);
+	color:						var(--dark-text-color);
 	font-size: 					1.35em;
 	font-weight: 				600;
 	margin-bottom:				0.75rem;
@@ -252,10 +252,13 @@ ic-page p > img + img {
 }
 
 
-ic-page a {
+ic-page > a,
+ic-page p a,
+ic-page ul a {
 	color:						var(--primary-color);
 	padding-left: 				0.5rem;
 	padding-right: 				0.5rem;
+	text-decoration: 			underline;
 }
 
 ic-page em > a {
