@@ -87,16 +87,13 @@
 	class		= "flex-shrink"
 >
 	
-	<span class = "icon icon-interface-right left plain"></span>
-
 	<a 
 		class 		= "active" 
 		ng-href		= "/list/u/{{tag_name}}"
 	> 
-		{{'UNSORTED_TAGS.%s' | fill : tag | translate}} 
-		<span ng-if = "!$last">, </span>
-
+		{{'UNSORTED_TAGS.%s' | fill : tag | translate}}{{$last ? '' :',&nbsp'}} 
 	</a>
+
 </div>
 
 

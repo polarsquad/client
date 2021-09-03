@@ -13,10 +13,14 @@ ic-sorting > *:nth-child(2){
 	align-items:				center;
 }
 
-ic-sorting li {
+ic-sorting li, /*alt*/
+ic-sorting button {
 	padding-top:				0.25em !important;
 	padding-bottom:				0.25em !important;
 	border-radius:				0.25em;
+	box-sizing: 				border-box;
+	width: 						100%;
+	text-align: 				left;
 }
 
 

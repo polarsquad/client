@@ -990,7 +990,8 @@ angular.module('icServices', [
 					ic.ready.then(function(){
 						icSite
 						.updateSections()
-						.updateUrl()	
+						.updateUrl()
+						.adjust()	
 
 						$q.resolve(icUtils.schedule('adjustParameters', icSite.adjust, 30, true))
 

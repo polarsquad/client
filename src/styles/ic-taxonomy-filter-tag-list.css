@@ -5,9 +5,10 @@ ic-taxonomy-filter-tag-list {
 	box-sizing:					border-box;
 }
 
-ic-taxonomy-filter-tag-list > a {
+ic-taxonomy-filter-tag-list > a, /*alt*/
+ic-taxonomy-filter-tag-list > button {
 	flex:						0 1 auto;
-	display:					inline-flex;
+	display:					inline-flex !important;
 	position:					relative;
 	line-height:				2rem;
 	padding:					0 0.75rem;
@@ -17,28 +18,34 @@ ic-taxonomy-filter-tag-list > a {
 
 }
 
-ic-taxonomy-filter-tag-list > a > * {
+ic-taxonomy-filter-tag-list > a > *, /*alt*/
+ic-taxonomy-filter-tag-list > button > * {
 	flex:						1 0 0;
 	display:					inline-block;
 	vertical-align:				middle;
 }
 
-ic-taxonomy-filter-tag-list > a > *:not(.icon){
+ic-taxonomy-filter-tag-list > a > *:not(.icon), /*alt*/
+ic-taxonomy-filter-tag-list > button > *:not(.icon){
 	white-space: 				nowrap;
 	overflow:					hidden;
 	text-overflow:				ellipsis;
 	min-width:					0;
 }
 
-ic-taxonomy-filter-tag-list > a > .icon {
+ic-taxonomy-filter-tag-list > a > .icon,	/*alt*/
+ic-taxonomy-filter-tag-list > button > .icon {
 	flex:						0 0 auto;
 }
 
-ic-taxonomy-filter-tag-list > a > * + * {
+ic-taxonomy-filter-tag-list > a > * + *, /*alt*/
+ic-taxonomy-filter-tag-list > button > * + * {
 	margin-left:				0.25rem;
 }
 
-ic-taxonomy-filter-tag-list > a > .icon {
+ic-taxonomy-filter-tag-list > a > .icon, /*alt*/
+
+ic-taxonomy-filter-tag-list > button > .icon {
 	margin-right:				-0.5rem;
 }
 

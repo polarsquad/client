@@ -1,4 +1,4 @@
-<a 
+<button
 	class		= "bg-3 round"
 	ng-if		= "ic.site.searchTerm"
 	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
@@ -7,9 +7,9 @@
 >
 	<span> {{'INTERFACE.SEARCH_FOR' | translate}} "{{ic.site.searchTerm}}"	 </span>
 	<span class = "icon right white icon-interface-close"></span>
-</a>
+</button>
 
-<a 
+<button 
 	class		= "bg-3 round"
 	ng-repeat	= "type in ic.site.filterByType"
 	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
@@ -18,9 +18,9 @@
 >
 	<span>	{{'TYPES.%s' | fill : type | translate }} </span>
 	<span class = "icon right white icon-interface-close"></span>
-</a>
+</button>
 
-<a 
+<button 
 	class		= "bg-3 round"
 	ng-repeat	= "category in ic.site.filterByCategory"
 	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
@@ -29,9 +29,9 @@
 >
 	<span>	{{'CATEGORIES.%s' | fill : category | translate }} </span>
 	<span class = "icon right white icon-interface-close"></span>
-</a>
+</button>
 
-<a 
+<button 
 	class		= "bg-3 round"
 	ng-repeat	= "tag in ic.site.filterByUnsortedTag"
 	title		= "{{'INTERFACE.REMOVE_FILTER' | translate}}"
@@ -40,9 +40,9 @@
 >
 	<span>	{{'UNSORTED_TAGS.%s' | fill : tag | translate }} </span>
 	<span class = "icon right white icon-interface-close"></span>
-</a>
+</button>
 
-<a 
+<button 
 	ng-if		= "ic.site.filterByType.length+ic.site.filterByCategory.length+ic.site.filterByUnsortedTag.length > 1"
 	class		= "border-3 round active"
 	title		= "{{'INTERFACE.REMOVE_ALL_FILTERS' | translate}}"
@@ -50,4 +50,4 @@
 	ic-touch-me
 >
 	<span>	{{'INTERFACE.REMOVE_ALL_FILTERS' | translate }} </span>
-</a>
+</button>

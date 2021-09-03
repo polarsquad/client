@@ -23,9 +23,12 @@ ic-taxonomy-filter section ul {
 	margin:						0;
 }
 
-ic-taxonomy-filter section h2, 
-ic-taxonomy-filter section li {
+ic-taxonomy-filter section h2.icon, /*alt*/ 
+ic-taxonomy-filter section li,	/*alt*/
+ic-taxonomy-filter section button {
 	display:					flex !important;
+	box-sizing:					border-box;
+	width: 						100%;
 	align-items:				center;
 	justify-content:			start;
 	height:						3rem;
@@ -34,26 +37,32 @@ ic-taxonomy-filter section li {
 	background-position:		1rem 50% !important;
 }
 
-ic-taxonomy-filter section .types li.disabled {
+ic-taxonomy-filter section .types li.disabled, /*alt*/
+ic-taxonomy-filter section .types button.disabled {
 	display:					none;
 }
 
-ic-taxonomy-filter section .categories li.disabled {
+ic-taxonomy-filter section .categories li.disabled /*alt*/,
+ic-taxonomy-filter section .categories button.disabled {
 	display:					none;
 }
 
 
-ic-taxonomy-filter section .unsorted li.disabled {
+ic-taxonomy-filter section .unsorted li.disabled, /*alt*/
+ic-taxonomy-filter section .unsorted button.disabled {
 	display:					none;
 }
 
-ic-taxonomy-filter section li div {
+ic-taxonomy-filter section li div, /*alt*/
+ic-taxonomy-filter section button div {
 	flex:						1 1 auto;
 	display:					inline-block;
 	line-height:				1.2;
+	text-align: 				left;
 }
 
-ic-taxonomy-filter section li .bubble {
+ic-taxonomy-filter section li .bubble, /*alt*/
+ic-taxonomy-filter section button .bubble {
 	display:					inline-block;
 	flex:						0 0 auto;
 }

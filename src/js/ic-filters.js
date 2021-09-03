@@ -217,6 +217,7 @@ angular.module('icFilters', [
 					'linkedin':		'',
 					'instagram':	'',
 					'pinterest':	'',
+					'youtube':		'',
 					'email':		'mailto:',
 					'phone':		'tel:'
 				}[key]

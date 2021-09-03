@@ -30,6 +30,7 @@ ic-main-content,
 	overflow:					hidden !important;
 	height:						100%;
 	align-items:				stretch;
+	z-index: 					1;
 }
 
 ic-main-content > *,

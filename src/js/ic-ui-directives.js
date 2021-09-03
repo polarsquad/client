@@ -98,6 +98,184 @@ angular.module('icUiDirectives', [
 ])
 
 
+.directive('icTabGroup',[
+
+
+	function(){
+
+		return {
+
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+				const observer 			= 	new MutationObserver(updateTabs)
+
+				const default_config	=	{
+												cycle: true
+											}
+
+				let config				=	null
+
+
+				let tabbables			=	[]
+
+				let last_tabbed			=	null
+
+
+				function setup(c){
+
+					if(!config){
+						observer.observe(element[0],{subtree: true, childList: true})
+						element[0].addEventListener('focusin', trackTabbable)
+						element[0].addEventListener('focusout', trackTabbable)
+						document.addEventListener('keydown', onKeyDown)
+					}
+
+					element[0].classList.add('ic-tab-group')
+
+
+					config = Object.assign({}, default_config, c)
+
+				}
+
+				function teardown(){
+
+					element[0].classList.remove('ic-tab-group')
+					last_tabbed = null
+
+
+					if(!config) return null
+
+					config = null
+
+					document.removeEventListener('keydown', onKeyDown)
+					element[0].removeEventListener('focusin', trackTabbable)
+					element[0].removeEventListener('focusout', trackTabbable)
+					observer.disconnect()
+				}
+
+				scope.$watch(attrs.icTabGroup, config => {
+
+					if(!attrs.icTabGroup) config = true
+
+					config
+					?	setup(config)
+					:	teardown()
+
+				}, true)
+
+
+				function trackTabbable(){
+
+					if(last_tabbed && !element[0].contains(last_tabbed)){					
+						console.log('lost last tabbed!', last_tabbed)
+						updateTabs()
+					} 
+
+					last_tabbed = 	element[0].contains(document.activeElement)
+									?	document.activeElement
+									:	null
+
+					console.log('last_tabbed', last_tabbed)				
+
+				}
+				
+
+
+				function updateTabs(mutationList){	
+
+					if(!config) return null
+				
+
+					mutationList = Array.from(mutationList || [])
+
+					tabbables = Array.from(element[0].querySelectorAll('a[href], button, input, [tabindex]'))					
+
+					const fallback_tabbable = 	element[0].querySelector('[tabindex="0"]') || tabbables[0]
+
+
+					tabbables.forEach( tabbable => tabbable.setAttribute('tabIndex', -1))
+
+					let activeTabbable 	=	element[0].contains(document.activeElement)
+											?	document.activeElement
+											:	fallback_tabbable
+
+					removed_tabbable	=	last_tabbed && !element[0].contains(last_tabbed)
+
+					console.log('RMOM', removed_tabbable)
+
+					activeTabbable && activeTabbable.setAttribute('tabindex', 0)
+
+					if(removed_tabbable) activeTabbable && activeTabbable.focus()
+
+				}
+
+				function switchTo(el){									
+
+					document.activeElement.blur()
+					el.focus()
+
+					updateTabs()
+
+				}
+
+				function onKeyDown(event){			
+
+					if(!config) return null
+
+
+					if(!element[0].contains(document.activeElement)) 	return null
+					if(tabbables.length == 0) 							return null
+
+
+					let dir = 0
+
+
+
+					switch(event.keyCode){
+						//ESC
+						case 27: return document.activeElement.blur()
+						//left	
+						case 37: return document.activeElement.blur()
+
+						//up	
+						case 38: dir = -1; break					
+
+						//right	
+						case 39: return document.activeElement.blur()
+
+						//down	
+						case 40: dir = +1; break
+
+						default: return null
+					}
+
+
+
+					let current_index 	= 	tabbables.indexOf(document.activeElement)
+					let new_index		= 	config.cycle
+											?	(tabbables.length + current_index + dir) % tabbables.length
+											:	Math.min( Math.max(current_index + dir, 0), tabbables.length-1) 
+
+					if(config.cycle || new_index == current_index + dir ) event.preventDefault()		
+
+					switchTo(tabbables[new_index])
+
+				}
+
+
+				scope.$on("$destroy", () => {
+					teardown()
+				})
+
+			}
+
+
+		}
+	}
+
+])
 
 .directive('icRemove', [
 
@@ -567,6 +745,9 @@ angular.module('icUiDirectives', [
 			scope:		true,
 
 			link: function(scope, element, attrs){
+
+				element[0].hasAttribute('tabindex') || element[0].setAttribute('tabindex', 0)
+
 				scope.$watch(attrs.icButton, function(obj){
 					if(!obj) return null
 					scope.active 	= !!obj.active

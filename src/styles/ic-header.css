@@ -144,7 +144,6 @@ ic-header ic-main-menu ul > li > ul {
 	left:							0;
 	top:							100%;
 	position:						absolute;
-	z-index:						-1;
 	box-shadow:						0 0 0.5em rgba(0,0,0,0.5);
 }
 
@@ -230,6 +229,10 @@ ic-header.ic-scroll-top .tools .logo-line{
 ic-header.ic-scroll-top .tools button span{
 	max-width:						0;
 	z-index:						0;
+}
+
+ic-header.ic-scroll-top .tools button.left {
+	padding-right: 					0;
 }
 
 ic-header ic-breadcrumbs {

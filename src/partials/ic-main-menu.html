@@ -50,7 +50,7 @@
 		class = "bg-3"
 	>
 		<a 
-			ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+			href = '/item/new'
 			ic-touch-me
 		>
 			<span class	= "icon large left icon-interface-edit white"></span>
@@ -113,13 +113,13 @@
 		ng-if = "!ic.user.can('edit_items') && !icPlain"
 		class = "bg-3"
 	>
-		<button	
-			ng-click 	= "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true; ic.site.list = false; ic.site.expandMap=false"
+		<a	
+			href = '/item/new'
 		 	ic-touch-me		
 		>
-			<span class	= "icon large left icon-interface-plus white"></span>
+			<span class	= "icon large left icon-interface-add white"></span>
 			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
-		</button>
+		</a>
 	</li>
 
 	<li 
@@ -141,24 +141,12 @@
 				ng-if = "ic.user.can('edit_items')"
 				class = "bg-0 hover"  
 			>
-				<button 
-					
-					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
+				<a 
+					href = '/item/new'
 					ic-touch-me
 				>
-					{{'INTERFACE.CREATE_NEW_ITEM' | translate}}
-				</button>	
-			</li>
-			<li 
-				ng-if = "!ic.user.can('edit_items')"
-				class = "bg-0 hover"  
-			>
-				<button 
-					ng-click = "ic.site.activeItem = ic.itemStorage.newItem(); ic.site.editItem = true"
-					ic-touch-me
-				>
-					{{'INTERFACE.SUGGEST_NEW_ITEM' | translate}}
-				</button>	
+					{{ (ic.user.can('edit_items') ? 'INTERFACE.CREATE_NEW_ITEM' : 'INTERFACE.SUGGEST_NEW_ITEM') | translate}}
+				</a>	
 			</li>
 			<li
 				class = "bg-0 hover"  
@@ -217,6 +205,31 @@
 				>
 					<span>{{'INTERFACE.LIST_ARCHIVED' | translate}}</span>
 					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_archived'] || 0}}</span>
+				</a>	
+			</li>
+
+
+			<li
+				class = "bg-0 hover"  
+			>
+				<a
+					href = "/list/u/state_has_proposals"
+					ic-touch-me
+				>
+					<span>{{'UNSORTED_TAGS.STATE_HAS_PROPOSALS' | translate}}</span>
+					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_has_proposals'] || 0}}</span>
+				</a>	
+			</li>
+
+			<li
+				class = "bg-0 hover"  
+			>
+				<a
+					href = "/list/u/state_suggestion"
+					ic-touch-me
+				>
+					<span>{{'UNSORTED_TAGS.STATE_SUGGESTION' | translate}}</span>
+					<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_suggestion'] || 0}}</span>
 				</a>	
 			</li>
 

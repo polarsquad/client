@@ -72,7 +72,7 @@
 		<ic-loading-screen 
 			ic-remove 	= "ic.init.done" 
 			ng-class	= "{ready: ic.init.ready}"			
-			ic-delay	= "500"
+			ic-delay	= "500"			
 		> 
 			<!--BUILD LOADING-SCREEN-->
 		</ic-loading-screen>
@@ -80,6 +80,7 @@
 		<!-- header -->
 		<ic-header 
 			ng-if 					= 	"::ic.init.ready"
+			tabindex				=	"ic.overlays.active() ? -1 : null"
 			ic-scroll-watch		 	= 	"
 												ic.layout.mode.name != 'XS' 
 											&& 	ic.site.visibleSections.page 
@@ -100,6 +101,7 @@
 			ng-if		= "::ic.init.ready"
 			class		= "ic-hide"
 			ng-class	= "{'ic-hide' :!ic.overlays.active()}"
+			tabindex 	= "-1"
 		></ic-overlays>
 
 	</body>

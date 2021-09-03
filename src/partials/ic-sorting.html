@@ -1,5 +1,5 @@
-<ul>
-	<li
+<div>
+	<button
 		ng-click 	= "ic.filterConfig.toggleSortOrder('alphabetical_'+ic.site.currentLanguage, true)" 
 		class 		= "block"
 		ic-touch-me	
@@ -13,9 +13,9 @@
 		>
 			{{'INTERFACE.SORT_ALPHABETICALLY_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
 		</span>
-	</li>
+	</button>
 
-	<li
+	<button
 		ng-click 	= "ic.filterConfig.toggleSortOrder('last_change', true)" 
 		class 		= "block "
 		ic-touch-me	
@@ -29,8 +29,8 @@
 		>
 			{{'INTERFACE.SORT_LAST_CHANGE_%s'| fill : (ic.site.sortDirection == 1 ? 'ASC' : 'DESC') | translate}}
 		</span>
-	</li>
-</ul>
+	</button>
+</div>
 
 <div>
 	<button	

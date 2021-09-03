@@ -165,6 +165,8 @@
 					decode:			function(path, ic){
 										var matches = path.match(/(^|\/)item\/([^\/]*)/)
 
+										if(matches && matches[2] && matches[2] == 'new') return ic.itemStorage.newItem(matches[2])
+
 										return	matches && matches[2]
 												?	ic.itemStorage.getItem(matches[2])
 												:	null
@@ -251,7 +253,9 @@
 										if(ic.layout.mode.name == 'XL')		return ic.site.activeSections.item ? false : true
 
 										return 	true
-									}				
+									},
+
+					tabgroup:		true				
 				})
 
 				.registerSection({
@@ -279,7 +283,9 @@
 												
 
 										return 	true
-									}				
+									},
+
+					tabgroup:		{cycle:false}				
 				})
 
 				.registerSection({
@@ -337,8 +343,8 @@
 					adjust:			function(ic){
 										if(!ic.site.activeItem) 				return false
 										if(ic.site.activeItem.remoteItem)		return false
-										if(ic.site.activeItem.internal.failed)	return false
 										if(ic.site.activeItem.internal.new)		return true
+										if(ic.site.activeItem.internal.failed)	return false
 										
 										return ic.site.editItem
 									}

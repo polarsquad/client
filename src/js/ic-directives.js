@@ -717,13 +717,15 @@ angular.module('icDirectives', [
 
 					if(!scope.icEdit) return null
 
-					scope.icEdit.importData(scope.icItem.exportData())						
-
 					icItemConfig.properties
 					.forEach( property => {
 
 						if(!(property.name in proposal) ) 	return null
 						if(property.internal)				return null
+
+
+						if(property.name == 'state')		return null
+						if(property.name == 'editingNote')	return null
 
 						const value = proposal[property.name]		
 
