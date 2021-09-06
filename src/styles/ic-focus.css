@@ -25,7 +25,7 @@
 	pointer-events:		none;
 }
 
-button:focus:not(focus-visible){
+button:focus:not(:focus-visible){
 	filter: 			brightness(1.5);
 }
 

@@ -707,11 +707,11 @@ angular.module('icUiDirectives', [
 
 		  	document.head.appendChild(style_element)
 
+				//[ic-settle-scrollbar]:focus-within > *,	
+				//[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
 			style_element.sheet.insertRule(`
 				[ic-settle-scrollbar]:hover > *,	
-				[ic-settle-scrollbar]:focus-within > *,	
-				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *,
-				[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
+				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > * {
 					margin-right: -${scrollbar_width}px;
 				}
 			` , 0)
@@ -730,11 +730,11 @@ angular.module('icUiDirectives', [
 				}
 			`)
 
+				//[ic-settle-scrollbar]:focus-within,
+				//[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] { 
 			fixed_styles.sheet.insertRule(`
 				[ic-settle-scrollbar]:hover, 
-				[ic-settle-scrollbar]:focus-within,
-				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source],
-				[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] { 
+				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] {
 					overflow-y: scroll; 
 					-webkit-overflow-scrolling: touch; 
 			}`)
@@ -755,11 +755,11 @@ angular.module('icUiDirectives', [
 				adjustment_scheduled = false
 				if(scrollbar_width == 0) return null
 				
+					//[ic-settle-scrollbar]:focus-within > *,	
+					//[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
 				style_element.sheet.insertRule(`
 					[ic-settle-scrollbar]:hover > *,	
-					[ic-settle-scrollbar]:focus-within > *,	
-					[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *,
-					[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
+					[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > * {
 						margin-right: -${scrollbar_width}px;
 					}
 				`, 0)
