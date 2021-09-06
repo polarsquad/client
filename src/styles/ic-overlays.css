@@ -50,7 +50,7 @@ ic-overlays.ic-hide {
 }
 
 ic-overlays > * {
-	position:				absolute;
+	position:				absolute !important;
 	visibility: 			hidden;
 	box-sizing:				border-box;
 	transform:				translateX(0) translateY(0);
