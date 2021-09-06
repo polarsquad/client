@@ -97,6 +97,36 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.directive('icNoTab',[
+
+
+	function(){
+
+		return {
+
+			restrict:	'A',
+
+			link: function(scope, element, attrs){
+
+				const observer 	= 	new MutationObserver(updateTabs)
+
+				function updateTabs(mutationList){	
+
+					mutationList = Array.from(mutationList || [])
+
+					tabbables = Array.from(element[0].querySelectorAll('a[href], button, input, [tabindex]'))					
+
+					tabbables.forEach( tabbable => tabbable.setAttribute('tabIndex', -1) )
+
+				}
+
+				observer.observe(element[0],{subtree: true, childList: true})
+
+			}
+		}
+	}
+
+])
 
 .directive('icTabGroup',[
 
@@ -120,6 +150,8 @@ angular.module('icUiDirectives', [
 
 				let tabbables			=	[]
 
+				let subgroups			=	[]
+
 				let last_tabbed			=	null
 
 
@@ -136,6 +168,8 @@ angular.module('icUiDirectives', [
 
 
 					config = Object.assign({}, default_config, c)
+
+					updateTabs()
 
 				}
 
@@ -157,6 +191,7 @@ angular.module('icUiDirectives', [
 
 				scope.$watch(attrs.icTabGroup, config => {
 
+
 					if(!attrs.icTabGroup) config = true
 
 					config
@@ -169,15 +204,12 @@ angular.module('icUiDirectives', [
 				function trackTabbable(){
 
 					if(last_tabbed && !element[0].contains(last_tabbed)){					
-						console.log('lost last tabbed!', last_tabbed)
 						updateTabs()
 					} 
 
 					last_tabbed = 	element[0].contains(document.activeElement)
 									?	document.activeElement
 									:	null
-
-					console.log('last_tabbed', last_tabbed)				
 
 				}
 				
@@ -190,10 +222,13 @@ angular.module('icUiDirectives', [
 
 					mutationList = Array.from(mutationList || [])
 
-					tabbables = Array.from(element[0].querySelectorAll('a[href], button, input, [tabindex]'))					
+					subgroups	= Array.from(element[0].querySelectorAll('[ic-tab-group],[ic-no-tab]'))						
+					tabbables 	= Array.from(element[0].querySelectorAll('a[href], button, input, [tabindex]'))					
+
+
+					tabbables	= tabbables.filter( tabbable => !subgroups.some( subgroup => subgroup.contains(tabbable) ) )
 
 					const fallback_tabbable = 	element[0].querySelector('[tabindex="0"]') || tabbables[0]
-
 
 					tabbables.forEach( tabbable => tabbable.setAttribute('tabIndex', -1))
 
@@ -203,55 +238,42 @@ angular.module('icUiDirectives', [
 
 					removed_tabbable	=	last_tabbed && !element[0].contains(last_tabbed)
 
-					console.log('RMOM', removed_tabbable)
-
 					activeTabbable && activeTabbable.setAttribute('tabindex', 0)
 
 					if(removed_tabbable) activeTabbable && activeTabbable.focus()
 
 				}
 
-				function switchTo(el){									
-
-					document.activeElement.blur()
-					el.focus()
-
-					updateTabs()
-
-				}
 
 				function onKeyDown(event){			
 
 					if(!config) return null
 
 
-					if(!element[0].contains(document.activeElement)) 	return null
-					if(tabbables.length == 0) 							return null
-
+					if(!element[0].contains(document.activeElement)) 							return null
+					if(subgroups.some( subgroup => subgroup.contains(document.activeElement)))	return null
+					if(tabbables.length == 0) 													return null
 
 					let dir = 0
-
 
 
 					switch(event.keyCode){
 						//ESC
 						case 27: return document.activeElement.blur()
 						//left	
-						case 37: return document.activeElement.blur()
+						case 37: dir = -1; break					
 
 						//up	
 						case 38: dir = -1; break					
 
 						//right	
-						case 39: return document.activeElement.blur()
+						case 39: dir = +1; break					
 
 						//down	
 						case 40: dir = +1; break
 
 						default: return null
 					}
-
-
 
 					let current_index 	= 	tabbables.indexOf(document.activeElement)
 					let new_index		= 	config.cycle
@@ -260,7 +282,10 @@ angular.module('icUiDirectives', [
 
 					if(config.cycle || new_index == current_index + dir ) event.preventDefault()		
 
-					switchTo(tabbables[new_index])
+
+
+					tabbables[new_index].focus()
+					updateTabs()
 
 				}
 
@@ -682,15 +707,37 @@ angular.module('icUiDirectives', [
 
 		  	document.head.appendChild(style_element)
 
-			style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > *,	[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *	{margin-right: -'+scrollbar_width+'px;}', 0)
+			style_element.sheet.insertRule(`
+				[ic-settle-scrollbar]:hover > *,	
+				[ic-settle-scrollbar]:focus-within > *,	
+				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *,
+				[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
+					margin-right: -${scrollbar_width}px;
+				}
+			` , 0)
 
 			var fixed_styles = document.createElement('style')
 
 		  	document.head.appendChild(fixed_styles)
 
-			fixed_styles.sheet.insertRule('[ic-settle-scrollbar] { box-sizing: border-box; max-height: 100%; overflow-x: hidden; overflow-y: hidden; -webkit-overflow-scrolling: touch;}' )
-			fixed_styles.sheet.insertRule('[ic-settle-scrollbar]:hover, [ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] { overflow-y: scroll; -webkit-overflow-scrolling: touch; }')
+			fixed_styles.sheet.insertRule(`
+				[ic-settle-scrollbar] { 
+					box-sizing: border-box; 
+					max-height: 100%; 
+					overflow-x: hidden; 
+					overflow-y: hidden; 
+					-webkit-overflow-scrolling: touch;
+				}
+			`)
 
+			fixed_styles.sheet.insertRule(`
+				[ic-settle-scrollbar]:hover, 
+				[ic-settle-scrollbar]:focus-within,
+				[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source],
+				[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] { 
+					overflow-y: scroll; 
+					-webkit-overflow-scrolling: touch; 
+			}`)
 		}
 
 		var adjustment_scheduled = false
@@ -708,7 +755,14 @@ angular.module('icUiDirectives', [
 				adjustment_scheduled = false
 				if(scrollbar_width == 0) return null
 				
-				style_element.sheet.insertRule('[ic-settle-scrollbar]:hover > *,	[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *	{margin-right: -'+scrollbar_width+'px;}', 0)
+				style_element.sheet.insertRule(`
+					[ic-settle-scrollbar]:hover > *,	
+					[ic-settle-scrollbar]:focus-within > *,	
+					[ic-scroll-watch]:hover + [ic-settle-scrollbar][ic-scroll-source] > *,
+					[ic-scroll-watch]:focus-within + [ic-settle-scrollbar][ic-scroll-source] > * {
+						margin-right: -${scrollbar_width}px;
+					}
+				`, 0)
 				
 			})
 		}

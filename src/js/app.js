@@ -306,7 +306,7 @@
 
 											
 										return true
-									}				
+									},				
 				})
 				.registerSection({
 					name:			'map',

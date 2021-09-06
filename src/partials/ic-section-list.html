@@ -9,21 +9,21 @@
 		ng-if = "!ic.site.visibleSections.filter"
 		class = "bg-0 padding active flex"
 	>
-		<div 
+		<button
 			class 		= "block margin-right flex-grow bg-3 padding tac"
 			ng-click 	= "ic.overlays.toggle('taxonomyFilter')"
 			ic-touch-me 
 		>
 			{{'INTERFACE.FILTER' | translate}}
-		</div>
+		</button>
 
-		<div 
+		<button 
 			class 		= "block margin-left flex-grow bg-3 padding tac"
 			ng-click 	= "ic.site.expandMap = true"
 			ic-touch-me 
 		>
 			{{'INTERFACE.MAP' | translate}}
-		</div>
+		</button>
 		
 	</div>
 

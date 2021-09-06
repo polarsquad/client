@@ -2050,7 +2050,6 @@ angular.module('icDirectives', [
 					if(e.code == 'Escape') close()
 				}
 
-
 				element.on('click',	elementClose)
 
 				body.on('keydown',	bodyClose)

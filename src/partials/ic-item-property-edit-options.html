@@ -93,6 +93,7 @@
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{(option|in : value.edit) ? 'checked active' : ''}}"
 			ic-touch-me
+			tabindex	= "0"
 		>
 			<span 
 				class 	= "icon {{icOptionIconClass({option:option})}}"
