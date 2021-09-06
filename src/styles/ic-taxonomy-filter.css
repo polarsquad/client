@@ -37,6 +37,11 @@ ic-taxonomy-filter section button {
 	background-position:		1rem 50% !important;
 }
 
+ic-taxonomy-filter section button:not(.icon){
+	padding-left: 				1rem !important;
+	padding-right: 				1rem !important;
+}
+
 ic-taxonomy-filter section .types li.disabled, /*alt*/
 ic-taxonomy-filter section .types button.disabled {
 	display:					none;
