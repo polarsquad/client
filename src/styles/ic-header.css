@@ -23,10 +23,11 @@ ic-header .tools {
 ic-header .tools > * {
 	display:						inline-block;
 	margin:							0;
-	flex:							0 0 auto;
+	flex:							0 1 auto;
 	line-height:					3rem;
 	height:							3rem;
 	padding-right: 					0.5rem;
+	white-space:					nowrap;
 }
 
 ic-header .tools > * + * {
@@ -64,7 +65,7 @@ ic-header .tools button span {
 
 
 ic-header .tools ic-search {
-	display:						inline-block;
+	display:						inline-flex !important;
 }
 
 ic-header .tools .logo-line {
@@ -231,7 +232,7 @@ ic-header.ic-scroll-top .tools button span{
 	z-index:						0;
 }
 
-ic-header.ic-scroll-top .tools button.left {
+ic-header.ic-scroll-top .tools .left {
 	padding-right: 					0;
 }
 

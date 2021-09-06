@@ -23,8 +23,14 @@
 	padding:					0;
 }
 
+
 .XS ic-header .tools > *  {
 	margin:						0 0.5rem;
+}
+
+
+.XS ic-header .tools ic-search:focus-within ~ *{
+	display: 					none;
 }
 
 

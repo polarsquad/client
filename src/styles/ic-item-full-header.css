@@ -27,6 +27,10 @@ ic-item-full-header .tools {
 }
 
 
+.XS ic-item-full-header .tools {
+	top: 						-0.25rem;
+}
+
 ic-item-full-header .tools > * {
 	position:					absolute;	
 	z-index:					7777777;

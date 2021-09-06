@@ -18,16 +18,18 @@ ic-search > * {
 
 
 ic-search:focus-within label {
-	display: 						none;
+	display: 						none !important;
 } 
 
 ic-search:not(:focus-within) label + form {
 	flex: 							0 0 0;
 	overflow: 						hidden;
-	width: 							0;
+	width: 							0;	
+	box-sizing:						border-box;
 }
 
 ic-search form {
+	flex: 							1 1 auto;
 	position:						relative;
 	height:							1.75em;
 	align-items: 					center;
