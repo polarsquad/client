@@ -232,6 +232,22 @@ ic-page .images.spread > * {
 }
 
 
+ic-page p > .image {
+	display: 					inline-block;
+	height: 					6rem;
+	width: 						6rem;
+}
+
+ic-page p > .image.portrait {
+	height: 					12rem;
+	width: 						8.485281374rem;
+}
+
+ic-page p > .image.landscape {
+	height: 					8.485281374rem;
+	width: 						12rem;
+}
+
 
 /* update due to markdown addition*/
 ic-page h1 {
