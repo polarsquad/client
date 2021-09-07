@@ -269,9 +269,11 @@ ic-overlays > .center li > *{
 	display:				inline-flex;
 }
 
-ic-overlays > .left,
+ic-overlays > .left {
+	animation:				leftIn 200ms ease-in;
+}
 ic-overlays > .right {
-	transition:				transform 200ms ease-in;
+	animation:				rightIn 200ms ease-in;
 }
 
 
@@ -337,11 +339,31 @@ ic-overlays > .ic-hide.center {
 	transform:				translateY(-100%);
 }
 
-/*
-ic-overlays.ic-hide .ic-hide {
-	display:				block !important;
+
+@keyframes rightIn{
+	0%{
+		transform:			translateX(100%);
+	}
+
+
+	100%{
+		transform:			translateX(0);
+	}
 }
-*/
+
+
+@keyframes leftIn{
+	0%{
+		transform:			translateX(-100%);
+	}
+
+
+	100%{
+		transform:			translateX(0);
+	}
+}
+
+
 
 ic-overlays .black {
 	background-color:		rgba(0,0,0,0.5);	
