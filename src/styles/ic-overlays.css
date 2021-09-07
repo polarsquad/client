@@ -6,11 +6,17 @@ ic-overlays {
 	left:					0;
 	right:					0;
 	bottom:					0;
+
+   -webkit-overflow:		hidden;
+   -webkit-transform:		translate3d(0, 0, 0);
+
+
 	overflow-x:				hidden;
 	overflow-y:				auto;
 	-webkit-overflow-scrolling:	touch;
 	z-index:				99999;
 	background:				rgba(0,0,0,0.6);	
+	transform: 				translate3d(0, 0, 0);
 	animation:				overlaysIn 300ms;
 	justify-content: 		center;
 	align-items: 			center;
@@ -18,9 +24,10 @@ ic-overlays {
 }
 
 ic-overlays.ic-hide {
-	background:				rgba(0,0,0,0);		
-	display: 				none;	
+	background:				rgba(0,0,0,0);			
 	animation:				overlaysOut 300ms;
+	visibility:				none;
+	pointer-events: 		none;
 }
 
 
@@ -39,13 +46,11 @@ ic-overlays.ic-hide {
 @keyframes overlaysOut{
 	0% {
 		background:			rgba(0,0,0,0.6);		
-		transform:			translateX(0%);
 
 	}
 
 	100% {
 		background:			rgba(0,0,0,0);	
-		transform:			translateX(0%);
 	}
 }
 
@@ -67,7 +72,7 @@ ic-overlays > * {
 }
 
 ic-overlays > *.ic-hide {
-	display: 				none !important;
+	display: 				none !important;	
 }
 
 
@@ -144,7 +149,7 @@ ic-overlays > .center {
 	padding-bottom:			2rem;
 	height:					auto !important;
 	min-height:				0;
-	animation:				centerIn 200ms;
+	animation:				centerIn 200ms ease-in;
 }
 
 
@@ -264,12 +269,55 @@ ic-overlays > .center li > *{
 	display:				inline-flex;
 }
 
+
+
+
+
+
 ic-overlays > .left {
-	animation:				leftIn 200ms ease-in;
+	/*transform:				translateX(0);
+	animation:				leftIn 200ms ease-in;*/
 }
+
 ic-overlays > .right {
-	animation:				rightIn 200ms ease-in;
+	/*transform:				translateX(0);
+	animation:				rightIn 200ms ease-in;*/
 }
+
+ic-overlays > .left.ic-hide {
+	/*transform:				translateX(-100%);*/
+}
+
+ic-overlays > .right.ic-hide {
+	/*transform:				translateX(100%);*/
+}
+
+
+
+@keyframes rightIn{
+	/*0%{
+		transform:			translateX(100%);
+	}
+
+
+	100%{
+		transform:			translateX(0);
+	}*/
+}
+
+
+@keyframes leftIn{
+	/*0%{
+		transform:			translateX(-100%);
+	}
+
+
+	100%{
+		transform:			translateX(0);
+	}*/
+}
+
+
 
 
 ic-overlays > .left h2,
@@ -316,29 +364,6 @@ ic-overlays > .left li > button {
 }
 
 
-
-@keyframes rightIn{
-	0%{
-		transform:			translateX(100%);
-	}
-
-
-	100%{
-		transform:			translateX(0);
-	}
-}
-
-
-@keyframes leftIn{
-	0%{
-		transform:			translateX(-100%);
-	}
-
-
-	100%{
-		transform:			translateX(0);
-	}
-}
 
 
 
