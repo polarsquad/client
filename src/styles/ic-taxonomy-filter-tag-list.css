@@ -15,6 +15,7 @@ ic-taxonomy-filter-tag-list > button {
 	margin:						0.25rem 0.25rem;
 	white-space: 				nowrap;
 	min-width:					0;
+	align-items: 				center;
 
 }
 
