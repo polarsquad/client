@@ -51,7 +51,6 @@ ic-overlays.ic-hide {
 
 ic-overlays > * {
 	position:				absolute;
-	display: 				none;
 	box-sizing:				border-box;
 	transform:				translateX(0) translateY(0);
 	top:					0;
@@ -67,9 +66,10 @@ ic-overlays > * {
 	opacity:				1;
 }
 
-ic-overlays > *:not(.ic-hide) {
-	display: 				block;
+ic-overlays > *.ic-hide {
+	display: 				none !important;
 }
+
 
 ic-overlays:before,
 ic-overlays:after {
@@ -148,10 +148,6 @@ ic-overlays > .center {
 }
 
 
-ic-overlays > .center.ic-hide{
-	display:				none;
-	transform:				translateY(100%);
-} 
 
 @keyframes centerIn{
 	0%{
@@ -319,24 +315,6 @@ ic-overlays > .left li > button {
 	align-self:				stretch;
 }
 
-
-ic-overlays > .ic-hide {
-	opacity:				0;
-}
-
-ic-overlays > .ic-hide.left {
-	transform:				translateX(-100%);
-
-}
-
-ic-overlays > .ic-hide.right {
-	transform:				translateX(100%);
-
-}
-
-ic-overlays > .ic-hide.center {
-	transform:				translateY(-100%);
-}
 
 
 @keyframes rightIn{
