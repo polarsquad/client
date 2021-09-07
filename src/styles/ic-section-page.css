@@ -1,9 +1,23 @@
 /*replace ic-page with ic-page or similar */
 
+#section-page > article {
+	min-height: 					100%;
+	display: 						flex;
+	flex-direction: 				column;
+	align-items: 					stretch;
+}
+
 
 ic-page {
-	display:						block;
+	display:						flex;
+	flex: 							1 0 auto;
 	line-height: 					2;	
+	flex-direction: 				column;
+	align-items: 					stretch;
+}
+
+ic-page > :first-child {
+	flex: 							1 0 auto;
 }
 
 ic-page  header {
@@ -58,7 +72,6 @@ ic-page article {
 	display:						block;
 	background-color:				var(--primary-background-color);
 	color:							var(--plain-text-color);
-	margin:							auto;
 	margin-bottom:					1rem;
 	padding:						4rem 1rem;
 }
@@ -178,7 +191,6 @@ ic-footer {
 	display:					block;
 	background-color:			#fff;
 	color:						#666;
-	margin:						auto;
 	padding: 					2rem;
 	text-align: 				center;
 }
