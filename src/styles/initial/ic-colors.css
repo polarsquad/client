@@ -36,7 +36,7 @@
 .bg-1:hover,
 .bg-1:focus {
 	background-color:			var(--secondary-background-color);
-	color:						#666;
+	color:						var(--plain-text-color);
 }
 
 .bg-1.hover:focus,

@@ -4,6 +4,12 @@
 	background-repeat: 					no-repeat;
 }
 
+.image.dinA:before {
+	content: 							'';
+	display: 							block;
+	padding-top: 						141.4213562%;
+}
+
 .background-image {
 	background-size:					cover !important;
 	background-position:				50% 50% !important;

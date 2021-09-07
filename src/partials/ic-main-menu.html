@@ -44,6 +44,21 @@
 
 	</li>
 
+	<li 
+		ng-if = "icPlain && ic.layout.fontSizeAdjusted"
+		class = "bg-3"
+	>
+
+		<button 
+			ng-click = "ic.layout.toggleFontSize()"
+			ic-touch-me
+		>
+			{{'INTERFACE.FONT_SIZE' | translate }}
+			<span class	= "icon large icon-interface-font_size white"></span>
+		</button>
+
+	</li>
+	
 
 	<li 
 		ng-if = "!ic.user.loggedIn && icPlain"
@@ -52,13 +67,11 @@
 		<a 
 			href = '/item/new'
 			ic-touch-me
-		>
-			<span class	= "icon large left icon-interface-edit white"></span>
+		>			
 			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
 		</a>
 	</li>
-
-	<!-- <li><a href="#">		{{'INTERFACE.CALENDAR' 		| translate}}</a>	</li> -->
+	
 	<li
 		class				= "bg-3"
 	>
@@ -116,8 +129,7 @@
 		<a	
 			href = '/item/new'
 		 	ic-touch-me		
-		>
-			<span class	= "icon large left icon-interface-add white"></span>
+		>			
 			{{'INTERFACE.SUGGEST_NEW_ITEM' | translate }}
 		</a>
 	</li>

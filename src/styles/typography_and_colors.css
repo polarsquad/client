@@ -232,7 +232,6 @@ button {
 .spacer {
 	flex:						1 0 0 !important;
 	padding: 					0 !important;
-	margin: 					0 !important;
 }
 
 .block {
@@ -339,6 +338,10 @@ button {
 .no-clip {
 	text-overflow:			initial !important;
 	max-width:				100% !important;
+}
+
+.drop-shadow {
+	box-shadow: 			0 0 0.25rem 0 rgba(0,0,0,0.5);
 }
 
 .remote {

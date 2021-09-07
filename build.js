@@ -366,6 +366,7 @@ function createConfigJson(){
 
 async function copyReadyFilesToDst(){
 
+	await	fs.copy(src+"/assets", 			dst+'/assets')
 	await	fs.copy(src+"/images/large", 	dst+"/images/large")
 	await	fs.copy(src+"/js/worker", 		dst+'/worker')
 	//await	fs.copy("vendor.js", 		dst+"/js/vendor.js")

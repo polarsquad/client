@@ -285,7 +285,7 @@
 										return 	true
 									},
 
-					tabgroup:		{cycle:false}				
+					tabgroup:		true				
 				})
 
 				.registerSection({

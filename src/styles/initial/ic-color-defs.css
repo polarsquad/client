@@ -4,11 +4,19 @@
 	
 	--dark-text-color:				#222;	
 	--light-text-color:				#fff;
-	--plain-text-color:				#666;
+	--plain-text-color:				#444;
 
 	--primary-background-color:		#FFFFFF;
 	--secondary-background-color:	#e6e6e6;
 
 	--neutral-color:				#949494;	
 	--error-color:					red;
+}
+
+:root.ic-font-size-adjusted {
+
+	--dark-text-color:				#111;	
+	--light-text-color:				#fff;
+	--plain-text-color:				#222;
+
 }

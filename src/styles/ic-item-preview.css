@@ -59,7 +59,7 @@ ic-item-preview .content .brief {
 	font-size:				0.85rem;
 	line-height:			1.25rem;
 	max-height:				2.5rem;
-	color:					#666;
+	color:					var(--plain-text-color);
 	overflow:				hidden;
 	font-weight:			400;
 } 

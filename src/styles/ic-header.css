@@ -30,7 +30,7 @@ ic-header .tools > * {
 	white-space:					nowrap;
 }
 
-ic-header .tools > * + * {
+ic-header .tools > * + *:not(.spacer) {
 	margin-right:					0.5rem;
 }
 
@@ -227,10 +227,11 @@ ic-header.ic-scroll-top .tools .logo-line{
 	align-items: 					center;
 }
 
+/*ic-header.ic-scroll-top .tools a span,
 ic-header.ic-scroll-top .tools button span{
 	max-width:						0;
 	z-index:						0;
-}
+}*/
 
 ic-header.ic-scroll-top .tools .left {
 	padding-right: 					0;

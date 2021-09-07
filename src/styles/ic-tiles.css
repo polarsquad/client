@@ -38,9 +38,9 @@ ic-page .tiles > * {
 
 ic-page .tiles > *:focus,
 ic-page .tiles > *:hover {
-	filter:						brightness(1.1)
-
+	filter:						saturate(2);
 }
+
 ic-page .tiles > * > .background {
 	display:					block;
 	position:					absolute;
@@ -185,7 +185,7 @@ ic-page .tiles > .item-tile .image .fallback {
 	font-size:					5rem;
 	width:						1em;
 	height:						1em;
-	opacity:					0.5;
+	opacity:					0.75;
 	padding:					0;
 
 }

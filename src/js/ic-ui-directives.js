@@ -142,7 +142,7 @@ angular.module('icUiDirectives', [
 				const observer 			= 	new MutationObserver(updateTabs)
 
 				const default_config	=	{
-												cycle: true
+												cycle: false
 											}
 
 				let config				=	null

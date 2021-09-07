@@ -77,6 +77,10 @@ angular.module('icLayout', [])
 						icLayout.mode			= 	undefined
 
 
+						Object.defineProperty(icLayout, 'fontSizeAdjusted', {
+  							get: function() { return !!(this.adjustRem && this.adjustRem != 1) }
+						})
+
 
 						icLayout.getScrollbarWidth = function(){
 							var div		= 	angular.element('<div></div>')
@@ -98,26 +102,23 @@ angular.module('icLayout', [])
 
 
 						icLayout.toggleFontSize = function(){
+							
 
-							let fontSizeWasAdjusted = this.adjustRem && this.adjustRem != 1
-
-							this.adjustRem = 	fontSizeWasAdjusted
+							this.adjustRem = 	this.fontSizeAdjusted
 												?	undefined
 												:	1.5
 
 
 
-							html.classList.toggle('ic-font-size-adjusted', !fontSizeWasAdjusted)					
+							html.classList.toggle('ic-font-size-adjusted', this.fontSizeAdjusted)					
 
-							$window.localStorage.setItem(localStorageFontSizeItem, !fontSizeWasAdjusted) 
+							$window.localStorage.setItem(localStorageFontSizeItem, this.fontSizeAdjusted) 
 
 							this.adjust()
 						}
 
 						icLayout.getRem = function(resetFontSize){
-							var rem, old_font_size, fontSizeAdjusted
-
-							fontSizeAdjusted = this.adjustRem && this.adjustRem != 1
+							var rem, old_font_size							
 
 							if(resetFontSize){
 								old_font_size 		= html.style.fontSize
@@ -130,7 +131,7 @@ angular.module('icLayout', [])
 								html.style.fontSize = old_font_size
 							}
 
-							return 	fontSizeAdjusted
+							return 	this.fontSizeAdjusted
 									?	rem * this.adjustRem
 									:	rem
 						}

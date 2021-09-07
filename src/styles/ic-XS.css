@@ -14,6 +14,7 @@
 }
 
 
+.XS ic-header .tools button > span,
 .XS ic-header .tools a > span {
 	display:					none;
 }

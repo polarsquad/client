@@ -56,8 +56,8 @@ ic-page hr {
 
 ic-page article {
 	display:						block;
-	background-color:				#fff;
-	color:							#666;
+	background-color:				var(--primary-background-color);
+	color:							var(--plain-text-color);
 	margin:							auto;
 	margin-bottom:					1rem;
 	padding:						4rem 1rem;
@@ -199,6 +199,8 @@ ic-page .images {
 	display:					flex;
 	flex-wrap: 					wrap;
 	padding:					1rem 0;
+	justify-content:			space-between;
+	align-items: 				center;
 }
 
 ic-page .images > * {
@@ -213,6 +215,21 @@ ic-page .images > * {
 	background-position:		50% 50%;
 }
 
+
+.XS ic-page .images.spread {
+	justify-content: 			space-around;
+}
+
+ic-page .images.spread {
+}
+
+ic-page .images.spread > * {
+	width: 						45%;
+	min-width: 					18rem;
+	max-width: 					100%;
+	height: 					unset;
+	max-height: 				unset;
+}
 
 
 
