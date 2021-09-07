@@ -19,6 +19,7 @@ ic-overlays {
 
 ic-overlays.ic-hide {
 	background:				rgba(0,0,0,0);		
+	display: 				none;
 	transform:				translateX(-100%);
 	animation:				overlaysOut 300ms;
 }
