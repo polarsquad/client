@@ -19,8 +19,7 @@ ic-overlays {
 
 ic-overlays.ic-hide {
 	background:				rgba(0,0,0,0);		
-	display: 				none;
-	transform:				translateX(-100%);
+	display: 				none;	
 	animation:				overlaysOut 300ms;
 }
 
@@ -52,7 +51,7 @@ ic-overlays.ic-hide {
 
 ic-overlays > * {
 	position:				absolute;
-	visibility: 			hidden;
+	display: 				none;
 	box-sizing:				border-box;
 	transform:				translateX(0) translateY(0);
 	top:					0;
@@ -69,7 +68,7 @@ ic-overlays > * {
 }
 
 ic-overlays > *:not(.ic-hide) {
-	visibility: 			visible;
+	display: 				block;
 }
 
 ic-overlays:before,
