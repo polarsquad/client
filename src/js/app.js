@@ -442,7 +442,7 @@
 					},
 					{
 						name:		'M',
-						width:		64,
+						width:		72,
 						stretch:	false,
 					},
 					{
