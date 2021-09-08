@@ -437,12 +437,12 @@
 					},	
 					{
 						name:		'S',
-						width:		60,
+						width:		48,
 						stretch:	false,
 					},
 					{
 						name:		'M',
-						width:		68,
+						width:		64,
 						stretch:	false,
 					},
 					{
