@@ -23,12 +23,13 @@ ic-search:focus-within label {
 
 ic-search:not(:focus-within) label + form {
 	flex: 							0 0 0;
-	overflow: 						hidden;
-	width: 							0;	
-	box-sizing:						border-box;
+	position: 						absolute;
+	z-index: 						-1;
+	opacity: 						0;
 }
 
 ic-search form {
+	box-sizing:						border-box;
 	flex: 							1 1 auto;
 	position:						relative;
 	height:							1.75em;

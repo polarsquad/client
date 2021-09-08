@@ -45,22 +45,6 @@
 	</li>
 
 	<li 
-		ng-if = "icPlain && ic.layout.fontSizeAdjusted"
-		class = "bg-3"
-	>
-
-		<button 
-			ng-click = "ic.layout.toggleFontSize()"
-			ic-touch-me
-		>
-			{{'INTERFACE.FONT_SIZE' | translate }}
-			<span class	= "icon large icon-interface-font_size white"></span>
-		</button>
-
-	</li>
-	
-
-	<li 
 		ng-if = "!ic.user.loggedIn && icPlain"
 		class = "bg-3"
 	>

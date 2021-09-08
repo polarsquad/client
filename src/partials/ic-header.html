@@ -47,9 +47,9 @@
 	</a>
  -->
  
-  
+	
 	<button	
-		ng-if		= "ic.layout.mode.name != 'XS'"		
+		ng-if		= "ic.layout.mode.name != 'XS' || ic.layout.fontSizeAdjusted"		
 		class		= "icon large left icon-interface-font_size white"
 		ng-click	= "ic.layout.toggleFontSize()"
 		title		= "{{'INTERFACE.FONT_SIZE' | translate}}"
