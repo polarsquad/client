@@ -437,7 +437,7 @@
 					},	
 					{
 						name:		'S',
-						width:		52,
+						width:		60,
 						stretch:	false,
 					},
 					{
