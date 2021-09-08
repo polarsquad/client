@@ -321,7 +321,7 @@
 										if(ic.site.expandMap)				return true
 
 										if(ic.layout.mode.name == 'XS')		return false
-										if(ic.layout.mode.name == 'S')		return false
+										if(ic.layout.mode.name == 'S')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
 										if(ic.layout.mode.name == 'M')		return !ic.site.activeSections.page &&  !ic.site.activeSections.item
 										if(ic.layout.mode.name == 'L')		return !ic.site.activeSections.page &&  !(ic.site.activeSections.item && ic.site.activeSections.list)
 

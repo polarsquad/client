@@ -253,7 +253,6 @@ angular.module('icFilters', [
 				var dmatches = date_str.match(/(\d\d\d\d)-(\d\d)-(\d\d)/),
 					tmatches = date_str.match(/T(\d\d):(\d\d)/)
 
-				if(!dmatches) console.log('XXXX: ', date_str)
 
 				date = new Date(Date.UTC(parseInt(dmatches[1]), parseInt(dmatches[2])-1, parseInt(dmatches[3]), parseInt(tmatches[1]), parseInt(tmatches[2])))
 

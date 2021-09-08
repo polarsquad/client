@@ -672,7 +672,9 @@
 												maxZoom:		icMainMap.defaults.maxZoom,
 												zoomControl: 	false,
 												trackSize:		false,
-												maxBounds:		icMainMap.defaults.maxBounds
+												maxBounds:		icMainMap.defaults.maxBounds,
+												tap:			false
+
 											}),
 
 						pickerPane		=	map.createPane('pickerPane'),
