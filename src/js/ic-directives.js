@@ -1112,10 +1112,6 @@ angular.module('icDirectives', [
 
 					if(!scope.icItem || !scope.icEdit) return null
 
-					if(typeof scope.value.edit == 'string'){
-						scope.value.edit = scope.value.edit.trim()
-					}
-
 					if(scope.icProperty.type == 'number'){
 						scope.value.edit = 	String(scope.value.edit)
 											.replace(/,/, '.')

@@ -80,6 +80,7 @@ ic-item-property-edit .input-wrapper :not(input):not(textarea){
 	right:						0.5rem;
 	bottom:						0.5rem;
 	line-height:				1.5rem;
+	z-index: 					1000;
 }
 
 ic-item-property-edit .options {
