@@ -1,6 +1,6 @@
 <form 
 	ng-if		= "icItem && icEdit"
-	ng-submit 	= "allowLocalEdit && update()"
+	ng-submit	= "next()"
 	ng-class	= "{invalid: errors}"
 >
 		
@@ -85,14 +85,6 @@
 		{{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} 
 		{{error.key ? "(" + ('LANGUAGES.%s' | fill : error.key | translate) +")" : '' }}
 	</div>
-
-	<button
-		ng-show		= "allowLocalEdit"
-		ng-disabled	= "updating || !diff()" 
-		type 		= "submit"
-	>
-		{{ "INTERFACE.PROPERTY_UPDATE" | translate }}
-	</buton>
 
 </form>
 

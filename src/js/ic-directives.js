@@ -983,6 +983,10 @@ angular.module('icDirectives', [
 					}
 				}
 
+				scope.next = function(){
+					console.log('NEXT!!!')
+				}
+
 
 				scope.$watch('icItem', function(a, b){
 
