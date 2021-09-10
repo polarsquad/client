@@ -75,7 +75,7 @@ ic-item-property-edit .input-wrapper textarea:focus ~ *:not(input):not(textarea)
 }
 
 ic-item-property-edit .input-wrapper :not(input):not(textarea){
-	display:					none;
+	display:					block;
 	position:					absolute;
 	right:						0.5rem;
 	bottom:						0.5rem;
