@@ -89,7 +89,7 @@ ic-item-property-edit .options {
 	margin-top:					0.5rem;
 }
 
-ic-item-property-edit .options li {
+ic-item-property-edit .options button {
 	flex:						1 0 18rem;
 	line-height:				1.2rem;
 	display:					flex;
@@ -108,24 +108,25 @@ ic-item-property-edit.long-labels .options {
 	margin-top:					0.5rem;
 }
 
-ic-item-property-edit.long-labels .options li {
+ic-item-property-edit.long-labels .options button {
 	flex:						0 0 auto;
 	line-height:				1.2rem;
 	display:					flex;
 	align-items:				center;
 	padding-top:				0.25em;
 	padding-bottom:				0.25em;
+	text-align: 				left;
 }
 
 
-ic-item-property-edit .options.item-list li{
+ic-item-property-edit .options.item-list button{
 	padding-top:				0;
 	padding-bottom:				0;
 }
 
 
 
-ic-item-property-edit .options li > *:first-child {
+ic-item-property-edit .options button > *:first-child {
 	display:					inline-block;
 	margin:						0 0.5rem;
 }

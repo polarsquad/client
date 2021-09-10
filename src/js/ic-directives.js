@@ -654,14 +654,26 @@ angular.module('icDirectives', [
 			
 			},
 
-			controller: [ '$scope', function($scope){
+			controller: [ '$scope', '$element',  function($scope, $element){
 				$scope.validationFunctions = $scope.validationFunctions || []
 				
 				this.registerValidationFunction = function(fn, remoteScope){
+
 					$scope.validationFunctions.push(fn)
 					remoteScope.$on('$destroy', function(){
 						$scope.validationFunctions = $scope.validationFunctions.filter(function(f){ return f != fn })
 					})
+
+				}
+
+				this.next = function(){
+
+					const tabbables 	= Array.from($element[0].querySelectorAll('input, textarea, select, button, a, [tabindex]:not([tabindex="-1"])'))
+
+					const active_pos 	= tabbables.indexOf(document.activeElement)
+
+					window.requestAnimationFrame( () => tabbables[ (active_pos+1) % tabbables.length ].focus() )
+
 				}
 
 			}]
@@ -984,7 +996,7 @@ angular.module('icDirectives', [
 				}
 
 				scope.next = function(){
-					console.log('NEXT!!!')
+					ctrls[0].next()
 				}
 
 

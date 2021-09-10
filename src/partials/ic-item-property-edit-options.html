@@ -1,8 +1,8 @@
 <form 
 	ng-if		= "icItem && icEdit"
-	ng-submit 	= "allowLocalEdit && update()"
+	ng-submit 	= "next()"
 	ng-class	= "{invalid: errors}"
-
+	ic-tab-group
 >
 	<div ng-if 	= "!hideCurrentValue"  class = "current-value-parent-box">
 		
@@ -54,6 +54,7 @@
 			class		= "proposal-indicator"
 			ng-class	= "{'bg-3 white': editMatchesProposal(proposal), 'active border-3': !editMatchesProposal(proposal), 'disabled': !isApplicable(proposal)}"
 			ng-click	= "isApplicable(proposal) && updateEditWithProposal(proposal)"
+			type		= "button"
 		>
 			<span>{{proposal.index+1}}</span>
 		</button>	
@@ -80,20 +81,21 @@
 		ng-model 	= "filter.str"
 	/>
 
-	<ul 
+	<div 
 		class 		= "options"
 	>		
 
-		<li ng-if = "icOptionFilterKey && filteredOptions().length == 0">
+		<div ng-if = "icOptionFilterKey && filteredOptions().length == 0">
 			{{'INTERFACE.PROPERTY_FILTER_EMPTY' | translate}}
-		</li>
+		</div>
 
-		<li 
+		<button 
 			ng-repeat 	= "option in filteredOptions() | preventLoop | orderBy : getOptionLabel"
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{(option|in : value.edit) ? 'checked active' : ''}}"
-			ic-touch-me
 			tabindex	= "0"
+			type		= "button"			
+			ic-touch-me
 		>
 			<span 
 				class 	= "icon {{icOptionIconClass({option:option})}}"
@@ -106,20 +108,12 @@
 				{{getOptionLabel(option)}}
 			</span>
 
-		</li>
+		</button>
 
-	</ul>
+	</div>
 
 	<div ng-if = "!error || icHideErrors" class = "error"></div>
 	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
-
-	<button
-		ng-show		= "allowLocalEdit"
-		ng-disabled	= "updating || !diff()" 
-		type 		= "submit"
-	>
-		{{ "INTERFACE.PROPERTY_UPDATE" | translate }}
-	</buton>
 	
 
 </form>

@@ -260,14 +260,15 @@ angular.module('icUiDirectives', [
 					switch(event.keyCode){
 						//ESC
 						case 27: return document.activeElement.blur()
+
 						//left	
-						case 37: dir = -1; break					
+						//case 37: dir = -1; break					
 
 						//up	
 						case 38: dir = -1; break					
 
 						//right	
-						case 39: dir = +1; break					
+						//case 39: dir = +1; break					
 
 						//down	
 						case 40: dir = +1; break
@@ -1171,6 +1172,7 @@ angular.module('icUiDirectives', [
 					scope.$digest()
 				})
 
+				element[0].setAttribute('tabindex', 0)
 
 				attr.$observe('on', 	function(value) { scope.on 	= value })					
 				attr.$observe('off',	function(value) { scope.off = value })
