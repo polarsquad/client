@@ -56,8 +56,7 @@
 			<span
 				ng-repeat 	= "tag in (ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags)"
 			>
-				{{'CATEGORIES.%s' | fill : tag | translate}}
-				{{$last ? '': ', '}}
+				{{'CATEGORIES.%s' | fill : tag | translate}}{{$last ? '': ', '}}
 			</span>
 		</p>
 		<p ng-if = "(ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags).length == 0">
@@ -81,9 +80,8 @@
 			<span
 				ng-repeat 	= "tag in tagGroup | section : icProposal.tags"
 			>
-				{{'UNSORTED_TAGS.%s' | fill : tag | translate}}
-			</span>
-			{{$last ? '': ', '}}
+				{{'UNSORTED_TAGS.%s' | fill : tag | translate}}{{$last ? '': ', '}}
+			</span>			
 		</p>
 
 		<p ng-if = "(tagGroup | section : icProposal.tags).length == 0 ">
