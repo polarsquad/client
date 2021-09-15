@@ -99,7 +99,6 @@ angular.module('icUiDirectives', [
 
 .directive('icNoTab',[
 
-
 	function(){
 
 		return {

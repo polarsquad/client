@@ -32,7 +32,7 @@ ic-item-full-header .tools {
 }
 
 ic-item-full-header .tools > * {
-	position:					absolute;	
+	position:					absolute !important;	
 	z-index:					7777777;
 	transition-property: 		transform, right;
 	transition-duration: 		350ms;

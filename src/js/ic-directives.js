@@ -665,16 +665,7 @@ angular.module('icDirectives', [
 					})
 
 				}
-
-				this.next = function(){
-
-					const tabbables 	= Array.from($element[0].querySelectorAll('input, textarea, select, button, a, [tabindex]:not([tabindex="-1"])'))
-
-					const active_pos 	= tabbables.indexOf(document.activeElement)
-
-					window.requestAnimationFrame( () => tabbables[ (active_pos+1) % tabbables.length ].focus() )
-
-				}
+				
 
 			}]
 		}
@@ -993,10 +984,6 @@ angular.module('icDirectives', [
 					if(scope.date.time_enabled){
 						scope.date.time		= new Date("1970-01-01T"+matches[3]+":00.000Z")
 					}
-				}
-
-				scope.next = function(){
-					ctrls[0].next()
 				}
 
 
@@ -2033,9 +2020,10 @@ angular.module('icDirectives', [
 .directive('icOverlays', [
 
 	'icOverlays',
+	'icKeyboard',
 	'ic',
 
-	function(icOverlays, ic){
+	function(icOverlays, icKeyboard, ic){
 
 		return {
 
@@ -2044,14 +2032,17 @@ angular.module('icDirectives', [
 			scope:		true,
 
 			link: function(scope, element, attrs, ctrl, transclude){
-				icOverlays.registerScope(scope)
-				scope.ic = ic
 
-				var body = angular.element(document.getElementsByTagName('body'))
+				icOverlays.registerScope(scope)
+				scope.ic = ic				
+
+				var fromTabbable 
 
 				function close(){
 					icOverlays.toggle(null)
-					scope.$digest()
+					scope.$digest()				
+
+					
 				}
 
 				function elementClose(e){
@@ -2062,13 +2053,52 @@ angular.module('icDirectives', [
 					if(e.code == 'Escape') close()
 				}
 
-				element.on('click',	elementClose)
+				function trackFromTabbable(event){
 
-				body.on('keydown',	bodyClose)
+					if(fromTabbable) return null
+
+					fromTabbable =	element[0].contains(document.activeElement) 
+									?	icKeyboard.previousTabbable
+									:	document.activeElement
+
+				}
+
+				function onFocusOut(event){
+
+					if(element[0].contains(event.relatedTarget))	return null
+					if(!icOverlays.active())						return null
+
+
+					let nextTabbable = icKeyboard.getNextTabbable(element[0])
+					nextTabbable && nextTabbable.focus()
+
+				}
+
+
+				document.body.addEventListener(	'keydown',	bodyClose, 			{passive:true})
+				element[0].addEventListener(	'click',	elementClose, 		{passive:true})
+				element[0].addEventListener(	'focusin',	trackFromTabbable, 	{passive:true})
+				element[0].addEventListener(	'focusout',	onFocusOut,			{passive:true})
 
 				scope.$on('$destroy', function(){
-					body.off('keydown', bodyClose)
+
+					document.body.removeEventListener(	'keydown',	bodyClose)
+					element[0].removeEventListener(		'click',	elementClose)
+					element[0].removeEventListener(		'focusin',	trackFromTabbable)
+					element[0].removeEventListener(		'focusout',	onFocusOut)
+
 				})
+
+				scope.$watch( 
+					() 		=> 	icOverlays.active(),
+					active 	=> 	{
+									if(active) return trackFromTabbable()
+									
+									document.contains(fromTabbable) && fromTabbable.focus()
+									fromTabbable = undefined
+								}
+
+				)
 
 			}
 				

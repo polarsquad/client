@@ -1,9 +1,31 @@
 :focus-visible {
 	outline: 			2px dashed #fff;
-	box-shadow: 		0 0 1px 3px var(--focus-outline-color);
-	z-index: 			99;
+	box-shadow: 		0 0 2px 1px var(--focus-outline-color);
+	z-index: 			999;
 	position: 			relative;
 }
+
+/*:focus:not(:focus-visible) {
+	animation:			focusOut 1000ms;
+	z-index: 			999;
+	position: 			relative;
+}
+
+@keyframes focusOut{
+
+	0% {
+		outline: 			2px dashed #fff;
+		box-shadow: 		0 0 3px 2px var(--focus-outline-color);		
+	}
+
+	100% {
+		outline:			2px dashed rgba(0,0,0,0);	
+		box-shadow: 		0 0 0px 0px rgba(0,0,0,0);
+
+	}
+}
+*/
+
 
 
 [ic-main-content] > .ic-tab-group:focus-within {

@@ -1,6 +1,6 @@
 <form 
 	ng-if		= "icItem && icEdit"
-	ng-submit 	= "allowLocalEdit && update()"
+	ng-submit 	= "ic.keyboard.tabNext()"
 	ng-class	= "{invalid: errors}"
 >
 	<div ng-if 	= "!hideCurrentValue" class = "current-value-parent-box">
@@ -106,12 +106,6 @@
 	<div ng-if = "!error || icHideErrors" class = "error"></div>
 	<div ng-if = "error && !icHideErrors" class = "error col-3"> {{'ITEMS.%s_%s' | fill : [(icTranslationKey || icKey), error.code] | translate}} </div>
 
-	<button
-		ng-show		= "allowLocalEdit"
-		ng-disabled	= "updating || !diff()" 
-		type 		= "submit"
-	>
-		{{ "INTERFACE.PROPERTY_UPDATE" | translate }}
-	</buton>
+	
 
 </form>

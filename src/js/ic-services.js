@@ -133,6 +133,67 @@ angular.module('icServices', [
 ])
 
 
+
+.service('icKeyboard',[
+
+
+	function(){
+
+		class icKeyboard {
+
+			previousTabbable 
+
+
+			constructor(){
+				document.addEventListener('focusin', this.onFocusIn.bind(this), {passive:true} )
+			}
+
+			get nextTabbable(){
+				return this.getNextTabbable()
+			}
+
+			getNextTabbable(element, relativeTo){
+
+				element 	=  	element 	|| document
+				relativeTo 	=	relativeTo 	|| document.activeElement
+
+				const tabbables 	= this.getTabbables(element)
+
+				const active_pos 	= tabbables.indexOf(relativeTo)
+
+				return tabbables[ (active_pos+1) % tabbables.length ]	
+
+			}
+
+			getTabbables(element){
+				return 	Array.from(element.querySelectorAll('input, textarea, select, button, a, [tabindex]:not([tabindex="-1"])'))
+						.filter( element => element.offsetParent && getComputedStyle(element).display != 'none')
+			}
+
+			tabNext(){		
+				window.requestAnimationFrame( () => this.nextTabbable.focus() )
+			}
+
+			tabBack(){
+				window.requestAnimationFrame( () => this.previousTabbable.focus() )	
+			}
+
+
+
+			onFocusIn(event){
+				this.previousTabbable = document.activeElement
+			}
+
+
+
+		}
+
+
+		return new icKeyboard()
+
+	}
+])
+
 .service('icInit', [
 
 	'$q',
@@ -2860,9 +2921,10 @@ angular.module('icServices', [
 	'icMainMap',
 	'icWebfonts',
 	'icItemRef',
+	'icKeyboard',	
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, $rootScope ){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, icKeyboard, $rootScope ){
 
 		ic.init			= icInit
 		ic.site			= icSite
@@ -2886,6 +2948,7 @@ angular.module('icServices', [
 		ic.lists		= icLists
 		ic.webfonts		= icWebfonts
 		ic.itemRef		= icItemRef
+		ic.keyboard		= icKeyboard
 
 		var stop 		= 	$rootScope.$watch(function(){
 								if(icInit.ready){
