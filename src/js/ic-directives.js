@@ -803,9 +803,10 @@ angular.module('icDirectives', [
 
 	'ic',
 	'icItemConfig',
+	'icTaxonomy',
 	'icSite',
 
-	function(ic, icItemConfig, icSite){
+	function(ic, icItemConfig, icTaxonomy, icSite){
 		return 	{
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-proposal-preview.html',
@@ -850,6 +851,48 @@ angular.module('icDirectives', [
 						return icItemConfig.properties.indexOf(p1)	> icItemConfig.properties.indexOf(p2)
 
 					})
+				}
+
+				function arrayDiff(a,b){
+					if(!Array.isArray(a)) 				return true
+					if(!Array.isArray(b)) 				return true
+
+					if(a.length != b.length)			return true
+
+					if(a.some( x => !b.includes(x) ))	return true
+					if(b.some( x => !a.includes(x) ))	return true	
+
+					return false
+
+				}
+
+				scope.categoryDiff = function(){
+
+					if(!Array.isArray(scope.icItem.tags)) 		return true
+					if(!Array.isArray(scope.icProposal.tags))	return true
+
+					const categories 	= icTaxonomy.getSubCategories(scope.icItem.tags)
+					const proposed		= icTaxonomy.getSubCategories(scope.icProposal.tags)
+
+					console.log(categories, proposed, arrayDiff(categories, proposed))
+
+					return arrayDiff(categories, proposed)
+
+				}
+
+				scope.tagGroupDiff = function(tagGroup){
+
+
+					if(!Array.isArray(scope.icItem.tags)) 		return true
+					if(!Array.isArray(scope.icProposal.tags))	return true
+
+					const values 		= icTaxonomy.getUnsortedTags(scope.icItem.tags, tagGroup)
+					const proposed		= icTaxonomy.getUnsortedTags(scope.icProposal.tags, tagGroup)
+
+					console.log(tagGroup, values, proposed, arrayDiff(values, proposed))
+
+					return arrayDiff(values, proposed)
+
 				}
 
 				scope.$watch( () => scope.icProposal, 		update)
@@ -1279,18 +1322,22 @@ angular.module('icDirectives', [
 					if(scope.icDate) updateDateData()
 				}
 
-				scope.diff = function(counterpart, counterpart_may_be_undefined){		
+				scope.diff = function(counterpart, counterpart_may_be_undefined, alternative_base_value){		
 
 					if(counterpart === undefined && !counterpart_may_be_undefined) counterpart = scope.value.current
 
+					let base_value =	alternative_base_value === undefined
+										?	scope.value.edit
+										:	alternative_base_value	 	
+
 					switch(scope.icType){
 						case "string": 	return 	typeof(counterpart) == 'string'
-												?	scope.value.edit != counterpart
+												?	base_value != counterpart
 												:	!(
 														(
-																scope.value.edit === null
-															||	scope.value.edit === undefined
-															||	scope.value.edit === ""
+																base_value === null
+															||	base_value === undefined
+															||	base_value === ""
 														)
 														&&
 														(
@@ -1298,17 +1345,17 @@ angular.module('icDirectives', [
 															||	counterpart === undefined
 														)
 													)
-													&& String(scope.value.edit) != String(counterpart)
+													&& String(base_value) != String(counterpart)
 										break;
 						
-						case "text": 	return 	(scope.value.edit && scope.value.edit.trim()) != (counterpart && counterpart.trim()) 
+						case "text": 	return 	(base_value && base_value.trim()) != (counterpart && counterpart.trim()) 
 										break;
 						
 						case "array": 	return 		!counterpart
-												||	!scope.value.edit
-												||	(counterpart.length != scope.value.edit.length)
-												||	counterpart.some( option => !scope.value.edit.includes(option) )
-												||	scope.value.edit.some( option => !counterpart.includes(option) )
+												||	!base_value
+												||	(counterpart.length != base_value.length)
+												||	counterpart.some( option => !base_value.includes(option) )
+												||	base_value.some( option => !counterpart.includes(option) )
 										break;
 					}
 				}
@@ -1377,6 +1424,12 @@ angular.module('icDirectives', [
 							&&	scope.isApplicable(proposal)
 				}
 
+				scope.currentMatchesProposal = function(proposal){
+
+					return 		!scope.diff(scope.getValueFromItem(proposal), false, scope.value.current)
+							&&	scope.isApplicable(proposal)
+				}
+
 				scope.isApplicable = function(proposal){
 					if( 
 
@@ -1396,10 +1449,9 @@ angular.module('icDirectives', [
 					scope.otherLanguages	= 	[]				
 
 					scope.proposals		=	(	
-													!['state', 'editingNote'].includes(scope.icKey) 
-												&&	scope.icItem 
-												&&	scope.icItem.proposals 
-												|| 	[]
+												['state', 'editingNote'].includes(scope.icKey) 
+												?	[]
+												:	scope.icItem && scope.icItem.proposals || []
 											)
 											.filter( proposal => proposal[scope.icKey] !== undefined)
 											.map( (proposal, index) => ({...proposal, index}))
@@ -1421,15 +1473,20 @@ angular.module('icDirectives', [
 												return proposal
 											})
 											.filter( 
-												proposal =>		!scope.icProperty.translatable
-															||		proposal[scope.icKey] 
-																&& 	typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
+												proposal	=>	scope.icProperty.translatable
+																?	typeof proposal[scope.icKey][icSite.currentLanguage] == 'string'
+																:	proposal[scope.icKey] 
+											)
+											.filter(
+												proposal	=>	!scope.currentMatchesProposal(proposal)
 											)
 
 
 					scope.showProposals = scope.proposals.length > 0
 											
 				}
+
+				scope.$watch('value.current', () => scope.refreshProposals() )
 
 
 			}

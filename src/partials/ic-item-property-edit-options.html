@@ -54,6 +54,7 @@
 			class		= "proposal-indicator"
 			ng-class	= "{'bg-3 white': editMatchesProposal(proposal), 'active border-3': !editMatchesProposal(proposal), 'disabled': !isApplicable(proposal)}"
 			ng-click	= "isApplicable(proposal) && updateEditWithProposal(proposal)"
+			ng-disabled = "!isApplicable(proposal)"
 			type		= "button"
 		>
 			<span>{{proposal.index+1}}</span>

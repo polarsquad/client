@@ -1219,14 +1219,19 @@ angular.module('icUiDirectives', [
 		return function(str, rep){
 			rep = rep || 'undefined'
 			
-			if(!rep.forEach) rep = [rep] 
+			rep = 	Array.isArray(rep)
+					?	rep  
+					:	[rep] 
 
-			rep = rep.map(function(r){
-				return 	r && r
-						.replace(/\s/g, '_')
-						.replace(/([a-z])([A-Z])/g, '$1_$2')
-						.toUpperCase()
-			})
+			rep = 	rep.map(function(r){
+						if(typeof r != 'string') return ''
+						return 	r
+								.replace(/\s/g, '_')
+								.replace(/([a-z])([A-Z])/g, '$1_$2')
+								.toUpperCase()
+					})
+
+
 
 			return 	rep.reduce(function(s, r){
 						return s.replace(/%s/, r)

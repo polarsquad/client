@@ -25,30 +25,45 @@
 
 
 	<article 
-		ng-if = "property.name == 'tags' && (icProposal | icType)"		
+		ng-if = "property.name == 'type'"		
 	>
-		
-		<h4>{{'ITEMS.TYPE'}}</h4>
+
+		<h4>{{'ITEMS.TYPE' | translate}}</h4>
 	
-		<p>{{'TYPES.%s' | fill : (icProposal | icType) }}</p>
+		<p>{{'TYPES.%s' | fill : (icProposal | icType).name | translate }}</p>
+
+	</article>
+
+	<article 
+		ng-if = "property.name == 'location_ref'"		
+	>
+
+		<h4>{{'ITEMS.LOCATION_REF' | translate}}</h4>
+	
+		<p ng-if = "icProposal[property.name]">{{ (icProposal[property.name] | icItem).title }}</p>
+		<p ng-if = "!icProposal[property.name]">{{ ('INTERFACE.PROPERTY_EMPTY' | translate)  }}</p>
 
 	</article>
 
 
 	<article 
-		ng-if = "property.name == 'tags' && (icProposal | icCategory).name != 'unknown'"		
+		ng-if = "property.name == 'tags' && categoryDiff()"
 	>
 		
 		<h4>{{'ITEMS.CATEGORY' | translate}}</h4>
 	
-		<p>
+		<p ng-if = "(ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags).length > 0">
 			<span
-				ng-repeat 	= "tag in ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags"
+				ng-repeat 	= "tag in (ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags)"
 			>
 				{{'CATEGORIES.%s' | fill : tag | translate}}
 				{{$last ? '': ', '}}
 			</span>
 		</p>
+		<p ng-if = "(ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags).length == 0">
+			{{ ('INTERFACE.PROPERTY_EMPTY' | translate)  }}
+		</p>
+
 
 	</article>
 
@@ -56,19 +71,23 @@
 		ng-repeat	= "(key, tagGroup) in ic.taxonomy.tags"	
 		ng-if 		= "
 							property.name == 'tags' 
-						&&	ic.taxonomy.getUnsortedTags(icProposal.tags, tagGroup).length > 0
+						&&	tagGroupDiff(key)
 					"
 	>
 		
 		<h4>{{'ITEMS.%s' | fill : key | translate }}</h4>
 	
-		<p>
+		<p ng-if = "(tagGroup | section : icProposal.tags).length > 0 ">
 			<span
 				ng-repeat 	= "tag in tagGroup | section : icProposal.tags"
 			>
 				{{'UNSORTED_TAGS.%s' | fill : tag | translate}}
 			</span>
 			{{$last ? '': ', '}}
+		</p>
+
+		<p ng-if = "(tagGroup | section : icProposal.tags).length == 0 ">
+			{{ ('INTERFACE.PROPERTY_EMPTY' | translate)  }}
 		</p>
 
 	</article>
@@ -88,7 +107,7 @@
 
 
 	<article
-		ng-if = "!['editingNote', 'tags'].includes(property.name) && !property.translatable"
+		ng-if = "!['editingNote', 'tags', 'location_ref'].includes(property.name) && !property.translatable"
 	>
 		<h4>{{'ITEMS.%s' | fill : property.name | translate }}</h4>		
 

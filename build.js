@@ -369,7 +369,7 @@ async function copyReadyFilesToDst(){
 	try {
 		await	fs.copy(src+"/assets", 			dst+'/assets')
 	} catch(e){
-		console.warn('no assets found... [not neccessary]')
+		console.warn('[skipping assets]')
 	}
 	await	fs.copy(src+"/images/large", 	dst+"/images/large")
 	await	fs.copy(src+"/js/worker", 		dst+'/worker')

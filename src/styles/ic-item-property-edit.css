@@ -61,7 +61,7 @@ ic-item-property-edit textarea:focus {
 }
 
 
-ic-item-property-edit .extra-padding input[type="text"]:focus {
+ic-item-property-edit .extra-padding input[type="text"] {
 	padding-right:				5rem;
 }
 

@@ -1603,7 +1603,7 @@ angular.module('icServices', [
 											})
 								})
 
-				if(!result.length){
+				if(result.length == 0){
 					// this is only relevant if the tags are incoherent (if a subcategory exists without category)
 					result = 	icTaxonomy.categories.filter(function(category){
 									return 	haystack.some(function(c){
