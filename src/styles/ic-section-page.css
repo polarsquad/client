@@ -233,6 +233,8 @@ ic-page .images > * {
 }
 
 ic-page .images.spread {
+	margin-top: 				-0.5rem;
+	margin-bottom: 				-0.5rem;
 }
 
 ic-page .images.spread > * {
@@ -241,8 +243,17 @@ ic-page .images.spread > * {
 	max-width: 					100%;
 	height: 					unset;
 	max-height: 				unset;
+	margin-top: 				0.5rem;
+	margin-bottom: 				0.5rem;
 }
 
+ic-page .images.spread > .portrait {
+	width: 						30%;
+}
+
+ic-page .images.spread > .landscape {
+	width: 						60%;
+}
 
 ic-page p > .image {
 	display: 					inline-block;
