@@ -3,18 +3,16 @@
 	ng-submit 	= "addKey(key.add); key.value = key.add; key.add = ''"			
 >
 
-	<div class ="select-wrapper">
-		<select ng-model  = "key.value"	>
+	<select ng-model  = "key.value"	>
 
-			<option 
-				ng-repeat 	= "k in ic.options.keys"
-				value		= "{{k}}"							
-			>
-				{{'INTERFACE.OPTIONS_KEY_%s' | fill : k | translate}}
-			</option>
+		<option 
+			ng-repeat 	= "k in ic.options.keys"
+			value		= "{{k}}"							
+		>
+			{{'INTERFACE.OPTIONS_KEY_%s' | fill : k | translate}}
+		</option>
 
-		</select>
-	</div>
+	</select>
 
 	<input
 		ng-model 	= "key.add"				
