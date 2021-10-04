@@ -182,10 +182,10 @@ angular.module('icUiDirectives', [
 
 					config = null
 
-					document.removeEventListener('keydown', onKeyDown)
+					observer.disconnect()
 					element[0].removeEventListener('focusin', trackTabbable)
 					element[0].removeEventListener('focusout', trackTabbable)
-					observer.disconnect()
+					document.removeEventListener('keydown', onKeyDown)
 				}
 
 				scope.$watch(attrs.icTabGroup, config => {

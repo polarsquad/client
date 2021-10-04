@@ -14,6 +14,16 @@ ic-options-edit pre {
 	padding-left:			1rem;
 } 
 
+/*ic-options-edit select {
+	flex: 					0 0 auto !important;
+	appearance: 			revert !important;
+	border: 				revert !important;
+	background: 			revert !important;
+	border-radius: 			revert !important;
+	overflow: 				revert !important;
+	margin-right: 			1rem;
+}*/
+
 ic-options-edit .row {
 	display:				flex;
 	position:				relative;
