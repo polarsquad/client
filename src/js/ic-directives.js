@@ -1622,6 +1622,27 @@ angular.module('icDirectives', [
 	}
 ])
 
+
+.directive('icUserMenu', [
+
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'AE',
+			templateUrl:	'partials/ic-user-menu.html',
+			scope:			{
+								icPlain:	'<'
+							},
+
+			link: function(scope){
+				scope.ic = ic
+			}
+
+		}
+	}
+])
+
 .directive('icListsMenu', [
 
 	function(){
