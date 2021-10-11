@@ -1,0 +1,136 @@
+<a 
+	ng-if = "!icPlain"
+	class = "icon right icon-interface-down white"
+	ic-touch-me
+>
+	{{ic.user.displayName}}
+</a>
+
+<ul 
+	style	= "{{icPlain ? 'display: block;': ''}}"
+	class	= "bg-0"
+>
+	<li
+		ng-if = "ic.user.can('edit_items')"
+		class = "bg-0 hover"  
+	>
+		<a 
+			href = '/item/new'
+			ic-touch-me
+		>
+			{{ (ic.user.can('edit_items') ? 'INTERFACE.CREATE_NEW_ITEM' : 'INTERFACE.SUGGEST_NEW_ITEM') | translate}}
+		</a>	
+	</li>
+	<li
+		class = "bg-0 hover"  
+	>
+		<button
+			ng-click = "ic.admin.updateTranslations()"
+			ic-touch-me
+		>
+			{{'INTERFACE.UPDATE_TRANSLATIONS' | translate}}
+		</button>	
+	</li>
+
+	<li
+		class = "bg-0 hover"
+		ng-if = "!ic.lists.disabled && ic.user.loggedIn"
+	>
+		<button 
+			ng-click 	= "ic.overlays.toggle('listsMenu')" 
+			title		= "{{'INTERFACE.MANAGE_LISTS' | translate}}"
+		>
+			{{'INTERFACE.MANAGE_LISTS' | translate}}
+		</button>
+	</li>
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<a 
+			href = "/list/u/state_draft"
+			ic-touch-me
+		>
+			<span>{{'INTERFACE.LIST_DRAFT' | translate}}</span>
+			<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_draft'] || 0}}</span>
+		</a>	
+	</li>
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<a 
+			href = "/list/u/state_suggestion"
+		 	ic-touch-me
+		>
+			<span>{{'INTERFACE.LIST_SUGGESTION' | translate}}</span>
+			<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_suggestion']|| 0}}</span>
+		</a>	
+	</li>
+
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<a
+			href = "/list/u/state_archived"
+			ic-touch-me
+		>
+			<span>{{'INTERFACE.LIST_ARCHIVED' | translate}}</span>
+			<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_archived'] || 0}}</span>
+		</a>	
+	</li>
+
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<a
+			href = "/list/u/state_has_proposals"
+			ic-touch-me
+		>
+			<span>{{'UNSORTED_TAGS.STATE_HAS_PROPOSALS' | translate}}</span>
+			<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_has_proposals'] || 0}}</span>
+		</a>	
+	</li>
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<a
+			href = "/list/u/state_suggestion"
+			ic-touch-me
+		>
+			<span>{{'UNSORTED_TAGS.STATE_SUGGESTION' | translate}}</span>
+			<span class ="bubble shade-light col-1">{{ic.itemStorage.currentStats.totals['state_suggestion'] || 0}}</span>
+		</a>	
+	</li>
+
+	<li
+		ng-repeat	= "page in ic.config.adminPages"
+		class		= "bg-0 hover"
+	>
+		<a
+			href = "/p/{{page}}"
+			ic-touch-me
+		>
+			<span >
+				{{'INTERFACE.%s' | fill: page | translate}}
+			</span>				
+			<span class = "icon right icon-interface-cogwheel"></span>	
+		</a>	
+	</li>
+
+
+	<li
+		class = "bg-0 hover"  
+	>
+		<button
+			ng-click = "ic.user.logout()"
+			ic-touch-me
+		>
+			{{('INTERFACE.LOGOUT' | translate) + (icPlain ? ': '+ic.user.displayName :'')}}
+		</button>
+	</li>
+
+</ul>
