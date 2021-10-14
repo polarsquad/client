@@ -133,6 +133,10 @@
 			return icItemStorage
 		}
 
+		icItemStorage.getIsolatedItem = function(item_data){
+			return new ic.Item(item_data)
+		}
+
 		icItemStorage.clearFilteredList = function(){
 			while(icItemStorage.filteredList.length) icItemStorage.filteredList.pop()
 			for(var tag in icItemStorage.currentStats.totals)			delete icItemStorage.currentStats.totals[tag]
@@ -402,7 +406,7 @@
 			
 			
 
-			//if(force_download){
+			if(force_download){
 				item.download()
 				.then(
 					function(){
@@ -420,7 +424,7 @@
 						return Promise.reject(reason)
 					}
 				)
-			//}
+			}
 
 			return item
 		}

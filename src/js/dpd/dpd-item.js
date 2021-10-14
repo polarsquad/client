@@ -131,6 +131,7 @@
 				}
 			})
 
+
 			return data
 		}
 
@@ -154,8 +155,10 @@
 		icItem.update = function(key, subkey){
 			if(!icItem.id) console.error('icItemDpd.update: missing item id.')
 
+			const item_data = 	icItem.exportData(key, subkey)
+
 			return 	dpd(ic.itemConfig.collectionName)
-					.put({id: icItem.id}, icItem.exportData(key, subkey))
+					.put({id: icItem.id}, item_data)
 		}
 
 
@@ -231,7 +234,8 @@
 
 		icItem.delete = function(){
 			return 	dpd(ic.itemConfig.collectionName)
-					.del({id: icItem.id})
+					.del(icItem.id)
+					.then( ({count}) => count ? Promise.resolve(count) : Promise.reject('count == 0, nothing deleted.'+count))
 		}
 
 		icItem.getErrors = function(property_name, key){

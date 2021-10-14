@@ -677,11 +677,12 @@ angular.module('icDirectives', [
 	'ic',
 	'icItemConfig',
 	'icItemEdits',
+	'icItemStorage',
 	'icOverlays', 
 	'icLanguages',
 
 
-	function(ic, icItemConfig, icItemEdits, icOverlays, icLanguages){
+	function(ic, icItemConfig, icItemEdits, icItemStorage, icOverlays, icLanguages){
 
 		return {
 			restrict: 		'AE',
@@ -751,9 +752,12 @@ angular.module('icDirectives', [
 				}
 
 				scope.delete = function(proposal){
-					icOverlays.open('confirmationModal', 'INTERFACE.PROPOSAL_CONFIRM_DELETE')
-					.then( () => icItemEdits.get(proposal.id).delete() )
-					.then( () => scope.icItem.proposals = scope.icItem.proposals.filter( p => p != proposal))
+
+					return	icOverlays.open('confirmationModal', 'INTERFACE.PROPOSAL_CONFIRM_DELETE')
+							.then( () 		=> icItemStorage.getIsolatedItem({id:proposal.id}))
+							.then( tempItem => tempItem.delete() )
+							.then( () 		=> scope.icItem.proposals = scope.icItem.proposals.filter( p => p != proposal))
+							.then( console.log, console.warn)	
 				}
 
 				scope.diff = function(proposal, lang){
