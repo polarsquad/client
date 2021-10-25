@@ -11,7 +11,14 @@
 			style		= "{{image.style}}"
 			class		= "image {{image.class}}"
 		>
+			<div 
+				class 	= "caption"
+				ng-if	= "image.caption"
+			>
+				{{image.caption}}
+			</div>
 		</div>
+
 	</div>
 
 </div>

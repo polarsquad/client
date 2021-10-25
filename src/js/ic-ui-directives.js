@@ -1112,9 +1112,18 @@ angular.module('icUiDirectives', [
 				scope.$watchCollection(attrs.icCarousel || attrs.icImages, function(images){
 
 
-					scope.carousel.images = (images || []).map( image_str => {
-												const is_file 	= !!image_str.match(/\./)
-												const is_class	= !is_file
+					scope.carousel.images = (images || []).map( image_entry => {
+
+
+												const image_str	= image_entry.image || image_entry
+
+												if(typeof image_str != 'string'){
+													console.warn('icCarousel invalid icImages entry: ', image_entry)
+													return null
+												}
+
+												const is_file 		= !!image_str.match(/\./)
+												const is_class		= !is_file
 
 												return	{
 															file	: 	is_file	
@@ -1123,7 +1132,10 @@ angular.module('icUiDirectives', [
 
 															class 	:	is_class	
 																		?	image_str 							
-																		:	''
+																		:	'',
+
+															caption	:	image_entry.caption || undefined
+
 														}
 											})
 
