@@ -1166,7 +1166,20 @@ angular.module('icUiDirectives', [
 	function(){
 		return {
 			restrict: 		"E",
-			template: 		'<div class = "shuttle"><div class ="on">{{on || ("INTERFACE.ON"|translate) }}</div><div class = "indicator"></div><div class ="off">{{ off || ("INTERFACE.OFF"|translate)}}</div></div>',
+			template: 		`
+								<div 
+									class = "shuttle"
+
+								>
+									<div class ="on">
+										{{on || ("INTERFACE.ON"|translate) }}
+									</div>
+									<div class = "indicator"></div>
+									<div class ="off">
+										{{ off || ("INTERFACE.OFF"|translate)}}
+									</div>
+								</div>
+							`,
 			scope:			{
 								on: 	"@",
 								off:	"@",
@@ -1178,9 +1191,11 @@ angular.module('icUiDirectives', [
 				element.on('click', function(){
 
 					if(attr.disabled) return null
-						
-					scope.value = !scope.value 
-					scope.$digest()
+
+					scope.$evalAsync( () => {	
+						scope.value = !scope.value 
+					})
+				
 				})
 
 				element[0].setAttribute('tabindex', 0)
