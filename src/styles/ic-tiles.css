@@ -38,7 +38,7 @@ ic-page .tiles > * {
 
 ic-page .tiles > *:focus,
 ic-page .tiles > *:hover {
-	filter:						saturate(2);
+	filter:						saturate(0.5) contrast(1.5);
 }
 
 ic-page .tiles > * > .background {
@@ -78,6 +78,21 @@ ic-page .tiles > * > .content {
 	padding-bottom:				6rem;
 }
 
+ic-page .tiles > * > .content > h3 {
+	margin:						1rem 0;
+	font-weight:				normal;
+	font-size:					1.3rem;
+}
+
+ic-page .tiles > * > .content > p {
+	margin:						1rem 0;
+	font-weight:				normal;
+	font-size:					1.3rem;
+	line-height: 				1.2;
+	font-size: 					1rem;
+}
+
+
 ic-page .tiles > .bottom > .content {
 	margin:						0;
 	padding:					1rem;
@@ -88,6 +103,7 @@ ic-page .tiles > .bottom > .content {
 }
 
 ic-page .tiles > .bottom > .content  p {
+	font-size: 					1.2rem;
 	color:						var(--plain-text-color);
 }
 
@@ -104,17 +120,6 @@ ic-page .tiles > .bottom .background.icon {
 ic-page .tiles > * .background.image {
 	background-size:			cover;
 }
-
-ic-page .tiles > * > .content > h3 {
-	margin:						1rem 0;
-	font-weight:				normal;
-	font-size:					1.3rem;
-}
-
-ic-page .tiles > * > .content > p {
-	font-size:					1rem;
-}
-
 
 
 

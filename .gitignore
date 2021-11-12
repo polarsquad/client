@@ -1,6 +1,7 @@
 todo
 /npm-debug.log
 /node_modules
+.angular
 /dev
 /dist
 /build
