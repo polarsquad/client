@@ -4,10 +4,21 @@
 	background-repeat: 					no-repeat;
 }
 
+.image.dinA4,
+.image.dinLang2 {
+	background-size: 					cover !important;
+}
+
 .image.dinA:before {
 	content: 							'';
 	display: 							block;
 	padding-top: 						141.4213562%;
+}
+
+.image.dinLang2:before {
+	content: 							'';
+	display: 							block;
+	padding-top: 						106.0606061%;	
 }
 
 .image.dinA.landscape:before {

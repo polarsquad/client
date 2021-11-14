@@ -215,8 +215,9 @@ function imagesToCss(src_folder, dst_folder, template_file, preload){
 			})
 			.map( ({template, name, svg}) => {
 
-				var parts 	= name.replace(/\..*/g, '').split('-'),
-					svg		= encodeURIComponent( (svg || '').replace(/"/g,"'"))
+				const 	parts 		= name.replace(/\..*/g, '').split('-')
+						
+				svg	= encodeURIComponent( (svg || '').replace(/"/g,"'"))
 
 
 				return 	template
@@ -299,9 +300,14 @@ function compileIconTemplatesTmpToTmp(){
 			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/icons.css', css , 'utf8')) )
 }
 
-function compileImageTemplatesSrcToTmp(){
-	return	imagesToCss(src+'/images/large', '/images/large', src+'/styles/templates/ic-image.template', true)
-			.then( css => fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', css , 'utf8')) )
+async function compileImageTemplatesSrcToTmp(){
+
+	const imageCss = await imagesToCss(src+'/images/large', 	'/images/large', 	src+'/styles/templates/ic-image.template', true)
+	const assetCss = await imagesToCss(src+'/assets', 			'/assets', 			src+'/styles/templates/ic-image.template', false)
+
+	const combinedCss = imageCss + assetCss
+
+	return	await fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', combinedCss , 'utf8'))
 }
 
 
