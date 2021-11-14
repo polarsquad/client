@@ -307,7 +307,9 @@ async function compileImageTemplatesSrcToTmp(){
 
 	const combinedCss = imageCss + assetCss
 
-	return	await fs.ensureDir('tmp/styles').then( () => fs.writeFile('tmp/styles/images.css', combinedCss , 'utf8'))
+	await fs.ensureDir('tmp/styles')
+
+	return	await fs.writeFile('tmp/styles/images.css', combinedCss , 'utf8')
 }
 
 
