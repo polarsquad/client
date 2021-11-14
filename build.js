@@ -195,9 +195,16 @@ function svgMinimize(src_folder, dest_folder){
 			))
 }
 
-function imagesToCss(src_folder, dst_folder, template_file, preload){
+async function imagesToCss(src_folder, dst_folder, template_file, preload){
 
-	return	Promise.all([
+	try{
+		await fs.access(src_folder)
+	} catch(e){
+		console.warn(`[unable to access ${src_folder}]`)
+		return null
+	}
+
+	return	await Promise.all([
 				fs.readFile(template_file, 'utf8'),
 				fs.readdir(src_folder)
 			])
@@ -528,12 +535,12 @@ setup()
 .then( () => done() )
 
 
-.then( () => process.stdout.write('\nCompiling collecting images in json for later preloading into /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCollecting images in json for later preloading into /tmp for further processing ...'))
 .then( preloadImagesTmp)
 .then( () => done() )
 
 
-.then( () => process.stdout.write('\nCompiling collecting ng-templates in json for later preloading  styles into /tmp for further processing ...'))
+.then( () => process.stdout.write('\nCollecting ng-templates in json for later preloading  styles into /tmp for further processing ...'))
 .then( preloadNgTemplatesTmp)
 .then( () => done() )
 
