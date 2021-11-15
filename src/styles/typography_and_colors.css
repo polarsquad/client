@@ -196,6 +196,9 @@ button {
 	display:				flex;
 }
 
+.flex.half > *{
+	flex: 					1 0 35%;
+}
 
 .flex-grow {
 	flex:					1 0 0;
@@ -209,6 +212,7 @@ button {
 	margin:					0.5em;
 }
 
+.flex.wrap,
 .flex-wrap {
 	flex-wrap:				wrap;
 }

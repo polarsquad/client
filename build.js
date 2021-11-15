@@ -204,41 +204,38 @@ async function imagesToCss(src_folder, dst_folder, template_file, preload){
 		return null
 	}
 
-	return	await Promise.all([
-				fs.readFile(template_file, 'utf8'),
-				fs.readdir(src_folder)
-			])
-			.then(result => {
-				var template	= 	result[0], 
-					filenames 	= 	result[1].filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
+	const template		= 	await fs.readFile(template_file, 'utf8')
+	const dir_content 	= 	await fs.readdir(src_folder)
+	const filenames		= 	dir_content.filter( (filename) => fs.lstatSync(src_folder+'/'+filename).isFile())
+	
+	if(preload) filenames.forEach( fn =>  preloadImg.push(dst_folder+'/'+ fn) )
 
-				if(preload) filenames.forEach( fn =>  preloadImg.push(dst_folder+'/'+ fn) )
+	const styles		=	filenames.map( filename  => ({
+									template: 	template,
+									name: 		filename,
+									svg: 		filename.match(/.svg$/) ? fs.readFileSync(src_folder+'/'+filename, 'utf8') : undefined
+							}))
+							.map( ({template, name, svg}) => {
 
-				return 	filenames.map( filename  => Promise.props({
-							template: 	template,
-							name: 		filename,
-							svg: 		filename.match(/.svg$/) ? fs.readFile(src_folder+'/'+filename, 'utf8') : undefined
-						}))
-			})
-			.map( ({template, name, svg}) => {
-
-				const 	parts 		= name.replace(/\..*/g, '').split('-')
-						
-				svg	= encodeURIComponent( (svg || '').replace(/"/g,"'"))
+								const 	parts 		= name.replace(/\..*/g, '').split('-')
+									
+								svg	= encodeURIComponent( (svg || '').replace(/"/g,"'"))
 
 
-				return 	template
-						.replace(/{{([^{}[]]*)name\[([0-9]+)\]}}/g, function(match, p1, p2){
-							var part = parts && parts[parseInt(p2)]
+								return 	template
+										.replace(/{{([^{}[]]*)name\[([0-9]+)\]}}/g, function(match, p1, p2){
+											var part = parts && parts[parseInt(p2)]
 
-							return 	part
-									?	p1+part
-									:	''
-						})
-						.replace(/{{name}}/g, dst_folder+'/'+name)
-						.replace(/{{svg}}/g, svg)
-			})
-			.then( templates => templates.join('\n\n') )
+											return 	part
+													?	p1+part
+													:	''
+										})
+										.replace(/{{name}}/g, dst_folder+'/'+name)
+										.replace(/{{svg}}/g, svg)
+							})
+	const combinedCss 	=	styles.join('\n\n')
+
+	return combinedCss
 }
 
 

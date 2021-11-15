@@ -2543,3 +2543,63 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+
+.directive('icIconClasses', [
+
+	'ic',
+
+	function(ic){
+		return {
+			restrict:		'E',
+			templateUrl:	'partials/ic-icon-classes.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+
+				const all_selectors 	= 	[...document.styleSheets]
+											.map( sheet => {
+												try{
+													return [...sheet.cssRules]
+												}catch(e){}
+											})
+											.flat()
+											.map( rule => rule && rule.selectorText)
+											.filter( x => !!x)
+
+				const icon_classes		=	all_selectors
+											.filter( selector => selector.match(/^.icon-[^,.:\s]+$/gi))
+				
+				const image_classes		=	all_selectors
+											.filter( selector => selector.match(/^.image-[^,.:\s]+$/gi))	
+
+
+				scope.icons				= 	icon_classes
+											.map( selector => {
+
+												const prefix_match 	=	selector.match(/^[^-]*-/)
+												const prefix		= 	prefix_match && prefix_match[0]
+												const core_match	=	selector.match(/^[^-]*-(.*)/)
+												const core			=	core_match && core_match[1]
+												const icon_class	=	selector.substr(1)												
+												
+												return {prefix, core, class: icon_class}
+											})
+
+				scope.images			= 	image_classes
+											.map( selector => {
+
+												const prefix_match 	=	selector.match(/^[^-]*-/)
+												const prefix		= 	prefix_match && prefix_match[0]
+												const core_match	=	selector.match(/^[^-]*-(.*)/)
+												const core			=	core_match && core_match[1]
+												const image_class	=	selector.substr(1)												
+												
+												return {prefix, core, class: image_class}
+											})											
+
+
+			}
+		}
+	}
+])

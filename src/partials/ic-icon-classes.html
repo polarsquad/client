@@ -1,0 +1,28 @@
+<section>
+	<h2>{{'INTERFACE.ICONS_ICONS' | translate}}</h2>
+
+	<div class ="flex half wrap flex-space">
+		<div ng-repeat = "icon in icons">
+
+			<span class ="round large icon {{icon.class}} white bg-3"></span>
+			&nbsp;
+			<i class ="non-discript">{{icon.prefix}}</i><b style = "user-select:all">{{icon.core}}</b>
+
+		</div>
+	</div>
+
+</section>
+
+<section>
+	<h2>{{'INTERFACE.ICONS_IMAGES' | translate}}</h2>
+
+	<div class ="flex half wrap flex-space">
+		<div ng-repeat = "image in images" style ="background-color:#eee;">
+
+			<i class ="non-discript">{{image.prefix}}</i><b style = "user-select:all">{{image.core}}</b>
+			<div class ="image {{image.class}}" style ="height: 10rem;"></div>
+
+		</div>
+	</div>
+
+</section>
