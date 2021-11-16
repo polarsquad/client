@@ -38,7 +38,7 @@ ic-page .tiles > * {
 
 ic-page .tiles > *:focus,
 ic-page .tiles > *:hover {
-	filter:						saturate(0.5) contrast(1.5);
+	filter:						sepia() hue-rotate(-180deg);
 }
 
 ic-page .tiles > * > .background {
