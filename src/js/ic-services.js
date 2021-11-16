@@ -2561,12 +2561,36 @@ angular.module('icServices', [
 			icTiles.ready = $q.resolve()
 		}
 
-		icTiles.setup = function(){
-			return 	$q.when(dpd.tiles.get())
-					.then(function(tiles){
-						if(!tiles.length) console.warn('icTiles: no tiles defined.')
-						Array().push.apply(icTiles, tiles)
-					})
+		icTiles.setup = async function(){
+
+			const tile_data = await $q.when(dpd.tiles.get())
+
+			if(!tile_data.length) console.warn('icTiles: no tiles defined.')
+
+			tile_data.forEach( tile =>{
+
+				const label 		=	tile.label 			&& tile.label.trim()
+				const description	=	tile.description	&& tile.description.trim()
+				const color			=	tile.color			&& tile.color.trim()
+				const link			=	tile.link			&& tile.link.trim()
+				const icon			=	tile.icon			&& tile.icon.trim()
+				const background	=	tile.background		&& tile.background.trim()
+				const stretch		=	!!tile.stretch
+				const order			=	tile.order
+				const bottom		=	!!tile.bottom
+
+				icTiles.push({
+					label,
+					description,
+					color,
+					link,
+					icon,
+					background,
+					stretch,
+					order,
+					bottom
+				})
+			})	
 			
 		}
 
