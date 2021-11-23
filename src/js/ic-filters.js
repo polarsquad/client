@@ -218,6 +218,7 @@ angular.module('icFilters', [
 					'instagram':	'',
 					'pinterest':	'',
 					'youtube':		'',
+					'mobile':		'tel:',
 					'email':		'mailto:',
 					'phone':		'tel:'
 				}[key]
