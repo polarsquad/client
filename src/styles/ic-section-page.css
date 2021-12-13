@@ -343,7 +343,7 @@ ic-page ul li {
 ic-page ol {
 	box-sizing: 				border-box;	
 	padding-left: 				4rem;
-
+	font-size: 					1.25rem;	
 }
 
 ic-page ol li::marker {
