@@ -2,8 +2,9 @@
 	<button 
 		class 		= "bg-0 active"
 		ng-if		= "true || ic.user.can('edit_items')"
-		ng-click 	= "ic.site.editItem = true" 
-		title		= "{{'INTERFACE.EDIT' | translate}}"
+		ng-disabled	= "!!icItem.remoteItem"
+		ng-click 	= "ic.site.editItem = true" 		
+		title		= 	"{{ic.user.can('edit_items')? 'INTERFACE.EDIT' : 'INTERFACE.EDIT_SUGGESTION' | translate}} {{icItem.remoteItem ? 'INTERFACE.REMOTE_ITEM_CANNOT_EDIT' : '' | translate}}"						
 		ic-touch-me
 	>
 
@@ -13,6 +14,7 @@
 		</span>
 
 	</button>
+
 
 	<button 
 		class 		= "bg-0 active"
