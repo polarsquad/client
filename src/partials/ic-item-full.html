@@ -158,7 +158,7 @@
 
 	<!-- address -->
 
-	<ic-item-property
+	<!-- <ic-item-property
 		ng-if			= "item.address"
 		ic-title 		= "'ITEMS.ADDRESS' | translate"
 		ic-content		= "item.location"
@@ -166,31 +166,77 @@
 		ic-extra-links	= "{'Google Maps' : (item | gmLink), 'OpenStreetMap' : (item | osmLink)}"
 		ic-icon			= "'property-location'"
 	>
+	</ic-item-property> -->
+
+
+	<ic-item-property
+		class			= 	"screen-only"
+		ng-repeat		=	"projected in [ (item | project : ['location', 'address', 'zip', 'city', 'country'] | preventLoop) ]"
+		ng-if			= 	"projected.address"
+		ic-title 		= 	"'ITEMS.ADDRESS' | translate"
+		ic-content		= 	"projected.location"
+		ic-extra-lines	= 	"[
+								 projected.location || '',
+								 projected.address 	|| '-', 
+								(projected.zip		|| '') + ' ' + (projected.city || ''), 
+								 projected.country 	|| ''
+							]"
+		ic-icon			= 	"'property-location'"
+
+	>
+	</ic-item-property>
+
+	<ic-item-property
+		class			=	"print-only"
+		ng-repeat		=	"projected in [ (item | project : ['location', 'address', 'zip', 'city', 'country'] | preventLoop) ]"
+		ng-if			= 	"projected.address"
+		ic-title 		= 	"'ITEMS.ADDRESS' | translate"
+		ic-content		= 	"projected.location"
+		ic-extra-lines	= 	"[
+								 projected.address 	|| '-', 
+								(projected.zip		|| '') + ' ' + (projected.city || ''), 
+								 projected.country 	|| ''
+							]"
+		ic-icon			= 	"'property-location'"
+	>
 	</ic-item-property>
 
 
+
+	<!-- map links -->
+
+	<ic-item-property
+		class			=	"screen-only short"
+		ng-repeat		=	"projected in [ (item | project : ['longitude', 'latitude'] | preventLoop) ]"
+		ng-if			= 	"projected.latitude && projected.longitude"
+		ic-title 		= 	"'ITEMS.SHOW_LOCATION_AT' | translate"
+		ic-extra-links	= 	"{
+								'OpenStreetMap' : 	(projected | osmLink),
+							}"
+	>
+	</ic-item-property>
+
+	<!-- link to location reference -->
+
+	<ic-item-property
+		ng-if 			= 	"item.location_ref"
+		ic-content		=	"(item.location_ref | icItem).title"
+		ic-content-link	=	"{activeItem: (item.location_ref | icItem) } | icLink"
+		ic-extra-lines	=	"[ (item.location_ref | icItem).brief[ic.site.currentLanguage] ]"
+	>
+	</ic-item-property>
 
 	<!-- geo coordinates -->
 
 	<article>
 		<div ng-if = "ic.layout.mode.name != 'XS'"><!-- spacer --></div>
 		<ic-mini-map
-			class			= "screen-only"
-			ng-if			= "item.longitude && item.latitude"
-			ic-item			= "item"
+			class		= "screen-only"
+			ng-if		= "(item | project : 'longitude') && (item | project : 'latitude')"
+			ic-item		= "item"
 		>
 		</ic-mini-map>
 	</article>
-
-	<ic-item-property
-		class			= "screen-only"
-		ng-if			= "item.longitude && item.latitude && !item.address"
-		ic-title 		= "'ITEMS.GEO_COORDINATES' | translate"
-		ic-content		= "item.latitude + ', ' +item.longitude"
-		ic-icon			= "'property-location'"
-		ic-extra-links	= "{'Google Maps' : GMLink, 'OpenStreetMap' : OSMLink}"
-	>
-	</ic-item-property>
 
 
 

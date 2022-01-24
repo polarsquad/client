@@ -398,7 +398,7 @@ angular.module('icDirectives', [
 
 					scope.voiceReader.audio = audio
 					
-					audio.pause()
+					audio && audio.pause()
 				}
 
 				scope.$watch( 
@@ -1577,7 +1577,9 @@ angular.module('icDirectives', [
 				}, true)
 
 				scope.$parent.$watch(attrs.icExtraLines, function(value){ 
-					scope.icExtraLines = 	value
+					scope.icExtraLines = 	Array.isArray(value)
+											?	value.filter( i => !!i)
+											:	[]
 				}, true)
 
 			}
