@@ -388,15 +388,28 @@ angular.module('icDirectives', [
 
 			link: function(scope, element, attrs){
 				scope.ic 	= ic
-				
+
+				scope.voiceReader = { show: false}
+
+				scope.updateVoiceReader = function() {
+					if(scope.voiceReader.show == true) return;
+
+					const audio = element[0].querySelector('#voice-reader')
+
+					scope.voiceReader.audio = audio
+					
+					audio.pause()
+				}
+
+				scope.$watch( 
+					() 		=> icSite.activeItem, 
+					(item) 	=> scope.item = item
+				)
+
 				scope.$watch(
-					function(){
-						return icSite.activeItem
-					},
-					function(item){
-						scope.item 			= 	item
-					}
-				) 
+					() => scope.voiceReader.show,
+					() => scope.updateVoiceReader()
+				)
 			
 			}
 		}
