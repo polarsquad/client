@@ -523,7 +523,7 @@ angular.module('icDirectives', [
 
 											icSite.updateUrl()
 
-											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCCESSFUL')
 										},
 										function(){
 											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')

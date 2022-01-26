@@ -108,7 +108,7 @@
 				return value.trim() != data.trim()
 			} 	
 
-			if(property.type == 'array')	return value.some( v => !data.includes(v)) && data.some( d => !value.includes(d) )		
+			if(property.type == 'array')	return value.some( v => !data.includes(v)) || data.some( d => !value.includes(d) )		
 
 			if(property.type == 'number')	return parseFloat(value) != parseFloat(data)
 
