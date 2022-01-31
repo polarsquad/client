@@ -467,11 +467,13 @@
 			return result
 		}
 
-		icItemStorage.getSearchTag = function(search_term){
+		icItemStorage.getSearchTag = function(search_term, translationFn ){
 
-			if(!search_term || typeof search_term != 'string') return null
+			if(typeof search_term != 'string') return null
 
 			search_term = accent_fold(search_term)
+
+			if(!search_term) return null
 
 			var index 		= searchTerms.indexOf(search_term),
 				search_tag 	= 'search%1' 
@@ -497,20 +499,47 @@
 													return property.searchable
 												})
 
+
+				const matchesString = function(x, regex){
+
+					if(typeof x != 'string') return false
+
+					const str = accent_fold( String(x) )
+
+					if(!str) return false
+
+					const matches_raw = str.match(regex)
+
+					if(matches_raw) return true
+
+					if(typeof translationFn != 'function') return false
+
+					const translated_arr =  (translationFn(x) || []).map( s => accent_fold(s) )
+
+					if(translated_arr.length == 0) return false
+
+					const matches_translation = translated_arr.some( s => s.match(regex) )
+
+					if(matches_translation) return true
+
+					return false
+
+				}	
+
 				icItemStorage.registerFilter(search_tag.replace(/%1/,index), function(item){
 					return	regex_array.every(function(regex){
 								return searchable_properties.some(function(property){
 											switch(property.type){
 												case "array": 
-													return (item[property.name]||[]).some(function(sub){ return accent_fold(sub).match(regex)})
+													return (item[property.name]||[]).some(sub => matchesString(sub, regex))
 												break 
 
 												case "object": 
-													return Object.keys(item[property.name]||{}).some(function(key){ return accent_fold(item[property.name][key]).match(regex) })
+													return Object.keys(item[property.name]||{}).some(key => matchesString(item[property.name][key], regex) )
 												break 
 
 												default:
-													return accent_fold(String(item[property.name]||'')).match(regex)
+													return matchesString(item[property.name], regex)
 												break
 											}
 										})
