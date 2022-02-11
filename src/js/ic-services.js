@@ -1485,15 +1485,16 @@ angular.module('icServices', [
 
 		function(icLanguages){
 
+			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
+
 			var icTaxonomy = this
 
 			icTaxonomy.categories 	= []
 			icTaxonomy.types		= []
-			icTaxonomy.tags 		= taxonomy.tags
+			icTaxonomy.tags 		= taxonomy.tags|| {}
 			icTaxonomy.lor			= taxonomy.lor || []
 			icTaxonomy.extraTags	= []
 
-			if(!taxonomy) 	console.error('icTaxonomy: taxonomy missing. You should probably load taxonomy.js.')
 
 
 			icTaxonomy.addCategory = function(cat_config){
@@ -1666,6 +1667,17 @@ angular.module('icServices', [
 			
 				return	haystack.filter(function(tag){ return tags.indexOf(tag) != -1 })
 			}
+
+			icTaxonomy.getUnsortedTagPath = function(tag){
+				const [group_key, group] = 	Object.entries(icTaxonomy.tags)
+											.find( ([key, tag_group]) => tag_group.includes(tag) )
+											|| [undefined, undefined]
+									
+				return	group_key
+						?	`UNSORTED_TAGS.${group_key.toUpperCase()}.${tag.toUpperCase()}`
+						:	null
+			}
+
 
 			icTaxonomy.getDistrict = function(haystack){
 				if(!haystack) return null
@@ -2084,10 +2096,33 @@ angular.module('icServices', [
 		})
 
 
+
+		const adHocTranslation = function(x){
+			// this is a hack
+			// it is meant o support translation of tags; especially list/option tag
+			// $translate is async, using it would require to much refactoring
+
+			if(typeof x != 'string') 			return 	[]
+
+			if(!x.match(/^[0-9a-zA-Z_-]+$/))	return 	[]	
+			if(!x.match(/[a-zA-Z]/))			return 	[]
+
+			if(icTaxonomy.isUnsortedTag(x))		return	(Object.values(icLanguages.translationTable) || [])
+														.map( table => 		table 
+																		&&	table['UNSORTED_TAGS'] 
+																		&&	table['UNSORTED_TAGS'][x.toUpperCase()]
+														)
+														.filter(x => !!x)
+
+			return []
+
+		}
+
+
 		$rootScope.$watch(
 			function(){
 				return 	[
-							icItemStorage.getSearchTag(icSite.searchTerm),
+							icItemStorage.getSearchTag(icSite.searchTerm, x => adHocTranslation(x) ),
 							icSite.filterByType,
 							icSite.filterByCategory,
 							icSite.filterByUnsortedTag
