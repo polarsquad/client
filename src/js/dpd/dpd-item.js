@@ -162,7 +162,7 @@
 		}
 
 
-		icItem.submitAsNew = function(){
+		icItem.submitAsNew = function(suggestionMeta){
 
 			const raw_data 		= icItem.exportData() 
 			
@@ -176,6 +176,8 @@
 
 				clean_data[key] = value
 			})
+
+			clean_data.suggestionMeta = suggestionMeta
 
 			return	dpd(ic.itemConfig.collectionName)
 					.post(clean_data)
@@ -208,7 +210,7 @@
 		}
 
 
-		icItem.submitAsEditSuggestion = function(original){
+		icItem.submitAsEditSuggestion = function(original, suggestionMeta){
 
 			
 			data				= 	original
@@ -220,6 +222,7 @@
 									?	original.id
 									:	icItem.id
 
+			data.suggestionMeta = suggestionMeta						
 
 
 

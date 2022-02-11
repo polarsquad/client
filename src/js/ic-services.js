@@ -349,6 +349,10 @@ angular.module('icServices', [
 			return 	icUser.privileges && icUser.privileges.indexOf(task) != -1
 		}
 
+		icUser.cannot = function(task){
+			return !icUser.can(task)
+		}
+
 
 		icUser.ready = icUser.setup()
 

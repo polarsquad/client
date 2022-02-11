@@ -41,13 +41,11 @@
 			<span>{{proposal.index+1}}</span>
 		</button>	
 	</div>
+
+
 	<!-- property proposals  end -->
 
 
-
-
-
-	
 	<div 
 		class 		= "input-wrapper"
 		ng-class 	= "{'extra-padding': icProperty.max}" 
@@ -62,6 +60,7 @@
 			ng-trim				= "false"
 			ic-expose-internal-model = "internalModel"
 		></input>
+		
 		<textarea
 			class				= "bg-1 col-0"	
 			ng-if				= "icType == 'text'"

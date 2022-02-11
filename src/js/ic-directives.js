@@ -428,18 +428,56 @@ angular.module('icDirectives', [
 	'icTaxonomy',
 	'icOverlays',
 	'icMainMap',
+	'icConfig',
 	'$rootScope',
 	'$q',
 
-	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, icMainMap, $rootScope, $q){
+	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, icMainMap, icConfig, $rootScope, $q){
 
 		return {
 			restrict:		'AE',
 			templateUrl:	'partials/ic-item-full-edit.html',
 			scope:			true,
 
-			link: function(scope, element, attrs){
+			link: function(scope, element, attrs, controller){
+
 				scope.ic = ic
+
+				scope.show = { details: false }
+
+
+				if(icConfig.suggestions){
+					scope.suggestionMeta 		= {mail:'', 	name:'', 	apiKey:''}	
+					scope.suggestionMetaErrors 	= {mail:null, 	name:null, 	apiKey:null}
+
+					controller.registerValidationFunction( () => scope.validateSuggestionMeta() )
+				}
+
+				scope.validateSuggestionMeta = function(key){
+
+					if(icUser.can('edit_items')) return false
+
+					if(!key || key == 'name'){
+						scope.suggestionMetaErrors.name 	= 	icConfig.suggestions.requireName && !scope.suggestionMeta.name.trim()
+																?	{code: 'MISSING'}
+																:	null
+					}
+
+					if(!key || key == 'mail'){
+						scope.suggestionMetaErrors.mail 	= 	icConfig.suggestions.requireMail && !scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
+																?	{code: 'INVALID_OR_MISSING'}
+																:	null									
+					}
+
+					if(!key || key == 'apiKey'){
+						scope.suggestionMetaErrors.apiKey 	= 	icConfig.suggestions.requireApiKey && !scope.suggestionMeta.apiKey.trim()
+																?	{code: 'MISSING'}
+																:	null																
+					}
+
+					return Object.values(scope.suggestionMetaErrors).some(x => x)						
+
+				}
 
 				scope.validate = function(){
 					//each validate function can return errors
@@ -512,7 +550,7 @@ angular.module('icDirectives', [
 						//suggesting new item
 						if(item.internal.new){
 							
-							return 	$q.when(edit.submitAsNew())
+							return 	$q.when(edit.submitAsNew(scope.suggestionMeta))
 									.then(
 										function(){
 											icItemEdits.clear(edit)
@@ -534,7 +572,7 @@ angular.module('icDirectives', [
 						//suggesting edit 
 						if(!item.internal.new){
 						
-							return 	$q.when(edit.submitAsEditSuggestion(item))
+							return 	$q.when(edit.submitAsEditSuggestion(item, scope.suggestionMeta))
 									.then(
 										function(){
 											icItemEdits.clear(edit)
@@ -673,7 +711,7 @@ angular.module('icDirectives', [
 				this.registerValidationFunction = function(fn, remoteScope){
 
 					$scope.validationFunctions.push(fn)
-					remoteScope.$on('$destroy', function(){
+					remoteScope && remoteScope.$on('$destroy', function(){
 						$scope.validationFunctions = $scope.validationFunctions.filter(function(f){ return f != fn })
 					})
 

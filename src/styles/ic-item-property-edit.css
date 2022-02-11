@@ -1,3 +1,4 @@
+.ic-item-property-edit,
 ic-item-property-edit {
 	display:					block;
 	position: 					relative;
@@ -133,16 +134,21 @@ ic-item-property-edit .options button > *:first-child {
 }
 
 
+
+.ic-item-property-edit.invalid input[type="text"],
+.ic-item-property-edit.invalid textarea,
 ic-item-property-edit.invalid input[type="text"],
 ic-item-property-edit.invalid textarea {
 	box-shadow:					0 0 0 2px var(--error-color);
 }
 
-ic-item-property-edit.invalid{
+.ic-item-property-edit.invalid,
+ic-item-property-edit.invalid {
 	position:					relative;
 	overflow:					visible !important;
 }
 
+.ic-item-property-edit.invalid:after,
 ic-item-property-edit.invalid:after {
 	content:					'';
 	display:					block;
@@ -154,6 +160,7 @@ ic-item-property-edit.invalid:after {
 	width:						0.15rem;
 }
 
+.ic-item-property-edit.invalid:before,
 ic-item-property-edit.invalid:before {
 	content:					'';
 	display:					block;

@@ -1,6 +1,7 @@
 /*replace ic-page with ic-page or similar */
 
 #section-page > article {
+	position: 						relative;
 	min-height: 					100%;
 	display: 						flex;
 	flex-direction: 				column;
