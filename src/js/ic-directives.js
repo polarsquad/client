@@ -445,8 +445,9 @@ angular.module('icDirectives', [
 
 				scope.show = { details: false }
 
+				const sConfig = icConfig.suggestions
 
-				if(icConfig.suggestions){
+				if(sConfig){
 					scope.suggestionMeta 		= {mail:'', 	name:'', 	apiKey:''}	
 					scope.suggestionMetaErrors 	= {mail:null, 	name:null, 	apiKey:null}
 
@@ -457,20 +458,32 @@ angular.module('icDirectives', [
 
 					if(icUser.can('edit_items')) return false
 
+					const is_new		= 	icSite.activeItem.internal.new
+					const requireName 	= 	is_new
+											?	sConfig && ['new', 'both', true].includes(sConfig.requireName)
+											:	sConfig && ['edit', 'both', true].includes(sConfig.requireName)
+					const requireMail 	=	is_new
+											?	sConfig && ['new', 'both', true].includes(sConfig.requireMail)
+											:	sConfig && ['edit', 'both', true].includes(sConfig.requireMail)
+					const requireApiKey	=	is_new
+											?	sConfig && ['new', 'both', true].includes(sConfig.requireApiKey)
+											:	sConfig && ['edit', 'both', true].includes(sConfig.requireApiKey)
+
 					if(!key || key == 'name'){
-						scope.suggestionMetaErrors.name 	= 	icConfig.suggestions.requireName && !scope.suggestionMeta.name.trim()
+						scope.suggestionMetaErrors.name 	= 	requireName && !scope.suggestionMeta.name.trim()
 																?	{code: 'MISSING'}
 																:	null
 					}
 
 					if(!key || key == 'mail'){
-						scope.suggestionMetaErrors.mail 	= 	icConfig.suggestions.requireMail && !scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
+						scope.suggestionMetaErrors.mail 	= 	(requireMail || scope.suggestionMeta.mail.trim()) 
+																&& !scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
 																?	{code: 'INVALID_OR_MISSING'}
 																:	null									
 					}
 
 					if(!key || key == 'apiKey'){
-						scope.suggestionMetaErrors.apiKey 	= 	icConfig.suggestions.requireApiKey && !scope.suggestionMeta.apiKey.trim()
+						scope.suggestionMetaErrors.apiKey 	= 	requireApiKey && !scope.suggestionMeta.apiKey.trim()
 																?	{code: 'MISSING'}
 																:	null																
 					}
@@ -580,7 +593,7 @@ angular.module('icDirectives', [
 											icSite.editItem = false
 											icSite.updateUrl()
 
-											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCESSFUL')
+											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_SUCCESSFUL')
 										},
 										function(){
 											return icOverlays.open('popup', 'INTERFACE.SUGGESTION_FAILED')

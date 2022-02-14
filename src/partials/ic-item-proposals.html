@@ -11,7 +11,13 @@
 		> 
 			{{$index+1}}
 		</span>
-		[ {{proposal.creationDate | icDate }} ]
+		[
+		{{proposal.creationDate | icDate }}	
+		<span 
+			ng-if = "proposal.apiKeyUsed"
+			class = "icon icon-interface-auth"
+		></span>
+	 	]
 	</div>
 
 	<div>

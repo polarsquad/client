@@ -5,7 +5,13 @@
 </button>
 
 
-<h2>{{'INTERFACE.PROPOSAL' | translate}}</h2>
+<h2>
+	{{'INTERFACE.PROPOSAL' | translate}} 
+	<span 
+		ng-if = "icProposal.apiKeyUsed"
+		class = "icon icon-interface-auth"
+	></span>
+</h2>
 
 <div
 	ng-repeat 	= 	"property in properties"
