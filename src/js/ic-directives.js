@@ -451,39 +451,57 @@ angular.module('icDirectives', [
 					scope.suggestionMeta 		= {mail:'', 	name:'', 	apiKey:''}	
 					scope.suggestionMetaErrors 	= {mail:null, 	name:null, 	apiKey:null}
 
+
 					controller.registerValidationFunction( () => scope.validateSuggestionMeta() )
+				}
+
+				scope.require = function(key){
+
+					const is_new		= 	icSite.activeItem && icSite.activeItem.internal && icSite.activeItem.internal.new
+
+					if(key == 'name')	return	is_new
+												?	sConfig && ['new', 'both', true].includes(sConfig.requireName)
+												:	sConfig && ['edit', 'both', true].includes(sConfig.requireName)
+
+					if(key == 'mail')	return	is_new
+												?	sConfig && ['new', 'both', true].includes(sConfig.requireMail)
+												:	sConfig && ['edit', 'both', true].includes(sConfig.requireMail)
+
+					if(key == 'apiKey')	return	is_new
+												?	sConfig && ['new', 'both', true].includes(sConfig.requireApiKey)
+												:	sConfig && ['edit', 'both', true].includes(sConfig.requireApiKey)
+
+					//TODO, maybe add properties...
 				}
 
 				scope.validateSuggestionMeta = function(key){
 
 					if(icUser.can('edit_items')) return false
 
-					const is_new		= 	icSite.activeItem.internal.new
-					const requireName 	= 	is_new
-											?	sConfig && ['new', 'both', true].includes(sConfig.requireName)
-											:	sConfig && ['edit', 'both', true].includes(sConfig.requireName)
-					const requireMail 	=	is_new
-											?	sConfig && ['new', 'both', true].includes(sConfig.requireMail)
-											:	sConfig && ['edit', 'both', true].includes(sConfig.requireMail)
-					const requireApiKey	=	is_new
-											?	sConfig && ['new', 'both', true].includes(sConfig.requireApiKey)
-											:	sConfig && ['edit', 'both', true].includes(sConfig.requireApiKey)
-
+					
 					if(!key || key == 'name'){
-						scope.suggestionMetaErrors.name 	= 	requireName && !scope.suggestionMeta.name.trim()
+						scope.suggestionMetaErrors.name 	= 	scope.require('name') && !scope.suggestionMeta.name.trim()
 																?	{code: 'MISSING'}
 																:	null
 					}
 
 					if(!key || key == 'mail'){
-						scope.suggestionMetaErrors.mail 	= 	(requireMail || scope.suggestionMeta.mail.trim()) 
-																&& !scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
-																?	{code: 'INVALID_OR_MISSING'}
-																:	null									
+						scope.suggestionMetaErrors.mail 	= 	scope.suggestionMeta.mail
+																?	(
+																		scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
+																 		?	null
+																 		:	{code: 'INVALID_OR_MISSING'}
+																 	)
+																:	(
+																		scope.require('mail')
+																		?	{code: 'INVALID_OR_MISSING'}
+																		:	null									
+																	)	
+
 					}
 
 					if(!key || key == 'apiKey'){
-						scope.suggestionMetaErrors.apiKey 	= 	requireApiKey && !scope.suggestionMeta.apiKey.trim()
+						scope.suggestionMetaErrors.apiKey 	= 	scope.require('apiKey')  && !scope.suggestionMeta.apiKey.trim()
 																?	{code: 'MISSING'}
 																:	null																
 					}
@@ -537,7 +555,7 @@ angular.module('icDirectives', [
 
 				scope.submit = function(ignore_missing_note){
 
-					if(!scope.icEdit) return null
+					if(!scope.icEdit) return null				
 
 					var item 		= scope.icItem,
 						edit 		= scope.icEdit

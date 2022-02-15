@@ -7,7 +7,7 @@
 
 
 <ic-item-full 
-	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
+	ng-if 					= "!ic.site.activeItem.internal.downloading && !ic.site.activeItem.internal.failed && !ic.site.editItem" 
 	ic-scroll-top			= "true"
 	ic-settle-scrollbar		= "true"
 	ic-scroll-source	 	= "item"
@@ -16,7 +16,7 @@
 </ic-item-full>
 
 <ic-item-full-edit 
-	ng-if 					= "!ic.site.activeItem.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
+	ng-if 					= "!ic.site.activeItem.internal.downloading && !ic.site.activeItem.internal.failed && ic.site.editItem" 
 	ic-scroll-top			= "true"
 	ic-settle-scrollbar		= "true"
 	ic-scroll-source		= "item"
@@ -31,6 +31,13 @@
 	ic-scroll-source 		= "item"
 >
 	<div class = "padding bg-0">
-		{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}}
+		{{ 'INTERFACE.ITEM_DOWNLOAD_FAILED' | translate}} 
+
+		<button 
+			class 		= "active"
+			ng-click 	= "ic.site.activeItem = null"
+		>
+			[ {{'INTERFACE.CLOSE' | translate}} ]
+		</button>
 	</div>
 </div>

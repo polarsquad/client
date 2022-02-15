@@ -8,15 +8,19 @@
 </label>
 
 <form
-	ng-submit 	= "update(searchTerm)"
-	class		= "normal"
+	ng-submit 		= "update(searchTerm)"
+	class			= "normal"
+	autocomplete	= "on"
+
 >
 
 	<input
 		id					= "search-term-{{searchId}}" 			
+		name				= "search"
 		tabindex			= "0"
-		type 				= "text" 
+		type 				= "search" 
 		ng-model 			= "searchTerm"
+		autocomplete		= "on"
 		placeholder			= "{{'INTERFACE.SEARCH_TERM' | translate }}"
 		focus-me			= "icFocus"
 	/>

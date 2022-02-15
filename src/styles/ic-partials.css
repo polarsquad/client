@@ -37,7 +37,8 @@ ic-search form {
 }
 
 
-ic-search form input[type=text]{
+ic-search form input[type=text],
+ic-search form input[type=search] {
 	display:						block;
 	box-sizing:						border-box;
 	border:							none;

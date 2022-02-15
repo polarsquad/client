@@ -10,7 +10,8 @@
 
 		var icItem = this
 
-		icItem.downloading 		= undefined
+		icItem.internal 			= icItem.internal || {}
+		icItem.internal.downloading = undefined
 
 		icItem.importData = function(data){
 
@@ -138,18 +139,29 @@
 		icItem.download = function(){
 			if(!icItem.id) console.error('icItemDpd.download: missing item id.')
 
-			if(icItem.downloading && icItem.ongoingDownload) return icItem.ongoingDownload
+			icItem.internal = 	icItem.internal || {}
 
-			icItem.downloading 		= 	true
-			icItem.ongoingDownload 	= 	dpd(ic.itemConfig.collectionName)
-										.get({id: icItem.id})
-										.then(icItem.importData)
-										.then(function(){
-											icItem.downloading = false
-											return icItem
-										})
+			if(icItem.internal.downloading && icItem.internal.ongoingDownload) return icItem.internal.ongoingDownload
 
-			return icItem.ongoingDownload
+			icItem.internal.failed = false	
+
+			icItem.internal.downloading 		= 	true
+			icItem.internal.ongoingDownload 	= 	dpd(ic.itemConfig.collectionName)
+													.get({id: icItem.id})
+													.then(icItem.importData)
+													.then(
+														() => {
+															icItem.internal.downloading	= false
+															icItem.internal.failed 		= false
+															return icItem
+														},
+														(reason) => {
+															console.warn('icItem.download(): update failed.', reason)
+															icItem.internal.failed 		= true
+														}
+													)
+
+			return icItem.internal.ongoingDownload
 		}
 
 		icItem.update = function(key, subkey){

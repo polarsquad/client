@@ -166,7 +166,7 @@ angular.module('icServices', [
 			}
 
 			getTabbables(element){
-				return 	Array.from(element.querySelectorAll('input, textarea, select, button, a, [tabindex]:not([tabindex="-1"])'))
+				return 	Array.from(element.querySelectorAll('input, textarea, select, button:not([tabindex="-1"]), a, [tabindex]:not([tabindex="-1"])'))
 						.filter( element => element.offsetParent && getComputedStyle(element).display != 'none')
 			}
 

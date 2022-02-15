@@ -402,9 +402,7 @@
 
 			if(item) return item
 
-			item = icItemStorage.storeItem({id: id})
-			
-			
+			item = icItemStorage.storeItem({id: id})				
 
 			if(force_download){
 				item.download()
@@ -417,8 +415,6 @@
 					function(reason){
 						console.warn('icItemStorage.getItem: update failed.', reason)
 						
-						item.internal.failed = true
-
 						icItemStorage.runAsyncTriggers()
 
 						return Promise.reject(reason)
