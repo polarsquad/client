@@ -565,8 +565,6 @@ angular.module('icDirectives', [
 
 					icAutoFill.storeValues()
 
-					return null
-
 					icOverlays.toggle('spinner', true)
 
 
