@@ -90,6 +90,18 @@
 				</button>
 
 			</li>
+			<li 
+				ng-if = "ic.autoFill.active" 
+				class = "bg-0 hover"
+				ic-touch-me
+			>
+				<button 
+					ng-click 	= "ic.autoFill.confirmClear()"
+				>
+					{{'INTERFACE.AUTOFILL_CLEAR' | translate}}
+				</button>
+
+			</li>
 			<li  
 				class = "bg-0 hover"
 				ng-if	= "!ic.user.loggedIn"

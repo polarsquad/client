@@ -132,7 +132,89 @@ angular.module('icServices', [
 
 ])
 
+.service('icAutoFill',[
 
+	'icOverlays',
+
+	function(icOverlays){
+
+		class icAutoFill {
+
+			storeKey		= "icAutoFill"
+
+			newValues 		= {}
+			confirmation 	= {}
+			currentValues	= {}
+			
+
+			constructor(){				
+				this.loadValues()
+			}
+
+			loadValues(){
+				this.currentValues = {}
+
+				const json_from_ls = localStorage.getItem(this.storeKey) || "{}"
+
+				try {
+					this.currentValues = JSON.parse(json_from_ls)
+				} catch(e) {
+					console.error(e)
+				}
+			}
+
+			get active(){
+				return Object.keys(this.currentValues).length > 0
+			}
+
+			clearStorage(){
+				localStorage.removeItem(this.storeKey)				
+				this.loadValues()
+			}
+
+			confirmClear(){
+				icOverlays.open('confirmationModal', 'INTERFACE.AUTOFILL_CONFIRM')	
+				.then( () => this.clearStorage() )
+				.then( () => icOverlays.open('popup', 'INTERFACE.AUTOFILL_CLEARED')	 )
+			}
+
+			updateValue(key, value){
+				this.newValues[key] = value
+
+				console.log('UPDATE', this.newValues)
+			}
+
+			toggleConfirmation(key, toggle){
+				if(toggle === undefined) return (this.confirmation[key] = !this.confirmation[key])
+				this.confirmation[key] = !!toggle 
+			}
+
+
+			storeValues(){				
+				const updates = Object.keys(this.newValues)
+								.filter( 	key => !!this.confirmation[key])
+								.map(		key => [key, this.newValues[key]] )
+
+				updates.forEach( ([key,value]) => {
+					this.currentValues[key] = this.currentValues[key] || []
+
+					if(typeof value == 'string' && value.trim()) this.currentValues[key].push(value)
+
+					this.currentValues[key] = Array.from( new Set(this.currentValues[key]) )
+
+				})
+
+				localStorage.setItem(this.storeKey, JSON.stringify(this.currentValues))
+
+				console.log('sTORE', this.confirmation, this.currentValues)
+			}
+
+		}
+
+		return new icAutoFill()
+	}
+
+])
 
 .service('icKeyboard',[
 
@@ -152,12 +234,12 @@ angular.module('icServices', [
 				return this.getNextTabbable()
 			}
 
-			getNextTabbable(element, relativeTo){
+			getNextTabbable(element, relativeTo, selector){
 
 				element 	=  	element 	|| document
 				relativeTo 	=	relativeTo 	|| document.activeElement
 
-				const tabbables 	= this.getTabbables(element)
+				const tabbables 	= this.getTabbables(element, selector)
 
 				const active_pos 	= tabbables.indexOf(relativeTo)
 
@@ -165,12 +247,13 @@ angular.module('icServices', [
 
 			}
 
-			getTabbables(element){
+			getTabbables(element, selector){
 				return 	Array.from(element.querySelectorAll('input, textarea, select, button:not([tabindex="-1"]), a, [tabindex]:not([tabindex="-1"])'))
-						.filter( element => element.offsetParent && getComputedStyle(element).display != 'none')
+						.filter( 	element => element.offsetParent && getComputedStyle(element).display != 'none')
+						.filter(	element => !selector || element.matches(selector) )
 			}
 
-			tabNext(){		
+			tabNext(selector){		
 				window.requestAnimationFrame( () => this.nextTabbable.focus() )
 			}
 
@@ -178,6 +261,9 @@ angular.module('icServices', [
 				window.requestAnimationFrame( () => this.previousTabbable.focus() )	
 			}
 
+			tabNextInput(){
+				window.requestAnimationFrame( () => this.getNextTabbable(null, null, 'input, textarea, button[tabindex]:not([tabindex="-1"])').focus() )
+			}
 
 
 			onFocusIn(event){
@@ -2985,33 +3071,35 @@ angular.module('icServices', [
 	'icWebfonts',
 	'icItemRef',
 	'icKeyboard',	
+	'icAutoFill',
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, icKeyboard, $rootScope ){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, icKeyboard, icAutoFill, $rootScope ){
 
-		ic.init			= icInit
-		ic.site			= icSite
-		ic.itemStorage 	= icItemStorage
-		ic.layout		= icLayout
-		ic.itemConfig	= icItemConfig
-		ic.taxonomy		= icTaxonomy
-		ic.filterConfig	= icFilterConfig
-		ic.languages	= icLanguages
-		ic.favourites	= icFavourites
-		ic.overlays		= icOverlays
 		ic.admin		= icAdmin
-		ic.user			= icUser
-		ic.stats		= icStats
+		ic.autoFill		= icAutoFill
 		ic.config		= icConfig
-		ic.utils		= icUtils
 		ic.consent		= icConsent
-		ic.mainMap		= icMainMap
-		ic.tiles		= icTiles
-		ic.options		= icOptions
-		ic.lists		= icLists
-		ic.webfonts		= icWebfonts
+		ic.favourites	= icFavourites
+		ic.filterConfig	= icFilterConfig
+		ic.init			= icInit
+		ic.itemConfig	= icItemConfig
 		ic.itemRef		= icItemRef
+		ic.itemStorage 	= icItemStorage
 		ic.keyboard		= icKeyboard
+		ic.languages	= icLanguages
+		ic.layout		= icLayout
+		ic.lists		= icLists
+		ic.mainMap		= icMainMap
+		ic.options		= icOptions
+		ic.overlays		= icOverlays
+		ic.site			= icSite
+		ic.stats		= icStats
+		ic.taxonomy		= icTaxonomy
+		ic.tiles		= icTiles
+		ic.user			= icUser
+		ic.utils		= icUtils
+		ic.webfonts		= icWebfonts
 
 		var stop 		= 	$rootScope.$watch(function(){
 								if(icInit.ready){

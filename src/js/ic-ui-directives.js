@@ -302,6 +302,28 @@ angular.module('icUiDirectives', [
 
 ])
 
+.directive('icAutoFill',[
+
+	'icAutoFill',
+
+	function(icAutoFill){
+
+		return {
+			restrict:	'A',
+			require:	"ngModel",	
+			scope:		{
+							icAutoFill : "<"
+						},		
+
+			link: function(scope, element, attrs, ctrl){
+
+				ctrl.$viewChangeListeners.push( () => icAutoFill.updateValue(scope.icAutoFill, ctrl.$modelValue) )
+
+			}
+		}
+	}
+])
+
 .directive('icRemove', [
 
 	'$timeout',

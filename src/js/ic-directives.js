@@ -429,10 +429,11 @@ angular.module('icDirectives', [
 	'icOverlays',
 	'icMainMap',
 	'icConfig',
+	'icAutoFill',
 	'$rootScope',
 	'$q',
 
-	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, icMainMap, icConfig, $rootScope, $q){
+	function(ic, icUser, icItemEdits, icItemConfig, icSite, icLanguages, icItemStorage, icTaxonomy, icOverlays, icMainMap, icConfig, icAutoFill, $rootScope, $q){
 
 		return {
 			restrict:		'AE',
@@ -443,7 +444,8 @@ angular.module('icDirectives', [
 
 				scope.ic = ic
 
-				scope.show = { details: false }
+				scope.show 		= 	{ details: false }
+				scope.autofill	=	{}
 
 				const sConfig = icConfig.suggestions
 
@@ -560,6 +562,10 @@ angular.module('icDirectives', [
 					var item 		= scope.icItem,
 						edit 		= scope.icEdit
 
+
+					icAutoFill.storeValues()
+
+					return null
 
 					icOverlays.toggle('spinner', true)
 
