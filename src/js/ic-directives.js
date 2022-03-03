@@ -642,7 +642,7 @@ angular.module('icDirectives', [
 										icSite.editItem 	= false
 										icSite.updateUrl()
 
-										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_SUCESSFUL')
+										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_SUCCESSFUL')
 									},
 									function(){
 										return icOverlays.open('popup', 'INTERFACE.ITEM_CREATION_FAILED')
@@ -663,7 +663,7 @@ angular.module('icDirectives', [
 									icSite.updateUrl()
 
 
-									return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCESSFUL')
+									return icOverlays.open('popup', 'INTERFACE.UPDATE_SUCCESSFUL')
 								},
 								function(){
 									return icOverlays.open('popup', 'INTERFACE.UPDATE_FAILED')
