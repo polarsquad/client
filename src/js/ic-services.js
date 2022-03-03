@@ -1554,9 +1554,11 @@ angular.module('icServices', [
 		
 
 	function IcCategory(config){
-		this.name 	= config.name
+		this.name 		= config.name
 		//make sure no tags appear twice
-		this.tags	= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
+		this.tags		= config.tags.filter(function(v, i, s) { return s.indexOf(v) === i } )
+		this.colors		= config.colors || []
+		this.pos		= config.pos || null
 	}
 
 	function IcType(config){

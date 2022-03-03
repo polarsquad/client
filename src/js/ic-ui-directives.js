@@ -1027,7 +1027,11 @@ angular.module('icUiDirectives', [
 			scope:			true,
 			templateUrl:	"partials/ic-carousel.html",
 
-			link: function(scope, element, attrs, ctrl){
+			link: function(scope, element, attrs, ctrl, transclude){
+
+				transclude(scope, function(clone) {
+					angular.element(element[0].querySelector('.transclude')).append(clone)
+				})
 
 				scope.carousel					= {}
 				scope.carousel.images 			= []
@@ -1052,7 +1056,7 @@ angular.module('icUiDirectives', [
 						height		= element[0].clientHeight
 
 
-						element[0].querySelectorAll('.image')
+						element[0].querySelectorAll('.shuttle .image')
 						.forEach( function(i_element){
 							i_element.style.width 	= width  + 'px'
 							i_element.style.height 	= height + 'px'
@@ -1113,6 +1117,9 @@ angular.module('icUiDirectives', [
 					})
 				}
 
+				Object.defineProperty(scope, 'currentImage', {
+					get: function() { return scope.carousel.images[scope.carousel.position] }
+				})
 
 				scope.$watch('carousel.position', function(new_pos, old_pos){
 
@@ -1156,7 +1163,11 @@ angular.module('icUiDirectives', [
 																		?	image_str 							
 																		:	'',
 
-															caption	:	image_entry.caption || undefined
+															caption	:	image_entry.caption || undefined,
+
+															link	:	image_entry.link,
+															main	:	image_entry.main,
+															sub		:	image_entry.sub
 
 														}
 											})

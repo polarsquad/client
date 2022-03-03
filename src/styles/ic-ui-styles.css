@@ -49,8 +49,8 @@ ic-carousel 	.shuttle > *,
 	white-space: 			nowrap;
 }
 
-ic-carousel 	.image,
-[ic-carousel]	.image {
+ic-carousel 	.shuttle .image,
+[ic-carousel]	.shuttle .image {
 	position: 				relative;
 	display:				inline-block;
 	background-position:	50% 50%;
@@ -59,8 +59,8 @@ ic-carousel 	.image,
 	background-color:		#fff;
 }
 
-ic-carousel 	.image .caption,
-[ic-carousel]	.image .caption {
+ic-carousel 	.shuttle .image .caption,
+[ic-carousel]	.shuttle .image .caption {
 	position: 				absolute;
 	display: 				inline-block;
 	left: 					0;
@@ -95,16 +95,6 @@ ic-carousel 	nav button + button,
 [ic-carousel]	nav button + button {
 	margin-left:			0.25rem;
 }
-
-
-ic-carousel 	ng-transclude {
-	display:				flex;
-	position:				absolute;
-	left:					0;
-	bottom:					4rem;
-}
-
-
 
 
 .selects {
