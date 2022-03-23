@@ -121,6 +121,20 @@
 		</a>	
 	</li>
 
+	<li
+		class		= "bg-0 hover"
+	>
+		<button
+			ng-if		= "ic.config.export"
+			ng-click 	= "ic.export.getCSV(ic.site.currentLanguage)"
+			ic-touch-me
+		>
+			<span>
+				{{'INTERFACE.EXPORT_CSV' | translate}}
+			</span>				
+			<span class = "icon right icon-interface-cogwheel"></span>	
+		</button>	
+	</li>
 
 	<li
 		class = "bg-0 hover"  

@@ -184,7 +184,7 @@ ic-header ic-main-menu ul > li > ul > li > button > *:first-child {
 
 ic-header ic-main-menu ul > li > ul > li > a,
 ic-header ic-main-menu ul > li > ul > li > button {
-	display: 						flex;
+	display: 						flex !important;
 	align-items:					baseline;
 	box-sizing:						border-box;
 	flex:							1 0 auto;

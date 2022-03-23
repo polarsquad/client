@@ -1855,6 +1855,35 @@ angular.module('icServices', [
 	]
 })
 
+.service('icExport',[
+
+	'$translate',
+	'$http',
+	// 'icItemStorage',
+	// 'icItemConfig',
+	'icTaxonomy',
+	'icConfig',
+
+	function($translate, $http, icTaxonomy, icConfig){
+
+		class icExport {
+
+			async getCSV(lang, properties, tagGroups){
+				lang = lang || 'de'
+
+				const {$get, ...taxonomy} = icTaxonomy
+
+				const result = await $http.post(`${icConfig.publicItems}/export/${lang}/csv`, {...icConfig.export, taxonomy } )
+
+				location.href = `${icConfig.publicItems}/export/${lang}/csv`
+			}
+
+		}
+
+		return new icExport()
+	}
+
+])
 
 .service('icFilterConfig',[
 
@@ -3074,9 +3103,10 @@ angular.module('icServices', [
 	'icItemRef',
 	'icKeyboard',	
 	'icAutoFill',
+	'icExport',
 	'$rootScope',
 
-	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, icKeyboard, icAutoFill, $rootScope ){
+	function(ic, icInit, icSite, icItemStorage, icLayout, icItemConfig, icTaxonomy, icFilterConfig, icLanguages, icFavourites, icOverlays, icAdmin, icUser, icStats, icConfig, icUtils, icConsent, icTiles, icOptions, icLists, icMainMap, icWebfonts, icItemRef, icKeyboard, icAutoFill, icExport, $rootScope ){
 
 		ic.admin		= icAdmin
 		ic.autoFill		= icAutoFill
@@ -3102,6 +3132,7 @@ angular.module('icServices', [
 		ic.user			= icUser
 		ic.utils		= icUtils
 		ic.webfonts		= icWebfonts
+		ic.export		= icExport
 
 		var stop 		= 	$rootScope.$watch(function(){
 								if(icInit.ready){

@@ -95,6 +95,11 @@ ic-loading-screen .progress-bar > *:nth-child(6) {
 }
 
 
+
+ic-loading-screen .error {
+	text-align: 			center;
+}
+
 @keyframes wave {
 
 	0%, 25% { 
