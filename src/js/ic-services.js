@@ -1636,15 +1636,15 @@ angular.module('icServices', [
 					if(!icLanguages.translationTable[lang]) return null
 					if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
 
-					(icTaxonomy.tags.lor_dst || [] ).forEach( dst => {
+					;(icTaxonomy.tags.lor_dst || [] ).forEach( dst => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][dst.toUpperCase()] = icTaxonomy.getDistrict(dst).name
 					})
 
-					(icTaxonomy.tags.lor_pgr || [] ).forEach( pgr => {
+					;(icTaxonomy.tags.lor_pgr || [] ).forEach( pgr => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][pgr.toUpperCase()] = icTaxonomy.getPrognoseraum(pgr).name
 					})
 
-					(icTaxonomy.tags.lor_bzr || [] ).forEach( bzr => {
+					;(icTaxonomy.tags.lor_bzr || [] ).forEach( bzr => {
 						icLanguages.translationTable[lang]['UNSORTED_TAGS'][bzr.toUpperCase()] = icTaxonomy.getBezirksregion(bzr).name
 					})
 
