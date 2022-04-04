@@ -1392,10 +1392,7 @@ angular.module('icDirectives', [
 				}
 
 
-
-
 				scope.validate = function(){
-
 				
 					scope.error 	= 	scope.icForceChoice && !(scope.value.edit && scope.value.edit.length)
 										?	{ code: "SELECT_AT_LEAST_ONE_OPTION"	}
@@ -1473,7 +1470,7 @@ angular.module('icDirectives', [
 
 						const add_options 	= 	typeof state == 'boolean'
 												?	state
-												:	scope.check.all 
+												:	(scope.value.edit.length != scope.icOptions.length )
 
 						scope.value.edit	= 	add_options
 												?	copyOptions(scope.icOptions)
@@ -1508,13 +1505,13 @@ angular.module('icDirectives', [
 					scope.check.all = scope.value.edit.length == scope.icOptions.length
 				}
 
-				scope.$watch('value.current', () => scope.refreshProposals() )
 
 				scope.$watch('value.edit.length', 	() => scope.updateCheckAll())
 				scope.$watch('icOptions.length', 	() => scope.updateCheckAll())
-				scope.$watch('check.all',			() => scope.toggleOption() )
 
 				//proposals:
+
+				scope.$watch('value.current', () => scope.refreshProposals() )
 
 				scope.showProposals = false
 
