@@ -1021,6 +1021,7 @@ angular.module('icDirectives', [
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
 								icCheckAll:				"<?",
+								icCheckNone:			"<?",
 								icForceChoice:			"<?",
 								icDate:					"<?",
 								icSkipTime:				"<?",
@@ -1450,10 +1451,7 @@ angular.module('icDirectives', [
 					}
 				}
 
-				scope.allChecked = function(){
-					return scope.value.edit.length == scope.icOptions.length
-				}
-
+	
 				scope.toggleOption = function(option, state){
 
 
@@ -1475,7 +1473,7 @@ angular.module('icDirectives', [
 
 						const add_options 	= 	typeof state == 'boolean'
 												?	state
-												:	!scope.allChecked() 
+												:	scope.check.all 
 
 						scope.value.edit	= 	add_options
 												?	copyOptions(scope.icOptions)
@@ -1498,9 +1496,25 @@ angular.module('icDirectives', [
 
 				}
 
+				//checkAll:
+
+				scope.check	= { all : false }
+
+				scope.updateCheckAll = function(){
+					if(!scope.value)		return null
+					if(!scope.value.edit)	return null
+					if(!scope.icOptions)	return null
+
+					scope.check.all = scope.value.edit.length == scope.icOptions.length
+				}
+
+				scope.$watch('value.current', () => scope.refreshProposals() )
+
+				scope.$watch('value.edit.length', 	() => scope.updateCheckAll())
+				scope.$watch('icOptions.length', 	() => scope.updateCheckAll())
+				scope.$watch('check.all',			() => scope.toggleOption() )
 
 				//proposals:
-
 
 				scope.showProposals = false
 

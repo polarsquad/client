@@ -66,13 +66,13 @@
 
 
 	<div ng-if = "icCheckAll">
-		<span>{{'INTERFACE.CHECK_ALL' | translate}}</span>:
+		<span>{{ (icCheckAll !== true ? icCheckAll : 'INTERFACE.CHECK_ALL') | translate}}</span>:
 		<ic-toggle
-			ng-if		= "icCheckAll"
 			on			= "{{'INTERFACE.ON'  |translate}}"
 			off			= "{{'INTERFACE.OFF' |translate}}"
-			value		= "allChecked()"
-			ng-click	= "toggleOption()"
+			value		= "check.all"		
+			ic-click	= "toggleOption()"	
+			tab-index	= "0"
 		>			
 		</ic-toggle>
 	</div>
@@ -89,6 +89,25 @@
 		<div ng-if = "icOptionFilterKey && filteredOptions().length == 0">
 			{{'INTERFACE.PROPERTY_FILTER_EMPTY' | translate}}
 		</div>
+
+		<button
+			ng-if		="icCheckNone"
+			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{value.edit.length == 0 ? 'checked active' : ''}}"
+			ng-click	= "toggleOption(null, false)"
+			ic-touch-me
+		>
+			<span 
+				class 	= "icon"
+				ng-if	= "icOptionIconClass"
+			></span>
+
+			<span
+				ng-if	= "icOptionLabel"
+			>
+				{{ (icCheckNone!== true ? icCheckNone : 'INTERFACE.CHECK_NONE') |translate}}
+			</span>
+
+		</button>
 
 		<button 
 			ng-repeat 	= "option in filteredOptions() | preventLoop | orderBy : getOptionLabel"
