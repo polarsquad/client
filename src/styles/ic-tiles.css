@@ -36,9 +36,9 @@ ic-page .tiles > * {
 }
 
 
-ic-page .tiles > *:focus,
-ic-page .tiles > *:hover {
-	filter:						sepia() hue-rotate(-180deg);
+ic-page .tiles > *:focus .background,
+ic-page .tiles > *:hover .background {
+	background-color: 			#4B5568 !important;
 }
 
 ic-page .tiles > * > .background {
@@ -82,6 +82,7 @@ ic-page .tiles > * > .content > h3 {
 	margin:						1rem 0;
 	font-weight:				normal;
 	font-size:					1.3rem;
+	
 }
 
 ic-page .tiles > * > .content > p {
@@ -105,6 +106,12 @@ ic-page .tiles > .bottom > .content {
 ic-page .tiles > .bottom > .content  p {
 	font-size: 					1.2rem;
 	color:						var(--plain-text-color);
+	transition: 				color 0.5s ease;
+}
+
+ic-page .tiles > .bottom:hover > .content  p,
+ic-page .tiles > .bottom:focus > .content  p {
+	color:						var(--dark-text-color) !important;
 }
 
 ic-page .tiles > * .background.icon {
