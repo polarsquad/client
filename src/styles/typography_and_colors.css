@@ -364,6 +364,10 @@ button {
 	margin-left:			0.5em;
 }
 
+.margin-bot {
+	margin-bottom: 			1rem;
+}
+
 
 svg {
 	overflow: 				hidden !important;
