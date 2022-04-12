@@ -33,6 +33,8 @@ ic-page .tiles > * {
 	color:						#fff;
 	
 	line-height:				1.2em;	
+
+	overflow: 					hidden;
 }
 
 
@@ -41,11 +43,18 @@ ic-page .tiles > *:hover .background {
 	background-color: 			#4B5568 !important;
 }
 
+
+ic-page .tiles > .bottom:hover .background-image {
+	transform: 					scale(1.025);
+}
+
+
+
 ic-page .tiles > * > .background {
 	display:					block;
 	position:					absolute;
 	z-index:					-1;
-	transition: 				background-color 0.5s ease;
+	transition: 				all 0.5s ease;
 	background-repeat:			no-repeat;
 
 	height:						100%;
@@ -76,6 +85,7 @@ ic-page .tiles > * > .content {
 	color:						var(--light-text-color);
 	height:						100%;
 	padding-bottom:				6rem;
+	z-index: 					1;
 }
 
 ic-page .tiles > * > .content > h3 {
@@ -123,12 +133,6 @@ ic-page .tiles > .bottom .background.icon {
 	background-size:			8rem;
 	background-position:		50% 50% !important;
 }
-
-ic-page .tiles > * .background.image {
-	background-size:			cover;
-}
-
-
 
 
 

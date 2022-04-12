@@ -258,5 +258,6 @@ ic-header .breadcrumbs {
 ic-header ic-breadcrumbs > *{
 	flex:							0 1 auto;
 	white-space: 					nowrap;
+	margin-right: 					0.5rem;
 }
 		

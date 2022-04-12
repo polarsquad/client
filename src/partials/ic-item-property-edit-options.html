@@ -110,9 +110,10 @@
 		</button>
 
 		<button 
-			ng-repeat 	= "option in filteredOptions() | preventLoop | orderBy : getOptionLabel"
+			ng-repeat 	= "option in filteredOptions() | preventLoop | orderBy : getOptionSortingPosition"
 			ng-click	= "toggleOption(option)"
 			class		= "icon left icon-interface-{{:: icAllowMultipleChoices ? 'checkbox' : 'radio'}} {{(option|in : value.edit) ? 'checked active' : ''}}"
+			ng-class	= "{'leading': option == icLeadingOption}"
 			tabindex	= "0"
 			type		= "button"			
 			ic-touch-me

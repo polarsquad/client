@@ -1020,6 +1020,7 @@ angular.module('icDirectives', [
 								icOptionsFilterLimit:	"<?",
 								icOptionLabel:			"&?",
 								icOptionIconClass:		"&?",
+								icLeadingOption:		"<?",
 								icCheckAll:				"<?",
 								icCheckNone:			"<?",
 								icForceChoice:			"<?",
@@ -1389,6 +1390,12 @@ angular.module('icDirectives', [
 
 				scope.getOptionLabel = function(option){
 					return scope.icOptionLabel({option})
+				}
+
+				scope.getOptionSortingPosition = function(option){
+					return option == 	scope.icLeadingOption
+										?	0
+										:	scope.getOptionLabel(option)
 				}
 
 

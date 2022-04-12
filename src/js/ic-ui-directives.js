@@ -1333,6 +1333,19 @@ angular.module('icUiDirectives', [
 	}
 ])
 
+.filter('add', [
+	function(){
+		return function(arr_1, arr_2){
+
+			Array.isArray(arr_2) || (arr_2 = [arr_2])
+
+			return 	arr_1
+					?	[...arr_1, ...arr_2]
+					:	[]
+		}
+	}	
+])
+
 .filter('flatten', [
 	function(){
 		return function(obj, include_keys, exclude_keys){

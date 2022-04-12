@@ -1637,15 +1637,18 @@ angular.module('icServices', [
 					if(!icLanguages.translationTable[lang]['UNSORTED_TAGS']) return null
 
 					;(icTaxonomy.tags.lor_dst || [] ).forEach( dst => {
-						icLanguages.translationTable[lang]['UNSORTED_TAGS'][dst.toUpperCase()] = icTaxonomy.getDistrict(dst).name
+						const name = icTaxonomy.getDistrict(dst).name
+						if(name) icLanguages.translationTable[lang]['UNSORTED_TAGS'][dst.toUpperCase()] = name
 					})
 
 					;(icTaxonomy.tags.lor_pgr || [] ).forEach( pgr => {
-						icLanguages.translationTable[lang]['UNSORTED_TAGS'][pgr.toUpperCase()] = icTaxonomy.getPrognoseraum(pgr).name
+						const name = icTaxonomy.getPrognoseraum(pgr).name
+						if(name) icLanguages.translationTable[lang]['UNSORTED_TAGS'][pgr.toUpperCase()] = name
 					})
 
 					;(icTaxonomy.tags.lor_bzr || [] ).forEach( bzr => {
-						icLanguages.translationTable[lang]['UNSORTED_TAGS'][bzr.toUpperCase()] = icTaxonomy.getBezirksregion(bzr).name
+						const name = icTaxonomy.getBezirksregion(bzr).name
+						if(name) icLanguages.translationTable[lang]['UNSORTED_TAGS'][bzr.toUpperCase()] = name
 					})
 
 

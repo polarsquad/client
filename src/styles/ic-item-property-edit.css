@@ -100,7 +100,9 @@ ic-item-property-edit .options button {
 	text-align: 				left;
 }
 
-
+ic-item-property-edit .options button.leading {
+	min-width: 					100%;
+}
 
 
 ic-item-property-edit.long-labels .options {
