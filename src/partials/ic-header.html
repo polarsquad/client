@@ -7,6 +7,7 @@
 		href 		= "/p/home" 
 		class		= "logo-line"
 		tabindex	= "-1"
+		title		= "{{'INTERFACE.HOME' | translate}}"		
 	> 
 		<ic-logo-line></ic-logo-line>
 	</a>
@@ -15,6 +16,7 @@
 		ng-if		= "ic.layout.mode.name == 'XS'"
 		ng-click	= "ic.overlays.open('mainMenu')"
 		class		= "icon large left icon-interface-menu white"
+		title		= "{{'INTERFACE.MAIN_MENU' | translate}}"
 	>
 	</button>
 
@@ -29,12 +31,13 @@
 	</button> -->
 
 	
-	<ic-search ic-mini = "true"></ic-search>
+	<ic-search ic-mini = "true" title = "{{'INTERFACE.SEARCH' | translate}}"></ic-search>
 
 	<a 
 		ng-if		= "true || !ic.user.loggedIn"
 		class		= "icon large left icon-interface-favourites white"
 		ng-href		= "/p/tiles/u/favourite"
+		title		= "{{'INTERFACE.FAVOURITES' | translate}}"		
 	>
 		<span class = "normal">{{'INTERFACE.FAVOURITES' | translate}}</span>
 	</a>
@@ -61,6 +64,7 @@
 		class		= "icon large left icon-interface-languages white"
 		ng-click	= "ic.overlays.open('languageMenu')" 
 		ng-if		= "ic.user.can('update_translations') || ic.languages.availableLanguages.length > (ic.languages.availableLanguages.indexOf('none') == -1 ? 1 :2)"
+		title		= "{{'INTERFACE.LANGUAGES' | translate}}"
 	>
 		<span class = "normal">{{'INTERFACE.LANGUAGES' | translate}}</span>
 	</button>
@@ -72,7 +76,14 @@
 
 <!-- logo -->
 <div class = "logo">
-	<a ng-href = "/p/home"><ic-logo-full></ic-logo-full></a>
+	<a ng-href = "/p/home">
+		<ic-logo-full 			
+			role		=	"image"
+			title 		=	"{{'ALT.LOGO_FULL' | translate}}"
+			aria-label	=	"{{'ALT.LOGO_FULL' | translate}}"
+
+		></ic-logo-full>
+	</a>
 </div>
 
 

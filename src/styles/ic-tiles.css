@@ -41,6 +41,7 @@ ic-page .tiles > * {
 ic-page .tiles > *:focus .background,
 ic-page .tiles > *:hover .background {
 	background-color: 			#4B5568 !important;
+	opacity: 					1 !important;
 }
 
 
@@ -208,14 +209,6 @@ ic-page .tiles > .item-tile .image .fallback {
 
 ic-page .tiles > .item-tile .image .fallback:before {
 	display:					none;
-}
-
-
-
-ic-page .tiles > .item-tile:focus .image,
-ic-page .tiles > .item-tile:hover .image{
-	-webkit-filter: 			brightness(1.1);
-	filter: 					brightness(1.1);
 }
 
 

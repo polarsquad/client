@@ -2219,7 +2219,7 @@ angular.module('icServices', [
 
 		const adHocTranslation = function(x){
 			// this is a hack
-			// it is meant o support translation of tags; especially list/option tag
+			// it is meant to support translation of tags; especially list/option tag
 			// $translate is async, using it would require to much refactoring
 
 			if(typeof x != 'string') 			return 	[]

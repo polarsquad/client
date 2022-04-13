@@ -22,12 +22,13 @@
 			<button 
 				class 		= "icon round large drop-shadow icon-interface-favourites_remove active bg-0"
 				ng-click 	= "ic.favourites.removeItem(item); $event.preventDefault()" 
+				title		= "{{'INTERFACE.FAVOURITE_REMOVE' | translate}}"
 			>
 			</button>
 
 			<div 
-				class 		= "image {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}}"
-				style 		= "background-image: url({{item.image}})"
+				class 		= "background image {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}}"
+				style 		= "{{item.image ? 'background-image: url('+item.image+')' : '' }}"
 			>
 				<div
 					ng-if		="!item.image"

@@ -16,9 +16,12 @@ ic-search > * {
 	display: 						inline-flex !important;
 }
 
+ic-search label {
+	cursor: 						pointer;
+}
 
 ic-search:focus-within label {
-	display: 						none !important;
+	display: 						none !important;	
 } 
 
 ic-search:not(:focus-within) label + form {

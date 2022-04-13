@@ -1,6 +1,8 @@
 <button
 	ng-click 	= "ic.site.expandMap = !ic.site.expandMap"
 	ng-class 	= "{'icon-map-expand': !ic.site.expandMap, 'icon-map-reduce': ic.site.expandMap}"
-	class		= "icon"	 
+	class		= "icon"	
+	aria-label	= "{{'INTERFACE.EXPAND_MAP' | translate}}" 
+	title		= "{{'INTERFACE.EXPAND_MAP' | translate}}" 
 >
 </button>
