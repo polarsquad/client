@@ -31,8 +31,13 @@
 				style 		= "{{item.image ? 'background-image: url('+item.image+')' : '' }}"
 			>
 				<div
-					ng-if		="!item.image"
-					class		= "icon fallback white {{ (item | icType) && 'icon-type-'+(item | icType).name  || (item | icCategory) && 'icon-category-'+(item | icCategory).name}}" 
+					ng-if		="!item.image && (item | icType)"
+					class		= "icon fallback white {{ 'icon-type-'+(item | icType).name }}" 
+				>
+				</div>
+				<div
+					ng-if		="!item.image && (item | icCategory)"
+					class		= "icon fallback white {{ 'icon-category-'+(item | icCategory).name }}" 
 				>
 				</div>
 				<div 
