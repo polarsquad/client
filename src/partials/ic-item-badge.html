@@ -1,4 +1,6 @@
 <div 
-	class = "icon large icon-large icon-category-{{ (icItem|icCategory).name }} round white ic-bg-cat-{{ (icItem|icCategory).name }}"
+	class = "icon large icon-large icon-category-{{ (icItem|icCategory).name }} round white ic-bg-cat-{{ (icItem|icCategory).name }}  ic-state-{{icItem.state}}"
+	title = "{{'CATEGORIES.%s' | fill : (icItem|icCategory).name | translate}}"
 >
 </div>
+

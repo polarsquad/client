@@ -1432,6 +1432,32 @@ angular.module('icUiDirectives', [
 ])
 
 
+.filter('sortByKey',[
+	function(){
+		return function(array, key, values, reverse){	
+
+			values = 	Array.isArray(values)
+						?	values
+						:	[values]
+
+			if(!array) return null
+
+			array.sort( (a,b) => {
+
+				aIn = values.includes(a[key])
+				bIn = values.includes(b[key])
+
+				if(aIn == bIn) 	return  0
+				if(aIn)			return  1
+				if(bIn)			return -1
+
+			})
+			
+			return array
+		}
+	}
+])
+
 
 .filter('flat',[
 	function(){

@@ -1,0 +1,24 @@
+ic-item-badge .ic-state-archived {
+	position: 			relative;
+	opacity: 			0.7;
+	filter:				saturate(33%);
+}
+
+ic-item-badge .ic-state-archived:before  {
+	content: 			'A';
+	display: 			block;
+	position: 			absolute;
+	top: 				0;
+	left: 				0;
+	width:				1rem;
+	height: 			1rem;
+	font-size: 			0.75rem;
+
+	text-align: 		center;
+	line-height: 		1rem;
+
+	background-color: 	#fff;
+	color: 				#000;
+
+	border: 			solid #000 1px;
+}

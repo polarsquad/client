@@ -73,7 +73,7 @@
 	</div>
 
 	<a
-		ng-repeat 	= "linked_item in ic.itemStorage.data | filter: {location_ref: icItem.id}"
+		ng-repeat 	= "linked_item in ic.itemStorage.data | filter: {location_ref: icItem.id} | sortByKey : 'state' : 'archived' : false"
 		ng-href 	= "{{ {activeItem: (linked_item.id | icItem) } | icLink }}"
 		class		= "bg-0 block"
 	>		

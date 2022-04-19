@@ -1524,10 +1524,7 @@ angular.module('icServices', [
 
 				const key =	keys
 
-				if(!key)	return null
-
 				if(typeof key != 'string') console.log('icItemRef.project: key is not a string', key)
-
 
 				const property = icItemConfig.properties.find( prop => prop.name == key )
 
