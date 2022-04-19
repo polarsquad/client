@@ -104,7 +104,8 @@
 
 	ic-item-full .main,
 	ic-item-full .type {
-		width:				48% !important;
+		box-sizing: 		border-box;
+		width:				calc(50% - 1rem) !important;
 	}
 
 	ic-item-full .main {
@@ -178,6 +179,8 @@
 		left:				0;
 		line-height:		1.4;
 		font-weight:		300;
+		padding-left: 		0 !important;
+		padding-right: 		0 !important;
 	}
 
 	ic-item-full .main > *:first-child {
@@ -222,42 +225,40 @@
 	}
 
 
-	ic-item-full .qrcode {
+	ic-item-full footer {
 		position:			absolute;
-		text-align:			center;
+		display:			flex !important;
+		align-items:		flex-end;
+		flex-wrap: 			wrap;
 		bottom:				0;
-		right:				52%;
+		left:				0;
+		right:				calc(50% - 1rem);
+	}
+
+	ic-item-full footer .logo {
+		flex:				2 1 0;		
+		height: 			3rem;
+	}
+
+	ic-item-full footer .logo > * {
+		width: 				100%;
+		height: 			100%;
+	}
+
+	ic-item-full footer .qrcode {
+		flex: 				0 0 auto;
 		margin:				0;
 		width:				2.5cm;
 		height:				2.5cm;
 	}
 
-	ic-item-full .qrcode qrcode {
+	ic-item-full footer .qrcode qrcode {
 		display:			block;
 		margin:				0;
 		padding:			0;
 		height:				100%;
 		width:				100%;
 	}
-
-	ic-item-full .qrcode canvas {
-	}
-
-	ic-item-full footer {
-		position:			absolute;
-		display:			flex !important;
-		align-items:		center;
-		bottom:				0;
-		left:				0;
-		right:				0;
-	}
-
-	ic-item-full footer .logo {
-		flex:				0 0 auto;
-		font-size:			4rem;
-		line-height:		0;
-	}
-
 
 	ic-item-full footer .link-to-item {
 		display:			none !important;
