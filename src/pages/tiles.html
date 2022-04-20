@@ -30,11 +30,11 @@
 				class 		= "background image {{item.image ? 'bg-0'  : (item|icType) && 'disabled ic-bg-type-'+(item|icType).name || (item|icCategory) && 'disabled ic-bg-cat-'+(item|icCategory).name}}"
 				style 		= "{{item.image ? 'background-image: url('+item.image+')' : '' }}"
 			>
-				<div
+				<!-- <div
 					ng-if		="!item.image && (item | icType)"
 					class		= "icon fallback white {{ 'icon-type-'+(item | icType).name }}" 
 				>
-				</div>
+				</div> -->
 				<div
 					ng-if		="!item.image && (item | icCategory)"
 					class		= "icon fallback white {{ 'icon-category-'+(item | icCategory).name }}" 
