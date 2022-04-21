@@ -48,6 +48,18 @@ angular.module('icFilters', [
 	}
 ])
 
+.filter('icCategories', [
+
+	'icTaxonomy',
+
+	function(icTaxonomy){
+		return function(item_or_tags){
+			return item_or_tags && icTaxonomy.getCategories(item_or_tags.tags || item_or_tags)
+		}
+	}
+])
+
+
 .filter('icFullCategory', [
 
 	'icTaxonomy',

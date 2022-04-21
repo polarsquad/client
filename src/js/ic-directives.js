@@ -961,6 +961,18 @@ angular.module('icDirectives', [
 					if(!Array.isArray(scope.icItem.tags)) 		return true
 					if(!Array.isArray(scope.icProposal.tags))	return true
 
+					const categories 	= icTaxonomy.getCategories(scope.icItem.tags)
+					const proposed		= icTaxonomy.getCategories(scope.icProposal.tags)
+
+					return arrayDiff(categories, proposed)
+
+				}
+
+				scope.subCategoryDiff = function(){
+
+					if(!Array.isArray(scope.icItem.tags)) 		return true
+					if(!Array.isArray(scope.icProposal.tags))	return true
+
 					const categories 	= icTaxonomy.getSubCategories(scope.icItem.tags)
 					const proposed		= icTaxonomy.getSubCategories(scope.icProposal.tags)
 
@@ -979,7 +991,7 @@ angular.module('icDirectives', [
 					const values 		= icTaxonomy.getUnsortedTags(scope.icItem.tags, tagGroup)
 					const proposed		= icTaxonomy.getUnsortedTags(scope.icProposal.tags, tagGroup)
 
-					console.log(tagGroup, values, proposed, arrayDiff(values, proposed))
+					//console.log(tagGroup, values, proposed, arrayDiff(values, proposed))
 
 					return arrayDiff(values, proposed)
 

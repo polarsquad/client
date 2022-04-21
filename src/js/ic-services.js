@@ -1580,6 +1580,9 @@ angular.module('icServices', [
 			icTaxonomy.lor			= taxonomy.lor || []
 			icTaxonomy.extraTags	= []
 
+			Object.defineProperty(icTaxonomy, 'subCategories', {
+				get: function() { return this.categories.map( category => category.tags).flat() }
+			})
 
 
 			icTaxonomy.addCategory = function(cat_config){
@@ -1679,10 +1682,10 @@ angular.module('icServices', [
 			checkTagsInCategories()
 			
 
-			icTaxonomy.getCategory = function(haystack){
+			icTaxonomy.getCategories = function(haystack){
 
 
-				if(!haystack) return null
+				if(!haystack) return []
 
 				haystack = 	haystack.filter
 							?	haystack
@@ -1706,7 +1709,11 @@ angular.module('icServices', [
 				}
 
 
-				return	result[0]
+				return	result
+			}
+
+			icTaxonomy.getCategory = function(haystack){
+				return icTaxonomy.getCategories(haystack)[0]
 			}
 
 

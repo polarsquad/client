@@ -52,32 +52,60 @@
 	</article>
 
 
+
+
+	<!-- Categories -->
+
 	<article 
 		ng-if = "property.name == 'tags' && categoryDiff()"
 	>
 		
 		<h4>{{'ITEMS.CATEGORY' | translate}}</h4>
 	
-		<p ng-if = "(ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags).length > 0">
+		<p ng-if = "(icProposal.tags | icCategories).length != 0">
 			<span
-				ng-repeat 	= "tag in (ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags)"
+				ng-repeat 	= "category in (icProposal.tags | icCategories)"
+			>
+				{{'CATEGORIES.%s' | fill : category.name | translate}}{{$last ? '': ', '}}
+			</span>
+		</p>
+		<p ng-if = "(icProposal.tags | icCategories).length == 0">
+			{{ ('INTERFACE.PROPERTY_EMPTY' | translate)  }}
+		</p>
+
+	</article>
+
+
+
+	<!-- Subcategories -->
+
+	<article 
+		ng-if = "property.name == 'tags' && subCategoryDiff()"
+	>
+		
+		<h4>{{'ITEMS.SUBCATEGORIES' | translate}}</h4>
+	
+		<p ng-if = "(icProposal.tags | icSubCategories).length > 0">
+			<span
+				ng-repeat 	= "tag in (icProposal.tags | icSubCategories)"
 			>
 				{{'CATEGORIES.%s' | fill : tag | translate}}{{$last ? '': ', '}}
 			</span>
 		</p>
-		<p ng-if = "(ic.taxonomy.categories | mapToKey : 'name' | section : icProposal.tags).length == 0">
+		<p ng-if = "(icProposal.tags | icSubCategories).length == 0">
 			{{ ('INTERFACE.PROPERTY_EMPTY' | translate)  }}
 		</p>
 
-
 	</article>
 
+
+
 	<article 
-		ng-repeat	= "(key, tagGroup) in ic.taxonomy.tags"	
-		ng-if 		= "
+		ng-repeat	= 	"(key, tagGroup) in ic.taxonomy.tags"	
+		ng-if 		= 	"
 							property.name == 'tags' 
-						&&	tagGroupDiff(key)
-					"
+							&&	tagGroupDiff(key)
+						"
 	>
 		
 		<h4>{{'ITEMS.%s' | fill : key | translate }}</h4>
