@@ -976,7 +976,7 @@ angular.module('icDirectives', [
 					const categories 	= icTaxonomy.getSubCategories(scope.icItem.tags)
 					const proposed		= icTaxonomy.getSubCategories(scope.icProposal.tags)
 
-					console.log(categories, proposed, arrayDiff(categories, proposed))
+					//console.log(categories, proposed, arrayDiff(categories, proposed))
 
 					return arrayDiff(categories, proposed)
 
