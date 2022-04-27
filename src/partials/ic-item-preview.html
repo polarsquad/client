@@ -16,12 +16,9 @@
 
 			<span 
 				class	= "round mini white icon icon-interface-proposals bg-3 fright"
-				ng-if	= "icItem.proposals.length > 0"
+				ng-if	= "ic.user.can('edit_items') && icItem.proposals.length > 0"
 				title	= "{{'INTERFACE.PROPOSALS' | translate }}"
 			></span>
-
-
-			{{icItem.title}}
 
 
 		</div>
