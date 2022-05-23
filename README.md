@@ -15,15 +15,15 @@ such that everything that is not an asset
 is redirected to index.html (that's an old angularJs thing):
 
 ``` apache
-	# If the requested resource doesn't exist, use index.html
-    RewriteRule ^ /index.html
+# If the requested resource doesn't exist, use index.html
+RewriteRule ^ /index.html
 ```
 
 
 You can try all the other themes from https://github.com/orgs/InfoCompass/repositories 
 if you like, they're configured to use their
-respective backends and should work out of the box. To do that, pull on of the
-custom-* repositories into /custom; for example:
+respective backends and should work out of the box. To do that, pull one of the
+custom-* repositories into the custom folder; for example:
 
 ```
 $ cd custom
