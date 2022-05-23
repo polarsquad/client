@@ -1,0 +1,34 @@
+{
+	"frontendLocation":	"https://www.info-compass.net",
+	"backendLocation":	"https://api.info-compass.net",
+	"statsLocation":     "https://stats.info-compass.net",
+	"title":			"InfoCompass",
+	"pages":			["home", "tags", "about", "contact", "legal", "tiles"],
+	"adminPages":		["icons"],
+	"disableLists":		true,
+	"description":		"Angebote, Veranstaltungen und Informationen für Neuberliner und Engagierte",
+	"externalCss":		"",
+	"languages":		["en","de","none","fa","ar","ru","sr","sq","fr","ur","tr"],
+	"activeIconColor":	"#f27020",
+	"plainIconColor":	"#979797",
+	"map":{
+		"center":		[52.518611,13.408333],
+		"zoom":			10,
+		"minZoom":		11,
+		"maxZoom":		18,
+		"maxBounds":		[[52.8,13.8],[52.2,13]],
+		"maxClusterRadius":	60,
+        "tiles":		"https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoicmhvdGVwIiwiYSI6ImNqMGRib2dmYTAwMGEzMnBkNDBuZ2dqMHMifQ.LNUbADugC76iQ91I73xFwg"        
+	},
+	"sharing": {
+		"email"		:	true,
+
+		"twitter"	: 	{
+							"hashtag": "infocompass"
+						},
+		"facebook"	:	true,
+		"whatsapp"	:	true,
+		"telegram"	:	true
+	},
+	"publicItems": "https://public.info-compass.net/items"
+}
