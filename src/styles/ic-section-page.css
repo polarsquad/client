@@ -217,6 +217,10 @@ ic-page .images {
 	align-items: 				center;
 }
 
+ic-page .images.center {
+	justify-content:			center;
+}
+
 ic-page .images > * {
 	width:						30rem;
 	max-width:					100%;
