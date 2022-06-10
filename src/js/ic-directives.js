@@ -64,7 +64,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		"AE",
 
-			//inline temaplte required, because this directive will be rednered before plTemplates is done
+			//inline template required, because this directive will be rednered before plTemplates is done
 			template:		` 
 								<form ng-if = "confirmationRequired">
 
@@ -490,7 +490,7 @@ angular.module('icDirectives', [
 					if(!key || key == 'mail'){
 						scope.suggestionMetaErrors.mail 	= 	scope.suggestionMeta.mail
 																?	(
-																		scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
+																		scope.suggestionMeta.mail.match(/.+@.+\..+/)
 																 		?	null
 																 		:	{code: 'INVALID_OR_MISSING'}
 																 	)
