@@ -47,8 +47,7 @@ ic-page  header h2 {
 	margin-left:					-1rem;
 	padding-left:					1em;
 	font-weight:					700;
-	max-width:						50rem;
-	max-width:						min(50rem, 100%);
+	max-width:						50rem;	
 	text-indent:					-1em;
 	z-index:						5;
 	width:							100%;
@@ -79,9 +78,10 @@ ic-page article {
 }
 
 ic-page article > * {
-	max-width:					50rem;
-	margin-left:				auto;	
-	margin-right:				auto;
+	max-width:						50rem;
+	max-width:						min(50rem, 100%);
+	margin-left:					auto;	
+	margin-right:					auto;
 }
 
 ic-page article > ic-search {
