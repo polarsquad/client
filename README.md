@@ -1,6 +1,6 @@
 # Gettig started
 
-Clone the repository and run ```npm install```.
+Clone the repository and run ```npm install --legacy-peer-deps```.
 
 Then run ```npm run build -- default```
 
