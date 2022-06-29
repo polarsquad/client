@@ -227,7 +227,7 @@
 
 
 	ic-item-full footer {
-		position:			absolute;
+		position:			fixed;
 		display:			flex !important;
 		align-items:		flex-end;
 		flex-wrap: 			wrap;
