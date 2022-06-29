@@ -30,9 +30,11 @@ ic-item-property .content {
 }
 
 
-ic-item-property.short .content {
+ic-item-property.short .content,
+ic-item-property.short .content > * {
 	display:				inline;
 }
+
 
 
 ic-item-property .content a {
