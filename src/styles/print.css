@@ -4,6 +4,7 @@
 		color:							#000 !important;
 		-webkit-print-color-adjust: 	exact !important;	/* Chrome, Safari */
 		color-adjust: 					exact !important;	/*Firefox*/
+		overflow: hidden !important;
 	}
 
 	.screen-only {
