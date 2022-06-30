@@ -30,15 +30,14 @@ ic-item-property .content {
 }
 
 
-ic-item-property.short .content,
-ic-item-property.short .content > * {
+ic-item-property.short .content {
 	display:				inline;
 }
 
 
 
 ic-item-property .content a {
-	display:				inline-block;
+	display:				inline;
 	word-break: 			break-all;
 	word-break: 			break-word;
 }

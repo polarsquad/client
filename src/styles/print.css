@@ -238,7 +238,8 @@
 
 	ic-item-full footer .logo {
 		flex:				2 1 0;		
-		height: 			3rem;
+		height: 			1em;
+		font-size: 			3rem;
 	}
 
 	ic-item-full footer .logo > * {
