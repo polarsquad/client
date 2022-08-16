@@ -1942,6 +1942,31 @@ angular.module('icDirectives', [
 	}
 ])
 
+.directive('icTaxonomyFilterCategories', [
+
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy){
+
+		return {
+			restrict:		'E',
+			scope:			{
+								expanded: "<",
+								showSubCategories: "<"
+							},
+			templateUrl:	'partials/ic-taxonomy-filter-categories.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+
+				console.log(scope)
+			}
+		}
+	}
+])
+
+
 .directive('icSorting', [
 
 	'ic',

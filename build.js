@@ -45,24 +45,43 @@ function done(all){
 }
 
 
-function setup(){
+async function setup(){
 
-	return 	Promise.all([
-				cst && fs.stat(cst),
-				fs.emptyDir(dst),
-				fs.emptyDir('tmp')
-			])
-			.then( ()	=> 	fs.writeFile(dst+'/build', String(build), 'utf8'))
-			.then( ()	=>	fs.copy('src',  	'tmp/src'))
-			.then( () 	=> 	cst 
-							?	fs.copy(cst,	'tmp/src', {overwrite: true})
-							:	Promise.resolve()
-			)
+	await cst && fs.stat(cst)
+	await fs.emptyDir(dst)
+	await fs.emptyDir('tmp')
+
+
+	await fs.writeFile(dst+'/build', String(build), 'utf8')
+	await fs.copy('src',  	'tmp/src')
+
+	if(!cst) return;
+
+	await fs.copy(cst,	'tmp/src', {overwrite: true})
 
 }
 
 
+async function copyRootFromCst() {
+	const filenames 	= 	await fs.readdir(cst)
+	const toCopy		= 	filenames.filter( filename => {
 
+								//Do not copy if not a file (e.g. a directory()
+								if(!fs.lstatSync(cst+'/'+filename).isFile()) 	return false
+
+								//Do not copy if hidden (e.g. .git)	
+								if(filename.match(/^\./)) 						return false	
+
+								//Copy if it matches a pattern:
+								
+								if(filename.match(/^google.*\.html$/))			return true
+
+								return false
+							})
+
+
+	await Promise.all(toCopy.map( filename => fs.copy(cst+'/'+filename, dst+'/'+filename) ) )
+}
 
 
 
@@ -387,6 +406,8 @@ async function copyReadyFilesToDst(){
 	await	fs.copy(src+"/js/worker", 		dst+'/worker')
 	//await	fs.copy("vendor.js", 		dst+"/js/vendor.js")
 
+
+
 	//tmp
 	await	fs.copy("tmp/images", 			dst+"/images")
 	await	fs.copy("tmp/json",				dst)
@@ -469,6 +490,7 @@ function compileIndex(){
 			})
 			.then( content => fs.writeFile(dst+'/index.html', content, 'utf8') )
 }
+
 
 
 function minimizeSvgIconsTmp(){
@@ -574,6 +596,9 @@ setup()
 .then(compileIndex)
 .then( () => done() )
 
+.then( () => process.stdout.write('\nCopying files from custom root ('+cst+') ...'))
+.then( copyRootFromCst )
+.then( () => done() )
 
 
 

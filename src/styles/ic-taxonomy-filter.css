@@ -41,6 +41,7 @@ ic-taxonomy-filter section button {
 	padding-left:				3rem;
 	padding-right:				0.5rem;
 	background-position:		1rem 50% !important;
+	overflow-wrap: 				anywhere;
 }
 
 ic-taxonomy-filter section button:not(.icon){
@@ -80,4 +81,22 @@ ic-taxonomy-filter section button .bubble {
 
 ic-taxonomy-filter section ic-tag{
 	padding-left:				0;
+}
+
+
+
+
+
+
+
+
+
+
+ic-taxonomy-filter-categories {
+	display: 					block;
+}
+
+
+ic-taxonomy-filter-categories .sub-categories > button {
+
 }

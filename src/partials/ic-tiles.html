@@ -1,9 +1,8 @@
 <a 
-	ng-repeat 	= "tile in ic.tiles"
+	ng-repeat 	= "tile in ic.tiles | orderBy : 'order'"
 	ng-href		= "{{tile.link}}"
-	style		= "{{tile.stretch ? 'width:100%' : ''}}"
+	ng-style	= "{ width: tile.stretch ? '100%' : null}"
 	ng-class	= "{bottom: tile.bottom}"
-	ng-style	= "{'order': tile.order}"
 	
 >
 	<div
