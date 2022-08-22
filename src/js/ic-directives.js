@@ -1736,8 +1736,12 @@ angular.module('icDirectives', [
 								icPlain:	'<'
 							},
 
-			link: function(scope){
+			link: function(scope, element){
 				scope.ic = ic
+
+				element.on('click', () => {
+					if(element[0].contains(document.activeElement) ) document.activeElement.blur()
+				})
 			}
 
 		}

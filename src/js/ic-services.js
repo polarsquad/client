@@ -1195,7 +1195,8 @@ angular.module('icServices', [
 						.then(
 							function(){
 								icLanguages.refreshTranslations()
-								return icOverlays.open('popup', 'INTERFACE.TRANSLATION_UPDATED')
+								return 	icOverlays.open('confirmationModal', 'INTERFACE.TRANSLATION_UPDATED')
+										.then( () => location.reload() ) 
 							},
 
 							function(){

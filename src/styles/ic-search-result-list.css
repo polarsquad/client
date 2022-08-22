@@ -20,3 +20,8 @@ ic-search-result-list  li {
 	display:					block;
 	margin:						1px 0;
 }
+
+.more {
+	font-size: 					2em;
+	user-select:				none;
+}
