@@ -77,12 +77,6 @@
 	align-items:				baseline;
 }
 
-.ic-tag.small {
-	padding: 					0 0.5em;
-	margin: 					0;	
-}
-
-
 .ic-tag > * {
 	flex:						0 0 auto;
 }

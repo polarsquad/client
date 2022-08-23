@@ -63,6 +63,10 @@ ic-item-preview .content .brief {
 	color:					var(--plain-text-color);
 	overflow:				hidden;
 	font-weight:			400;
+
+	display: 				-webkit-box;
+  	-webkit-line-clamp: 	2;
+  	-webkit-box-orient: 	vertical;  
 } 
 
 ic-item-preview .content .brief .date {
@@ -71,8 +75,8 @@ ic-item-preview .content .brief .date {
 }
 
 ic-item-preview .content .auto-translated {
-	float: 					right;
-	margin-top: 			1px;
-	margin-left: 			0.25em;	
+	margin-left: 			auto;
+	display: 				block;
+	margin-top: 			0.25em;
 }
 
