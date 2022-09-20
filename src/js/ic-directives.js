@@ -64,7 +64,7 @@ angular.module('icDirectives', [
 		return {
 			restrict:		"AE",
 
-			//inline temaplte required, because this directive will be rednered before plTemplates is done
+			//inline template required, because this directive will be rednered before plTemplates is done
 			template:		` 
 								<form ng-if = "confirmationRequired">
 
@@ -490,7 +490,7 @@ angular.module('icDirectives', [
 					if(!key || key == 'mail'){
 						scope.suggestionMetaErrors.mail 	= 	scope.suggestionMeta.mail
 																?	(
-																		scope.suggestionMeta.mail.match(/.+@.+\.d.+/)
+																		scope.suggestionMeta.mail.match(/.+@.+\..+/)
 																 		?	null
 																 		:	{code: 'INVALID_OR_MISSING'}
 																 	)
@@ -1736,8 +1736,12 @@ angular.module('icDirectives', [
 								icPlain:	'<'
 							},
 
-			link: function(scope){
+			link: function(scope, element){
 				scope.ic = ic
+
+				element.on('click', () => {
+					if(element[0].contains(document.activeElement) ) document.activeElement.blur()
+				})
 			}
 
 		}
@@ -1941,6 +1945,31 @@ angular.module('icDirectives', [
 		}
 	}
 ])
+
+.directive('icTaxonomyFilterCategories', [
+
+	'ic',
+	'icTaxonomy',
+
+	function(ic, icTaxonomy){
+
+		return {
+			restrict:		'E',
+			scope:			{
+								expanded: "<",
+								showSubCategories: "<"
+							},
+			templateUrl:	'partials/ic-taxonomy-filter-categories.html',
+
+			link: function(scope, element){
+				scope.ic = ic
+
+				console.log(scope)
+			}
+		}
+	}
+])
+
 
 .directive('icSorting', [
 

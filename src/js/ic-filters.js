@@ -391,3 +391,28 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+
+
+.filter('autoTranslator', [
+
+	function(){
+
+		return function(text){
+
+			const matches = text && text.match(/^\[(.+):\]/)
+
+			return matches && matches[1]
+		}
+	}
+])
+
+.filter('clearTranslator', [
+
+	function(){
+
+		return function(text){
+			return text && text.replace(/^\[(.+):\]\s*/,'')
+		}
+	}
+])

@@ -1195,7 +1195,8 @@ angular.module('icServices', [
 						.then(
 							function(){
 								icLanguages.refreshTranslations()
-								return icOverlays.open('popup', 'INTERFACE.TRANSLATION_UPDATED')
+								return 	icOverlays.open('confirmationModal', 'INTERFACE.TRANSLATION_UPDATED')
+										.then( () => location.reload() ) 
 							},
 
 							function(){
@@ -1681,7 +1682,6 @@ angular.module('icServices', [
 
 			checkTagsInCategories()
 			
-
 			icTaxonomy.getCategories = function(haystack){
 
 
@@ -1920,7 +1920,7 @@ angular.module('icServices', [
 		.registerParameter({
 			name:			'filterByCategory',
 			encode:			function(value, ic){
-								var j = value && value.join && value.join('-')								
+								var j = value && value.join
 
 								return j ? 'c/'+value.join('-')	: ''
 							},
@@ -1936,7 +1936,7 @@ angular.module('icServices', [
 
 								ic.taxonomy.categories.forEach(function(category){
 									result.push(category.name)
-									result.push.apply(result, category.tags)
+									result.push(...category.tags)
 								})
 								return result
 							},
@@ -2061,6 +2061,11 @@ angular.module('icServices', [
 		}
 
 
+
+
+
+
+
 		icFilterConfig.toggleCategory = function(category_name, toggle, replace){
 
 			var pos 	= 	icSite.filterByCategory.indexOf(category_name),
@@ -2080,7 +2085,14 @@ angular.module('icServices', [
 		}
 
 		icFilterConfig.categoryActive = function(category_name){
-			return icSite.filterByCategory.indexOf(category_name) != -1
+
+			const direct_match 	= icSite.filterByCategory.includes(category_name)	
+			
+			const categories	= icTaxonomy.getCategories(icSite.filterByCategory)
+
+			const sub_match		= categories.some( cat => cat.name == category_name)
+
+			return  direct_match || sub_match
 		}
 
 		icFilterConfig.categoryCleared = function(){
@@ -2252,8 +2264,10 @@ angular.module('icServices', [
 							icSite.filterByUnsortedTag
 						]
 			},
-			function(arr){
-				icItemStorage.ready.then(function(){
+			arr => {
+
+				icItemStorage.ready
+				.then( () => {
 					icItemStorage.updateFilteredList(arr, [
 						null, 
 						icTaxonomy.types.map(function(type){ return type.name }), 

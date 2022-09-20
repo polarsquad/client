@@ -25,14 +25,28 @@
 
 
 		<div class = "brief">
+			
 			<span class = "date heavy" ng-if = "icItem.startDate">
 				{{icItem.startDate | icDate}}
 		 		{{icItem.endDate ? " – "+ (icItem.endDate | icDate) : ''}}
 		 	</span> 
-		 	<div class = "lang-{{ic.site.currentLanguage}}">
-				{{icItem.brief[ic.site.currentLanguage]}}
-			</div>
+
+		 	<span class = "lang-{{ic.site.currentLanguage}}">
+				{{icItem.brief[ic.site.currentLanguage] | clearTranslator}}
+			</span>
+
+
 		</div>
+
+		<div 
+			ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
+			class 	= "ic-tag mini auto-translated"
+			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
+		>
+			{{icItem.brief[ic.site.currentLanguage] | autoTranslator}}
+		</div>
+
+
 		<!-- <span 
 			ng-if = "icCategory"
 			class = "category ic-col-cat-{{(icItem|icCategory).name}}"

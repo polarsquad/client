@@ -256,7 +256,7 @@
 
 
 		function isSubset(a1, a2){
-			return a1.every(function(item){ return a2.indexOf(item) != -1 })
+			return a1.every( item => a2.includes(item) )
 		}
 
 		icItemStorage.matchItem = function(item){			
@@ -267,7 +267,7 @@
 
 				var tag_group_matches 	= [],
 					alt_group_matches 	= [],
-					combined_tags		= item.tags.concat(item.internal.tags)
+					combined_tags		= [...item.tags, ...item.internal.tags]
 
 
 				icItemStorage.currentStats.tagGroups.forEach(function(tag_group, index){
@@ -289,7 +289,7 @@
 
 				//collect alt_matches for tags:
 				combined_tags.forEach(function(tag){
-					if(failed_groups.length == 0 || icItemStorage.currentStats.altGroups[failed_groups[0]].indexOf(tag) != -1)
+					if(failed_groups.length == 0 || icItemStorage.currentStats.altGroups[failed_groups[0]].includes(tag) )
 						item.internal.altMatches.push(tag)
 				})
 
@@ -340,12 +340,14 @@
 		icItemStorage.refreshFilteredList = function(){
 
 			icItemStorage.clearFilteredList()
-			icItemStorage.data.forEach(function(item){
-				var combined_tags = item.tags.concat(item.internal.tags)
 
-				combined_tags.forEach(function(tag){ 			icItemStorage.currentStats.totals[tag] 			= (icItemStorage.currentStats.totals[tag]		|| 0) + 1 })
-				item.internal.altMatches.forEach(function(tag){	icItemStorage.currentStats.altMatches[tag] 		= (icItemStorage.currentStats.altMatches[tag] 	|| 0) + 1 })
-				item.internal.subMatches.forEach(function(tag){ icItemStorage.currentStats.subMatches[tag]		= (icItemStorage.currentStats.subMatches[tag] 	|| 0) + 1 })
+			icItemStorage.data.forEach( item => {
+				var combined_tags = [...item.tags, ...item.internal.tags]
+
+				combined_tags.forEach(				tag => { icItemStorage.currentStats.totals[tag] 	= (icItemStorage.currentStats.totals[tag]		|| 0) + 1 })
+				item.internal.altMatches.forEach(	tag => { icItemStorage.currentStats.altMatches[tag] = (icItemStorage.currentStats.altMatches[tag] 	|| 0) + 1 })
+				item.internal.subMatches.forEach(	tag => { icItemStorage.currentStats.subMatches[tag]	= (icItemStorage.currentStats.subMatches[tag] 	|| 0) + 1 })
+
 				if(item.internal.match) icItemStorage.filteredList.push(item)
 			})
 

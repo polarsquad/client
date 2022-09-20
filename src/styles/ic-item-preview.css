@@ -38,6 +38,7 @@ ic-item-preview ic-item-badge {
 
 ic-item-preview .content {
 	flex:					1 0 0;	
+	position: 				relative;
 	margin-left:			1rem;
 	display:				flex;
 	align-items:			stretch;
@@ -62,10 +63,20 @@ ic-item-preview .content .brief {
 	color:					var(--plain-text-color);
 	overflow:				hidden;
 	font-weight:			400;
+
+	display: 				-webkit-box;
+  	-webkit-line-clamp: 	2;
+  	-webkit-box-orient: 	vertical;  
 } 
 
 ic-item-preview .content .brief .date {
 	color:					#000;
 	padding-right:			0.25rem;
+}
+
+ic-item-preview .content .auto-translated {
+	margin-left: 			auto;
+	display: 				block;
+	margin-top: 			0.25em;
 }
 

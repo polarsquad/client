@@ -1,0 +1,101 @@
+<section 
+	ng-if = "ic.taxonomy.categories && ic.taxonomy.categories.length > 0"
+	class = "categories" 
+>
+	<h2>
+		<button
+			class 		= "bg-0 icon"
+			ng-class	= "{'icon-interface-down': expanded, 'icon-interface-right': !expanded}"
+			ng-click	= "expanded = !expanded"
+			ic-touch-me	= "true" 
+		>
+			{{'INTERFACE.CATEGORIES' | translate}}
+		</button>
+	</h2>
+
+	<div 
+		class 		= "bg-0"
+		ng-if		= "expanded"		
+	>
+		<button
+			ng-if		= "true"
+			class 		= "icon icon-interface-radio"
+			ng-class	= "{'bg-3 white  checked':ic.filterConfig.categoryCleared()}"
+			ng-click	= "ic.filterConfig.clearCategory()" 
+			ic-touch-me	= "true"
+		>
+			<div>{{'INTERFACE.FILTER_ANY' | translate}}</div>
+		</button>
+
+		<div ng-repeat 	= "category in ic.taxonomy.categories">
+
+			<button
+				ng-if			= "true"
+				class			= "icon icon-category-{{::category.name}} bg-0"
+				ic-button		= "{active:ic.filterConfig.categoryActive(category.name), disabled: !ic.itemStorage.currentStats.altMatches[category.name]}"
+				ng-class		= "{'bg-3 white':active, disabled: disabled}"
+				ng-click		= "!disabled && ic.filterConfig.toggleCategory(category.name, undefined, true);"
+				ic-touch-me		= "!disabled"
+			>
+				<div>{{'CATEGORIES.%s' | fill : category.name | translate}}</div>
+				<span 
+					class 		= "bubble shade-light "
+					ng-class	= "{'col-2': active, 'col-1': !active}"
+					ng-if 		= "!disabled"
+				>
+					<span>
+						{{ic.itemStorage.currentStats.altMatches[category.name]}}
+					</span>
+					<span ng-if = "ic.itemStorage.currentStats.altMatches[category.name] != ic.itemStorage.currentStats.totals[category.name]">
+						/
+					</span>
+					<span ng-if = "ic.itemStorage.currentStats.altMatches[category.name] != ic.itemStorage.currentStats.totals[category.name]">
+						{{ic.itemStorage.currentStats.totals[category.name]}}
+					</span>
+				</span>
+			</button>
+
+
+			<!-- subcategories -->
+
+			<div 
+				class = "sub-categories"
+				ng-if = "showSubCategories && ic.filterConfig.categoryActive(category.name)"
+			>
+
+				<button	
+					ng-repeat 	= "tag in category.tags"
+					class		= "icon icon-interface-checkbox"					
+					ic-button	= "{active:ic.filterConfig.categoryActive(tag), disabled: !ic.itemStorage.currentStats.subMatches[tag]}"
+					ng-class	= "{'checked':active, disabled: disabled}"
+					ng-click	= "!disabled && ic.filterConfig.toggleCategory(tag)"
+				>
+
+					<div>{{'CATEGORIES.%s' | fill : tag | translate}}</div>
+					<span 
+						ng-if 		= "!disabled"
+						class 		= "bubble shade-light col-1"
+					>
+						<span>
+							{{ic.itemStorage.currentStats.subMatches[tag]}}
+						</span>
+						<span ng-if = "ic.itemStorage.currentStats.subMatches[tag] != ic.itemStorage.currentStats.totals[tag]">
+							/
+						</span>
+						<span ng-if = "ic.itemStorage.currentStats.subMatches[tag] != ic.itemStorage.currentStats.totals[tag]">
+							{{ic.itemStorage.currentStats.totals[tag]}}
+						</span>
+
+					</span>
+
+				</button>
+
+			</div>
+
+
+		</div>
+
+
+	</div>
+
+</section>

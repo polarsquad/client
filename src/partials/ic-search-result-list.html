@@ -21,5 +21,12 @@
 			ng-if		= "!item.internal.failed"
 		></ic-item-preview>
 	</a>
-	<button ng-if= "noScroll && !noMoreItems" ng-click = "icScrollRepeatLimitIncrease()">more</button>
+	<a 
+		ng-if		= "noScroll && !noMoreItems" 
+		class 		= "bg-0 padding more tac active" 
+		ng-click 	= "icScrollRepeatLimitIncrease()"
+		ic-touch-me
+	>
+		...
+	</a>
 </div>
