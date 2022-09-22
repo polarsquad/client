@@ -1,0 +1,13 @@
+# docker-compose for local dev environment
+# version: "3.8"
+services:
+  client:
+    image: infocompassde/infocompass-client:${FRONTEND_THEME:-default}-${TAG:-latest}
+    build:
+      context: ./
+      dockerfile: Dockerfile # base image
+    ports:
+      - 80:80
+      - 443:443
+    env_file:
+      - .env
