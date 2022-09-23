@@ -6,6 +6,8 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile # base image
+      args:
+        - FRONTEND_THEME=${THEME:-default}
     ports:
       - 80:80
       - 443:443
