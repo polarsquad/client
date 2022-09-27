@@ -26,7 +26,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
-          images: boomadevops/infocompass-client
+          images: infocompassde/infocompass-client
           tags: |
             type=raw,value=${{env.FRONTEND_THEME}}-{{sha}}
       -
@@ -61,7 +61,7 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           # list of Docker images to use as base name for tags
-          images: boomadevops/infocompass-client
+          images: infocompassde/infocompass-client
           tags: |
             type=raw,value=${{env.FRONTEND_THEME}}-{{sha}}
       -
