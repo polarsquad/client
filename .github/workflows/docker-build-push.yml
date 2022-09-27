@@ -1,24 +1,20 @@
 name: ci-client
 
 on:
-  #push:
-   # branches:
-    #  - 'master'
-  #pull_request:
-   # branches: [ "master" ] 
+  push:
+   branches:
+    - 'master'
     
   workflow_dispatch:
     inputs:
       FRONTEND_THEME:
         description: 'Provide Frontend Theme'     
         required: true
-        default: 'default'
-
-env:
-  FRONTEND_THEME: ${{ github.event.inputs.FRONTEND_THEME }}
-  
 jobs:
-  docker:
+  docker-default:
+    if: ${{ github.event_name == 'push' }}
+    env:
+      FRONTEND_THEME: default
     runs-on: ubuntu-latest
     steps:
       -
@@ -29,8 +25,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          # Docker image and tag
-          images: infocompassde/infocompass-client
+          # list of Docker images to use as base name for tags
+          images: boomadevops/infocompass-client
           tags: |
             type=raw,value=${{env.FRONTEND_THEME}}-{{sha}}
       -
@@ -39,6 +35,41 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: FRONTEND_THEME=${{ env.FRONTEND_THEME }}
+                  
+          
+  docker-manual:
+    if: ${{ github.event_name != 'push' }}
+    env:
+      FRONTEND_THEME: ${{ github.event.inputs.FRONTEND_THEME }}
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          # list of Docker images to use as base name for tags
+          images: boomadevops/infocompass-client
+          tags: |
+            type=raw,value=${{env.FRONTEND_THEME}}-{{sha}}
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}  
       -
         name: Build and push
         uses: docker/build-push-action@v3
