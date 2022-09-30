@@ -1,9 +1,9 @@
-<ic-item-badge ic-item = "icItem">
-</ic-item-badge>
+<ic-item-badge ic-item = "icItem"></ic-item-badge>
 
 <div 
-	class 	= "content"
-	title 	= "{{icItem.title}}"
+	class 		= "content"
+	ng-class	= "{'auto-translated': (icItem.brief[ic.site.currentLanguage] | autoTranslator) }"
+	title 		= "{{icItem.title}}"
 
 >
 		<div class ="title">
@@ -38,14 +38,6 @@
 
 		</div>
 
-		<div 
-			ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
-			class 	= "ic-tag mini auto-translated"
-			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
-		>
-			{{icItem.brief[ic.site.currentLanguage] | autoTranslator}}
-		</div>
-
 
 		<!-- <span 
 			ng-if = "icCategory"
@@ -60,4 +52,11 @@
 		>
 			{{'TYPES.%s' | fill : icType.name | translate }}
 		</span> -->
+</div>
+
+<div 
+	ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
+	class 	= "bg-2 white auto-translation-indicator icon-interface-translate_robot_bubble"
+	title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
+>
 </div>

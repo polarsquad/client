@@ -10,7 +10,12 @@
 	<div 
 		class 	= "title"
 		ng-if	= "icTitle && ic.layout.mode.name != 'XS'"
-	>{{icTitle}}</div><!--no spaces!! -->
+	>
+		{{icTitle}}
+		<span ng-if = "icContent | autoTranslator">
+			<i>({{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icContent | autoTranslator}})</i>
+		</span>
+	</div>
 
 
 	<div class = "content">		
@@ -39,7 +44,7 @@
 		<span
 			ng-if 	= "!icPhone && !icContentLink && !link && icContent"
 			class	= "ws-pre-line"
-		>{{icContent}}</span>
+		>{{icContent | clearTranslator}}</span>
 
 
 

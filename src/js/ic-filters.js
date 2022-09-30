@@ -416,3 +416,29 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+
+.filter('textTranslator', [
+
+	'autoTranslatorFilter',
+	'clearTranslatorFilter',
+	'translateFilter',
+
+	function(autoTranslatorFilter, clearTranslatorFilter, translateFilter){
+
+		return function(text){
+
+			if(!text) 		return 	text
+
+			const translator 	= 	autoTranslatorFilter(text)
+
+			if(!translator)	return 	text
+
+			const	prefix		=	translateFilter('INTERFACE.AUTO_TRANSLATED_BY')
+			const 	result		=	`${clearTranslatorFilter(text)} (${prefix} ${autoTranslatorFilter(text)})`
+									 
+			return result
+									
+		}
+	}
+])

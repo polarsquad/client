@@ -74,9 +74,23 @@ ic-item-preview .content .brief .date {
 	padding-right:			0.25rem;
 }
 
-ic-item-preview .content .auto-translated {
-	margin-left: 			auto;
+ic-item-preview .content.auto-translated {
+	padding-right: 			1rem;
+	padding-bottom: 		1rem;
+}
+
+ic-item-preview .auto-translation-indicator {
+	position: 				absolute;
 	display: 				block;
-	margin-top: 			0.25em;
+	bottom: 				0;
+	right: 					0;
+	height: 				1rem;
+	width: 					2rem;
+	background-repeat: 		no-repeat;
+	background-size: 		contain;
+	background-position: 	50% 50%;
+	height: 				1.5rem;
+	width: 					4rem;
+	border-top-left-radius: 0.2rem;
 }
 
