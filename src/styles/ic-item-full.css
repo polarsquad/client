@@ -214,6 +214,15 @@ ic-item-full ic-item-full-footer 	> * {
 }
 
 
+ic-item-full .auto-translation-notification {
+	padding: 					0.5rem 0.5rem 0.5rem 7rem ;
+	min-height: 				2rem;
+	font-size: 					1rem;
+	background-repeat: 			no-repeat;
+	background-position: 		0.5rem 0.5rem;
+	background-size: 			5rem;
+}
+
 ic-item-full .auto-translation-indicator {
 	display: 				inline-block;
 	font-family: 			Roboto, sans-serif;

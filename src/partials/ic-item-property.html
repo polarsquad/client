@@ -12,9 +12,11 @@
 		ng-if	= "icTitle && ic.layout.mode.name != 'XS'"
 	>
 		{{icTitle}}
-		<span ng-if = "icContent | autoTranslator">
-			<i>({{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icContent | autoTranslator}})</i>
-		</span>
+		<span
+			ng-if	= "icContent | autoTranslator"
+			class 	= "icon icon-interface-translate_robot_bubble"
+			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icContent | autoTranslator}}"
+		></span>	
 	</div>
 
 

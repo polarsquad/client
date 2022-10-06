@@ -31,8 +31,8 @@
 		 		{{icItem.endDate ? " – "+ (icItem.endDate | icDate) : ''}}
 		 	</span> 
 
-		 	<span class = "lang-{{ic.site.currentLanguage}}">
 				{{icItem.brief[ic.site.currentLanguage] | clearTranslator}}
+		 	<span class = "lang-{{ic.site.currentLanguage}}">
 			</span>
 
 
@@ -56,7 +56,7 @@
 
 <div 
 	ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
-	class 	= "bg-2 white auto-translation-indicator icon-interface-translate_robot_bubble"
+	class 	= "active auto-translation-indicator icon-interface-translate_robot_vertical"
 	title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
 >
 </div>

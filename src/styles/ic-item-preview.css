@@ -84,13 +84,11 @@ ic-item-preview .auto-translation-indicator {
 	display: 				block;
 	bottom: 				0;
 	right: 					0;
-	height: 				1rem;
-	width: 					2rem;
 	background-repeat: 		no-repeat;
 	background-size: 		contain;
 	background-position: 	50% 50%;
-	height: 				1.5rem;
-	width: 					4rem;
+	height: 				4rem;
+	width: 					1.5rem;
 	border-top-left-radius: 0.2rem;
 }
 

@@ -398,11 +398,25 @@ angular.module('icFilters', [
 
 	function(){
 
-		return function(text){
+		return function(texts){
 
-			const matches = text && text.match(/^\[(.+):\]/)
+			const isArray 		= Array.isArray(texts)
 
-			return matches && matches[1]
+			if(!isArray) texts 	= [texts] 
+
+			const result 		= 	texts.map( text => {
+										const matches = text && text.match(/^\[(.+):\]/)
+										return matches && matches[1]
+									})
+									.filter( x => !!x)
+
+			const uniqueResults = Array.from( new Set(result) )					
+
+
+			return 	isArray
+					?	uniqueResults
+					:	uniqueResults[0]
+
 		}
 	}
 ])
@@ -442,3 +456,32 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+.filter('autoTranslators',[
+
+	'autoTranslatorFilter',
+	'icItemConfig',
+
+	function(autoTranslatorFilter, icItemConfig){
+
+		return function(item, lang){
+
+			if(!item) return false
+
+			const properties 	= 	icItemConfig.properties
+									.filter( 	property => property.translatable)
+									.map(		property => property.name)
+
+			const texts			=	properties
+									.map( property_name  => item[property_name] && item[property_name][lang])				
+
+			const translators	=	autoTranslatorFilter(texts)
+
+			return translators
+
+									
+		}
+	}
+])
+
+
