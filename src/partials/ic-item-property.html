@@ -13,8 +13,8 @@
 	>
 		{{icTitle}}
 		<span
-			ng-if	= "icContent | autoTranslator"
-			class 	= "icon icon-interface-translate_robot_bubble"
+			ng-if	= "(icContent | autoTranslator)"
+			class 	= "icon inline plain icon-interface-translate_robot"
 			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icContent | autoTranslator}}"
 		></span>	
 	</div>
@@ -46,7 +46,7 @@
 		<span
 			ng-if 	= "!icPhone && !icContentLink && !link && icContent"
 			class	= "ws-pre-line"
-		>{{icContent | clearTranslator}}</span>
+		> {{icContent | clearTranslator}} </span>
 
 
 
@@ -55,7 +55,12 @@
 			ng-if		= "line | trim"
 			class		= "extra-line"
 		>
-			{{ line }}
+			{{ line | clearTranslator}}
+			<span
+				ng-if	= "(line | autoTranslator)"
+				class 	= "icon inline plain icon-interface-translate_robot"
+				title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{line | autoTranslator}}"
+			></span>	
 		</div>
 
 		<div 

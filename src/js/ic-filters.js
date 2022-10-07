@@ -421,6 +421,8 @@ angular.module('icFilters', [
 	}
 ])
 
+
+
 .filter('clearTranslator', [
 
 	function(){
