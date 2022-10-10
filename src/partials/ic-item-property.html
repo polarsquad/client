@@ -11,12 +11,7 @@
 		class 	= "title"
 		ng-if	= "icTitle && ic.layout.mode.name != 'XS'"
 	>
-		{{icTitle}}
-		<span
-			ng-if	= "(icContent | autoTranslator)"
-			class 	= "icon inline plain icon-interface-translate_robot"
-			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icContent | autoTranslator}}"
-		></span>	
+		{{icTitle}}	
 	</div>
 
 
@@ -56,11 +51,6 @@
 			class		= "extra-line"
 		>
 			{{ line | clearTranslator}}
-			<span
-				ng-if	= "(line | autoTranslator)"
-				class 	= "icon inline plain icon-interface-translate_robot"
-				title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{line | autoTranslator}}"
-			></span>	
 		</div>
 
 		<div 

@@ -2,7 +2,6 @@
 
 <div 
 	class 		= "content"
-	ng-class	= "{'auto-translated': (icItem.brief[ic.site.currentLanguage] | autoTranslator) }"
 	title 		= "{{icItem.title}}"
 
 >
@@ -18,6 +17,10 @@
 				class	= "round mini white icon icon-interface-proposals bg-3 fright"
 				ng-if	= "ic.user.can('edit_items') && icItem.proposals.length > 0"
 				title	= "{{'INTERFACE.PROPOSALS' | translate }}"
+			></span>
+
+			<span 
+				class	= "round mini col-1 icon con-interface-translate_robot fright"
 			></span>
 
 			{{icItem.title}}	
@@ -56,7 +59,7 @@
 
 <div 
 	ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
-	class 	= "plain auto-translation-indicator icon-interface-translate_robot_vertical"
+	class 	= "plain auto-translation-indicator icon-interface-translate_robot"
 	title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
 >
 </div>

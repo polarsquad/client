@@ -466,9 +466,11 @@ angular.module('icFilters', [
 
 	function(autoTranslatorFilter, icItemConfig){
 
-		return function(item, lang){
+		return function(item, lang, extraLines){
 
 			if(!item) return false
+
+			if(!Array.isArray(extraLines)) extraLines = [extraLines]
 
 			const properties 	= 	icItemConfig.properties
 									.filter( 	property => property.translatable)
@@ -477,7 +479,7 @@ angular.module('icFilters', [
 			const texts			=	properties
 									.map( property_name  => item[property_name] && item[property_name][lang])				
 
-			const translators	=	autoTranslatorFilter(texts)
+			const translators	=	autoTranslatorFilter([...texts, ...extraLines])
 
 			return translators
 
