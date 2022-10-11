@@ -19,11 +19,8 @@
 				title	= "{{'INTERFACE.PROPOSALS' | translate }}"
 			></span>
 
-			<span 
-				class	= "round mini col-1 icon con-interface-translate_robot fright"
-			></span>
-
 			{{icItem.title}}	
+
 		</div>
 
 
@@ -59,7 +56,7 @@
 
 <div 
 	ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
-	class 	= "auto-translation-indicator icon-interface-translate_robot"
+	class 	= "auto-translation-indicator plain icon-interface-translate_robot"
 	title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
 >
 </div>
