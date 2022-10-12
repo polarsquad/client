@@ -10,7 +10,9 @@
 	<div 
 		class 	= "title"
 		ng-if	= "icTitle && ic.layout.mode.name != 'XS'"
-	>{{icTitle}}</div><!--no spaces!! -->
+	>
+		{{icTitle}}	
+	</div>
 
 
 	<div class = "content">		
@@ -39,7 +41,7 @@
 		<span
 			ng-if 	= "!icPhone && !icContentLink && !link && icContent"
 			class	= "ws-pre-line"
-		>{{icContent}}</span>
+		> {{icContent | clearTranslator}} </span>
 
 
 
@@ -48,7 +50,7 @@
 			ng-if		= "line | trim"
 			class		= "extra-line"
 		>
-			{{ line }}
+			{{ line | clearTranslator}}
 		</div>
 
 		<div 

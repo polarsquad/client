@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+    <g id="translate_robot_24x24_black" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(2.000000, 2.000000)">
+
+            <mask id = "eyes_and_mouth">
+                 <rect id="Rectangle" stroke="#000000" fill="#ffffff" stroke-linejoin="round" x="0" y="4" width="20" height="18"></rect>
+
+                <g id="Group-4" transform="translate(3.000000, 16.000000)" fill="black" stroke="black">
+                    <rect id="Rectangle" x="0.5" y="0.5" width="13" height="1" rx="0.5"></rect>
+                </g>
+                <g id="Group" transform="translate(3.024042, 8.000000)" fill="black">
+                    <circle id="Oval" cx="2" cy="2" r="2"></circle>
+                    <circle id="Oval-Copy" cx="11.9519168" cy="2" r="2"></circle>
+                </g>
+            </mask>
+            
+            <rect id="Rectangle" stroke="black" fill="#000000" stroke-linejoin="round" x="0" y="4" width="20" height="18" mask ="url(#eyes_and_mouth)"></rect>
+
+            <rect id="Rectangle" fill="#000000" x="9" y="0" width="2" height="6.01599147" rx="0.842238784"></rect>
+        </g>
+    </g>
+</svg>

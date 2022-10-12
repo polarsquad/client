@@ -1472,8 +1472,13 @@ angular.module('icUiDirectives', [
 
 .filter('markdown', [
 	function(){
-		return function(str){
-			return marked(str||'')
+		return function(str, noWrappingP){
+
+			const html = marked(str||'')
+
+			return 	noWrappingP
+					?	html.replace(/(^\s*<p>|<\/p>\s*$)/g, '')
+					:	html
 		}	
 	}
 ])

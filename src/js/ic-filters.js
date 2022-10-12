@@ -398,14 +398,30 @@ angular.module('icFilters', [
 
 	function(){
 
-		return function(text){
+		return function(texts){
 
-			const matches = text && text.match(/^\[(.+):\]/)
+			const isArray 		= Array.isArray(texts)
 
-			return matches && matches[1]
+			if(!isArray) texts 	= [texts] 
+
+			const result 		= 	texts.map( text => {
+										const matches = text && text.match(/^\[(.+):\]/)
+										return matches && matches[1]
+									})
+									.filter( x => !!x)
+
+			const uniqueResults = Array.from( new Set(result) )					
+
+
+			return 	isArray
+					?	uniqueResults
+					:	uniqueResults[0]
+
 		}
 	}
 ])
+
+
 
 .filter('clearTranslator', [
 
@@ -416,3 +432,60 @@ angular.module('icFilters', [
 		}
 	}
 ])
+
+
+.filter('textTranslator', [
+
+	'autoTranslatorFilter',
+	'clearTranslatorFilter',
+	'translateFilter',
+
+	function(autoTranslatorFilter, clearTranslatorFilter, translateFilter){
+
+		return function(text){
+
+			if(!text) 		return 	text
+
+			const translator 	= 	autoTranslatorFilter(text)
+
+			if(!translator)	return 	text
+
+			const	prefix		=	translateFilter('INTERFACE.AUTO_TRANSLATED_BY')
+			const 	result		=	`${clearTranslatorFilter(text)} (${prefix} ${autoTranslatorFilter(text)})`
+									 
+			return result
+									
+		}
+	}
+])
+
+.filter('autoTranslators',[
+
+	'autoTranslatorFilter',
+	'icItemConfig',
+
+	function(autoTranslatorFilter, icItemConfig){
+
+		return function(item, lang, extraLines){
+
+			if(!item) return false
+
+			if(!Array.isArray(extraLines)) extraLines = [extraLines]
+
+			const properties 	= 	icItemConfig.properties
+									.filter( 	property => property.translatable)
+									.map(		property => property.name)
+
+			const texts			=	properties
+									.map( property_name  => item[property_name] && item[property_name][lang])				
+
+			const translators	=	autoTranslatorFilter([...texts, ...extraLines])
+
+			return translators
+
+									
+		}
+	}
+])
+
+

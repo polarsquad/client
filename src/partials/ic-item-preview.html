@@ -1,9 +1,8 @@
-<ic-item-badge ic-item = "icItem">
-</ic-item-badge>
+<ic-item-badge ic-item = "icItem"></ic-item-badge>
 
 <div 
-	class 	= "content"
-	title 	= "{{icItem.title}}"
+	class 		= "content"
+	title 		= "{{icItem.title}}"
 
 >
 		<div class ="title">
@@ -21,6 +20,7 @@
 			></span>
 
 			{{icItem.title}}	
+
 		</div>
 
 
@@ -31,19 +31,11 @@
 		 		{{icItem.endDate ? " – "+ (icItem.endDate | icDate) : ''}}
 		 	</span> 
 
-		 	<span class = "lang-{{ic.site.currentLanguage}}">
 				{{icItem.brief[ic.site.currentLanguage] | clearTranslator}}
+		 	<span class = "lang-{{ic.site.currentLanguage}}">
 			</span>
 
 
-		</div>
-
-		<div 
-			ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
-			class 	= "ic-tag mini auto-translated"
-			title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
-		>
-			{{icItem.brief[ic.site.currentLanguage] | autoTranslator}}
 		</div>
 
 
@@ -60,4 +52,11 @@
 		>
 			{{'TYPES.%s' | fill : icType.name | translate }}
 		</span> -->
+</div>
+
+<div 
+	ng-if	= "icItem.brief[ic.site.currentLanguage] | autoTranslator"
+	class 	= "auto-translation-indicator plain icon-interface-translate_robot"
+	title	= "{{'INTERFACE.AUTO_TRANSLATED_BY' | translate}} {{icItem.brief[ic.site.currentLanguage] | autoTranslator}}"
+>
 </div>

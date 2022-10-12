@@ -44,6 +44,15 @@
 	padding-left:			1.5em;
 }
 
+.icon.inline {
+	vertical-align: 		baseline;
+	min-width: 				1em;
+	min-height: 			1em;
+	line-height:			1em;
+	background-size: 		1em;
+
+}
+
 /*
 .img.left {
 	left:					0;
